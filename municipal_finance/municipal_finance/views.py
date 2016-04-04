@@ -3,7 +3,7 @@ from decimal import Decimal
 
 from werkzeug.exceptions import NotFound
 
-from babbage.exc import BabbageException
+#from babbage.exc import BabbageException
 
 from django.http import JsonResponse
 
@@ -27,7 +27,7 @@ def get_cube(name):
 #     method by calling that method and serializing the result. """
 #
 #     def default(self, obj):
-#         if isinstance(obj, date):
+#         if isinstance(obj, date
 #             return obj.isoformat()
 #         if isinstance(obj, Decimal):
 #             return float(obj)
@@ -41,8 +41,6 @@ def jsonify(obj, status=200, headers=None):
     """ Custom JSONificaton to support obj.to_dict protocol. """
     data = obj
     return JsonResponse(data, headers=headers, status=status)
-
-
 
 
 # @blueprint.errorhandler(BabbageException)
@@ -91,42 +89,42 @@ def model(name):
     })
 
 
-# @blueprint.route('/cubes/<name>/aggregate')
-def aggregate(name):
-    """ Perform an aggregation request. """
-    cube = get_cube(name)
-    result = cube.aggregate(aggregates=request.args.get('aggregates'),
-                            drilldowns=request.args.get('drilldown'),
-                            cuts=request.args.get('cut'),
-                            order=request.args.get('order'),
-                            page=request.args.get('page'),
-                            page_size=request.args.get('pagesize'))
-    result['status'] = 'ok'
-    return jsonify(result)
-
-
-# @blueprint.route('/cubes/<name>/facts')
-def facts(name):
-    """ List the fact table entries in the current cube. This is the full
-    materialized dataset. """
-    cube = get_cube(name)
-    result = cube.facts(fields=request.args.get('fields'),
-                        cuts=request.args.get('cut'),
-                        order=request.args.get('order'),
-                        page=request.args.get('page'),
-                        page_size=request.args.get('pagesize'))
-    result['status'] = 'ok'
-    return jsonify(result)
-
-
-# @blueprint.route('/cubes/<name>/members/<ref>')
-def members(name, ref):
-    """ List the members of a specific dimension or the distinct values of a
-    given attribute. """
-    cube = get_cube(name)
-    result = cube.members(ref, cuts=request.args.get('cut'),
-                          order=request.args.get('order'),
-                          page=request.args.get('page'),
-                          page_size=request.args.get('pagesize'))
-    result['status'] = 'ok'
-    return jsonify(result)
+# # @blueprint.route('/cubes/<name>/aggregate')
+# def aggregate(name):
+#     """ Perform an aggregation request. """
+#     cube = get_cube(name)
+#     result = cube.aggregate(aggregates=request.args.get('aggregates'),
+#                             drilldowns=request.args.get('drilldown'),
+#                             cuts=request.args.get('cut'),
+#                             order=request.args.get('order'),
+#                             page=request.args.get('page'),
+#                             page_size=request.args.get('pagesize'))
+#     result['status'] = 'ok'
+#     return jsonify(result)
+#
+#
+# # @blueprint.route('/cubes/<name>/facts')
+# def facts(name):
+#     """ List the fact table entries in the current cube. This is the full
+#     materialized dataset. """
+#     cube = get_cube(name)
+#     result = cube.facts(fields=request.args.get('fields'),
+#                         cuts=request.args.get('cut'),
+#                         order=request.args.get('order'),
+#                         page=request.args.get('page'),
+#                         page_size=request.args.get('pagesize'))
+#     result['status'] = 'ok'
+#     return jsonify(result)
+#
+#
+# # @blueprint.route('/cubes/<name>/members/<ref>')
+# def members(name, ref):
+#     """ List the members of a specific dimension or the distinct values of a
+#     given attribute. """
+#     cube = get_cube(name)
+#     result = cube.members(ref, cuts=request.args.get('cut'),
+#                           order=request.args.get('order'),
+#                           page=request.args.get('page'),
+#                           page_size=request.args.get('pagesize'))
+#     result['status'] = 'ok'
+#     return jsonify(result)
