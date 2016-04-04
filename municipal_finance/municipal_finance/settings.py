@@ -37,8 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'babbage_api',
-    'municipal_finance'
+    'municipal_finance',
 )
 
 MIDDLEWARE_CLASSES = (

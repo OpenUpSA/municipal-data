@@ -3,7 +3,7 @@ from decimal import Decimal
 
 from werkzeug.exceptions import NotFound
 
-#from babbage.exc import BabbageException
+# from babbage.exc import BabbageException
 
 from django.http import JsonResponse
 
@@ -11,7 +11,7 @@ from django.http import JsonResponse
 def get_manager():
     """ Try to locate a ``CubeManager`` on the Flask app which is currently
     processing a request. This will only work inside the request cycle. """
-    return current_app.extensions['babbage']
+    return None#current_app.extensions['babbage']
 
 
 def get_cube(name):
@@ -40,7 +40,7 @@ def get_cube(name):
 def jsonify(obj, status=200, headers=None):
     """ Custom JSONificaton to support obj.to_dict protocol. """
     data = obj
-    return JsonResponse(data, headers=headers, status=status)
+    return JsonResponse(data)
 
 
 # @blueprint.errorhandler(BabbageException)
@@ -53,7 +53,7 @@ def handle_error(exc):
 
 
 # @blueprint.route('/')
-def index():
+def index(request):
     """ General system status report :) """
     from babbage import __version__, __doc__
     return jsonify({
