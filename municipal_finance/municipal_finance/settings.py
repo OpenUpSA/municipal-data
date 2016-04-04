@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import logging
+from sqlalchemy import create_engine
+from babbage.manager import JSONCubeManager
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -101,3 +105,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+loghandler = logging.StreamHandler()
+loghandler.setLevel(logging.DEBUG)
+engine = create_engine('postgresql://postgres@localhost/municipal_finance')
+models_directory = 'models/'
+
+CUBE_MANAGER = JSONCubeManager(engine, models_directory)

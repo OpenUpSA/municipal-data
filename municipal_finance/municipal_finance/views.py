@@ -7,11 +7,13 @@ from werkzeug.exceptions import NotFound
 
 from django.http import JsonResponse
 
+from django.conf import settings
+
 
 def get_manager():
-    """ Try to locate a ``CubeManager`` on the Flask app which is currently
-    processing a request. This will only work inside the request cycle. """
-    return None#current_app.extensions['babbage']
+    """ Try to locate a ``CubeManager`` on the app which is currently
+    processing a request. """
+    return settings.CUBE_MANAGER
 
 
 def get_cube(name):
@@ -65,7 +67,7 @@ def index(request):
 
 
 # @blueprint.route('/cubes')
-def cubes():
+def cubes(request):
     """ Get a listing of all publicly available cubes. """
     cubes = []
     for cube in get_manager().list_cubes():
