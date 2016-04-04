@@ -21,7 +21,4 @@ app.register_blueprint(blueprint, url_prefix='/api')
 
 
 if __name__ == "__main__":
-    app.run()
-    app.logger.warning('A warning message is sent.')
-    app.logger.error('An error message is sent.')
-    app.logger.info('Information: 3 + 2 = %d', 5)
+    app.run(debug=True)
