@@ -1,0 +1,65 @@
+{
+    "fact_table": "incexp_labeled",
+    "dimensions": {
+        "demarcation_code": {
+            "attributes": {
+                "demarcation": {
+                    "column": "demarcation_code",
+                    "label": "Demarcation Code"
+                }
+            },
+            "key_attribute": "demarcation_code",
+            "description": "Demarcation of location or some such",
+            "label": "BUF for Buffalo City"
+        },
+        "period": {
+            "attributes": {
+                "period": {
+                    "column": "period",
+                    "label": "Period"
+                }
+            },
+            "key_attribute": "period",
+            "description": "Period",
+            "label": "Period"
+        },
+        "function": {
+            "attributes": {
+                "function_code": {
+                    "column": "function_code",
+                    "label": "Function Code"
+                },
+                "function_desc": {
+                    "column": "function_desc",
+                    "label": "Function Description"
+                }
+            },
+            "key_attribute": "function_code",
+            "label_attribute": "function_desc",
+            "description": "Function",
+            "label": "Function"
+        },
+        "incexp_code": {
+            "attributes": {
+                "incexp_code": {
+                    "column": "incexp_cde",
+                    "label": "Income/Expenditure Code"
+                },
+                "incexp_desc": {
+                    "column": "description",
+                    "label": "Income/Expenditure Description"
+                }
+            },
+            "key_attribute": "incexp_cde",
+            "label_attribute": "incexp_desc",
+            "description": "Inc/Exp item",
+            "label": "Inc/Exp item"
+        }
+    },
+    "measures": {
+        "amount": {
+            "column": "act_or_bud_amt",
+            "label": "Actual or Budget Amount"
+        }
+    }
+}
