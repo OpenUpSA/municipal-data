@@ -88,18 +88,17 @@ def model(request, cube_name):
     })
 
 
-# # @blueprint.route('/cubes/<name>/aggregate')
-# def aggregate(name):
-#     """ Perform an aggregation request. """
-#     cube = get_cube(name)
-#     result = cube.aggregate(aggregates=request.args.get('aggregates'),
-#                             drilldowns=request.args.get('drilldown'),
-#                             cuts=request.args.get('cut'),
-#                             order=request.args.get('order'),
-#                             page=request.args.get('page'),
-#                             page_size=request.args.get('pagesize'))
-#     result['status'] = 'ok'
-#     return jsonify(result)
+def aggregate(request, cube_name):
+    """ Perform an aggregation request. """
+    cube = get_cube(cube_name)
+    result = cube.aggregate(aggregates=request.GET.get('aggregates'),
+                            drilldowns=request.GET.get('drilldown'),
+                            cuts=request.GET.get('cut'),
+                            order=request.GET.get('order'),
+                            page=request.GET.get('page'),
+                            page_size=request.GET.get('pagesize'))
+    result['status'] = 'ok'
+    return jsonify(result)
 
 
 def facts(request, cube_name):
@@ -115,14 +114,14 @@ def facts(request, cube_name):
     return jsonify(result)
 
 
-# # @blueprint.route('/cubes/<name>/members/<ref>')
-# def members(name, ref):
-#     """ List the members of a specific dimension or the distinct values of a
-#     given attribute. """
-#     cube = get_cube(name)
-#     result = cube.members(ref, cuts=request.args.get('cut'),
-#                           order=request.args.get('order'),
-#                           page=request.args.get('page'),
-#                           page_size=request.args.get('pagesize'))
-#     result['status'] = 'ok'
-#     return jsonify(result)
+def members(request, cube_name, member_ref):
+    """ List the members of a specific dimension or the distinct values of a
+    given attribute. """
+    cube = get_cube(cube_name)
+    result = cube.members(member_ref,
+                          cuts=request.GET.get('cut'),
+                          order=request.GET.get('order'),
+                          page=request.GET.get('page'),
+                          page_size=request.GET.get('pagesize'))
+    result['status'] = 'ok'
+    return jsonify(result)
