@@ -1,0 +1,117 @@
+// =============================================
+
+// CODE4SA BOOTSTRAP VARIABLE OVERRIDES
+
+//== Colors
+
+$color-black: #000;
+$color-white: #fff;
+
+$color-blue: #3264ab;
+$color-dark-blue: #1e3c66;
+$color-light-blue: #8ac8ff;
+
+$color-red: #ed1c24;
+$color-dark-red: #991217;
+$color-light-red: #ff8067;
+
+$color-green: #339933;
+$color-dark-green: #306030;
+$color-light-green: #99cc99;
+
+$color-gray: #ccc;
+$color-dark-gray: #444444;
+$color-light-gray: #e5e5e5;
+
+$brand-primary: $color-blue;
+
+$brand-primary-dark: darken($brand-primary, 10%);
+$brand-primary-darker: darken($brand-primary, 20%);
+$brand-primary-light: lighten($brand-primary, 10%);
+$brand-primary-lighter: lighten($brand-primary, 20%);
+
+$black: #000;
+$white: #fff;
+
+//== Typography
+
+@import url(http://fonts.googleapis.com/css?family=Asap:400,400italic,700,700italic);
+@import url(http://fonts.googleapis.com/css?family=Arvo:400,700);
+
+$font-family-sans-serif: 'Asap', Helvetica, Arial, sans-serif;
+$font-family-serif: 'Arvo', Times, serif;
+
+$font-size-base: 14px !default;
+$font-size-large: ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-small: ceil(($font-size-base * 0.85)) !default; // ~12px
+
+$line-height-base:        1.8 !default;
+
+$headings-font-weight: 700;
+
+//== Scaffolding
+
+$body-bg: $color-light-gray !default;
+
+$link-color: $brand-primary;
+$link-hover-color: $brand-primary-dark;
+$link-hover-decoration: none;
+
+//** Global text color on `<body>`
+$text-color: $black;
+
+//== Navbar
+
+$navbar-height: 80px !default;
+$navbar-margin-bottom: 0;
+$navbar-border-radius: 0;
+
+$navbar-default-color: $black;
+$navbar-default-bg: $color-light-gray;
+$navbar-default-border: none;
+
+$navbar-default-link-color: $black;
+$navbar-default-link-hover-color: $brand-primary;
+$navbar-default-link-hover-bg: transparent !default;
+$navbar-default-link-active-color: $brand-primary !default;
+$navbar-default-link-active-bg: transparent !default;
+$navbar-default-link-disabled-color: $color-dark-gray !default;
+$navbar-default-link-disabled-bg: transparent !default;
+
+// Inverted navbar
+
+$navbar-inverse-color:                      $white;
+$navbar-inverse-bg:                         $black;
+$navbar-inverse-border:                     none;
+
+$navbar-inverse-link-color:                 $white;
+$navbar-inverse-link-hover-color:           $white;
+$navbar-inverse-link-hover-bg:              transparent !default;
+$navbar-inverse-link-active-color:          $white;
+$navbar-inverse-link-active-bg:             transparent !default;
+$navbar-inverse-link-disabled-color:        $color-light-gray !default;
+$navbar-inverse-link-disabled-bg:           transparent !default;
+
+$navbar-inverse-brand-color:                $navbar-inverse-link-color !default;
+$navbar-inverse-brand-hover-color:          #fff !default;
+$navbar-inverse-brand-hover-bg:             transparent !default;
+
+$navbar-inverse-toggle-hover-bg:            #333 !default;
+$navbar-inverse-toggle-icon-bar-bg:         #fff !default;
+$navbar-inverse-toggle-border-color:        #333 !default;
+
+//== Jumbotron
+
+$jumbotron-padding: 80px;
+$jumbotron-color: $white;
+$jumbotron-bg: $brand-primary !default;
+$jumbotron-heading-color: inherit !default;
+$jumbotron-font-size: ceil(($font-size-base * 1.2));
+
+//== Type
+
+$hr-border: rgba(0,0,0,0.1);
+
+//** Blockquote font size
+$blockquote-font-size: ($font-size-base * 1.4);
+$blockquote-small-color: inherit;
