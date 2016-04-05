@@ -11,7 +11,7 @@ See also [Babbage HTTP API](https://github.com/openspending/babbage#using-the-ht
 
 ### All itmes
 
-    curl  localhost:5000/api/cubes/incexp/facts|jq .
+    curl  localhost:8000/cubes/incexp/facts|jq .
 
 
 ```json
@@ -30,7 +30,7 @@ See also [Babbage HTTP API](https://github.com/openspending/babbage#using-the-ht
 
 ### Filtered items
 
-    curl  'localhost:5000/api/cubes/incexp/facts?cut=incexp_code.incexp_code:"6600"%7Cperiod.period:"2016ORGB"%7Cfunction.function_code:"903"'|jq .
+    curl  'localhost:8000/cubes/incexp/facts?cut=incexp_code.incexp_code:"6600"%7Cperiod.period:"2016ORGB"%7Cfunction.function_code:"903"'|jq .
 
 ```json
 {
@@ -108,7 +108,7 @@ See also [Babbage HTTP API](https://github.com/openspending/babbage#using-the-ht
 
 ### Income/Expenditure codes and their labels
 
-    curl  localhost:5000/api/cubes/incexp/members/incexp_code|jq .
+    curl  localhost:8000/cubes/incexp/members/incexp_code|jq .
 
 ```json
 {
