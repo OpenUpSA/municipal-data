@@ -1,5 +1,5 @@
 """
-Django settings for code4sa project.
+Django settings for municipal_finance project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -43,7 +43,7 @@ INSTALLED_APPS = (
     'pipeline',
     'django_extensions',
 
-    'code4sa',
+    'municipal_finance',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -56,9 +56,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'code4sa.urls'
+ROOT_URLCONF = 'municipal_finance.urls'
 
-WSGI_APPLICATION = 'code4sa.wsgi.application'
+WSGI_APPLICATION = 'municipal_finance.wsgi.application'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
@@ -95,7 +95,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
-    "code4sa.context_processors.google_analytics",
+    "municipal_finance.context_processors.google_analytics",
 )
 
 
@@ -119,8 +119,8 @@ STATICFILES_FINDERS = (
 )
 
 PYSCSS_LOAD_PATHS = [
-    os.path.join(BASE_DIR, 'code4sa', 'static'),
-    os.path.join(BASE_DIR, 'code4sa', 'static', 'bower_components'),
+    os.path.join(BASE_DIR, 'municipal_finance', 'static'),
+    os.path.join(BASE_DIR, 'municipal_finance', 'static', 'bower_components'),
 ]
 
 PIPELINE_CSS = {
@@ -145,12 +145,12 @@ PIPELINE_CSS_COMPRESSOR = None
 PIPELINE_JS_COMPRESSOR = None
 
 PIPELINE_COMPILERS = (
-    'code4sa.pipeline.PyScssCompiler',
+    'municipal_finance.pipeline.PyScssCompiler',
 )
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'code4sa.pipeline.GzipManifestPipelineStorage'
+STATICFILES_STORAGE = 'municipal_finance.pipeline.GzipManifestPipelineStorage'
 
 
 # Logging
@@ -183,3 +183,11 @@ LOGGING = {
         }
     }
 }
+
+from sqlalchemy import create_engine
+from babbage.manager import JSONCubeManager
+
+engine = create_engine('postgresql://postgres@localhost/municipal_finance')
+models_directory = 'models/'
+
+CUBE_MANAGER = JSONCubeManager(engine, models_directory)
