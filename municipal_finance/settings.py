@@ -26,7 +26,7 @@ else:
     SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # XXX set me
-GOOGLE_ANALYTICS_ID = set this to something
+GOOGLE_ANALYTICS_ID = ''
 
 ALLOWED_HOSTS = ['*']
 
