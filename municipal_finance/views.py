@@ -100,22 +100,21 @@ def model(request, cube_name):
 #                             page_size=request.args.get('pagesize'))
 #     result['status'] = 'ok'
 #     return jsonify(result)
-#
-#
-# # @blueprint.route('/cubes/<name>/facts')
-# def facts(name):
-#     """ List the fact table entries in the current cube. This is the full
-#     materialized dataset. """
-#     cube = get_cube(name)
-#     result = cube.facts(fields=request.args.get('fields'),
-#                         cuts=request.args.get('cut'),
-#                         order=request.args.get('order'),
-#                         page=request.args.get('page'),
-#                         page_size=request.args.get('pagesize'))
-#     result['status'] = 'ok'
-#     return jsonify(result)
-#
-#
+
+
+def facts(request, cube_name):
+    """ List the fact table entries in the current cube. This is the full
+    materialized dataset. """
+    cube = get_cube(cube_name)
+    result = cube.facts(fields=request.GET.get('fields'),
+                        cuts=request.GET.get('cut'),
+                        order=request.GET.get('order'),
+                        page=request.GET.get('page'),
+                        page_size=request.GET.get('pagesize'))
+    result['status'] = 'ok'
+    return jsonify(result)
+
+
 # # @blueprint.route('/cubes/<name>/members/<ref>')
 # def members(name, ref):
 #     """ List the members of a specific dimension or the distinct values of a
