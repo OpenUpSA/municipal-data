@@ -3,7 +3,7 @@ import os
 import sys
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "code4sa.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "municipal_finance.settings")
 
     from django.core.management import execute_from_command_line
 
