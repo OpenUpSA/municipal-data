@@ -1,27 +1,16 @@
 from datetime import date
 from decimal import Decimal
 
-from werkzeug.exceptions import NotFound
-
-# from babbage.exc import BabbageException
-
-from django.http import JsonResponse
-from django.conf import settings
+from django.http import JsonResponse, Http404
 from django.core.serializers.json import DjangoJSONEncoder
-
-
-def get_manager():
-    """ Try to locate a ``CubeManager`` on the app which is currently
-    processing a request. """
-    return settings.CUBE_MANAGER
+from cubes import cube_manager
 
 
 def get_cube(name):
     """ Load the named cube from the current registered ``CubeManager``. """
-    manager = get_manager()
-    if not manager.has_cube(name):
-        raise NotFound('No such cube: %r' % name)
-    return manager.get_cube(name)
+    if not cube_manager.has_cube(name):
+        raise Http404('No such cube: %s' % name)
+    return cube_manager.get_cube(name)
 
 
 class BabbageJSONEncoder(DjangoJSONEncoder):
@@ -67,7 +56,7 @@ def index(request):
 def cubes(request):
     """ Get a listing of all publicly available cubes. """
     cubes = []
-    for cube in get_manager().list_cubes():
+    for cube in cube_manager.list_cubes():
         cubes.append({
             'name': cube
         })

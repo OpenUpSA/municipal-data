@@ -66,11 +66,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 import dj_database_url
-if os.environ.get('DATABASE_URL'):
-    DATABASE_URL = os.environ.get('DATABASE_URL')
-else:
-    DATABASE_URL = 'postgres://postgres@localhost:5432/municipal_finance'
-
+DATABASE_URL = os.environ.get('DATABASE_URL', 'postgres://municipal_finance:municipal_finance@localhost:5432/municipal_finance')
 db_config = dj_database_url.parse(DATABASE_URL)
 db_config['ATOMIC_REQUESTS'] = True
 DATABASES = {
@@ -188,11 +184,3 @@ LOGGING = {
         }
     }
 }
-
-from sqlalchemy import create_engine
-from babbage.manager import JSONCubeManager
-
-engine = create_engine(DATABASE_URL)
-models_directory = 'models/'
-
-CUBE_MANAGER = JSONCubeManager(engine, models_directory)
