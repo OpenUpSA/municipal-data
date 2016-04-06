@@ -1,5 +1,16 @@
 # municpal data api
 
+# Local development
+
+1. clone this repo
+2. install dependencies: ``pip install -r requirements.txt``
+3. create a postgresql user with password ``municipal_finance``: ``createuser municipal_finance -W``
+4. create a database: ``createdb municipal_finance -O municipal_finance``
+5. install data from somewhere :)
+6. run it: ``python manage.py runserver``
+
+# Examples
+
 ## run
 
     source env/bin/activate
@@ -135,3 +146,7 @@ See also [Babbage HTTP API](https://github.com/openspending/babbage#using-the-ht
       "incexp_code.incexp_desc": "Fines"
     },
 ```
+
+# License
+
+MIT License
