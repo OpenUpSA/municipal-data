@@ -9,6 +9,17 @@
 5. install data from somewhere :)
 6. run it: ``python manage.py runserver``
 
+# Production
+
+```
+dokku config:set municipal-finance DJANGO_DEBUG=False \
+                                   DISABLE_COLLECTSTATIC=1 \
+                                   DJANGO_SECRET_KEY=... \
+                                   NEW_RELIC_APP_NAME=municipal_finance \
+                                   NEW_RELIC_LICENSE_KEY=... \
+                                   DATABASE_URL=postgres://municipal_finance:...@postgresq....amazonaws.com/municipal_finance
+```
+
 # Examples
 
 ## run
