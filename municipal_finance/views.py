@@ -1,11 +1,7 @@
 from datetime import date
 from decimal import Decimal
 
-from werkzeug.exceptions import NotFound
-
-# from babbage.exc import BabbageException
-
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.core.serializers.json import DjangoJSONEncoder
 from cubes import cube_manager
 
@@ -13,8 +9,7 @@ from cubes import cube_manager
 def get_cube(name):
     """ Load the named cube from the current registered ``CubeManager``. """
     if not cube_manager.has_cube(name):
-        # TODO: check this
-        raise NotFound('No such cube: %r' % name)
+        raise Http404('No such cube: %s' % name)
     return cube_manager.get_cube(name)
 
 
