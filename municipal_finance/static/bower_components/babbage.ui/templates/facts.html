@@ -1,0 +1,37 @@
+<div class="table-babbage" ng-show="data">
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th ng-repeat-start="c in columns" class="title">
+          {{ c.header }}
+          <span class="sublabel" ng-hide="c.hide">{{ c.label }}</span>
+        </th>
+        <th ng-repeat-end class="operations" ng-switch="getSort(c.ref).direction">
+          <span ng-switch-when="desc" ng-click="pushSort(c.ref, 'asc')" class="ng-link">
+            <i class="fa fa-sort-desc"></i>
+          </span>
+          <span ng-switch-when="asc" ng-click="pushSort(c.ref, 'desc')" class="ng-link">
+            <i class="fa fa-sort-asc"></i>
+          </span>
+          <span ng-switch-default ng-click="pushSort(c.ref, 'desc')" class="ng-link">
+            <i class="fa fa-sort"></i>
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in data">
+        <td ng-repeat="c in columns" ng-class="{'numeric': c.numeric}" class="simple"
+          colspan="2">
+          <span ng-if="c.numeric">
+            {{ row[c.ref] | numeric }}
+          </span>
+          <span ng-if="!c.numeric">
+            {{ row[c.ref] }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<babbage-pager context="pagerCtx"></babbage-pager>

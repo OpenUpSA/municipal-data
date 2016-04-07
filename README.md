@@ -1,4 +1,4 @@
-# municpal data api
+# municpal data
 
 # Local development
 
@@ -22,12 +22,11 @@ dokku config:set municipal-finance DJANGO_DEBUG=False \
 
 # Examples
 
-## run
+## UI
 
-    source env/bin/activate
-    python api.py
+http://localhost:8000/#/?fields=amount&fields=function.function_desc&fields=incexp_code.incexp_desc&fields=period.period&fields=demarcation_code.demarcation_code&order=amount:desc
 
-## query
+## API queries
 
 See also [Babbage HTTP API](https://github.com/openspending/babbage#using-the-http-api)
 

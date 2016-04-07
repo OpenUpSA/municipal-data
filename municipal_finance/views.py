@@ -41,7 +41,7 @@ def handle_error(exc):
 
 
 # @blueprint.route('/')
-def index(request):
+def status(request):
     """ General system status report :) """
     from babbage import __version__, __doc__
     return jsonify({

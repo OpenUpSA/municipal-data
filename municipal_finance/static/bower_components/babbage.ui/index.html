@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html ng-app="demo">
+<head>
+  <meta charset="utf-8">
+  <title>babbage.ui</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="dist/deps.css">
+  <link rel="stylesheet" href="dist/babbage.ui.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="shortcut icon" href="http://assets.pudo.org/img/favicon.ico">
+</head>
+<body>
+  <div ng-view></div>
+
+  <script type="text/ng-template" id="demo.html">
+    <div class="container-fluid">
+      <!-- babbage-workspace endpoint="https://spendb-dev.herokuapp.com/api/babbage/" cube="{{cube}}" -->
+      <babbage-workspace endpoint="http://localhost:5000/api/babbage/" cube="{{cube}}">
+      </babbage-workspace>
+    </div>
+  </script>
+
+  <script src='dist/deps.js'></script>
+  <!--script src='dist/babbage.ui.js'></script-->
+  <script src='dist/templates.js'></script>
+  <script src='src/util.js'></script>
+  <script src='src/app.js'></script>
+  <script src='src/api.js'></script>
+  <script src='src/babbage.js'></script>
+  <script src='src/crosstab.js'></script>
+  <script src='src/facts.js'></script>
+  <script src='src/treemap.js'></script>
+  <script src='src/sankey.js'></script>
+  <script src='src/barchart.js'></script>
+  <script src='src/panel.js'></script>
+  <script src='src/pager.js'></script>
+  <script src='src/workspace.js'></script>
+  <script>
+    var demo = angular.module('demo', ['ngRoute', 'ngBabbage', 'angular.filter', 'ui.bootstrap', 'ui.select']);
+
+    demo.config(['$routeProvider',
+      function($routeProvider) {
+      $routeProvider.
+        when('/', {
+          templateUrl: 'demo.html',
+          controller: 'DemoCtrl',
+          reloadOnSearch: true
+        });
+    }]);
+
+    demo.controller('DemoCtrl', function ($scope) {
+      $scope.cube = 'bundeshaushalt';
+      // $scope.cube = 'md-tenders';
+    });
+
+  </script>
+</body>
+</html>

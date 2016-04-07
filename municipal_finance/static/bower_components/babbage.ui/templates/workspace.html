@@ -1,0 +1,69 @@
+<babbage endpoint="{{endpoint}}" cube="{{cube}}" state="state">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="pull-right">
+        <div class="btn-group spaced" role="group">
+          <a class="btn btn-default"
+            ng-class="{'active': view == 'facts'}"
+            ng-click="setView('facts')">
+            <i class="fa fa-table"></i> Items
+          </a>
+          <a class="btn btn-default"
+            ng-class="{'active': view == 'crosstab'}"
+            ng-click="setView('crosstab')">
+            <i class="fa fa-cubes"></i> Pivot table
+          </a>
+          <a class="btn btn-default"
+            ng-class="{'active': view == 'barchart'}"
+            ng-click="setView('barchart')">
+            <i class="fa fa-bar-chart"></i> Bar chart
+          </a>
+          <a class="btn btn-default"
+            ng-class="{'active': view == 'treemap'}"
+            ng-click="setView('treemap')">
+            <i class="fa fa-th-large"></i> Treemap
+          </a>
+          <a class="btn btn-default"
+            ng-class="{'active': view == 'sankey'}"
+            ng-click="setView('sankey')">
+            <i class="fa fa-random"></i> Flow
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <div ng-if="view == 'crosstab'">
+        <babbage-crosstab></babbage-crosstab>
+      </div>
+      <div ng-if="view == 'facts'">
+        <babbage-facts></babbage-facts>
+      </div>
+      <div ng-if="view == 'treemap'">
+        <babbage-treemap></babbage-treemap>
+      </div>
+      <div ng-if="view == 'barchart'">
+        <babbage-barchart></babbage-barchart>
+      </div>
+      <div ng-if="view == 'sankey'">
+        <babbage-sankey></babbage-sankey>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <babbage-panel></babbage-panel>
+
+      <div class="embed-link">
+        <p class="help-block">Embed this view into another website:</p>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <i class="fa fa-external-link-square"></i>
+          </span>
+          <input type="text" class="form-control" readonly
+            value="<style>.babbage-embed{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;} .babbage-embed iframe{position:absolute;top:0;left:0;width:100%;height:100%;}</style><div class='babbage-embed'><iframe src='{{embedLink}}' frameborder='0' allowfullscreen></iframe></div>">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</babbage>

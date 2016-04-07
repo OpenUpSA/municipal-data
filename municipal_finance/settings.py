@@ -139,6 +139,14 @@ PIPELINE_CSS = {
         ),
         'output_filename': 'app.css',
     },
+    'babbage': {
+        'source_filenames': (
+            'bower_components/fontawesome/css/font-awesome.css',
+            'bower_components/babbage.ui/dist/deps.css',
+            'bower_components/babbage.ui/dist/babbage.ui.css',
+        ),
+        'output_filename': 'babbage.css',
+    },
 }
 PIPELINE_JS = {
     'js': {
@@ -147,6 +155,27 @@ PIPELINE_JS = {
             'javascript/app.js',
         ),
         'output_filename': 'app.js',
+    },
+    'babbage': {
+        'source_filenames': (
+            'bower_components/babbage.ui/dist/deps.js',
+            'bower_components/babbage.ui/dist/templates.js',
+            'bower_components/babbage.ui/src/util.js',
+            'bower_components/babbage.ui/src/app.js',
+            'bower_components/babbage.ui/src/api.js',
+            'bower_components/babbage.ui/src/babbage.js',
+            'bower_components/babbage.ui/src/crosstab.js',
+            'bower_components/babbage.ui/src/facts.js',
+            'bower_components/babbage.ui/src/treemap.js',
+            'bower_components/babbage.ui/src/sankey.js',
+            'bower_components/babbage.ui/src/chart.js',
+            'bower_components/babbage.ui/src/panel.js',
+            'bower_components/babbage.ui/src/pager.js',
+            'bower_components/babbage.ui/src/workspace.js',
+            'bower_components/leaflet/dist/leaflet.js',
+            'bower_components/underscore/underscore-min.js',
+        ),
+        'output_filename': 'babbage.js',
     },
 }
 PIPELINE_CSS_COMPRESSOR = None

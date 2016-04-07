@@ -1,0 +1,13 @@
+<div class="table-babbage" ng-hide="queryLoaded">
+  <div class="alert alert-info">
+    <strong>You have not selected any data.</strong> Please choose a breakdown for
+    both sides of the flow diagram.
+  </div>
+</div>
+
+<div class="alert alert-warning" ng-show="cutoffWarning">
+  <strong>Too many links.</strong> The source and target you have selected
+  have many different links, only the {{cutoff}} biggest are shown.
+</div>
+
+<div class="sankey-babbage"></div>

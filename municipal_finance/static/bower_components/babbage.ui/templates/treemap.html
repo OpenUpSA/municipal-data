@@ -1,0 +1,13 @@
+<div class="table-babbage" ng-hide="queryLoaded">
+  <div class="alert alert-info">
+    <strong>You have not selected any data.</strong> Please choose a breakdown for
+    your treemap.
+  </div>
+</div>
+
+<div class="alert alert-warning" ng-show="cutoffWarning">
+  <strong>Too many tiles.</strong> The breakdown you have selected contains many
+  different categories, only the {{cutoff}} biggest are shown.
+</div>
+
+<div class="treemap-babbage"></div>

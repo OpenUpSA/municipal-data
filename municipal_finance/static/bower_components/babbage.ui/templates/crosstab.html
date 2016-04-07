@@ -1,0 +1,29 @@
+<div class="table-babbage" ng-show="rows.length">
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr ng-repeat="x in columns[0]">
+        <th ng-repeat="r in rows[0]"></th>
+        <th ng-repeat="c in columns">
+          {{c[$parent.$index]}}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in rows">
+        <th ng-repeat="r in row">
+          {{r}}
+        </th>
+        <td ng-repeat="val in table[$index] track by $index" class="numeric">
+          {{val | numeric}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="table-babbage" ng-hide="rows.length || !queryLoaded">
+  <div class="alert alert-info">
+    <strong>You have not selected any data.</strong> Please choose a set of rows
+    and columns to generate a cross-table.
+  </div>
+</div>
