@@ -30,8 +30,7 @@ module.exports = function(grunt) {
           'dist/deps.js': [
             'bower_components/d3/d3.js',
             'bower_components/d3-plugins/sankey/sankey.js',
-            'bower_components/vega-lite/lib/vega.js',
-            'bower_components/vega-lite/vega-lite.js',
+            'bower_components/c3js-chart/c3.js',
             'bower_components/angular/angular.js',
             'bower_components/angular-route/angular-route.js',
             'bower_components/angular-bootstrap/ui-bootstrap.min.js',
@@ -60,6 +59,10 @@ module.exports = function(grunt) {
           module: 'ngBabbage.templates',
           rename: function(name) {
             return name.replace('templates', 'babbage-templates');
+          },
+          htmlmin: {
+            collapseWhitespace: true,
+            removeComments: true
           }
         },
         src: ['templates/**/*.html'],
@@ -88,6 +91,7 @@ module.exports = function(grunt) {
       deps: {
         files: {
           "dist/deps.css": ["node_modules/bootstrap/dist/css/bootstrap.css",
+                            "bower_components/c3js-chart/c3.css",
                             "bower_components/angular/angular-csp.css",
                             "bower_components/angular-ui-select/dist/select.min.css"]
         }

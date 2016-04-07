@@ -8,14 +8,20 @@ ngBabbage.directive('babbageWorkspace', ['$location', function($location) {
     },
     templateUrl: 'babbage-templates/workspace.html',
     link: function(scope, element, attrs) {
-      scope.state = {};
-      scope.embedLink = '';
-      scope.view = $location.search().view || 'facts';
+      scope.state = null;
+      scope.embedLink = null;
 
       scope.setView = function(view) {
-        var state = $location.search();
-        state.view = view;
+        scope.view = view;
+        scope.state.view = view;
+        scope.update(scope.state);
+      };
+
+      scope.update = function(state) {
+        scope.state = state;
+        scope.view = scope.state.view || 'facts';
         $location.search(state);
+        prepareEmbed();
       };
 
       var prepareEmbed = function() {
@@ -36,7 +42,7 @@ ngBabbage.directive('babbageWorkspace', ['$location', function($location) {
         scope.embedLink = ngBabbageGlobals.embedLink + '#/?' + qs.join('&');
       };
 
-      prepareEmbed();
+      scope.update($location.search());
     }
   };
 }]);

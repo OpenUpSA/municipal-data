@@ -1,57 +1,69 @@
 {
     "fact_table": "incexp_labeled",
     "dimensions": {
-        "demarcation_code": {
+        "demarcation": {
             "attributes": {
-                "demarcation_code": {
+                "code": {
                     "column": "demarcation_code",
-                    "label": "Demarcation Code"
+                    "label": "Demarcation Code",
+                    "type": "string",
+                    "description": "Demarcation Code desc"
                 }
             },
-            "key_attribute": "demarcation_code",
+            "key_attribute": "code",
             "description": "Demarcation of location or some such",
-            "label": "BUF for Buffalo City"
+            "label": "Demarcation"
         },
         "period": {
             "attributes": {
-                "period": {
+                "code": {
                     "column": "period",
-                    "label": "Period"
+                    "label": "Period Code",
+                    "type": "string",
+                    "description": ""
                 }
             },
-            "key_attribute": "period",
+            "key_attribute": "code",
             "description": "Period",
             "label": "Period"
         },
         "function": {
             "attributes": {
-                "function_code": {
+                "code": {
                     "column": "function_code",
+                    "type": "string",
+                    "description": "",
                     "label": "Function Code"
                 },
-                "function_desc": {
+                "desc": {
                     "column": "function_desc",
-                    "label": "Function Description"
+                    "label": "Function Description",
+                    "type": "string",
+                    "description": ""
                 }
             },
-            "key_attribute": "function_code",
-            "label_attribute": "function_desc",
+            "key_attribute": "code",
+            "label_attribute": "desc",
             "description": "Function",
             "label": "Function"
         },
-        "incexp_code": {
+        "incexp": {
             "attributes": {
-                "incexp_code": {
+                "code": {
                     "column": "incexp_cde",
-                    "label": "Income/Expenditure Code"
+                    "label": "Income/Expenditure Code",
+                    "type": "string",
+                    "description": ""
                 },
-                "incexp_desc": {
+                "desc": {
                     "column": "description",
-                    "label": "Income/Expenditure Description"
+                    "label": "Income/Expenditure Description",
+                    "type": "string",
+                    "description": ""
                 }
             },
-            "key_attribute": "incexp_code",
-            "label_attribute": "incexp_desc",
+            "key_attribute": "code",
+            "label_attribute": "desc",
             "description": "Inc/Exp item",
             "label": "Inc/Exp item"
         }

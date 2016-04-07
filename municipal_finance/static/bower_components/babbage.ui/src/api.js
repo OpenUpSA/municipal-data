@@ -30,6 +30,13 @@ ngBabbage.factory('babbageApi', ['$http', '$q', 'slugifyFilter', function($http,
         model.refs[measure.ref] = measure;
       }
 
+      for (var i in model.aggregates) {
+        var agg = model.aggregates[i];
+        agg.numeric = true;
+        agg.hideLabel = true;
+        model.refs[agg.ref] = agg;
+      }
+
       for (var di in model.dimensions) {
         var dim = model.dimensions[di];
         for (var ai in dim.attributes) {

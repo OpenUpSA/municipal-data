@@ -1,0 +1,13 @@
+<div class="table-babbage" ng-hide="queryLoaded">
+  <div class="alert alert-info">
+    <strong>You have not selected any data.</strong> Please choose the
+    configuration for your chart.
+  </div>
+</div>
+
+<div class="alert alert-warning" ng-show="cutoffWarning">
+  <strong>Too many categories.</strong> There are more than {{cutoff}} items
+  in the selected drilldown.
+</div>
+
+<div class="chart-babbage"><svg></svg></div>

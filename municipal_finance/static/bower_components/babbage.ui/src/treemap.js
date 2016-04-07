@@ -47,24 +47,19 @@ ngBabbage.directive('babbageTreemap', ['$rootScope', '$http', '$document', funct
                           babbageCtrl.queryParams(q));
 
       var wrapper = element.querySelectorAll('.treemap-babbage')[0],
-          width = wrapper.clientWidth,
-          height = width * 0.6;
-
-      if (babbageCtrl.isEmbedded()) {
-        width = document.documentElement.clientWidth;
-        height = document.documentElement.clientHeight;
-      }
+          size = babbageCtrl.size(wrapper, function(w) { return w * 0.6; });
 
       treemap = d3.layout.treemap()
-        .size([width, height])
+        .size([size.width, size.height])
         .sticky(true)
         .sort(function(a, b) { return a[area] - b[area]; })
         .value(function(d) { return d[area]; });
 
+      d3.select(wrapper).select("div").remove();
       div = d3.select(wrapper).append("div")
         .style("position", "relative")
-        .style("width", width + "px")
-        .style("height", height + "px");
+        .style("width", size.width + "px")
+        .style("height", size.height + "px");
 
       dfd.then(function(res) {
         queryResult(res.data, q, model, state);

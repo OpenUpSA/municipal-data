@@ -2,18 +2,19 @@
 ngBabbage.directive('babbagePager', ['$timeout', '$location', function ($timeout, $location) {
   return {
     restrict: 'E',
+    require: '^babbage',
     scope: {
       'context': '='
     },
     templateUrl: 'babbage-templates/pager.html',
-    link: function (scope, element, attrs, model) {
+    link: function (scope, element, attrs, babbageCtrl) {
       scope.showPager = false;
       scope.hasPrev = false;
       scope.hasNext = false;
       scope.pages = [];
       scope.cur = 0;
       scope.num = 0;
-        
+
       scope.$watch('context', function(e) {
         if (!scope.context || scope.context.total <= scope.context.pagesize) {
           return;
@@ -51,9 +52,9 @@ ngBabbage.directive('babbagePager', ['$timeout', '$location', function ($timeout
 
       scope.setPage = function(page) {
         if (page >= 0 && page <= scope.num) {
-          var state = $location.search();
+          var state = babbageCtrl.getState();
           state.page = page;
-          $location.search(state);  
+          babbageCtrl.setState(state);
         }
       }
     }

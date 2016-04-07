@@ -90,7 +90,7 @@ ngBabbage.directive('babbageFacts', ['$rootScope', '$http', '$q', function($root
         var dim = model.dimensions[i];
         for (var k in dim.attributes) {
           var attr = dim.attributes[k];
-          if (attr.name == dim.label_attribute) {
+          if (k == dim.label_attribute) {
             defaults.push(attr.ref);
           }
         }

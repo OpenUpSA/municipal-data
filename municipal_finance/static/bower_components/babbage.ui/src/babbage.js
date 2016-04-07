@@ -7,37 +7,43 @@ ngBabbage.directive('babbage', ['$http', '$rootScope', '$location', 'babbageApi'
     scope: {
       endpoint: '@',
       cube: '@',
-      state: '='
+      state: '=',
+      update: '&'
     },
     templateUrl: 'babbage-templates/babbage.html',
     controller: ['$scope', function($scope) {
-      var self = this,
-          modelUpdate = 'babbageModelUpdate',
-          state = angular.extend({}, $scope.state || {}, $location.search());
-
-      self.queryModel = {};
+      var self = this;
+      self.queryModel = null;
 
       self.init = function(queryModel) {
         self.queryModel = queryModel;
-        babbageApi.getModel($scope.endpoint, $scope.cube).then(function(model) {
-          $scope.$broadcast(self.modelUpdate, model, state);
-        });
+        self.update();
       };
 
+      self.update = function() {
+        if (self.queryModel) {
+          babbageApi.getModel($scope.endpoint, $scope.cube).then(function(model) {
+            $scope.$broadcast('babbageUpdate', model, $scope.state);
+          });
+        }
+      }
+
       self.subscribe = function(listener) {
-        return $scope.$on(self.modelUpdate, listener);
+        return $scope.$on('babbageUpdate', listener);
       };
 
       self.getState = function() {
-        return state;
+        return $scope.state;
       };
 
       self.isEmbedded = function() {
-        return state.embed == 'true';
+        return $scope.state.embed == 'true';
       };
 
       self.setState = function(s) {
-        $location.search(s);
+        $scope.state = s;
+        self.update();
+        $scope.update(s);
       };
 
       self.getApiUrl = function(endpoint) {
@@ -48,16 +54,31 @@ ngBabbage.directive('babbage', ['$http', '$rootScope', '$location', 'babbageApi'
         return babbageApi.getDimensionMembers($scope.endpoint, $scope.cube, dimension);
       };
 
+      self.size = function(element, height) {
+        if (self.isEmbedded()) {
+            return {
+              width: document.documentElement.clientWidth,
+              height: document.documentElement.clientHeight
+            }
+        }
+        return {
+          width: element.clientWidth,
+          height: height(element.clientWidth, element.clientHeight)
+        }
+      };
+
       self.getSorts = function() {
         var sorts = [],
-            order = state.order || '',
+            order = $scope.state.order || '',
             order = asArray(order.split(','));
         for (var i in order) {
           var parts = order[i].split(':'),
               sort = {};
-          sort.ref = parts[0],
+          sort.ref = parts[0];
           sort.direction = parts[1] || null;
-          sorts.push(sort);
+          if (sort.ref.length) {
+              sorts.push(sort);
+          }
         }
         return sorts;
       };
@@ -77,8 +98,8 @@ ngBabbage.directive('babbage', ['$http', '$rootScope', '$location', 'babbageApi'
           return s.ref != ref;
         });
         sorts.unshift({ref: ref, direction: direction});
-        state.order = self.mergeSorts(sorts);
-        self.setState(state);
+        $scope.state.order = self.mergeSorts(sorts);
+        self.setState($scope.state);
       };
 
       self.removeSorts = function(ref) {
@@ -106,9 +127,9 @@ ngBabbage.directive('babbage', ['$http', '$rootScope', '$location', 'babbageApi'
         var q = {
           drilldown: [],
           aggregates: [],
-          cut: state.cut || [],
-          page: state.page || 0,
-          pagesize: state.pagesize || 30,
+          cut: $scope.state.cut || [],
+          page: $scope.state.page || 0,
+          pagesize: $scope.state.pagesize || 30,
           order: self.getSorts()
         };
         return q;

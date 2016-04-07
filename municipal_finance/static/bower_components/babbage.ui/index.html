@@ -14,8 +14,7 @@
 
   <script type="text/ng-template" id="demo.html">
     <div class="container-fluid">
-      <!-- babbage-workspace endpoint="https://spendb-dev.herokuapp.com/api/babbage/" cube="{{cube}}" -->
-      <babbage-workspace endpoint="http://localhost:5000/api/babbage/" cube="{{cube}}">
+      <babbage-workspace endpoint="https://spendb-dev.herokuapp.com/api/babbage/" cube="{{cube}}">
       </babbage-workspace>
     </div>
   </script>
@@ -31,7 +30,7 @@
   <script src='src/facts.js'></script>
   <script src='src/treemap.js'></script>
   <script src='src/sankey.js'></script>
-  <script src='src/barchart.js'></script>
+  <script src='src/chart.js'></script>
   <script src='src/panel.js'></script>
   <script src='src/pager.js'></script>
   <script src='src/workspace.js'></script>
@@ -44,13 +43,13 @@
         when('/', {
           templateUrl: 'demo.html',
           controller: 'DemoCtrl',
-          reloadOnSearch: true
+          reloadOnSearch: false
         });
     }]);
 
     demo.controller('DemoCtrl', function ($scope) {
-      $scope.cube = 'bundeshaushalt';
-      // $scope.cube = 'md-tenders';
+      $scope.cube = 'wb-contract-awards';
+      // $scope.cube = 'bundeshaushalt';
     });
 
   </script>

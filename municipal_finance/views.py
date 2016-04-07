@@ -70,6 +70,7 @@ def cubes(request):
 def model(request, cube_name):
     """ Get the model for the specified cube. """
     cube = get_cube(cube_name)
+    cube.compute_cardinalities()
     return jsonify({
         'status': 'ok',
         'name': cube_name,

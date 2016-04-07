@@ -4,6 +4,10 @@ function asArray(obj) {
   return angular.isArray(objs) ? objs : [objs];
 }
 
+function randomKey() {
+  return 'X' + Math.random().toString(36).substring(7);
+}
+
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith
 // suggested polyfill for safari & IE
 if (!String.prototype.endsWith) {

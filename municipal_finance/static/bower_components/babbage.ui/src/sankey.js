@@ -52,42 +52,37 @@ ngBabbage.directive('babbageSankey', ['$rootScope', '$http', '$document', functi
                           babbageCtrl.queryParams(q));
 
       var wrapper = element.querySelectorAll('.sankey-babbage')[0],
-          width = wrapper.clientWidth,
-          height = document.documentElement.clientHeight;
+          size = babbageCtrl.size(wrapper, function(w) { return w * 0.6; });
 
-      unit = Math.max(400, height) / 40;
+      unit = Math.max(400, size.height) / 20;
 
       if (!svg) {
           svg = d3.select(wrapper).append("svg");
-          group =  svg.append("g")
+          group = svg.append("g")
               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
       }
 
       dfd.then(function(res) {
-        queryResult(width, res.data, q, model, state);
+        queryResult(size, res.data, q, model, state);
       });
     };
 
-    var queryResult = function(width, data, q, model, state) {
+    var queryResult = function(size, data, q, model, state) {
       var sourceRef = asArray(state.source)[0],
           targetRef = asArray(state.target)[0]
           aggregateRef = asArray(state.aggregate)[0],
           aggregateRef = aggregateRef ? [aggregateRef] : defaultAggregate(model),
-          height = data.cells.length * unit;
+          size.height = data.cells.length * unit;
 
-      if (babbageCtrl.isEmbedded()) {
-        width = document.documentElement.clientWidth;
-        height = document.documentElement.clientHeight;
-      }
-
-      svg.attr("height", height + margin.top + margin.bottom);
-      svg.attr("width", width + margin.left + margin.right);
+      svg.attr("height", size.height + margin.top + margin.bottom);
+      svg.attr("width", size.width);
 
       var graph = {nodes: [], links: []},
           objs = {};
 
       var sourceScale = ngBabbageGlobals.colorScale.copy(),
-          targetScale = d3.scale.ordinal().range(['#ddd', '#ccc', '#eee', '#bbb']);;
+          targetScale = d3.scale.ordinal().range(['#ddd', '#ccc', '#eee', '#bbb']);
+
       data.cells.forEach(function(cell) {
         var sourceId = cell[sourceRef],
             targetId = cell[targetRef],
@@ -130,7 +125,7 @@ ngBabbage.directive('babbageSankey', ['$rootScope', '$http', '$document', functi
       var sankey = d3.sankey()
          .nodeWidth(unit)
          .nodePadding(unit * 0.6)
-         .size([width, height]);
+         .size([size.width, size.height]);
 
       var path = sankey.link();
 
@@ -139,52 +134,53 @@ ngBabbage.directive('babbageSankey', ['$rootScope', '$http', '$document', functi
         .links(graph.links)
         .layout(32);
 
-    var link = group.append("g").selectAll(".link")
-        .data(graph.links)
-      .enter().append("path")
-        .attr("class", "link")
-        .attr("d", path)
-        .style("stroke-width", function(d) {
-          return Math.max(1, d.dy);
-        })
-        .style("stroke", function(d) {
-          return d.source.color;
-        })
-        .sort(function(a, b) { return b.dy - a.dy; });
+      group.selectAll('g').remove();
 
-    link.append("title")
-        .text(function(d) { return d.source.name + " → " + d.target.name + "\n" + d.number; });
+      var link = group.append("g").selectAll(".link")
+          .data(graph.links)
+        .enter().append("path")
+          .attr("class", "link")
+          .attr("d", path)
+          .style("stroke-width", function(d) {
+            return Math.max(1, d.dy);
+          })
+          .style("stroke", function(d) {
+            return d.source.color;
+          })
+          .sort(function(a, b) { return b.dy - a.dy; });
 
-    var node = group.append("g").selectAll(".node")
-        .data(graph.nodes)
-      .enter().append("g")
-        .attr("class", "node")
-        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+      link.append("title")
+          .text(function(d) { return d.source.name + " → " + d.target.name + "\n" + d.number; });
 
-    node.append("rect")
-        .attr("height", function(d) { return d.dy; })
-        .attr("width", sankey.nodeWidth())
-        .style("fill", function(d) { return d.color; })
-        //.style("stroke", function(d) { return d3.rgb(d.color).darker(1); })
-        .style("stroke", function(d) { return d.color; })
-      .append("title")
-        .text(function(d) { return d.name });
+      var node = group.append("g").selectAll(".node")
+          .data(graph.nodes)
+        .enter().append("g")
+          .attr("class", "node")
+          .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-    node.append("text")
-        .attr("x", -6)
-        .attr("y", function(d) { return d.dy / 2; })
-        .attr("dy", ".35em")
-        .attr("text-anchor", "end")
-        .attr("transform", null)
-        .text(function(d) { return d.name; })
-      .filter(function(d) { return d.x < width / 2; })
-        .attr("x", 6 + sankey.nodeWidth())
-        .attr("text-anchor", "start");
+      node.append("rect")
+          .attr("height", function(d) { return d.dy; })
+          .attr("width", sankey.nodeWidth())
+          .style("fill", function(d) { return d.color; })
+          //.style("stroke", function(d) { return d3.rgb(d.color).darker(1); })
+          .style("stroke", function(d) { return d.color; })
+        .append("title")
+          .text(function(d) { return d.name });
+
+      node.append("text")
+          .attr("x", -6)
+          .attr("y", function(d) { return d.dy / 2; })
+          .attr("dy", ".35em")
+          .attr("text-anchor", "end")
+          .attr("transform", null)
+          .text(function(d) { return d.name; })
+        .filter(function(d) { return d.x < size.width / 2; })
+          .attr("x", 6 + sankey.nodeWidth())
+          .attr("text-anchor", "start");
 
       scope.cutoffWarning = data.total_cell_count > q.pagesize;
       scope.cutoff = q.pagesize;
     };
-
 
     var unsubscribe = babbageCtrl.subscribe(function(event, model, state) {
       query(model, state);

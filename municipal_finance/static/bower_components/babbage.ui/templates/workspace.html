@@ -1,4 +1,4 @@
-<babbage endpoint="{{endpoint}}" cube="{{cube}}" state="state">
+<babbage endpoint="{{endpoint}}" cube="{{cube}}" state="state" update="update(state)">
   <div class="row">
     <div class="col-md-12">
       <div class="pull-right">
@@ -17,6 +17,11 @@
             ng-class="{'active': view == 'barchart'}"
             ng-click="setView('barchart')">
             <i class="fa fa-bar-chart"></i> Bar chart
+          </a>
+          <a class="btn btn-default"
+            ng-class="{'active': view == 'linechart'}"
+            ng-click="setView('linechart')">
+            <i class="fa fa-line-chart"></i> Line chart
           </a>
           <a class="btn btn-default"
             ng-class="{'active': view == 'treemap'}"
@@ -44,7 +49,10 @@
         <babbage-treemap></babbage-treemap>
       </div>
       <div ng-if="view == 'barchart'">
-        <babbage-barchart></babbage-barchart>
+        <babbage-chart chart-type="bar"></babbage-chart>
+      </div>
+      <div ng-if="view == 'linechart'">
+        <babbage-chart chart-type="line"></babbage-chart>
       </div>
       <div ng-if="view == 'sankey'">
         <babbage-sankey></babbage-sankey>
