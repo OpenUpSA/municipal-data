@@ -29,3 +29,11 @@ alter table incexp_labeled rename column description to incexp_desc
 update incexp_labeled set incexp_desc = subquery.description from (select * from codes_desc ) as subquery where subquery.column_name = 'INCEXP_CDE' and subquery.code = incexp_cde
 
 update incexp_labeled set demarcation_desc = sub.name from (select * from demarcation) sub where sub.code = demarcation_code
+
+update incexp_labeled set period_length = 'year' where amount_type_cde != 'ACT'
+update incexp_labeled set period_length = 'month' where amount_type_cde = 'ACT'
+
+update incexp_labeled set financial_period = right(period_code, 2) where period_length = 'month'
+update incexp_labeled set financial_period = left(period_code, 4) where period_length = 'year'
+
+update incexp_labeled set amount_type_desc = sub.name from (select * from amount_type) as sub where sub.code = amount_type_cde

@@ -8,16 +8,22 @@
                     "label": "Code",
                     "type": "string",
                     "description": "Demarcation Code desc"
+                },
+                "desc": {
+                    "column": "demarcation_desc",
+                    "label": "Description",
+                    "type": "string",
+                    "description": "some description"
                 }
             },
             "key_attribute": "code",
             "description": "Demarcation of location or some such",
             "label": "Demarcation"
         },
-        "period": {
+        "period_code": {
             "attributes": {
                 "code": {
-                    "column": "period",
+                    "column": "period_code",
                     "label": "Code",
                     "type": "string",
                     "description": "some description"
@@ -25,12 +31,12 @@
             },
             "key_attribute": "code",
             "description": "Period",
-            "label": "Period"
+            "label": "Period Code"
         },
         "function": {
             "attributes": {
                 "code": {
-                    "column": "function_code",
+                    "column": "function_cde",
                     "type": "string",
                     "description": "some description",
                     "label": "Code"
@@ -56,7 +62,7 @@
                     "description": "some description"
                 },
                 "desc": {
-                    "column": "description",
+                    "column": "incexp_desc",
                     "label": "Item",
                     "type": "string",
                     "description": "some description"
@@ -66,6 +72,65 @@
             "label_attribute": "desc",
             "description": "some description",
             "label": "Inc/Exp item"
+        },
+        "financial_year": {
+            "attributes": {
+                "year": {
+                    "column": "financial_year",
+                    "label": "Year",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "year",
+            "description": "some description",
+            "label": "Financial Year"
+        },
+        "period_length": {
+            "attributes": {
+                "length": {
+                    "column": "period_length",
+                    "label": "Length",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "length",
+            "description": "some description",
+            "label": "Period Length"
+        },
+        "financial_period": {
+            "attributes": {
+                "period": {
+                    "column": "financial_period",
+                    "label": "Period",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "period",
+            "description": "some description",
+            "label": "Financial Period"
+        },
+        "amount_type": {
+            "attributes": {
+                "code": {
+                    "column": "amount_type_cde",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "some description"
+                },
+                "desc": {
+                    "column": "amount_type_desc",
+                    "label": "Description",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "code",
+            "description": "some description",
+            "label_attribute": "desc",
+            "label": "Amount Type"
         }
     },
     "measures": {
