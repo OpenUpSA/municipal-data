@@ -1,23 +1,27 @@
-create table incexp_labeled4 as
-  select demarcation_code,
-         period,
-         function_code,
-         function_desc,
-         incexp_cde,
-         codes_desc.description as description,
-         act_or_bud_amt
-  from (
-    select incexp.demarcation_code as demarcation_code,
-           incexp.period as period,
-           incexp.function_cde as function_code,
-           codes_desc.description as function_desc,
-           incexp.incexp_cde as incexp_cde,
-           incexp.act_or_bud as act_or_bud_amt
-    from incexp
-    inner join codes_desc
-      on (incexp.function_cde = codes_desc.code and
-          codes_desc.column_name = 'FUNCTION_CDE')
-  ) as inc_exp_func_desc
-  inner join codes_desc
-    on (codes_desc.code = inc_exp_func_desc.incexp_cde and
-        codes_desc.column_name = 'INCEXP_CDE')
+-- Table: public.incexp_labeled
+
+-- DROP TABLE public.incexp_labeled;
+
+CREATE TABLE public.incexp_labeled
+(
+  demarcation_code text,
+  period_code text,
+  function_cde text,
+  function_desc text,
+  incexp_cde text,
+  incexp_desc text,
+  act_or_bud_amt bigint,
+  id integer NOT NULL DEFAULT nextval('incexp_labeled_id_seq'::regclass),
+  demarcation_desc text,
+  financial_year text,
+  period_length text,
+  financial_period text,
+  amount_type_cde text,
+  amount_type_desc text,
+  CONSTRAINT incexp_labeled_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.incexp_labeled
+  OWNER TO municipal_finance;
