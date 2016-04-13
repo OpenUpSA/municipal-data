@@ -1,5 +1,5 @@
 {
-    "fact_table": "aged_debtor_labeled",
+    "fact_table": "aged_creditor_labeled",
     "dimensions": {
         "demarcation": {
             "attributes": {
@@ -34,20 +34,7 @@
             "description": "Period",
             "label": "Period Code"
         },
-        "customer_group": {
-            "attributes": {
-                "code": {
-                    "column": "customer_grp_cde",
-                    "label": "Code",
-                    "type": "string",
-                    "description": "some description"
-                }
-            },
-            "key_attribute": "code",
-            "description": "",
-            "label": "Customer Group"
-        },
-        "debtor_item": {
+        "creditor_item": {
             "attributes": {
                 "code": {
                     "column": "age_cde",
@@ -56,7 +43,7 @@
                     "description": "some description"
                 },
                 "desc": {
-                    "column": "aged_debtor_desc",
+                    "column": "aged_creditor_desc",
                     "label": "Item",
                     "type": "string",
                     "description": "some description"
@@ -65,7 +52,7 @@
             "key_attribute": "code",
             "label_attribute": "desc",
             "description": "some description",
-            "label": "Debtor item"
+            "label": "Creditor item"
         },
         "financial_year_end": {
             "attributes": {
@@ -128,14 +115,6 @@
         }
     },
     "measures": {
-        "bad_amount": {
-            "column": "bad_amount",
-            "label": "Actual Bad Debts Written Off to Debtors"
-        },
-        "badi_amount": {
-            "column": "badi_amount",
-            "label": "Impairment - Bad Debts i.t.o. Council Policy"
-        },
         "g1_amount": {
             "column": "g1_amount",
             "label": "Over 1 Year"
