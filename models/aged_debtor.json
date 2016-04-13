@@ -1,0 +1,176 @@
+{
+    "fact_table": "aged_debtor_labeled",
+    "dimensions": {
+        "demarcation": {
+            "attributes": {
+                "code": {
+                    "column": "demarcation_code",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "Demarcation Code desc"
+                },
+                "desc": {
+                    "column": "demarcation_desc",
+                    "label": "Description",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "desc",
+            "description": "Demarcation of location or some such",
+            "label": "Demarcation"
+        },
+        "period_code": {
+            "attributes": {
+                "code": {
+                    "column": "period_code",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "code",
+            "description": "Period",
+            "label": "Period Code"
+        },
+        "customer_group": {
+            "attributes": {
+                "code": {
+                    "column": "customer_grp_cde",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "code",
+            "description": "",
+            "label": "Customer Group"
+        },
+        "debtor_item": {
+            "attributes": {
+                "code": {
+                    "column": "age_cde",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "some description"
+                },
+                "desc": {
+                    "column": "aged_debtor_desc",
+                    "label": "Item",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "desc",
+            "description": "some description",
+            "label": "Debtor item"
+        },
+        "financial_year_end": {
+            "attributes": {
+                "year": {
+                    "column": "financial_year",
+                    "label": "Year End",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "year",
+            "description": "some description",
+            "label": "Financial Year"
+        },
+        "period_length": {
+            "attributes": {
+                "length": {
+                    "column": "period_length",
+                    "label": "Length",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "length",
+            "description": "some description",
+            "label": "Period Length"
+        },
+        "financial_period": {
+            "attributes": {
+                "period": {
+                    "column": "financial_period",
+                    "label": "Period",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "period",
+            "description": "some description",
+            "label": "Financial Period"
+        },
+        "amount_type": {
+            "attributes": {
+                "code": {
+                    "column": "amount_type_cde",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "some description"
+                },
+                "desc": {
+                    "column": "amount_type_desc",
+                    "label": "Description",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "code",
+            "description": "some description",
+            "label_attribute": "desc",
+            "label": "Amount Type"
+        }
+    },
+    "measures": {
+        "bad_amount": {
+            "column": "bad_amount",
+            "label": "Actual Bad Debts Written Off to Debtors"
+        },
+        "badi_amount": {
+            "column": "badi_amount",
+            "label": "Impairment - Bad Debts i.t.o. Council Policy"
+        },
+        "g1_amount": {
+            "column": "g1_amount",
+            "label": "Over 1 Year"
+        },
+        "l1_amount": {
+            "column": "l1_amount",
+            "label": "181 Days - 1 Year"
+        },
+        "l120_amount": {
+            "column": "l120_amount",
+            "label": "91 - 120 Days"
+        },
+        "l150_amount": {
+            "column": "l150_amount",
+            "label": "121 - 150 Days"
+        },
+        "l180_amount": {
+            "column": "l180_amount",
+            "label": "151 - 180 Days"
+        },
+        "l30_amount": {
+            "column": "l30_amount",
+            "label": "30 Days And Below"
+        },
+        "l60_amount": {
+            "column": "l60_amount",
+            "label": "31 - 60 Days"
+        },
+        "l90_amount": {
+            "column": "l90_amount",
+            "label": "61 - 90 Days"
+        },
+        "total_amount": {
+            "column": "total_amount",
+            "label": "Total"
+        }
+    }
+}

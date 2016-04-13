@@ -19,7 +19,6 @@ CREATE TABLE public.aged_debtor_labeled
   l60_amount bigint,
   l90_amount bigint,
   total_amount bigint,
-  function_desc text,
   aged_debtor_desc text,
   id serial,
   demarcation_desc text,

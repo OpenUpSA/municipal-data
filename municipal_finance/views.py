@@ -3,7 +3,14 @@ from decimal import Decimal
 
 from django.http import JsonResponse, Http404
 from django.core.serializers.json import DjangoJSONEncoder
+from django.shortcuts import render
 from cubes import cube_manager
+
+
+def explore(request, cube_name):
+    return render(request, 'explore.html', {
+        'cube_name': cube_name,
+    })
 
 
 def get_cube(name):

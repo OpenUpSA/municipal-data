@@ -1,0 +1,123 @@
+{
+    "fact_table": "bsheet_labeled",
+    "dimensions": {
+        "demarcation": {
+            "attributes": {
+                "code": {
+                    "column": "demarcation_code",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "Demarcation Code desc"
+                },
+                "desc": {
+                    "column": "demarcation_desc",
+                    "label": "Description",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "desc",
+            "description": "Demarcation of location or some such",
+            "label": "Demarcation"
+        },
+        "period_code": {
+            "attributes": {
+                "code": {
+                    "column": "period_code",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "code",
+            "description": "Period",
+            "label": "Period Code"
+        },
+        "bsheet_item": {
+            "attributes": {
+                "code": {
+                    "column": "bsheet_cde",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "some description"
+                },
+                "desc": {
+                    "column": "bsheet_desc",
+                    "label": "Item",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "desc",
+            "description": "some description",
+            "label": "Balance Sheet item"
+        },
+        "financial_year_end": {
+            "attributes": {
+                "year": {
+                    "column": "financial_year",
+                    "label": "Year End",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "year",
+            "description": "some description",
+            "label": "Financial Year"
+        },
+        "period_length": {
+            "attributes": {
+                "length": {
+                    "column": "period_length",
+                    "label": "Length",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "length",
+            "description": "some description",
+            "label": "Period Length"
+        },
+        "financial_period": {
+            "attributes": {
+                "period": {
+                    "column": "financial_period",
+                    "label": "Period",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "period",
+            "description": "some description",
+            "label": "Financial Period"
+        },
+        "amount_type": {
+            "attributes": {
+                "code": {
+                    "column": "amount_type_cde",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "some description"
+                },
+                "desc": {
+                    "column": "amount_type_desc",
+                    "label": "Description",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "code",
+            "description": "some description",
+            "label_attribute": "desc",
+            "label": "Amount Type"
+        }
+    },
+    "measures": {
+        "amount": {
+            "column": "act_or_bud_amt",
+            "label": "Actual or Budget Amount"
+        }
+    }
+}

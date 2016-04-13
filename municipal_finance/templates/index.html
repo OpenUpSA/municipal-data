@@ -4,55 +4,23 @@
 {% block title %}babbage.ui{% endblock %}
 
 {% block head-css %}
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<link rel="shortcut icon" href="http://assets.pudo.org/img/favicon.ico">
-{% stylesheet "babbage" %}
 {% endblock %}
 
 
 {% block content %}
-{% verbatim %}
-<div  ng-app="demo">
-<div ng-view></div>
-
-<script type="text/ng-template" id="demo.html">
-  <div class="container-fluid">
-    <babbage-workspace endpoint="/" cube="{{cube}}">
-    </babbage-workspace>
-  </div>
-</script>
-
-{% endverbatim %}
-
-{% javascript "babbage" %}
-{% verbatim %}
-
+{% javascript "js" %}
 <script>
-  var demo = angular.module('demo', ['ngRoute', 'ngBabbage', 'angular.filter', 'ui.bootstrap', 'ui.select']);
-
-  demo.config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider.
-      when('/', {
-        templateUrl: 'demo.html',
-        controller: 'DemoCtrl',
-        reloadOnSearch: true
-      });
-  }]);
-
-  demo.config(function($logProvider){
-    $logProvider.debugEnabled(true);
+  $.ajax({
+    url: "/api/cubes",
+    context: document.body
+  }).done(function(response) {
+    console.log(response);
+    response.data.forEach(function(item) {
+      $('<a>', {
+        text: item.name,
+        href: 'explore/' + item.name + '/'
+      }).appendTo($('<p>').appendTo('body'));
+    });
   });
-
-  demo.controller('DemoCtrl', function ($scope, $log) {
-
-    $scope.cube = 'incexp';
-
-  });
-
 </script>
-</div>
-{% endverbatim %}
-
 {% endblock %}
