@@ -92,9 +92,22 @@
 
   <pre>GET /cubes/&lt;name&gt;/facts</pre>
 
+  <h3 id="heading-general-cut">Cut (filter)</h3>
+
+  <p>Use the parameter <code>cut</code> with values <code>key:value</code> to restrict values to a subset of the cube. This is called cutting the cube into cells. Separate multiple cuts with <em>vertical bar</em> e.g. <code>cut=item.code:"3010"|municipality.code:"BUF"</code></p>
+  <p>String values must be quoted with double quotes</p>
+
+  <pre>GET /cubes/&lt;name&gt;/facts?cut=item.code:"3010"|municipality.code:"BUF"</pre>
+
+  <h3 id="heading-general-sort">Sort (order)</h3>
+
+  <p>Use the parameter <code>order</code> to sort the returned values. Separate multiple sorting dimensions with <code>,</code> e.g. <code>order=financial_year_end.year:desc|amount_type.code:asc</code></p>
+  <p>The results will be primarily sorted according to the first argument; within that, it is sorted according to the second argument, etc. That means it's equivalent to a stable sort performed in reverse order of the arguments.</p>
+
+
   <h3>List members</h3>
 
-  <p>Used to return the distinct set of values for a given dimension, e.g. all the suppliers mentioned in a procurement dataset. Supports filters (cut), a and a sort (field_name:direction), as well as page and page_size.</p>
+  <p>Used to return the distinct set of values for a given dimension, e.g. all the suppliers mentioned in a procurement dataset. Supports <a href="#heading-general-cut">filters (cut)</a>,  <a href="#heading-general-sort">sort</a>, as well as page and page_size.</p>
 
   <pre>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</pre>
 
