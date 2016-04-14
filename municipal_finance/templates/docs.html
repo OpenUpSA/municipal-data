@@ -4,7 +4,9 @@
 
 {% block title %}Municipal Finance API Documentation{% endblock %}
 
+
 {% block head-css %}
+{% javascript "js" %}
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
@@ -23,21 +25,95 @@
 </style>
 {% endblock %}
 
-{% javascript "js" %}
 
 {% block content %}
 <div class="container">
 
   <h1>Municipal Finance API Documentation</h1>
 
+  <h2>General queries</h2>
+
+  <h3>List Cubes</h3>
+
+  <pre>GET /api/cubes</pre>
+  <pre id="get-cubes"></pre>
+  <script>
+    $.ajax({
+      url: "/api/cubes"
+      }).done(function(response) {
+        $('#get-cubes').append(JSON.stringify(response, null, 2));
+      });
+  </script>
+
+  <h3>Model</h3>
+
+  <p>Returns full metadata for a given cube (i.e. measures, dimensions, aggregates etc.)</p>
+
+  <pre>GET /cubes/&lt;name&gt;/model</pre>
+  <pre>
+{
+  "status": "ok",
+  "model": {
+    "dimensions": {
+      "function": {
+        "description": "Function",
+        "hierarchy": "function",
+        "key_attribute": "code",
+        "key_ref": "function.code",
+        "cardinality": 55,
+        "label_attribute": "desc",
+        "cardinality_class": "medium",
+        "label_ref": "function.desc",
+        "label": "Function",
+        "attributes": {
+          "code": {
+            "column": "function_cde",
+            "ref": "function.code",
+            "type": "string",
+            "description": "some description",
+            "label": "Code"
+          },
+          "desc": {
+            "column": "function_desc",
+            "ref": "function.desc",
+            "type": "string",
+            "description": "some description",
+            "label": "Description"
+          }
+        },
+        "ref": "function"
+      },
+      ...
+  </pre>
+
+  <h3>List Facts</h3>
+
+  <p>Used to return individual entries from the cube in a non-aggregated form. Supports filters (cut), a set of fields to return and a sort (field_name:direction), as well as page and page_size.</p>
+
+  <pre>GET /cubes/&lt;name&gt;/facts</pre>
+
+  <h3>List members</h3>
+
+  <p>Used to return the distinct set of values for a given dimension, e.g. all the suppliers mentioned in a procurement dataset. Supports filters (cut), a and a sort (field_name:direction), as well as page and page_size.</p>
+
+  <pre>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</pre>
+
+  <h3>Aggregate</h3>
+
+  <p>The main endpoint for generating aggregate views of the data. Supports specifying the aggregates to include, the drilldowns to aggregate by, a set of filters (cut), a and a sort (field_name:direction), as well as page and page_size.</p>
+
+  <pre>GET /cubes/&lt;name&gt;/aggregate</pre>
+
+  <h2>Cubes</h2>
+
   {% for cube in cubes %}
-  <h2>{{ cube.name }} - {{ cube.model.label }}</h2>
+  <h3>{{ cube.name }} - {{ cube.model.label }}</h3>
 
   <p>{{ cube.model.description }}</p>
 
   <p><a href="/explore/{{ cube.name }}/">Explore this cube's data</a></p>
 
-  <h3>Dimensions</h3>
+  <h4>Dimensions</h4>
 
   <table>
     <tr><th>Name</th><th>Label</th><th>Attribute name</th><th>Attribute label</th></tr>
