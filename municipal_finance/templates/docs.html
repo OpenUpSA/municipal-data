@@ -13,6 +13,14 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<style>
+  td, th {
+    border: 1px solid black;
+    margin: 5px;
+    padding: 5px;
+  }
+</style>
 {% endblock %}
 
 {% javascript "js" %}
@@ -39,8 +47,14 @@
     {% for attribute_name in dimension.attributes.keys %}
     {% with attribute=dimension.attributes|get:attribute_name %}
     <tr>
-      <td title="{{ dimension.description }}">{{ dimension.ref }}</td>
-      <td title="{{ dimension.description }}">{{ dimension.label }}</td>
+      {% if forloop.first %}
+      <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
+        {{ dimension.ref }}
+      </td>
+      <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
+        {{ dimension.label }}
+      </td>
+      {% endif %}
       <td title="{{ attribute.description }}">{{ attribute.ref }}</td>
       <td title="{{ attribute.description }}">{{ attribute.label }}</td>
     </tr>
