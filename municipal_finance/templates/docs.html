@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% load pipeline %}
+{% load lookup %}
+
+{% block title %}Municipal Finance API Documentation{% endblock %}
+
+{% block head-css %}
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% javascript "js" %}
+
+{% block content %}
+<div class="container">
+
+  <h1>Municipal Finance API Documentation</h1>
+
+  {% for cube in cubes %}
+  <h2>{{ cube.name }} - {{ cube.model.label }}</h2>
+
+  <p>{{ cube.model.description }}</p>
+
+  <p><a href="/explore/{{ cube.name }}/">Explore this cube's data</a></p>
+
+  <h3>Dimensions</h3>
+
+  <table>
+    <tr><th>Name</th><th>Label</th><th>Attribute name</th><th>Attribute label</th></tr>
+    {% for dimension_name in cube.model.dimensions.keys %}
+    {% with dimension=cube.model.dimensions|get:dimension_name %}
+
+    {% for attribute_name in dimension.attributes.keys %}
+    {% with attribute=dimension.attributes|get:attribute_name %}
+    <tr>
+      <td title="{{ dimension.description }}">{{ dimension.ref }}</td>
+      <td title="{{ dimension.description }}">{{ dimension.label }}</td>
+      <td title="{{ attribute.description }}">{{ attribute.ref }}</td>
+      <td title="{{ attribute.description }}">{{ attribute.label }}</td>
+    </tr>
+    {% endwith %}
+    {% endfor %}
+    {% endwith %}
+    {% endfor %}
+  </table>
+  {% endfor %}
+</div>
+{% endblock %}

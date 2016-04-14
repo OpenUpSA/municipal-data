@@ -7,12 +7,6 @@ from django.shortcuts import render
 from cubes import cube_manager
 
 
-def explore(request, cube_name):
-    return render(request, 'explore.html', {
-        'cube_name': cube_name,
-    })
-
-
 def get_cube(name):
     """ Load the named cube from the current registered ``CubeManager``. """
     if not cube_manager.has_cube(name):
@@ -38,7 +32,6 @@ def jsonify(obj, status=200, headers=None):
     return JsonResponse(obj, BabbageJSONEncoder, safe=False)
 
 
-# @blueprint.errorhandler(BabbageException)
 def handle_error(exc):
     return jsonify({
         'status': 'error',
@@ -47,7 +40,25 @@ def handle_error(exc):
     }, status=exc.http_equiv)
 
 
-# @blueprint.route('/')
+def explore(request, cube_name):
+    return render(request, 'explore.html', {
+        'cube_name': cube_name,
+    })
+
+
+def docs(request):
+    cubes = []
+    for cube_name in cube_manager.list_cubes():
+        cubes.append({
+            'model': cube_manager.get_cube(cube_name).model.to_dict(),
+            'name': cube_name,
+        })
+
+    return render(request, 'docs.html', {
+        'cubes': cubes,
+    })
+
+
 def status(request):
     """ General system status report :) """
     from babbage import __version__, __doc__
@@ -59,7 +70,6 @@ def status(request):
     })
 
 
-# @blueprint.route('/cubes')
 def cubes(request):
     """ Get a listing of all publicly available cubes. """
     cubes = []
@@ -73,7 +83,6 @@ def cubes(request):
     })
 
 
-# @blueprint.route('/cubes/<name>/model')
 def model(request, cube_name):
     """ Get the model for the specified cube. """
     cube = get_cube(cube_name)
