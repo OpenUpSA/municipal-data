@@ -4,6 +4,7 @@
 {% block title %}Municipal Finance API{% endblock %}
 
 {% block head-css %}
+{% javascript "js" %}
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
@@ -16,7 +17,6 @@
 
 
 {% block content %}
-{% javascript "js" %}
 <div id="container" class="container">
 
   <h1>Municipal Finance API</h1>
@@ -30,17 +30,16 @@
   <h2>Explore the data</h2>
   <script>
     $.ajax({
-    url: "/api/cubes",
-    context: document.body
-    }).done(function(response) {
-    console.log(response);
-    response.data.forEach(function(item) {
-    $('<a>', {
-      text: item.name,
-      href: 'explore/' + item.name + '/'
-      }).appendTo($('<p>').appendTo('#container'));
-        });
-        });
+      url: "/api/cubes",
+      context: document.body
+      }).done(function(response) {
+        response.data.forEach(function(item) {
+        $('<a>', {
+          text: item.name,
+          href: 'explore/' + item.name + '/'
+        }).appendTo($('<p>').appendTo('#container'));
+      });
+    });
   </script>
 </div>
 {% endblock %}

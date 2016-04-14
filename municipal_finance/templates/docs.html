@@ -4,7 +4,9 @@
 
 {% block title %}Municipal Finance API Documentation{% endblock %}
 
+
 {% block head-css %}
+{% javascript "js" %}
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
@@ -23,21 +25,114 @@
 </style>
 {% endblock %}
 
-{% javascript "js" %}
 
 {% block content %}
 <div class="container">
 
   <h1>Municipal Finance API Documentation</h1>
 
+  <h2>General queries</h2>
+
+  All requests are GET requests. Successful responses have response code 200 and are returned in JSON format.
+
+  <h3>List Cubes</h3>
+
+  <pre>GET /api/cubes</pre>
+  <pre id="get-cubes"></pre>
+  <script>
+    $.ajax({
+      url: "/api/cubes"
+      }).done(function(response) {
+        $('#get-cubes').append(JSON.stringify(response, null, 2));
+      });
+  </script>
+
+  <h3>Model</h3>
+
+  <p>Returns full metadata for a given cube (i.e. measures, dimensions, aggregates etc.)</p>
+
+  <pre>GET /cubes/&lt;name&gt;/model</pre>
+  <pre>
+{
+  "status": "ok",
+  "model": {
+    "dimensions": {
+      "function": {
+        "description": "Function",
+        "hierarchy": "function",
+        "key_attribute": "code",
+        "key_ref": "function.code",
+        "cardinality": 55,
+        "label_attribute": "desc",
+        "cardinality_class": "medium",
+        "label_ref": "function.desc",
+        "label": "Function",
+        "attributes": {
+          "code": {
+            "column": "function_cde",
+            "ref": "function.code",
+            "type": "string",
+            "description": "some description",
+            "label": "Code"
+          },
+          "desc": {
+            "column": "function_desc",
+            "ref": "function.desc",
+            "type": "string",
+            "description": "some description",
+            "label": "Description"
+          }
+        },
+        "ref": "function"
+      },
+      ...
+  </pre>
+
+  <h3 id="heading-general-cut">Cut (filter)</h3>
+
+  <p>Use the parameter <code>cut</code> with values <code>key:value</code> to restrict values to a subset of the cube. This is called cutting the cube into cells. Separate multiple cuts with <em>vertical bar</em> e.g. <code>cut=item.code:"3010"|municipality.code:"BUF"</code></p>
+  <p>String values must be quoted with double quotes</p>
+
+  <pre>GET /cubes/&lt;name&gt;/facts?cut=item.code:"3010"|municipality.code:"BUF"</pre>
+
+  <h3 id="heading-general-sort">Sort (order)</h3>
+
+  <p>Use the parameter <code>order</code> to sort the returned values. Separate multiple sorting dimensions with <em>comma</em> e.g. <code>order=financial_year_end.year:desc,amount_type.code:asc</code></p>
+  <p>The results will be primarily sorted according to the first argument; within that, it is sorted according to the second argument, etc. That means it's equivalent to a stable sort performed in reverse order of the arguments.</p>
+
+  <h3 id="heading-general-paging">Paging</h3>
+
+  <p>Use <code>pagesize=10</code> to show only 10 results at a time.</p>
+  <p>Use <code>page=3</code> to show the third page, that is results 21-30 if there are so many results to the query.</p>
+
+  <h3>List Facts</h3>
+
+  <p>Used to return individual entries from the cube in a non-aggregated form. Supports <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
+
+  <pre>GET /cubes/&lt;name&gt;/facts</pre>
+
+  <h3>List members</h3>
+
+  <p>Used to return the distinct set of values for a given dimension, e.g. all the suppliers mentioned in a procurement dataset. Supports <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
+
+  <pre>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</pre>
+
+  <h3>Aggregate</h3>
+
+  <p>The main endpoint for generating aggregate views of the data. Supports specifying the aggregates to include, the drilldowns to aggregate by, <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
+
+  <pre>GET /cubes/&lt;name&gt;/aggregate</pre>
+
+  <h2>Cubes</h2>
+
   {% for cube in cubes %}
-  <h2>{{ cube.name }} - {{ cube.model.label }}</h2>
+  <h3>{{ cube.name }} - {{ cube.model.label }}</h3>
 
   <p>{{ cube.model.description }}</p>
 
   <p><a href="/explore/{{ cube.name }}/">Explore this cube's data</a></p>
 
-  <h3>Dimensions</h3>
+  <h4>Dimensions</h4>
 
   <table>
     <tr><th>Name</th><th>Label</th><th>Attribute name</th><th>Attribute label</th></tr>
