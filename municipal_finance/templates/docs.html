@@ -33,6 +33,8 @@
 
   <h2>General queries</h2>
 
+  All requests are GET requests. Successful responses have response code 200 and are returned in JSON format.
+
   <h3>List Cubes</h3>
 
   <pre>GET /api/cubes</pre>
@@ -86,12 +88,6 @@
       ...
   </pre>
 
-  <h3>List Facts</h3>
-
-  <p>Used to return individual entries from the cube in a non-aggregated form. Supports filters (cut), a set of fields to return and a sort (field_name:direction), as well as page and page_size.</p>
-
-  <pre>GET /cubes/&lt;name&gt;/facts</pre>
-
   <h3 id="heading-general-cut">Cut (filter)</h3>
 
   <p>Use the parameter <code>cut</code> with values <code>key:value</code> to restrict values to a subset of the cube. This is called cutting the cube into cells. Separate multiple cuts with <em>vertical bar</em> e.g. <code>cut=item.code:"3010"|municipality.code:"BUF"</code></p>
@@ -101,19 +97,29 @@
 
   <h3 id="heading-general-sort">Sort (order)</h3>
 
-  <p>Use the parameter <code>order</code> to sort the returned values. Separate multiple sorting dimensions with <code>,</code> e.g. <code>order=financial_year_end.year:desc|amount_type.code:asc</code></p>
+  <p>Use the parameter <code>order</code> to sort the returned values. Separate multiple sorting dimensions with <em>comma</em> e.g. <code>order=financial_year_end.year:desc,amount_type.code:asc</code></p>
   <p>The results will be primarily sorted according to the first argument; within that, it is sorted according to the second argument, etc. That means it's equivalent to a stable sort performed in reverse order of the arguments.</p>
 
+  <h3 id="heading-general-paging">Paging</h3>
+
+  <p>Use <code>pagesize=10</code> to show only 10 results at a time.</p>
+  <p>Use <code>page=3</code> to show the third page, that is results 21-30 if there are so many results to the query.</p>
+
+  <h3>List Facts</h3>
+
+  <p>Used to return individual entries from the cube in a non-aggregated form. Supports <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
+
+  <pre>GET /cubes/&lt;name&gt;/facts</pre>
 
   <h3>List members</h3>
 
-  <p>Used to return the distinct set of values for a given dimension, e.g. all the suppliers mentioned in a procurement dataset. Supports <a href="#heading-general-cut">filters (cut)</a>,  <a href="#heading-general-sort">sort</a>, as well as page and page_size.</p>
+  <p>Used to return the distinct set of values for a given dimension, e.g. all the suppliers mentioned in a procurement dataset. Supports <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
 
   <pre>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</pre>
 
   <h3>Aggregate</h3>
 
-  <p>The main endpoint for generating aggregate views of the data. Supports specifying the aggregates to include, the drilldowns to aggregate by, a set of filters (cut), a and a sort (field_name:direction), as well as page and page_size.</p>
+  <p>The main endpoint for generating aggregate views of the data. Supports specifying the aggregates to include, the drilldowns to aggregate by, <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
 
   <pre>GET /cubes/&lt;name&gt;/aggregate</pre>
 
