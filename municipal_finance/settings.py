@@ -197,6 +197,7 @@ PIPELINE_JS = {
             'slate/javascripts/app/_lang.js',
             'slate/javascripts/app/_search.js',
             'slate/javascripts/app/_toc.js',
+            'javascript/docs.js',
         ),
         'output_filename': 'docs.js',
     },

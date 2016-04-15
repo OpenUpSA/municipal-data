@@ -33,8 +33,7 @@
   <div id="toc"></div>
 
   <ul class="toc-footer">
-    <li><a href='#'>Sign Up for a Developer Key</a></li>
-    <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+    <li>Built by <a href="https://code4sa.org">Code for South Africa</a></li>
   </ul>
 </div>
 
@@ -42,27 +41,25 @@
   <div class="dark-box"></div>
   <div class="content">
 
-    <h1>General queries</h1>
+    <h1 id="general">General queries</h1>
 
     <p>All requests are GET requests. Successful responses have response code 200 and are returned in JSON format.</p>
 
-    <h2>List Cubes</h2>
+    <h2 id="list-cubes">List Cubes</h2>
 
-    <pre>GET /api/cubes</pre>
-    <pre id="get-cubes"></pre>
-    <script>
-      $.ajax({
-        url: "/api/cubes"
-        }).done(function(response) {
-          $('#get-cubes').append(JSON.stringify(response, null, 2));
-        });
-    </script>
+    <p>
+      <code>GET /api/cubes</code>
+    </p>
 
-    <h2>Model</h2>
+    <pre id="get-cubes">(loading...)</pre>
+
+    <h2 id="model">Model</h2>
 
     <p>Returns full metadata for a given cube (i.e. measures, dimensions, aggregates etc.)</p>
 
-    <pre>GET /cubes/&lt;name&gt;/model</pre>
+    <p>
+      <code>GET /cubes/&lt;name&gt;/model</code>
+    </p>
     <pre>
   {
     "status": "ok",
@@ -99,76 +96,76 @@
         ...
     </pre>
 
-    <h2 id="heading-general-cut">Cut (filter)</h2>
+    <h2 id="cut">Cut (filter)</h2>
 
     <p>Use the parameter <code>cut</code> with values <code>key:value</code> to restrict values to a subset of the cube. This is called cutting the cube into cells. Separate multiple cuts with <em>vertical bar</em> e.g. <code>cut=item.code:"3010"|municipality.code:"BUF"</code></p>
     <p>String values must be quoted with double quotes</p>
 
-    <pre>GET /cubes/&lt;name&gt;/facts?cut=item.code:"3010"|municipality.code:"BUF"</pre>
+    <p><code>GET /cubes/&lt;name&gt;/facts?cut=item.code:"3010"|municipality.code:"BUF"</code></p>
 
-    <h2 id="heading-general-sort">Sort (order)</h2>
+    <h2 id="sort">Sort (order)</h2>
 
     <p>Use the parameter <code>order</code> to sort the returned values. Separate multiple sorting dimensions with <em>comma</em> e.g. <code>order=financial_year_end.year:desc,amount_type.code:asc</code></p>
     <p>The results will be primarily sorted according to the first argument; within that, it is sorted according to the second argument, etc. That means it's equivalent to a stable sort performed in reverse order of the arguments.</p>
 
-    <h2 id="heading-general-paging">Paging</h2>
+    <h2 id="paging">Paging</h2>
 
     <p>Use <code>pagesize=10</code> to show only 10 results at a time.</p>
     <p>Use <code>page=3</code> to show the third page, that is results 21-30 if there are so many results to the query.</p>
 
-    <h2>List Facts</h2>
+    <h2 id="list-facts">List Facts</h2>
 
     <p>Used to return individual entries from the cube in a non-aggregated form. Supports <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
 
-    <pre>GET /cubes/&lt;name&gt;/facts</pre>
+    <p><code>GET /cubes/&lt;name&gt;/facts</code></p>
 
-    <h2>List members</h2>
+    <h2 id="list-members">List members</h2>
 
     <p>Used to return the distinct set of values for a given dimension, e.g. all the suppliers mentioned in a procurement dataset. Supports <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
 
-    <pre>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</pre>
+    <p><code>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</code></p>
 
-    <h2>Aggregate</h2>
+    <h2 id="aggregate">Aggregate</h2>
 
     <p>The main endpoint for generating aggregate views of the data. Supports specifying the aggregates to include, the drilldowns to aggregate by, <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
 
-    <pre>GET /cubes/&lt;name&gt;/aggregate</pre>
+    <p><code>GET /cubes/&lt;name&gt;/aggregate</code></p>
 
-    <h1>Cubes</h1>
+    <h1 id="cubes">Cubes</h1>
 
     {% for cube in cubes %}
-    <h2>{{ cube.name }} - {{ cube.model.label }}</h2>
+      <h2 id="{{ cube.name }}">{{ cube.model.label }} - {{ cube.name }}</h2>
 
-    <p>{{ cube.model.description }}</p>
+      <p>{{ cube.model.description }}</p>
 
-    <p><a href="/explore/{{ cube.name }}/">Explore this cube's data</a></p>
+      <p><a href="/explore/{{ cube.name }}/">Explore this cube's data</a></p>
 
-    <h3>Dimensions</h3>
+      <h3 id="{{ cube.name }}-dimensions">Dimensions</h3>
 
-    <table>
-      <tr><th>Name</th><th>Label</th><th>Attribute name</th><th>Attribute label</th></tr>
-      {% for dimension_name in cube.model.dimensions.keys %}
-      {% with dimension=cube.model.dimensions|get:dimension_name %}
+      <table>
+        <tr><th>Name</th><th>Label</th><th>Attribute name</th><th>Attribute label</th></tr>
+        {% for dimension_name in cube.model.dimensions.keys %}
+        {% with dimension=cube.model.dimensions|get:dimension_name %}
 
-      {% for attribute_name in dimension.attributes.keys %}
-      {% with attribute=dimension.attributes|get:attribute_name %}
-      <tr>
-        {% if forloop.first %}
-        <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
-          {{ dimension.ref }}
-        </td>
-        <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
-          {{ dimension.label }}
-        </td>
-        {% endif %}
-        <td title="{{ attribute.description }}">{{ attribute.ref }}</td>
-        <td title="{{ attribute.description }}">{{ attribute.label }}</td>
-      </tr>
-      {% endwith %}
-      {% endfor %}
-      {% endwith %}
-      {% endfor %}
-    </table>
+        {% for attribute_name in dimension.attributes.keys %}
+        {% with attribute=dimension.attributes|get:attribute_name %}
+        <tr>
+          {% if forloop.first %}
+          <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
+            {{ dimension.ref }}
+          </td>
+          <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
+            {{ dimension.label }}
+          </td>
+          {% endif %}
+          <td title="{{ attribute.description }}">{{ attribute.ref }}</td>
+          <td title="{{ attribute.description }}">{{ attribute.label }}</td>
+        </tr>
+        {% endwith %}
+        {% endfor %}
+        {% endwith %}
+        {% endfor %}
+      </table>
     {% endfor %}
 
   </div>
