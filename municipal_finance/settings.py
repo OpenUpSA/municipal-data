@@ -56,6 +56,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'municipal_finance.middleware.ApiErrorHandler',
 )
 
 ROOT_URLCONF = 'municipal_finance.urls'

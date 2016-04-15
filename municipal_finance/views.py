@@ -1,10 +1,8 @@
-from datetime import date
-from decimal import Decimal
-
-from django.http import JsonResponse, Http404
-from django.core.serializers.json import DjangoJSONEncoder
+from django.http import Http404
 from django.shortcuts import render
 from cubes import cube_manager
+
+from utils import jsonify
 
 
 def get_cube(name):
@@ -12,32 +10,6 @@ def get_cube(name):
     if not cube_manager.has_cube(name):
         raise Http404('No such cube: %s' % name)
     return cube_manager.get_cube(name)
-
-
-class BabbageJSONEncoder(DjangoJSONEncoder):
-    """ Custom JSONificaton to support obj.to_dict protocol. """
-    def default(self, obj):
-        if isinstance(obj, date):
-            return obj.isoformat()
-        if isinstance(obj, Decimal):
-            return float(obj)
-        if isinstance(obj, set):
-            return [o for o in obj]
-        if hasattr(obj, 'to_dict'):
-            return obj.to_dict()
-        return super(BabbageJSONEncoder, self).default(obj)
-
-
-def jsonify(obj, status=200, headers=None):
-    return JsonResponse(obj, BabbageJSONEncoder, safe=False)
-
-
-def handle_error(exc):
-    return jsonify({
-        'status': 'error',
-        'message': exc.message,
-        'context': exc.context
-    }, status=exc.http_equiv)
 
 
 def explore(request, cube_name):
