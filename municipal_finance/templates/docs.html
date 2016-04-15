@@ -1,163 +1,184 @@
 {% extends "layout.html" %}
 {% load pipeline %}
 {% load lookup %}
+{% load staticfiles %}
 
 {% block title %}Municipal Finance API Documentation{% endblock %}
 
-
 {% block head-css %}
-{% javascript "js" %}
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
-<style>
-  td, th {
-    border: 1px solid black;
-    margin: 5px;
-    padding: 5px;
-  }
-</style>
+{% stylesheet "docs" %}
 {% endblock %}
 
+{% block js %}
+{{ block.super }}
+{% javascript "docs" %}
+{% endblock %}
 
 {% block content %}
-<div class="container">
 
-  <h1>Municipal Finance API Documentation</h1>
+<a href="#" id="nav-button">
+  <span>NAV <img src="{% static 'slate/images/navbar.png' %}" /></span>
+</a>
+<div class="tocify-wrapper">
+  <img src="{% static 'images/code4sa-logo-white.png' %}" class="logo" />
+  <div class="lang-selector">
+    <a href="#" data-language-name="shell">shell</a>
+    <a href="#" data-language-name="ruby">ruby</a>
+    <a href="#" data-language-name="python">python</a>
+  </div>
+  <div class="search c4sa">
+    <input type="text" class="search" id="input-search" placeholder="Search">
+  </div>
+  <ul class="search-results"></ul>
+  <div id="toc"></div>
 
-  <h2>General queries</h2>
+  <ul class="toc-footer">
+    <li><a href='#'>Sign Up for a Developer Key</a></li>
+    <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+  </ul>
+</div>
 
-  All requests are GET requests. Successful responses have response code 200 and are returned in JSON format.
+<div class="page-wrapper">
+  <div class="dark-box"></div>
+  <div class="content">
 
-  <h3>List Cubes</h3>
+    <h1>General queries</h1>
 
-  <pre>GET /api/cubes</pre>
-  <pre id="get-cubes"></pre>
-  <script>
-    $.ajax({
-      url: "/api/cubes"
-      }).done(function(response) {
-        $('#get-cubes').append(JSON.stringify(response, null, 2));
-      });
-  </script>
+    <p>All requests are GET requests. Successful responses have response code 200 and are returned in JSON format.</p>
 
-  <h3>Model</h3>
+    <h2>List Cubes</h2>
 
-  <p>Returns full metadata for a given cube (i.e. measures, dimensions, aggregates etc.)</p>
+    <pre>GET /api/cubes</pre>
+    <pre id="get-cubes"></pre>
+    <script>
+      $.ajax({
+        url: "/api/cubes"
+        }).done(function(response) {
+          $('#get-cubes').append(JSON.stringify(response, null, 2));
+        });
+    </script>
 
-  <pre>GET /cubes/&lt;name&gt;/model</pre>
-  <pre>
-{
-  "status": "ok",
-  "model": {
-    "dimensions": {
-      "function": {
-        "description": "Function",
-        "hierarchy": "function",
-        "key_attribute": "code",
-        "key_ref": "function.code",
-        "cardinality": 55,
-        "label_attribute": "desc",
-        "cardinality_class": "medium",
-        "label_ref": "function.desc",
-        "label": "Function",
-        "attributes": {
-          "code": {
-            "column": "function_cde",
-            "ref": "function.code",
-            "type": "string",
-            "description": "some description",
-            "label": "Code"
+    <h2>Model</h2>
+
+    <p>Returns full metadata for a given cube (i.e. measures, dimensions, aggregates etc.)</p>
+
+    <pre>GET /cubes/&lt;name&gt;/model</pre>
+    <pre>
+  {
+    "status": "ok",
+    "model": {
+      "dimensions": {
+        "function": {
+          "description": "Function",
+          "hierarchy": "function",
+          "key_attribute": "code",
+          "key_ref": "function.code",
+          "cardinality": 55,
+          "label_attribute": "desc",
+          "cardinality_class": "medium",
+          "label_ref": "function.desc",
+          "label": "Function",
+          "attributes": {
+            "code": {
+              "column": "function_cde",
+              "ref": "function.code",
+              "type": "string",
+              "description": "some description",
+              "label": "Code"
+            },
+            "desc": {
+              "column": "function_desc",
+              "ref": "function.desc",
+              "type": "string",
+              "description": "some description",
+              "label": "Description"
+            }
           },
-          "desc": {
-            "column": "function_desc",
-            "ref": "function.desc",
-            "type": "string",
-            "description": "some description",
-            "label": "Description"
-          }
+          "ref": "function"
         },
-        "ref": "function"
-      },
-      ...
-  </pre>
+        ...
+    </pre>
 
-  <h3 id="heading-general-cut">Cut (filter)</h3>
+    <h2 id="heading-general-cut">Cut (filter)</h2>
 
-  <p>Use the parameter <code>cut</code> with values <code>key:value</code> to restrict values to a subset of the cube. This is called cutting the cube into cells. Separate multiple cuts with <em>vertical bar</em> e.g. <code>cut=item.code:"3010"|municipality.code:"BUF"</code></p>
-  <p>String values must be quoted with double quotes</p>
+    <p>Use the parameter <code>cut</code> with values <code>key:value</code> to restrict values to a subset of the cube. This is called cutting the cube into cells. Separate multiple cuts with <em>vertical bar</em> e.g. <code>cut=item.code:"3010"|municipality.code:"BUF"</code></p>
+    <p>String values must be quoted with double quotes</p>
 
-  <pre>GET /cubes/&lt;name&gt;/facts?cut=item.code:"3010"|municipality.code:"BUF"</pre>
+    <pre>GET /cubes/&lt;name&gt;/facts?cut=item.code:"3010"|municipality.code:"BUF"</pre>
 
-  <h3 id="heading-general-sort">Sort (order)</h3>
+    <h2 id="heading-general-sort">Sort (order)</h2>
 
-  <p>Use the parameter <code>order</code> to sort the returned values. Separate multiple sorting dimensions with <em>comma</em> e.g. <code>order=financial_year_end.year:desc,amount_type.code:asc</code></p>
-  <p>The results will be primarily sorted according to the first argument; within that, it is sorted according to the second argument, etc. That means it's equivalent to a stable sort performed in reverse order of the arguments.</p>
+    <p>Use the parameter <code>order</code> to sort the returned values. Separate multiple sorting dimensions with <em>comma</em> e.g. <code>order=financial_year_end.year:desc,amount_type.code:asc</code></p>
+    <p>The results will be primarily sorted according to the first argument; within that, it is sorted according to the second argument, etc. That means it's equivalent to a stable sort performed in reverse order of the arguments.</p>
 
-  <h3 id="heading-general-paging">Paging</h3>
+    <h2 id="heading-general-paging">Paging</h2>
 
-  <p>Use <code>pagesize=10</code> to show only 10 results at a time.</p>
-  <p>Use <code>page=3</code> to show the third page, that is results 21-30 if there are so many results to the query.</p>
+    <p>Use <code>pagesize=10</code> to show only 10 results at a time.</p>
+    <p>Use <code>page=3</code> to show the third page, that is results 21-30 if there are so many results to the query.</p>
 
-  <h3>List Facts</h3>
+    <h2>List Facts</h2>
 
-  <p>Used to return individual entries from the cube in a non-aggregated form. Supports <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
+    <p>Used to return individual entries from the cube in a non-aggregated form. Supports <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
 
-  <pre>GET /cubes/&lt;name&gt;/facts</pre>
+    <pre>GET /cubes/&lt;name&gt;/facts</pre>
 
-  <h3>List members</h3>
+    <h2>List members</h2>
 
-  <p>Used to return the distinct set of values for a given dimension, e.g. all the suppliers mentioned in a procurement dataset. Supports <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
+    <p>Used to return the distinct set of values for a given dimension, e.g. all the suppliers mentioned in a procurement dataset. Supports <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
 
-  <pre>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</pre>
+    <pre>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</pre>
 
-  <h3>Aggregate</h3>
+    <h2>Aggregate</h2>
 
-  <p>The main endpoint for generating aggregate views of the data. Supports specifying the aggregates to include, the drilldowns to aggregate by, <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
+    <p>The main endpoint for generating aggregate views of the data. Supports specifying the aggregates to include, the drilldowns to aggregate by, <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
 
-  <pre>GET /cubes/&lt;name&gt;/aggregate</pre>
+    <pre>GET /cubes/&lt;name&gt;/aggregate</pre>
 
-  <h2>Cubes</h2>
+    <h1>Cubes</h1>
 
-  {% for cube in cubes %}
-  <h3>{{ cube.name }} - {{ cube.model.label }}</h3>
+    {% for cube in cubes %}
+    <h2>{{ cube.name }} - {{ cube.model.label }}</h2>
 
-  <p>{{ cube.model.description }}</p>
+    <p>{{ cube.model.description }}</p>
 
-  <p><a href="/explore/{{ cube.name }}/">Explore this cube's data</a></p>
+    <p><a href="/explore/{{ cube.name }}/">Explore this cube's data</a></p>
 
-  <h4>Dimensions</h4>
+    <h3>Dimensions</h3>
 
-  <table>
-    <tr><th>Name</th><th>Label</th><th>Attribute name</th><th>Attribute label</th></tr>
-    {% for dimension_name in cube.model.dimensions.keys %}
-    {% with dimension=cube.model.dimensions|get:dimension_name %}
+    <table>
+      <tr><th>Name</th><th>Label</th><th>Attribute name</th><th>Attribute label</th></tr>
+      {% for dimension_name in cube.model.dimensions.keys %}
+      {% with dimension=cube.model.dimensions|get:dimension_name %}
 
-    {% for attribute_name in dimension.attributes.keys %}
-    {% with attribute=dimension.attributes|get:attribute_name %}
-    <tr>
-      {% if forloop.first %}
-      <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
-        {{ dimension.ref }}
-      </td>
-      <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
-        {{ dimension.label }}
-      </td>
-      {% endif %}
-      <td title="{{ attribute.description }}">{{ attribute.ref }}</td>
-      <td title="{{ attribute.description }}">{{ attribute.label }}</td>
-    </tr>
-    {% endwith %}
+      {% for attribute_name in dimension.attributes.keys %}
+      {% with attribute=dimension.attributes|get:attribute_name %}
+      <tr>
+        {% if forloop.first %}
+        <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
+          {{ dimension.ref }}
+        </td>
+        <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
+          {{ dimension.label }}
+        </td>
+        {% endif %}
+        <td title="{{ attribute.description }}">{{ attribute.ref }}</td>
+        <td title="{{ attribute.description }}">{{ attribute.label }}</td>
+      </tr>
+      {% endwith %}
+      {% endfor %}
+      {% endwith %}
+      {% endfor %}
+    </table>
     {% endfor %}
-    {% endwith %}
-    {% endfor %}
-  </table>
-  {% endfor %}
+
+  </div>
+
+  <div class="dark-box">
+    <div class="lang-selector">
+      <a href="#" data-language-name="shell">shell</a>
+      <a href="#" data-language-name="ruby">ruby</a>
+      <a href="#" data-language-name="python">python</a>
+    </div>
+  </div>
 </div>
 {% endblock %}

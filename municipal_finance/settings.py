@@ -148,6 +148,14 @@ PIPELINE_CSS = {
         ),
         'output_filename': 'babbage.css',
     },
+    'docs': {
+        'source_filenames': (
+            'bower_components/fontawesome/css/font-awesome.css',
+            'slate/stylesheets/screen.css',
+            'stylesheets/docs.scss',
+        ),
+        'output_filename': 'docs.css',
+    },
 }
 PIPELINE_JS = {
     'js': {
@@ -177,6 +185,20 @@ PIPELINE_JS = {
             'bower_components/underscore/underscore-min.js',
         ),
         'output_filename': 'babbage.js',
+    },
+    'docs': {
+        'source_filenames': (
+            'slate/javascripts/lib/_energize.js',
+            'slate/javascripts/lib/_lunr.js',
+            'slate/javascripts/lib/_jquery_ui.js',
+            'slate/javascripts/lib/_jquery.tocify.js',
+            'slate/javascripts/lib/_jquery.highlight.js',
+            'slate/javascripts/lib/_imagesloaded.min.js',
+            'slate/javascripts/app/_lang.js',
+            'slate/javascripts/app/_search.js',
+            'slate/javascripts/app/_toc.js',
+        ),
+        'output_filename': 'docs.js',
     },
 }
 PIPELINE_CSS_COMPRESSOR = None
