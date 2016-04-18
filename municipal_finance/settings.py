@@ -186,17 +186,12 @@ PIPELINE_JS = {
         ),
         'output_filename': 'babbage.js',
     },
-    'docs-jq': {
-        'source_filenames': (
-            'slate/javascripts/lib/_jquery_ui.js',
-            'slate/javascripts/lib/_jquery.tocify.js',
-        ),
-        'output_filename': 'docs-ui.js',
-    },
     'docs': {
         'source_filenames': (
             'slate/javascripts/lib/_energize.js',
             'slate/javascripts/lib/_lunr.js',
+            'slate/javascripts/lib/_jquery_ui.js',
+            'slate/javascripts/lib/_jquery.tocify.js',
             'slate/javascripts/lib/_jquery.highlight.js',
             'slate/javascripts/lib/_imagesloaded.min.js',
             'slate/javascripts/app/_lang.js',
