@@ -1,0 +1,125 @@
+{
+    "fact_table": "cflow_labeled",
+    "label": "Cash Flow",
+    "description": "",
+    "dimensions": {
+        "demarcation": {
+            "attributes": {
+                "code": {
+                    "column": "demarcation_code",
+                    "label": "Demarcation Code",
+                    "type": "string",
+                    "description": ""
+                },
+                "desc": {
+                    "column": "demarcation_label",
+                    "label": "Name",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "desc",
+            "description": "",
+            "label": "Municipality"
+        },
+        "period_code": {
+            "attributes": {
+                "code": {
+                    "column": "period_code",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "code",
+            "description": "Period",
+            "label": "Period Code"
+        },
+        "item": {
+            "attributes": {
+                "code": {
+                    "column": "item_code",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "some description"
+                },
+                "desc": {
+                    "column": "item_label",
+                    "label": "Item",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "desc",
+            "description": "some description",
+            "label": "Item"
+        },
+        "financial_year_end": {
+            "attributes": {
+                "year": {
+                    "column": "financial_year",
+                    "label": "Year End",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "year",
+            "description": "some description",
+            "label": "Financial Year"
+        },
+        "period_length": {
+            "attributes": {
+                "length": {
+                    "column": "period_length",
+                    "label": "Length",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "length",
+            "description": "some description",
+            "label": "Period Length"
+        },
+        "financial_period": {
+            "attributes": {
+                "period": {
+                    "column": "financial_period",
+                    "label": "Period",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "period",
+            "description": "some description",
+            "label": "Financial Period"
+        },
+        "amount_type": {
+            "attributes": {
+                "code": {
+                    "column": "amount_type_code",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "some description"
+                },
+                "desc": {
+                    "column": "amount_type_label",
+                    "label": "Label",
+                    "type": "string",
+                    "description": "some description"
+                }
+            },
+            "key_attribute": "code",
+            "description": "some description",
+            "label_attribute": "desc",
+            "label": "Amount Type"
+        }
+    },
+    "measures": {
+        "amount": {
+            "column": "amount",
+            "label": "Amount"
+        }
+    }
+}
