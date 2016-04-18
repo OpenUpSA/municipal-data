@@ -11,6 +11,7 @@
 
 {% block js %}
 {{ block.super }}
+{% javascript "docs-jq" %}
 {% javascript "docs" %}
 {% endblock %}
 
@@ -69,7 +70,7 @@
     <h2 id="data-formats">How the API works</h2>
 
     <p>The API is a simple <a href="https://en.wikipedia.org/wiki/OLAP">OLAP</a>-style interface.</p>
-    
+
     <p>Each dataset (income and expenditure, balance sheet, etc.) is called a <b>cube</b>. You can think of a cube as a simple (but very big) spreadsheet. Each <b>fact</b> in the cube is a row in our spreadsheet that has <b>dimensions</b> and <b>measures</b>. Dimensions are labels such as <i>municipality</i>, <i>year</i>, <i>month</i> or <i>function code</i>. Measures are monetary amounts in South African Rands.</p>
 
     <aside class="info">
