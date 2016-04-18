@@ -7,13 +7,13 @@
             "attributes": {
                 "code": {
                     "column": "demarcation_code",
-                    "label": "Code",
+                    "label": "Demarcation Code",
                     "type": "string",
                     "description": "Demarcation Code desc"
                 },
                 "desc": {
-                    "column": "demarcation_desc",
-                    "label": "Description",
+                    "column": "demarcation_label",
+                    "label": "Name",
                     "type": "string",
                     "description": "some description"
                 }
@@ -21,7 +21,7 @@
             "key_attribute": "code",
             "label_attribute": "desc",
             "description": "Demarcation of location or some such",
-            "label": "Demarcation"
+            "label": "Municipality"
         },
         "period_code": {
             "attributes": {
@@ -36,16 +36,16 @@
             "description": "Period",
             "label": "Period Code"
         },
-        "creditor_item": {
+        "item": {
             "attributes": {
                 "code": {
-                    "column": "age_cde",
+                    "column": "item_code",
                     "label": "Code",
                     "type": "string",
                     "description": "some description"
                 },
                 "desc": {
-                    "column": "aged_creditor_desc",
+                    "column": "item_label",
                     "label": "Item",
                     "type": "string",
                     "description": "some description"
@@ -98,14 +98,14 @@
         "amount_type": {
             "attributes": {
                 "code": {
-                    "column": "amount_type_cde",
+                    "column": "amount_type_code",
                     "label": "Code",
                     "type": "string",
                     "description": "some description"
                 },
                 "desc": {
-                    "column": "amount_type_desc",
-                    "label": "Description",
+                    "column": "amount_type_label",
+                    "label": "Label",
                     "type": "string",
                     "description": "some description"
                 }

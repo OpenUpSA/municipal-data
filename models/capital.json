@@ -7,13 +7,13 @@
             "attributes": {
                 "code": {
                     "column": "demarcation_code",
-                    "label": "Code",
+                    "label": "Demarcation Code",
                     "type": "string",
                     "description": "Demarcation Code desc"
                 },
                 "desc": {
-                    "column": "demarcation_desc",
-                    "label": "Description",
+                    "column": "demarcation_label",
+                    "label": "Name",
                     "type": "string",
                     "description": "some description"
                 }
@@ -21,7 +21,7 @@
             "key_attribute": "code",
             "label_attribute": "desc",
             "description": "Demarcation of location or some such",
-            "label": "Demarcation"
+            "label": "Municipality"
         },
         "period_code": {
             "attributes": {
@@ -39,14 +39,14 @@
         "function": {
             "attributes": {
                 "code": {
-                    "column": "function_cde",
+                    "column": "function_code",
                     "type": "string",
                     "description": "some description",
                     "label": "Code"
                 },
                 "desc": {
-                    "column": "function_desc",
-                    "label": "Description",
+                    "column": "function_label",
+                    "label": "Label",
                     "type": "string",
                     "description": "some description"
                 }
@@ -56,16 +56,16 @@
             "description": "Function",
             "label": "Function"
         },
-        "capital_item": {
+        "item": {
             "attributes": {
                 "code": {
-                    "column": "capital_cde",
+                    "column": "item_code",
                     "label": "Code",
                     "type": "string",
                     "description": "some description"
                 },
                 "desc": {
-                    "column": "capital_desc",
+                    "column": "item_label",
                     "label": "Item",
                     "type": "string",
                     "description": "some description"
@@ -118,14 +118,14 @@
         "amount_type": {
             "attributes": {
                 "code": {
-                    "column": "amount_type_cde",
+                    "column": "amount_type_code",
                     "label": "Code",
                     "type": "string",
                     "description": "some description"
                 },
                 "desc": {
-                    "column": "amount_type_desc",
-                    "label": "Description",
+                    "column": "amount_type_label",
+                    "label": "Label",
                     "type": "string",
                     "description": "some description"
                 }
@@ -139,19 +139,19 @@
     "measures": {
         "new_assets": {
             "column": "new_assets",
-            "label": "New Assets Budgeted or Actual"
+            "label": "New Assets"
         },
         "renewal_of_existing": {
             "column": "renewal_of_existing",
-            "label": "Renewal of Existing Budgeted or Actual"
+            "label": "Renewal of Existing"
         },
         "repairs_maintenance": {
             "column": "repairs_maintenance",
-            "label": "Repairs and Maintenance Budgeted or Actual"
+            "label": "Repairs and Maintenance"
         },
         "asset_register_summary": {
             "column": "asset_register_summary",
-            "label": "Asset Register Summary Budgeted or Actual"
+            "label": "Asset Register Summary"
         }
     }
 }
