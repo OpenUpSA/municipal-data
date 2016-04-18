@@ -1,58 +1,146 @@
 {% extends "layout.html" %}
 {% load pipeline %}
 {% load lookup %}
+{% load staticfiles %}
 
 {% block title %}Municipal Finance API Documentation{% endblock %}
 
-
 {% block head-css %}
-{% javascript "js" %}
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
-<style>
-  td, th {
-    border: 1px solid black;
-    margin: 5px;
-    padding: 5px;
-  }
-</style>
+{% stylesheet "docs" %}
 {% endblock %}
 
+{% block js %}
+{{ block.super }}
+{% javascript "docs" %}
+{% endblock %}
 
 {% block content %}
-<div class="container">
 
-  <h1>Municipal Finance API Documentation</h1>
+<a href="#" id="nav-button">
+  <span>NAV <img src="{% static 'slate/images/navbar.png' %}" /></span>
+</a>
+<div class="tocify-wrapper">
+  <img src="{% static 'images/code4sa-logo-white.png' %}" class="logo" />
+  <div class="lang-selector">
+    <a href="#" data-language-name="json">JSON</a>
+  </div>
+  <div class="search c4sa">
+    <input type="text" class="search" id="input-search" placeholder="Search">
+  </div>
+  <ul class="search-results"></ul>
+  <div id="toc"></div>
 
-  <h2>General queries</h2>
+  <ul class="toc-footer">
+    <li>Built by <a href="https://code4sa.org">Code for South Africa</a></li>
+  </ul>
+</div>
 
-  All requests are GET requests. Successful responses have response code 200 and are returned in JSON format.
+<div class="page-wrapper">
+  <div class="dark-box"></div>
+  <div class="content">
+    <h1 id="intro">Introduction</h1>
 
-  <h3>List Cubes</h3>
+    <p>The Municipal Money API publishes the financial information of South African municipalities in a machine-friendly format.</p>
 
-  <pre>GET /api/cubes</pre>
-  <pre id="get-cubes"></pre>
-  <script>
-    $.ajax({
-      url: "/api/cubes"
-      }).done(function(response) {
-        $('#get-cubes').append(JSON.stringify(response, null, 2));
-      });
-  </script>
+    <p>All municipalities must regularly submit financial information to National Treasury who, in partnership with
+    <a href="http://code4sa.org">Code for South Africa</a>, make it available to the public through this API.</p>
 
-  <h3>Model</h3>
+    <h2 id="what-data">What data is available</h2>
 
-  <p>Returns full metadata for a given cube (i.e. measures, dimensions, aggregates etc.)</p>
+    <p>The financial data is very similar to that made available on <a href="http://mfma.treasury.gov.za/Media_Releases/s71/Pages/default.aspx">National Treasury’s website in PDF reports and Excel spreadsheets</a> and generally called Section 71 information. It is described further below and includes:</p>
 
-  <pre>GET /cubes/&lt;name&gt;/model</pre>
-  <pre>
+    <ul>
+      {% for cube in cubes %}
+        <li><a href="#{{ cube.name }}">{{ cube.model.label }}</a></li>
+      {% endfor %}
+    </ul>
+
+    <p>The data is available for all metro, district and local municipalities.</p>
+
+    <aside class="info">
+      Please note that the data is only as complete and trustworthy as that provided by the municipality.
+    </aside>
+
+    <h1 id="general">Using the API</h1>
+
+    <p>The API endpoint is <code>http://data.municipalmoney.org.za/api</code></p>
+    <p>The API only supports <code>GET</code> requests. Successful responses have response code 200 and are in JSON format.</p>
+
+    <h2 id="data-formats">How the API works</h2>
+
+    <p>The API is a simple <a href="https://en.wikipedia.org/wiki/OLAP">OLAP</a>-style interface.</p>
+    
+    <p>Each dataset (income and expenditure, balance sheet, etc.) is called a <b>cube</b>. You can think of a cube as a simple (but very big) spreadsheet. Each <b>fact</b> in the cube is a row in our spreadsheet that has <b>dimensions</b> and <b>measures</b>. Dimensions are labels such as <i>municipality</i>, <i>year</i>, <i>month</i> or <i>function code</i>. Measures are monetary amounts in South African Rands.</p>
+
+    <aside class="info">
+      Monetary values are integer South African Rands and don't include cents.
+    </aside>
+
+    <p>You can use the API to <a href="#list-cubes">list available cubes</a> and get <a href="#model">metadata</a> about a cube that describes its attributes and values. You can also use the API to <a href="#cut">filter or cut</a>, <a href="#sort">sort</a> and <a href="#aggregate">aggregate</a> facts in a cube.</p>
+
+    <p>The API is very similar to a pivot table in a spreadsheet. It lets you slice, dice and aggregate values to make sense of a vast amount of information.</p>
+
+    <h2 id="pagination">Pagination</h2>
+
+    <p>Some API responses are paginated. By default, a maximum of 10 000 items are returned per page. The response includes information on the page size,
+    current page, and total number of results to assist with pagination.</p>
+
+    <pre>
+{
+  "page": 2,
+  "page_size": 100,
+  "total_member_count": 152,
+  ...
+}
+    </pre>
+
+    <p>You can paginate through results using these query parameters:</p>
+
+    <table>
+      <tr>
+        <th>Parameter</th>
+        <th>Description</th>
+      </tr><tr>
+        <td>pagesize</td>
+        <td>Maximum number of items per page. Default: 10000</td>
+      </tr><tr>
+        <td>page</td>
+        <td>The page number to fetch, starting with page 1. Default: 1</td>
+      </tr>
+      </tr>
+    </table>
+
+    <h2 id="cut">Cut (filter)</h2>
+
+    <p>Use the parameter <code>cut</code> with values <code>key:value</code> to restrict values to a subset of the cube. This is called cutting the cube into cells. Separate multiple cuts with <em>vertical bar</em> e.g. <code>cut=item.code:"3010"|municipality.code:"BUF"</code></p>
+    <p>String values must be quoted with double quotes</p>
+
+    <p><code>GET /cubes/&lt;name&gt;/facts?cut=item.code:"3010"|municipality.code:"BUF"</code></p>
+
+    <h2 id="sort">Sorting</h2>
+
+    <p>Use the parameter <code>order</code> to sort the returned values. Separate multiple sorting dimensions with <em>comma</em> e.g. <code>order=financial_year_end.year:desc,amount_type.code:asc</code></p>
+    <p>The results will be primarily sorted according to the first argument; within that, it is sorted according to the second argument, etc. That means it's equivalent to a stable sort performed in reverse order of the arguments.</p>
+
+    <h1 id="cubes">Cubes</h1>
+
+    <h2 id="list-cubes">List Cubes</h2>
+
+    <p>
+      <code>GET /cubes</code>
+    </p>
+
+    <pre id="get-cubes">(loading...)</pre>
+
+    <p>Lists all available cubes (datasets).</p>
+
+    <h2 id="model">Get a Cube's Model</h2>
+
+    <p>
+      <code>GET /cubes/&lt;name&gt;/model</code>
+    </p>
+    <pre>
+GET /cubes/incexp/model
 {
   "status": "ok",
   "model": {
@@ -86,78 +174,162 @@
         "ref": "function"
       },
       ...
-  </pre>
+    </pre>
 
-  <h3 id="heading-general-cut">Cut (filter)</h3>
+    <p>Returns a description of the cube. The metadata includes attributes, measures, dimensions, aggregates etc.</p>
 
-  <p>Use the parameter <code>cut</code> with values <code>key:value</code> to restrict values to a subset of the cube. This is called cutting the cube into cells. Separate multiple cuts with <em>vertical bar</em> e.g. <code>cut=item.code:"3010"|municipality.code:"BUF"</code></p>
-  <p>String values must be quoted with double quotes</p>
 
-  <pre>GET /cubes/&lt;name&gt;/facts?cut=item.code:"3010"|municipality.code:"BUF"</pre>
+    <h2 id="list-facts">List Facts</h2>
 
-  <h3 id="heading-general-sort">Sort (order)</h3>
+    <p><code>GET /cubes/&lt;name&gt;/facts</code></p>
 
-  <p>Use the parameter <code>order</code> to sort the returned values. Separate multiple sorting dimensions with <em>comma</em> e.g. <code>order=financial_year_end.year:desc,amount_type.code:asc</code></p>
-  <p>The results will be primarily sorted according to the first argument; within that, it is sorted according to the second argument, etc. That means it's equivalent to a stable sort performed in reverse order of the arguments.</p>
+    <pre>
+GET /cubes/incexp/facts?pagesize=2
+{
+  "total_fact_count": 463171,
+  "status": "ok",
+  "page": 1,
+  "fields": [
+    "period_length.length",
+    "financial_year_end.year",
+    "financial_period.period",
+    "function.desc",
+    "function.code",
+    "amount_type.desc",
+    "amount_type.code",
+    "incexp.desc",
+    "incexp.code",
+    "demarcation.desc",
+    "demarcation.code",
+    "period_code.code",
+    "amount"
+  ],
+  "cell": [],
+  "page_size": 2,
+  "order": [],
+  "data": [
+    {
+      "period_code.code": "2015M01",
+      "financial_year_end.year": 2015,
+      "amount_type.code": "ACT",
+      "amount": null,
+      "incexp.code": "1500",
+      "amount_type.desc": "Actual",
+      "demarcation.desc": "Buffalo City Metropolitan Municipality",
+      "function.code": "191",
+      "incexp.desc": "Agency Services",
+      "period_length.length": "month",
+      "demarcation.code": "BUF",
+      "function.desc": "Budget & Treasury Office/Not Required",
+      "financial_period.period": "01"
+    },
+    {
+      "period_code.code": "2015M01",
+      "financial_year_end.year": 2015,
+      "amount_type.code": "ACT",
+      "amount": null,
+      "incexp.code": "1500",
+      "amount_type.desc": "Actual",
+      "demarcation.desc": "City of Cape Town Metropolitan Municipality",
+      "function.code": "191",
+      "incexp.desc": "Agency Services",
+      "period_length.length": "month",
+      "demarcation.code": "CPT",
+      "function.desc": "Budget & Treasury Office/Not Required",
+      "financial_period.period": "01"
+    }
+  ]
+}
+    </pre>
 
-  <h3 id="heading-general-paging">Paging</h3>
+    <p>Get individual entries from a cube in a non-aggregated form. Supports <a href="#cut">filters (cut)</a>, <a href="#sort">sorting</a>, as well as <a href="#pagination">pagination</a>.</p>
 
-  <p>Use <code>pagesize=10</code> to show only 10 results at a time.</p>
-  <p>Use <code>page=3</code> to show the third page, that is results 21-30 if there are so many results to the query.</p>
 
-  <h3>List Facts</h3>
+    <h2 id="list-members">List Members</h2>
 
-  <p>Used to return individual entries from the cube in a non-aggregated form. Supports <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
+    <p><code>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</code></p>
 
-  <pre>GET /cubes/&lt;name&gt;/facts</pre>
+    <pre>
+GET /cubes/incexp/members/demarcation?pagesize=3
+{
+  "status": "ok",
+  "page": 1,
+  "fields": [
+    "demarcation.desc",
+    "demarcation.code"
+  ],
+  "cell": [],
+  "page_size": 10000,
+  "total_member_count": 3,
+  "data": [
+    {
+      "demarcation.code": "BUF",
+      "demarcation.desc": "Buffalo City Metropolitan Municipality"
+    },
+    {
+      "demarcation.code": "CPT",
+      "demarcation.desc": "City of Cape Town Metropolitan Municipality"
+    },
+    {
+      "demarcation.code": "JHB",
+      "demarcation.desc": "City of Johannesburg Metropolitan Municipality"
+    },
+  ],
+  "order": []
+}
+    </pre>
 
-  <h3>List members</h3>
+    <p>Get distinct values for a given member (dimension) of a cube. For example, all the suppliers in a procurement dataset. Supports <a href="#cut">filters (cut)</a>, <a href="#sort">sorting</a>, as well as <a href="#pagination">pagination</a>.</p>
 
-  <p>Used to return the distinct set of values for a given dimension, e.g. all the suppliers mentioned in a procurement dataset. Supports <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
+    <h2 id="aggregate">Aggregating Facts</h2>
 
-  <pre>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</pre>
+    <p>Returns aggregate views of the facts in a cube. Supports specifying the aggregates to include, the drilldowns to aggregate by, <a href="#cut">filters (cut)</a>, <a href="#sort">sorting</a>, as well as <a href="#pagination">pagination</a>.</p>
 
-  <h3>Aggregate</h3>
+    <p><code>GET /cubes/&lt;name&gt;/aggregate</code></p>
 
-  <p>The main endpoint for generating aggregate views of the data. Supports specifying the aggregates to include, the drilldowns to aggregate by, <a href="#heading-general-cut">filters (cut)</a>, <a href="#heading-general-sort">sorting</a>, as well as <a href="#heading-general-paging">page and page_size</a>.</p>
+    <h1 id="datasets">Available Datasets (Cubes)</h1>
 
-  <pre>GET /cubes/&lt;name&gt;/aggregate</pre>
+    {% for cube in cubes %}
+      <h2 id="{{ cube.name }}">{{ cube.model.label }} - {{ cube.name }}</h2>
 
-  <h2>Cubes</h2>
+      <p>{{ cube.model.description }}</p>
 
-  {% for cube in cubes %}
-  <h3>{{ cube.name }} - {{ cube.model.label }}</h3>
+      <p><a href="/explore/{{ cube.name }}/">Explore this cube's data</a></p>
 
-  <p>{{ cube.model.description }}</p>
+      <h3 id="{{ cube.name }}-dimensions">Dimensions</h3>
 
-  <p><a href="/explore/{{ cube.name }}/">Explore this cube's data</a></p>
+      <table>
+        <tr><th>Name</th><th>Label</th><th>Attribute name</th><th>Attribute label</th></tr>
+        {% for dimension_name in cube.model.dimensions.keys %}
+        {% with dimension=cube.model.dimensions|get:dimension_name %}
 
-  <h4>Dimensions</h4>
-
-  <table>
-    <tr><th>Name</th><th>Label</th><th>Attribute name</th><th>Attribute label</th></tr>
-    {% for dimension_name in cube.model.dimensions.keys %}
-    {% with dimension=cube.model.dimensions|get:dimension_name %}
-
-    {% for attribute_name in dimension.attributes.keys %}
-    {% with attribute=dimension.attributes|get:attribute_name %}
-    <tr>
-      {% if forloop.first %}
-      <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
-        {{ dimension.ref }}
-      </td>
-      <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
-        {{ dimension.label }}
-      </td>
-      {% endif %}
-      <td title="{{ attribute.description }}">{{ attribute.ref }}</td>
-      <td title="{{ attribute.description }}">{{ attribute.label }}</td>
-    </tr>
-    {% endwith %}
+        {% for attribute_name in dimension.attributes.keys %}
+        {% with attribute=dimension.attributes|get:attribute_name %}
+        <tr>
+          {% if forloop.first %}
+          <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
+            {{ dimension.ref }}
+          </td>
+          <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
+            {{ dimension.label }}
+          </td>
+          {% endif %}
+          <td title="{{ attribute.description }}">{{ attribute.ref }}</td>
+          <td title="{{ attribute.description }}">{{ attribute.label }}</td>
+        </tr>
+        {% endwith %}
+        {% endfor %}
+        {% endwith %}
+        {% endfor %}
+      </table>
     {% endfor %}
-    {% endwith %}
-    {% endfor %}
-  </table>
-  {% endfor %}
+
+  </div>
+
+  <div class="dark-box">
+    <div class="lang-selector">
+      <a href="#" data-language-name="json">JSON</a>
+    </div>
+  </div>
 </div>
 {% endblock %}
