@@ -6,16 +6,16 @@ CREATE TABLE public.bsheet_labeled
 (
   demarcation_code text,
   period_code text,
-  bsheet_cde text,
-  act_or_bud_amt bigint,
-  bsheet_desc text,
-  id serial,
-  demarcation_desc text,
-  financial_year text,
+  item_code text,
+  amount bigint,
+  item_label text,
+  id integer NOT NULL DEFAULT nextval('bsheet_labeled_id_seq'::regclass),
+  demarcation_label text,
+  financial_year integer,
   period_length text,
   financial_period text,
-  amount_type_cde text,
-  amount_type_desc text,
+  amount_type_code text,
+  amount_type_label text,
   CONSTRAINT bsheet_labeled_pkey PRIMARY KEY (id)
 )
 WITH (

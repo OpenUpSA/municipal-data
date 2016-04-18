@@ -6,18 +6,19 @@ CREATE TABLE public.incexp_labeled
 (
   demarcation_code text,
   period_code text,
-  function_cde text,
-  function_desc text,
-  incexp_cde text,
-  incexp_desc text,
-  act_or_bud_amt bigint,
+  function_code text,
+  function_label text,
+  item_code text,
+  item_label text,
+  amount bigint,
   id integer NOT NULL DEFAULT nextval('incexp_labeled_id_seq'::regclass),
-  demarcation_desc text,
-  financial_year text,
+  demarcation_label text,
+  financial_year integer,
   period_length text,
   financial_period text,
-  amount_type_cde text,
-  amount_type_desc text,
+  amount_type_code text,
+  amount_type_label text,
+  function_category text,
   CONSTRAINT incexp_labeled_pkey PRIMARY KEY (id)
 )
 WITH (
