@@ -6,7 +6,7 @@ CREATE TABLE public.aged_debtor_labeled
 (
   demarcation_code text,
   period_code text,
-  customer_grp_cde text,
+  customer_group_code text,
   item_code text,
   bad_amount bigint,
   badi_amount bigint,
