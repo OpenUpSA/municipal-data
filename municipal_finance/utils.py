@@ -37,8 +37,6 @@ class EchoBuffer(object):
 
 
 def csvify(name_base, fields, rows):
-    # hack to output header since response won't add itself as a buffer
-    # til we return.
     header_row = {}
     for field in fields:
         header_row[field] = field
