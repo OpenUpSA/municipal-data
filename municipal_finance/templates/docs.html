@@ -69,7 +69,7 @@
     <h2 id="data-formats">How the API works</h2>
 
     <p>The API is a simple <a href="https://en.wikipedia.org/wiki/OLAP">OLAP</a>-style interface.</p>
-    
+
     <p>Each dataset (income and expenditure, balance sheet, etc.) is called a <b>cube</b>. You can think of a cube as a simple (but very big) spreadsheet. Each <b>fact</b> in the cube is a row in our spreadsheet that has <b>dimensions</b> and <b>measures</b>. Dimensions are labels such as <i>municipality</i>, <i>year</i>, <i>month</i> or <i>function code</i>. Measures are monetary amounts in South African Rands.</p>
 
     <aside class="info">
@@ -180,8 +180,6 @@ GET /cubes/incexp/model
 
     <h2 id="list-facts">List Facts</h2>
 
-    <p><code>GET /cubes/&lt;name&gt;/facts</code></p>
-
     <pre>
 GET /cubes/incexp/facts?pagesize=2
 {
@@ -240,28 +238,43 @@ GET /cubes/incexp/facts?pagesize=2
   ]
 }
     </pre>
+    <p><code>GET /cubes/&lt;name&gt;/facts</code></p>
 
-    <p>Get individual entries from a cube in a non-aggregated form. Supports <a href="#cut">filters (cut)</a>, <a href="#sort">sorting</a>, as well as <a href="#pagination">pagination</a>.</p>
+    <p>Get individual entries from a cube in a non-aggregated form.</p>
 
-
-    <h2 id="list-members">List Members</h2>
-
-    <p><code>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</code></p>
-
-    <h3>URL Parameters</h3>
+    <h3>Query String Parameters</h3>
 
     <table>
       <tr>
         <th>Parameter</th>
+        <th>Default</th>
         <th>Description</th>
       </tr><tr>
-        <td>name</td>
-        <td>Name of the cube</td>
+        <td>cut</td>
+        <td></td>
+        <td>See <a href="#cut">filters (cut)</a></td>
       </tr><tr>
-        <td>member_name</td>
-        <td>Name of of a dimension or attribute</td>
+        <td>page</td>
+        <td></td>
+        <td>See <a href="#pagination">pagination</a></td>
+      </tr><tr>
+        <td>pagesize</td>
+        <td></td>
+        <td>See <a href="#pagination">pagination</a></td>
+      </tr><tr>
+        <td>order</td>
+        <td></td>
+        <td>See <a href="#sort">sorting</a></td>
+      </tr><tr>
+        <td>format</td>
+        <td><code>json</code></td>
+        <td>Determines whether output is in <code>json</code> or <code>csv</code> format. </td>
       </tr>
     </table>
+
+
+
+    <h2 id="list-members">List Members</h2>
 
     <pre>
 GET /cubes/incexp/members/demarcation?pagesize=3
@@ -293,13 +306,126 @@ GET /cubes/incexp/members/demarcation?pagesize=3
 }
     </pre>
 
-    <p>Get distinct values for a given member (dimension) of a cube. For example, all the suppliers in a procurement dataset. Supports <a href="#cut">filters (cut)</a>, <a href="#sort">sorting</a>, as well as <a href="#pagination">pagination</a>.</p>
+    <p><code>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</code></p>
+
+    <p>Get distinct values for a given member (dimension) of a cube. For example, all the suppliers in a procurement dataset.</p>
+
+    <h3>URL Parameters</h3>
+
+    <table>
+      <tr>
+        <th>Parameter</th>
+        <th>Description</th>
+      </tr><tr>
+        <td>name</td>
+        <td>Name of the cube</td>
+      </tr><tr>
+        <td>member_name</td>
+        <td>Name of of a dimension or attribute</td>
+      </tr>
+    </table>
+
+    <h3>Query String Parameters</h3>
+
+    <table>
+      <tr>
+        <th>Parameter</th>
+        <th>Default</th>
+        <th>Description</th>
+      </tr><tr>
+        <td>cut</td>
+        <td></td>
+        <td>See <a href="#cut">filters (cut)</a></td>
+      </tr><tr>
+        <td>page</td>
+        <td></td>
+        <td>See <a href="#pagination">pagination</a></td>
+      </tr><tr>
+        <td>pagesize</td>
+        <td></td>
+        <td>See <a href="#pagination">pagination</a></td>
+      </tr><tr>
+        <td>order</td>
+        <td></td>
+        <td>See <a href="#sort">sorting</a></td>
+      </tr><tr>
+        <td>format</td>
+        <td>json</td>
+        <td>Determines whether output is in <code>json</code> or <code>csv</code> format. </td>
+      </tr>
+    </table>
 
     <h2 id="aggregate">Aggregating Facts</h2>
 
-    <p>Returns aggregate views of the facts in a cube. Supports specifying the aggregates to include, the drilldowns to aggregate by, <a href="#cut">filters (cut)</a>, <a href="#sort">sorting</a>, as well as <a href="#pagination">pagination</a>.</p>
+    <pre>
+GET /api/cubes/incexp/aggregate
+
+{
+  "cell": [],
+  "status": "ok",
+  "page_size": 10000,
+  "attributes": [],
+  "total_cell_count": 1,
+  "cells": [
+    {
+      "amount.sum": 17427626659163,
+      "_count": 463171
+    }
+  ],
+  "order": [],
+  "aggregates": [
+    "_count",
+    "amount.sum"
+  ],
+  "page": 1,
+  "summary": {
+    "amount.sum": 17427626659163,
+    "_count": 463171
+  }
+}
+    </pre>
 
     <p><code>GET /cubes/&lt;name&gt;/aggregate</code></p>
+
+    <p>Returns aggregate views of the facts in a cube.</p>
+
+    <h3>Query String Parameters</h3>
+
+    <table>
+      <tr>
+        <th>Parameter</th>
+        <th>Default</th>
+        <th>Description</th>
+      </tr><tr>
+        <td>cut</td>
+        <td></td>
+        <td>See <a href="#cut">filters (cut)</a></td>
+      </tr><tr>
+        <td>aggregates</td>
+        <td><code>_count</code> and the sum of each measure.</td>
+        <td>Aggregates to include. Cube Measure refs followed by <code>.sum</code> are currently supported, separated by <code>|</code></td>
+      </tr><tr>
+        <td>drilldown</td>
+        <td>none</td>
+        <td>Drilldowns to aggregate by. Dimension attribute refs separated by <code>|</code></td>
+      </tr><tr>
+        <td>page</td>
+        <td></td>
+        <td>See <a href="#pagination">pagination</a></td>
+      </tr><tr>
+        <td>pagesize</td>
+        <td></td>
+        <td>See <a href="#pagination">pagination</a></td>
+      </tr><tr>
+        <td>order</td>
+        <td></td>
+        <td>See <a href="#sort">sorting</a></td>
+      </tr><tr>
+        <td>format</td>
+        <td><code>json</code></td>
+        <td>Determines whether output is in <code>json</code> or <code>csv</code> format. </td>
+      </tr>
+    </table>
 
     <h1 id="datasets">Available Datasets (Cubes)</h1>
 
