@@ -9,18 +9,18 @@
                     "column": "demarcation_code",
                     "label": "Demarcation Code",
                     "type": "string",
-                    "description": ""
+                    "description": "Municipality code assigned by the Municipal Demarcation Board"
                 },
-                "desc": {
+                "label": {
                     "column": "demarcation_label",
                     "label": "Name",
                     "type": "string",
-                    "description": "some description"
+                    "description": ""
                 }
             },
             "key_attribute": "code",
-            "label_attribute": "desc",
-            "description": "",
+            "label_attribute": "label",
+            "description": "Municipality demarcation details",
             "label": "Municipality"
         },
         "period_code": {
@@ -29,11 +29,11 @@
                     "column": "period_code",
                     "label": "Code",
                     "type": "string",
-                    "description": "some description"
+                    "description": ""
                 }
             },
             "key_attribute": "code",
-            "description": "Period",
+            "description": "A code used by the treasury to identify the financial period and whether the data is budget, actual and audited.",
             "label": "Period Code"
         },
         "item": {
@@ -42,18 +42,18 @@
                     "column": "item_code",
                     "label": "Code",
                     "type": "string",
-                    "description": "some description"
+                    "description": "Code used by treasury"
                 },
-                "desc": {
+                "label": {
                     "column": "item_label",
-                    "label": "Item",
+                    "label": "Label",
                     "type": "string",
-                    "description": "some description"
+                    "description": ""
                 }
             },
             "key_attribute": "code",
-            "label_attribute": "desc",
-            "description": "some description",
+            "label_attribute": "label",
+            "description": "",
             "label": "Item"
         },
         "financial_year_end": {
@@ -62,11 +62,11 @@
                     "column": "financial_year",
                     "label": "Year End",
                     "type": "string",
-                    "description": "some description"
+                    "description": ""
                 }
             },
             "key_attribute": "year",
-            "description": "some description",
+            "description": "The calendar year falling at the end of the financial year",
             "label": "Financial Year"
         },
         "period_length": {
@@ -75,11 +75,11 @@
                     "column": "period_length",
                     "label": "Length",
                     "type": "string",
-                    "description": "some description"
+                    "description": ""
                 }
             },
             "key_attribute": "length",
-            "description": "some description",
+            "description": "The length of the period this figure corresponds to",
             "label": "Period Length"
         },
         "financial_period": {
@@ -88,11 +88,11 @@
                     "column": "financial_period",
                     "label": "Period",
                     "type": "string",
-                    "description": "some description"
+                    "description": ""
                 }
             },
             "key_attribute": "period",
-            "description": "some description",
+            "description": "The period this figure corresponds to, e.g. the month number of a month within the financial year or the calendar year end of a financial year.",
             "label": "Financial Period"
         },
         "amount_type": {
@@ -101,18 +101,18 @@
                     "column": "amount_type_code",
                     "label": "Code",
                     "type": "string",
-                    "description": "some description"
+                    "description": ""
                 },
-                "desc": {
+                "label": {
                     "column": "amount_type_label",
                     "label": "Label",
                     "type": "string",
-                    "description": "some description"
+                    "description": ""
                 }
             },
             "key_attribute": "code",
-            "description": "some description",
-            "label_attribute": "desc",
+            "description": "Whether this figure is actual, budgeted, audited etc.",
+            "label_attribute": "label",
             "label": "Amount Type"
         }
     },
