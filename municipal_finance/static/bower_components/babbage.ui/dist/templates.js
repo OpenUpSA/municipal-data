@@ -22,7 +22,7 @@ angular.module("babbage-templates/facts.html", []).run(["$templateCache", functi
 
 angular.module("babbage-templates/pager.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("babbage-templates/pager.html",
-    "<ul ng-show=\"showPager\" class=\"pagination pagination-sm\"><li ng-class=\"{'disabled': !hasPrev}\"><a class=\"ng-link\" ng-click=\"setPage(current - 1)\">&laquo;</a></li><li ng-repeat=\"page in pages\" ng-class=\"{'active': page.current}\"><a class=\"ng-link\" ng-click=\"setPage(page.page)\">{{page.page + 1}}</a></li><li ng-class=\"{'disabled': !hasNext}\"><a class=\"ng-link\" ng-click=\"setPage(current + 1)\">&raquo;</a></li></ul>");
+    "<ul ng-show=\"showPager\" class=\"pagination pagination-sm\"><li ng-class=\"{'disabled': !hasPrev}\"><a class=\"ng-link\" ng-click=\"setPage(current - 1)\">&laquo;</a></li><li ng-repeat=\"page in pages\" ng-class=\"{'active': page.current}\"><a class=\"ng-link\" ng-click=\"setPage(page.page)\">{{page.page}}</a></li><li ng-class=\"{'disabled': !hasNext}\"><a class=\"ng-link\" ng-click=\"setPage(current + 1)\">&raquo;</a></li></ul>");
 }]);
 
 angular.module("babbage-templates/panel.html", []).run(["$templateCache", function($templateCache) {
