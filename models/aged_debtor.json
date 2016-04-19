@@ -7,21 +7,21 @@
             "attributes": {
                 "code": {
                     "column": "demarcation_code",
-                    "label": "Code",
+                    "label": "Demarcation Code",
                     "type": "string",
-                    "description": "Demarcation Code desc"
+                    "description": "Municipality code assigned by the Municipal Demarcation Board"
                 },
-                "desc": {
-                    "column": "demarcation_desc",
-                    "label": "Description",
+                "label": {
+                    "column": "demarcation_label",
+                    "label": "Name",
                     "type": "string",
-                    "description": "some description"
+                    "description": ""
                 }
             },
             "key_attribute": "code",
-            "label_attribute": "desc",
-            "description": "Demarcation of location or some such",
-            "label": "Demarcation"
+            "label_attribute": "label",
+            "description": "Municipality demarcation details",
+            "label": "Municipality"
         },
         "period_code": {
             "attributes": {
@@ -29,45 +29,45 @@
                     "column": "period_code",
                     "label": "Code",
                     "type": "string",
-                    "description": "some description"
+                    "description": ""
                 }
             },
             "key_attribute": "code",
-            "description": "Period",
+            "description": "A code used by the treasury to identify the financial period and whether the data is budget, actual, and audited.",
             "label": "Period Code"
         },
         "customer_group": {
             "attributes": {
                 "code": {
-                    "column": "customer_grp_cde",
+                    "column": "customer_group_code",
                     "label": "Code",
                     "type": "string",
-                    "description": "some description"
+                    "description": "Code used by treasury"
                 }
             },
             "key_attribute": "code",
-            "description": "",
+            "description": "Debtor organs of state",
             "label": "Customer Group"
         },
-        "debtor_item": {
+        "item": {
             "attributes": {
                 "code": {
-                    "column": "age_cde",
+                    "column": "item_code",
                     "label": "Code",
                     "type": "string",
-                    "description": "some description"
+                    "description": "Code used by treasury"
                 },
-                "desc": {
-                    "column": "aged_debtor_desc",
-                    "label": "Item",
+                "label": {
+                    "column": "item_label",
+                    "label": "Label",
                     "type": "string",
-                    "description": "some description"
+                    "description": ""
                 }
             },
             "key_attribute": "code",
-            "label_attribute": "desc",
-            "description": "some description",
-            "label": "Debtor item"
+            "label_attribute": "label",
+            "description": "",
+            "label": "Item"
         },
         "financial_year_end": {
             "attributes": {
@@ -75,11 +75,11 @@
                     "column": "financial_year",
                     "label": "Year End",
                     "type": "string",
-                    "description": "some description"
+                    "description": ""
                 }
             },
             "key_attribute": "year",
-            "description": "some description",
+            "description": "The calendar year falling at the end of the financial year",
             "label": "Financial Year"
         },
         "period_length": {
@@ -88,11 +88,11 @@
                     "column": "period_length",
                     "label": "Length",
                     "type": "string",
-                    "description": "some description"
+                    "description": ""
                 }
             },
             "key_attribute": "length",
-            "description": "some description",
+            "description": "The length of the period this figure corresponds to",
             "label": "Period Length"
         },
         "financial_period": {
@@ -101,31 +101,31 @@
                     "column": "financial_period",
                     "label": "Period",
                     "type": "string",
-                    "description": "some description"
+                    "description": ""
                 }
             },
             "key_attribute": "period",
-            "description": "some description",
+            "description": "The period this figure corresponds to, e.g. the month number of a month within the financial year, or the calendar year end of a financial year.",
             "label": "Financial Period"
         },
         "amount_type": {
             "attributes": {
                 "code": {
-                    "column": "amount_type_cde",
+                    "column": "amount_type_code",
                     "label": "Code",
                     "type": "string",
-                    "description": "some description"
+                    "description": ""
                 },
-                "desc": {
-                    "column": "amount_type_desc",
-                    "label": "Description",
+                "label": {
+                    "column": "amount_type_label",
+                    "label": "Label",
                     "type": "string",
-                    "description": "some description"
+                    "description": ""
                 }
             },
             "key_attribute": "code",
-            "description": "some description",
-            "label_attribute": "desc",
+            "description": "Whether this figure is actual, budgeted, audited etc.",
+            "label_attribute": "label",
             "label": "Amount Type"
         }
     },

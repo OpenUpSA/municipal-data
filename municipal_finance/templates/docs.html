@@ -107,7 +107,6 @@
         <td>page</td>
         <td>The page number to fetch, starting with page 1. Default: 1</td>
       </tr>
-      </tr>
     </table>
 
     <h2 id="cut">Cut (filter)</h2>
@@ -249,6 +248,21 @@ GET /cubes/incexp/facts?pagesize=2
 
     <p><code>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</code></p>
 
+    <h3>URL Parameters</h3>
+
+    <table>
+      <tr>
+        <th>Parameter</th>
+        <th>Description</th>
+      </tr><tr>
+        <td>name</td>
+        <td>Name of the cube</td>
+      </tr><tr>
+        <td>member_name</td>
+        <td>Name of of a dimension or attribute</td>
+      </tr>
+    </table>
+
     <pre>
 GET /cubes/incexp/members/demarcation?pagesize=3
 {
@@ -299,7 +313,7 @@ GET /cubes/incexp/members/demarcation?pagesize=3
       <h3 id="{{ cube.name }}-dimensions">Dimensions</h3>
 
       <table>
-        <tr><th>Name</th><th>Label</th><th>Attribute name</th><th>Attribute label</th></tr>
+        <tr><th>Dimension label</th><th>Dimension name</th><th>Attribute label</th><th>Attribute name</th></tr>
         {% for dimension_name in cube.model.dimensions.keys %}
         {% with dimension=cube.model.dimensions|get:dimension_name %}
 
@@ -308,14 +322,14 @@ GET /cubes/incexp/members/demarcation?pagesize=3
         <tr>
           {% if forloop.first %}
           <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
-            {{ dimension.ref }}
-          </td>
-          <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
             {{ dimension.label }}
           </td>
+          <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
+            {{ dimension.ref }}
+          </td>
           {% endif %}
-          <td title="{{ attribute.description }}">{{ attribute.ref }}</td>
           <td title="{{ attribute.description }}">{{ attribute.label }}</td>
+          <td title="{{ attribute.description }}">{{ attribute.ref }}</td>
         </tr>
         {% endwith %}
         {% endfor %}
