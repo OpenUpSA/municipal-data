@@ -1,0 +1,125 @@
+{
+    "fact_table": "cflow_labeled",
+    "label": "Cash Flow",
+    "description": "",
+    "dimensions": {
+        "demarcation": {
+            "attributes": {
+                "code": {
+                    "column": "demarcation_code",
+                    "label": "Demarcation Code",
+                    "type": "string",
+                    "description": "Municipality code assigned by the Municipal Demarcation Board"
+                },
+                "label": {
+                    "column": "demarcation_label",
+                    "label": "Name",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "label",
+            "description": "Municipality demarcation details",
+            "label": "Municipality"
+        },
+        "period_code": {
+            "attributes": {
+                "code": {
+                    "column": "period_code",
+                    "label": "Code",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "code",
+            "description": "A code used by the treasury to identify the financial period and whether the data is budget, actual and audited.",
+            "label": "Period Code"
+        },
+        "item": {
+            "attributes": {
+                "code": {
+                    "column": "item_code",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "Code used by treasury"
+                },
+                "label": {
+                    "column": "item_label",
+                    "label": "Label",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "label",
+            "description": "",
+            "label": "Item"
+        },
+        "financial_year_end": {
+            "attributes": {
+                "year": {
+                    "column": "financial_year",
+                    "label": "Year End",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "year",
+            "description": "The calendar year falling at the end of the financial year",
+            "label": "Financial Year"
+        },
+        "period_length": {
+            "attributes": {
+                "length": {
+                    "column": "period_length",
+                    "label": "Length",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "length",
+            "description": "The length of the period this figure corresponds to",
+            "label": "Period Length"
+        },
+        "financial_period": {
+            "attributes": {
+                "period": {
+                    "column": "financial_period",
+                    "label": "Period",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "period",
+            "description": "The period this figure corresponds to, e.g. the month number of a month within the financial year or the calendar year end of a financial year.",
+            "label": "Financial Period"
+        },
+        "amount_type": {
+            "attributes": {
+                "code": {
+                    "column": "amount_type_code",
+                    "label": "Code",
+                    "type": "string",
+                    "description": ""
+                },
+                "label": {
+                    "column": "amount_type_label",
+                    "label": "Label",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "code",
+            "description": "Whether this figure is actual, budgeted, audited etc.",
+            "label_attribute": "label",
+            "label": "Amount Type"
+        }
+    },
+    "measures": {
+        "amount": {
+            "column": "amount",
+            "label": "Amount"
+        }
+    }
+}
