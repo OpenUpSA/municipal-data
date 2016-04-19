@@ -36,7 +36,7 @@ class EchoBuffer(object):
         return value
 
 
-def csvify(cube_name, fields, rows):
+def csvify(name_base, fields, rows):
     # hack to output header since response won't add itself as a buffer
     # til we return.
     header_row = {}
@@ -47,6 +47,6 @@ def csvify(cube_name, fields, rows):
     writer = csv.DictWriter(EchoBuffer(), fields)
     stream = (writer.writerow(row) for row in rows)
     response = StreamingHttpResponse(stream, content_type='text/csv')
-    filename = cube_name + '_' + datetime.now().isoformat() + '.csv'
+    filename = name_base + '_' + datetime.now().isoformat() + '.csv'
     response['Content-Disposition'] = 'attachment; filename="' + filename + '"'
     return response

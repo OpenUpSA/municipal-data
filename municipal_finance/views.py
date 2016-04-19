@@ -75,8 +75,14 @@ def aggregate(request, cube_name):
                             order=request.GET.get('order'),
                             page=request.GET.get('page'),
                             page_size=request.GET.get('pagesize'))
-    result['status'] = 'ok'
-    return jsonify(result)
+
+    format = request.GET.get('format', 'json')
+    if format == 'json':
+        result['status'] = 'ok'
+        return jsonify(result)
+    elif format == 'csv':
+        fields = result['attributes'] + result['aggregates']
+        return csvify(cube_name + '_aggregate', fields, result['cells'])
 
 
 def facts(request, cube_name):
@@ -94,7 +100,7 @@ def facts(request, cube_name):
         result['status'] = 'ok'
         return jsonify(result)
     elif format == 'csv':
-        return csvify(cube_name, result['fields'], result['data'])
+        return csvify(cube_name + '_facts', result['fields'], result['data'])
 
 
 def members(request, cube_name, member_ref):
@@ -106,5 +112,10 @@ def members(request, cube_name, member_ref):
                           order=request.GET.get('order'),
                           page=request.GET.get('page'),
                           page_size=request.GET.get('pagesize'))
-    result['status'] = 'ok'
-    return jsonify(result)
+
+    format = request.GET.get('format', 'json')
+    if format == 'json':
+        result['status'] = 'ok'
+        return jsonify(result)
+    elif format == 'csv':
+        return csvify(cube_name + '_members', result['fields'], result['data'])
