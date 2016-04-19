@@ -1,9 +1,12 @@
+from django.http import StreamingHttpResponse
 from django.http import Http404
 from django.shortcuts import render
 from cubes import cube_manager
 
-from utils import jsonify
 
+from utils import jsonify
+import csv
+import datetime
 
 def get_cube(name):
     """ Load the named cube from the current registered ``CubeManager``. """
@@ -79,6 +82,16 @@ def aggregate(request, cube_name):
     return jsonify(result)
 
 
+class EchoBuffer(object):
+    """An object that implements just the write method of the file-like
+    interface.
+    https://docs.djangoproject.com/en/1.9/howto/outputting-csv/#streaming-large-csv-files
+    """
+    def write(self, value):
+        """Write the value by returning it, instead of storing in a buffer."""
+        return value
+
+
 def facts(request, cube_name):
     """ List the fact table entries in the current cube. This is the full
     materialized dataset. """
@@ -88,8 +101,19 @@ def facts(request, cube_name):
                         order=request.GET.get('order'),
                         page=request.GET.get('page'),
                         page_size=request.GET.get('pagesize'))
-    result['status'] = 'ok'
-    return jsonify(result)
+
+    # hack to output header since response won't add itself as a buffer
+    # til we return.
+    header_row = {}
+    for field in result['fields']:
+        header_row[field] = field
+    rows = [header_row] + result['data']
+    writer = csv.DictWriter(EchoBuffer(), result['fields'])
+    stream = (writer.writerow(row) for row in rows)
+    response = StreamingHttpResponse(stream, content_type='text/csv')
+    filename = cube_name + '_' + datetime.datetime.now().isoformat() + '.csv'
+    response['Content-Disposition'] = 'attachment; filename="' + filename + '"'
+    return response
 
 
 def members(request, cube_name, member_ref):
