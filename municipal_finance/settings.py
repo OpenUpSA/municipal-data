@@ -69,6 +69,7 @@ WAZIMAP['levels'] = {
 }
 WAZIMAP['profile_builder'] = 'municipal_finance.profiles.get_profile'
 WAZIMAP['ga_tracking_id'] = GOOGLE_ANALYTICS_ID
+WAZIMAP['twitter'] = ''
 WAZIMAP['geodata'] = 'municipal_finance.geo.GeoData'
 
 MIDDLEWARE_CLASSES = (
