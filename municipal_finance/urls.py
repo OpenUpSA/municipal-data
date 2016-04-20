@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from django.views.generic import TemplateView
 from django.views.decorators.cache import cache_page
+from wazimap.views import GeographyDetailView
 
 from . import views
 
@@ -10,7 +11,7 @@ from . import views
 API_CACHE_SECS = 12 * 60 * 60
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='index.html')),
+    url(r'^$', TemplateView.as_view(template_name='index.html'), name='homepage'),
     url(r'^docs$', views.docs),
     url(r'^explore/(?P<cube_name>[\w_]+)/$', views.explore),
     url(r'^api/status$', views.status),
@@ -19,4 +20,14 @@ urlpatterns = [
     url(r'^api/cubes/(?P<cube_name>[\w_]+)/aggregate$', cache_page(API_CACHE_SECS)(views.aggregate)),
     url(r'^api/cubes/(?P<cube_name>[\w_]+)/facts$', cache_page(API_CACHE_SECS)(views.facts)),
     url(r'^api/cubes/(?P<cube_name>[\w_]+)/members/(?P<member_ref>[\w_.]+)$', cache_page(API_CACHE_SECS)(views.members)),
+
+    # TODO: don't do this for data.*
+    # e.g. /profiles/province-GT/
+    url(
+        regex   = '^profiles/(?P<geography_id>\w+-\w+)(-(?P<slug>[\w-]+))?/$',
+        view    = cache_page(API_CACHE_SECS)(GeographyDetailView.as_view()),
+        kwargs  = {},
+        name    = 'geography_detail',
+    ),
 ]
+
