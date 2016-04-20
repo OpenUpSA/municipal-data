@@ -63,6 +63,7 @@ WAZIMAP['levels'] = {
 }
 WAZIMAP['profile_builder'] = 'municipal_finance.profiles.get_profile'
 WAZIMAP['ga_tracking_id'] = GOOGLE_ANALYTICS_ID
+WAZIMAP['twitter'] = ''
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
