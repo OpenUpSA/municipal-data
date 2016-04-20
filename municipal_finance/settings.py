@@ -33,6 +33,11 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = (
+    'municipal_finance',
+    'wazimap_mapit',
+    'wazimap.apps.WazimapConfig',
+    'census',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,10 +48,6 @@ INSTALLED_APPS = (
     'pipeline',
     'django_extensions',
     'corsheaders',
-
-    'municipal_finance',
-    'wazimap.apps.WazimapConfig',
-    'census',
 )
 
 # Wazimap
@@ -61,6 +62,9 @@ WAZIMAP['levels'] = {
         'children': ['province'],
     },
     'province': {
+        'children': ['municipality', 'district'],
+    },
+    'district': {
         'children': ['municipality'],
     },
     'municipality': {
