@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.views.generic import TemplateView
 from django.views.decorators.cache import cache_page
-from wazimap.views import GeographyDetailView
+from wazimap.views import GeographyDetailView, PlaceSearchJson
 
 from . import views
 
@@ -28,6 +28,12 @@ urlpatterns = [
         view    = cache_page(API_CACHE_SECS)(GeographyDetailView.as_view()),
         kwargs  = {},
         name    = 'geography_detail',
+    ),
+    url(
+        regex   = '^place-search/json/$',
+        view    = PlaceSearchJson.as_view(),
+        kwargs  = {},
+        name    = 'place_search_json',
     ),
 ]
 
