@@ -13,7 +13,7 @@ CREATE TABLE public.bsheet_labeled
   demarcation_label text,
   financial_year integer,
   period_length text,
-  financial_period text,
+  financial_period integer,
   amount_type_code text,
   amount_type_label text,
   CONSTRAINT bsheet_labeled_pkey PRIMARY KEY (id)
