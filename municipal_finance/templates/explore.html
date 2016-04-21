@@ -1,17 +1,27 @@
 {% extends "layout.html" %}
 {% load pipeline %}
 
-{% block title %}babbage.ui{% endblock %}
+{% block title %}Municipal Finance Data Explorer - {{ cube_model.label }}{% endblock %}
 
 {% block head-css %}
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<link rel="shortcut icon" href="http://assets.pudo.org/img/favicon.ico">
 {% stylesheet "babbage" %}
 {% endblock %}
 
 
 {% block content %}
+<h1>Municipal Finance Data Explorer - {{ cube_model.label }}</h1>
+
+  <!-- cube tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    {% for cube in cubes %}
+    <li role="presentation" class="{% if cube.name == cube_name %}active{% endif %}">
+      <a href="../{{ cube.name }}" aria-controls="{{ cube.name }}" role="tab" data-toggle="tab">
+        {{ cube.model.label }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+
 {% verbatim %}
 <div  ng-app="demo" id="demo-ng-app-container">
 <div ng-view></div>
