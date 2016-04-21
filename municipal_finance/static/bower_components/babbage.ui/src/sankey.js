@@ -25,6 +25,7 @@ ngBabbage.directive('babbageSankey', ['$rootScope', '$http', '$document', functi
       var q = babbageCtrl.getQuery();
       q.aggregates = aggregate;
       if (!source || !target) {
+        babbageCtrl.broadcastInvalidateQuery();
         return;
       }
       q.drilldown = [source, target];
@@ -48,8 +49,8 @@ ngBabbage.directive('babbageSankey', ['$rootScope', '$http', '$document', functi
 
       scope.queryLoaded = true;
       scope.cutoffWarning = false;
-      var dfd = $http.get(babbageCtrl.getApiUrl('aggregate'),
-                          babbageCtrl.queryParams(q));
+      var endpoint = babbageCtrl.getApiUrl('aggregate');
+      var dfd = $http.get(endpoint, babbageCtrl.queryParams(q));
 
       var wrapper = element.querySelectorAll('.sankey-babbage')[0],
           size = babbageCtrl.size(wrapper, function(w) { return w * 0.6; });
@@ -64,6 +65,9 @@ ngBabbage.directive('babbageSankey', ['$rootScope', '$http', '$document', functi
 
       dfd.then(function(res) {
         queryResult(size, res.data, q, model, state);
+        babbageCtrl.broadcastQuery(endpoint,
+                                   angular.copy(q),
+                                   res.data.total_cell_count);
       });
     };
 

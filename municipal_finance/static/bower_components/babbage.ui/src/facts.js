@@ -34,10 +34,14 @@ ngBabbage.directive('babbageFacts', ['$rootScope', '$http', '$q', function($root
       var aq = angular.copy(q);
       aq.drilldown = aq.fields = [];
       aq.page = 0;
-      var dfd = $http.get(babbageCtrl.getApiUrl('facts'),
-                          babbageCtrl.queryParams(q));
+      var endpoint = babbageCtrl.getApiUrl('facts');
+      var dfd = $http.get(endpoint, babbageCtrl.queryParams(q));
+
       dfd.then(function(res) {
         queryResult(res.data, q, state, model);
+        babbageCtrl.broadcastQuery(endpoint,
+                                   angular.copy(q),
+                                   res.data.total_fact_count);
       });
     };
 
