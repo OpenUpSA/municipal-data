@@ -13,8 +13,17 @@ def get_cube(name):
 
 
 def explore(request, cube_name):
+    cubes = []
+    for name in cube_manager.list_cubes():
+        cubes.append({
+            'model': cube_manager.get_cube(name).model.to_dict(),
+            'name': name,
+        })
+    cube = cube_manager.get_cube(cube_name).model.to_dict()
     return render(request, 'explore.html', {
         'cube_name': cube_name,
+        'cube_model': cube,
+        'cubes': cubes,
     })
 
 
