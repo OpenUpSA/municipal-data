@@ -4,6 +4,8 @@ from cubes import cube_manager
 
 from utils import jsonify, csvify
 
+from django.views.decorators.clickjacking import xframe_options_exempt
+
 
 def get_cube(name):
     """ Load the named cube from the current registered ``CubeManager``. """
@@ -27,6 +29,7 @@ def explore(request, cube_name):
     })
 
 
+@xframe_options_exempt
 def docs(request):
     cubes = []
     for cube_name in cube_manager.list_cubes():
@@ -40,6 +43,12 @@ def docs(request):
     })
 
 
+@xframe_options_exempt
+def embed(request, cube_name):
+    return render(request, 'embed.html')
+
+
+@xframe_options_exempt
 def status(request):
     """ General system status report :) """
     from babbage import __version__, __doc__
@@ -51,6 +60,7 @@ def status(request):
     })
 
 
+@xframe_options_exempt
 def cubes(request):
     """ Get a listing of all publicly available cubes. """
     cubes = []
@@ -64,6 +74,7 @@ def cubes(request):
     })
 
 
+@xframe_options_exempt
 def model(request, cube_name):
     """ Get the model for the specified cube. """
     cube = get_cube(cube_name)
@@ -75,6 +86,7 @@ def model(request, cube_name):
     })
 
 
+@xframe_options_exempt
 def aggregate(request, cube_name):
     """ Perform an aggregation request. """
     cube = get_cube(cube_name)
@@ -94,6 +106,7 @@ def aggregate(request, cube_name):
         return csvify(cube_name + '_aggregate', fields, result['cells'])
 
 
+@xframe_options_exempt
 def facts(request, cube_name):
     """ List the fact table entries in the current cube. This is the full
     materialized dataset. """
@@ -112,6 +125,7 @@ def facts(request, cube_name):
         return csvify(cube_name + '_facts', result['fields'], result['data'])
 
 
+@xframe_options_exempt
 def members(request, cube_name, member_ref):
     """ List the members of a specific dimension or the distinct values of a
     given attribute. """

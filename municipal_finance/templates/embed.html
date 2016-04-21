@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% load pipeline %}
+{% block head-css %}
+{% stylesheet "babbage" %}
+{% endblock %}
+
+{% block content %}
+{% verbatim %}
+<body>
+  <div ng-app="babbageEmbed">
+    <div ng-controller='Ctrl'>
+      <babbage endpoint="{{endpoint}}" cube="{{cube}}" state="state">
+        <div ng-if="view == 'crosstab'">
+          <babbage-crosstab></babbage-crosstab>
+        </div>
+        <div ng-if="view == 'facts'">
+          <babbage-facts></babbage-facts>
+        </div>
+        <div ng-if="view == 'treemap'">
+          <babbage-treemap></babbage-treemap>
+        </div>
+        <div ng-if="view == 'barchart'">
+          <babbage-barchart></babbage-barchart>
+        </div>
+        <div ng-if="view == 'sankey'">
+          <babbage-sankey></babbage-sankey>
+        </div>
+      </babbage>
+      {% endverbatim %}
+
+      {% javascript "babbage" %}
+      <script>
+        var babbageEmbed = angular.module('babbageEmbed', ['ngBabbage', 'angular.filter', 'ui.bootstrap', 'ui.select']);
+
+        babbageEmbed.controller('Ctrl', function ($scope, $location) {
+        $scope.state = $location.search();
+        $scope.cube = $scope.state.cube;
+        $scope.endpoint = $scope.state.endpoint;
+        $scope.view = $scope.state.view || 'facts';
+        });
+
+      </script>
+    </div>
+  </div>
+{% endblock %}
