@@ -33,6 +33,11 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = (
+    'municipal_finance',
+    'wazimap_mapit',
+    'wazimap.apps.WazimapConfig',
+    'census',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,10 +48,6 @@ INSTALLED_APPS = (
     'pipeline',
     'django_extensions',
     'corsheaders',
-
-    'municipal_finance',
-    'wazimap.apps.WazimapConfig',
-    'census',
 )
 
 # Wazimap
@@ -57,6 +58,15 @@ WAZIMAP['comparative_levels'] = []
 WAZIMAP['country_code'] = 'ZA'
 # TODO: district
 WAZIMAP['levels'] = {
+    'country': {
+        'children': ['province'],
+    },
+    'province': {
+        'children': ['municipality', 'district'],
+    },
+    'district': {
+        'children': ['municipality'],
+    },
     'municipality': {
         'plural': 'municipalities',
     },
@@ -64,6 +74,7 @@ WAZIMAP['levels'] = {
 WAZIMAP['profile_builder'] = 'municipal_finance.profiles.get_profile'
 WAZIMAP['ga_tracking_id'] = GOOGLE_ANALYTICS_ID
 WAZIMAP['twitter'] = ''
+WAZIMAP['geodata'] = 'municipal_finance.geo.GeoData'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
