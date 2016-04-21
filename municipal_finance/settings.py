@@ -160,6 +160,7 @@ PIPELINE_CSS = {
             'bower_components/fontawesome/css/font-awesome.css',
             'bower_components/babbage.ui/dist/deps.css',
             'bower_components/babbage.ui/dist/babbage.ui.css',
+            'bower_components/babbage.ui/dist/embed.css',
         ),
         'output_filename': 'babbage.css',
     },
