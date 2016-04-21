@@ -16,6 +16,7 @@ ngBabbage.directive('babbagePanel', ['$rootScope', 'slugifyFilter', function($ro
       $scope.pushSort = babbageCtrl.pushSort;
       $scope.embedLink = null;
       $scope.csvLink = null;
+      $scope.apiQuery = null;
 
       var update = function() {
         babbageCtrl.setState($scope.state);
@@ -219,8 +220,20 @@ ngBabbage.directive('babbagePanel', ['$rootScope', 'slugifyFilter', function($ro
       });
       $scope.$on('$destroy', unsubscribe);
 
+      var getOrigin = function() {
+        if (!window.location.origin) {
+          window.location.origin = window.location.protocol
+              + "//" + window.location.hostname
+              + (window.location.port ? ':' + window.location.port: '');
+        }
+        return window.location.origin;
+      }
+
       var unsubscribeQuery = babbageCtrl.subscribeQuery(
         function(event, endpoint, params, itemCount) {
+          $scope.apiQuery = getOrigin() + endpoint + '?' + jQuery.param(params);
+
+          // modify query for CSV export
           params['format'] = 'csv';
           params['page'] = 1;
           params['pagesize'] = itemCount;
@@ -231,6 +244,7 @@ ngBabbage.directive('babbagePanel', ['$rootScope', 'slugifyFilter', function($ro
 
       var unsubscribeInvalidateQuery = babbageCtrl.subscribeInvalidateQuery(
         function(event) {
+          $scope.apiQuery = null;
           $scope.csvLink = null;
         });
       $scope.$on('$destroy', unsubscribeInvalidateQuery);
