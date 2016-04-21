@@ -51,7 +51,7 @@
 
     <ul>
       {% for cube in cubes %}
-        <li><a href="#{{ cube.name }}">{{ cube.model.label }}</a></li>
+        <li><a href="#cube-{{ cube.name }}">{{ cube.model.label }}</a></li>
       {% endfor %}
     </ul>
 
@@ -60,6 +60,12 @@
     <aside class="info">
       Please note that the data is only as complete and trustworthy as that provided by the municipality.
     </aside>
+
+    <h2 id="export-csv">Export CSV</h2>
+
+    <p>You can export a subset of the data as CSV if you want to explore that offline. As you <a href="#datasets">explore the data of a cube</a>, you can download the entire dataset matching your current filters showing only the columns you have selected. Once you've narrowed down what you want, click the Download CSV button in the bottom right, as shown in the screenshot below.</p>
+
+    <p><img src="{% static 'images/babbage-export.png' %}" /></p>
 
     <h1 id="general">Using the API</h1>
 
@@ -430,7 +436,7 @@ GET /api/cubes/incexp/aggregate
     <h1 id="datasets">Available Datasets (Cubes)</h1>
 
     {% for cube in cubes %}
-      <h2 id="{{ cube.name }}">{{ cube.model.label }} - {{ cube.name }}</h2>
+      <h2 id="cube-{{ cube.name }}">{{ cube.model.label }} - {{ cube.name }}</h2>
 
       <p>{{ cube.model.description }}</p>
 
