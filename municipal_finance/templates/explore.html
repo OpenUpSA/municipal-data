@@ -9,18 +9,25 @@
 
 
 {% block content %}
-<h1>Municipal Finance Data Explorer - {{ cube_model.label }}</h1>
+<header id="header">
+  <div class="container-fluid">
+    <div class="pull-right">
+      <a class="btn btn-default" href="/" target="_blank"><i class="fa fa-question-circle"></i> Help</a>
+    </div>
+    <h3>Municipal Finance Data Explorer</h3>
 
-  <!-- cube tabs -->
-  <ul class="nav nav-tabs" role="tablist">
-    {% for cube in cubes %}
-    <li role="presentation" class="{% if cube.name == cube_name %}active{% endif %}">
-      <a href="../{{ cube.name }}" aria-controls="{{ cube.name }}" role="tab" data-toggle="tab">
-        {{ cube.model.label }}
-      </a>
-    </li>
-    {% endfor %}
-  </ul>
+    <!-- cube tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+      {% for cube in cubes %}
+      <li role="presentation" class="{% if cube.name == cube_name %}active{% endif %}">
+        <a href="../{{ cube.name }}" aria-controls="{{ cube.name }}" role="tab" data-toggle="tab">
+          {{ cube.model.label }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</header>
 
 {% verbatim %}
 <div  ng-app="demo" id="demo-ng-app-container">
