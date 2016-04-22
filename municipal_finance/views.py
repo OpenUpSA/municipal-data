@@ -1,5 +1,5 @@
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from cubes import cube_manager
 
 from utils import jsonify, csvify
@@ -14,6 +14,26 @@ def get_cube(name):
     return cube_manager.get_cube(name)
 
 
+@xframe_options_exempt
+def index(request):
+    cubes = []
+    for cube_name in cube_manager.list_cubes():
+        cubes.append({
+            'model': cube_manager.get_cube(cube_name).model.to_dict(),
+            'name': cube_name,
+        })
+
+    return render(request, 'docs.html', {
+        'cubes': cubes,
+    })
+
+
+@xframe_options_exempt
+def docs(request):
+    return redirect('/')
+
+
+@xframe_options_exempt
 def explore(request, cube_name):
     cubes = []
     for name in cube_manager.list_cubes():
@@ -25,20 +45,6 @@ def explore(request, cube_name):
     return render(request, 'explore.html', {
         'cube_name': cube_name,
         'cube_model': cube,
-        'cubes': cubes,
-    })
-
-
-@xframe_options_exempt
-def docs(request):
-    cubes = []
-    for cube_name in cube_manager.list_cubes():
-        cubes.append({
-            'model': cube_manager.get_cube(cube_name).model.to_dict(),
-            'name': cube_name,
-        })
-
-    return render(request, 'docs.html', {
         'cubes': cubes,
     })
 
