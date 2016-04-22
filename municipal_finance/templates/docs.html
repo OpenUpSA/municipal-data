@@ -50,7 +50,7 @@
     <p>The financial data is very similar to that made available on <a href="http://mfma.treasury.gov.za/Media_Releases/s71/Pages/default.aspx">National Treasury’s website in PDF reports and Excel spreadsheets</a> and generally called Section 71 information. It is described further below and includes:</p>
 
     <ul>
-      {% for cube in cubes %}
+      {% for cube in cubes|dictsort:"name" %}
         <li><a href="#cube-{{ cube.name }}">{{ cube.model.label }}</a></li>
       {% endfor %}
     </ul>
@@ -60,6 +60,16 @@
     <aside class="info">
       Please note that the data is only as complete and trustworthy as that provided by the municipality.
     </aside>
+
+    <h3 id="where-from">Where is the data from</h3>
+
+    <p>As mentioned above, the data is composed of the Section 71 submissions from municipalities to Treasury. The submissions take the shape of <a href="http://mfma.treasury.gov.za/Return_Forms/Pages/default.aspx">Excel Spreadsheets provided by Treasury</a> to help municipalities validate the data and supply it in a consistent format. It can be helpful to look at the forms to understand the data better.</p>
+
+    <h3 id="verification">Verifying the data</h3>
+
+    <p>The treasury publishes <a href="http://mfma.treasury.gov.za/Media_Releases/s71/Pages/default.aspx">quarterly reports based on the municipalities' Section 71 submissions</a> as well as well as <a href="http://mfma.treasury.gov.za/Media_Releases/The%20state%20of%20local%20government%20finances/Pages/default.aspx">reports on municipality financial health</a> using standard indicators based on this data.</p>
+
+    <p>It can be useful to verify numbers retrieved from the API against these published reports. This verifies both a correct understanding of how to use the API, and that the API supplies reliable information. When doing so, it is important to be aware that the reports are based on a snapshot of the data at the point in time where they are generated, while the API could contain amended numbers if a municipality updated their submission. The Treasury's reports also fall back to pre-audited and then budget values if audited values are not available at the time of publication. Generally the API can be expected to match the treasury's publications so if one value doesn't match, try checking the same field for other periods and other municipalities to ensure the correct field is being compared. If that is the case, one can investigate further why a specific field doesn't match - perhaps because of the reasons mentioned here.</p>
 
     <h2 id="export-csv">Export CSV</h2>
 
@@ -71,6 +81,12 @@
 
     <p>The API endpoint is <code>http://data.municipalmoney.org.za/api</code></p>
     <p>The API only supports <code>GET</code> requests. Successful responses have response code 200 and are in JSON format.</p>
+
+    {% with cube=cubes|first %}
+    <p>The quickest way to put together a query against the API is to use the <a href="/explore/{{ cube.name }}/" target="_blank">API Explorer interface</a>, narrow down the selection to an interesting subset, and copy the API query URL producing that data on the bottom right of the window as shown below.</p>
+    {% endwith %}
+
+    <p><img src="{% static 'images/babbage-query.png' %}" /></p>
 
     <h2 id="data-formats">How the API works</h2>
 
@@ -105,29 +121,70 @@
     <table>
       <tr>
         <th>Parameter</th>
+        <th>Default</th>
         <th>Description</th>
       </tr><tr>
         <td>pagesize</td>
-        <td>Maximum number of items per page. Default: 10000</td>
+        <td>10000</td>
+        <td>Maximum number of items per page.</td>
       </tr><tr>
         <td>page</td>
-        <td>The page number to fetch, starting with page 1. Default: 1</td>
+        <td>1</td>
+        <td>The page number to fetch, starting with page 1.</td>
       </tr>
     </table>
 
     <h2 id="cut">Cut (filter)</h2>
+
+    <pre>
+...
+"cell": [
+  {
+    "ref": "item.code",
+    "value": "3010",
+    "operator": ":"
+  },
+  {
+    "ref": "municipality.code",
+    "value": "BUF",
+    "operator": ":"
+  },
+],
+"cells": [
+  {
+    "item.code": "3010",
+    "amount.sum": 6256185,
+    "financial_period.period": 8
+  },
+...
+    </pre>
 
     <p>Use the parameter <code>cut</code> with values <code>key:value</code> to restrict values to a subset of the cube. This is called cutting the cube into cells. Separate multiple cuts with <em>vertical bar</em> e.g. <code>cut=item.code:"3010"|municipality.code:"BUF"</code></p>
     <p>String values must be quoted with double quotes</p>
 
     <p><code>GET /cubes/&lt;name&gt;/facts?cut=item.code:"3010"|municipality.code:"BUF"</code></p>
 
+    <table>
+      <tr>
+        <th>Key</th>
+        <th>Type</th>
+        <th>Example value</th>
+      </tr><tr>
+        <td rowspan="2">dimension.attribute</td>
+        <td>integer</td>
+        <td><code>11</code></td>
+      </tr><tr>
+        <td>string</td>
+        <td><code>"BUF"</code></td>
+      </tr>
+    </table>
+
     <h2 id="sort">Sorting</h2>
 
     <p>Use the parameter <code>order</code> to sort the returned values. Separate multiple sorting dimensions with <em>comma</em> e.g. <code>order=financial_year_end.year:desc,amount_type.code:asc</code></p>
     <p>The results will be primarily sorted according to the first argument; within that, it is sorted according to the second argument, etc. That means it's equivalent to a stable sort performed in reverse order of the arguments.</p>
 
-    <h1 id="cubes">Cubes</h1>
+    <h1 id="cubes">Queries on Cubes</h1>
 
     <h2 id="list-cubes">List Cubes</h2>
 
@@ -435,7 +492,7 @@ GET /api/cubes/incexp/aggregate
 
     <h1 id="datasets">Available Datasets (Cubes)</h1>
 
-    {% for cube in cubes %}
+    {% for cube in cubes|dictsort:"name" %}
       <h2 id="cube-{{ cube.name }}">{{ cube.model.label }} - {{ cube.name }}</h2>
 
       <p>{{ cube.model.description }}</p>

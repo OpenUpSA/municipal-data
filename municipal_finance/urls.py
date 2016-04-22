@@ -10,7 +10,7 @@ from . import views
 API_CACHE_SECS = 12 * 60 * 60
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='index.html')),
+    url(r'^$', views.index),
     url(r'^docs$', views.docs),
     url(r'^explore/(?P<cube_name>[\w_]+)/embed.html$', views.embed),
     url(r'^explore/(?P<cube_name>[\w_]+)/$', views.explore),
