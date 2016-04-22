@@ -499,26 +499,20 @@ GET /api/cubes/incexp/aggregate
 
       <p><a href="/explore/{{ cube.name }}/">Explore this cube's data</a></p>
 
-      <h3 id="{{ cube.name }}-dimensions">Dimensions</h3>
+      <h3 id="{{ cube.name }}-dimensions">Dimensions and their attributes</h3>
 
       <table>
-        <tr><th>Dimension label</th><th>Dimension name</th><th>Attribute label</th><th>Attribute name</th></tr>
         {% for dimension_name in cube.model.dimensions.keys %}
         {% with dimension=cube.model.dimensions|get:dimension_name %}
+        <tr><th colspan="3">{{ dimension.label }}</th></tr>
+        <tr><td colspan="3">{{ dimension.description }}</td></tr>
 
         {% for attribute_name in dimension.attributes.keys %}
         {% with attribute=dimension.attributes|get:attribute_name %}
         <tr>
-          {% if forloop.first %}
-          <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
-            {{ dimension.label }}
-          </td>
-          <td title="{{ dimension.description }}" rowspan="{{ dimension.attributes.keys|length }}">
-            {{ dimension.ref }}
-          </td>
-          {% endif %}
-          <td title="{{ attribute.description }}">{{ attribute.label }}</td>
-          <td title="{{ attribute.description }}">{{ attribute.ref }}</td>
+          <td><b>{{ attribute.label }}</b></td>
+          <td>{{ attribute.ref }}</td>
+          <td>{{ attribute.description }}</td>
         </tr>
         {% endwith %}
         {% endfor %}
