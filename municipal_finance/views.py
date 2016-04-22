@@ -70,9 +70,12 @@ def status(request):
 def cubes(request):
     """ Get a listing of all publicly available cubes. """
     cubes = []
-    for cube in cube_manager.list_cubes():
+    for name in cube_manager.list_cubes():
+        cube = cube_manager.get_cube(name)
         cubes.append({
-            'name': cube
+            'name': name,
+            'label': cube.model.spec['label'],
+            'description': cube.model.spec['description'],
         })
     return jsonify({
         'status': 'ok',
