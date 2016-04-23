@@ -18,12 +18,9 @@ def get_cube(name):
 def index(request):
     cubes = []
     for cube_name in cube_manager.list_cubes():
-        cube = cube_manager.get_cube(cube_name)
-        items = cube.members('item', order='item.position_in_return_form:asc')['data']
         cubes.append({
-            'model': cube.model.to_dict(),
+            'model': cube_manager.get_cube(cube_name).model.to_dict(),
             'name': cube_name,
-            'items': items,
         })
 
     return render(request, 'docs.html', {
