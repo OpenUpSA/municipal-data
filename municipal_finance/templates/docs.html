@@ -501,7 +501,7 @@ GET /api/cubes/incexp/aggregate
 
       <h3 id="{{ cube.name }}-dimensions">Dimensions and their attributes</h3>
 
-      <table class="dimensions">
+      <table>
         {% for dimension_name in cube.model.dimensions.keys %}
         {% with dimension=cube.model.dimensions|get:dimension_name %}
         <tr><th colspan="3">{{ dimension.label }}</th></tr>
@@ -517,27 +517,6 @@ GET /api/cubes/incexp/aggregate
         {% endwith %}
         {% endfor %}
         {% endwith %}
-        {% endfor %}
-      </table>
-
-      <h3 id="{{ cube.name }}-items">Items</h3>
-
-      <table class="items">
-        <tr><th>Code</th><th>Item</th><th>Composition</th></tr>
-        {% for item in cube.items %}
-        {% if item|get:'item.return_form_structure' == "heading" %}
-        <tr class="{{ item|get:'item.return_form_structure' }}-item">
-          <th>{{ item|get:"item.code" }}</th>
-          <th>{{ item|get:"item.label" }}</th>
-          <th>{{ item|get:"item.composition"|default_if_none:"" }}</th>
-        </tr>
-        {% else %}
-        <tr class="{{ item|get:'item.return_form_structure' }}-item">
-          <td>{{ item|get:"item.code" }}</td>
-          <td>{{ item|get:"item.label" }}</td>
-          <td>{{ item|get:"item.composition"|default_if_none:"" }}</td>
-        </tr>
-        {% endif %}
         {% endfor %}
       </table>
     {% endfor %}
