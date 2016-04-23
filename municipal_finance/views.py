@@ -148,8 +148,7 @@ def members(request, cube_name, member_ref):
                           cuts=request.GET.get('cut'),
                           order=request.GET.get('order'),
                           page=request.GET.get('page'),
-                          page_size=request.GET.get('pagesize'),
-                          page_max=page_max)
+                          page_size=request.GET.get('pagesize'))
     if format == 'json':
         result['status'] = 'ok'
         return jsonify(result)
