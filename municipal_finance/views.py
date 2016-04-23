@@ -100,14 +100,15 @@ def model(request, cube_name):
 def aggregate(request, cube_name):
     """ Perform an aggregation request. """
     cube = get_cube(cube_name)
+    format = request.GET.get('format', 'json')
+    page_max = request.GET.get('pagesize') if format == 'csv' else 10000
     result = cube.aggregate(aggregates=request.GET.get('aggregates'),
                             drilldowns=request.GET.get('drilldown'),
                             cuts=request.GET.get('cut'),
                             order=request.GET.get('order'),
                             page=request.GET.get('page'),
-                            page_size=request.GET.get('pagesize'))
-
-    format = request.GET.get('format', 'json')
+                            page_size=request.GET.get('pagesize'),
+                            page_max=page_max)
     if format == 'json':
         result['status'] = 'ok'
         return jsonify(result)
@@ -121,13 +122,14 @@ def facts(request, cube_name):
     """ List the fact table entries in the current cube. This is the full
     materialized dataset. """
     cube = get_cube(cube_name)
+    format = request.GET.get('format', 'json')
+    page_max = request.GET.get('pagesize') if format == 'csv' else 10000
     result = cube.facts(fields=request.GET.get('fields'),
                         cuts=request.GET.get('cut'),
                         order=request.GET.get('order'),
                         page=request.GET.get('page'),
-                        page_size=request.GET.get('pagesize'))
-
-    format = request.GET.get('format', 'json')
+                        page_size=request.GET.get('pagesize'),
+                        page_max=page_max)
     if format == 'json':
         result['status'] = 'ok'
         return jsonify(result)
@@ -140,13 +142,14 @@ def members(request, cube_name, member_ref):
     """ List the members of a specific dimension or the distinct values of a
     given attribute. """
     cube = get_cube(cube_name)
+    format = request.GET.get('format', 'json')
+    page_max = request.GET.get('pagesize') if format == 'csv' else 10000
     result = cube.members(member_ref,
                           cuts=request.GET.get('cut'),
                           order=request.GET.get('order'),
                           page=request.GET.get('page'),
-                          page_size=request.GET.get('pagesize'))
-
-    format = request.GET.get('format', 'json')
+                          page_size=request.GET.get('pagesize'),
+                          page_max=page_max)
     if format == 'json':
         result['status'] = 'ok'
         return jsonify(result)
