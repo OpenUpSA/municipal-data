@@ -252,10 +252,12 @@ LOGGING = {
         'level': 'ERROR'
     },
     'loggers': {
-        # put any custom loggers here
-        # 'your_package_name': {
-        #    'level': 'DEBUG' if DEBUG else 'INFO',
-        # },
+        'municipal_finance': {
+            'level': 'DEBUG' if DEBUG else 'INFO',
+        },
+        'sqlalchemy.engine': {
+            'level': 'INFO' if DEBUG else 'WARN',
+        },
         'django': {
             'level': 'DEBUG' if DEBUG else 'INFO',
         }
