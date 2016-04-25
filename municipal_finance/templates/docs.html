@@ -36,7 +36,6 @@
 </div>
 
 <div class="page-wrapper">
-  <div class="dark-box"></div>
   <div class="content">
     <h1 id="intro">Introduction</h1>
 
@@ -107,6 +106,8 @@
     <p>Some API responses are paginated. By default, a maximum of 10 000 items are returned per page. The response includes information on the page size,
     current page, and total number of results to assist with pagination.</p>
 
+    <p>You can paginate through results using these query parameters:</p>
+
     <pre>
 {
   "page": 2,
@@ -115,8 +116,6 @@
   ...
 }
     </pre>
-
-    <p>You can paginate through results using these query parameters:</p>
 
     <table>
       <tr>
@@ -135,6 +134,11 @@
     </table>
 
     <h2 id="cut">Cut (filter)</h2>
+
+    <p>Use the parameter <code>cut</code> with values <code>key:value</code> to restrict values to a subset of the cube. This is called cutting the cube into cells. Separate multiple cuts with <em>vertical bar</em> e.g. <code>cut=item.code:"3010"|municipality.code:"BUF"</code></p>
+    <p>String values must be quoted with double quotes</p>
+
+    <p><code>GET /cubes/&lt;name&gt;/facts?cut=item.code:"3010"|municipality.code:"BUF"</code></p>
 
     <pre>
 ...
@@ -158,11 +162,6 @@
   },
 ...
     </pre>
-
-    <p>Use the parameter <code>cut</code> with values <code>key:value</code> to restrict values to a subset of the cube. This is called cutting the cube into cells. Separate multiple cuts with <em>vertical bar</em> e.g. <code>cut=item.code:"3010"|municipality.code:"BUF"</code></p>
-    <p>String values must be quoted with double quotes</p>
-
-    <p><code>GET /cubes/&lt;name&gt;/facts?cut=item.code:"3010"|municipality.code:"BUF"</code></p>
 
     <table>
       <tr>
@@ -201,6 +200,9 @@
     <p>
       <code>GET /cubes/&lt;name&gt;/model</code>
     </p>
+
+    <p>Returns a description of the cube. The metadata includes attributes, measures, dimensions, aggregates etc.</p>
+
     <pre>
 GET /cubes/incexp/model
 {
@@ -238,10 +240,10 @@ GET /cubes/incexp/model
       ...
     </pre>
 
-    <p>Returns a description of the cube. The metadata includes attributes, measures, dimensions, aggregates etc.</p>
-
-
     <h2 id="list-facts">List Facts</h2>
+    <p><code>GET /cubes/&lt;name&gt;/facts</code></p>
+
+    <p>Get individual entries from a cube in a non-aggregated form.</p>
 
     <pre>
 GET /cubes/incexp/facts?pagesize=2
@@ -301,9 +303,6 @@ GET /cubes/incexp/facts?pagesize=2
   ]
 }
     </pre>
-    <p><code>GET /cubes/&lt;name&gt;/facts</code></p>
-
-    <p>Get individual entries from a cube in a non-aggregated form.</p>
 
     <h3>Query String Parameters</h3>
 
@@ -339,6 +338,8 @@ GET /cubes/incexp/facts?pagesize=2
 
     <h2 id="list-members">List Members</h2>
 
+    <p><code>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</code></p>
+
     <pre>
 GET /cubes/incexp/members/demarcation?pagesize=3
 {
@@ -368,8 +369,6 @@ GET /cubes/incexp/members/demarcation?pagesize=3
   "order": []
 }
     </pre>
-
-    <p><code>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</code></p>
 
     <p>Get distinct values for a given member (dimension) of a cube. For example, all the suppliers in a procurement dataset.</p>
 
@@ -420,6 +419,8 @@ GET /cubes/incexp/members/demarcation?pagesize=3
 
     <h2 id="aggregate">Aggregating Facts</h2>
 
+    <p><code>GET /cubes/&lt;name&gt;/aggregate</code></p>
+
     <pre>
 GET /api/cubes/incexp/aggregate
 
@@ -447,8 +448,6 @@ GET /api/cubes/incexp/aggregate
   }
 }
     </pre>
-
-    <p><code>GET /cubes/&lt;name&gt;/aggregate</code></p>
 
     <p>Returns aggregate views of the facts in a cube.</p>
 
@@ -544,10 +543,5 @@ GET /api/cubes/incexp/aggregate
 
   </div>
 
-  <div class="dark-box">
-    <div class="lang-selector">
-      <a href="#" data-language-name="json">JSON</a>
-    </div>
-  </div>
 </div>
 {% endblock %}
