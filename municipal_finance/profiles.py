@@ -34,7 +34,7 @@ def get_profile(geo_code, geo_level, profile_name=None):
         'debtors': {
             'cube': 'aged_debtor',
             'aggregate': 'total_amount.sum',
-            'item_code': '2000',
+            'item_code': '2600', # We should ideally be using 2000, but the numbers for it is incorrect at the moment.
             'amount_type': 'Actual',
             'year': '2015',
             'period_length': 'month',
