@@ -18,7 +18,6 @@ class SiteMiddleware(object):
     """
     def process_request(self, request):
         site = get_current_site(request)
-        print site
         if site.name == 'API':
             request.urlconf = 'municipal_finance.urls'
         else:
