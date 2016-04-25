@@ -1,7 +1,10 @@
 {% extends 'profile/profile_detail.html' %}{% load staticfiles %}
 
 {% block profile_detail %}
+
 Cash coverage: {{ cash_coverage }}
+Debtors as percentage of revenue: {{ debtors_as_perc_of_revenue }}
+
 {% endblock %}
 
 {% block profile_javascript_libs %}
