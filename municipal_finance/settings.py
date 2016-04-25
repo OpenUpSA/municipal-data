@@ -34,10 +34,12 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = (
     'municipal_finance',
+    'scorecard',
     'wazimap_mapit',
     'wazimap.apps.WazimapConfig',
     'census',
 
+    'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,6 +51,11 @@ INSTALLED_APPS = (
     'django_extensions',
     'corsheaders',
 )
+
+# Sites
+if DEBUG:
+    SITE_ID = 2  # Scorecard
+    # SITE_ID = 3  # API
 
 # Wazimap
 from wazimap.settings import WAZIMAP
@@ -71,12 +78,13 @@ WAZIMAP['levels'] = {
         'plural': 'municipalities',
     },
 }
-WAZIMAP['profile_builder'] = 'municipal_finance.profiles.get_profile'
+WAZIMAP['profile_builder'] = 'scorecard.profiles.get_profile'
 WAZIMAP['ga_tracking_id'] = GOOGLE_ANALYTICS_ID
 WAZIMAP['twitter'] = ''
-WAZIMAP['geodata'] = 'municipal_finance.geo.GeoData'
+WAZIMAP['geodata'] = 'scorecard.geo.GeoData'
 
 MIDDLEWARE_CLASSES = (
+    'municipal_finance.middleware.SiteMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -173,17 +181,12 @@ STATICFILES_FINDERS = (
 PYSCSS_LOAD_PATHS = [
     os.path.join(BASE_DIR, 'municipal_finance', 'static'),
     os.path.join(BASE_DIR, 'municipal_finance', 'static', 'bower_components'),
+    os.path.join(BASE_DIR, 'scorecard', 'static'),
+    os.path.join(BASE_DIR, 'scorecard', 'static', 'bower_components'),
 ]
 
 PIPELINE = {
     'STYLESHEETS': {
-        'css': {
-            'source_filenames': (
-                'bower_components/fontawesome/css/font-awesome.css',
-                'stylesheets/app.scss',
-            ),
-            'output_filename': 'app.css',
-        },
         'babbage': {
             'source_filenames': (
                 'bower_components/fontawesome/css/font-awesome.css',
