@@ -7,13 +7,14 @@ from django.contrib.sites.models import Site
 
 
 def create_sites(apps, schema_editor):
-    Site(domain='municipalmoney.org.za', name='Scorecard').save()
-    Site(domain='data.municipalmoney.org.za', name='API').save()
+    Site(id=2, domain='municipalmoney.org.za', name='Scorecard').save()
+    Site(id=3, domain='data.municipalmoney.org.za', name='API').save()
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('sites', '__first__'),
     ]
 
     operations = [
