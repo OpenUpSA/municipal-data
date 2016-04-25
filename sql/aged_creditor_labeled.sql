@@ -21,7 +21,7 @@ CREATE TABLE public.aged_creditor_labeled
   demarcation_label text,
   financial_year integer,
   period_length text,
-  financial_period text,
+  financial_period integer,
   amount_type_code text,
   amount_type_label text,
   CONSTRAINT aged_creditor_labeled_pkey PRIMARY KEY (id)

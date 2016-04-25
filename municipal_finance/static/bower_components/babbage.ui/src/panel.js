@@ -8,7 +8,6 @@ ngBabbage.directive('babbagePanel', ['$rootScope', 'slugifyFilter', function($ro
     templateUrl: 'babbage-templates/panel.html',
     link: function($scope, $element, attrs, babbageCtrl) {
       var model = null;
-
       $scope.state = {};
       $scope.axes = [];
       $scope.filterAttributes = [];
@@ -16,6 +15,8 @@ ngBabbage.directive('babbagePanel', ['$rootScope', 'slugifyFilter', function($ro
       $scope.getSort = babbageCtrl.getSort;
       $scope.pushSort = babbageCtrl.pushSort;
       $scope.embedLink = null;
+      $scope.csvLink = null;
+      $scope.apiQuery = null;
 
       var update = function() {
         babbageCtrl.setState($scope.state);
@@ -219,6 +220,34 @@ ngBabbage.directive('babbagePanel', ['$rootScope', 'slugifyFilter', function($ro
       });
       $scope.$on('$destroy', unsubscribe);
 
+      var getOrigin = function() {
+        if (!window.location.origin) {
+          window.location.origin = window.location.protocol
+              + "//" + window.location.hostname
+              + (window.location.port ? ':' + window.location.port: '');
+        }
+        return window.location.origin;
+      }
+
+      var unsubscribeQuery = babbageCtrl.subscribeQuery(
+        function(event, endpoint, params, itemCount) {
+          $scope.apiQuery = getOrigin() + endpoint + '?' + jQuery.param(params);
+
+          // modify query for CSV export
+          params['format'] = 'csv';
+          params['page'] = 1;
+          params['pagesize'] = itemCount;
+          url = endpoint + '?' + jQuery.param(params);
+          $scope.csvLink = url;
+        });
+      $scope.$on('$destroy', unsubscribeQuery);
+
+      var unsubscribeInvalidateQuery = babbageCtrl.subscribeInvalidateQuery(
+        function(event) {
+          $scope.apiQuery = null;
+          $scope.csvLink = null;
+        });
+      $scope.$on('$destroy', unsubscribeInvalidateQuery);
     }
   };
 }]);

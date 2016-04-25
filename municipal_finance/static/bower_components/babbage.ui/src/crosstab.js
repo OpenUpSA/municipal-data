@@ -52,10 +52,14 @@ ngBabbage.directive('babbageCrosstab', ['$rootScope', '$http', function($rootSco
       }
       q.order = order;
 
-      var dfd = $http.get(babbageCtrl.getApiUrl('aggregate'),
-                          babbageCtrl.queryParams(q));
+      var endpoint = babbageCtrl.getApiUrl('aggregate');
+      var dfd = $http.get(endpoint, babbageCtrl.queryParams(q));
+
       dfd.then(function(res) {
         queryResult(res.data, q, model, state);
+        babbageCtrl.broadcastQuery(endpoint,
+                                   angular.copy(q),
+                                   res.data.total_cell_count);
       });
     };
 
