@@ -1,7 +1,12 @@
 {% extends 'profile/profile_detail.html' %}{% load staticfiles %}
 
 {% block profile_detail %}
-Cash coverage: {{ cash_coverage }}
+
+<section>
+  <p>Cash coverage: {{ cash_coverage }}</p>
+  <p>Debtors as percentage of revenue: {{ debtors_as_perc_of_revenue }}</p>
+</section>
+
 {% endblock %}
 
 {% block profile_javascript_libs %}

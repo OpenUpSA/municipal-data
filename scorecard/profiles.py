@@ -3,9 +3,10 @@ import json
 
 API_URL = 'http://data.municipalmoney.org.za/api/cubes/'
 Q4 = [10, 11, 12]
+current_month = 12
 
 def get_quarter_results(results, amount_field='amount.sum'):
-    return sum([r[amount_field] for r in results['cells'] if r['financial_period.period'] in Q4])
+    return sum([r[amount_field] for r in results['cells'] if r['financial_period.period'] in Q4 and r[amount_field]])
 
 def get_profile(geo_code, geo_level, profile_name=None):
 
@@ -29,6 +30,51 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'year': '2015',
             'period_length': 'month',
             'demarcation_code': geo_code,
+        },
+        'debtors': {
+            'cube': 'aged_debtor',
+            'aggregate': 'total_amount.sum',
+            'item_code': '2600', # We should ideally be using 2000, but the numbers for it is incorrect at the moment.
+            'amount_type': 'Actual',
+            'year': '2015',
+            'period_length': 'month',
+            'demarcation_code': geo_code,
+        },
+        'capital_revenue': {
+            'cube': 'capital',
+            'aggregate': 'asset_register_summary.sum',
+            'item_code': '4100',
+            'amount_type': 'Actual',
+            'year': '2015',
+            'period_length': 'month',
+            'demarcation_code': geo_code,
+        },
+        'operating_revenue': {
+            'cube': 'incexp',
+            'aggregate': 'amount.sum',
+            'item_code': '2100',
+            'amount_type': 'Actual',
+            'year': '2015',
+            'period_length': 'month',
+            'demarcation_code': geo_code,
+        },
+        'capital_grant': {
+            'cube': 'incexp',
+            'aggregate': 'amount.sum',
+            'item_code': '1610',
+            'amount_type': 'Actual',
+            'year': '2015',
+            'period_length': 'month',
+            'demarcation_code': geo_code,
+        },
+        'operating_grant': {
+            'cube': 'incexp',
+            'aggregate': 'amount.sum',
+            'item_code': '1600',
+            'amount_type': 'Actual',
+            'year': '2015',
+            'period_length': 'month',
+            'demarcation_code': geo_code,
         }
     }
 
@@ -46,8 +92,17 @@ def get_profile(geo_code, geo_level, profile_name=None):
         results[k] = requests.get(url).json()
 
     operating_expenditure_actual = get_quarter_results(results['operating_expenditure_actual'])
-    cash_flow = [r['amount.sum'] for r in results['cash_flow']['cells'] if r['financial_period.period'] == 12][0]
+    cash_flow = [r['amount.sum'] for r in results['cash_flow']['cells'] if r['financial_period.period'] == current_month][0]
 
-    cash_coverage = cash_flow / (operating_expenditure_actual / 4)
+    debtors = [r['total_amount.sum'] for r in results['debtors']['cells'] if r['financial_period.period'] == current_month][0]
+    capital_revenue = get_quarter_results(results['capital_revenue'], ratio_items['capital_revenue']['aggregate'])
+    operating_revenue = get_quarter_results(results['operating_revenue'])
+    capital_grant = get_quarter_results(results['capital_grant'])
+    operating_grant = get_quarter_results(results['operating_grant'])
 
-    return {'cash_coverage': cash_coverage}
+    debtors_as_perc_of_revenue = debtors / ((capital_revenue + operating_revenue) - (capital_grant + operating_grant)) * 100
+    cash_coverage = cash_flow / (operating_expenditure_actual / 12)
+
+    return {
+        'cash_coverage': cash_coverage,
+        'debtors_as_perc_of_revenue': debtors_as_perc_of_revenue}
