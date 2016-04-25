@@ -2,7 +2,7 @@ import requests
 import json
 
 API_URL = 'http://data.municipalmoney.org.za/api/cubes/'
-Q4 = ['10', '11', '12']
+Q4 = [10, 11, 12]
 
 def get_quarter_results(results, amount_field='amount.sum'):
     return sum([r[amount_field] for r in results['cells'] if r['financial_period.period'] in Q4])
@@ -46,7 +46,7 @@ def get_profile(geo_code, geo_level, profile_name=None):
         results[k] = requests.get(url).json()
 
     operating_expenditure_actual = get_quarter_results(results['operating_expenditure_actual'])
-    cash_flow = [r['amount.sum'] for r in results['cash_flow']['cells'] if r['financial_period.period'] == "12"][0]
+    cash_flow = [r['amount.sum'] for r in results['cash_flow']['cells'] if r['financial_period.period'] == 12][0]
 
     cash_coverage = cash_flow / (operating_expenditure_actual / 4)
 
