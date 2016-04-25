@@ -1,7 +1,7 @@
 import requests
 import json
 
-API_URL = 'http://data.municipalmoney.org.za/api/cubes/'
+API_URL = 'https://data.municipalmoney.org.za/api/cubes/'
 Q4 = [10, 11, 12]
 current_month = 12
 
@@ -91,7 +91,7 @@ def get_profile(geo_code, geo_level, profile_name=None):
             # period_length=v['period_length'],
             demarcation_code=v['demarcation_code']
         )
-        results[k] = requests.get(url).json()
+        results[k] = requests.get(url, verify=False).json()
 
     operating_expenditure_actual = get_quarter_results(results['operating_expenditure_actual'])
     operating_expenditure_budgeted = results['operating_expenditure_budgeted']['cells'][0]['amount.sum']

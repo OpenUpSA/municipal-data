@@ -63,6 +63,7 @@ WAZIMAP['name'] = 'Municipal Money'
 WAZIMAP['url'] = 'http://municipalmoney.org.za'
 WAZIMAP['comparative_levels'] = []
 WAZIMAP['country_code'] = 'ZA'
+WAZIMAP['geometry_data'] = {}
 # TODO: district
 WAZIMAP['levels'] = {
     'country': {
