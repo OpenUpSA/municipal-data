@@ -25,7 +25,6 @@ if DEBUG:
 else:
     SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
-# XXX set me
 GOOGLE_ANALYTICS_ID = 'UA-48399585-37'
 
 ALLOWED_HOSTS = ['*']
@@ -34,20 +33,59 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = (
+    'municipal_finance',
+    'scorecard',
+    'wazimap_mapit',
+    'wazimap.apps.WazimapConfig',
+    'census',
+
+    'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.humanize',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pipeline',
     'django_extensions',
     'corsheaders',
-
-    'municipal_finance',
 )
 
+# Sites
+if DEBUG:
+    SITE_ID = 2  # Scorecard
+    # SITE_ID = 3  # API
+
+# Wazimap
+from wazimap.settings import WAZIMAP
+WAZIMAP['name'] = 'Municipal Money'
+WAZIMAP['url'] = 'http://municipalmoney.org.za'
+WAZIMAP['comparative_levels'] = []
+WAZIMAP['country_code'] = 'ZA'
+WAZIMAP['geometry_data'] = {}
+# TODO: district
+WAZIMAP['levels'] = {
+    'country': {
+        'children': ['province'],
+    },
+    'province': {
+        'children': ['municipality', 'district'],
+    },
+    'district': {
+        'children': ['municipality'],
+    },
+    'municipality': {
+        'plural': 'municipalities',
+    },
+}
+WAZIMAP['profile_builder'] = 'scorecard.profiles.get_profile'
+WAZIMAP['ga_tracking_id'] = GOOGLE_ANALYTICS_ID
+WAZIMAP['twitter'] = ''
+WAZIMAP['geodata'] = 'scorecard.geo.GeoData'
+
 MIDDLEWARE_CLASSES = (
+    'municipal_finance.middleware.SiteMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -94,15 +132,13 @@ else:
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+LANGUAGE_CODE = 'en-za'
+TIME_ZONE = 'Africa/Johannesburg'
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
+USE_THOUSAND_SEPARATOR = True
+FORMAT_MODULE_PATH = 'municipal_money.formats'
 
 
 # CORS
@@ -119,6 +155,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
+    "wazimap.context_processors.wazimap_settings",
     "municipal_finance.context_processors.google_analytics",
 )
 
@@ -145,86 +182,83 @@ STATICFILES_FINDERS = (
 PYSCSS_LOAD_PATHS = [
     os.path.join(BASE_DIR, 'municipal_finance', 'static'),
     os.path.join(BASE_DIR, 'municipal_finance', 'static', 'bower_components'),
+    os.path.join(BASE_DIR, 'scorecard', 'static'),
+    os.path.join(BASE_DIR, 'scorecard', 'static', 'bower_components'),
 ]
 
-PIPELINE_CSS = {
-    'css': {
-        'source_filenames': (
-            'bower_components/fontawesome/css/font-awesome.css',
-            'stylesheets/app.scss',
-        ),
-        'output_filename': 'app.css',
+PIPELINE = {
+    'STYLESHEETS': {
+        'babbage': {
+            'source_filenames': (
+                'bower_components/fontawesome/css/font-awesome.css',
+                'bower_components/babbage.ui/dist/deps.css',
+                'bower_components/babbage.ui/dist/babbage.ui.css',
+                'bower_components/babbage.ui/dist/embed.css',
+                'stylesheets/explore.scss',
+            ),
+            'output_filename': 'babbage.css',
+        },
+        'docs': {
+            'source_filenames': (
+                'bower_components/fontawesome/css/font-awesome.css',
+                'slate/stylesheets/screen.css',
+                'stylesheets/docs.scss',
+            ),
+            'output_filename': 'docs.css',
+        },
     },
-    'babbage': {
-        'source_filenames': (
-            'bower_components/fontawesome/css/font-awesome.css',
-            'bower_components/babbage.ui/dist/deps.css',
-            'bower_components/babbage.ui/dist/babbage.ui.css',
-            'bower_components/babbage.ui/dist/embed.css',
-            'stylesheets/explore.scss',
-        ),
-        'output_filename': 'babbage.css',
+    'JAVASCRIPT': {
+        'js': {
+            'source_filenames': (
+                'bower_components/jquery/dist/jquery.min.js',
+                'javascript/app.js',
+            ),
+            'output_filename': 'app.js',
+        },
+        'babbage': {
+            'source_filenames': (
+                'bower_components/babbage.ui/dist/deps.js',
+                'bower_components/babbage.ui/dist/templates.js',
+                'bower_components/babbage.ui/src/util.js',
+                'bower_components/babbage.ui/src/app.js',
+                'bower_components/babbage.ui/src/api.js',
+                'bower_components/babbage.ui/src/babbage.js',
+                'bower_components/babbage.ui/src/crosstab.js',
+                'bower_components/babbage.ui/src/facts.js',
+                'bower_components/babbage.ui/src/treemap.js',
+                'bower_components/babbage.ui/src/sankey.js',
+                'bower_components/babbage.ui/src/chart.js',
+                'bower_components/babbage.ui/src/panel.js',
+                'bower_components/babbage.ui/src/pager.js',
+                'bower_components/babbage.ui/src/workspace.js',
+                'bower_components/leaflet/dist/leaflet.js',
+                'bower_components/underscore/underscore-min.js',
+            ),
+            'output_filename': 'babbage.js',
+        },
+        'docs': {
+            'source_filenames': (
+                'slate/javascripts/lib/_energize.js',
+                'slate/javascripts/lib/_lunr.js',
+                'slate/javascripts/lib/_jquery_ui.js',
+                'slate/javascripts/lib/_jquery.tocify.js',
+                'slate/javascripts/lib/_jquery.highlight.js',
+                'slate/javascripts/lib/_imagesloaded.min.js',
+                'slate/javascripts/app/_lang.js',
+                'slate/javascripts/app/_search.js',
+                'slate/javascripts/app/_toc.js',
+                'javascript/docs.js',
+            ),
+            'output_filename': 'docs.js',
+        },
     },
-    'docs': {
-        'source_filenames': (
-            'bower_components/fontawesome/css/font-awesome.css',
-            'slate/stylesheets/screen.css',
-            'stylesheets/docs.scss',
-        ),
-        'output_filename': 'docs.css',
-    },
-}
-PIPELINE_JS = {
-    'js': {
-        'source_filenames': (
-            'bower_components/jquery/dist/jquery.min.js',
-            'javascript/app.js',
-        ),
-        'output_filename': 'app.js',
-    },
-    'babbage': {
-        'source_filenames': (
-            'bower_components/babbage.ui/dist/deps.js',
-            'bower_components/babbage.ui/dist/templates.js',
-            'bower_components/babbage.ui/src/util.js',
-            'bower_components/babbage.ui/src/app.js',
-            'bower_components/babbage.ui/src/api.js',
-            'bower_components/babbage.ui/src/babbage.js',
-            'bower_components/babbage.ui/src/crosstab.js',
-            'bower_components/babbage.ui/src/facts.js',
-            'bower_components/babbage.ui/src/treemap.js',
-            'bower_components/babbage.ui/src/sankey.js',
-            'bower_components/babbage.ui/src/chart.js',
-            'bower_components/babbage.ui/src/panel.js',
-            'bower_components/babbage.ui/src/pager.js',
-            'bower_components/babbage.ui/src/workspace.js',
-            'bower_components/leaflet/dist/leaflet.js',
-            'bower_components/underscore/underscore-min.js',
-        ),
-        'output_filename': 'babbage.js',
-    },
-    'docs': {
-        'source_filenames': (
-            'slate/javascripts/lib/_energize.js',
-            'slate/javascripts/lib/_lunr.js',
-            'slate/javascripts/lib/_jquery_ui.js',
-            'slate/javascripts/lib/_jquery.tocify.js',
-            'slate/javascripts/lib/_jquery.highlight.js',
-            'slate/javascripts/lib/_imagesloaded.min.js',
-            'slate/javascripts/app/_lang.js',
-            'slate/javascripts/app/_search.js',
-            'slate/javascripts/app/_toc.js',
-            'javascript/docs.js',
-        ),
-        'output_filename': 'docs.js',
-    },
-}
-PIPELINE_CSS_COMPRESSOR = None
-PIPELINE_JS_COMPRESSOR = None
+    'CSS_COMPRESSOR': None,
+    'JS_COMPRESSOR': None,
 
-PIPELINE_COMPILERS = (
-    'municipal_finance.pipeline.PyScssCompiler',
-)
+    'COMPILERS': (
+        'municipal_finance.pipeline.PyScssCompiler',
+    ),
+}
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
@@ -253,6 +287,12 @@ LOGGING = {
     },
     'loggers': {
         'municipal_finance': {
+            'level': 'DEBUG' if DEBUG else 'INFO',
+        },
+        'wazimap': {
+            'level': 'DEBUG' if DEBUG else 'INFO',
+        },
+        'census': {
             'level': 'DEBUG' if DEBUG else 'INFO',
         },
         'sqlalchemy.engine': {

@@ -1,0 +1,16 @@
+{% extends 'profile/profile_detail.html' %}{% load staticfiles %}
+
+{% block profile_detail %}
+
+<section>
+  <p>Cash coverage: {{ cash_coverage }}</p>
+  <p>Debtors as percentage of revenue: {{ debtors_as_perc_of_revenue }}</p>
+</section>
+
+{% endblock %}
+
+{% block profile_javascript_libs %}
+{{ block.super }}
+<script src="{% static 'js/maps_mapit.js' %}"></script>
+<script src="{% static 'js/profile_map_mapit.js' %}"></script>
+{% endblock %}

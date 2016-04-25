@@ -1,3 +1,5 @@
+from django.contrib.sites.shortcuts import get_current_site
+
 from utils import jsonify
 
 
@@ -9,3 +11,14 @@ class ApiErrorHandler(object):
                 'status': 'error',
                 'message': exception.message,
             }, status=500)
+
+
+class SiteMiddleware(object):
+    """ Toggle urls based on site.
+    """
+    def process_request(self, request):
+        site = get_current_site(request)
+        if site.name == 'Scorecard':
+            request.urlconf = 'scorecard.urls'
+        else:
+            request.urlconf = 'municipal_finance.urls'
