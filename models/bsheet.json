@@ -49,6 +49,24 @@
                     "label": "Label",
                     "type": "string",
                     "description": ""
+                },
+                "position_in_return_form": {
+                    "column": "position_in_return_form",
+                    "label": "Position in Return Form",
+                    "type": "integer",
+                    "description": "The position of this item in the Section 71 Return form - useful for sorting line items to be ordered as they are in the return form to group related items and place them below the section headings and above section totals."
+                },
+                "return_form_structure": {
+                    "column": "return_form_structure",
+                    "label": "Return Form Structure",
+                    "type": "string",
+                    "description": "What structural role this line item has in the return form"
+                },
+                "composition": {
+                    "column": "composition",
+                    "label": "Composition",
+                    "type": "string",
+                    "description": "The composition of this item. Indicates how this item is composed of other items in this cube for the same mnuicipality, financial year and period, and amount type using item codes."
                 }
             },
             "key_attribute": "code",

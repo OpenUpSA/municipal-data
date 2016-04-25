@@ -9,7 +9,7 @@ from . import views
 API_CACHE_SECS = 12 * 60 * 60
 
 urlpatterns = [
-    url(r'^$', views.index, name='homepage'),
+    url(r'^$', cache_page(API_CACHE_SECS)(views.index), name='homepage'),
     url(r'^docs$', views.docs),
     url(r'^explore/(?P<cube_name>[\w_]+)/embed.html$', views.embed),
     url(r'^explore/(?P<cube_name>[\w_]+)/$', views.explore),
