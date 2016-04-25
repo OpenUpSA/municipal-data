@@ -22,6 +22,7 @@ ngBabbage.directive('babbageTreemap', ['$rootScope', '$http', '$document', funct
       var q = babbageCtrl.getQuery();
       q.aggregates = area;
       if (!tile) {
+        babbageCtrl.broadcastInvalidateQuery();
         return;
       }
       q.drilldown = [tile];
@@ -43,8 +44,8 @@ ngBabbage.directive('babbageTreemap', ['$rootScope', '$http', '$document', funct
 
       scope.cutoffWarning = false;
       scope.queryLoaded = true;
-      var dfd = $http.get(babbageCtrl.getApiUrl('aggregate'),
-                          babbageCtrl.queryParams(q));
+      var endpoint = babbageCtrl.getApiUrl('aggregate');
+      var dfd = $http.get(endpoint, babbageCtrl.queryParams(q));
 
       var wrapper = element.querySelectorAll('.treemap-babbage')[0],
           size = babbageCtrl.size(wrapper, function(w) { return w * 0.6; });
@@ -63,6 +64,9 @@ ngBabbage.directive('babbageTreemap', ['$rootScope', '$http', '$document', funct
 
       dfd.then(function(res) {
         queryResult(res.data, q, model, state);
+        babbageCtrl.broadcastQuery(endpoint,
+                                   angular.copy(q),
+                                   res.data.total_cell_count);
       });
     };
 

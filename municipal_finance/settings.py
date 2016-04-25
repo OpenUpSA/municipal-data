@@ -176,7 +176,7 @@ PYSCSS_LOAD_PATHS = [
 ]
 
 PIPELINE = {
-    'CSS': {
+    'STYLESHEETS': {
         'css': {
             'source_filenames': (
                 'bower_components/fontawesome/css/font-awesome.css',
@@ -189,6 +189,8 @@ PIPELINE = {
                 'bower_components/fontawesome/css/font-awesome.css',
                 'bower_components/babbage.ui/dist/deps.css',
                 'bower_components/babbage.ui/dist/babbage.ui.css',
+                'bower_components/babbage.ui/dist/embed.css',
+                'stylesheets/explore.scss',
             ),
             'output_filename': 'babbage.css',
         },
@@ -288,6 +290,9 @@ LOGGING = {
         },
         'census': {
             'level': 'DEBUG' if DEBUG else 'INFO',
+        },
+        'sqlalchemy.engine': {
+            'level': 'INFO' if DEBUG else 'WARN',
         },
         'django': {
             'level': 'DEBUG' if DEBUG else 'INFO',

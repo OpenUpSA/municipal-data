@@ -13,7 +13,7 @@ CREATE TABLE public.repmaint_labeled
   demarcation_label text,
   financial_year text,
   period_length text,
-  financial_period text,
+  financial_period integer,
   amount_type_code text,
   amount_type_label text,
   CONSTRAINT repmaint_labeled_pkey PRIMARY KEY (id)

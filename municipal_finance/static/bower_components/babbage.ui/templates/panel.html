@@ -89,3 +89,15 @@
     </tbody>
   </table>
 </div>
+
+<div class="btn" ng-show="csvLink != null"><a class="btn btn-default" href="{{ csvLink }}">Download CSV</a></div>
+
+<div class="api-query">
+  <p class="help-block">Use the API Query producing this data elsewhere:</p>
+  <div class="input-group">
+    <span class="input-group-addon">
+      <i class="fa fa-external-link-square"></i>
+    </span>
+    <input type="text" class="form-control" readonly value="{{ apiQuery }}">
+  </div>
+</div>

@@ -51,7 +51,10 @@ ngBabbage.directive('babbageChart', ['$rootScope', '$http', function($rootScope,
             grouping = asArray(state.grouping)[0],
             value = asArray(state.value)[0];
 
-        if (!value || !category) return;
+        if (!value || !category) {
+          babbageCtrl.broadcastInvalidateQuery();
+          return;
+        }
 
         var q = babbageCtrl.getQuery();
         q.aggregates = [value];
@@ -78,10 +81,14 @@ ngBabbage.directive('babbageChart', ['$rootScope', '$http', function($rootScope,
         q.page = 0;
         q.pagesize = 10000;
 
-        var dfd = $http.get(babbageCtrl.getApiUrl('aggregate'),
-                            babbageCtrl.queryParams(q));
+        var endpoint = babbageCtrl.getApiUrl('aggregate');
+        var dfd = $http.get(endpoint, babbageCtrl.queryParams(q));
+
         dfd.then(function(res) {
           queryResult(res.data, q, model, state, category, grouping, value);
+          babbageCtrl.broadcastQuery(endpoint,
+                                     angular.copy(q),
+                                     res.data.total_cell_count);
         });
       };
 

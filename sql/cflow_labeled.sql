@@ -14,7 +14,7 @@ CREATE TABLE public.cflow_labeled
   demarcation_label text,
   financial_year integer,
   period_length text,
-  financial_period text,
+  financial_period integer,
   amount_type_label text,
   function_category text,
   CONSTRAINT cflow_labeled_pkey PRIMARY KEY (id)
