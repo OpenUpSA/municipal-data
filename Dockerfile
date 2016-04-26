@@ -24,8 +24,9 @@ RUN apt-get update -y && \
                         python-psycopg2 \
                         python-dev && \
     virtualenv venv && \
-    ln -snf /bin/bash /bin/sh && \
-    source venv/bin/activate && \
+    ln -snf /bin/bash /bin/sh
+
+RUN source venv/bin/activate && \
     pip install -r /requirements.txt
 
 CMD ["/bin/bash"]
