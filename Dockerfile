@@ -24,9 +24,13 @@ RUN apt-get update -y && \
                         python-psycopg2 \
                         python-dev && \
     virtualenv venv && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     ln -snf /bin/bash /bin/sh
 
 RUN source venv/bin/activate && \
+    export CPLUS_INCLUDE_PATH=/usr/include/gdal && \
+    export export C_INCLUDE_PATH=/usr/include/gdal && \
     pip install -r /requirements.txt
 
 CMD ["/bin/bash"]
