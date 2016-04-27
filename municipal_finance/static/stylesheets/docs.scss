@@ -11,12 +11,29 @@
   }
 }
 
-.subtotal-item {
-    font-weight: bold;
-    border-top: 1px solid black;
+table.items {
+    max-height: 500px;
+    overflow-y: scroll;
+
+    .heading-item {
+        font-weight: bold;
+        text-transform: uppercase;
+        border-top: 1px solid #333;
+    }
+
+    .subtotal-item {
+        font-weight: bold;
+        border-top: 1px solid #ccc;
+    }
 }
 
-table.items {
-    max-height: 400px;
-    overflow-y: scroll;
+table.dimensions {
+  .dimension {
+    border-top: 1px solid #ccc;
+
+    td {
+      background-color: #ddd !important;
+      font-weight: bold;
+    }
+  }
 }
