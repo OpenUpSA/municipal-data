@@ -1,8 +1,13 @@
 from wazimap_mapit.geo import GeoData as GeoDataBase
+from .models import Geography
 
 
 class GeoData(GeoDataBase):
     LEVELS = ['municipality', 'district']
+
+    def __init__(self):
+        super(GeoData, self).__init__()
+        self.geo_model = Geography
 
     def _clean_levels(self, levels):
         if not levels:
