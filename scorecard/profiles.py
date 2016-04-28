@@ -189,9 +189,9 @@ def get_profile(geo_code, geo_level, profile_name=None):
     cap_grant = get_quarter_results(results['cap_grant'])
     op_grant = get_quarter_results(results['op_grant'])
 
-    rep_maint = get_quarter_results(results['rep_maint'])
-    ppe = results['ppe']['cells'][0][line_items['ppe']['aggregate']]
-    invest_prop = results['invest_prop']['cells'][0][line_items['ppe']['aggregate']]
+    rep_maint = get_quarter_results(results['rep_maint']) or 0
+    ppe = results['ppe']['cells'][0][line_items['ppe']['aggregate']] or 0
+    invest_prop = results['invest_prop']['cells'][0][line_items['ppe']['aggregate']] or 0
 
     debtors_perc_rev = debtors / ((cap_rev+op_rev) - (cap_grant + op_grant)) * 100
     cash_coverage = cash_flow / (op_exp_actual / 12)
