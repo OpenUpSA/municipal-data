@@ -58,28 +58,6 @@ def get_profile(geo_code, geo_level, profile_name=None):
                 'period_length.length': 'year'
             }
         },
-        'debtors': {
-            'cube': 'aged_debtor',
-            'aggregate': 'total_amount.sum',
-            'cut': {
-                'item.code': '2600', # We should ideally be using 2000, but the numbers for it is incorrect at the moment.
-                'amount_type.label': 'Audited Actual',
-                'financial_year_end.year': 2015,
-                'demarcation.code': str(geo_code),
-                'period_length.length': 'year'
-            }
-        },
-        'cap_rev': {
-            'cube': 'capital',
-            'aggregate': 'asset_register_summary.sum',
-            'cut': {
-                'item.code': '5100',
-                'amount_type.label': 'Audited Actual',
-                'financial_year_end.year': 2015,
-                'demarcation.code': str(geo_code),
-                'period_length.length': 'year'
-            }
-        },
         'cap_exp_actual': {
             'cube': 'capital',
             'aggregate': 'asset_register_summary.sum',
@@ -99,39 +77,6 @@ def get_profile(geo_code, geo_level, profile_name=None):
                 'amount_type.label': 'Adjusted Budget',
                 'financial_year_end.year': 2015,
                 'demarcation.code': str(geo_code),
-            }
-        },
-        'op_rev': {
-            'cube': 'incexp',
-            'aggregate': 'amount.sum',
-            'cut': {
-                'item.code': '2100',
-                'amount_type.label': 'Audited Actual',
-                'financial_year_end.year': 2015,
-                'demarcation.code': str(geo_code),
-                'period_length.length': 'year'
-            }
-        },
-        'cap_grant': {
-            'cube': 'incexp',
-            'aggregate': 'amount.sum',
-            'cut': {
-                'item.code': '1610',
-                'amount_type.label': 'Audited Actual',
-                'financial_year_end.year': 2015,
-                'demarcation.code': str(geo_code),
-                'period_length.length': 'year'
-            }
-        },
-        'op_grant': {
-            'cube': 'incexp',
-            'aggregate': 'amount.sum',
-            'cut': {
-                'item.code': '1600',
-                'amount_type.label': 'Audited Actual',
-                'financial_year_end.year': 2015,
-                'demarcation.code': str(geo_code),
-                'period_length.length': 'year'
             }
         },
         'rep_maint': {
@@ -183,24 +128,15 @@ def get_profile(geo_code, geo_level, profile_name=None):
     op_exp_actual = amount_from_results('op_exp_actual', results, line_items)
     op_exp_budget = amount_from_results('op_exp_budget', results, line_items)
 
-    op_rev = amount_from_results('op_rev', results, line_items)
-
     cap_exp_actual = amount_from_results('cap_exp_actual', results, line_items)
     cap_exp_budget = amount_from_results('cap_exp_budget', results, line_items)
-    cap_rev = amount_from_results('cap_rev', results, line_items)
 
     cash_flow = amount_from_results('cash_flow', results, line_items)
-
-    debtors = amount_from_results('debtors', results, line_items)
-
-    cap_grant = amount_from_results('cap_grant', results, line_items)
-    op_grant = amount_from_results('op_grant', results, line_items)
 
     rep_maint = amount_from_results('rep_maint', results, line_items)
     ppe = amount_from_results('ppe', results, line_items)
     invest_prop = amount_from_results('invest_prop', results, line_items)
 
-    debtors_perc_rev = debtors / ((cap_rev + op_rev) - (cap_grant + op_grant)) * 100
     cash_coverage = cash_flow / (op_exp_actual / 12)
     op_budget_diff = (op_exp_actual - op_exp_budget) / op_exp_budget if op_exp_budget else 'N/A'
     cap_budget_diff = (cap_exp_actual - cap_exp_budget) / cap_exp_budget if cap_exp_budget else 'N/A'
@@ -208,7 +144,6 @@ def get_profile(geo_code, geo_level, profile_name=None):
 
     return {
         'cash_coverage': cash_coverage,
-        'debtors_perc_rev': debtors_perc_rev,
         'op_budget_diff': op_budget_diff,
         'cap_budget_diff': cap_budget_diff,
         'rep_maint_perc_ppe': rep_maint_perc_ppe}
