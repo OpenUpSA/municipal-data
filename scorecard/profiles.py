@@ -124,7 +124,6 @@ def get_profile(geo_code, geo_level, profile_name=None):
         results[item] = requests.get(url, verify=False).json()
 
 
-    import ipdb; ipdb.set_trace()
     op_exp_actual = amount_from_results('op_exp_actual', results, line_items)
     op_exp_budget = amount_from_results('op_exp_budget', results, line_items)
 
