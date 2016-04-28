@@ -8,6 +8,19 @@ current_month = 12
 def get_quarter_results(results, amount_field='amount.sum'):
     return sum([r[amount_field] for r in results['cells'] if r['financial_period.period'] in Q4 and r[amount_field]])
 
+def amount_from_results(item, results, line_items):
+    """
+    Returns the summed value from the results we received from the API.
+    If the 'cells' list in the results is empty, no value was returned,
+    and for now, we return zero in that case.
+    We should be returning None, and checking for None values in the ratio calculation.
+    """
+    try:
+        return results[item]['cells'][0][line_items[item]['aggregate']]
+    except IndexError:
+        return 0
+
+
 def get_profile(geo_code, geo_level, profile_name=None):
 
     api_query_string = '{cube}/aggregate?aggregates={aggregate}&cut={cut}&drilldown=item.code|item.label|financial_period.period&page=0&pagesize=300000'
@@ -18,10 +31,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'aggregate': 'amount.sum',
             'cut': {
                 'item.code': '4600',
-                'amount_type.label': 'Actual',
+                'amount_type.label': 'Audited Actual',
                 'financial_year_end.year': 2015,
                 'demarcation.code': str(geo_code),
-                'period_length.length': 'month'
+                'period_length.length': 'year'
             }
         },
         'op_exp_budget': {
@@ -39,10 +52,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'aggregate': 'amount.sum',
             'cut': {
                 'item.code': '4200',
-                'amount_type.label': 'Actual',
+                'amount_type.label': 'Audited Actual',
                 'financial_year_end.year': 2015,
                 'demarcation.code': str(geo_code),
-                'period_length.length': 'month'
+                'period_length.length': 'year'
             }
         },
         'debtors': {
@@ -50,10 +63,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'aggregate': 'total_amount.sum',
             'cut': {
                 'item.code': '2600', # We should ideally be using 2000, but the numbers for it is incorrect at the moment.
-                'amount_type.label': 'Actual',
+                'amount_type.label': 'Audited Actual',
                 'financial_year_end.year': 2015,
                 'demarcation.code': str(geo_code),
-                'period_length.length': 'month'
+                'period_length.length': 'year'
             }
         },
         'cap_rev': {
@@ -61,10 +74,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'aggregate': 'asset_register_summary.sum',
             'cut': {
                 'item.code': '5100',
-                'amount_type.label': 'Actual',
+                'amount_type.label': 'Audited Actual',
                 'financial_year_end.year': 2015,
                 'demarcation.code': str(geo_code),
-                'period_length.length': 'month'
+                'period_length.length': 'year'
             }
         },
         'cap_exp_actual': {
@@ -72,10 +85,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'aggregate': 'asset_register_summary.sum',
             'cut': {
                 'item.code': '4100',
-                'amount_type.label': 'Actual',
+                'amount_type.label': 'Audited Actual',
                 'financial_year_end.year': 2015,
                 'demarcation.code': str(geo_code),
-                'period_length.length': 'month'
+                'period_length.length': 'year'
             }
         },
         'cap_exp_budget': {
@@ -93,10 +106,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'aggregate': 'amount.sum',
             'cut': {
                 'item.code': '2100',
-                'amount_type.label': 'Actual',
+                'amount_type.label': 'Audited Actual',
                 'financial_year_end.year': 2015,
                 'demarcation.code': str(geo_code),
-                'period_length.length': 'month'
+                'period_length.length': 'year'
             }
         },
         'cap_grant': {
@@ -104,10 +117,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'aggregate': 'amount.sum',
             'cut': {
                 'item.code': '1610',
-                'amount_type.label': 'Actual',
+                'amount_type.label': 'Audited Actual',
                 'financial_year_end.year': 2015,
                 'demarcation.code': str(geo_code),
-                'period_length.length': 'month'
+                'period_length.length': 'year'
             }
         },
         'op_grant': {
@@ -115,10 +128,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'aggregate': 'amount.sum',
             'cut': {
                 'item.code': '1600',
-                'amount_type.label': 'Actual',
+                'amount_type.label': 'Audited Actual',
                 'financial_year_end.year': 2015,
                 'demarcation.code': str(geo_code),
-                'period_length.length': 'month'
+                'period_length.length': 'year'
             }
         },
         'rep_maint': {
@@ -126,10 +139,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'aggregate': 'amount.sum',
             'cut': {
                 'item.code': '5005',
-                'amount_type.label': 'Actual',
+                'amount_type.label': 'Audited Actual',
                 'financial_year_end.year': 2015,
                 'demarcation.code': str(geo_code),
-                'period_length.length': 'month'
+                'period_length.length': 'year'
             }
         },
         'ppe': {
@@ -137,11 +150,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'aggregate': 'amount.sum',
             'cut': {
                 'item.code': '1300',
-                'amount_type.label': 'Actual',
+                'amount_type.label': 'Audited Actual',
                 'financial_year_end.year': 2015,
                 'demarcation.code': str(geo_code),
-                'period_length.length': 'month',
-                'financial_period.period': current_month
+                'period_length.length': 'year',
             }
         },
         'invest_prop': {
@@ -149,11 +161,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'aggregate': 'amount.sum',
             'cut': {
                 'item.code': '1401',
-                'amount_type.label': 'Actual',
+                'amount_type.label': 'Audited Actual',
                 'financial_year_end.year': 2015,
                 'demarcation.code': str(geo_code),
-                'period_length.length': 'month',
-                'financial_period.period': current_month
+                'period_length.length': 'year',
             }
         }
     }
@@ -168,35 +179,31 @@ def get_profile(geo_code, geo_level, profile_name=None):
         results[item] = requests.get(url, verify=False).json()
 
 
-    op_exp_actual = get_quarter_results(results['op_exp_actual'])
-    op_exp_budget = results['op_exp_budget']['cells'][0]['amount.sum']
-    op_rev = get_quarter_results(results['op_rev'])
+    import ipdb; ipdb.set_trace()
+    op_exp_actual = amount_from_results('op_exp_actual', results, line_items)
+    op_exp_budget = amount_from_results('op_exp_budget', results, line_items)
 
-    cap_exp_actual = get_quarter_results(
-        results['cap_exp_actual'],
-        line_items['cap_exp_actual']['aggregate'])
-    cap_exp_budget = results['cap_exp_budget']['cells'][0][line_items['cap_exp_budget']['aggregate']]
-    cap_rev = get_quarter_results(results['cap_rev'], line_items['cap_rev']['aggregate'])
+    op_rev = amount_from_results('op_rev', results, line_items)
 
-    cash_flow = [
-        r['amount.sum'] for r in results['cash_flow']['cells']
-        if r['financial_period.period'] == current_month][0]
+    cap_exp_actual = amount_from_results('cap_exp_actual', results, line_items)
+    cap_exp_budget = amount_from_results('cap_exp_budget', results, line_items)
+    cap_rev = amount_from_results('cap_rev', results, line_items)
 
-    debtors = [
-        r['total_amount.sum'] for r in results['debtors']['cells']
-        if r['financial_period.period'] == current_month][0]
+    cash_flow = amount_from_results('cash_flow', results, line_items)
 
-    cap_grant = get_quarter_results(results['cap_grant'])
-    op_grant = get_quarter_results(results['op_grant'])
+    debtors = amount_from_results('debtors', results, line_items)
 
-    rep_maint = get_quarter_results(results['rep_maint']) or 0
-    ppe = results['ppe']['cells'][0][line_items['ppe']['aggregate']] or 0
-    invest_prop = results['invest_prop']['cells'][0][line_items['ppe']['aggregate']] or 0
+    cap_grant = amount_from_results('cap_grant', results, line_items)
+    op_grant = amount_from_results('op_grant', results, line_items)
 
-    debtors_perc_rev = debtors / ((cap_rev+op_rev) - (cap_grant + op_grant)) * 100
+    rep_maint = amount_from_results('rep_maint', results, line_items)
+    ppe = amount_from_results('ppe', results, line_items)
+    invest_prop = amount_from_results('invest_prop', results, line_items)
+
+    debtors_perc_rev = debtors / ((cap_rev + op_rev) - (cap_grant + op_grant)) * 100
     cash_coverage = cash_flow / (op_exp_actual / 12)
-    op_budget_diff = (op_exp_actual - op_exp_budget) / op_exp_budget if op_exp_budget else 0
-    cap_budget_diff = (cap_exp_actual - cap_exp_budget) / cap_exp_budget if cap_exp_budget else 0
+    op_budget_diff = (op_exp_actual - op_exp_budget) / op_exp_budget if op_exp_budget else 'N/A'
+    cap_budget_diff = (cap_exp_actual - cap_exp_budget) / cap_exp_budget if cap_exp_budget else 'N/A'
     rep_maint_perc_ppe = rep_maint * 12 / (ppe + invest_prop)
 
     return {
