@@ -53,9 +53,11 @@ INSTALLED_APPS = (
 )
 
 # Sites
+# 2: Scorecard
+# 3: API
+
 if DEBUG:
-    SITE_ID = 2  # Scorecard
-    # SITE_ID = 3  # API
+    SITE_ID = int(os.environ.get('SITE_ID', '2'))
 
 # Wazimap
 from wazimap.settings import WAZIMAP
