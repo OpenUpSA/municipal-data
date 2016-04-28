@@ -1,6 +1,8 @@
 import requests
 import json
 
+from wazimap.data.utils import percent, ratio
+
 API_URL = 'https://data.municipalmoney.org.za/api/cubes/'
 Q4 = [10, 11, 12]
 current_month = 12
@@ -136,10 +138,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
     ppe = amount_from_results('ppe', results, line_items)
     invest_prop = amount_from_results('invest_prop', results, line_items)
 
-    cash_coverage = cash_flow / (op_exp_actual / 12) if op_exp_actual > 0 else 'N/A'
-    op_budget_diff = (op_exp_actual - op_exp_budget) / op_exp_budget * 100 if op_exp_budget > 1 else 'N/A'
-    cap_budget_diff = (cap_exp_actual - cap_exp_budget) / cap_exp_budget * 100 if cap_exp_budget > 1 else 'N/A'
-    rep_maint_perc_ppe = rep_maint / (ppe + invest_prop) * 100 if (ppe + invest_prop) > 0 else 'N/A'
+    cash_coverage = ratio(cash_flow, (op_exp_actual / 12), 1)
+    op_budget_diff = percent((op_exp_actual - op_exp_budget), op_exp_budget, 1)
+    cap_budget_diff = percent((cap_exp_actual - cap_exp_budget), cap_exp_budget)
+    rep_maint_perc_ppe = percent(rep_maint, (ppe + invest_prop))
 
     return {
         'cash_coverage': cash_coverage,
