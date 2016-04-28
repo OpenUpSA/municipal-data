@@ -136,10 +136,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
     ppe = amount_from_results('ppe', results, line_items)
     invest_prop = amount_from_results('invest_prop', results, line_items)
 
-    cash_coverage = cash_flow / (op_exp_actual / 12)
-    op_budget_diff = (op_exp_actual - op_exp_budget) / op_exp_budget if op_exp_budget else 'N/A'
-    cap_budget_diff = (cap_exp_actual - cap_exp_budget) / cap_exp_budget if cap_exp_budget else 'N/A'
-    rep_maint_perc_ppe = rep_maint * 12 / (ppe + invest_prop)
+    cash_coverage = cash_flow / (op_exp_actual / 12) if op_exp_actual > 0 else 'N/A'
+    op_budget_diff = (op_exp_actual - op_exp_budget) / op_exp_budget * 100 if op_exp_budget > 1 else 'N/A'
+    cap_budget_diff = (cap_exp_actual - cap_exp_budget) / cap_exp_budget * 100 if cap_exp_budget > 1 else 'N/A'
+    rep_maint_perc_ppe = rep_maint / (ppe + invest_prop) * 100 if (ppe + invest_prop) > 0 else 'N/A'
 
     return {
         'cash_coverage': cash_coverage,
