@@ -17,6 +17,7 @@ def amount_from_results(item, results, line_items):
     except IndexError:
         return 0
 
+
 def get_profile(geo_code, geo_level, profile_name=None):
 
     api_query_string = '{cube}/aggregate?aggregates={aggregate}&cut={cut}&drilldown=item.code|item.label|financial_period.period&page=0&pagesize=300000'
@@ -117,7 +118,7 @@ def get_profile(geo_code, geo_level, profile_name=None):
             aggregate=details['aggregate'],
             cut='|'.join('{!s}:{!r}'.format(k, v) for (k, v) in details['cut'].iteritems()).replace("'", '"')
         )
-        results[item] = required=Trueests.get(url, verify=False).json()
+        results[item] = requests.get(url, verify=False).json()
         details['result'] = amount_from_results(item, results, line_items)
 
     cash_coverage = ratio(
