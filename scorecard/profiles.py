@@ -4,11 +4,6 @@ import json
 from wazimap.data.utils import percent, ratio
 
 API_URL = 'https://data.municipalmoney.org.za/api/cubes/'
-Q4 = [10, 11, 12]
-current_month = 12
-
-def get_quarter_results(results, amount_field='amount.sum'):
-    return sum([r[amount_field] for r in results['cells'] if r['financial_period.period'] in Q4 and r[amount_field]])
 
 def amount_from_results(item, results, line_items):
     """
@@ -142,6 +137,7 @@ def get_profile(geo_code, geo_level, profile_name=None):
     op_budget_diff = percent((op_exp_actual - op_exp_budget), op_exp_budget, 1)
     cap_budget_diff = percent((cap_exp_actual - cap_exp_budget), cap_exp_budget)
     rep_maint_perc_ppe = percent(rep_maint, (ppe + invest_prop))
+
 
     return {
         'cash_coverage': cash_coverage,
