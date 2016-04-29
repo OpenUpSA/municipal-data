@@ -135,8 +135,63 @@ def get_profile(geo_code, geo_level, profile_name=None):
     rep_maint_perc_ppe = percent(line_items['rep_maint']['result'],
         (line_items['ppe']['result'] + line_items['invest_prop']['result']))
 
+    mayoral_staff = [
+            {'label': 'Executive Mayor',
+            'title': 'Mr',
+            'name': 'Alfred Mtsi',
+            'office_phone': '043 705 1072',
+            'email': 'alfredm@buffalocity.gov.za',
+            'secretary': {
+                'title': 'Ms',
+                'name': 'Yolisa Ntoni',
+                'office_phone': '043 705 1072',
+                'email': 'yolisan@buffalocity.gov.za'
+            }
+        },
+        {
+            'label': 'Deputy Executive Mayor',
+            'title': 'Mr',
+            'name': 'Xola Pakati',
+            'office_phone': '043 705 2807',
+            'email': 'philasandep@buffalocity.gov.za',
+            'secretary': {
+                'title': 'Ms',
+                'name': 'Philasande Pula',
+                'office_phone': '043 705 2899',
+                'email': 'philasandep@buffalocity.gov.za',
+            }
+        },
+        {
+            'label': 'Chief financial officer',
+            'title': 'Mr',
+            'name': 'Vincent Pillay',
+            'office_phone': '043 705 1892',
+            'email': 'vincentp@buffalocity.gov.za',
+            'secretary': {
+                'title': 'Ms',
+                'name': 'Candice Bahlmann',
+                'office_phone': '043 705 1887',
+                'email': 'candiceb@buffalocity.gov.za',
+            }
+        },
+        {
+            'label': 'Municipal Manager',
+            'title': 'Mr',
+            'name': 'Nceba Ncunyana',
+            'office_phone': '043 705 1901',
+            'email': 'ncebaAC@buffalocity.gov.za',
+            'secretary': {
+                'title': 'Ms',
+                'name': 'Mandisa Mgoqi',
+                'office_phone': '043 705 1901',
+                'email': 'mandisamg@buffalocity.gov.za',
+            }
+        }
+    ]
+
     return {
         'cash_coverage': cash_coverage,
         'op_budget_diff': op_budget_diff,
         'cap_budget_diff': cap_budget_diff,
-        'rep_maint_perc_ppe': rep_maint_perc_ppe}
+        'rep_maint_perc_ppe': rep_maint_perc_ppe,
+        'mayoral_staff': mayoral_staff}

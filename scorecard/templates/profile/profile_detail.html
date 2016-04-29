@@ -85,6 +85,22 @@
     <li>Investment Property: cube: bsheet; item.code: 1401; amount_type.label: Audited Actual</li>
   </ul>
 
+  <h3>Mayoral staff:</h3>
+  {% for pos in mayoral_staff %}
+    {{ pos.label }}
+    <ul>
+      <li>Name: {{ pos.title }} {{ pos.name }}</li>
+      <li>Office: {{ pos.office_phone }}</li>
+      <li>Email: {{ pos.email }}</li>
+    </ul>
+    Secretary:
+    <ul>
+      <li>Name: {{ pos.secretary.title }} {{ pos.secretary.name }}</li>
+      <li>Office: {{ pos.secretary.office_phone }}</li>
+      <li>Email: {{ pos.secretary.email }}</li>
+    </ul>
+  {% endfor %}
+
 </section>
 
 {% endblock %}
