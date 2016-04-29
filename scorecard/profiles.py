@@ -134,8 +134,8 @@ def get_profile(geo_code, geo_level, profile_name=None):
     invest_prop = amount_from_results('invest_prop', results, line_items)
 
     cash_coverage = ratio(cash_flow, (op_exp_actual / 12), 1)
-    op_budget_diff = percent((op_exp_actual - op_exp_budget), op_exp_budget, 1)
-    cap_budget_diff = percent((cap_exp_actual - cap_exp_budget), cap_exp_budget)
+    op_budget_diff = percent((op_exp_budget - op_exp_actual), op_exp_budget, 1)
+    cap_budget_diff = percent((cap_exp_budget - cap_exp_actual), cap_exp_budget)
     rep_maint_perc_ppe = percent(rep_maint, (ppe + invest_prop))
 
 
