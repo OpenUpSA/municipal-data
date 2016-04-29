@@ -374,10 +374,11 @@ under the License.
 */
 .content h1, .content h2, .content h3, .content h4, .content h5, .content h6, html, body {
   font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei","微软雅黑", STXihei, "华文细黑", sans-serif;
-  font-size: 13px; }
+  font-size: 14px; }
 
 .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
-  font-weight: bold; }
+  font-weight: bold;
+  color: #8c1603; }
 
 .content code, .content pre {
   font-family: Consolas, Menlo, Monaco, "Lucida Console", "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace, serif;
@@ -436,7 +437,7 @@ html, body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #eaf2f6;
+  background-color: #fff;
   height: 100%;
   -webkit-text-size-adjust: none;
   /* Never autoresize text */ }
@@ -458,7 +459,7 @@ html, body {
   bottom: 0;
   width: 230px;
   background-color: #393939;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold; }
   .tocify-wrapper .lang-selector {
     display: none; }
@@ -528,7 +529,7 @@ html, body {
     transition-duration: 230ms; }
   .tocify-wrapper .tocify-focus {
     box-shadow: 0px 1px 0px #000;
-    background-color: #2467af;
+    background-color: #8c1603;
     color: #fff; }
   .tocify-wrapper .tocify-subheader {
     display: none;
@@ -537,7 +538,7 @@ html, body {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent 8px), linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent 8px), linear-gradient(to bottom, black, transparent 1.5px), linear-gradient(to top, #939393, rgba(147, 147, 147, 0) 1.5px), #262626; }
     .tocify-wrapper .tocify-subheader .tocify-item > a {
       padding-left: 25px;
-      font-size: 12px; }
+      font-size: 13px; }
     .tocify-wrapper .tocify-subheader > li:last-child {
       box-shadow: none; }
   .tocify-wrapper .toc-footer {
@@ -570,7 +571,7 @@ html, body {
   #nav-button span {
     display: block;
     padding: 6px 6px 6px;
-    background-color: rgba(234, 242, 246, 0.7);
+    background-color: rgba(255, 255, 255, 0.7);
     transform-origin: 0 0;
     transform: rotate(-90deg) translate(-100%, 0);
     border-radius: 0 0 0 5px; }
@@ -586,7 +587,7 @@ html, body {
   margin-left: 230px;
   position: relative;
   z-index: 10;
-  background-color: #eaf2f6;
+  background-color: #fff;
   min-height: 100%;
   padding-bottom: 1px; }
   .page-wrapper .dark-box {
@@ -675,7 +676,7 @@ html, body {
   .content hr {
     margin: 2em 0;
     border-top: 2px solid #393939;
-    border-bottom: 2px solid #eaf2f6; }
+    border-bottom: 2px solid #fff; }
   .content table {
     margin-bottom: 1em;
     margin-right: 0px;
@@ -693,9 +694,9 @@ html, body {
     .content table tr:last-child {
       border-bottom: 1px solid #ccc; }
     .content table tr:nth-child(odd) > td {
-      background-color: #f9fbfc; }
+      background-color: white; }
     .content table tr:nth-child(even) > td {
-      background-color: #f3f7fa; }
+      background-color: white; }
   .content dt {
     font-weight: bold; }
   .content dd {
