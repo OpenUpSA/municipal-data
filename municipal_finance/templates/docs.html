@@ -498,6 +498,7 @@ GET /api/cubes/incexp/aggregate
 
       <p><a href="/explore/{{ cube.name }}/">Explore this cube's data</a></p>
 
+      {% if cube.items %}
       <h3 id="{{ cube.name }}-items">Items</h3>
 
       <table class="items">
@@ -510,6 +511,7 @@ GET /api/cubes/incexp/aggregate
           </tr>
         {% endfor %}
       </table>
+      {% endif %}
 
       <h3 id="{{ cube.name }}-dimensions">Dimensions and their attributes</h3>
 

@@ -19,9 +19,13 @@ def index(request):
     cubes = []
     for cube_name in cube_manager.list_cubes():
         cube = cube_manager.get_cube(cube_name)
-        items = cube.members('item', order='item.position_in_return_form:asc')['data']
+        (model,) = cube.model.to_dict(),
+        if 'item' in model['dimensions'].keys():
+            items = cube.members('item', order='item.position_in_return_form:asc')['data']
+        else:
+            items = None
         cubes.append({
-            'model': cube.model.to_dict(),
+            'model': model,
             'name': cube_name,
             'items': items,
         })
