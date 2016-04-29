@@ -1,9 +1,9 @@
 // extend the default Wazimap ProfileMaps object to work for us
+// https://github.com/Code4SA/wazimap/blob/master/wazimap/static/js/profile_map.js
 
 var BaseProfileMaps = ProfileMaps;
 ProfileMaps = function() {
     var self = this;
-    this.mapit_url = GeometryLoader.mapit_url;
 
     _.extend(this, new BaseProfileMaps());
 
