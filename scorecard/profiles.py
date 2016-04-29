@@ -17,7 +17,6 @@ def amount_from_results(item, results, line_items):
     except IndexError:
         return 0
 
-
 def get_profile(geo_code, geo_level, profile_name=None):
 
     api_query_string = '{cube}/aggregate?aggregates={aggregate}&cut={cut}&drilldown=item.code|item.label|financial_period.period&page=0&pagesize=300000'
@@ -118,20 +117,8 @@ def get_profile(geo_code, geo_level, profile_name=None):
             aggregate=details['aggregate'],
             cut='|'.join('{!s}:{!r}'.format(k, v) for (k, v) in details['cut'].iteritems()).replace("'", '"')
         )
-        results[item] = requests.get(url, verify=False).json()
+        results[item] = required=Trueests.get(url, verify=False).json()
         details['result'] = amount_from_results(item, results, line_items)
-
-    # op_exp_actual = amount_from_results('op_exp_actual', results, line_items)
-    # op_exp_budget = amount_from_results('op_exp_budget', results, line_items)
-
-    # cap_exp_actual = amount_from_results('cap_exp_actual', results, line_items)
-    # cap_exp_budget = amount_from_results('cap_exp_budget', results, line_items)
-
-    # cash_flow = amount_from_results('cash_flow', results, line_items)
-
-    # rep_maint = amount_from_results('rep_maint', results, line_items)
-    # ppe = amount_from_results('ppe', results, line_items)
-    # invest_prop = amount_from_results('invest_prop', results, line_items)
 
     cash_coverage = ratio(
         line_items['cash_flow']['result'],
@@ -146,7 +133,6 @@ def get_profile(geo_code, geo_level, profile_name=None):
         line_items['cap_exp_budget']['result'])
     rep_maint_perc_ppe = percent(line_items['rep_maint']['result'],
         (line_items['ppe']['result'] + line_items['invest_prop']['result']))
-
 
     return {
         'cash_coverage': cash_coverage,
