@@ -1,0 +1,65 @@
+{
+    "fact_table": "municipality_contacts",
+    "dimensions": {
+        "municipality": {
+            "label": "Municipality",
+            "key_attribute": "demarcation_code",
+            "label_attribute": "demarcation_code",
+            "attributes": {
+                "demarcation_code": {
+                    "label": "Demarcation Code",
+                    "column": "demarcation_code",
+                    "type": "string"
+                }
+            }
+        },
+        "role": {
+            "label": "Role",
+            "key_attribute": "role",
+            "label_attribute": "role",
+            "attributes": {
+                "role": {
+                    "label": "Role",
+                    "column": "role",
+                    "type": "string"
+                }
+            }
+        },
+        "contact_details": {
+            "label": "Contact Details",
+            "key_attribute": "email_address",
+            "key_attribute": "email_address",
+            "attributes": {
+                "title": {
+                    "label": "Title",
+                    "column": "title",
+                    "type": "string"
+                },
+                "phone_number": {
+                    "label": "Phone Number",
+                    "column": "office_number",
+                    "type": "string"
+                },
+                "fax_number": {
+                    "label": "Fax Number",
+                    "column": "fax_number",
+                    "type": "string"
+                },
+                "email_address": {
+                    "label": "Email Address",
+                    "column": "email_address",
+                    "type": "string"
+                },
+                "name": {
+                    "label": "Name",
+                    "column": "name",
+                    "type": "string"
+                }
+
+            }
+        }
+
+    },
+    "measures": {},
+    "hierarchies": {}
+}
