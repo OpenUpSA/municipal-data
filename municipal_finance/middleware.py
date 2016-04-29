@@ -7,10 +7,11 @@ class ApiErrorHandler(object):
     """ Return API 500-level errors as JSON. """
     def process_exception(self, request, exception):
         if request.path.startswith('/api/'):
+            status = getattr(exception, 'http_equiv', 500)
             return jsonify({
                 'status': 'error',
                 'message': exception.message,
-            }, status=500)
+            }, status=status)
 
 
 class SiteMiddleware(object):

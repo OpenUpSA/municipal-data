@@ -23,7 +23,7 @@ class BabbageJSONEncoder(DjangoJSONEncoder):
 
 
 def jsonify(obj, status=200, headers=None):
-    return JsonResponse(obj, BabbageJSONEncoder, safe=False)
+    return JsonResponse(obj, BabbageJSONEncoder, safe=False, status=status)
 
 
 class EchoBuffer(object):
