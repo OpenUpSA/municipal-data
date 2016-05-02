@@ -19,7 +19,6 @@
   var FilterView = Backbone.View.extend({
     el: '.table-controls',
     events: {
-      'change select': 'muniAdded',
       'click .del': 'muniRemoved',
     },
 
@@ -53,16 +52,36 @@
 
     render: function() {
       var self = this;
+      var munis;
 
-      if (this.$('.muni-chooser option').length === 0) {
-        var options = _.map(municipalities, function(muni) {
-          return new Option(muni.long_name, muni.demarcation_code);
+      function formatMuni(item) {
+        if (item.info) {
+          return $("<div>" + item.info.name + " (" + item.id + ")<br><i>" + item.info.province_name + "</i></div>");
+        } else {
+          return item.text;
+        }
+      }
+
+      if (!this.$muniChooser) {
+        munis = _.map(municipalities, function(muni) {
+          return {
+            id: muni.demarcation_code,
+            text: muni.long_name + " " + muni.demarcation_code,
+            info: muni,
+          };
         });
-        $(this.$('.muni-chooser').append(options));
+
+        this.$muniChooser = this.$('.muni-chooser').select2({
+          data: munis,
+          placeholder: "Find a municipality",
+          allowClear: true,
+          templateResult: formatMuni,
+        })
+          .on('select2:select', _.bind(this.muniSelected, this));
       }
 
       var $list = this.$('.chosen-munis').empty();
-      var munis = _.sortBy(
+      munis = _.sortBy(
         _.map(this.filters.get('munis'), function(id) { return municipalities[id]; }),
         'long_name');
 
@@ -75,14 +94,16 @@
       });
     },
 
-    muniAdded: function(e) {
+    muniSelected: function(e) {
       var munis = this.filters.get('munis');
-      var id = this.$('.muni-chooser option:selected').attr('value');
+      var id = e.params.data.id;
 
       if (id && _.indexOf(munis, id) === -1) {
         munis.push(id);
         this.filters.trigger('change');
       }
+
+      this.$muniChooser.val(null).trigger('change');
     },
 
     muniRemoved: function(e) {

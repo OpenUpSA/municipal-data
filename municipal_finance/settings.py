@@ -212,6 +212,7 @@ PIPELINE = {
             'source_filenames': (
                 'bower_components/fontawesome/css/font-awesome.css',
                 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss',
+                'stylesheets/vendor/select2.min.css',
                 'stylesheets/table.scss',
             ),
             'output_filename': 'table.css',
@@ -265,6 +266,7 @@ PIPELINE = {
                 'bower_components/underscore/underscore-min.js',
                 'bower_components/backbone/backbone-min.js',
                 'javascript/vendor/d3-format.min.js',
+                'javascript/vendor/select2.min.js',
                 'javascript/table.js',
             ),
             'output_filename': 'table.js',
