@@ -86,6 +86,10 @@
     el: '.table-display',
 
     initialize: function(opts) {
+      this.format = d3_format
+        .formatLocale({decimal: ".", thousands: " ", grouping: [3], currency: "R"})
+        .format(",d");
+
       this.filters = opts.filters;
       this.filters.on('change', this.update, this);
 
@@ -176,6 +180,7 @@
     renderValues: function() {
       var table = this.$('.values').empty()[0];
       var cells = this.cells.get('items');
+      var self = this;
 
       // group by code then municipality
       cells = _.groupBy(cells, 'item.code');
@@ -202,8 +207,8 @@
           for (var j = 0; j < muni_ids.length; j++) {
             var cell = cells[row['item.code']][muni_ids[j]];
             // TODO: format this number
-            var v = (cell ? cell['amount.sum'] : null) || "-";
-            tr.insertCell().innerText = v;
+            var v = (cell ? cell['amount.sum'] : null);
+            tr.insertCell().innerText = v ? self.format(v) : "-";
           }
         }
       }

@@ -264,6 +264,7 @@ PIPELINE = {
                 'bower_components/jquery/dist/jquery.min.js',
                 'bower_components/underscore/underscore-min.js',
                 'bower_components/backbone/backbone-min.js',
+                'javascript/vendor/d3-format.min.js',
                 'javascript/table.js',
             ),
             'output_filename': 'table.js',
