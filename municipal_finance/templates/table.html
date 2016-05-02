@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
-{% load pipeline jsonify %}
+{% load pipeline jsonify staticfiles %}
 
-{% block title %}Municipal Finance - {{ cube_model.label }}{% endblock %}
+{% block title %}Municipal Finance Data - {{ cube_model.label }}{% endblock %}
 
 {% block body-class %}table-page{% endblock %}
 
@@ -12,15 +12,31 @@
 {% block content %}
 <header id="header">
   <div class="container-fluid">
+    <div class="pull-right">
+      <a class="btn btn-default" href="/" target="_blank"><i class="fa fa-question-circle"></i> Help</a>
+    </div>
+    <img src="{% static 'images/treasury-logo.png' %}" class="logo">
     <h1>Municipal Finance Data Tables</h1>
   </div>
 </header>
 
 <article id="table-view">
   <div class="container-fluid">
+    <header class="article-header">
+      <div class="pull-right">
+      </div>
+
+      <h2>{{ cube_model.label }}</h2>
+    </header>
+
     <aside class="table-controls">
-      <ul class="chosen-munis"></ul>
-      <h4>Add a municipality</h4>
+      <header>
+        <p>{{ cube_model.description }}</p>
+      </header>
+
+      <h5>Chosen municipalities</h5>
+      <ul class="chosen-munis list-unstyled"></ul>
+      <h5>Add a municipality</h5>
       <select class="muni-chooser"></select>
     </aside>
     <section class="table-display">

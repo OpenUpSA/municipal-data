@@ -20,6 +20,7 @@
     el: '.table-controls',
     events: {
       'change select': 'muniAdded',
+      'click .del': 'muniRemoved',
     },
 
     initialize: function(opts) {
@@ -60,11 +61,17 @@
         $(this.$('.muni-chooser').append(options));
       }
 
-      var $holder = this.$('.chosen-munis').empty();
-      _.each(this.filters.get('munis'), function(id) {
-        var muni = municipalities[id];
-        var li = $('<li>').text(muni.long_name);
-        $holder.append(li);
+      var $list = this.$('.chosen-munis').empty();
+      var munis = _.sortBy(
+        _.map(this.filters.get('munis'), function(id) { return municipalities[id]; }),
+        'long_name');
+
+      _.each(munis, function(muni) {
+        $list.append($('<li>')
+          .text(muni.long_name)
+          .data('id', muni.demarcation_code)
+          .prepend('<a href="#" class="del"><i class="fa fa-times-circle"></i></a> ')
+        );
       });
     },
 
@@ -72,10 +79,16 @@
       var munis = this.filters.get('munis');
       var id = this.$('.muni-chooser option:selected').attr('value');
 
-      if (id && munis.indexOf(id) === -1) {
+      if (id && _.indexOf(munis, id) === -1) {
         munis.push(id);
         this.filters.trigger('change');
       }
+    },
+
+    muniRemoved: function(e) {
+      e.preventDefault();
+      var id = $(e.target).closest('li').data('id');
+      this.filters.set('munis', _.without(this.filters.get('munis'), id));
     },
   });
 
@@ -91,6 +104,7 @@
         .format(",d");
 
       this.filters = opts.filters;
+      this.filters.on('change', this.render, this);
       this.filters.on('change', this.update, this);
 
       this.cells = opts.cells;
@@ -121,7 +135,7 @@
       }
 
       var cells = [];
-      this.cells.set('items', cells, {silent: true});
+      this.cells.set('items', cells);
 
       _.each(this.filters.get('munis'), function(muni_id) {
         var parts = {

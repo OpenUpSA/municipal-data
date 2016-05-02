@@ -1,0 +1,117 @@
+$controls-width: 250px;
+$row-heading-width: 300px;
+
+.table-page {
+  background-color: #efefef;
+}
+
+h1 {
+  font-size: 20px;
+  color: #8c1603;
+}
+
+h2 {
+  font-size: 20px;
+  color: #8c1603;
+}
+
+h3 {
+  font-size: 16px;
+}
+
+h4, h5 {
+  font-size: 14px;
+}
+
+#header {
+  padding: 5px 0px;
+  background-color: #8c1603;
+
+  h1 {
+    margin: 5px 0px 0px 140px;
+    color: white;
+    font-size: 20px;
+  }
+
+  .logo {
+    position: absolute;
+    height: 53px;
+    width: 132px;
+    padding: 5px;
+    margin-right: 10px;
+    background: white;
+  }
+}
+
+.table-controls {
+  float: left;
+  width: $controls-width;
+  padding-right: 10px;
+
+  select {
+    width: 100%;
+  }
+
+  header {
+    margin-bottom: 20px;
+  }
+}
+
+.chosen-munis {
+  padding-bottom: 10px;
+}
+
+.table-display {
+  height: 600px;
+  overflow: auto;
+  font-size: 12px;
+
+  margin-left: $controls-width;
+  background-color: white;
+  padding: 10px;
+
+  td, th {
+    padding: 2px;
+    white-space: nowrap;
+  }
+
+  .item-heading td {
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  .item-subtotal td {
+    font-weight: bold;
+  }
+
+  .row-headings {
+    width: $row-heading-width;
+    float: left;
+
+    td {
+      max-width: $row-heading-width;
+      text-overflow: ellipsis;
+      overflow-y: hidden;
+    }
+  }
+
+  .table-scroll-area {
+    overflow: auto;
+
+    table {
+      float: left;
+    }
+  }
+
+  .col-headings td,
+  .values th {
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .values {
+    td {
+      text-align: right;
+    }
+  }
+}
