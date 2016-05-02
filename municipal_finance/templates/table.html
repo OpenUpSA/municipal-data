@@ -3,6 +3,8 @@
 
 {% block title %}Municipal Finance - {{ cube_model.label }}{% endblock %}
 
+{% block body-class %}table-page{% endblock %}
+
 {% block head-css %}
 {% stylesheet "table" %}
 {% endblock %}
@@ -21,7 +23,13 @@
       <h4>Add a municipality</h4>
       <select class="muni-chooser"></select>
     </aside>
-    <section class="table-display"></section>
+    <section class="table-display">
+      <table class="row-headings"></table>
+      <div class="table-scroll-area">
+        <table class="col-headings"></table>
+        <table class="values"></table>
+      </div>
+    </section>
   </div>
 </article>
 

@@ -1,8 +1,17 @@
 (function(exports) {
   "use strict";
 
-  var Filters = Backbone.Model.extend({});
-  var Cells = Backbone.Model.extend({});
+  var Filters = Backbone.Model.extend({
+    defaults: {
+      munis: [],
+    }
+  });
+  var Cells = Backbone.Model.extend({
+    defaults: {
+      items: [],
+    }
+  });
+  var municipalities;
 
 
   /** The filters the user can choose
@@ -36,7 +45,7 @@
           return muni;
         });
 
-        self.munis = _.indexBy(munis, 'demarcation_code');
+        municipalities = _.indexBy(munis, 'demarcation_code');
         self.filters.trigger('change');
       });
     },
@@ -45,7 +54,7 @@
       var self = this;
 
       if (this.$('.muni-chooser option').length === 0) {
-        var options = _.map(this.munis, function(muni) {
+        var options = _.map(municipalities, function(muni) {
           return new Option(muni.long_name, muni.demarcation_code);
         });
         $(this.$('.muni-chooser').append(options));
@@ -53,7 +62,7 @@
 
       var $holder = this.$('.chosen-munis').empty();
       _.each(this.filters.get('munis'), function(id) {
-        var muni = self.munis[id];
+        var muni = municipalities[id];
         var li = $('<li>').text(muni.long_name);
         $holder.append(li);
       });
@@ -82,6 +91,17 @@
 
       this.cells = opts.cells;
       this.cells.on('change', this.render, this);
+
+      this.preload();
+    },
+
+    preload: function() {
+      var self = this;
+      // TODO does this work for all cubes?
+      $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/item', function(data) {
+        self.rowHeadings = data.data;
+        self.renderRowHeadings();
+      });
     },
 
     /**
@@ -96,50 +116,97 @@
         return;
       }
 
-      var parts = {
-        // TODO: field to sum over ?
-        aggregates: ['amount.sum'],
-        // TODO: determine
-        drilldown: ['demarcation.code', 'demarcation.label', 'item.code', 'item.label', 'item.return_form_structure'],
-        sort: 'item.position_in_return_form',
-      };
+      var cells = [];
+      this.cells.set('items', cells, {silent: true});
 
-      // TODO: set filter for municipality
-      parts.cut = 'demarcation.code:"' + this.filters.get('munis')[0] + '"';
+      _.each(this.filters.get('munis'), function(muni_id) {
+        var parts = {
+          // TODO: field to sum over ?
+          aggregates: ['amount.sum'],
+          // TODO: determine
+          drilldown: ['demarcation.code', 'demarcation.label', 'item.code', 'item.label', 'item.return_form_structure', 'item.position_in_return_form'],
+          order: 'item.position_in_return_form:asc',
+        };
 
-      // TODO: paginate
+        // TODO: set filter for municipality
+        parts.cut = 'demarcation.code:"' + muni_id + '"';
+        // parts.cut = 'demarcation.code:CPT';
 
-      url += _.map(parts, function(value, key) {
-        if (_.isArray(value)) value = value.join('|');
-        return key + '=' + encodeURIComponent(value);
-      }).join('&');
+        // TODO: paginate
+        // make the URL
+        url += _.map(parts, function(value, key) {
+          if (_.isArray(value)) value = value.join('|');
+          return key + '=' + encodeURIComponent(value);
+        }).join('&');
 
-      console.log(url);
+        console.log(url);
 
-      $.get(url, function(data) {
-        self.cells.set({items: data.cells, meta: data});
+        $.get(url, function(data) {
+          self.cells.set('items', self.cells.get('items').concat(data.cells));
+        });
       });
     },
 
     render: function() {
-      // TODO: render correctly
-      var cells = this.cells.get('items');
-      var table = document.createElement('table');
+      if (this.rowHeadings) {
+        this.renderValues();
+      }
+    },
 
-      for (var i = 0; i < cells.length; i++) {
-        var cell = cells[i];
+    renderRowHeadings: function() {
+      // render row headings table
+      var table = this.$('.row-headings')[0];
+
+      table.insertRow().insertCell().innerHTML = '&nbsp;';
+
+      for (var i = 0; i < this.rowHeadings.length; i++) {
+        var item = this.rowHeadings[i];
         var tr = table.insertRow();
         var td;
 
-        $(tr).addClass('item-' + cell['item.return_form_structure']);
+        $(tr).addClass('item-' + item['item.return_form_structure']);
         
         td = tr.insertCell();
-        td.innerText = cell['item.code'];
+        td.innerText = item['item.code'];
         td = tr.insertCell();
-        td.innerText = cell['item.label'];
+        td.innerText = item['item.label'];
+      }
+    },
+
+    renderValues: function() {
+      var table = this.$('.values').empty()[0];
+      var cells = this.cells.get('items');
+
+      // group by code then municipality
+      cells = _.groupBy(cells, 'item.code');
+      _.each(cells, function(items, code) {
+        cells[code] = _.indexBy(items, 'demarcation.code');
+      });
+
+      // municipality headings
+      var tr = table.insertRow();
+      var muni_ids = this.filters.get('munis');
+      for (var i = 0; i < muni_ids.length; i++) {
+        var th = document.createElement('th');
+        th.innerText = municipalities[muni_ids[i]].name;
+        tr.appendChild(th);
       }
 
-      this.$el.empty().append(table);
+      // values
+      if (!_.isEmpty(cells)) {
+        for (i = 0; i < this.rowHeadings.length; i++) {
+          var row = this.rowHeadings[i];
+          tr = table.insertRow();
+          $(tr).addClass('item-' + row['item.return_form_structure']);
+
+          for (var j = 0; j < muni_ids.length; j++) {
+            var cell = cells[row['item.code']][muni_ids[j]];
+            // TODO: format this number
+            var v = (cell ? cell['amount.sum'] : null) || "-";
+            tr.insertCell().innerText = v;
+          }
+        }
+      }
     },
   });
 
@@ -150,7 +217,7 @@
     el: '#table-view',
 
     initialize: function() {
-      this.filters = new Filters({munis: []});
+      this.filters = new Filters();
       this.cells = new Cells();
 
       this.filterView = new FilterView({filters: this.filters});
