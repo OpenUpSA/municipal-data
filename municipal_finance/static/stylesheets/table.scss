@@ -76,8 +76,14 @@ label.scale {
 }
 
 .table-controls {
-  float: left;
-  width: $controls-width;
+  position: fixed;
+  width: $controls-width + 15px;
+
+  top: 100px;
+  left: 0px;
+  bottom: 0px;
+  overflow-y: scroll;
+  padding-left: 15px;
   padding-right: 10px;
 
   select {
@@ -98,11 +104,14 @@ label.scale {
 }
 
 .table-display {
-  height: 600px;
+  position: fixed;
+  top: 100px;
+  bottom: 15px;
+  left: $controls-width + 15px;
+  right: 15px;
   overflow: auto;
   font-size: 12px;
 
-  margin-left: $controls-width;
   background-color: white;
   padding: 10px;
   border-top: 1px solid #ccc;
