@@ -1,26 +1,8 @@
 (function(exports) {
   "use strict";
 
-  var Filters = Backbone.Model.extend({
-    // # TODO: init munis
-  });
-
+  var Filters = Backbone.Model.extend({});
   var Cells = Backbone.Model.extend({});
-
-
-  /** The data table portion of the page.
-   */
-  var TableView = Backbone.View.extend({
-    el: '.table-display',
-
-    initialize: function() {
-      this.model.on('change', this.render);
-    },
-
-    render: function() {
-      this.$el.html(this.model.length);
-    },
-  });
 
 
   /** The filters the user can choose
@@ -31,11 +13,12 @@
       'change select': 'muniAdded',
     },
 
-    initialize: function() {
+    initialize: function(opts) {
+      this.filters = opts.filters;
+      this.filters.on('change', this.render, this);
+
       this.munis = [];
       this.preload();
-
-      this.model.on('change', this.render, this);
     },
 
     preload: function() {
@@ -54,7 +37,7 @@
         });
 
         self.munis = _.indexBy(munis, 'demarcation_code');
-        self.render();
+        self.filters.trigger('change');
       });
     },
 
@@ -69,7 +52,7 @@
       }
 
       var $holder = this.$('.chosen-munis').empty();
-      _.each(this.model.get('munis'), function(id) {
+      _.each(this.filters.get('munis'), function(id) {
         var muni = self.munis[id];
         var li = $('<li>').text(muni.long_name);
         $holder.append(li);
@@ -77,13 +60,86 @@
     },
 
     muniAdded: function(e) {
-      var munis = this.model.get('munis');
+      var munis = this.filters.get('munis');
       var id = this.$('.muni-chooser option:selected').attr('value');
 
       if (id && munis.indexOf(id) === -1) {
         munis.push(id);
-        this.model.trigger('change');
+        this.filters.trigger('change');
       }
+    },
+  });
+
+
+  /** The data table portion of the page.
+   */
+  var TableView = Backbone.View.extend({
+    el: '.table-display',
+
+    initialize: function(opts) {
+      this.filters = opts.filters;
+      this.filters.on('change', this.update, this);
+
+      this.cells = opts.cells;
+      this.cells.on('change', this.render, this);
+    },
+
+    /**
+     * Update the data!
+     */
+    update: function() {
+      var self = this;
+      var url = MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/aggregate?';
+
+      if (this.filters.get('munis').length === 0) {
+        this.cells.set({items: [], meta: {}});
+        return;
+      }
+
+      var parts = {
+        // TODO: field to sum over ?
+        aggregates: ['amount.sum'],
+        // TODO: determine
+        drilldown: ['demarcation.code', 'demarcation.label', 'item.code', 'item.label', 'item.return_form_structure'],
+        sort: 'item.position_in_return_form',
+      };
+
+      // TODO: set filter for municipality
+      parts.cut = 'demarcation.code:"' + this.filters.get('munis')[0] + '"';
+
+      // TODO: paginate
+
+      url += _.map(parts, function(value, key) {
+        if (_.isArray(value)) value = value.join('|');
+        return key + '=' + encodeURIComponent(value);
+      }).join('&');
+
+      console.log(url);
+
+      $.get(url, function(data) {
+        self.cells.set({items: data.cells, meta: data});
+      });
+    },
+
+    render: function() {
+      // TODO: render correctly
+      var cells = this.cells.get('items');
+      var table = document.createElement('table');
+
+      for (var i = 0; i < cells.length; i++) {
+        var cell = cells[i];
+        var tr = table.insertRow();
+        var td;
+
+        $(tr).addClass('item-' + cell['item.return_form_structure']);
+        
+        td = tr.insertCell();
+        td.innerText = cell['item.code'];
+        td = tr.insertCell();
+        td.innerText = cell['item.label'];
+      }
+
+      this.$el.empty().append(table);
     },
   });
 
@@ -97,13 +153,9 @@
       this.filters = new Filters({munis: []});
       this.cells = new Cells();
 
-      this.filterView = new FilterView({model: this.filters});
-      this.tableView = new TableView({model: this.cells});
+      this.filterView = new FilterView({filters: this.filters});
+      this.tableView = new TableView({filters: this.filters, cells: this.cells});
     },
-
-    render: function() {
-      // TODO: do stuff
-    }
   });
 
   exports.view = new MainView();

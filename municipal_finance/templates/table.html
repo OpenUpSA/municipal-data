@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% load pipeline %}
+{% load pipeline jsonify %}
 
 {% block title %}Municipal Finance - {{ cube_model.label }}{% endblock %}
 
@@ -26,7 +26,9 @@
 </article>
 
 <script>
-MUNI_DATA_API = 'https://data.municipalmoney.org.za/api';
+var MUNI_DATA_API = 'https://data.municipalmoney.org.za/api';
+var CUBE_NAME = '{{ cube_name|escapejs }}';
+var CUBE = {{ cube_model|jsonify|safe }};
 </script>
 {% javascript "table" %}
 
