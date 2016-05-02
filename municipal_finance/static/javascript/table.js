@@ -96,12 +96,17 @@
   /** The data table portion of the page.
    */
   var TableView = Backbone.View.extend({
-    el: '.table-display',
+    el: '#table-view',
+
+    events: {
+      'click .scale': 'changeScale',
+    },
 
     initialize: function(opts) {
       this.format = d3_format
         .formatLocale({decimal: ".", thousands: " ", grouping: [3], currency: "R"})
         .format(",d");
+      this.scale = 1000;
 
       this.filters = opts.filters;
       this.filters.on('change', this.render, this);
@@ -120,6 +125,12 @@
         self.rowHeadings = data.data;
         self.renderRowHeadings();
       });
+    },
+
+    changeScale: function() {
+      var zeroes = this.$('.scale input:checked').attr('value');
+      this.scale = Math.pow(10, Number.parseInt(zeroes));
+      this.render();
     },
 
     /**
@@ -220,9 +231,9 @@
 
           for (var j = 0; j < muni_ids.length; j++) {
             var cell = cells[row['item.code']][muni_ids[j]];
-            // TODO: format this number
             var v = (cell ? cell['amount.sum'] : null);
-            tr.insertCell().innerText = v ? self.format(v) : "-";
+
+            tr.insertCell().innerText = v ? self.format(v / this.scale) : "-";
           }
         }
       }
@@ -233,8 +244,6 @@
   /** Overall table view on this page
    */
   var MainView = Backbone.View.extend({
-    el: '#table-view',
-
     initialize: function() {
       this.filters = new Filters();
       this.cells = new Cells();
