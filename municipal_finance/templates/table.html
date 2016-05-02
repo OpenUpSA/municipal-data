@@ -42,7 +42,7 @@
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            {% for cube in cubes %}
+            {% for cube in cubes.itervalues %}
             <li><a href="{% url 'table' cube.name %}">{{ cube.model.label }}</a></li>
             {% endfor %}
           </ul>
@@ -79,7 +79,7 @@
 <script>
 var MUNI_DATA_API = 'https://data.municipalmoney.org.za/api';
 var CUBE_NAME = '{{ cube_name|escapejs }}';
-var CUBE = {{ cube_model|jsonify|safe }};
+var CUBES = {{ cubes|jsonify|safe }};
 </script>
 {% javascript "table" %}
 

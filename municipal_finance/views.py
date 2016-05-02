@@ -164,13 +164,13 @@ def members(request, cube_name, member_ref):
 
 @xframe_options_exempt
 def table(request, cube_name):
-    cubes = []
+    cubes = {}
     for name in cube_manager.list_cubes():
         if name not in ['municipalities', 'officials']:
-            cubes.append({
+            cubes[name] = {
                 'model': cube_manager.get_cube(name).model.to_dict(),
                 'name': name,
-            })
+            }
 
     cube = cube_manager.get_cube(cube_name).model.to_dict()
     return render(request, 'table.html', {

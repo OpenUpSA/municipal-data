@@ -32,12 +32,12 @@
   });
   var municipalities;
 
-  var cubes = {};
-  var cube = _.extend({}, {
-    aggregate: 'amount.sum',
+  var cube = {
     order: 'item.position_in_return_form:asc',
     drilldown: ['demarcation.code', 'demarcation.label', 'item.code', 'item.label', 'item.return_form_structure', 'item.position_in_return_form'],
-  }, cubes[CUBE_NAME] || {});
+    model: CUBES[CUBE_NAME].model,
+  };
+  cube.aggregates = _.map(cube.model.measures, function(m) { return m.ref + '.sum'; });
 
 
   /** The filters the user can choose
@@ -204,8 +204,10 @@
       // TODO does this work for all cubes?
       spinnerStart();
       $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/item', function(data) {
+        // we only care about items that have a label
         self.rowHeadings = _.select(data.data, function(d) { return d['item.label']; });
         self.renderRowHeadings();
+        self.render();
       }).always(spinnerStop);
     },
 
@@ -230,28 +232,27 @@
       var cells = [];
       this.cells.set('items', cells);
 
+      var parts = {
+        aggregates: cube.aggregates,
+        drilldown: cube.drilldown,
+        order: cube.order,
+        cut: ['financial_period.period:' + self.filters.get('year'),
+              // TODO: work out possibilities here based on year
+              // eg: https://data.municipalmoney.org.za/api/cubes/incexp/members/amount_type?cut=financial_period:2015
+              'amount_type.code:AUDA'],
+      };
+      var cut = parts.cut;
+
       _.each(this.filters.get('munis'), function(muni_id) {
-        var parts = {
-          aggregates: cube.aggregate,
-          cut: [],
-          drilldown: cube.drilldown,
-          order: cube.order,
-        };
+        // duplicate this, we're going to change it
+        parts.cut = cut.slice();
 
         // TODO: do this in bulk, rather than 1-by-1
         parts.cut.push('demarcation.code:"' + muni_id + '"');
-        parts.cut.push('financial_period.period:' + self.filters.get('year'));
-        // TODO: work out possibilities here based on year
-        // eg: https://data.municipalmoney.org.za/api/cubes/incexp/members/amount_type?cut=financial_period:2015
-        parts.cut.push('amount_type.code:AUDA');
 
         // TODO: paginate
-        // make the URL
-        url += _.map(parts, function(value, key) {
-          if (_.isArray(value)) value = value.join('|');
-          return key + '=' + encodeURIComponent(value);
-        }).join('&');
 
+        var url = self.makeUrl(parts);
         console.log(url);
 
         spinnerStart();
@@ -259,6 +260,14 @@
           self.cells.set('items', self.cells.get('items').concat(data.cells));
         }).always(spinnerStop);
       });
+    },
+
+    makeUrl: function(parts) {
+      var url = MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/aggregate?';
+      return url + _.map(parts, function(value, key) {
+        if (_.isArray(value)) value = value.join('|');
+        return key + '=' + encodeURIComponent(value);
+      }).join('&');
     },
 
     render: function() {
@@ -271,9 +280,12 @@
       // render row headings table
       var table = this.$('.row-headings')[0];
 
-      table.insertRow().appendChild($('<th>').html('&nbsp;')[0]);
+      for (var i = 0; i < (cube.aggregates.length > 1 ? 2 : 1); i++) {
+        var spacer = $('<th>').html('&nbsp;').addClass('spacer');
+        table.insertRow().appendChild(spacer[0]);
+      }
 
-      for (var i = 0; i < this.rowHeadings.length; i++) {
+      for (i = 0; i < this.rowHeadings.length; i++) {
         var item = this.rowHeadings[i];
         var tr = table.insertRow();
         var td;
@@ -304,7 +316,21 @@
       for (var i = 0; i < muni_ids.length; i++) {
         var th = document.createElement('th');
         th.innerText = municipalities[muni_ids[i]].name;
+        th.setAttribute('colspan', cube.aggregates.length);
         tr.appendChild(th);
+      }
+
+      // aggregate headings
+      if (cube.aggregates.length > 1) {
+        tr = table.insertRow();
+
+        for (i = 0; i < muni_ids.length; i++) {
+          _.each(cube.model.measures, function(measure) {
+            var th = document.createElement('th');
+            th.innerText = measure.label;
+            tr.appendChild(th);
+          });
+        }
       }
 
       // values
@@ -317,9 +343,11 @@
           for (var j = 0; j < muni_ids.length; j++) {
             var cell = cells[row['item.code']];
             if (cell) cell = cell[muni_ids[j]];
-            var v = (cell ? cell['amount.sum'] : null);
 
-            tr.insertCell().innerText = v ? self.format(v / this.scale) : "-";
+            for (var a = 0; a < cube.aggregates.length; a++) {
+              var v = (cell ? cell[cube.aggregates[a]] : null);
+              tr.insertCell().innerText = v ? self.format(v / this.scale) : "-";
+            }
           }
         }
       }
