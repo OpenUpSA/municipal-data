@@ -3,7 +3,6 @@
 
   // progress indicators
   var spinning = 0;
-
   function spinnerStart() {
     spinning++;
 
@@ -32,6 +31,13 @@
     }
   });
   var municipalities;
+
+  var cubes = {};
+  var cube = _.extend({}, {
+    aggregate: 'amount.sum',
+    order: 'item.position_in_return_form:asc',
+    drilldown: ['demarcation.code', 'demarcation.label', 'item.code', 'item.label', 'item.return_form_structure', 'item.position_in_return_form'],
+  }, cubes[CUBE_NAME] || {});
 
 
   /** The filters the user can choose
@@ -224,17 +230,17 @@
 
       _.each(this.filters.get('munis'), function(muni_id) {
         var parts = {
-          // TODO: field to sum over ?
-          aggregates: ['amount.sum'],
+          aggregates: cube.aggregate,
           cut: [],
-          // TODO: determine
-          drilldown: ['demarcation.code', 'demarcation.label', 'item.code', 'item.label', 'item.return_form_structure', 'item.position_in_return_form'],
-          order: 'item.position_in_return_form:asc',
+          drilldown: cube.drilldown,
+          order: cube.order,
         };
 
+        // TODO: do this in bulk, rather than 1-by-1
         parts.cut.push('demarcation.code:"' + muni_id + '"');
         parts.cut.push('financial_year_end.year:' + self.filters.get('year'));
         parts.cut.push('financial_period.period:' + self.filters.get('year'));
+        parts.cut.push('amount_type.code:AUDA');
 
         // TODO: paginate
         // make the URL
@@ -306,7 +312,8 @@
           $(tr).addClass('item-' + row['item.return_form_structure']);
 
           for (var j = 0; j < muni_ids.length; j++) {
-            var cell = cells[row['item.code']][muni_ids[j]];
+            var cell = cells[row['item.code']];
+            if (cell) cell = cell[muni_ids[j]];
             var v = (cell ? cell['amount.sum'] : null);
 
             tr.insertCell().innerText = v ? self.format(v / this.scale) : "-";
