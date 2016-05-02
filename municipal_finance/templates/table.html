@@ -42,7 +42,7 @@
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            {% for cube in cubes.itervalues %}
+            {% for cube in cubes.values|dictsort:"name" %}
             <li><a href="{% url 'table' cube.name %}">{{ cube.model.label }}</a></li>
             {% endfor %}
           </ul>

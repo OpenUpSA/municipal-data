@@ -85,16 +85,13 @@
     },
 
     render: function() {
+      var $list = this.$('.chosen-munis').empty();
+      var munis = this.filters.get('munis');
       var self = this;
 
       if (municipalities && !this.$muniChooser) {
         this.renderMunis();
       }
-
-      var munis = _.sortBy(
-        _.map(this.filters.get('munis'), function(id) { return municipalities[id]; }),
-        'long_name');
-      var $list = this.$('.chosen-munis').empty();
 
       if (munis.length === 0) {
         $list.append('<li>').html('<i>Choose a municipality below.</i>');
@@ -150,9 +147,11 @@
     muniSelected: function(e) {
       var munis = this.filters.get('munis');
       var id = e.params.data.id;
+      var muni = municipalities[id];
 
-      if (id && _.indexOf(munis, id) === -1) {
-        munis.push(id);
+      if (id && _.indexOf(munis, muni) === -1) {
+        munis.push(muni);
+        this.filters.set('munis', _.sortBy(munis, 'name'));
         this.filters.trigger('change');
       }
 
@@ -162,7 +161,7 @@
     muniRemoved: function(e) {
       e.preventDefault();
       var id = $(e.target).closest('li').data('id');
-      this.filters.set('munis', _.without(this.filters.get('munis'), id));
+      this.filters.set('munis', _.without(this.filters.get('munis'), municipalities[id]));
     },
 
     yearChanged: function(e) {
@@ -243,12 +242,12 @@
       };
       var cut = parts.cut;
 
-      _.each(this.filters.get('munis'), function(muni_id) {
+      _.each(this.filters.get('munis'), function(muni) {
         // duplicate this, we're going to change it
         parts.cut = cut.slice();
 
         // TODO: do this in bulk, rather than 1-by-1
-        parts.cut.push('demarcation.code:"' + muni_id + '"');
+        parts.cut.push('demarcation.code:"' + muni.demarcation_code + '"');
 
         // TODO: paginate
 
@@ -272,6 +271,7 @@
 
     render: function() {
       if (this.rowHeadings) {
+        this.renderColHeadings();
         this.renderValues();
       }
     },
@@ -299,23 +299,15 @@
       }
     },
 
-    renderValues: function() {
+    renderColHeadings: function() {
       var table = this.$('.values').empty()[0];
-      var cells = this.cells.get('items');
-      var self = this;
-
-      // group by code then municipality
-      cells = _.groupBy(cells, 'item.code');
-      _.each(cells, function(items, code) {
-        cells[code] = _.indexBy(items, 'demarcation.code');
-      });
 
       // municipality headings
       var tr = table.insertRow();
-      var muni_ids = this.filters.get('munis');
-      for (var i = 0; i < muni_ids.length; i++) {
+      var munis = this.filters.get('munis');
+      for (var i = 0; i < munis.length; i++) {
         var th = document.createElement('th');
-        th.innerText = municipalities[muni_ids[i]].name;
+        th.innerText = munis[i].name;
         th.setAttribute('colspan', cube.aggregates.length);
         tr.appendChild(th);
       }
@@ -324,7 +316,7 @@
       if (cube.aggregates.length > 1) {
         tr = table.insertRow();
 
-        for (i = 0; i < muni_ids.length; i++) {
+        for (i = 0; i < munis.length; i++) {
           _.each(cube.model.measures, function(measure) {
             var th = document.createElement('th');
             th.innerText = measure.label;
@@ -332,17 +324,30 @@
           });
         }
       }
+    },
+
+    renderValues: function() {
+      var table = this.$('.values')[0];
+      var cells = this.cells.get('items');
+      var munis = this.filters.get('munis');
+      var self = this;
+
+      // group by code then municipality
+      cells = _.groupBy(cells, 'item.code');
+      _.each(cells, function(items, code) {
+        cells[code] = _.indexBy(items, 'demarcation.code');
+      });
 
       // values
       if (!_.isEmpty(cells)) {
-        for (i = 0; i < this.rowHeadings.length; i++) {
+        for (var i = 0; i < this.rowHeadings.length; i++) {
           var row = this.rowHeadings[i];
-          tr = table.insertRow();
+          var tr = table.insertRow();
           $(tr).addClass('item-' + row['item.return_form_structure']);
 
-          for (var j = 0; j < muni_ids.length; j++) {
+          for (var j = 0; j < munis.length; j++) {
             var cell = cells[row['item.code']];
-            if (cell) cell = cell[muni_ids[j]];
+            if (cell) cell = cell[munis[j].demarcation_code];
 
             for (var a = 0; a < cube.aggregates.length; a++) {
               var v = (cell ? cell[cube.aggregates[a]] : null);
