@@ -59,7 +59,7 @@
     render: function() {
       var self = this;
 
-      if (!this.$muniChooser) {
+      if (municipalities && !this.$muniChooser) {
         this.renderMunis();
       }
 

@@ -1,5 +1,6 @@
 $controls-width: 250px;
 $row-heading-width: 300px;
+$header-bg: #ddd;
 
 .table-page {
   background-color: #efefef;
@@ -57,6 +58,16 @@ label.scale {
   }
 }
 
+.article-header {
+  background-color: $header-bg;
+  margin: 0px -15px;
+  padding: 20px 15px 15px;
+
+  h2 {
+    margin: 0px;
+  }
+}
+
 .table-controls {
   float: left;
   width: $controls-width;
@@ -67,7 +78,9 @@ label.scale {
   }
 
   header {
-    margin-bottom: 20px;
+    margin: 0px -10px 20px -15px;
+    background-color: $header-bg;
+    padding: 5px 15px;
   }
 
   section {
