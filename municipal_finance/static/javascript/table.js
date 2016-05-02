@@ -20,6 +20,7 @@
     el: '.table-controls',
     events: {
       'click .del': 'muniRemoved',
+      'click input[name=year]': 'yearChanged',
     },
 
     initialize: function(opts) {
@@ -48,42 +49,23 @@
         municipalities = _.indexBy(munis, 'demarcation_code');
         self.filters.trigger('change');
       });
+
+      $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/financial_year_end.year', function(data) {
+        self.years = _.pluck(data.data, "financial_year_end.year").sort().reverse();
+        self.renderYears();
+      });
     },
 
     render: function() {
       var self = this;
-      var munis;
-
-      function formatMuni(item) {
-        if (item.info) {
-          return $("<div>" + item.info.name + " (" + item.id + ")<br><i>" + item.info.province_name + "</i></div>");
-        } else {
-          return item.text;
-        }
-      }
 
       if (!this.$muniChooser) {
-        munis = _.map(municipalities, function(muni) {
-          return {
-            id: muni.demarcation_code,
-            text: muni.long_name + " " + muni.demarcation_code,
-            info: muni,
-          };
-        });
-
-        this.$muniChooser = this.$('.muni-chooser').select2({
-          data: munis,
-          placeholder: "Find a municipality",
-          allowClear: true,
-          templateResult: formatMuni,
-        })
-          .on('select2:select', _.bind(this.muniSelected, this));
+        this.renderMunis();
       }
 
-      munis = _.sortBy(
+      var munis = _.sortBy(
         _.map(this.filters.get('munis'), function(id) { return municipalities[id]; }),
         'long_name');
-
       var $list = this.$('.chosen-munis').empty();
 
       if (munis.length === 0) {
@@ -98,6 +80,43 @@
           );
         });
       }
+    },
+
+    renderMunis: function() {
+      function formatMuni(item) {
+        if (item.info) {
+          return $("<div>" + item.info.name + " (" + item.id + ")<br><i>" + item.info.province_name + "</i></div>");
+        } else {
+          return item.text;
+        }
+      }
+
+      var munis = _.map(municipalities, function(muni) {
+        return {
+          id: muni.demarcation_code,
+          text: muni.long_name + " " + muni.demarcation_code,
+          info: muni,
+        };
+      });
+
+      this.$muniChooser = this.$('.muni-chooser').select2({
+        data: munis,
+        placeholder: "Find a municipality",
+        allowClear: true,
+        templateResult: formatMuni,
+      })
+        .on('select2:select', _.bind(this.muniSelected, this));
+    },
+
+    renderYears: function() {
+      var $chooser = this.$('.year-chooser');
+
+      for (var i = 0; i < this.years.length; i++) {
+        var year = this.years[i];
+        $chooser.append($('<li><label><input type="radio" name="year" value="' + year + '"> ' + year + '</label></li>'));
+      }
+
+      $chooser.find('input:first').prop('checked', true).trigger('click');
     },
 
     muniSelected: function(e) {
@@ -116,6 +135,10 @@
       e.preventDefault();
       var id = $(e.target).closest('li').data('id');
       this.filters.set('munis', _.without(this.filters.get('munis'), id));
+    },
+
+    yearChanged: function(e) {
+      this.filters.set('year', Number.parseInt(this.$('input[name=year]:checked').val()));
     },
   });
 
@@ -147,6 +170,7 @@
 
     preload: function() {
       var self = this;
+
       // TODO does this work for all cubes?
       $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/item', function(data) {
         self.rowHeadings = data.data;
@@ -179,14 +203,15 @@
         var parts = {
           // TODO: field to sum over ?
           aggregates: ['amount.sum'],
+          cut: [],
           // TODO: determine
           drilldown: ['demarcation.code', 'demarcation.label', 'item.code', 'item.label', 'item.return_form_structure', 'item.position_in_return_form'],
           order: 'item.position_in_return_form:asc',
         };
 
         // TODO: set filter for municipality
-        parts.cut = 'demarcation.code:"' + muni_id + '"';
-        // parts.cut = 'demarcation.code:CPT';
+        parts.cut.push('demarcation.code:"' + muni_id + '"');
+        parts.cut.push('financial_year_end.year:' + self.filters.get('year'));
 
         // TODO: paginate
         // make the URL
