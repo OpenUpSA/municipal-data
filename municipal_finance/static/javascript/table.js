@@ -296,6 +296,7 @@
         td.innerText = item['item.code'];
         td = tr.insertCell();
         td.innerText = item['item.label'];
+        td.setAttribute('title', item['item.label']);
       }
     },
 
@@ -309,6 +310,7 @@
         var th = document.createElement('th');
         th.innerText = munis[i].name;
         th.setAttribute('colspan', cube.aggregates.length);
+        th.setAttribute('title', munis[i].demarcation_code);
         tr.appendChild(th);
       }
 
