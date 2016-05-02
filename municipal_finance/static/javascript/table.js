@@ -240,8 +240,9 @@
 
         // TODO: do this in bulk, rather than 1-by-1
         parts.cut.push('demarcation.code:"' + muni_id + '"');
-        parts.cut.push('financial_year_end.year:' + self.filters.get('year'));
         parts.cut.push('financial_period.period:' + self.filters.get('year'));
+        // TODO: work out possibilities here based on year
+        // eg: https://data.municipalmoney.org.za/api/cubes/incexp/members/amount_type?cut=financial_period:2015
         parts.cut.push('amount_type.code:AUDA');
 
         // TODO: paginate
