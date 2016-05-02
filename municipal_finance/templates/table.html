@@ -34,7 +34,18 @@
 
     <aside class="table-controls">
       <header>
-        <p>{{ cube_model.description }}</p>
+        {{ cube_model.description }}
+        <div class="dropdown">
+          <a href="#" data-toggle="dropdown">
+            Change dataset
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            {% for cube in cubes %}
+            <li><a href="{% url 'table' cube.name %}">{{ cube.model.label }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
       </header>
 
       <section>
