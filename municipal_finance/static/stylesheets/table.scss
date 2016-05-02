@@ -125,6 +125,10 @@ label.scale {
     width: $row-heading-width;
     float: left;
 
+    tr:first-child th {
+      border-bottom: 1px solid white;
+    }
+
     td {
       max-width: $row-heading-width;
       text-overflow: ellipsis;
@@ -140,7 +144,6 @@ label.scale {
     }
   }
 
-  .col-headings td,
   .values th {
     font-weight: bold;
     text-align: center;
@@ -153,5 +156,10 @@ label.scale {
       text-align: right;
       padding-left: 10px;
     }
+  }
+
+  tr.hover td,
+  td.hover {
+    background-color: gold;
   }
 }

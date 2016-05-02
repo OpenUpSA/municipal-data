@@ -178,6 +178,8 @@
 
     events: {
       'click .scale': 'changeScale',
+      'mouseover .table-display tr': 'rowOver',
+      'mouseout .table-display tr': 'rowOut',
     },
 
     initialize: function(opts) {
@@ -268,7 +270,7 @@
       // render row headings table
       var table = this.$('.row-headings')[0];
 
-      table.insertRow().insertCell().innerHTML = '&nbsp;';
+      table.insertRow().appendChild($('<th>').html('&nbsp;')[0]);
 
       for (var i = 0; i < this.rowHeadings.length; i++) {
         var item = this.rowHeadings[i];
@@ -320,6 +322,18 @@
           }
         }
       }
+    },
+
+    rowOver: function(e) {
+      var ix = $(e.currentTarget).index();
+      this.$('table.row-headings tr:eq(' + ix + '), table.values tr:eq(' + ix + ')')
+        .addClass('hover');
+    },
+
+    rowOut: function(e) {
+      var ix = $(e.currentTarget).index();
+      this.$('table.row-headings tr:eq(' + ix + '), table.values tr:eq(' + ix + ')')
+        .removeClass('hover');
     },
   });
 
