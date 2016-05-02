@@ -232,9 +232,9 @@
           order: 'item.position_in_return_form:asc',
         };
 
-        // TODO: set filter for municipality
         parts.cut.push('demarcation.code:"' + muni_id + '"');
         parts.cut.push('financial_year_end.year:' + self.filters.get('year'));
+        parts.cut.push('financial_period.period:' + self.filters.get('year'));
 
         // TODO: paginate
         // make the URL
