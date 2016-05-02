@@ -179,6 +179,7 @@
       'click .scale': 'changeScale',
       'mouseover .table-display tr': 'rowOver',
       'mouseout .table-display tr': 'rowOut',
+      'click .table-display tr': 'rowClick',
     },
 
     initialize: function(opts) {
@@ -358,6 +359,12 @@
           }
         }
       }
+    },
+
+    rowClick: function(e) {
+      var ix = $(e.currentTarget).index();
+      this.$('table.row-headings tr:eq(' + ix + '), table.values tr:eq(' + ix + ')')
+        .toggleClass('toggled');
     },
 
     rowOver: function(e) {
