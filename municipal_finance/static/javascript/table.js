@@ -204,7 +204,7 @@
       // TODO does this work for all cubes?
       spinnerStart();
       $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/item', function(data) {
-        self.rowHeadings = data.data;
+        self.rowHeadings = _.select(data.data, function(d) { return d['item.label']; });
         self.renderRowHeadings();
       }).always(spinnerStop);
     },
