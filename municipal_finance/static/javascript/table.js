@@ -80,18 +80,24 @@
           .on('select2:select', _.bind(this.muniSelected, this));
       }
 
-      var $list = this.$('.chosen-munis').empty();
       munis = _.sortBy(
         _.map(this.filters.get('munis'), function(id) { return municipalities[id]; }),
         'long_name');
 
-      _.each(munis, function(muni) {
-        $list.append($('<li>')
-          .text(muni.long_name)
-          .data('id', muni.demarcation_code)
-          .prepend('<a href="#" class="del"><i class="fa fa-times-circle"></i></a> ')
-        );
-      });
+      var $list = this.$('.chosen-munis').empty();
+
+      if (munis.length === 0) {
+        $list.append('<li>').html('<i>Choose a municipality below.</i>');
+
+      } else {
+        _.each(munis, function(muni) {
+          $list.append($('<li>')
+            .text(muni.long_name)
+            .data('id', muni.demarcation_code)
+            .prepend('<a href="#" class="del"><i class="fa fa-times-circle"></i></a> ')
+          );
+        });
+      }
     },
 
     muniSelected: function(e) {
