@@ -1,6 +1,26 @@
 (function(exports) {
   "use strict";
 
+  // progress indicators
+  var spinning = 0;
+
+  function spinnerStart() {
+    spinning++;
+
+    // this stops us showing a spinner for cached queries which
+    // return very quickly
+    _.delay(function() {
+      if (spinning > 0) $('#spinner').show();
+    }, 200);
+  }
+
+  function spinnerStop() {
+    spinning--;
+    if (spinning === 0) {
+      $('#spinner').hide();
+    }
+  }
+
   var Filters = Backbone.Model.extend({
     defaults: {
       munis: [],
@@ -34,6 +54,7 @@
     preload: function() {
       var self = this;
 
+      spinnerStart();
       $.get(MUNI_DATA_API + '/cubes/municipalities/facts', function(resp) {
         var munis = _.map(resp.data, function(muni) {
           // change municipality.foo to foo
@@ -48,12 +69,13 @@
 
         municipalities = _.indexBy(munis, 'demarcation_code');
         self.filters.trigger('change');
-      });
+      }).always(spinnerStop);
 
+      spinnerStart();
       $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/financial_year_end.year', function(data) {
         self.years = _.pluck(data.data, "financial_year_end.year").sort().reverse();
         self.renderYears();
-      });
+      }).always(spinnerStop);
     },
 
     render: function() {
@@ -172,10 +194,11 @@
       var self = this;
 
       // TODO does this work for all cubes?
+      spinnerStart();
       $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/item', function(data) {
         self.rowHeadings = data.data;
         self.renderRowHeadings();
-      });
+      }).always(spinnerStop);
     },
 
     changeScale: function() {
@@ -222,9 +245,10 @@
 
         console.log(url);
 
+        spinnerStart();
         $.get(url, function(data) {
           self.cells.set('items', self.cells.get('items').concat(data.cells));
-        });
+        }).always(spinnerStop);
       });
     },
 
@@ -302,7 +326,7 @@
 
       this.filterView = new FilterView({filters: this.filters});
       this.tableView = new TableView({filters: this.filters, cells: this.cells});
-    },
+    }
   });
 
   exports.view = new MainView();
