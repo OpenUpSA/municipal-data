@@ -208,6 +208,14 @@ PIPELINE = {
             ),
             'output_filename': 'docs.css',
         },
+        'table': {
+            'source_filenames': (
+                'bower_components/fontawesome/css/font-awesome.css',
+                'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss',
+                'stylesheets/table.scss',
+            ),
+            'output_filename': 'table.css',
+        },
     },
     'JAVASCRIPT': {
         'js': {
@@ -233,8 +241,6 @@ PIPELINE = {
                 'bower_components/babbage.ui/src/panel.js',
                 'bower_components/babbage.ui/src/pager.js',
                 'bower_components/babbage.ui/src/workspace.js',
-                'bower_components/leaflet/dist/leaflet.js',
-                'bower_components/underscore/underscore-min.js',
             ),
             'output_filename': 'babbage.js',
         },
@@ -252,6 +258,15 @@ PIPELINE = {
                 'javascript/docs.js',
             ),
             'output_filename': 'docs.js',
+        },
+        'table': {
+            'source_filenames': (
+                'bower_components/jquery/dist/jquery.min.js',
+                'bower_components/underscore/underscore-min.js',
+                'bower_components/backbone/backbone-min.js',
+                'javascript/table.js',
+            ),
+            'output_filename': 'table.js',
         },
     },
     'CSS_COMPRESSOR': None,

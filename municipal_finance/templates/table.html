@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% load pipeline %}
+
+{% block title %}Municipal Finance - {{ cube_model.label }}{% endblock %}
+
+{% block head-css %}
+{% stylesheet "table" %}
+{% endblock %}
+
+{% block content %}
+<header id="header">
+  <div class="container-fluid">
+    <h1>Municipal Finance Data Tables</h1>
+  </div>
+</header>
+
+<article id="table-view">
+  <div class="container-fluid">
+    <aside class="table-controls">
+      <ul class="chosen-munis"></ul>
+      <h4>Add a municipality</h4>
+      <select class="muni-chooser"></select>
+    </aside>
+    <section class="table-display"></section>
+  </div>
+</article>
+
+<script>
+MUNI_DATA_API = 'https://data.municipalmoney.org.za/api';
+</script>
+{% javascript "table" %}
+
+<script>
+</script>
+{% endblock %}

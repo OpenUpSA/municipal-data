@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^docs$', views.docs),
     url(r'^explore/(?P<cube_name>[\w_]+)/embed.html$', views.embed),
     url(r'^explore/(?P<cube_name>[\w_]+)/$', views.explore),
+    url(r'^table/(?P<cube_name>[\w_]+)/$', views.table),
     url(r'^api/status$', views.status),
     url(r'^api/cubes$', cache_page(API_CACHE_SECS)(views.cubes)),
     url(r'^api/cubes/(?P<cube_name>[\w_]+)/model$', cache_page(API_CACHE_SECS)(views.model)),
