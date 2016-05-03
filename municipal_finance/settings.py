@@ -221,7 +221,7 @@ PIPELINE = {
     'JAVASCRIPT': {
         'js': {
             'source_filenames': (
-                'bower_components/jquery/dist/jquery.min.js',
+                'javascript/vendor/jquery-1.12.3.min.js',
                 'javascript/app.js',
             ),
             'output_filename': 'app.js',
@@ -262,7 +262,7 @@ PIPELINE = {
         },
         'table': {
             'source_filenames': (
-                'bower_components/jquery/dist/jquery.min.js',
+                'javascript/vendor/jquery-1.12.3.min.js',
                 'bower_components/underscore/underscore-min.js',
                 'bower_components/backbone/backbone-min.js',
                 'javascript/vendor/d3-format.min.js',
