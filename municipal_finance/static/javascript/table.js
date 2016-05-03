@@ -397,6 +397,10 @@
       var cells = this.cells.get('items');
       var munis = this.filters.get('municipalities');
       var scale = Math.pow(10, Number.parseInt(this.scale));
+      // highlightable items as a set of codes
+      var highlights = _.inject(this.state.get('items') || [], function(s, i) { s[i] = i; return s; }, {});
+      // row indexes to highlight
+      var toHighlight = [];
       var self = this;
 
       // group by code then municipality
@@ -412,6 +416,9 @@
           var tr = table.insertRow();
           $(tr).addClass('item-' + row['item.return_form_structure']);
 
+          // highlight?
+          if (highlights[row['item.code']]) toHighlight.push(table.rows.length-1);
+
           for (var j = 0; j < munis.length; j++) {
             var muni = municipalities[munis[j]];
             var cell = cells[row['item.code']];
@@ -424,6 +431,13 @@
             }
           }
         }
+      }
+
+      // highlighted rows
+      for (var h = 0; h < toHighlight.length; h++) {
+        var ix = toHighlight[h];
+        this.$('table.row-headings tr:eq(' + ix + '), table.values tr:eq(' + ix + ')')
+          .addClass('toggled');
       }
     },
 
@@ -493,6 +507,8 @@
         municipalities: (params.municipalities || "").split(","),
         year: Number.parseInt(params.year) || null,
         scale: Number.parseInt(params.scale),
+        // highlighted item codes
+        items: (params.items || "").split(","),
       });
     },
   });
