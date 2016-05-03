@@ -20,11 +20,7 @@
     }
   }
 
-  var Filters = Backbone.Model.extend({
-    defaults: {
-      munis: [],
-    }
-  });
+  var Filters = Backbone.Model.extend();
   var Cells = Backbone.Model.extend({
     defaults: {
       items: [],
@@ -113,7 +109,8 @@
         self.renderYears();
 
         // sanity check pre-loaded year
-        self.filters.set('year', _.find(self.years, self.filters.get('year')) || self.years[0]);
+        var year = self.filters.get('year');
+        self.filters.set('year', _.contains(self.years, year) ? year : self.years[0], {silent: true});
 
         // force a change so we re-render
         self.filters.trigger('change');
@@ -191,7 +188,8 @@
       var id = e.params.data.id;
 
       if (id && _.indexOf(munis, id) === -1) {
-        munis.push(id);
+        // duplicate the array
+        munis = munis.concat([id]);
         this.filters.set('municipalities', _.sortBy(munis, function(m) { return municipalities[m].name; }));
         this.filters.trigger('change');
       }
@@ -227,16 +225,34 @@
       this.format = d3_format
         .formatLocale({decimal: ".", thousands: " ", grouping: [3], currency: "R"})
         .format(",d");
-      this.scale = 1000;
+      this.scale = 3;
 
       this.filters = opts.filters;
       this.filters.on('change', this.render, this);
       this.filters.on('change', this.update, this);
 
+      this.state = opts.state;
+      this.state.on('change', this.loadState, this);
+
       this.cells = opts.cells;
       this.cells.on('change', this.render, this);
 
       this.preload();
+      this.loadState();
+    },
+
+    loadState: function() {
+      // load state from browser history
+      this.scale = this.state.get('scale');
+      if (!_.contains([0, 3, 6], this.scale)) this.scale = 3;
+      this.render();
+    },
+
+    saveState: function() {
+      // save global state to browser history
+      this.state.set({
+        scale: this.scale,
+      });
     },
 
     preload: function() {
@@ -253,8 +269,8 @@
     },
 
     changeScale: function() {
-      var zeroes = this.$('.scale input:checked').attr('value');
-      this.scale = Math.pow(10, Number.parseInt(zeroes));
+      this.scale = Number.parseInt(this.$('.scale input:checked').attr('value'));
+      this.saveState();
       this.render();
     },
 
@@ -312,10 +328,15 @@
     },
 
     render: function() {
-      if (this.rowHeadings) {
+      if (this.rowHeadings && municipalities) {
         this.renderColHeadings();
         this.renderValues();
       }
+
+      var scale = this.scale.toString();
+      this.$('input[name=scale]').prop('checked', function() {
+        return $(this).val() == scale;
+      });
     },
 
     renderRowHeadings: function() {
@@ -375,6 +396,7 @@
       var table = this.$('.values')[0];
       var cells = this.cells.get('items');
       var munis = this.filters.get('municipalities');
+      var scale = Math.pow(10, Number.parseInt(this.scale));
       var self = this;
 
       // group by code then municipality
@@ -398,7 +420,7 @@
 
             for (var a = 0; a < cube.aggregates.length; a++) {
               var v = (cell ? cell[cube.aggregates[a]] : null);
-              tr.insertCell().innerText = v ? self.format(v / this.scale) : "-";
+              tr.insertCell().innerText = v ? self.format(v / scale) : "-";
             }
           }
         }
@@ -435,7 +457,6 @@
       this.state = new State();
       this.loadState();
       this.state.on('change', this.saveState, this);
-      $(window).on('popstate', _.bind(this.popState, this));
 
       this.filterView = new FilterView({filters: this.filters, state: this.state});
       this.tableView = new TableView({filters: this.filters, cells: this.cells, state: this.state});
@@ -447,13 +468,14 @@
         var url = {
           year: state.year,
           municipalities: state.municipalities.join(','),
+          scale: state.scale,
         };
 
+        // make the query string url
         url = _.compact(_.map(url, function(val, key) {
-          if (val) return key + '=' + encodeURIComponent(val);
+          if (!_.isNaN(val) && (_.isNumber(val) || !_.isEmpty(val))) return key + '=' + encodeURIComponent(val);
         })).join('&');
 
-        // TODO: make url
         history.replaceState(state, document.title, url ? ('?' + url) : "");
       }
     },
@@ -461,14 +483,20 @@
     loadState: function() {
       if (history.state) {
         this.state.set(history.state);
-      }
+      } else {
+        // parse query string
+        var params = {};
+        var parts = document.location.search.substring(1).split("&");
+        for (var i = 0; i < parts.length; i++) {
+          var p = parts[i].split('=');
+          params[p[0]] = decodeURIComponent(p[1]);
+        }
 
-      // TODO: parse query string
-    },
-
-    popState: function(e) {
-      if (e.originalEvent.state) {
-        this.state.set(e.originalEvent.state);
+        this.state.set({
+          municipalities: (params.municipalities || "").split(","),
+          year: Number.parseInt(params.year) || null,
+          scale: Number.parseInt(params.scale),
+        });
       }
     },
   });
