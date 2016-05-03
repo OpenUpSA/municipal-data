@@ -476,28 +476,24 @@
           if (!_.isNaN(val) && (_.isNumber(val) || !_.isEmpty(val))) return key + '=' + encodeURIComponent(val);
         })).join('&');
 
-        history.replaceState(state, document.title, url ? ('?' + url) : "");
+        history.replaceState({}, document.title, url ? ('?' + url) : "");
       }
     },
 
     loadState: function() {
-      if (history.state) {
-        this.state.set(history.state);
-      } else {
-        // parse query string
-        var params = {};
-        var parts = document.location.search.substring(1).split("&");
-        for (var i = 0; i < parts.length; i++) {
-          var p = parts[i].split('=');
-          params[p[0]] = decodeURIComponent(p[1]);
-        }
-
-        this.state.set({
-          municipalities: (params.municipalities || "").split(","),
-          year: Number.parseInt(params.year) || null,
-          scale: Number.parseInt(params.scale),
-        });
+      // parse query string
+      var params = {};
+      var parts = document.location.search.substring(1).split("&");
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i].split('=');
+        params[p[0]] = decodeURIComponent(p[1]);
       }
+
+      this.state.set({
+        municipalities: (params.municipalities || "").split(","),
+        year: Number.parseInt(params.year) || null,
+        scale: Number.parseInt(params.scale),
+      });
     },
   });
 
