@@ -52,7 +52,12 @@
 <section>
   <h3>Cash coverage:</h3>
   <ul>
-    <li>Result: {{ cash_coverage }}</li>
+    <li>Results:</li>
+    <ul>
+    {% for year, result in cash_coverage.iteritems %}
+    <li>{{ year|stringformat:"i" }}: {{ result }}</li>
+    {% endfor %}
+    </ul>
     <li>Formula: Cash available at year end / Operating Expenditure per month</li>
     <li>Cash flow at year end: cube: cflow; item.code: 4200</li>
     <li>Operating Expenditure: cube: incexp, item.code: 4600, amount_type.label: Audited Actual</li>
@@ -62,7 +67,12 @@
 
   <h3>Under(Over) spend of operating budget:</h3>
   <ul>
-    <li>Result: {{ op_budget_diff }} %</li>
+    <li>Results:</li>
+    <ul>
+    {% for year, result in op_budget_diff.iteritems %}
+    <li>{{ year|stringformat:"i" }}: {{ result }}</li>
+    {% endfor %}
+    </ul>
     <li>Formula: (Budgeted Operating Expenditure - Actual Operating Expenditure) / Budgeted Operating Expenditure</li>
     <li>Budgeted Operating Expenditure: cube: incexp; item.code: 4600; amount_type.label: Adjusted Budget</li>
     <li>Actual Operating Expenditure: cube: incexp, item.code: 4600, amount_type.label: Audited Actual</li>
@@ -70,7 +80,12 @@
 
   <h3>Under(Over) spend of capital budget</h3>
   <ul>
-    <li>Result: {{ cap_budget_diff }} %</li>
+    <li>Results:</li>
+    <ul>
+    {% for year, result in cap_budget_diff.iteritems %}
+    <li>{{ year|stringformat:"i" }}: {{ result }}</li>
+    {% endfor %}
+    </ul>
     <li>Formula: Formula: (Budgeted Capital Expenditure - Actual Capital Expenditure) / Budgeted Capital Expenditure</li>
     <li>Budgeted Capital Expenditure: cube: capital; item.code: 4100; amount_type.label: Adjusted Budget</li>
     <li>Actual Capital Expenditure: cube: capital, item.code: 4100, amount_type.label: Audited Actual</li>
@@ -78,7 +93,12 @@
 
   <h3>Repairs and maintenance as a % of Property, plant and equipment:</h3>
   <ul>
-    <li>Result: {{ rep_maint_perc_ppe }} %</li>
+    <li>Results:</li>
+    <ul>
+    {% for year, result in rep_maint_perc_ppe.iteritems %}
+    <li>{{ year|stringformat:"i" }}: {{ result }}</li>
+    {% endfor %}
+    </ul>
     <li>Formula: Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)</li>
     <li>Repairs and maintenance expenditure: cube: repmaint; item.code: 5005; amount_type.label: Audited Actual</li>
     <li>Property, Plant and Equipment: cube: bsheet; item.code: 1300; amount_type.label: Audited Actual</li>
