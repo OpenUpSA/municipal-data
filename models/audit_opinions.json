@@ -1,0 +1,49 @@
+{
+    "fact_table": "audit_opinions",
+    "label": "Audit Opinions",
+    "description": "",
+    "dimensions": {
+        "municipality": {
+            "label": "Municipality",
+            "key_attribute": "demarcation_code",
+            "label_attribute": "demarcation_code",
+            "attributes": {
+                "demarcation_code": {
+                    "label": "Demarcation Code",
+                    "column": "demarcation_code",
+                    "type": "string"
+                }
+            }
+        },
+        "financial_year_end": {
+            "attributes": {
+                "year": {
+                    "column": "financial_year",
+                    "label": "Year End",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "year",
+            "description": "The calendar year falling at the end of the financial year",
+            "label": "Financial Year"
+        },
+        "opinion": {
+            "label": "Opinion",
+            "key_attribute": "code",
+            "label_attribute": "label",
+            "attributes": {
+                "code": {
+                    "label": "Code",
+                    "column": "opinion_code",
+                    "type": "string"
+                },
+                "label": {
+                    "label": "Label",
+                    "column": "opinion_label",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

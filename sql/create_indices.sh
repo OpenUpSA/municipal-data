@@ -6,7 +6,7 @@ do
         for attribute in `curl http://localhost:8000/api/cubes/$cube/model|jq -r ".model.dimensions.$dimension.attributes|keys[]"`
         do
             COL=`curl http://localhost:8000/api/cubes/$cube/model|jq -r ".model.dimensions.$dimension.attributes.$attribute.column"`
-            echo "create index on $TABLE ($COL);"
+            echo "create index if not exists ${TABLE}_${COL}_idx on $TABLE ($COL);"
         done
     done
 done
