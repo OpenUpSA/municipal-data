@@ -247,6 +247,7 @@ PIPELINE = {
         },
         'docs': {
             'source_filenames': (
+                'javascript/vendor/jquery-1.12.3.min.js',
                 'slate/javascripts/lib/_energize.js',
                 'slate/javascripts/lib/_lunr.js',
                 'slate/javascripts/lib/_jquery_ui.js',
