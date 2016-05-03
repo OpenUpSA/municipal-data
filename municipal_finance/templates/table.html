@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+{% load pipeline jsonify staticfiles %}
+
+{% block title %}Municipal Finance Data - {{ cube_model.label }}{% endblock %}
+
+{% block body-class %}table-page{% endblock %}
+
+{% block head-css %}
+{% stylesheet "table" %}
+{% endblock %}
+
+{% block content %}
+<header id="header">
+  <div class="container-fluid">
+    <div class="pull-right">
+      <a class="btn btn-default" href="/" target="_blank"><i class="fa fa-question-circle"></i> Help</a>
+    </div>
+    <img src="{% static 'images/treasury-logo.png' %}" class="logo">
+    <h1>Municipal Finance Data Tables</h1>
+  </div>
+  <div id="spinner" class="progress-bar progress-bar-striped active"></div>
+</header>
+
+<article id="table-view">
+  <div class="container-fluid">
+    <header class="article-header">
+      <div class="pull-right">
+        <label class="scale"><input type="radio" name="scale" value="6"> R millions</input></label>
+        <label class="scale"><input type="radio" name="scale" value="3" checked> R thousands</input></label>
+        <label class="scale"><input type="radio" name="scale" value="0"> Rands</input></label>
+      </div>
+
+      <h2>{{ cube_model.label }}</h2>
+    </header>
+
+    <aside class="table-controls">
+      <header>
+        {{ cube_model.description }}
+        <div class="dropdown">
+          <a href="#" data-toggle="dropdown">
+            Change dataset
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            {% for cube in cubes.values|dictsort:"name" %}
+            <li><a href="{% url 'table' cube.name %}">{{ cube.model.label }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </header>
+
+      <section>
+        <h5>Chosen municipalities</h5>
+        <ul class="chosen-munis list-unstyled"></ul>
+      </section>
+
+      <section>
+        <h5>Add a municipality</h5>
+        <select class="muni-chooser"></select>
+      </section>
+
+      <section>
+        <h5>Financial year end</h5>
+        <p>
+          <i>Note: Audited results only</i>
+        </p>
+        <ul class="year-chooser list-unstyled"></ul>
+      </section>
+    </aside>
+    <section class="table-display">
+      <table class="row-headings"></table>
+      <div class="table-scroll-area">
+        <table class="values"></table>
+      </div>
+    </section>
+  </div>
+</article>
+
+<script>
+var MUNI_DATA_API = 'https://data.municipalmoney.org.za/api';
+var CUBE_NAME = '{{ cube_name|escapejs }}';
+var CUBES = {{ cubes|jsonify|safe }};
+</script>
+{% javascript "table" %}
+
+<script>
+</script>
+{% endblock %}

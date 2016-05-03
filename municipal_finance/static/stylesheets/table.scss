@@ -1,0 +1,178 @@
+$controls-width: 250px;
+$row-heading-width: 300px;
+$header-bg: #ddd;
+
+.table-page {
+  background-color: #efefef;
+}
+
+h1 {
+  font-size: 20px;
+  color: #8c1603;
+}
+
+h2 {
+  font-size: 20px;
+  color: #8c1603;
+}
+
+h3 {
+  font-size: 16px;
+}
+
+h4, h5 {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+label {
+  cursor: pointer;
+  font-weight: normal;
+}
+
+label.scale {
+  margin-right: 5px;
+}
+
+.select2-results {
+  font-size: 12px;
+}
+
+#header {
+  padding: 5px 0px;
+  background-color: #8c1603;
+
+  h1 {
+    margin: 5px 0px 0px 140px;
+    color: white;
+    font-size: 20px;
+  }
+
+  .logo {
+    position: absolute;
+    height: 53px;
+    width: 132px;
+    padding: 5px;
+    margin-right: 10px;
+    background: white;
+  }
+}
+
+#spinner {
+  height: 8px;
+  margin-top: 5px;
+  width: 100%;
+  display: none;
+}
+
+.article-header {
+  background-color: $header-bg;
+  margin: 0px -15px;
+  padding: 20px 15px 15px;
+
+  h2 {
+    margin: 0px;
+  }
+}
+
+.table-controls {
+  position: fixed;
+  width: $controls-width + 15px;
+
+  top: 100px;
+  left: 0px;
+  bottom: 0px;
+  overflow-y: scroll;
+  padding-left: 15px;
+  padding-right: 10px;
+
+  select {
+    width: 100%;
+  }
+
+  header {
+    margin: 0px -10px 20px -15px;
+    background-color: $header-bg;
+    padding: 5px 15px;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+  }
+
+  section {
+    margin-bottom: 20px;
+  }
+}
+
+.table-display {
+  position: fixed;
+  top: 100px;
+  bottom: 15px;
+  left: $controls-width + 15px;
+  right: 15px;
+  overflow: auto;
+  font-size: 12px;
+
+  background-color: white;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+
+  td, th {
+    padding: 2px;
+    white-space: nowrap;
+  }
+
+  .item-heading td {
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  .item-subtotal td {
+    font-weight: bold;
+  }
+
+  .row-headings {
+    width: $row-heading-width;
+    float: left;
+
+    th.spacer {
+      border-bottom: 1px solid white;
+    }
+
+    td {
+      max-width: $row-heading-width;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+
+  .table-scroll-area {
+    overflow: auto;
+
+    table {
+      float: left;
+    }
+  }
+
+  .values th {
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    border-right: 5px solid white;
+  }
+
+  .values tr:first-child th {
+    background-color: #efefef;
+  }
+
+  .values {
+    td {
+      text-align: right;
+      padding-left: 10px;
+    }
+  }
+
+  tr.hover td,
+  tr.toggled td {
+    background-color: gold;
+  }
+}
