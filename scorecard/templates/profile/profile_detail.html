@@ -55,7 +55,7 @@
     <li>Results:</li>
     <ul>
     {% for year, result in cash_coverage.iteritems %}
-    <li>{{ year }}: {{ result }}</li>
+    <li>{{ year|stringformat:"i" }}: {{ result }}</li>
     {% endfor %}
     </ul>
     <li>Formula: Cash available at year end / Operating Expenditure per month</li>
@@ -70,7 +70,7 @@
     <li>Results:</li>
     <ul>
     {% for year, result in op_budget_diff.iteritems %}
-    <li>{{ year }}: {{ result }}</li>
+    <li>{{ year|stringformat:"i" }}: {{ result }}</li>
     {% endfor %}
     </ul>
     <li>Formula: (Budgeted Operating Expenditure - Actual Operating Expenditure) / Budgeted Operating Expenditure</li>
@@ -83,7 +83,7 @@
     <li>Results:</li>
     <ul>
     {% for year, result in cap_budget_diff.iteritems %}
-    <li>{{ year }}: {{ result }}</li>
+    <li>{{ year|stringformat:"i" }}: {{ result }}</li>
     {% endfor %}
     </ul>
     <li>Formula: Formula: (Budgeted Capital Expenditure - Actual Capital Expenditure) / Budgeted Capital Expenditure</li>
@@ -96,7 +96,7 @@
     <li>Results:</li>
     <ul>
     {% for year, result in rep_maint_perc_ppe.iteritems %}
-    <li>{{ year }}: {{ result }}</li>
+    <li>{{ year|stringformat:"i" }}: {{ result }}</li>
     {% endfor %}
     </ul>
     <li>Formula: Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)</li>
