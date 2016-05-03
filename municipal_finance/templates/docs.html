@@ -84,7 +84,7 @@
     <p>The API only supports <code>GET</code> requests. Successful responses have response code 200 and are in JSON format.</p>
 
     {% with cube=cubes|first %}
-    <p>The quickest way to put together a query against the API is to use the <a href="/explore/{{ cube.name }}/" target="_blank">API Explorer interface</a>, narrow down the selection to an interesting subset, and copy the API query URL producing that data on the bottom right of the window as shown below.</p>
+    <p>The quickest way to put together a query against the API is to use the <a href="/explore/{{ cube.name }}/" target="_blank">advanced API exploring user interface</a>, narrow down the selection to an interesting subset, and copy the API query URL producing that data on the bottom right of the window as shown below.</p>
     {% endwith %}
 
     <p><img src="{% static 'images/babbage-query.png' %}" /></p>
@@ -498,7 +498,7 @@ GET /api/cubes/incexp/aggregate
 
       <p>{{ cube.model.description }}</p>
 
-      <p><a href="/explore/{{ cube.name }}/">Explore this cube's data</a></p>
+      <p><a href="/table/{{ cube.name }}/">View the data</a> | <a href="/explore/{{ cube.name }}/">Advanced interface</a></p>
 
       {% if cube.items %}
       <h3 id="{{ cube.name }}-items">Items</h3>
