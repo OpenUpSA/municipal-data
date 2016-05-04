@@ -125,6 +125,14 @@ def get_profile(geo_code, geo_level, profile_name=None):
                 'municipality.demarcation_code': str(geo_code),
             },
             'query_type': 'facts',
+        },
+        'contact_details' : {
+            'cube': 'municipalities',
+            'facts': '',
+            'cut': {
+                'municipality.demarcation_code': str(geo_code),
+            },
+            'query_type': 'facts',
         }
     }
 
@@ -145,12 +153,11 @@ def get_profile(geo_code, geo_level, profile_name=None):
             )
 
         api_response[item] = requests.get(url, verify=False).json()
-        if item == 'officials':
+        if params['query_type'] == 'facts':
             results[item] = facts_from_response(item, api_response, line_items)
         else:
             for year in YEARS:
                 results[item][year] = aggregate_from_response(item, year, api_response, line_items)
-
 
     cash_coverage = {}
     op_budget_diff = {}
@@ -187,9 +194,23 @@ def get_profile(geo_code, geo_level, profile_name=None):
                 'email': official['contact_details.email_address']
             })
 
+    muni_contact = results['contact_details'][0]
+    contact_details = {
+        'street_address_1': muni_contact['municipality.street_address_1'],
+        'street_address_2': muni_contact['municipality.street_address_2'],
+        'street_address_3': muni_contact['municipality.street_address_3'],
+        'street_address_4': muni_contact['municipality.street_address_4'],
+        'postal_address_1': muni_contact['municipality.postal_address_1'],
+        'postal_address_2': muni_contact['municipality.postal_address_2'],
+        'postal_address_3': muni_contact['municipality.postal_address_3'],
+        'phone_number': muni_contact['municipality.phone_number'],
+        'url': muni_contact['municipality.url'].lower()
+    }
+
     return {
         'cash_coverage': cash_coverage,
         'op_budget_diff': op_budget_diff,
         'cap_budget_diff': cap_budget_diff,
         'rep_maint_perc_ppe': rep_maint_perc_ppe,
-        'mayoral_staff': mayoral_staff}
+        'mayoral_staff': mayoral_staff,
+        'contact_details': contact_details}
