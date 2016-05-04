@@ -20,18 +20,16 @@
     }
   }
 
-  var Filters = Backbone.Model.extend({
-    defaults: {
-      munis: [],
-    }
-  });
+  var Filters = Backbone.Model.extend();
   var Cells = Backbone.Model.extend({
     defaults: {
       items: [],
     }
   });
-  var municipalities;
+  var State = Backbone.Model.extend({});
 
+  // global municipalities list
+  var municipalities;
   var cube = {
     order: 'item.position_in_return_form:asc',
     drilldown: ['demarcation.code', 'demarcation.label', 'item.code', 'item.label', 'item.return_form_structure', 'item.position_in_return_form'],
@@ -52,9 +50,29 @@
     initialize: function(opts) {
       this.filters = opts.filters;
       this.filters.on('change', this.render, this);
+      this.filters.on('change', this.saveState, this);
 
-      this.munis = [];
+      this.state = opts.state;
+      this.state.on('change', this.loadState, this);
+
       this.preload();
+      this.loadState();
+    },
+
+    loadState: function() {
+      // load state from browser history
+      this.filters.set({
+        municipalities: this.state.get('municipalities') || [],
+        year: this.state.get('year'),
+      });
+    },
+
+    saveState: function() {
+      // save global state to browser history
+      this.state.set({
+        municipalities: this.filters.get('municipalities'),
+        year: this.filters.get('year')
+      });
     },
 
     preload: function() {
@@ -73,7 +91,15 @@
           return muni;
         });
 
+        // global municipalities list
         municipalities = _.indexBy(munis, 'demarcation_code');
+
+        // sanity check pre-loaded municipalities
+        self.filters.set('municipalities', _.select(self.filters.get('municipalities'), function(id) {
+          return !!municipalities[id];
+        }), {silent: true});
+
+        // force a change so we re-render
         self.filters.trigger('change');
       }).always(spinnerStop);
 
@@ -81,23 +107,31 @@
       $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/financial_year_end.year', function(data) {
         self.years = _.pluck(data.data, "financial_year_end.year").sort().reverse();
         self.renderYears();
+
+        // sanity check pre-loaded year
+        var year = self.filters.get('year');
+        self.filters.set('year', _.contains(self.years, year) ? year : self.years[0], {silent: true});
+
+        // force a change so we re-render
+        self.filters.trigger('change');
       }).always(spinnerStop);
     },
 
     render: function() {
       var $list = this.$('.chosen-munis').empty();
-      var munis = this.filters.get('munis');
+      var munis = this.filters.get('municipalities');
       var self = this;
 
       if (municipalities && !this.$muniChooser) {
         this.renderMunis();
       }
 
+      // show chosen munis
       if (munis.length === 0) {
         $list.append('<li>').html('<i>Choose a municipality below.</i>');
-
-      } else {
+      } else if (municipalities) {
         _.each(munis, function(muni) {
+          muni = municipalities[muni];
           $list.append($('<li>')
             .text(muni.long_name)
             .data('id', muni.demarcation_code)
@@ -105,6 +139,12 @@
           );
         });
       }
+
+      // ensure year is checked
+      var year = (this.filters.get('year') || "").toString();
+      this.$('.year-chooser input[name=year]').prop('checked', function() {
+        return $(this).val() == year;
+      });
     },
 
     renderMunis: function() {
@@ -116,6 +156,7 @@
         }
       }
 
+      // make objects that select2 understands
       var munis = _.map(municipalities, function(muni) {
         return {
           id: muni.demarcation_code,
@@ -140,18 +181,16 @@
         var year = this.years[i];
         $chooser.append($('<li><label><input type="radio" name="year" value="' + year + '"> ' + year + '</label></li>'));
       }
-
-      $chooser.find('input:first').prop('checked', true).trigger('click');
     },
 
     muniSelected: function(e) {
-      var munis = this.filters.get('munis');
+      var munis = this.filters.get('municipalities');
       var id = e.params.data.id;
-      var muni = municipalities[id];
 
-      if (id && _.indexOf(munis, muni) === -1) {
-        munis.push(muni);
-        this.filters.set('munis', _.sortBy(munis, 'name'));
+      if (id && _.indexOf(munis, id) === -1) {
+        // duplicate the array
+        munis = munis.concat([id]);
+        this.filters.set('municipalities', _.sortBy(munis, function(m) { return municipalities[m].name; }));
         this.filters.trigger('change');
       }
 
@@ -161,7 +200,7 @@
     muniRemoved: function(e) {
       e.preventDefault();
       var id = $(e.target).closest('li').data('id');
-      this.filters.set('munis', _.without(this.filters.get('munis'), municipalities[id]));
+      this.filters.set('municipalities', _.without(this.filters.get('municipalities'), id));
     },
 
     yearChanged: function(e) {
@@ -186,16 +225,34 @@
       this.format = d3_format
         .formatLocale({decimal: ".", thousands: " ", grouping: [3], currency: "R"})
         .format(",d");
-      this.scale = 1000;
+      this.scale = 3;
 
       this.filters = opts.filters;
       this.filters.on('change', this.render, this);
       this.filters.on('change', this.update, this);
 
+      this.state = opts.state;
+      this.state.on('change', this.loadState, this);
+
       this.cells = opts.cells;
       this.cells.on('change', this.render, this);
 
       this.preload();
+      this.loadState();
+    },
+
+    loadState: function() {
+      // load state from browser history
+      this.scale = this.state.get('scale');
+      if (!_.contains([0, 3, 6], this.scale)) this.scale = 3;
+      this.render();
+    },
+
+    saveState: function() {
+      // save global state to browser history
+      this.state.set({
+        scale: this.scale,
+      });
     },
 
     preload: function() {
@@ -212,8 +269,8 @@
     },
 
     changeScale: function() {
-      var zeroes = this.$('.scale input:checked').attr('value');
-      this.scale = Math.pow(10, Number.parseInt(zeroes));
+      this.scale = Number.parseInt(this.$('.scale input:checked').attr('value'));
+      this.saveState();
       this.render();
     },
 
@@ -224,7 +281,7 @@
       var self = this;
       var url = MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/aggregate?';
 
-      if (this.filters.get('munis').length === 0) {
+      if (this.filters.get('municipalities').length === 0) {
         this.cells.set({items: [], meta: {}});
         return;
       }
@@ -243,12 +300,12 @@
       };
       var cut = parts.cut;
 
-      _.each(this.filters.get('munis'), function(muni) {
+      _.each(this.filters.get('municipalities'), function(muni) {
         // duplicate this, we're going to change it
         parts.cut = cut.slice();
 
         // TODO: do this in bulk, rather than 1-by-1
-        parts.cut.push('demarcation.code:"' + muni.demarcation_code + '"');
+        parts.cut.push('demarcation.code:"' + muni + '"');
 
         // TODO: paginate
 
@@ -271,10 +328,15 @@
     },
 
     render: function() {
-      if (this.rowHeadings) {
+      if (this.rowHeadings && municipalities) {
         this.renderColHeadings();
         this.renderValues();
       }
+
+      var scale = this.scale.toString();
+      this.$('input[name=scale]').prop('checked', function() {
+        return $(this).val() == scale;
+      });
     },
 
     renderRowHeadings: function() {
@@ -306,12 +368,13 @@
 
       // municipality headings
       var tr = table.insertRow();
-      var munis = this.filters.get('munis');
+      var munis = this.filters.get('municipalities');
       for (var i = 0; i < munis.length; i++) {
+        var muni = municipalities[munis[i]];
         var th = document.createElement('th');
-        th.innerText = munis[i].name;
+        th.innerText = muni.name;
         th.setAttribute('colspan', cube.aggregates.length);
-        th.setAttribute('title', munis[i].demarcation_code);
+        th.setAttribute('title', muni.demarcation_code);
         tr.appendChild(th);
       }
 
@@ -332,7 +395,12 @@
     renderValues: function() {
       var table = this.$('.values')[0];
       var cells = this.cells.get('items');
-      var munis = this.filters.get('munis');
+      var munis = this.filters.get('municipalities');
+      var scale = Math.pow(10, Number.parseInt(this.scale));
+      // highlightable items as a set of codes
+      var highlights = _.inject(this.state.get('items') || [], function(s, i) { s[i] = i; return s; }, {});
+      // row indexes to highlight
+      var toHighlight = [];
       var self = this;
 
       // group by code then municipality
@@ -348,16 +416,28 @@
           var tr = table.insertRow();
           $(tr).addClass('item-' + row['item.return_form_structure']);
 
+          // highlight?
+          if (highlights[row['item.code']]) toHighlight.push(table.rows.length-1);
+
           for (var j = 0; j < munis.length; j++) {
+            var muni = municipalities[munis[j]];
             var cell = cells[row['item.code']];
-            if (cell) cell = cell[munis[j].demarcation_code];
+
+            if (cell) cell = cell[muni.demarcation_code];
 
             for (var a = 0; a < cube.aggregates.length; a++) {
               var v = (cell ? cell[cube.aggregates[a]] : null);
-              tr.insertCell().innerText = v ? self.format(v / this.scale) : "-";
+              tr.insertCell().innerText = v ? self.format(v / scale) : "-";
             }
           }
         }
+      }
+
+      // highlighted rows
+      for (var h = 0; h < toHighlight.length; h++) {
+        var ix = toHighlight[h];
+        this.$('table.row-headings tr:eq(' + ix + '), table.values tr:eq(' + ix + ')')
+          .addClass('toggled');
       }
     },
 
@@ -388,9 +468,49 @@
       this.filters = new Filters();
       this.cells = new Cells();
 
-      this.filterView = new FilterView({filters: this.filters});
-      this.tableView = new TableView({filters: this.filters, cells: this.cells});
-    }
+      this.state = new State();
+      this.loadState();
+      this.state.on('change', this.saveState, this);
+
+      this.filterView = new FilterView({filters: this.filters, state: this.state});
+      this.tableView = new TableView({filters: this.filters, cells: this.cells, state: this.state});
+    },
+
+    saveState: function() {
+      if (history.replaceState) {
+        var state = this.state.toJSON();
+        var url = {
+          year: state.year,
+          municipalities: state.municipalities.join(','),
+          scale: state.scale,
+        };
+
+        // make the query string url
+        url = _.compact(_.map(url, function(val, key) {
+          if (!_.isNaN(val) && (_.isNumber(val) || !_.isEmpty(val))) return key + '=' + encodeURIComponent(val);
+        })).join('&');
+
+        history.replaceState({}, document.title, url ? ('?' + url) : "");
+      }
+    },
+
+    loadState: function() {
+      // parse query string
+      var params = {};
+      var parts = document.location.search.substring(1).split("&");
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i].split('=');
+        params[p[0]] = decodeURIComponent(p[1]);
+      }
+
+      this.state.set({
+        municipalities: (params.municipalities || "").split(","),
+        year: Number.parseInt(params.year) || null,
+        scale: Number.parseInt(params.scale),
+        // highlighted item codes
+        items: (params.items || "").split(","),
+      });
+    },
   });
 
   exports.view = new MainView();
