@@ -20,6 +20,9 @@ dokku config:set municipal-finance DJANGO_DEBUG=False \
                                    DATABASE_URL=postgres://municipal_finance:...@postgresq....amazonaws.com/municipal_finance
 ```
 
+# Data Import
+
+- Remember to run VACUUM ANALYSE afterwards to ensure stats are up to date to use indices properly.
 
 # License
 
