@@ -228,6 +228,7 @@ PIPELINE = {
         },
         'babbage': {
             'source_filenames': (
+                'javascript/vendor/jquery-1.12.3.min.js',
                 'bower_components/babbage.ui/dist/deps.js',
                 'bower_components/babbage.ui/dist/templates.js',
                 'bower_components/babbage.ui/src/util.js',
