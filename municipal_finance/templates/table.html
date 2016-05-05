@@ -81,8 +81,11 @@ var MUNI_DATA_API = 'https://data.municipalmoney.org.za/api';
 var CUBE_NAME = '{{ cube_name|escapejs }}';
 var CUBES = {{ cubes|jsonify|safe }};
 </script>
-{% javascript "table" %}
 
 <script>
 </script>
+{% endblock %}
+
+{% block js %}
+{% javascript "table" %}
 {% endblock %}
