@@ -22,7 +22,7 @@ dokku config:set municipal-finance DJANGO_DEBUG=False \
 
 # Data Import
 
-- Remember to run VACUUM ANALYSE afterwards to ensure stats are up to date to use indices properly.
+- Remember to run `VACUUM ANALYSE` afterwards to ensure stats are up to date to use indices properly.
 
 # License
 
