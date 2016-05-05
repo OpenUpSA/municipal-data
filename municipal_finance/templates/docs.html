@@ -20,7 +20,7 @@
   <span>NAV <img src="{% static 'slate/images/navbar.png' %}" /></span>
 </a>
 <div class="tocify-wrapper">
-  <img src="{% static 'images/treasury-logo.png' %}" class="logo" />
+  <img src="{% static 'images/treasury-logo.jpg' %}" class="logo" />
   <div class="lang-selector">
     <a href="#" data-language-name="json">JSON</a>
   </div>
@@ -528,13 +528,14 @@ GET /api/cubes/incexp/aggregate
         {% for dimension in cube.model.dimensions.values|dictsort:"label" %}
           <tr class="dimension">
             <td colspan="2">{{ dimension.label }}</td>
-            <td>{{ dimension.description }}</td>
+            <td colspan="2">{{ dimension.description }}</td>
           </tr>
 
           {% for attribute in dimension.attributes.values|dictsort:"label" %}
             <tr class="attribute">
               <td><b>{{ attribute.label }}</b></td>
               <td>{{ attribute.ref }}</td>
+              <td>{{ attribute.type }}</td>
               <td>{{ attribute.description }}</td>
             </tr>
           {% endfor %}
