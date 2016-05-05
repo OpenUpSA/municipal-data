@@ -1,3 +1,7 @@
+/* national treasury colours */
+$nt-red: #AB2328;
+$nt-gold: #E6A65D;
+
 $controls-width: 250px;
 $row-heading-width: 300px;
 $header-bg: #ddd;
@@ -8,12 +12,12 @@ $header-bg: #ddd;
 
 h1 {
   font-size: 20px;
-  color: #8c1603;
+  color: $nt-red;
 }
 
 h2 {
   font-size: 20px;
-  color: #8c1603;
+  color: $nt-red;
 }
 
 h3 {
@@ -40,7 +44,7 @@ label.scale {
 
 #header {
   padding: 5px 0px;
-  background-color: #8c1603;
+  background-color: $nt-red;
 
   h1 {
     margin: 5px 0px 0px 140px;
