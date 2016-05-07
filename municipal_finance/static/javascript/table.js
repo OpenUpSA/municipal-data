@@ -300,23 +300,20 @@
       };
       var cut = parts.cut;
 
-      _.each(this.filters.get('municipalities'), function(muni) {
-        // duplicate this, we're going to change it
-        parts.cut = cut.slice();
+      // duplicate this, we're going to change it
+      parts.cut = cut.slice();
 
-        // TODO: do this in bulk, rather than 1-by-1
-        parts.cut.push('demarcation.code:"' + muni + '"');
+      parts.cut.push('demarcation.code:"' + this.filters.get('municipalities').join('";"') + '"');
 
-        // TODO: paginate
+      // TODO: paginate
 
-        var url = self.makeUrl(parts);
-        console.log(url);
+      var url = self.makeUrl(parts);
+      console.log(url);
 
-        spinnerStart();
-        $.get(url, function(data) {
-          self.cells.set('items', self.cells.get('items').concat(data.cells));
-        }).always(spinnerStop);
-      });
+      spinnerStart();
+      $.get(url, function(data) {
+        self.cells.set('items', self.cells.get('items').concat(data.cells));
+      }).always(spinnerStop);
     },
 
     makeUrl: function(parts) {
@@ -354,7 +351,7 @@
         var td;
 
         $(tr).addClass('item-' + item['item.return_form_structure']);
-        
+
         td = tr.insertCell();
         td.innerText = item['item.code'];
         td = tr.insertCell();
