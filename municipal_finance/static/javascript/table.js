@@ -104,7 +104,7 @@
       }).always(spinnerStop);
 
       spinnerStart();
-      $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/financial_year_end.year', function(data) {
+      $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/financial_year_end.year?cut=amount_type.code:AUDA', function(data) {
         self.years = _.pluck(data.data, "financial_year_end.year").sort().reverse();
         self.renderYears();
 
