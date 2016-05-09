@@ -313,6 +313,9 @@
       spinnerStart();
       $.get(url, function(data) {
         self.cells.set('items', self.cells.get('items').concat(data.cells));
+        var csvParams = {page: 1, pagesize: data.total_cell_count, format: 'csv'};
+        var csvParts = $.extend(csvParams, parts);
+        self.csvUrl = self.makeUrl(csvParts);
       }).always(spinnerStop);
     },
 
@@ -328,6 +331,7 @@
       if (this.rowHeadings && municipalities) {
         this.renderColHeadings();
         this.renderValues();
+        this.renderCsvLink();
       }
 
       var scale = this.scale.toString();
@@ -435,6 +439,15 @@
         var ix = toHighlight[h];
         this.$('table.row-headings tr:eq(' + ix + '), table.values tr:eq(' + ix + ')')
           .addClass('toggled');
+      }
+    },
+
+    renderCsvLink: function() {
+      if (this.csvUrl) {
+        this.$('a.csv-download').attr('href', this.csvUrl);
+        this.$('a.csv-download').show();
+      } else {
+        this.$('a.csv-download').hide();
       }
     },
 
