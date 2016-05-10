@@ -1,15 +1,15 @@
 code,label,position_in_return_form,return_form_structure,composition
-100,COMMUNITY WEALTH / EQUITY,1,heading,
-110,Community Wealth,2,heading,
-600,Housing Development Fund,3,line_item,
-300,Reserves,4,line_item,
-500,Accumulated Surplus/(Deficit),5,line_item,
-680,Minorities Interests,6,line_item,
-690,Total Community Wealth / Equity,7,subtotal,"sum(600, 300, 500, 680)"
-700,Non-Current Liabilities,8,heading,
-900,Borrowing,9,line_item,
-910,Non-Current Provisions,10,line_item,
-1000,Total Non-Current Liabilities,11,subtotal,"sum(900, 910)"
+0100,COMMUNITY WEALTH / EQUITY,1,heading,
+0110,Community Wealth,2,heading,
+0600,Housing Development Fund,3,line_item,
+0300,Reserves,4,line_item,
+0500,Accumulated Surplus/(Deficit),5,line_item,
+0680,Minorities Interests,6,line_item,
+0690,Total Community Wealth / Equity,7,subtotal,"sum(0600, 0300, 0500, 0680)"
+0700,Non-Current Liabilities,8,heading,
+0900,Borrowing,9,line_item,
+0910,Non-Current Provisions,10,line_item,
+1000,Total Non-Current Liabilities,11,subtotal,"sum(0900, 0910)"
 2300,Current Liabilities,12,heading,
 2400,Consumer Deposits,13,line_item,
 2500,Provisions,14,line_item,
@@ -17,8 +17,8 @@ code,label,position_in_return_form,return_form_structure,composition
 2610,Conditional Grants and Receipts,16,line_item,
 2700,Bank Overdraft,17,line_item,
 2800,Borrowing,18,line_item,
-1600,Total Current Liabilities,19,subtotal,"sum(2400, 2500, 2600, 2610, 2800)"
-1650,Total Net Assets and Liabilities,20,subtotal,690 + 1000 + 1600
+1600,Total Current Liabilities,19,subtotal,"sum(2400, 2500, 2600, 2610, 2700, 2800)"
+1650,Total Net Assets and Liabilities,20,subtotal,"sum(0690 1000, 1600)"
 1100,ASSETS,21,heading,
 1200,Non-Current Assets,22,heading,
 1300,Property Plant and Equipment,23,line_item,
@@ -39,4 +39,4 @@ code,label,position_in_return_form,return_form_structure,composition
 2100,Current Portion Of Long-Term Receivables,38,line_item,
 1800,Cash,39,line_item,
 2150,Total Current Assets,40,subtotal,"sum(2200, 1900, 2000, 2010, 2100, 1800)"
-3000,Total Assets,41,subtotal,2900 + 2150
+3000,Total Assets,41,subtotal,"sum(2900, 2150)"

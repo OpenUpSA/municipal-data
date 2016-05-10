@@ -27,7 +27,7 @@ code,label,position_in_return_form,return_form_structure,composition
 3250,Decrease (Increase) in non-current debtors,26,line_item,
 3260,Decrease (increase) other non-current receivables,27,line_item,
 3270,Decrease (increase) in non-current investments,28,line_item,
-3280,Total Cash Receipts by Source,29,subtotal,"sum(3190, 3200, 3210, 3220, 3230, 3240, 3250, 3260, 3270) + 3170"
+3280,Total Cash Receipts by Source,29,subtotal,"sum(3190, 3200, 3210, 3220, 3230, 3240, 3250, 3260, 3270, 3170)"
 4000,Cash Payments by Type,30,heading,
 4010,Employee related costs,31,line_item,
 4020,Remuneration of councillors,32,line_item,
@@ -45,7 +45,7 @@ code,label,position_in_return_form,return_form_structure,composition
 4140,Capital assets,44,line_item,
 4150,Repayment of borrowing,45,line_item,
 4160,Other Cash Flows/Payments,46,line_item,
-4170,Total Cash Payments by Type,47,subtotal,"sum(4140, 4150, 4160) + 4120"
+4170,Total Cash Payments by Type,47,subtotal,"sum(4140, 4150, 4160, 4120)"
 4180,Net Increase/(Decrease) in Cash Held,48,subtotal,3280 - 4170
 4190,Cash/cash equivalents at the month/year begin:,49,line_item,
 4200,Cash/cash equivalents at the month/year end:,50,subtotal,4180 + 4190

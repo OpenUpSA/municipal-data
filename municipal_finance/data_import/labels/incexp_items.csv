@@ -1,10 +1,10 @@
 code,label,position_in_return_form,return_form_structure,composition
-100,OPERATING REVENUE,1,heading,
-200,Property Rates,2,line_item,
-300,Property Rates - Penalties And Collection Charges,3,line_item,
-400,Service Charges,4,line_item,
-700,Rent Of Facilities And Equipment,5,line_item,
-800,Interest Earned - External Investments,6,line_item,
+0100,OPERATING REVENUE,1,heading,
+0200,Property Rates,2,line_item,
+0300,Property Rates - Penalties And Collection Charges,3,line_item,
+0400,Service Charges,4,line_item,
+0700,Rent Of Facilities And Equipment,5,line_item,
+0800,Interest Earned - External Investments,6,line_item,
 1000,Interest Earned - Outstanding Debtors,7,line_item,
 1100,Dividends Received,8,line_item,
 1300,Fines,9,line_item,
@@ -16,13 +16,13 @@ code,label,position_in_return_form,return_form_structure,composition
 1800,"Gain On Disposal Of Property, Plant & Equipment",15,line_item,
 1900,Total Operating Revenue Generated,16,subtotal,"sum(0200, 0300, 0400, 0700, 0800, 1000, 1100, 1300, 1400, 1500, 1600, 1610, 1700, 1800)"
 2000,Less Revenue Foregone,17,line_item,
-2100,Total Direct Operating Revenue,18,subtotal,"sum(1900, 2000)"
+2100,Total Direct Operating Revenue,18,subtotal,1900 - 2000 or 1900 + 2000 depending on the sign on 2000 such that 2100 < 1900
 2200,INTERNAL TRANSFERS – (must net out with corresp. items under,19,heading,
 2300,Interest Received - Internal Loans,20,line_item,
 2500,Internal Recoveries (Activity Based Costing Etc),21,line_item,
 2600,Dividends Received - Internal (From Municipal Entities),22,line_item,
 2700,Total Indirect Operating Revenue,23,subtotal,"sum(2300, 2500, 2600)"
-2800,Total Operating Revenue,24,subtotal,"sum(2100, 2800)"
+2800,Total Operating Revenue,24,subtotal,"sum(2100, 2700)"
 2900,OPERATING EXPENDITURE,25,heading,
 3000,Employee Related Costs - Wages & Salaries,26,line_item,
 3100,Employee Related Costs - Social Contributions,27,line_item,
@@ -46,12 +46,12 @@ code,label,position_in_return_form,return_form_structure,composition
 4800,Interest - Internal Borrowings,45,line_item,
 5000,Internal Charges (Activity Based Costing Etc),46,line_item,
 5010,Contributed Assets,47,line_item,
-5100,Total Indirect Operating Expenditure,48,subtotal,"sum(4800, 500, 5010)"
+5100,Total Indirect Operating Expenditure,48,subtotal,"sum(4800, 5000, 5010)"
 5200,Total Operating Expenditure,49,subtotal,"sum(4600, 5100)"
 5300,SURPLUS,50,heading,
-5400,Operating Surplus / (Deficit) - Total Revenue Less Total Exp,51,subtotal,2800 - 5200
+5400,Operating Surplus / (Deficit) - Total Revenue Less Total Exp,51,subtotal,2800 - 5200 or 2800 + 5200 depending on the sign on 5200 such that 5400 < 2800
 5500,Taxation,52,line_item,
-5600,Operating Surplus / (Deficit) - After Tax,53,subtotal,5400 - 5500
+5600,Operating Surplus / (Deficit) - After Tax,53,subtotal,5400 - 5500 or 5400 + 5500 depending on the sign on 5500 such that 5600 < 5400
 5800,Cross Subsidisation,54,line_item,
 6600,Plus Interests In Entities Not Wholly Owned,55,line_item,
 5900,"Surplus / (Deficit) After Tax, Cross Subsidies & Share Of As",56,subtotal,"sum(5600, 5800, 6600)"
@@ -65,4 +65,4 @@ code,label,position_in_return_form,return_form_structure,composition
 6260,Self-Insurance Reserve,64,line_item,
 6270,Revaluation Reserve,65,line_item,
 6280,Other,66,line_item,
-6700,Change To Unappropriated Surplus / (Accumulated Deficit),67,subtotal,"5900 + sum(5700, 6210, 6220, 6230, 6240, 6250, 6260, 6270, 6280)"
+6700,Change To Unappropriated Surplus / (Accumulated Deficit),67,subtotal,"sum(5900, 5700, 6210, 6220, 6230, 6240, 6250, 6260, 6270, 6280)"
