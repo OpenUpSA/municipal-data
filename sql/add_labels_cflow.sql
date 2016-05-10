@@ -15,3 +15,5 @@ update cflow_labeled set amount_type_label = sub.label from (select * from amoun
 
 update cflow_labeled set amount_type_code = 'FORECAST' where period_length = 'month' and financial_year = 2016 and amount_type_code = 'ACT';
 update cflow_labeled set amount_type_label = 'Forecast' where period_length = 'month' and financial_year = 2016 and amount_type_code = 'FORECAST';
+
+update cflow_labeled set position_in_return_form = subquery.position_in_return_form, return_form_structure = subquery.return_form_structure, composition = subquery.composition from (select * from cflow_labels ) as subquery where subquery.code = item_code;

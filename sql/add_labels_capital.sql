@@ -9,3 +9,4 @@ update capital_labeled set period_length = 'month' where amount_type_cde = 'ACT'
 update capital_labeled set financial_period = right(period_code, 2) where period_length = 'month';
 update capital_labeled set financial_period = left(period_code, 4) where period_length = 'year';
 update capital_labeled set amount_type_desc = sub.name from (select * from amount_type) as sub where sub.code = amount_type_cde;
+update capital_labeled set position_in_return_form = subquery.position_in_return_form, return_form_structure = subquery.return_form_structure, composition = subquery.composition from (select * from capital_labels ) as subquery where subquery.code = item_code;
