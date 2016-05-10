@@ -7,22 +7,24 @@ from wazimap.data.utils import percent, ratio
 API_URL = 'https://data.municipalmoney.org.za/api/cubes/'
 YEARS = [2015, 2014, 2013, 2012, 2011]
 
-def aggregate_from_response(item, year, results, line_items):
+def aggregate_from_response(item, year, response, line_items):
     """
     Returns the aggregated values we received from the API for the specified year.
     If the 'cells' list in the results is empty, no values were returned,
     and for now, we return zero in that case.
     We should be returning None, and checking for None values in the ratio calculation.
     """
-    for cell in results[item]['cells']:
+    for cell in response[item]['cells']:
         if cell['financial_period.period'] == year:
             return cell[line_items[item]['aggregate']]
     return 0
 
+def annual_facts_from_response(item, response, line_items):
+    value_label = line_items[item]['value_label']
+    return {i['financial_year_end.year']: i[value_label] for i in response[item]['data']}
 
-def facts_from_response(item, results, line_items):
-    return results[item]['data']
-
+def facts_from_response(item, response, line_items):
+    return response[item]['data']
 
 def get_profile(geo_code, geo_level, profile_name=None):
 
@@ -125,6 +127,8 @@ def get_profile(geo_code, geo_level, profile_name=None):
                 'municipality.demarcation_code': str(geo_code),
             },
             'query_type': 'facts',
+            'annual': False,
+            'value_label': ''
         },
         'contact_details' : {
             'cube': 'municipalities',
@@ -133,6 +137,18 @@ def get_profile(geo_code, geo_level, profile_name=None):
                 'municipality.demarcation_code': str(geo_code),
             },
             'query_type': 'facts',
+            'annual': False,
+            'value_label': ''
+        },
+        'audit_opinions' : {
+            'cube': 'audit_opinions',
+            'facts': '',
+            'cut': {
+                'municipality.demarcation_code': str(geo_code),
+            },
+            'query_type': 'facts',
+            'annual': True,
+            'value_label': 'opinion.label'
         }
     }
 
@@ -154,7 +170,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
 
         api_response[item] = requests.get(url, verify=False).json()
         if params['query_type'] == 'facts':
-            results[item] = facts_from_response(item, api_response, line_items)
+            if params['annual']:
+                results[item] = annual_facts_from_response(item, api_response, line_items)
+            else:
+                results[item] = facts_from_response(item, api_response, line_items)
         else:
             for year in YEARS:
                 results[item][year] = aggregate_from_response(item, year, api_response, line_items)
@@ -207,10 +226,13 @@ def get_profile(geo_code, geo_level, profile_name=None):
         'url': muni_contact['municipality.url'].lower()
     }
 
+    audit_opinions = results['audit_opinions']
+
     return {
         'cash_coverage': cash_coverage,
         'op_budget_diff': op_budget_diff,
         'cap_budget_diff': cap_budget_diff,
         'rep_maint_perc_ppe': rep_maint_perc_ppe,
         'mayoral_staff': mayoral_staff,
-        'contact_details': contact_details}
+        'contact_details': contact_details,
+        'audit_opinions': audit_opinions}
