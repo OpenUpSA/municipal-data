@@ -1,0 +1,42 @@
+code,label,position_in_return_form,return_form_structure,composition
+100,COMMUNITY WEALTH / EQUITY,1,heading,
+110,Community Wealth,2,heading,
+600,Housing Development Fund,3,line_item,
+300,Reserves,4,line_item,
+500,Accumulated Surplus/(Deficit),5,line_item,
+680,Minorities Interests,6,line_item,
+690,Total Community Wealth / Equity,7,subtotal,"sum(600, 300, 500, 680)"
+700,Non-Current Liabilities,8,heading,
+900,Borrowing,9,line_item,
+910,Non-Current Provisions,10,line_item,
+1000,Total Non-Current Liabilities,11,subtotal,"sum(900, 910)"
+2300,Current Liabilities,12,heading,
+2400,Consumer Deposits,13,line_item,
+2500,Provisions,14,line_item,
+2600,Creditors,15,line_item,
+2610,Conditional Grants and Receipts,16,line_item,
+2700,Bank Overdraft,17,line_item,
+2800,Borrowing,18,line_item,
+1600,Total Current Liabilities,19,subtotal,"sum(2400, 2500, 2600, 2610, 2800)"
+1650,Total Net Assets and Liabilities,20,subtotal,690 + 1000 + 1600
+1100,ASSETS,21,heading,
+1200,Non-Current Assets,22,heading,
+1300,Property Plant and Equipment,23,line_item,
+1400,Non-Current Investments,24,line_item,
+1500,Long-term Receivables,25,line_item,
+1401,Investment Property,26,line_item,
+1402,Investment in Associate,27,line_item,
+1403,Agricultural,28,line_item,
+1404,Biological,29,line_item,
+1405,Intangible,30,line_item,
+1406,Other Non-Current Assets,31,line_item,
+2900,Total Non-Current Assets,32,subtotal,"sum(1300, 1400, 1500, 1401, 1402, 1403, 1404, 1405, 1406)"
+1700,Current Assets,33,heading,
+2200,Call Investment Deposits,34,line_item,
+1900,Inventory,35,line_item,
+2000,Consumer Debtors,36,line_item,
+2010,Other Debtors,37,line_item,
+2100,Current Portion Of Long-Term Receivables,38,line_item,
+1800,Cash,39,line_item,
+2150,Total Current Assets,40,subtotal,"sum(2200, 1900, 2000, 2010, 2100, 1800)"
+3000,Total Assets,41,subtotal,2900 + 2150

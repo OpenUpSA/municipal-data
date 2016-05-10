@@ -1,0 +1,22 @@
+code,label,position_in_return_form,return_form_structure,composition
+100,Bulk Electricity,1,line_item,
+200,Bulk Water,2,line_item,
+300,PAYE deductions,3,line_item,
+400,VAT (output less input),4,line_item,
+500,Pensions / Retirement deductions,5,line_item,
+600,Loan repayments,6,line_item,
+700,Trade Creditors,7,line_item,
+800,Auditor General,8,line_item,
+900,Other,9,line_item,
+1000,Total,10,subtotal,"sum(100, 200, 300, 400, 500, 600, 700, 800, 900)"
+TP01,Top 1 Creditor,11,line_item,
+TP02,Top 2 Creditor,12,line_item,
+TP03,Top 3 Creditor,13,line_item,
+TP04,Top 4 Creditor,14,line_item,
+TP05,Top 5 Creditor,15,line_item,
+TP06,Top 6 Creditor,16,line_item,
+TP07,Top 7 Creditor,17,line_item,
+TP08,Top 8 Creditor,18,line_item,
+TP09,Top 9 Creditor,19,line_item,
+TP10,Top 10 Creditor,20,line_item,
+TOT,Total,21,subtotal,"sum(TP01, TP02, TP03, TP04, TP05, TP06, TP07 TP08 TP09, TP10)"

@@ -1,0 +1,18 @@
+code,label,position_in_return_form,return_form_structure,composition
+1100,Debtors Age Analysis By Income Source,1,heading,
+1200,Trade and Other Receivables from Exchange Transactions - Water,2,line_item,
+1300,Trade and Other Receivables from Exchange Transactions - Electricity,3,line_item,
+1400,Receivables from Non-exchange Transactions - Property Rates,4,line_item,
+1500,Receivables from Exchange Transactions - Waste Water Management,5,line_item,
+1600,Receivables from Exchange Transactions - Waste Management,6,line_item,
+1700,Receivables from Exchange Transactions - Property Rental Debtors,7,line_item,
+1810,Interest on Arrear Debtor Accounts,8,line_item,
+1820,"Recoverable unauthorised, irregular or fruitless and wasteful Expenditure",9,line_item,
+1900,Other,10,line_item,
+2000,Total By Income Source,11,subtotal,"sum(1200, 1300, 1400, 1500, 1600, 1700, 1810, 1820, 1900)"
+2100,Debtors Age Analysis By Customer Group,12,heading,
+2200,Organs of State,13,subtotal,
+2300,Commercial,14,subtotal,
+2400,Households,15,subtotal,
+2500,Other,16,line_item,
+2600,Total By Customer Group,17,subtotal,"sum(2200, 2300, 2400, 2500)"
