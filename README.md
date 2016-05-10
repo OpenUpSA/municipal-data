@@ -28,6 +28,10 @@ Data import is still a fairly manual process leveraging the DB and a few SQL scr
 2. Import the first few columns which are supplied by National Treasury
 3. Run the relevant add_labels_-prefixed SQL file to add the remaining labels.
   - These should be idempotent so they can simply run again when data is added.
+4. Make sure `create_indices.sql` and its indices are up to date
+  - create it with the python module `municiapl_finance.data_import.create_indices`
+  - add it to git and run it if it was changed
+  - the prod DB doesn't support CREATE INDEX IF NOT EXISTS yet so ignore errors for existing indices unless their columns changed and they need to be manually removed and recreated.
 
 *Remember to run `VACUUM ANALYSE` aftersignificant changes to ensure stats are up to date to use indices properly.*
 

@@ -22,4 +22,4 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE public.grants_labeled
-  OWNER TO postgres;
+  OWNER TO municipal_finance;

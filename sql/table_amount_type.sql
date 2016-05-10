@@ -12,4 +12,4 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE public.amount_type
-  OWNER TO postgres;
+  OWNER TO municipal_finance;
