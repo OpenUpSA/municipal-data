@@ -260,7 +260,7 @@
 
       // TODO does this work for all cubes?
       spinnerStart();
-      $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/item', function(data) {
+      $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/item?order=item.position_in_return_form:asc', function(data) {
         // we only care about items that have a label
         self.rowHeadings = _.select(data.data, function(d) { return d['item.label']; });
         self.renderRowHeadings();
