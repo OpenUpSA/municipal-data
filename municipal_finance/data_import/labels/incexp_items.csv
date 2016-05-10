@@ -1,0 +1,68 @@
+code,label,position_in_return_form,return_form_structure,composition
+0100,OPERATING REVENUE,1,heading,
+0200,Property Rates,2,line_item,
+0300,Property Rates - Penalties And Collection Charges,3,line_item,
+0400,Service Charges,4,line_item,
+0700,Rent Of Facilities And Equipment,5,line_item,
+0800,Interest Earned - External Investments,6,line_item,
+1000,Interest Earned - Outstanding Debtors,7,line_item,
+1100,Dividends Received,8,line_item,
+1300,Fines,9,line_item,
+1400,Licenses and Permits,10,line_item,
+1500,Agency Services,11,line_item,
+1600,Transfers Recognised - Operating,12,line_item,
+1610,Transfers Recognised - Capital,13,line_item,
+1700,Other Revenue,14,line_item,
+1800,"Gain On Disposal Of Property, Plant & Equipment",15,line_item,
+1900,Total Operating Revenue Generated,16,subtotal,"sum(0200, 0300, 0400, 0700, 0800, 1000, 1100, 1300, 1400, 1500, 1600, 1610, 1700, 1800)"
+2000,Less Revenue Foregone,17,line_item,
+2100,Total Direct Operating Revenue,18,subtotal,1900 - 2000 or 1900 + 2000 depending on the sign on 2000 such that 2100 < 1900
+2200,INTERNAL TRANSFERS – (must net out with corresp. items under,19,heading,
+2300,Interest Received - Internal Loans,20,line_item,
+2500,Internal Recoveries (Activity Based Costing Etc),21,line_item,
+2600,Dividends Received - Internal (From Municipal Entities),22,line_item,
+2700,Total Indirect Operating Revenue,23,subtotal,"sum(2300, 2500, 2600)"
+2800,Total Operating Revenue,24,subtotal,"sum(2100, 2700)"
+2900,OPERATING EXPENDITURE,25,heading,
+3000,Employee Related Costs - Wages & Salaries,26,line_item,
+3100,Employee Related Costs - Social Contributions,27,line_item,
+3200,Less Employee Costs Capitalised,28,line_item,
+3300,Less Employee Costs Allocated To Other Operating Items,29,line_item,
+3400,Remuneration Of Councillors,30,line_item,
+3500,Debt Impairment,31,line_item,
+3600,Collection Costs,32,line_item,
+3700,Depreciation and Asset Impairment,33,line_item,
+3900,Interest Expense - External Borrowings,34,line_item,
+4000,Redemption Payments - External Borrowings (Gamap To Remove),35,line_item,
+4100,Bulk Purchases,36,line_item,
+4110,Other Materials,37,line_item,
+4200,Contracted Services,38,line_item,
+4300,Grants and Subsidies,39,line_item,
+4400,Other Expenditure,40,line_item,
+4500,"Loss On Disposal Of Property, Plant & Equipment",41,line_item,
+4550,Contributions To/(From) Provisions,42,line_item,
+4600,Total Direct Operating Expenditure,43,subtotal,"sum(3000, 3100, 3200, 3300, 3400, 3500, 3600, 3700, 3900, 4000, 4100, 4110, 4200, 4300, 4400, 4500, 4550)"
+4700,INTERNAL TRANSFERS - (must net out with corresp. items under,44,heading,
+4800,Interest - Internal Borrowings,45,line_item,
+5000,Internal Charges (Activity Based Costing Etc),46,line_item,
+5010,Contributed Assets,47,line_item,
+5100,Total Indirect Operating Expenditure,48,subtotal,"sum(4800, 5000, 5010)"
+5200,Total Operating Expenditure,49,subtotal,"sum(4600, 5100)"
+5300,SURPLUS,50,heading,
+5400,Operating Surplus / (Deficit) - Total Revenue Less Total Exp,51,subtotal,2800 - 5200 or 2800 + 5200 depending on the sign on 5200 such that 5400 < 2800
+5500,Taxation,52,line_item,
+5600,Operating Surplus / (Deficit) - After Tax,53,subtotal,5400 - 5500 or 5400 + 5500 depending on the sign on 5500 such that 5600 < 5400
+5800,Cross Subsidisation,54,line_item,
+6600,Plus Interests In Entities Not Wholly Owned,55,line_item,
+5900,"Surplus / (Deficit) After Tax, Cross Subsidies & Share Of As",56,subtotal,"sum(5600, 5800, 6600)"
+6200,OTHER ADJUSTMENTS AND TRANSFERS,57,heading,
+5700,Dividends Paid (Municipal Entities Only),58,line_item,
+6210,Asset Financing Reserve (Afr),59,line_item,
+6220,Housing Development Fund,60,line_item,
+6230,Depreciation Reserve Ex Afr,61,line_item,
+6240,Depreciation Reserve Ex Govt Grants,62,line_item,
+6250,Depreciation Reserve Ex Donations And Contributions,63,line_item,
+6260,Self-Insurance Reserve,64,line_item,
+6270,Revaluation Reserve,65,line_item,
+6280,Other,66,line_item,
+6700,Change To Unappropriated Surplus / (Accumulated Deficit),67,subtotal,"sum(5900, 5700, 6210, 6220, 6230, 6240, 6250, 6260, 6270, 6280)"
