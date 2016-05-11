@@ -4,7 +4,7 @@
 
 CREATE TABLE public.demarcation
 (
-  name text,
+  label text,
   code text NOT NULL,
   CONSTRAINT demarcation_pkey PRIMARY KEY (code)
 )
@@ -12,4 +12,4 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE public.demarcation
-  OWNER TO postgres;
+  OWNER TO municipal_finance;

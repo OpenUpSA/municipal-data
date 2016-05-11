@@ -495,7 +495,9 @@ GET /api/cubes/incexp/aggregate
     {% for cube in cubes|dictsort:"name" %}
       <h2 id="cube-{{ cube.name }}">{{ cube.model.label }} - {{ cube.name }}</h2>
 
+      {% if cube.model.description %}
       <p>{{ cube.model.description }}</p>
+      {% endif %}
 
       <p>
         {% if cube.items %}

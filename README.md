@@ -22,7 +22,18 @@ dokku config:set municipal-finance DJANGO_DEBUG=False \
 
 # Data Import
 
-- Remember to run `VACUUM ANALYSE` afterwards to ensure stats are up to date to use indices properly.
+Data import is still a fairly manual process leveraging the DB and a few SQL scripts to do the hard work. This is usually done against a local DB, sanity checked with a locally-running instance of the API and some tools built on it, and if everything looks ok, dumped table-by-table with something like `pg_dump "postgres://municipal_finance@localhost/municipal_finance" --table=audit_opinions -O -c --if-exists > audit_opinions.sql` and then loaded into the production database.
+
+1. Create the table with the file in the `sql` dir with the table's name, e.g.
+2. Import the first few columns which are supplied by National Treasury
+3. Run the relevant add_labels_-prefixed SQL file to add the remaining labels.
+  - These should be idempotent so they can simply run again when data is added.
+4. Make sure `create_indices.sql` and its indices are up to date
+  - create it with the python module `municiapl_finance.data_import.create_indices`
+  - add it to git and run it if it was changed
+  - the prod DB doesn't support CREATE INDEX IF NOT EXISTS yet so ignore errors for existing indices unless their columns changed and they need to be manually removed and recreated.
+
+*Remember to run `VACUUM ANALYSE` or REINDEX tables after significant changes to ensure stats are up to date to use indices properly.*
 
 # License
 
