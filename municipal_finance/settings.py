@@ -69,10 +69,7 @@ WAZIMAP['geometry_data'] = {}
 # TODO: district
 WAZIMAP['levels'] = {
     'country': {
-        'children': ['province'],
-    },
-    'province': {
-        'children': ['municipality', 'district'],
+        'children': ['district'],
     },
     'district': {
         'children': ['municipality'],
