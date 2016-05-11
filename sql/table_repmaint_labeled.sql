@@ -8,7 +8,7 @@ CREATE TABLE public.repmaint_labeled
   period_code text,
   item_code text,
   amount bigint,
-  id integer NOT NULL DEFAULT nextval('repmaint_labeled_id_seq'::regclass),
+  id serial,
   item_label text,
   demarcation_label text,
   financial_year text,
@@ -16,6 +16,9 @@ CREATE TABLE public.repmaint_labeled
   financial_period integer,
   amount_type_code text,
   amount_type_label text,
+  position_in_return_form integer,
+  return_form_structure text,
+  composition text,
   CONSTRAINT repmaint_labeled_pkey PRIMARY KEY (id)
 )
 WITH (

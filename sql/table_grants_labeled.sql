@@ -10,7 +10,7 @@ CREATE TABLE public.grants_labeled
   amount integer,
   grant_name text,
   amount_type_code text,
-  id integer NOT NULL DEFAULT nextval('grants_labeled_id_seq'::regclass),
+  id serial,
   demarcation_label text,
   financial_year integer,
   period_length text,

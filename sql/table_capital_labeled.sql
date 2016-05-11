@@ -15,7 +15,7 @@ CREATE TABLE public.capital_labeled
   asset_register_summary bigint,
   function_label text,
   item_label text,
-  id integer NOT NULL DEFAULT nextval('capital_labeled_id_seq'::regclass),
+  id serial;
   demarcation_label text,
   financial_year integer,
   period_length text,
@@ -23,6 +23,9 @@ CREATE TABLE public.capital_labeled
   amount_type_code text,
   amount_type_label text,
   function_category text,
+  position_in_return_form integer,
+  return_form_structure text,
+  composition text,
   CONSTRAINT capital_labeled_pkey PRIMARY KEY (id)
 )
 WITH (

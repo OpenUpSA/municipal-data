@@ -19,6 +19,9 @@ CREATE TABLE public.incexp_labeled
   amount_type_code text,
   amount_type_label text,
   function_category text,
+  position_in_return_form integer,
+  return_form_structure text,
+  composition text,
   CONSTRAINT incexp_labeled_pkey PRIMARY KEY (id)
 )
 WITH (

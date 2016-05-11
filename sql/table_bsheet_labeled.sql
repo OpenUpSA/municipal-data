@@ -9,13 +9,16 @@ CREATE TABLE public.bsheet_labeled
   item_code text,
   amount bigint,
   item_label text,
-  id integer NOT NULL DEFAULT nextval('bsheet_labeled_id_seq'::regclass),
+  id serial,
   demarcation_label text,
   financial_year integer,
   period_length text,
   financial_period integer,
   amount_type_code text,
   amount_type_label text,
+  position_in_return_form integer,
+  return_form_structure text,
+  composition text,
   CONSTRAINT bsheet_labeled_pkey PRIMARY KEY (id)
 )
 WITH (
