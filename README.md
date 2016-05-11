@@ -33,7 +33,7 @@ Data import is still a fairly manual process leveraging the DB and a few SQL scr
   - add it to git and run it if it was changed
   - the prod DB doesn't support CREATE INDEX IF NOT EXISTS yet so ignore errors for existing indices unless their columns changed and they need to be manually removed and recreated.
 
-*Remember to run `VACUUM ANALYSE` aftersignificant changes to ensure stats are up to date to use indices properly.*
+*Remember to run `VACUUM ANALYSE` or REINDEX tables after significant changes to ensure stats are up to date to use indices properly.*
 
 # License
 
