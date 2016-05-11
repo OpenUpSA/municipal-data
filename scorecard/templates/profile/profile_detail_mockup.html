@@ -1,0 +1,169 @@
+{% extends 'profile/profile_detail.html' %}{% load staticfiles %}
+
+{% block header_content %}
+<div id="cover-map" class="clearfix">
+    <div id="slippy-map"></div>
+    <div id="cover-profile" class="wrapper">
+        <article class="clearfix column-half">
+            <header id="header-box" class="column-full">
+                <h1 class="title">Buffalo City</h1>
+                <p class="caption">
+                  Municipality
+                  in
+
+                  Eastern Cape
+                </p>
+            </header>
+            <div class="column-half">
+                <div class="stat">
+                    <span class="primary">
+                        <span class="value"></span>
+                        <span class="name">Population</span>
+                    </span>
+                </div>
+            </div>
+            <div class="column-half">
+                <div class="stat">
+                    <span class="secondary">
+                        <span class="value">2,535.9</span>
+                        <span class="name"> square kilometres</span>
+                    </span>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>
+{% endblock %}
+
+{% block profile_detail %}
+
+<section>
+  <h3>Cash coverage:</h3>
+  <ul>
+    <li>Result: {2011: 0, 2012: 5.0, 2013: 5.6, 2014: 5.8, 2015: 5.2}</li>
+    <li>Formula: Cash available at year end / Operating Expenditure per month</li>
+    <li>Cash flow at year end: cube: cflow; item.code: 4200</li>
+    <li>Operating Expenditure: cube: incexp, item.code: 4600, amount_type.label: Audited Actual</li>
+  </li>
+
+  </ul>
+
+  <h3>Under(Over) spend of operating budget:</h3>
+  <ul>
+    <li>Result: {2011: 0, 2012: 0, 2013: 0, 2014: 0, 2015: -4.2} %</li>
+    <li>Formula: (Budgeted Operating Expenditure - Actual Operating Expenditure) / Budgeted Operating Expenditure</li>
+    <li>Budgeted Operating Expenditure: cube: incexp; item.code: 4600; amount_type.label: Adjusted Budget</li>
+    <li>Actual Operating Expenditure: cube: incexp, item.code: 4600, amount_type.label: Audited Actual</li>
+  </ul>
+
+  <h3>Under(Over) spend of capital budget</h3>
+  <ul>
+    <li>Result: {2011: 0, 2012: 0, 2013: 0, 2014: 0, 2015: -925.12} %</li>
+    <li>Formula: Formula: (Budgeted Capital Expenditure - Actual Capital Expenditure) / Budgeted Capital Expenditure</li>
+    <li>Budgeted Capital Expenditure: cube: capital; item.code: 4100; amount_type.label: Adjusted Budget</li>
+    <li>Actual Capital Expenditure: cube: capital, item.code: 4100, amount_type.label: Audited Actual</li>
+  </ul>
+
+  <h3>Repairs and maintenance as a % of Property, plant and equipment:</h3>
+  <ul>
+    <li>Result: {2011: 0, 2012: 2.08, 2013: 2.53, 2014: 2.69, 2015: 0.0} %</li>
+    <li>Formula: Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)</li>
+    <li>Repairs and maintenance expenditure: cube: repmaint; item.code: 5005; amount_type.label: Audited Actual</li>
+    <li>Property, Plant and Equipment: cube: bsheet; item.code: 1300; amount_type.label: Audited Actual</li>
+    <li>Investment Property: cube: bsheet; item.code: 1401; amount_type.label: Audited Actual</li>
+  </ul>
+
+  <h3>Audit opinions:</h3>
+  <ul>
+    <li>Results: {u&#39;2014&#39;: u&#39;Qualified&#39;, u&#39;2011&#39;: u&#39;Adverse opinion&#39;, u&#39;2013&#39;: u&#39;Qualified&#39;, u&#39;2012&#39;: u&#39;Qualified&#39;}</li>
+  </ul>
+
+  <h3>Mayoral staff:</h3>
+  Chief Financial Officer
+    <ul>
+      <li>Name: Mr Vincent Pillay</li>
+      <li>Phone: 043 705 1892</li>
+      <li>Fax: 043 743 9141</li>
+      <li>Email: vincentp@buffalocity.gov.za</li>
+    </ul>
+
+    Deputy Mayor/Executive Mayor
+    <ul>
+      <li>Name: Mr Xola Pakati</li>
+      <li>Phone: 043 705 2807</li>
+      <li>Fax: 086 545 1288</li>
+      <li>Email: philasandep@buffalocity.gov.za</li>
+    </ul>
+
+    Mayor/Executive Mayor
+    <ul>
+      <li>Name: Mr Alfred Mtsi</li>
+      <li>Phone: 043 705 1072</li>
+      <li>Fax: 043 743 9040</li>
+      <li>Email: alfredm@buffalocity.gov.za</li>
+    </ul>
+
+    Municipal Manager
+    <ul>
+      <li>Name: Mr Nceba Ncunyana</li>
+      <li>Phone: 043 705 1901</li>
+      <li>Fax: 043 743 1941</li>
+      <li>Email: ncebaAC@buffalocity.gov.za</li>
+    </ul>
+
+    Secretary of Deputy Mayor/Executive Mayor
+    <ul>
+      <li>Name: Ms Philasande Pula</li>
+      <li>Phone: 043 705 2899</li>
+      <li>Fax: 086 545 1288</li>
+      <li>Email: philasandep@buffalocity.gov.za</li>
+    </ul>
+
+    Secretary of Financial Manager
+    <ul>
+      <li>Name: Ms Candice Bahlmann</li>
+      <li>Phone: 043 705 1887</li>
+      <li>Fax: 043 743 9141</li>
+      <li>Email: candiceb@buffalocity.gov.za</li>
+    </ul>
+
+    Secretary of Mayor/Executive Mayor
+    <ul>
+      <li>Name: Ms Yolisa Ntoni</li>
+      <li>Phone: 043 705 1072</li>
+      <li>Fax: 043 743 9040</li>
+      <li>Email: yolisan@buffalocity.gov.za</li>
+    </ul>
+
+    Secretary of Municipal Manager
+    <ul>
+      <li>Name: Ms Mandisa Mgoqi</li>
+      <li>Phone: 043 705 1901</li>
+      <li>Fax: 043 743 1941</li>
+      <li>Email: mandisamg@buffalocity.gov.za</li>
+    </ul>
+
+  <h3>Contact details:</h3>
+
+  <ul>
+    <li>Street address 1: Trust Bank Centre</li>
+    <li>Street address 2: C/O Oxford &amp; North Street</li>
+    <li>Street address 3: East London</li>
+    <li>Street address 4: 5200</li>
+    <li>Postal address 1: P O BOX 134</li>
+    <li>Postal address 2: EAST LONDON</li>
+    <li>Postal address 3: 5200</li>
+    <li>Phone number: 043 705 2000</li>
+    <li>URL: www.buffalocity.gov.za</li>
+  </ul>
+
+
+</section>
+
+{% endblock %}
+
+{% block profile_javascript_libs %}
+{{ block.super }}
+<script src="{% static 'js/maps_mapit.js' %}"></script>
+<script src="{% static 'js/profile_map_mapit.js' %}"></script>
+{% endblock %}
