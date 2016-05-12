@@ -1,6 +1,10 @@
-{% extends 'profile/profile_detail.html' %}{% load staticfiles pipeline %}
+{% extends 'profile/profile_detail.html' %}
+{% load staticfiles pipeline l10n %}
 
-{% load l10n %}
+{% block head_css_extra %}
+{{ block.super }}
+{% stylesheet "scorecard" %}
+{% endblock head_css_extra %}
 
 {% block header_content %}
 <div id="cover-map" class="clearfix">
@@ -80,6 +84,7 @@
     {% endfor %}
   </ul>
 
+  <hr>
   <h3>Performance indicators</h3>
   <h2>Cash coverage:</h2>
   <ul>
