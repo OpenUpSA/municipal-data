@@ -214,6 +214,12 @@ PIPELINE = {
             ),
             'output_filename': 'table.css',
         },
+        'scorecard': {
+            'source_filenames': (
+                'stylesheets/scorecard.scss',
+            ),
+            'output_filename': 'scorecard.css'
+        }
     },
     'JAVASCRIPT': {
         'js': {
