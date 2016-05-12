@@ -4,7 +4,6 @@ from collections import defaultdict, OrderedDict
 from wazimap.data.utils import percent, ratio
 
 API_URL = 'https://data.municipalmoney.org.za/api/cubes/'
-YEARS = [2015, 2014, 2013, 2012, 2011]
 
 
 def aggregate_from_response(item, response, line_items, years):
