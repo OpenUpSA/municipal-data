@@ -216,29 +216,35 @@ def get_profile(geo_code, geo_level, profile_name=None):
     cap_budget_diff = OrderedDict()
     rep_maint_perc_ppe = OrderedDict()
 
-    indicators = OrderedDict([
-        ('cash_coverage',
-        "percent((results['op_exp_budget'][year] - results['op_exp_actual'][year]), results['op_exp_budget'][year], 1)"
-        ),
-        ('op_budget_diff',
-        "percent((results['op_exp_budget'][year] - results['op_exp_actual'][year]), results['op_exp_budget'][year], 1)"
-        ),
-        ('cap_budget_diff',
-        "percent((results['cap_exp_budget'][year] - results['cap_exp_actual'][year]), results['cap_exp_budget'][year])"
-        ),
-        (
-        'rep_maint_perc_ppe',
-        "percent(results['rep_maint'][year], (results['ppe'][year] + results['invest_prop'][year]))"
-        )
-    ])
-
     for year in sorted(list(years), reverse=True):
-        for indicator, calc in indicators.iteritems():
-            try:
-                exec("%s[year] = %s" % (indicator, calc))
-            except KeyError:
-                exec("%s[year] = 'N/A'" % (indicator))
+        try:
+            cash_coverage[year] = ratio(
+                results['cash_flow'][year],
+                (results['op_exp_actual'][year] / 12),
+                1)
+        except KeyError:
+            cash_coverage[year] = 'N/A'
 
+        try:
+            op_budget_diff[year] = percent(
+                (results['op_exp_budget'][year] - results['op_exp_actual'][year]),
+                results['op_exp_budget'][year],
+                1)
+        except KeyError:
+            op_budget_diff[year] = 'N/A'
+
+        try:
+            cap_budget_diff[year] = percent(
+                (results['cap_exp_budget'][year] - results['cap_exp_actual'][year]),
+                results['cap_exp_budget'][year])
+        except KeyError:
+            cap_budget_diff[year] = 'N/A'
+
+        try:
+            rep_maint_perc_ppe[year] = percent(results['rep_maint'][year],
+                (results['ppe'][year] + results['invest_prop'][year]))
+        except KeyError:
+            rep_maint_perc_ppe[year] = 'N/A'
 
     cash_at_year_end = OrderedDict([
         (k, v) for k, v in results['cash_flow'].iteritems()
