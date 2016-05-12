@@ -272,7 +272,7 @@ def get_profile(geo_code, geo_level, profile_name=None):
         'url': muni_contact['municipality.url'].lower()
     }
 
-    audit_opinions = results['audit_opinions']
+    audit_opinions = OrderedDict(sorted(results['audit_opinions'].items(), key=lambda t: t[0], reverse=True))
 
     return {
         'cash_coverage': cash_coverage,
@@ -281,4 +281,5 @@ def get_profile(geo_code, geo_level, profile_name=None):
         'rep_maint_perc_ppe': rep_maint_perc_ppe,
         'mayoral_staff': mayoral_staff,
         'contact_details': contact_details,
-        'audit_opinions': audit_opinions}
+        'audit_opinions': audit_opinions,
+        'cash_at_year_end': cash_at_year_end}
