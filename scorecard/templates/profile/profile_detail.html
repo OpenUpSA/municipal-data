@@ -56,8 +56,12 @@
     <li>Formula: Cash available at year end / Operating Expenditure per month</li>
     <li>Cash flow at year end: cube: cflow; item.code: 4200</li>
     <li>Operating Expenditure: cube: incexp, item.code: 4600, amount_type.label: Audited Actual</li>
-  </li>
+  </ul>
 
+  <h3>Cash balance at year end</h3>
+  <ul>
+    <li>Result: {{ cash_at_year_end }}</li>
+    <li>Cash flow at year end: cube: cflow; item.code: 4200</li>
   </ul>
 
   <h3>Under(Over) spend of operating budget:</h3>
@@ -87,7 +91,12 @@
 
   <h3>Audit opinions:</h3>
   <ul>
-    <li>Results: {{ audit_opinions }}</li>
+    Results:
+    {% for k, v in audit_opinions.iteritems %}
+      <li>{{ k }}: {{ v }}</li>
+    {% endfor %}
+    </li>
+    {{ audit_opinions }}
   </ul>
 
   <h3>Mayoral staff:</h3>

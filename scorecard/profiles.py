@@ -1,27 +1,38 @@
 import requests
-from collections import defaultdict
-import json
+from collections import defaultdict, OrderedDict
 
 from wazimap.data.utils import percent, ratio
 
 API_URL = 'https://data.municipalmoney.org.za/api/cubes/'
-YEARS = [2015, 2014, 2013, 2012, 2011]
 
-def aggregate_from_response(item, year, response, line_items):
-    """
-    Returns the aggregated values we received from the API for the specified year.
-    If the 'cells' list in the results is empty, no values were returned,
-    and for now, we return zero in that case.
-    We should be returning None, and checking for None values in the ratio calculation.
-    """
-    for cell in response[item]['cells']:
-        if cell['financial_period.period'] == year:
-            return cell[line_items[item]['aggregate']]
-    return 0
 
-def annual_facts_from_response(item, response, line_items):
-    value_label = line_items[item]['value_label']
-    return {i['financial_year_end.year']: i[value_label] for i in response[item]['data']}
+def aggregate_from_response(item, response, line_items, years):
+    """
+    Return the aggregated values we received from the API by year,
+    and build up the year set to determine which periods we
+    use when presenting results.
+    """
+    results = OrderedDict([
+        (c['financial_period.period'], c[line_items[item]['aggregate']])
+        for c in response[item]['cells']])
+    years |= set([year for year in results.keys()])
+
+    return results, years
+
+
+def annual_facts_from_response(item, response, line_items, years):
+    """
+    Return facts which change annually,
+    and build up the year set to determine which periods we
+    use when presenting results.
+    """
+    facts = OrderedDict([
+        (i['financial_year_end.year'], i[line_items[item]['value_label']])
+        for i in response[item]['data']])
+    # Converting to int will not be needed once API returns all years as numbers
+    years |= set([int(year) for year in facts.keys()])
+
+    return facts, years
 
 def facts_from_response(item, response, line_items):
     return response[item]['data']
@@ -29,8 +40,8 @@ def facts_from_response(item, response, line_items):
 def get_profile(geo_code, geo_level, profile_name=None):
 
     api_query_strings = {
-        'aggregate': '{cube}/aggregate?aggregates={aggregate}&cut={cut}&drilldown=item.code|item.label|financial_period.period&page=0',
-        'facts': '{cube}/facts?&cut={cut}&drilldown=item.code|item.label|financial_period.period&page=0',
+        'aggregate': '{cube}/aggregate?aggregates={aggregate}&cut={cut}&drilldown=item.code|item.label|financial_period.period&page=0&order=financial_period.period:desc',
+        'facts': '{cube}/facts?&cut={cut}&fields={fields}&page=0',
     }
 
     line_items = {
@@ -121,32 +132,53 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'query_type': 'aggregate',
         },
         'officials': {
+            'query_type': 'facts',
             'cube': 'officials',
-            'facts': '',
             'cut': {
                 'municipality.demarcation_code': str(geo_code),
             },
-            'query_type': 'facts',
+            'fields': [
+                'role.role',
+                'contact_details.title',
+                'contact_details.name',
+                'contact_details.email_address',
+                'contact_details.phone_number',
+                'contact_details.fax_number'],
             'annual': False,
             'value_label': ''
         },
         'contact_details' : {
+            'query_type': 'facts',
             'cube': 'municipalities',
-            'facts': '',
             'cut': {
                 'municipality.demarcation_code': str(geo_code),
             },
-            'query_type': 'facts',
+            'fields': [
+                'municipality.phone_number',
+                'municipality.postal_address_1',
+                'municipality.postal_address_3',
+                'municipality.postal_address_2',
+                'municipality.street_address_1',
+                'municipality.street_address_2',
+                'municipality.street_address_3',
+                'municipality.street_address_4',
+                'municipality.fax_number',
+                'municipality.url'
+            ],
             'annual': False,
             'value_label': ''
         },
         'audit_opinions' : {
+            'query_type': 'facts',
             'cube': 'audit_opinions',
-            'facts': '',
             'cut': {
                 'municipality.demarcation_code': str(geo_code),
             },
-            'query_type': 'facts',
+            'fields': [
+                'opinion.code',
+                'opinion.label',
+                'financial_year_end.year'
+            ],
             'annual': True,
             'value_label': 'opinion.label'
         }
@@ -154,6 +186,8 @@ def get_profile(geo_code, geo_level, profile_name=None):
 
     api_response = {}
     results = defaultdict(dict)
+    years = set()
+
     for item, params in line_items.iteritems():
         if params['query_type'] == 'aggregate':
             url = API_URL + api_query_strings['aggregate'].format(
@@ -163,41 +197,58 @@ def get_profile(geo_code, geo_level, profile_name=None):
             )
         elif params['query_type'] == 'facts':
             url = API_URL + api_query_strings['facts'].format(
-                facts=params['facts'],
                 cube=params['cube'],
-                cut='|'.join('{!s}:{!r}'.format(k, v) for (k, v) in params['cut'].iteritems()).replace("'", '"')
+                cut='|'.join('{!s}:{!r}'.format(k, v) for (k, v) in params['cut'].iteritems()).replace("'", '"'),
+                fields=','.join(field for field in params['fields'])
             )
 
         api_response[item] = requests.get(url, verify=False).json()
         if params['query_type'] == 'facts':
             if params['annual']:
-                results[item] = annual_facts_from_response(item, api_response, line_items)
+                results[item], years = annual_facts_from_response(item, api_response, line_items, years)
             else:
                 results[item] = facts_from_response(item, api_response, line_items)
         else:
-            for year in YEARS:
-                results[item][year] = aggregate_from_response(item, year, api_response, line_items)
+            results[item], years = aggregate_from_response(item, api_response, line_items, years)
 
-    cash_coverage = {}
-    op_budget_diff = {}
-    cap_budget_diff = {}
-    rep_maint_perc_ppe = {}
+    cash_coverage = OrderedDict()
+    op_budget_diff = OrderedDict()
+    cap_budget_diff = OrderedDict()
+    rep_maint_perc_ppe = OrderedDict()
 
-    for year in YEARS:
-        cash_coverage[year] = ratio(
-            results['cash_flow'][year],
-            (results['op_exp_actual'][year] / 12),
-            1)
-        op_budget_diff[year] = percent(
-            (results['op_exp_budget'][year] - results['op_exp_actual'][year]),
-            results['op_exp_budget'][year],
-            1)
-        cap_budget_diff[year] = percent(
-            (results['cap_exp_budget'][year] - results['cap_exp_actual'][year]),
-            results['cap_exp_budget'][year])
-        rep_maint_perc_ppe[year] = percent(results['rep_maint'][year],
-            (results['ppe'][year] + results['invest_prop'][year]))
+    for year in sorted(list(years), reverse=True):
+        try:
+            cash_coverage[year] = ratio(
+                results['cash_flow'][year],
+                (results['op_exp_actual'][year] / 12),
+                1)
+        except KeyError:
+            cash_coverage[year] = 'N/A'
 
+        try:
+            op_budget_diff[year] = percent(
+                (results['op_exp_budget'][year] - results['op_exp_actual'][year]),
+                results['op_exp_budget'][year],
+                1)
+        except KeyError:
+            op_budget_diff[year] = 'N/A'
+
+        try:
+            cap_budget_diff[year] = percent(
+                (results['cap_exp_budget'][year] - results['cap_exp_actual'][year]),
+                results['cap_exp_budget'][year])
+        except KeyError:
+            cap_budget_diff[year] = 'N/A'
+
+        try:
+            rep_maint_perc_ppe[year] = percent(results['rep_maint'][year],
+                (results['ppe'][year] + results['invest_prop'][year]))
+        except KeyError:
+            rep_maint_perc_ppe[year] = 'N/A'
+
+    cash_at_year_end = OrderedDict([
+        (k, v) for k, v in results['cash_flow'].iteritems()
+    ])
 
     mayoral_staff = []
     exclude_roles = ['Speaker',  'Secretary of Speaker']
@@ -226,7 +277,7 @@ def get_profile(geo_code, geo_level, profile_name=None):
         'url': muni_contact['municipality.url'].lower()
     }
 
-    audit_opinions = results['audit_opinions']
+    audit_opinions = OrderedDict(sorted(results['audit_opinions'].items(), key=lambda t: t[0], reverse=True))
 
     return {
         'cash_coverage': cash_coverage,
@@ -235,4 +286,5 @@ def get_profile(geo_code, geo_level, profile_name=None):
         'rep_maint_perc_ppe': rep_maint_perc_ppe,
         'mayoral_staff': mayoral_staff,
         'contact_details': contact_details,
-        'audit_opinions': audit_opinions}
+        'audit_opinions': audit_opinions,
+        'cash_at_year_end': cash_at_year_end}
