@@ -29,8 +29,8 @@ def facts_from_response(item, response, line_items):
 def get_profile(geo_code, geo_level, profile_name=None):
 
     api_query_strings = {
-        'aggregate': '{cube}/aggregate?aggregates={aggregate}&cut={cut}&drilldown=item.code|item.label|financial_period.period&page=0',
-        'facts': '{cube}/facts?&cut={cut}&drilldown=item.code|item.label|financial_period.period&page=0',
+        'aggregate': '{cube}/aggregate?aggregates={aggregate}&cut={cut}&drilldown=item.code|item.label|financial_period.period&page=0&order=financial_period.period:desc',
+        'facts': '{cube}/facts?&cut={cut}&fields={fields}&page=0',
     }
 
     line_items = {
@@ -121,32 +121,53 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'query_type': 'aggregate',
         },
         'officials': {
+            'query_type': 'facts',
             'cube': 'officials',
-            'facts': '',
             'cut': {
                 'municipality.demarcation_code': str(geo_code),
             },
-            'query_type': 'facts',
+            'fields': [
+                'role.role',
+                'contact_details.title',
+                'contact_details.name',
+                'contact_details.email_address',
+                'contact_details.phone_number',
+                'contact_details.fax_number'],
             'annual': False,
             'value_label': ''
         },
         'contact_details' : {
+            'query_type': 'facts',
             'cube': 'municipalities',
-            'facts': '',
             'cut': {
                 'municipality.demarcation_code': str(geo_code),
             },
-            'query_type': 'facts',
+            'fields': [
+                'municipality.phone_number',
+                'municipality.postal_address_1',
+                'municipality.postal_address_3',
+                'municipality.postal_address_2',
+                'municipality.street_address_1',
+                'municipality.street_address_2',
+                'municipality.street_address_3',
+                'municipality.street_address_4',
+                'municipality.fax_number',
+                'municipality.url'
+            ],
             'annual': False,
             'value_label': ''
         },
         'audit_opinions' : {
+            'query_type': 'facts',
             'cube': 'audit_opinions',
-            'facts': '',
             'cut': {
                 'municipality.demarcation_code': str(geo_code),
             },
-            'query_type': 'facts',
+            'fields': [
+                'opinion.code',
+                'opinion.label',
+                'financial_year_end.year'
+            ],
             'annual': True,
             'value_label': 'opinion.label'
         }
