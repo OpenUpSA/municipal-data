@@ -1,5 +1,7 @@
 {% extends 'profile/profile_detail.html' %}{% load staticfiles %}
 
+{% load l10n %}
+
 {% block header_content %}
 <div id="cover-map" class="clearfix">
     <div id="slippy-map"></div>
@@ -47,82 +49,100 @@
 </div>
 {% endblock %}
 
-{% block profile_detail %}
+{% block content %}
 
-<section>
-  <h3>Cash coverage:</h3>
-  <ul>
-    <li>Result: {{ cash_coverage }}</li>
-    <li>Formula: Cash available at year end / Operating Expenditure per month</li>
-    <li>Cash flow at year end: cube: cflow; item.code: 4200</li>
-    <li>Operating Expenditure: cube: incexp, item.code: 4600, amount_type.label: Audited Actual</li>
-  </ul>
+<section >
+  <h1>About the municipality</h1>
 
-  <h3>Cash balance at year end</h3>
-  <ul>
-    <li>Result: {{ cash_at_year_end }}</li>
-    <li>Cash flow at year end: cube: cflow; item.code: 4200</li>
-  </ul>
-
-  <h3>Under(Over) spend of operating budget:</h3>
-  <ul>
-    <li>Result: {{ op_budget_diff }} %</li>
-    <li>Formula: (Budgeted Operating Expenditure - Actual Operating Expenditure) / Budgeted Operating Expenditure</li>
-    <li>Budgeted Operating Expenditure: cube: incexp; item.code: 4600; amount_type.label: Adjusted Budget</li>
-    <li>Actual Operating Expenditure: cube: incexp, item.code: 4600, amount_type.label: Audited Actual</li>
-  </ul>
-
-  <h3>Under(Over) spend of capital budget</h3>
-  <ul>
-    <li>Result: {{ cap_budget_diff }} %</li>
-    <li>Formula: Formula: (Budgeted Capital Expenditure - Actual Capital Expenditure) / Budgeted Capital Expenditure</li>
-    <li>Budgeted Capital Expenditure: cube: capital; item.code: 4100; amount_type.label: Adjusted Budget</li>
-    <li>Actual Capital Expenditure: cube: capital, item.code: 4100, amount_type.label: Audited Actual</li>
-  </ul>
-
-  <h3>Repairs and maintenance as a % of Property, plant and equipment:</h3>
-  <ul>
-    <li>Result: {{ rep_maint_perc_ppe }} %</li>
-    <li>Formula: Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)</li>
-    <li>Repairs and maintenance expenditure: cube: repmaint; item.code: 5005; amount_type.label: Audited Actual</li>
-    <li>Property, Plant and Equipment: cube: bsheet; item.code: 1300; amount_type.label: Audited Actual</li>
-    <li>Investment Property: cube: bsheet; item.code: 1401; amount_type.label: Audited Actual</li>
-  </ul>
-
-  <h3>Audit opinions:</h3>
-  <ul>
-    Results:
-    {% for k, v in audit_opinions.iteritems %}
-      <li>{{ k }}: {{ v }}</li>
-    {% endfor %}
-    </li>
-    {{ audit_opinions }}
-  </ul>
-
-  <h3>Mayoral staff:</h3>
+  <h3>Who runs the municipality?</h3>
   {% for official in mayoral_staff %}
-    {{ official.role }}
+    <b>{{ official.role }}</b>
     <ul>
-      <li>Name: {{ official.title }} {{ official.name }}</li>
+      <li>{{ official.title }} {{ official.name }}</li>
       <li>Phone: {{ official.office_phone }}</li>
       <li>Fax: {{ official.fax_number }}</li>
       <li>Email: {{ official.email }}</li>
     </ul>
   {% endfor %}
 
-  <h3>Contact details:</h3>
+  <h2>Contact details:</h2>
   <ul>
-    <li>Street address 1: {{ contact_details.street_address_1 }}</li>
-    <li>Street address 2: {{ contact_details.street_address_2 }}</li>
-    <li>Street address 3: {{ contact_details.street_address_3 }}</li>
-    <li>Street address 4: {{ contact_details.street_address_4 }}</li>
-    <li>Postal address 1: {{ contact_details.postal_address_1 }}</li>
-    <li>Postal address 2: {{ contact_details.postal_address_2 }}</li>
-    <li>Postal address 3: {{ contact_details.postal_address_3 }}</li>
-    <li>Phone number: {{ contact_details.phone_number }}</li>
-    <li>URL: {{ contact_details.url }}</li>
+    <li>{{ contact_details.phone_number }}</li>
+    <li><a href="{{ contact_details.url }}">{{ contact_details.url }}</a></li>
+    <li>{{ contact_details.street_address_1 }}, {{ contact_details.street_address_2 }}, {{ contact_details.street_address_3 }} {{ contact_details.street_address_4 }}</li>
   </ul>
 
+  <h2>Audit opinions:</h2>
+  <ul>
+    Results:
+    {% for y, v in audit_opinions.iteritems %}
+      <li>{{ y|unlocalize }}: {{ v }}</li>
+    {% endfor %}
+  </ul>
+
+  <h3>Performance indicators</h3>
+  <h2>Cash coverage:</h2>
+  <ul>
+    <b>Results:</b>
+    {% for y, v in cash_coverage.iteritems %}
+      <li>{{ y|unlocalize }}: {% if v %}{{ v }} {% else %} N/A {% endif %}</li>
+    {% endfor %}
+    <b>Formula:</b>
+    <li>Cash available at year end / Operating Expenditure per month</li>
+    <b>API details:</b>
+    <li>Cash flow at year end: cube: cflow; item.code: 4200</li>
+    <li>Operating Expenditure: cube: incexp, item.code: 4600, amount_type.label: Audited Actual</li>
+  </ul>
+
+  <h2>Cash balance at year end</h2>
+  <ul>
+    <b>Results:</b>
+    {% for y, v in cash_at_year_end.iteritems %}
+      <li>{{ y|unlocalize }}: {% if v %}{{ v }} {% else %} N/A {% endif %}</li>
+    {% endfor %}
+    <b>API details:</b>
+    <li>Cash flow at year end: cube: cflow; item.code: 4200</li>
+  </ul>
+
+  <h2>Under(Over) spend of operating budget:</h2>
+  <ul>
+    <b>Results:</b>
+    {% for y, v in op_budget_diff.iteritems %}
+      <li>{{ y|unlocalize }}: {% if v %}{{ v }} % {% else %} N/A {% endif %}</li>
+    {% endfor %}
+    <b>Formula:</b>
+    <li>(Budgeted Operating Expenditure - Actual Operating Expenditure) / Budgeted Operating Expenditure</li>
+    <b>API details:</b>
+    <li>Budgeted Operating Expenditure: cube: incexp; item.code: 4600; amount_type.label: Adjusted Budget</li>
+    <li>Actual Operating Expenditure: cube: incexp, item.code: 4600, amount_type.label: Audited Actual</li>
+  </ul>
+
+  <h2>Under(Over) spend of capital budget</h2>
+  <ul>
+    <b>Results:</b>
+    {% for y, v in cap_budget_diff.iteritems %}
+      <li>{{ y|unlocalize }}: {% if v %}{{ v }} % {% else %} N/A {% endif %}</li>
+    {% endfor %}
+    <b>Formula:</b>
+    <li>(Budgeted Capital Expenditure - Actual Capital Expenditure) / Budgeted Capital Expenditure</li>
+    <b>API details:</b>
+    <li>Budgeted Capital Expenditure: cube: capital; item.code: 4100; amount_type.label: Adjusted Budget</li>
+    <li>Actual Capital Expenditure: cube: capital, item.code: 4100, amount_type.label: Audited Actual</li>
+  </ul>
+
+  <h2>Repairs and maintenance as a % of Property, plant and equipment:</h2>
+  <ul>
+    <b>Results:</b>
+    {% for y, v in rep_maint_perc_ppe.iteritems %}
+      <li>{{ y|unlocalize }}: {% if v %}{{ v }} % {% else %} N/A {% endif %}</li>
+    {% endfor %}
+    <b>Formula:</b>
+    <li>Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)</li>
+    API details:
+    <li>Repairs and maintenance expenditure: cube: repmaint; item.code: 5005; amount_type.label: Audited Actual</li>
+    <li>Property, Plant and Equipment: cube: bsheet; item.code: 1300; amount_type.label: Audited Actual</li>
+    <li>Investment Property: cube: bsheet; item.code: 1401; amount_type.label: Audited Actual</li>
+  </ul>
 </section>
 
 {% endblock %}

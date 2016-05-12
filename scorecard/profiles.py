@@ -155,14 +155,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             },
             'fields': [
                 'municipality.phone_number',
-                'municipality.postal_address_1',
-                'municipality.postal_address_3',
-                'municipality.postal_address_2',
                 'municipality.street_address_1',
                 'municipality.street_address_2',
                 'municipality.street_address_3',
                 'municipality.street_address_4',
-                'municipality.fax_number',
                 'municipality.url'
             ],
             'annual': False,
@@ -223,7 +219,7 @@ def get_profile(geo_code, geo_level, profile_name=None):
                 (results['op_exp_actual'][year] / 12),
                 1)
         except KeyError:
-            cash_coverage[year] = 'N/A'
+            cash_coverage[year] = None
 
         try:
             op_budget_diff[year] = percent(
@@ -231,20 +227,20 @@ def get_profile(geo_code, geo_level, profile_name=None):
                 results['op_exp_budget'][year],
                 1)
         except KeyError:
-            op_budget_diff[year] = 'N/A'
+            op_budget_diff[year] = None
 
         try:
             cap_budget_diff[year] = percent(
                 (results['cap_exp_budget'][year] - results['cap_exp_actual'][year]),
                 results['cap_exp_budget'][year])
         except KeyError:
-            cap_budget_diff[year] = 'N/A'
+            cap_budget_diff[year] = None
 
         try:
             rep_maint_perc_ppe[year] = percent(results['rep_maint'][year],
                 (results['ppe'][year] + results['invest_prop'][year]))
         except KeyError:
-            rep_maint_perc_ppe[year] = 'N/A'
+            rep_maint_perc_ppe[year] = None
 
     cash_at_year_end = OrderedDict([
         (k, v) for k, v in results['cash_flow'].iteritems()
@@ -270,9 +266,6 @@ def get_profile(geo_code, geo_level, profile_name=None):
         'street_address_2': muni_contact['municipality.street_address_2'],
         'street_address_3': muni_contact['municipality.street_address_3'],
         'street_address_4': muni_contact['municipality.street_address_4'],
-        'postal_address_1': muni_contact['municipality.postal_address_1'],
-        'postal_address_2': muni_contact['municipality.postal_address_2'],
-        'postal_address_3': muni_contact['municipality.postal_address_3'],
         'phone_number': muni_contact['municipality.phone_number'],
         'url': muni_contact['municipality.url'].lower()
     }
