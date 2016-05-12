@@ -1,5 +1,12 @@
 {% extends 'homepage.html' %}
 
+{% load pipeline staticfiles %}
+
+{% block head_css_extra %}
+{{ block.super }}
+{% stylesheet "scorecard" %}
+{% endblock head_css_extra %}
+
 {% block content_container %}
 
 {% block homepage_detail %}
