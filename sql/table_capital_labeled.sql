@@ -15,7 +15,7 @@ CREATE TABLE public.capital_labeled
   asset_register_summary bigint,
   function_label text,
   item_label text,
-  id serial;
+  id serial,
   demarcation_label text,
   financial_year integer,
   period_length text,
