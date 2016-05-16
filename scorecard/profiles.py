@@ -2,6 +2,7 @@ import requests
 from collections import defaultdict, OrderedDict
 
 from wazimap.data.utils import percent, ratio
+from wazimap.data.tables import get_datatable
 
 API_URL = 'https://data.municipalmoney.org.za/api/cubes/'
 
@@ -43,6 +44,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
         'aggregate': '{cube}/aggregate?aggregates={aggregate}&cut={cut}&drilldown=item.code|item.label|financial_period.period&page=0&order=financial_period.period:desc',
         'facts': '{cube}/facts?&cut={cut}&fields={fields}&page=0',
     }
+
+    # Census data
+    table = get_datatable('population')
+    _, total_pop = table.get_stat_data(geo_level, geo_code, percent=False)
 
     line_items = {
         'op_exp_actual': {
@@ -273,6 +278,7 @@ def get_profile(geo_code, geo_level, profile_name=None):
     audit_opinions = OrderedDict(sorted(results['audit_opinions'].items(), key=lambda t: t[0], reverse=True))
 
     return {
+        'total_population': total_pop,
         'cash_coverage': cash_coverage,
         'op_budget_diff': op_budget_diff,
         'cap_budget_diff': cap_budget_diff,
