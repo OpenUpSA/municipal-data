@@ -16,23 +16,23 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: population; Type: TABLE; Schema: public; Owner: municipal_finance; Tablespace: 
+-- Name: population_2011; Type: TABLE; Schema: public; Owner: municipal_finance; Tablespace: 
 --
 
-CREATE TABLE population (
+CREATE TABLE population_2011 (
     geo_level character varying(16) NOT NULL,
     geo_code character varying(8) NOT NULL,
     population integer
 );
 
 
-ALTER TABLE population OWNER TO municipal_finance;
+ALTER TABLE population_2011 OWNER TO municipal_finance;
 
 --
--- Data for Name: population; Type: TABLE DATA; Schema: public; Owner: municipal_finance
+-- Data for Name: population_2011; Type: TABLE DATA; Schema: public; Owner: municipal_finance
 --
 
-COPY population (geo_level, geo_code, population) FROM stdin;
+COPY population_2011 (geo_level, geo_code, population) FROM stdin;
 ward	21001001	8745
 ward	21001002	7258
 ward	21001003	5919

@@ -46,7 +46,7 @@ def get_profile(geo_code, geo_level, profile_name=None):
     }
 
     # Census data
-    table = get_datatable('population')
+    table = get_datatable('population_2011')
     _, total_pop = table.get_stat_data(geo_level, geo_code, percent=False)
 
     line_items = {
