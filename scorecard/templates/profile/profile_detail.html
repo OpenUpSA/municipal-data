@@ -148,6 +148,21 @@
     <li>Property, Plant and Equipment: cube: bsheet; item.code: 1300; amount_type.label: Audited Actual</li>
     <li>Investment Property: cube: bsheet; item.code: 1401; amount_type.label: Audited Actual</li>
   </ul>
+  <h2>Breakdown of revenue</h2>
+  <ul>
+    <b>Results:</b>
+    {% for year, items in revenue_breakdown.iteritems %}
+      <li>{{ year|unlocalize }}:</li>
+        <ul>
+          <li>Property rates: {{ items.property_rates }}</li>
+          <li>Service charges: {{ items.service_charges }}</li>
+          <li>Transfers received: {{ items.transfers_received }}</li>
+          <li>Own revenue: {{ items.own_revenue }}</li>
+          <li>Other: {{ items.other }}</li>
+          <li>Total: {{ items.total }}</li>
+        </ul>
+    {% endfor %}
+  </ul>
 </section>
 
 {% endblock %}
