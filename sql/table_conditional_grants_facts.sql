@@ -4,7 +4,7 @@
 
 CREATE TABLE public.conditional_grants_facts
 (
-  demacation_code text,
+  demarcation_code text,
   period_code text,
   grant_code text,
   amount bigint,
