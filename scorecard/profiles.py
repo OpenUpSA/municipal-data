@@ -9,7 +9,6 @@ API_URL = 'https://data.municipalmoney.org.za/api/cubes/'
 
 def aggregate_from_response(item, response, line_items, years):
     """
-    Returns results and years
     results: the values we received from the API by item code and year
     in the form: {item_code: {year: amount, year_2:amount_2}}
     years: continue building up the set of years determine which periods we
@@ -43,11 +42,6 @@ def facts_from_response(item, response, line_items):
     return response[item]['data']
 
 def get_profile(geo_code, geo_level, profile_name=None):
-
-    api_query_strings = {
-        'aggregate': '{cube}/aggregate?aggregates={aggregate}&cut={cut}&drilldown=item.code|item.label|financial_period.period&page=0&order=financial_period.period:desc',
-        'facts': '{cube}/facts?&cut={cut}&fields={fields}&page=0',
-    }
 
     # Census data
     table = get_datatable('population_2011')
@@ -234,11 +228,12 @@ def get_profile(geo_code, geo_level, profile_name=None):
                 results[item] = facts_from_response(item, api_response, line_items)
         else:
             results[item], years = aggregate_from_response(item, api_response, line_items, years)
-    import ipdb; ipdb.set_trace()
+
     cash_coverage = OrderedDict()
     op_budget_diff = OrderedDict()
     cap_budget_diff = OrderedDict()
     rep_maint_perc_ppe = OrderedDict()
+    revenue_breakdown = OrderedDict()
 
     for year in sorted(list(years), reverse=True):
         try:
@@ -269,6 +264,21 @@ def get_profile(geo_code, geo_level, profile_name=None):
                 (results['ppe']['1300'][year] + results['invest_prop']['1401'][year]))
         except KeyError:
             rep_maint_perc_ppe[year] = None
+
+        revenue_breakdown_items = [
+            ('property_rates', '0200'),
+            ('service_charges', '0400'),
+            ('transfers_received', '1600'),
+            ('own_revenue', '1700'),
+            ('total', '1900')
+        ]
+
+        revenue_breakdown[year] = {}
+        for item, code in revenue_breakdown_items:
+            try:
+                revenue_breakdown[year][item] = results['revenue_breakdown'][code][year]
+            except KeyError:
+                revenue_breakdown[year][item] = None
 
     cash_at_year_end = OrderedDict([
         (k, v) for k, v in results['cash_flow']['4200'].iteritems()
@@ -309,4 +319,5 @@ def get_profile(geo_code, geo_level, profile_name=None):
         'mayoral_staff': mayoral_staff,
         'contact_details': contact_details,
         'audit_opinions': audit_opinions,
-        'cash_at_year_end': cash_at_year_end}
+        'cash_at_year_end': cash_at_year_end,
+        'revenue_breakdown': revenue_breakdown}
