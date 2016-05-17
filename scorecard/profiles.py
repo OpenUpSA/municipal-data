@@ -9,14 +9,18 @@ API_URL = 'https://data.municipalmoney.org.za/api/cubes/'
 
 def aggregate_from_response(item, response, line_items, years):
     """
-    Return the aggregated values we received from the API by year,
-    and build up the year set to determine which periods we
+    Returns results and years
+    results: the values we received from the API by item code and year
+    in the form: {item_code: {year: amount, year_2:amount_2}}
+    years: continue building up the set of years determine which periods we
     use when presenting results.
     """
-    results = OrderedDict([
-        (c['financial_period.period'], c[line_items[item]['aggregate']])
-        for c in response[item]['cells']])
-    years |= set([year for year in results.keys()])
+    results = {}
+    for code in line_items[item]['cut']['item.code']:
+        results[code] = OrderedDict([
+            (c['financial_period.period'], c[line_items[item]['aggregate']])
+            for c in response[item]['cells'] if c['item.code'] == code])
+        years |= set([year for year in results[code].keys()])
 
     return results, years
 
@@ -54,10 +58,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'cube': 'incexp',
             'aggregate': 'amount.sum',
             'cut': {
-                'item.code': '4600',
-                'amount_type.label': 'Audited Actual',
-                'demarcation.code': str(geo_code),
-                'period_length.length': 'year',
+                'item.code': ['4600'],
+                'amount_type.label': ['Audited Actual'],
+                'demarcation.code': [str(geo_code)],
+                'period_length.length': ['year'],
             },
             'query_type': 'aggregate',
         },
@@ -65,9 +69,9 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'cube': 'incexp',
             'aggregate': 'amount.sum',
             'cut': {
-                'item.code': '4600',
-                'amount_type.label': 'Adjusted Budget',
-                'demarcation.code': str(geo_code),
+                'item.code': ['4600'],
+                'amount_type.label': ['Adjusted Budget'],
+                'demarcation.code': [str(geo_code)],
             },
             'query_type': 'aggregate',
         },
@@ -75,10 +79,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'cube': 'cflow',
             'aggregate': 'amount.sum',
             'cut': {
-                'item.code': '4200',
-                'amount_type.label': 'Audited Actual',
-                'demarcation.code': str(geo_code),
-                'period_length.length': 'year'
+                'item.code': ['4200'],
+                'amount_type.label': ['Audited Actual'],
+                'demarcation.code': [str(geo_code)],
+                'period_length.length': ['year']
             },
             'query_type': 'aggregate',
         },
@@ -86,10 +90,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'cube': 'capital',
             'aggregate': 'asset_register_summary.sum',
             'cut': {
-                'item.code': '4100',
-                'amount_type.label': 'Audited Actual',
-                'demarcation.code': str(geo_code),
-                'period_length.length': 'year'
+                'item.code': ['4100'],
+                'amount_type.label': ['Audited Actual'],
+                'demarcation.code': [str(geo_code)],
+                'period_length.length': ['year']
             },
             'query_type': 'aggregate',
         },
@@ -97,9 +101,9 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'cube': 'capital',
             'aggregate': 'asset_register_summary.sum',
             'cut': {
-                'item.code': '4100',
-                'amount_type.label': 'Adjusted Budget',
-                'demarcation.code': str(geo_code),
+                'item.code': ['4100'],
+                'amount_type.label': ['Adjusted Budget'],
+                'demarcation.code': [str(geo_code)],
             },
             'query_type': 'aggregate',
         },
@@ -107,10 +111,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'cube': 'repmaint',
             'aggregate': 'amount.sum',
             'cut': {
-                'item.code': '5005',
-                'amount_type.label': 'Audited Actual',
-                'demarcation.code': str(geo_code),
-                'period_length.length': 'year'
+                'item.code': ['5005'],
+                'amount_type.label': ['Audited Actual'],
+                'demarcation.code': [str(geo_code)],
+                'period_length.length': ['year']
             },
             'query_type': 'aggregate',
         },
@@ -118,10 +122,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'cube': 'bsheet',
             'aggregate': 'amount.sum',
             'cut': {
-                'item.code': '1300',
-                'amount_type.label': 'Audited Actual',
-                'demarcation.code': str(geo_code),
-                'period_length.length': 'year',
+                'item.code': ['1300'],
+                'amount_type.label': ['Audited Actual'],
+                'demarcation.code': [str(geo_code)],
+                'period_length.length': ['year'],
             },
             'query_type': 'aggregate',
         },
@@ -129,10 +133,21 @@ def get_profile(geo_code, geo_level, profile_name=None):
             'cube': 'bsheet',
             'aggregate': 'amount.sum',
             'cut': {
-                'item.code': '1401',
-                'amount_type.label': 'Audited Actual',
-                'demarcation.code': str(geo_code),
-                'period_length.length': 'year',
+                'item.code': ['1401'],
+                'amount_type.label': ['Audited Actual'],
+                'demarcation.code': [str(geo_code)],
+                'period_length.length': ['year'],
+            },
+            'query_type': 'aggregate',
+        },
+        'revenue_breakdown': {
+            'cube': 'incexp',
+            'aggregate': 'amount.sum',
+            'cut': {
+                'item.code': ['0200', '0400', '1600', '1700', '1900'],
+                'amount_type.label': ['Audited Actual'],
+                'demarcation.code': [str(geo_code)],
+                'period_length.length': ['year'],
             },
             'query_type': 'aggregate',
         },
@@ -182,36 +197,44 @@ def get_profile(geo_code, geo_level, profile_name=None):
             ],
             'annual': True,
             'value_label': 'opinion.label'
-        }
+        },
     }
 
     api_response = {}
     results = defaultdict(dict)
     years = set()
+    for item, details in line_items.iteritems():
+        if details['query_type'] == 'aggregate':
+            url = API_URL + details['cube'] + '/aggregate'
+            params = {
+                'aggregates': details['aggregate'],
+                'cut': '|'.join('{!s}:{!s}'.format(
+                    k, ';'.join('{!r}'.format(item) for item in v))
+                    for (k, v) in details['cut'].iteritems()
+                ).replace("'", '"'),
+                'drilldown': 'item.code|item.label|financial_period.period',
+                'page': 0,
+                'order': 'financial_period.period:desc',
+            }
+        elif details['query_type'] == 'facts':
+            url = API_URL + details['cube'] + '/facts'
+            params = {
+                'cut': '|'.join('{!s}:{!r}'.format(k, v)
+                    for (k, v) in details['cut'].iteritems()
+                ).replace("'", '"'),
+                'fields': ','.join(field for field in details['fields']),
+                'page': 0
+            }
+        api_response[item] = requests.get(url, params=params, verify=False).json()
+        if details['query_type'] == 'facts':
 
-    for item, params in line_items.iteritems():
-        if params['query_type'] == 'aggregate':
-            url = API_URL + api_query_strings['aggregate'].format(
-                aggregate=params['aggregate'],
-                cube=params['cube'],
-                cut='|'.join('{!s}:{!r}'.format(k, v) for (k, v) in params['cut'].iteritems()).replace("'", '"')
-            )
-        elif params['query_type'] == 'facts':
-            url = API_URL + api_query_strings['facts'].format(
-                cube=params['cube'],
-                cut='|'.join('{!s}:{!r}'.format(k, v) for (k, v) in params['cut'].iteritems()).replace("'", '"'),
-                fields=','.join(field for field in params['fields'])
-            )
-
-        api_response[item] = requests.get(url, verify=False).json()
-        if params['query_type'] == 'facts':
-            if params['annual']:
+            if details['annual']:
                 results[item], years = annual_facts_from_response(item, api_response, line_items, years)
             else:
                 results[item] = facts_from_response(item, api_response, line_items)
         else:
             results[item], years = aggregate_from_response(item, api_response, line_items, years)
-
+    import ipdb; ipdb.set_trace()
     cash_coverage = OrderedDict()
     op_budget_diff = OrderedDict()
     cap_budget_diff = OrderedDict()
@@ -220,35 +243,35 @@ def get_profile(geo_code, geo_level, profile_name=None):
     for year in sorted(list(years), reverse=True):
         try:
             cash_coverage[year] = ratio(
-                results['cash_flow'][year],
-                (results['op_exp_actual'][year] / 12),
+                results['cash_flow']['4200'][year],
+                (results['op_exp_actual']['4600'][year] / 12),
                 1)
         except KeyError:
             cash_coverage[year] = None
 
         try:
             op_budget_diff[year] = percent(
-                (results['op_exp_budget'][year] - results['op_exp_actual'][year]),
-                results['op_exp_budget'][year],
+                (results['op_exp_budget']['4600'][year] - results['op_exp_actual']['4600'][year]),
+                results['op_exp_budget']['4600'][year],
                 1)
         except KeyError:
             op_budget_diff[year] = None
 
         try:
             cap_budget_diff[year] = percent(
-                (results['cap_exp_budget'][year] - results['cap_exp_actual'][year]),
-                results['cap_exp_budget'][year])
+                (results['cap_exp_budget']['4100'][year] - results['cap_exp_actual']['4100'][year]),
+                results['cap_exp_budget']['4100'][year])
         except KeyError:
             cap_budget_diff[year] = None
 
         try:
-            rep_maint_perc_ppe[year] = percent(results['rep_maint'][year],
-                (results['ppe'][year] + results['invest_prop'][year]))
+            rep_maint_perc_ppe[year] = percent(results['rep_maint']['5005'][year],
+                (results['ppe']['1300'][year] + results['invest_prop']['1401'][year]))
         except KeyError:
             rep_maint_perc_ppe[year] = None
 
     cash_at_year_end = OrderedDict([
-        (k, v) for k, v in results['cash_flow'].iteritems()
+        (k, v) for k, v in results['cash_flow']['4200'].iteritems()
     ])
 
     mayoral_staff = []
