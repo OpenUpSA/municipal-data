@@ -273,12 +273,21 @@ def get_profile(geo_code, geo_level, profile_name=None):
             ('total', '1900')
         ]
 
+
         revenue_breakdown[year] = {}
+        subtotal = 0.0
         for item, code in revenue_breakdown_items:
             try:
                 revenue_breakdown[year][item] = results['revenue_breakdown'][code][year]
+                if not item == 'total':
+                    subtotal += revenue_breakdown[year][item]
             except KeyError:
                 revenue_breakdown[year][item] = None
+
+        if revenue_breakdown[year]['total']:
+            revenue_breakdown[year]['other'] = revenue_breakdown[year]['total'] - subtotal
+        else:
+            revenue_breakdown[year]['other'] = None
 
     cash_at_year_end = OrderedDict([
         (k, v) for k, v in results['cash_flow']['4200'].iteritems()
