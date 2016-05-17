@@ -1,19 +1,27 @@
 {
-    "fact_table": "audit_opinions_facts",
+    "fact_table": "audit_opinion_facts",
     "label": "Audit Opinions",
     "description": "",
     "dimensions": {
-        "municipality": {
-            "label": "Municipality",
-            "key_attribute": "scorecard_geography.code",
-            "label_attribute": "scorecard_geography.geo_code",
+        "demarcation": {
             "attributes": {
-                "demarcation_code": {
+                "code": {
+                    "column": "scorecard_geography.geo_code",
                     "label": "Demarcation Code",
-                    "column": "demarcation_code",
-                    "type": "string"
+                    "type": "string",
+                    "description": "Municipality code assigned by the Municipal Demarcation Board"
+                },
+                "label": {
+                    "column": "scorecard_geography.name",
+                    "label": "Name",
+                    "type": "string",
+                    "description": ""
                 }
             },
+            "key_attribute": "code",
+            "label_attribute": "label",
+            "description": "Municipality demarcation details",
+            "label": "Municipality",
             "join_column": "demarcation_code"
         },
         "financial_year_end": {

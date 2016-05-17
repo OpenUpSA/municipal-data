@@ -17,17 +17,11 @@ CREATE TABLE public.aged_creditor_facts
   l60_amount bigint,
   l90_amount bigint,
   total_amount bigint,
-  item_label text,
   id serial,
-  demarcation_label text,
   financial_year integer,
   period_length text,
   financial_period integer,
   amount_type_code text,
-  amount_type_label text,
-  position_in_return_form integer,
-  return_form_structure text,
-  composition text,
   CONSTRAINT aged_creditor_facts_pkey PRIMARY KEY (id)
 )
 WITH (
