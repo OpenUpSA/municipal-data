@@ -1,8 +1,8 @@
--- Table: public.grants_labeled
+-- Table: public.grants_facts
 
--- DROP TABLE public.grants_labeled;
+-- DROP TABLE public.grants_facts;
 
-CREATE TABLE public.grants_labeled
+CREATE TABLE public.grants_facts
 (
   demacation_code text,
   period_code text,
@@ -16,10 +16,10 @@ CREATE TABLE public.grants_labeled
   period_length text,
   financial_period integer,
   amount_type_label text,
-  CONSTRAINT grants_labeled_pkey PRIMARY KEY (id)
+  CONSTRAINT grants_facts_pkey PRIMARY KEY (id)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE public.grants_labeled
+ALTER TABLE public.grants_facts
   OWNER TO municipal_finance;

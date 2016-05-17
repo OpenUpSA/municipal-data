@@ -1,8 +1,9 @@
--- Table: public.aged_creditor_labeled
 
--- DROP TABLE public.aged_creditor_labeled;
+-- Table: public.aged_creditor_facts
 
-CREATE TABLE public.aged_creditor_labeled
+-- DROP TABLE public.aged_creditor_facts;
+
+CREATE TABLE public.aged_creditor_facts
 (
   demarcation_code text,
   period_code text,
@@ -27,10 +28,10 @@ CREATE TABLE public.aged_creditor_labeled
   position_in_return_form integer,
   return_form_structure text,
   composition text,
-  CONSTRAINT aged_creditor_labeled_pkey PRIMARY KEY (id)
+  CONSTRAINT aged_creditor_facts_pkey PRIMARY KEY (id)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE public.aged_creditor_labeled
+ALTER TABLE public.aged_creditor_facts
   OWNER TO municipal_finance;

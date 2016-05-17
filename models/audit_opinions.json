@@ -1,19 +1,20 @@
 {
-    "fact_table": "audit_opinions",
+    "fact_table": "audit_opinions_facts",
     "label": "Audit Opinions",
     "description": "",
     "dimensions": {
         "municipality": {
             "label": "Municipality",
-            "key_attribute": "demarcation_code",
-            "label_attribute": "demarcation_code",
+            "key_attribute": "scorecard_geography.code",
+            "label_attribute": "scorecard_geography.geo_code",
             "attributes": {
                 "demarcation_code": {
                     "label": "Demarcation Code",
                     "column": "demarcation_code",
                     "type": "string"
                 }
-            }
+            },
+            "join_column": "demarcation_code"
         },
         "financial_year_end": {
             "attributes": {

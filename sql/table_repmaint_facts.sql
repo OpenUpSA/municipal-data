@@ -1,17 +1,17 @@
--- Table: public.bsheet_labeled
+-- Table: public.repmaint_facts
 
--- DROP TABLE public.bsheet_labeled;
+-- DROP TABLE public.repmaint_facts;
 
-CREATE TABLE public.bsheet_labeled
+CREATE TABLE public.repmaint_facts
 (
   demarcation_code text,
   period_code text,
   item_code text,
   amount bigint,
-  item_label text,
   id serial,
+  item_label text,
   demarcation_label text,
-  financial_year integer,
+  financial_year text,
   period_length text,
   financial_period integer,
   amount_type_code text,
@@ -19,10 +19,10 @@ CREATE TABLE public.bsheet_labeled
   position_in_return_form integer,
   return_form_structure text,
   composition text,
-  CONSTRAINT bsheet_labeled_pkey PRIMARY KEY (id)
+  CONSTRAINT repmaint_facts_pkey PRIMARY KEY (id)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE public.bsheet_labeled
+ALTER TABLE public.repmaint_facts
   OWNER TO municipal_finance;

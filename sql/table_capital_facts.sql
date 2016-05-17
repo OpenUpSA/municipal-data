@@ -1,8 +1,8 @@
--- Table: public.capital_labeled
+-- Table: public.capital_facts
 
--- DROP TABLE public.capital_labeled;
+-- DROP TABLE public.capital_facts;
 
-CREATE TABLE public.capital_labeled
+CREATE TABLE public.capital_facts
 (
   demarcation_code text,
   period_code text,
@@ -26,10 +26,10 @@ CREATE TABLE public.capital_labeled
   position_in_return_form integer,
   return_form_structure text,
   composition text,
-  CONSTRAINT capital_labeled_pkey PRIMARY KEY (id)
+  CONSTRAINT capital_facts_pkey PRIMARY KEY (id)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE public.capital_labeled
+ALTER TABLE public.capital_facts
   OWNER TO municipal_finance;
