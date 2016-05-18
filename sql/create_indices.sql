@@ -1,123 +1,257 @@
-CREATE INDEX repmaint_labeled_amount_type_code_idx ON repmaint_labeled (amount_type_code);
-CREATE INDEX repmaint_labeled_amount_type_label_idx ON repmaint_labeled (amount_type_label);
-CREATE INDEX repmaint_labeled_dimension_amount_type_idx ON repmaint_labeled (amount_type_code, amount_type_label);
-CREATE INDEX repmaint_labeled_demarcation_code_idx ON repmaint_labeled (demarcation_code);
-CREATE INDEX repmaint_labeled_demarcation_label_idx ON repmaint_labeled (demarcation_label);
-CREATE INDEX repmaint_labeled_dimension_demarcation_idx ON repmaint_labeled (demarcation_code, demarcation_label);
-CREATE INDEX repmaint_labeled_period_length_idx ON repmaint_labeled (period_length);
-CREATE INDEX repmaint_labeled_position_in_return_form_idx ON repmaint_labeled (position_in_return_form);
-CREATE INDEX repmaint_labeled_item_code_idx ON repmaint_labeled (item_code);
-CREATE INDEX repmaint_labeled_return_form_structure_idx ON repmaint_labeled (return_form_structure);
-CREATE INDEX repmaint_labeled_composition_idx ON repmaint_labeled (composition);
-CREATE INDEX repmaint_labeled_item_label_idx ON repmaint_labeled (item_label);
-CREATE INDEX repmaint_labeled_dimension_item_idx ON repmaint_labeled (item_code, composition, item_label, position_in_return_form, return_form_structure);
-CREATE INDEX repmaint_labeled_item_ordered_idx ON repmaint_labeled (position_in_return_form, item_code, composition, item_label, return_form_structure);
-CREATE INDEX repmaint_labeled_financial_period_idx ON repmaint_labeled (financial_period);
-CREATE INDEX repmaint_labeled_financial_year_idx ON repmaint_labeled (financial_year);
-CREATE INDEX aged_creditor_labeled_amount_type_code_idx ON aged_creditor_labeled (amount_type_code);
-CREATE INDEX aged_creditor_labeled_amount_type_label_idx ON aged_creditor_labeled (amount_type_label);
-CREATE INDEX aged_creditor_labeled_dimension_amount_type_idx ON aged_creditor_labeled (amount_type_code, amount_type_label);
-CREATE INDEX aged_creditor_labeled_demarcation_code_idx ON aged_creditor_labeled (demarcation_code);
-CREATE INDEX aged_creditor_labeled_demarcation_label_idx ON aged_creditor_labeled (demarcation_label);
-CREATE INDEX aged_creditor_labeled_dimension_demarcation_idx ON aged_creditor_labeled (demarcation_code, demarcation_label);
-CREATE INDEX aged_creditor_labeled_period_length_idx ON aged_creditor_labeled (period_length);
-CREATE INDEX aged_creditor_labeled_position_in_return_form_idx ON aged_creditor_labeled (position_in_return_form);
-CREATE INDEX aged_creditor_labeled_item_code_idx ON aged_creditor_labeled (item_code);
-CREATE INDEX aged_creditor_labeled_return_form_structure_idx ON aged_creditor_labeled (return_form_structure);
-CREATE INDEX aged_creditor_labeled_composition_idx ON aged_creditor_labeled (composition);
-CREATE INDEX aged_creditor_labeled_item_label_idx ON aged_creditor_labeled (item_label);
-CREATE INDEX aged_creditor_labeled_dimension_item_idx ON aged_creditor_labeled (item_code, composition, item_label, position_in_return_form, return_form_structure);
-CREATE INDEX aged_creditor_labeled_item_ordered_idx ON aged_creditor_labeled (position_in_return_form, item_code, composition, item_label, return_form_structure);
-CREATE INDEX aged_creditor_labeled_financial_period_idx ON aged_creditor_labeled (financial_period);
-CREATE INDEX aged_creditor_labeled_financial_year_idx ON aged_creditor_labeled (financial_year);
-CREATE INDEX incexp_labeled_function_code_idx ON incexp_labeled (function_code);
-CREATE INDEX incexp_labeled_function_label_idx ON incexp_labeled (function_label);
-CREATE INDEX incexp_labeled_dimension_function_idx ON incexp_labeled (function_code, function_label);
-CREATE INDEX incexp_labeled_amount_type_code_idx ON incexp_labeled (amount_type_code);
-CREATE INDEX incexp_labeled_amount_type_label_idx ON incexp_labeled (amount_type_label);
-CREATE INDEX incexp_labeled_dimension_amount_type_idx ON incexp_labeled (amount_type_code, amount_type_label);
-CREATE INDEX incexp_labeled_demarcation_code_idx ON incexp_labeled (demarcation_code);
-CREATE INDEX incexp_labeled_demarcation_label_idx ON incexp_labeled (demarcation_label);
-CREATE INDEX incexp_labeled_dimension_demarcation_idx ON incexp_labeled (demarcation_code, demarcation_label);
-CREATE INDEX incexp_labeled_period_length_idx ON incexp_labeled (period_length);
-CREATE INDEX incexp_labeled_position_in_return_form_idx ON incexp_labeled (position_in_return_form);
-CREATE INDEX incexp_labeled_item_code_idx ON incexp_labeled (item_code);
-CREATE INDEX incexp_labeled_return_form_structure_idx ON incexp_labeled (return_form_structure);
-CREATE INDEX incexp_labeled_composition_idx ON incexp_labeled (composition);
-CREATE INDEX incexp_labeled_item_label_idx ON incexp_labeled (item_label);
-CREATE INDEX incexp_labeled_dimension_item_idx ON incexp_labeled (item_code, composition, item_label, position_in_return_form, return_form_structure);
-CREATE INDEX incexp_labeled_item_ordered_idx ON incexp_labeled (position_in_return_form, item_code, composition, item_label, return_form_structure);
-CREATE INDEX incexp_labeled_financial_period_idx ON incexp_labeled (financial_period);
-CREATE INDEX incexp_labeled_financial_year_idx ON incexp_labeled (financial_year);
-CREATE INDEX grants_labeled_amount_type_code_idx ON grants_labeled (amount_type_code);
-CREATE INDEX grants_labeled_amount_type_label_idx ON grants_labeled (amount_type_label);
-CREATE INDEX grants_labeled_dimension_amount_type_idx ON grants_labeled (amount_type_code, amount_type_label);
-CREATE INDEX grants_labeled_demarcation_code_idx ON grants_labeled (demarcation_code);
-CREATE INDEX grants_labeled_demarcation_label_idx ON grants_labeled (demarcation_label);
-CREATE INDEX grants_labeled_dimension_demarcation_idx ON grants_labeled (demarcation_code, demarcation_label);
-CREATE INDEX grants_labeled_grant_code_idx ON grants_labeled (grant_code);
-CREATE INDEX grants_labeled_grant_name_idx ON grants_labeled (grant_name);
-CREATE INDEX grants_labeled_dimension_grant_idx ON grants_labeled (grant_code, grant_name);
-CREATE INDEX grants_labeled_period_length_idx ON grants_labeled (period_length);
-CREATE INDEX grants_labeled_financial_period_idx ON grants_labeled (financial_period);
-CREATE INDEX grants_labeled_financial_year_idx ON grants_labeled (financial_year);
-CREATE INDEX bsheet_labeled_amount_type_code_idx ON bsheet_labeled (amount_type_code);
-CREATE INDEX bsheet_labeled_amount_type_label_idx ON bsheet_labeled (amount_type_label);
-CREATE INDEX bsheet_labeled_dimension_amount_type_idx ON bsheet_labeled (amount_type_code, amount_type_label);
-CREATE INDEX bsheet_labeled_demarcation_code_idx ON bsheet_labeled (demarcation_code);
-CREATE INDEX bsheet_labeled_demarcation_label_idx ON bsheet_labeled (demarcation_label);
-CREATE INDEX bsheet_labeled_dimension_demarcation_idx ON bsheet_labeled (demarcation_code, demarcation_label);
-CREATE INDEX bsheet_labeled_period_length_idx ON bsheet_labeled (period_length);
-CREATE INDEX bsheet_labeled_position_in_return_form_idx ON bsheet_labeled (position_in_return_form);
-CREATE INDEX bsheet_labeled_item_code_idx ON bsheet_labeled (item_code);
-CREATE INDEX bsheet_labeled_return_form_structure_idx ON bsheet_labeled (return_form_structure);
-CREATE INDEX bsheet_labeled_composition_idx ON bsheet_labeled (composition);
-CREATE INDEX bsheet_labeled_item_label_idx ON bsheet_labeled (item_label);
-CREATE INDEX bsheet_labeled_dimension_item_idx ON bsheet_labeled (item_code, composition, item_label, position_in_return_form, return_form_structure);
-CREATE INDEX bsheet_labeled_item_ordered_idx ON bsheet_labeled (position_in_return_form, item_code, composition, item_label, return_form_structure);
-CREATE INDEX bsheet_labeled_financial_period_idx ON bsheet_labeled (financial_period);
-CREATE INDEX bsheet_labeled_financial_year_idx ON bsheet_labeled (financial_year);
-CREATE INDEX cflow_labeled_amount_type_code_idx ON cflow_labeled (amount_type_code);
-CREATE INDEX cflow_labeled_amount_type_label_idx ON cflow_labeled (amount_type_label);
-CREATE INDEX cflow_labeled_dimension_amount_type_idx ON cflow_labeled (amount_type_code, amount_type_label);
-CREATE INDEX cflow_labeled_demarcation_code_idx ON cflow_labeled (demarcation_code);
-CREATE INDEX cflow_labeled_demarcation_label_idx ON cflow_labeled (demarcation_label);
-CREATE INDEX cflow_labeled_dimension_demarcation_idx ON cflow_labeled (demarcation_code, demarcation_label);
-CREATE INDEX cflow_labeled_period_length_idx ON cflow_labeled (period_length);
-CREATE INDEX cflow_labeled_position_in_return_form_idx ON cflow_labeled (position_in_return_form);
-CREATE INDEX cflow_labeled_item_code_idx ON cflow_labeled (item_code);
-CREATE INDEX cflow_labeled_return_form_structure_idx ON cflow_labeled (return_form_structure);
-CREATE INDEX cflow_labeled_composition_idx ON cflow_labeled (composition);
-CREATE INDEX cflow_labeled_item_label_idx ON cflow_labeled (item_label);
-CREATE INDEX cflow_labeled_dimension_item_idx ON cflow_labeled (item_code, composition, item_label, position_in_return_form, return_form_structure);
-CREATE INDEX cflow_labeled_item_ordered_idx ON cflow_labeled (position_in_return_form, item_code, composition, item_label, return_form_structure);
-CREATE INDEX cflow_labeled_financial_period_idx ON cflow_labeled (financial_period);
-CREATE INDEX cflow_labeled_financial_year_idx ON cflow_labeled (financial_year);
+\echo cube=repmaint
+\echo dimension=amount_type
+\echo attributes
+CREATE INDEX amount_type_code_idx ON amount_type (code);
+CREATE INDEX amount_type_label_idx ON amount_type (label);
+\echo dimension
+CREATE INDEX amount_type_dimension_amount_type_idx ON amount_type (code, label);
+\echo dimension=demarcation
+\echo attributes
+CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
+CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
+\echo dimension
+CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo dimension=period_length
+\echo attributes
+CREATE INDEX repmaint_facts_period_length_idx ON repmaint_facts (period_length);
+\echo dimension=item
+\echo attributes
+CREATE INDEX repmaint_items_position_in_return_form_idx ON repmaint_items (position_in_return_form);
+CREATE INDEX repmaint_items_code_idx ON repmaint_items (code);
+CREATE INDEX repmaint_items_return_form_structure_idx ON repmaint_items (return_form_structure);
+CREATE INDEX repmaint_items_composition_idx ON repmaint_items (composition);
+CREATE INDEX repmaint_items_label_idx ON repmaint_items (label);
+\echo dimension
+CREATE INDEX repmaint_items_dimension_item_idx ON repmaint_items (code, composition, label, position_in_return_form, return_form_structure);
+\echo dimension positional
+CREATE INDEX repmaint_items_position_ordered_idx ON repmaint_items (position_in_return_form, code, composition, label, return_form_structure);
+\echo dimension=financial_period
+\echo attributes
+CREATE INDEX repmaint_facts_financial_period_idx ON repmaint_facts (financial_period);
+\echo dimension=financial_year_end
+\echo attributes
+CREATE INDEX repmaint_facts_financial_year_idx ON repmaint_facts (financial_year);
+\echo cube=aged_creditor
+\echo dimension=amount_type
+\echo attributes
+CREATE INDEX amount_type_code_idx ON amount_type (code);
+CREATE INDEX amount_type_label_idx ON amount_type (label);
+\echo dimension
+CREATE INDEX amount_type_dimension_amount_type_idx ON amount_type (code, label);
+\echo dimension=demarcation
+\echo attributes
+CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
+CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
+\echo dimension
+CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo dimension=period_length
+\echo attributes
+CREATE INDEX aged_creditor_facts_period_length_idx ON aged_creditor_facts (period_length);
+\echo dimension=item
+\echo attributes
+CREATE INDEX aged_creditor_items_position_in_return_form_idx ON aged_creditor_items (position_in_return_form);
+CREATE INDEX aged_creditor_items_code_idx ON aged_creditor_items (code);
+CREATE INDEX aged_creditor_items_return_form_structure_idx ON aged_creditor_items (return_form_structure);
+CREATE INDEX aged_creditor_items_composition_idx ON aged_creditor_items (composition);
+CREATE INDEX aged_creditor_items_label_idx ON aged_creditor_items (label);
+\echo dimension
+CREATE INDEX aged_creditor_items_dimension_item_idx ON aged_creditor_items (code, composition, label, position_in_return_form, return_form_structure);
+\echo dimension positional
+CREATE INDEX aged_creditor_items_position_ordered_idx ON aged_creditor_items (position_in_return_form, code, composition, label, return_form_structure);
+\echo dimension=financial_period
+\echo attributes
+CREATE INDEX aged_creditor_facts_financial_period_idx ON aged_creditor_facts (financial_period);
+\echo dimension=financial_year_end
+\echo attributes
+CREATE INDEX aged_creditor_facts_financial_year_idx ON aged_creditor_facts (financial_year);
+\echo cube=incexp
+\echo dimension=function
+\echo attributes
+CREATE INDEX government_functions_code_idx ON government_functions (code);
+CREATE INDEX government_functions_label_idx ON government_functions (label);
+\echo dimension
+CREATE INDEX government_functions_dimension_function_idx ON government_functions (code, label);
+\echo dimension=amount_type
+\echo attributes
+CREATE INDEX amount_type_code_idx ON amount_type (code);
+CREATE INDEX amount_type_label_idx ON amount_type (label);
+\echo dimension
+CREATE INDEX amount_type_dimension_amount_type_idx ON amount_type (code, label);
+\echo dimension=demarcation
+\echo attributes
+CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
+CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
+\echo dimension
+CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo dimension=period_length
+\echo attributes
+CREATE INDEX incexp_facts_period_length_idx ON incexp_facts (period_length);
+\echo dimension=item
+\echo attributes
+CREATE INDEX incexp_items_position_in_return_form_idx ON incexp_items (position_in_return_form);
+CREATE INDEX incexp_items_code_idx ON incexp_items (code);
+CREATE INDEX incexp_items_return_form_structure_idx ON incexp_items (return_form_structure);
+CREATE INDEX incexp_items_composition_idx ON incexp_items (composition);
+CREATE INDEX incexp_items_label_idx ON incexp_items (label);
+\echo dimension
+CREATE INDEX incexp_items_dimension_item_idx ON incexp_items (code, composition, label, position_in_return_form, return_form_structure);
+\echo dimension positional
+CREATE INDEX incexp_items_position_ordered_idx ON incexp_items (position_in_return_form, code, composition, label, return_form_structure);
+\echo dimension=financial_period
+\echo attributes
+CREATE INDEX incexp_facts_financial_period_idx ON incexp_facts (financial_period);
+\echo dimension=financial_year_end
+\echo attributes
+CREATE INDEX incexp_facts_financial_year_idx ON incexp_facts (financial_year);
+\echo cube=conditional_grants
+\echo dimension=amount_type
+\echo attributes
+CREATE INDEX amount_type_code_idx ON amount_type (code);
+CREATE INDEX amount_type_label_idx ON amount_type (label);
+\echo dimension
+CREATE INDEX amount_type_dimension_amount_type_idx ON amount_type (code, label);
+\echo dimension=demarcation
+\echo attributes
+CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
+CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
+\echo dimension
+CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo dimension=grant
+\echo attributes
+CREATE INDEX conditional_grants_code_idx ON conditional_grants (code);
+CREATE INDEX conditional_grants_name_idx ON conditional_grants (name);
+\echo dimension
+CREATE INDEX conditional_grants_dimension_grant_idx ON conditional_grants (code, name);
+\echo dimension=period_length
+\echo attributes
+CREATE INDEX conditional_grants_facts_period_length_idx ON conditional_grants_facts (period_length);
+\echo dimension=financial_period
+\echo attributes
+CREATE INDEX conditional_grants_facts_financial_period_idx ON conditional_grants_facts (financial_period);
+\echo dimension=financial_year_end
+\echo attributes
+CREATE INDEX conditional_grants_facts_financial_year_idx ON conditional_grants_facts (financial_year);
+\echo cube=bsheet
+\echo dimension=amount_type
+\echo attributes
+CREATE INDEX amount_type_code_idx ON amount_type (code);
+CREATE INDEX amount_type_label_idx ON amount_type (label);
+\echo dimension
+CREATE INDEX amount_type_dimension_amount_type_idx ON amount_type (code, label);
+\echo dimension=demarcation
+\echo attributes
+CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
+CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
+\echo dimension
+CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo dimension=period_length
+\echo attributes
+CREATE INDEX bsheet_facts_period_length_idx ON bsheet_facts (period_length);
+\echo dimension=item
+\echo attributes
+CREATE INDEX bsheet_items_position_in_return_form_idx ON bsheet_items (position_in_return_form);
+CREATE INDEX bsheet_items_code_idx ON bsheet_items (code);
+CREATE INDEX bsheet_items_return_form_structure_idx ON bsheet_items (return_form_structure);
+CREATE INDEX bsheet_items_composition_idx ON bsheet_items (composition);
+CREATE INDEX bsheet_items_label_idx ON bsheet_items (label);
+\echo dimension
+CREATE INDEX bsheet_items_dimension_item_idx ON bsheet_items (code, composition, label, position_in_return_form, return_form_structure);
+\echo dimension positional
+CREATE INDEX bsheet_items_position_ordered_idx ON bsheet_items (position_in_return_form, code, composition, label, return_form_structure);
+\echo dimension=financial_period
+\echo attributes
+CREATE INDEX bsheet_facts_financial_period_idx ON bsheet_facts (financial_period);
+\echo dimension=financial_year_end
+\echo attributes
+CREATE INDEX bsheet_facts_financial_year_idx ON bsheet_facts (financial_year);
+\echo cube=cflow
+\echo dimension=amount_type
+\echo attributes
+CREATE INDEX amount_type_code_idx ON amount_type (code);
+CREATE INDEX amount_type_label_idx ON amount_type (label);
+\echo dimension
+CREATE INDEX amount_type_dimension_amount_type_idx ON amount_type (code, label);
+\echo dimension=demarcation
+\echo attributes
+CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
+CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
+\echo dimension
+CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo dimension=period_length
+\echo attributes
+CREATE INDEX cflow_facts_period_length_idx ON cflow_facts (period_length);
+\echo dimension=item
+\echo attributes
+CREATE INDEX cflow_items_position_in_return_form_idx ON cflow_items (position_in_return_form);
+CREATE INDEX cflow_items_code_idx ON cflow_items (code);
+CREATE INDEX cflow_items_return_form_structure_idx ON cflow_items (return_form_structure);
+CREATE INDEX cflow_items_composition_idx ON cflow_items (composition);
+CREATE INDEX cflow_items_label_idx ON cflow_items (label);
+\echo dimension
+CREATE INDEX cflow_items_dimension_item_idx ON cflow_items (code, composition, label, position_in_return_form, return_form_structure);
+\echo dimension positional
+CREATE INDEX cflow_items_position_ordered_idx ON cflow_items (position_in_return_form, code, composition, label, return_form_structure);
+\echo dimension=financial_period
+\echo attributes
+CREATE INDEX cflow_facts_financial_period_idx ON cflow_facts (financial_period);
+\echo dimension=financial_year_end
+\echo attributes
+CREATE INDEX cflow_facts_financial_year_idx ON cflow_facts (financial_year);
+\echo cube=officials
+\echo dimension=municipality
+\echo attributes
 CREATE INDEX municipality_contacts_demarcation_code_idx ON municipality_contacts (demarcation_code);
+\echo dimension=role
+\echo attributes
 CREATE INDEX municipality_contacts_role_idx ON municipality_contacts (role);
+\echo dimension=contact_details
+\echo attributes
 CREATE INDEX municipality_contacts_office_number_idx ON municipality_contacts (office_number);
 CREATE INDEX municipality_contacts_title_idx ON municipality_contacts (title);
 CREATE INDEX municipality_contacts_email_address_idx ON municipality_contacts (email_address);
 CREATE INDEX municipality_contacts_fax_number_idx ON municipality_contacts (fax_number);
 CREATE INDEX municipality_contacts_name_idx ON municipality_contacts (name);
+\echo dimension
 CREATE INDEX municipality_contacts_dimension_contact_details_idx ON municipality_contacts (email_address, fax_number, name, office_number, title);
-CREATE INDEX aged_debtor_labeled_amount_type_code_idx ON aged_debtor_labeled (amount_type_code);
-CREATE INDEX aged_debtor_labeled_amount_type_label_idx ON aged_debtor_labeled (amount_type_label);
-CREATE INDEX aged_debtor_labeled_dimension_amount_type_idx ON aged_debtor_labeled (amount_type_code, amount_type_label);
-CREATE INDEX aged_debtor_labeled_demarcation_code_idx ON aged_debtor_labeled (demarcation_code);
-CREATE INDEX aged_debtor_labeled_demarcation_label_idx ON aged_debtor_labeled (demarcation_label);
-CREATE INDEX aged_debtor_labeled_dimension_demarcation_idx ON aged_debtor_labeled (demarcation_code, demarcation_label);
-CREATE INDEX aged_debtor_labeled_period_length_idx ON aged_debtor_labeled (period_length);
-CREATE INDEX aged_debtor_labeled_customer_group_code_idx ON aged_debtor_labeled (customer_group_code);
-CREATE INDEX aged_debtor_labeled_position_in_return_form_idx ON aged_debtor_labeled (position_in_return_form);
-CREATE INDEX aged_debtor_labeled_item_code_idx ON aged_debtor_labeled (item_code);
-CREATE INDEX aged_debtor_labeled_return_form_structure_idx ON aged_debtor_labeled (return_form_structure);
-CREATE INDEX aged_debtor_labeled_composition_idx ON aged_debtor_labeled (composition);
-CREATE INDEX aged_debtor_labeled_item_label_idx ON aged_debtor_labeled (item_label);
-CREATE INDEX aged_debtor_labeled_dimension_item_idx ON aged_debtor_labeled (item_code, composition, item_label, position_in_return_form, return_form_structure);
-CREATE INDEX aged_debtor_labeled_item_ordered_idx ON aged_debtor_labeled (position_in_return_form, item_code, composition, item_label, return_form_structure);
-CREATE INDEX aged_debtor_labeled_financial_period_idx ON aged_debtor_labeled (financial_period);
-CREATE INDEX aged_debtor_labeled_financial_year_idx ON aged_debtor_labeled (financial_year);
+\echo cube=aged_debtor
+\echo dimension=amount_type
+\echo attributes
+CREATE INDEX amount_type_code_idx ON amount_type (code);
+CREATE INDEX amount_type_label_idx ON amount_type (label);
+\echo dimension
+CREATE INDEX amount_type_dimension_amount_type_idx ON amount_type (code, label);
+\echo dimension=demarcation
+\echo attributes
+CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
+CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
+\echo dimension
+CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo dimension=period_length
+\echo attributes
+CREATE INDEX aged_debtor_facts_period_length_idx ON aged_debtor_facts (period_length);
+\echo dimension=customer_group
+\echo attributes
+CREATE INDEX aged_debtor_facts_customer_group_code_idx ON aged_debtor_facts (customer_group_code);
+\echo dimension=item
+\echo attributes
+CREATE INDEX aged_debtor_items_position_in_return_form_idx ON aged_debtor_items (position_in_return_form);
+CREATE INDEX aged_debtor_items_code_idx ON aged_debtor_items (code);
+CREATE INDEX aged_debtor_items_return_form_structure_idx ON aged_debtor_items (return_form_structure);
+CREATE INDEX aged_debtor_items_composition_idx ON aged_debtor_items (composition);
+CREATE INDEX aged_debtor_items_label_idx ON aged_debtor_items (label);
+\echo dimension
+CREATE INDEX aged_debtor_items_dimension_item_idx ON aged_debtor_items (code, composition, label, position_in_return_form, return_form_structure);
+\echo dimension positional
+CREATE INDEX aged_debtor_items_position_ordered_idx ON aged_debtor_items (position_in_return_form, code, composition, label, return_form_structure);
+\echo dimension=financial_period
+\echo attributes
+CREATE INDEX aged_debtor_facts_financial_period_idx ON aged_debtor_facts (financial_period);
+\echo dimension=financial_year_end
+\echo attributes
+CREATE INDEX aged_debtor_facts_financial_year_idx ON aged_debtor_facts (financial_year);
+\echo cube=municipalities
+\echo dimension=municipality
+\echo attributes
 CREATE INDEX scorecard_geography_category_idx ON scorecard_geography (category);
 CREATE INDEX scorecard_geography_province_code_idx ON scorecard_geography (province_code);
 CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
@@ -135,28 +269,61 @@ CREATE INDEX scorecard_geography_parent_code_idx ON scorecard_geography (parent_
 CREATE INDEX scorecard_geography_phone_number_idx ON scorecard_geography (phone_number);
 CREATE INDEX scorecard_geography_province_name_idx ON scorecard_geography (province_name);
 CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
+\echo dimension
 CREATE INDEX scorecard_geography_dimension_municipality_idx ON scorecard_geography (category, geo_code, fax_number, long_name, name, parent_code, phone_number, postal_address_1, postal_address_2, postal_address_3, province_code, province_name, street_address_1, street_address_2, street_address_3, street_address_4, url);
-CREATE INDEX audit_opinions_opinion_code_idx ON audit_opinions (opinion_code);
-CREATE INDEX audit_opinions_opinion_label_idx ON audit_opinions (opinion_label);
-CREATE INDEX audit_opinions_dimension_opinion_idx ON audit_opinions (opinion_code, opinion_label);
-CREATE INDEX audit_opinions_demarcation_code_idx ON audit_opinions (demarcation_code);
-CREATE INDEX audit_opinions_financial_year_idx ON audit_opinions (financial_year);
-CREATE INDEX capital_labeled_function_code_idx ON capital_labeled (function_code);
-CREATE INDEX capital_labeled_function_label_idx ON capital_labeled (function_label);
-CREATE INDEX capital_labeled_dimension_function_idx ON capital_labeled (function_code, function_label);
-CREATE INDEX capital_labeled_amount_type_code_idx ON capital_labeled (amount_type_code);
-CREATE INDEX capital_labeled_amount_type_label_idx ON capital_labeled (amount_type_label);
-CREATE INDEX capital_labeled_dimension_amount_type_idx ON capital_labeled (amount_type_code, amount_type_label);
-CREATE INDEX capital_labeled_demarcation_code_idx ON capital_labeled (demarcation_code);
-CREATE INDEX capital_labeled_demarcation_label_idx ON capital_labeled (demarcation_label);
-CREATE INDEX capital_labeled_dimension_demarcation_idx ON capital_labeled (demarcation_code, demarcation_label);
-CREATE INDEX capital_labeled_period_length_idx ON capital_labeled (period_length);
-CREATE INDEX capital_labeled_position_in_return_form_idx ON capital_labeled (position_in_return_form);
-CREATE INDEX capital_labeled_item_code_idx ON capital_labeled (item_code);
-CREATE INDEX capital_labeled_return_form_structure_idx ON capital_labeled (return_form_structure);
-CREATE INDEX capital_labeled_composition_idx ON capital_labeled (composition);
-CREATE INDEX capital_labeled_item_label_idx ON capital_labeled (item_label);
-CREATE INDEX capital_labeled_dimension_item_idx ON capital_labeled (item_code, composition, item_label, position_in_return_form, return_form_structure);
-CREATE INDEX capital_labeled_item_ordered_idx ON capital_labeled (position_in_return_form, item_code, composition, item_label, return_form_structure);
-CREATE INDEX capital_labeled_financial_period_idx ON capital_labeled (financial_period);
-CREATE INDEX capital_labeled_financial_year_idx ON capital_labeled (financial_year);
+\echo cube=audit_opinions
+\echo dimension=opinion
+\echo attributes
+CREATE INDEX audit_opinion_facts_opinion_code_idx ON audit_opinion_facts (opinion_code);
+CREATE INDEX audit_opinion_facts_opinion_label_idx ON audit_opinion_facts (opinion_label);
+\echo dimension
+CREATE INDEX audit_opinion_facts_dimension_opinion_idx ON audit_opinion_facts (opinion_code, opinion_label);
+\echo dimension=demarcation
+\echo attributes
+CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
+CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
+\echo dimension
+CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo dimension=financial_year_end
+\echo attributes
+CREATE INDEX audit_opinion_facts_financial_year_idx ON audit_opinion_facts (financial_year);
+\echo cube=capital
+\echo dimension=function
+\echo attributes
+CREATE INDEX government_functions_code_idx ON government_functions (code);
+CREATE INDEX government_functions_label_idx ON government_functions (label);
+\echo dimension
+CREATE INDEX government_functions_dimension_function_idx ON government_functions (code, label);
+\echo dimension=amount_type
+\echo attributes
+CREATE INDEX amount_type_code_idx ON amount_type (code);
+CREATE INDEX amount_type_label_idx ON amount_type (label);
+\echo dimension
+CREATE INDEX amount_type_dimension_amount_type_idx ON amount_type (code, label);
+\echo dimension=demarcation
+\echo attributes
+CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
+CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
+\echo dimension
+CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo dimension=period_length
+\echo attributes
+CREATE INDEX capital_facts_period_length_idx ON capital_facts (period_length);
+\echo dimension=item
+\echo attributes
+CREATE INDEX capital_items_position_in_return_form_idx ON capital_items (position_in_return_form);
+CREATE INDEX capital_items_code_idx ON capital_items (code);
+CREATE INDEX capital_items_return_form_structure_idx ON capital_items (return_form_structure);
+CREATE INDEX capital_items_composition_idx ON capital_items (composition);
+CREATE INDEX capital_items_label_idx ON capital_items (label);
+\echo dimension
+CREATE INDEX capital_items_dimension_item_idx ON capital_items (code, composition, label, position_in_return_form, return_form_structure);
+\echo dimension positional
+CREATE INDEX capital_items_position_ordered_idx ON capital_items (position_in_return_form, code, composition, label, return_form_structure);
+\echo dimension=financial_period
+\echo attributes
+CREATE INDEX capital_facts_financial_period_idx ON capital_facts (financial_period);
+\echo dimension=financial_year_end
+\echo attributes
+CREATE INDEX capital_facts_financial_year_idx ON capital_facts (financial_year);
+
