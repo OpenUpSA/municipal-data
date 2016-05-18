@@ -189,6 +189,17 @@ class MuniApiClient(object):
                 },
                 'query_type': 'aggregate',
             },
+            'expenditure_breakdown': {
+                'cube': 'incexp',
+                'aggregate': 'amount.sum',
+                'cut': {
+                    'item.code': ['3000', '3100', '3400', '4100', '4200', '4300', '3700', '4600'],
+                    'amount_type.label': ['Audited Actual'],
+                    'demarcation.code': [self.geo_code],
+                    'period_length.length': ['year'],
+                },
+                'query_type': 'aggregate',
+            },
             'officials': {
                 'query_type': 'facts',
                 'cube': 'officials',
@@ -239,7 +250,7 @@ class MuniApiClient(object):
         }
 
 
-class IndicatorCalc(object):
+class IndicatorCalculator(object):
     def __init__(self, results, years):
         self.results = results
         self.years = years
@@ -250,6 +261,16 @@ class IndicatorCalc(object):
             ('transfers_received', '1600'),
             ('own_revenue', '1700'),
             ('total', '1900')
+        ]
+
+        self.expenditure_breakdown_items = [
+            ('employee_related_costs', ['3000', '3100']),
+            ('councillor_remuneration', '3400'),
+            ('bulk_purchases', '4100'),
+            ('contracted_services', '4200'),
+            ('transfers_spent', '4300'),
+            ('depreciation_amortisation', '3700'),
+            ('total', '4600')
         ]
 
     def cash_coverage(self):
@@ -309,6 +330,30 @@ class IndicatorCalc(object):
             for name, code in self.revenue_breakdown_items:
                 try:
                     values[year][name] = self.results['revenue_breakdown'][code][year]
+                    if not name == 'total':
+                        subtotal += values[year][name]
+                except KeyError:
+                    values[year][name] = None
+
+            if values[year]['total']:
+                values[year]['other'] = values[year]['total'] - subtotal
+            else:
+                values[year]['other'] = None
+
+        return values
+
+    def expenditure_breakdown(self):
+        values = OrderedDict()
+        for year in sorted(list(self.years), reverse=True):
+            values[year] = {}
+            subtotal = 0.0
+            for name, code in self.expenditure_breakdown_items:
+                try:
+                    if not type(code) is list:
+                        values[year][name] = self.results['expenditure_breakdown'][code][year]
+                    else:
+                        for c in code:
+                            values[year][name] += self.results['expenditure_breakdown'][c][year]
                     if not name == 'total':
                         subtotal += values[year][name]
                 except KeyError:
