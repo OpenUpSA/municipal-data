@@ -163,6 +163,23 @@
         </ul>
     {% endfor %}
   </ul>
+  <h2>Breakdown of expenditure</h2>
+  <ul>
+    <b>Results:</b>
+    {% for year, items in expenditure_breakdown.iteritems %}
+      <li>{{ year|unlocalize }}:</li>
+        <ul>
+          <li>Employee related costs: {{ items.employee_related_costs }}</li>
+          <li>Councilor remuneration: {{ items.councillor_remuneration }}</li>
+          <li>Bulk purchases: {{ items.bulk_purchases }}</li>
+          <li>Contracted service: {{ items.contracted_services }}</li>
+          <li>Transfers spent: {{ items.transfers_spent }}</li>
+          <li>Depreciation and Amortisation: {{ items.depreciation_amortisation }}</li>
+          <li>Other: {{ items.other }}</li>
+          <li>Total: {{ items.total }}</li>
+        </ul>
+    {% endfor %}
+  </ul>
 </section>
 
 {% endblock %}
