@@ -11,7 +11,6 @@ class MuniApiClient(object):
 
         self.results = defaultdict(dict)
         self.years = set()
-        import ipdb; ipdb.set_trace()
         for line_item, query_params in self.query_structure.iteritems():
             self.results[line_item], self.years = self.get_results_from_api(query_params, self.years)
 
