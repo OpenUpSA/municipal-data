@@ -352,6 +352,7 @@ class IndicatorCalculator(object):
                     if not type(code) is list:
                         values[year][name] = self.results['expenditure_breakdown'][code][year]
                     else:
+                        values[year][name] = 0.0
                         for c in code:
                             values[year][name] += self.results['expenditure_breakdown'][c][year]
                     if not name == 'total':
