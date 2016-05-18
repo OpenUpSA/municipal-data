@@ -237,7 +237,7 @@ class MuniApiClient(object):
                 'query_type': 'facts',
                 'cube': 'audit_opinions',
                 'cut': {
-                    'municipality.demarcation_code': self.geo_code,
+                    'demarcation.code': self.geo_code,
                 },
                 'fields': [
                     'opinion.code',
