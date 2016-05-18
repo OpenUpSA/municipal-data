@@ -86,7 +86,7 @@
     <p>The API only supports <code>GET</code> requests. Successful responses have response code 200 and are in JSON format.</p>
 
     {% with cube=cubes|first %}
-    <p>The quickest way to put together a query against the API is to use the <a href="/explore/{{ cube.name }}/#/?view=crosstab&rows=item.position_in_return_form&rows=item.code&rows=item.label&aggregates=asset_register_summary.sum&aggregates=repairs_maintenance.sum&aggregates=new_assets.sum&aggregates=renewal_of_existing.sum&order=&cut=amount_type.label:Audited%20Actual&cut=period_length.length:year&cut=financial_period.period:2015&cut=demarcation.label:Buffalo%20City%20Metropolitan%20Municipality" target="_blank">advanced API exploring user interface</a>, narrow down the selection to an interesting subset, and copy the API query URL producing that data on the bottom right of the window as shown below.</p>
+    <p>The quickest way to put together a query against the API is to use the <a href="/explore/{{ cube.name }}/#/?view=crosstab&rows=item.position_in_return_form&rows=item.code&rows=item.label&aggregates=asset_register_summary.sum&aggregates=repairs_maintenance.sum&aggregates=new_assets.sum&aggregates=renewal_of_existing.sum&order=&cut=amount_type.label:Audited%20Actual&cut=period_length.length:year&cut=financial_period.period:2015&cut=demarcation.label:Buffalo%20City" target="_blank">advanced API exploring user interface</a>, narrow down the selection to an interesting subset, and copy the API query URL producing that data on the bottom right of the window as shown below.</p>
     {% endwith %}
 
     <p><img src="{% static 'images/babbage-query.png' %}" /></p>
@@ -276,7 +276,7 @@ GET /cubes/incexp/facts?pagesize=2
       "amount": null,
       "incexp.code": "1500",
       "amount_type.desc": "Actual",
-      "demarcation.desc": "Buffalo City Metropolitan Municipality",
+      "demarcation.desc": "Buffalo City",
       "function.code": "191",
       "incexp.desc": "Agency Services",
       "period_length.length": "month",
@@ -290,7 +290,7 @@ GET /cubes/incexp/facts?pagesize=2
       "amount": null,
       "incexp.code": "1500",
       "amount_type.desc": "Actual",
-      "demarcation.desc": "City of Cape Town Metropolitan Municipality",
+      "demarcation.desc": "City of Cape Town",
       "function.code": "191",
       "incexp.desc": "Agency Services",
       "period_length.length": "month",
@@ -354,15 +354,15 @@ GET /cubes/incexp/members/demarcation?pagesize=3
   "data": [
     {
       "demarcation.code": "BUF",
-      "demarcation.desc": "Buffalo City Metropolitan Municipality"
+      "demarcation.desc": "Buffalo City"
     },
     {
       "demarcation.code": "CPT",
-      "demarcation.desc": "City of Cape Town Metropolitan Municipality"
+      "demarcation.desc": "City of Cape Town"
     },
     {
       "demarcation.code": "JHB",
-      "demarcation.desc": "City of Johannesburg Metropolitan Municipality"
+      "demarcation.desc": "City of Johannesburg"
     },
   ],
   "order": []
@@ -502,7 +502,7 @@ GET /api/cubes/incexp/aggregate
       <p>
         {% if cube.items %}
         <a href="/table/{{ cube.name }}/">View the data</a> |
-        <a href="/explore/{{ cube.name }}/#/?view=crosstab&rows=item.position_in_return_form&rows=item.code&rows=item.label&order=&cut=amount_type.label:Audited%20Actual&cut=period_length.length:year&cut=financial_period.period:2015&cut=demarcation.label:Buffalo%20City%20Metropolitan%20Municipality" title="This link shows some example view parameters set. When using the Pivot Table functionality, it's important not to aggregate things that you don't mean to. For example, some line items don't make sense to sum together because one is a subtotal which includes the other. This view is ordered to appear as it does in the return forms to help understand the structure of items a little better.">Advanced interface</a>
+        <a href="/explore/{{ cube.name }}/#/?view=crosstab&rows=item.position_in_return_form&rows=item.code&rows=item.label&order=&cut=amount_type.label:Audited%20Actual&cut=period_length.length:year&cut=financial_period.period:2015&cut=demarcation.label:Buffalo%20City" title="This link shows some example view parameters set. When using the Pivot Table functionality, it's important not to aggregate things that you don't mean to. For example, some line items don't make sense to sum together because one is a subtotal which includes the other. This view is ordered to appear as it does in the return forms to help understand the structure of items a little better.">Advanced interface</a>
         {% else %}
         <a href="/explore/{{ cube.name }}/">Advanced interface</a>
         {% endif %}

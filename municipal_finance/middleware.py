@@ -2,12 +2,17 @@ from django.contrib.sites.shortcuts import get_current_site
 
 from utils import jsonify
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class ApiErrorHandler(object):
     """ Return API 500-level errors as JSON. """
     def process_exception(self, request, exception):
         if request.path.startswith('/api/'):
             status = getattr(exception, 'http_equiv', 500)
+            logger.exception('Something went wrong!')
             return jsonify({
                 'status': 'error',
                 'message': exception.message,

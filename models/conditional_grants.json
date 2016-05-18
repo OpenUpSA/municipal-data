@@ -1,18 +1,18 @@
 {
-    "fact_table": "grants_labeled",
+    "fact_table": "conditional_grants_facts",
     "label": "Conditional Grants",
     "description": "This is based on the return forms for individual grants.",
     "dimensions": {
         "demarcation": {
             "attributes": {
                 "code": {
-                    "column": "demarcation_code",
+                    "column": "scorecard_geography.geo_code",
                     "label": "Demarcation Code",
                     "type": "string",
                     "description": "Municipality code assigned by the Municipal Demarcation Board"
                 },
                 "label": {
-                    "column": "demarcation_label",
+                    "column": "scorecard_geography.name",
                     "label": "Name",
                     "type": "string",
                     "description": ""
@@ -21,18 +21,19 @@
             "key_attribute": "code",
             "label_attribute": "label",
             "description": "Municipality demarcation details",
-            "label": "Municipality"
+            "label": "Municipality",
+            "join_column": "demarcation_code"
         },
         "grant": {
             "attributes": {
                 "code": {
-                    "column": "grant_code",
+                    "column": "conditional_grants.code",
                     "label": "Code",
                     "type": "string",
                     "description": ""
                 },
                 "label": {
-                    "column": "grant_name",
+                    "column": "conditional_grants.name",
                     "label": "Label",
                     "type": "string",
                     "description": ""
@@ -41,7 +42,8 @@
             "key_attribute": "code",
             "label_attribute": "label",
             "description": "",
-            "label": "Grant"
+            "label": "Grant",
+            "join_column": "grant_code"
         },
         "financial_year_end": {
             "attributes": {
@@ -85,13 +87,13 @@
         "amount_type": {
             "attributes": {
                 "code": {
-                    "column": "amount_type_code",
+                    "column": "amount_type.code",
                     "label": "Code",
                     "type": "string",
                     "description": ""
                 },
                 "label": {
-                    "column": "amount_type_label",
+                    "column": "amount_type.label",
                     "label": "Label",
                     "type": "string",
                     "description": ""
@@ -100,7 +102,8 @@
             "key_attribute": "code",
             "description": "Whether this figure is actual, budgeted, audited etc.",
             "label_attribute": "label",
-            "label": "Amount Type"
+            "label": "Amount Type",
+            "join_column": "amount_type_code"
         }
     },
     "measures": {

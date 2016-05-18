@@ -1,18 +1,18 @@
 {
-    "fact_table": "aged_debtor_labeled",
+    "fact_table": "aged_debtor_facts",
     "label": "Aged Debtor Analysis",
     "description": "This is based on the AD and ADA return forms.",
     "dimensions": {
         "demarcation": {
             "attributes": {
                 "code": {
-                    "column": "demarcation_code",
+                    "column": "scorecard_geography.geo_code",
                     "label": "Demarcation Code",
                     "type": "string",
                     "description": "Municipality code assigned by the Municipal Demarcation Board"
                 },
                 "label": {
-                    "column": "demarcation_label",
+                    "column": "scorecard_geography.name",
                     "label": "Name",
                     "type": "string",
                     "description": ""
@@ -21,7 +21,8 @@
             "key_attribute": "code",
             "label_attribute": "label",
             "description": "Municipality demarcation details",
-            "label": "Municipality"
+            "label": "Municipality",
+            "join_column": "demarcation_code"
         },
         "customer_group": {
             "attributes": {
@@ -39,31 +40,31 @@
         "item": {
             "attributes": {
                 "code": {
-                    "column": "item_code",
+                    "column": "aged_debtor_items.code",
                     "label": "Code",
                     "type": "string",
                     "description": "Code used by treasury"
                 },
                 "label": {
-                    "column": "item_label",
+                    "column": "aged_debtor_items.label",
                     "label": "Label",
                     "type": "string",
                     "description": ""
                 },
                 "position_in_return_form": {
-                    "column": "position_in_return_form",
+                    "column": "aged_debtor_items.position_in_return_form",
                     "label": "Position in Return Form",
                     "type": "integer",
                     "description": "The position of this item in the Section 71 Return form - useful for sorting line items to be ordered as they are in the return form to group related items and place them below the section headings and above section totals."
                 },
                 "return_form_structure": {
-                    "column": "return_form_structure",
+                    "column": "aged_debtor_items.return_form_structure",
                     "label": "Return Form Structure",
                     "type": "string",
                     "description": "What structural role this line item has in the return form"
                 },
                 "composition": {
-                    "column": "composition",
+                    "column": "aged_debtor_items.composition",
                     "label": "Composition",
                     "type": "string",
                     "description": "The composition of this item. Indicates how this item is composed of other items in this cube for the same mnuicipality, financial year and period, and amount type using item codes."
@@ -72,7 +73,8 @@
             "key_attribute": "code",
             "label_attribute": "label",
             "description": "",
-            "label": "Item"
+            "label": "Item",
+            "join_column": "item_code"
         },
         "financial_year_end": {
             "attributes": {
@@ -116,13 +118,13 @@
         "amount_type": {
             "attributes": {
                 "code": {
-                    "column": "amount_type_code",
+                    "column": "amount_type.code",
                     "label": "Code",
                     "type": "string",
                     "description": ""
                 },
                 "label": {
-                    "column": "amount_type_label",
+                    "column": "amount_type.label",
                     "label": "Label",
                     "type": "string",
                     "description": ""
@@ -131,7 +133,8 @@
             "key_attribute": "code",
             "description": "Whether this figure is actual, budgeted, audited etc.",
             "label_attribute": "label",
-            "label": "Amount Type"
+            "label": "Amount Type",
+            "join_column": "amount_type_code"
         }
     },
     "measures": {
