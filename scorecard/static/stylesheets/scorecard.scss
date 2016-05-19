@@ -1,5 +1,16 @@
+//COLOURS
+$black: #000;
+
+$gray-darkest: #333;
+$gray-dark: #666;
+$gray: #aaa;
+$gray-light: #bbb;
+$gray-lightest: #eee;
+
 body {
   background-color: #ffffff;
+  color: $gray-darkest;
+  font-size: 14px;
 }
 
 #page-header {
@@ -9,3 +20,80 @@ body {
 h1.title {
   color: #009053;
 }
+
+//columns
+.column-full {
+  width: 100%;
+  margin: 0;
+}
+.column-half {
+  width: 50%;
+  margin: 0;
+}
+
+//map
+#cover-map {
+  height: auto;
+}
+
+//header box
+#cover-profile {
+
+  article {
+    margin-top: 3em;
+    margin-bottom: 3em;
+    border: solid 2px $black;
+    border-radius: 0;
+    padding: 0;
+    line-height: 1;
+    color: $gray-darkest;
+  }
+
+  #header-box {
+    padding: 5px 10px 10px 10px;
+    border-bottom: solid $gray-light 1px;
+  }
+
+  #header-box .title {
+    margin-bottom: 0;
+  }
+
+  #header-box .caption {
+    font-size: 14px;
+    margin-bottom: 0;
+  }
+
+  .stat {
+    overflow: auto;
+    color: $gray-darkest;
+    font-weight: bold;
+  }
+
+  .stat-primary {
+    height: 60px;
+    width: 20%;
+    float: left;
+    margin: 0;
+    padding: 10px 10px 5px 10px;
+    border-right: solid $gray-light 1px;
+    text-align: center;
+    .name {
+      display: block;
+      text-transform: uppercase;
+    }
+    .value {
+      font-size: 24px;
+    }
+  }
+  .stat-secondary {
+    height: 30px;
+    width: 80%;
+    float: left;
+    padding: 7px 5px 0 5px;
+    border-bottom: solid $gray-light 1px;
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+} 
