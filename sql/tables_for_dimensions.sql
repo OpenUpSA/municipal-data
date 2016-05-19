@@ -1,6 +1,6 @@
 -- drop table bsheet_labels;
--- drop table aged_creditors_labels;
--- drop table aged_debtors_labels;
+-- drop table aged_creditor_labels;
+-- drop table aged_debtor_labels;
 -- drop table capital_labels;
 -- drop table cflow_labels;
 -- drop table incexp_labels;
@@ -23,36 +23,36 @@ ALTER TABLE public.bsheet_items
 
 
 
-CREATE TABLE public.aged_creditors_items
+CREATE TABLE public.aged_creditor_items
 (
   code text NOT NULL,
   label text,
   position_in_return_form integer,
   return_form_structure text,
   composition text,
-  CONSTRAINT aged_creditors_items_primary_key PRIMARY KEY (code)
+  CONSTRAINT aged_creditor_items_primary_key PRIMARY KEY (code)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE public.aged_creditors_items
+ALTER TABLE public.aged_creditor_items
   OWNER TO municipal_finance;
 
 
 
-CREATE TABLE public.aged_debtors_items
+CREATE TABLE public.aged_debtor_items
 (
   code text NOT NULL,
   label text,
   position_in_return_form integer,
   return_form_structure text,
   composition text,
-  CONSTRAINT aged_debtors_items_primary_key PRIMARY KEY (code)
+  CONSTRAINT aged_debtor_items_primary_key PRIMARY KEY (code)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE public.aged_debtors_items
+ALTER TABLE public.aged_debtor_items
   OWNER TO municipal_finance;
 
 
@@ -120,4 +120,16 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE public.repmaint_items
+  OWNER TO municipal_finance;
+
+
+CREATE TABLE public.conditional_grants
+(
+  code text,
+  name text
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.conditional_grants
   OWNER TO municipal_finance;

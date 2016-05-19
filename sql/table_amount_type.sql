@@ -5,7 +5,7 @@
 CREATE TABLE public.amount_type
 (
   code text NOT NULL,
-  name text,
+  label text,
   CONSTRAINT amount_type_pkey PRIMARY KEY (code)
 )
 WITH (
