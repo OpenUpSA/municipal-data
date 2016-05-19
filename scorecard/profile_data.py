@@ -12,14 +12,14 @@ class MuniApiClient(object):
             self.API_URL = 'http://127.0.0.1:8888/api/cubes/'
 
         self.geo_code = str(geo_code)
-        self.query_structure = self.build_query_structure()
+        self.line_item_params = self.get_line_item_params()
 
         self.results = defaultdict(dict)
         self.years = set()
-        for line_item, query_params in self.query_structure.iteritems():
-            self.results[line_item], self.years = self.get_results_from_api(query_params, self.years)
+        for line_item, query_params in self.line_item_params.iteritems():
+            self.results[line_item], self.years = self.results_from_api(query_params, self.years)
 
-    def get_results_from_api(self, query_params, years):
+    def results_from_api(self, query_params, years):
 
         if query_params['query_type'] == 'aggregate':
             url = self.API_URL + query_params['cube'] + '/aggregate'
@@ -53,7 +53,7 @@ class MuniApiClient(object):
         else:
             results, years = self.aggregate_from_response(api_response, query_params, years)
 
-    return results, years
+        return results, years
 
     @staticmethod
     def aggregate_from_response(response, query_params, years):
@@ -95,7 +95,7 @@ class MuniApiClient(object):
         return response['data']
 
 
-    def build_query_structure(self):
+    def get_line_item_params(self):
         return {
             'op_exp_actual': {
                 'cube': 'incexp',
