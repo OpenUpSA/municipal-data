@@ -1,11 +1,16 @@
 import requests
 from collections import defaultdict, OrderedDict
 
+from django.conf import settings
+
 from wazimap.data.utils import percent, ratio
 
 class MuniApiClient(object):
     def __init__(self, geo_code):
         self.API_URL = 'https://data.municipalmoney.org.za/api/cubes/'
+        if settings.DEBUG:
+            self.API_URL = 'http://127.0.0.1:8888/api/cubes/'
+
         self.geo_code = str(geo_code)
         self.query_structure = self.build_query_structure()
 
