@@ -21,39 +21,39 @@ class MuniApiClient(object):
 
     def get_results_from_api(self, query_params, years):
 
-      if query_params['query_type'] == 'aggregate':
-          url = self.API_URL + query_params['cube'] + '/aggregate'
-          params = {
-              'aggregates': query_params['aggregate'],
-              'cut': '|'.join('{!s}:{!s}'.format(
-                  k, ';'.join('{!r}'.format(item) for item in v))
-                  for (k, v) in query_params['cut'].iteritems()
-              ).replace("'", '"'),
-              'drilldown': 'item.code|item.label|financial_period.period',
-              'page': 0,
-              'order': 'financial_period.period:desc',
-          }
-      elif query_params['query_type'] == 'facts':
-          url = self.API_URL + query_params['cube'] + '/facts'
-          params = {
-              'cut': '|'.join('{!s}:{!r}'.format(k, v)
-                  for (k, v) in query_params['cut'].iteritems()
-              ).replace("'", '"'),
-              'fields': ','.join(field for field in query_params['fields']),
-              'page': 0
-          }
+        if query_params['query_type'] == 'aggregate':
+            url = self.API_URL + query_params['cube'] + '/aggregate'
+            params = {
+                'aggregates': query_params['aggregate'],
+                'cut': '|'.join('{!s}:{!s}'.format(
+                    k, ';'.join('{!r}'.format(item) for item in v))
+                    for (k, v) in query_params['cut'].iteritems()
+                    ).replace("'", '"'),
+                'drilldown': 'item.code|item.label|financial_period.period',
+                'page': 0,
+                'order': 'financial_period.period:desc',
+            }
+        elif query_params['query_type'] == 'facts':
+            url = self.API_URL + query_params['cube'] + '/facts'
+            params = {
+                'cut': '|'.join('{!s}:{!r}'.format(k, v)
+                    for (k, v) in query_params['cut'].iteritems()
+                ).replace("'", '"'),
+                'fields': ','.join(field for field in query_params['fields']),
+                'page': 0
+            }
 
-      api_response = requests.get(url, params=params, verify=False).json()
+        api_response = requests.get(url, params=params, verify=False).json()
 
-      if query_params['query_type'] == 'facts':
-          if query_params['annual']:
-              results, years = self.annual_facts_from_response(api_response, query_params, years)
-          else:
-              results = self.facts_from_response(api_response, query_params)
-      else:
-          results, years = self.aggregate_from_response(api_response, query_params, years)
+        if query_params['query_type'] == 'facts':
+            if query_params['annual']:
+                results, years = self.annual_facts_from_response(api_response, query_params, years)
+            else:
+                results = self.facts_from_response(api_response, query_params)
+        else:
+            results, years = self.aggregate_from_response(api_response, query_params, years)
 
-      return results, years
+    return results, years
 
     @staticmethod
     def aggregate_from_response(response, query_params, years):
