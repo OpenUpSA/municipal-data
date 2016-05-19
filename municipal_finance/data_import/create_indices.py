@@ -32,6 +32,13 @@ def create_index_statements():
                                     dimension_name,
                                     attribute_names)
 
+                if 'join_column' in dimension:
+                    f.write("\\echo join column\n")
+                    dimension_join_column_index(f,
+                                                fact_table_name,
+                                                dimension_name,
+                                                dimension['join_column'])
+
                 if dimension_name == "item":
                     f.write("\\echo dimension positional\n")
                     dimension_positional_index(f,
@@ -57,6 +64,11 @@ def dimension_index(f, fact_table_name, dimension, dimension_name, attribute_nam
                                sorted(attribute_names)))
     f.write("CREATE INDEX %s_dimension_%s_idx ON %s (%s);\n"
             % (table_name, dimension_name, table_name, column_str))
+
+
+def dimension_join_column_index(f, table_name, dimension_name, column_name):
+    f.write("CREATE INDEX %s_dimension_join_column_%s_idx ON %s (%s);\n"
+            % (table_name, dimension_name, table_name, column_name))
 
 
 def dimension_positional_index(f, fact_table_name, dimension, dimension_name, attribute_names):

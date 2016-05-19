@@ -5,12 +5,16 @@ CREATE INDEX amount_type_code_idx ON amount_type (code);
 CREATE INDEX amount_type_label_idx ON amount_type (label);
 \echo dimension
 CREATE INDEX amount_type_dimension_amount_type_idx ON amount_type (code, label);
+\echo join column
+CREATE INDEX repmaint_facts_dimension_join_column_amount_type_idx ON repmaint_facts (amount_type_code);
 \echo dimension=demarcation
 \echo attributes
 CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
 CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
 \echo dimension
 CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo join column
+CREATE INDEX repmaint_facts_dimension_join_column_demarcation_idx ON repmaint_facts (demarcation_code);
 \echo dimension=period_length
 \echo attributes
 CREATE INDEX repmaint_facts_period_length_idx ON repmaint_facts (period_length);
@@ -23,6 +27,8 @@ CREATE INDEX repmaint_items_composition_idx ON repmaint_items (composition);
 CREATE INDEX repmaint_items_label_idx ON repmaint_items (label);
 \echo dimension
 CREATE INDEX repmaint_items_dimension_item_idx ON repmaint_items (code, composition, label, position_in_return_form, return_form_structure);
+\echo join column
+CREATE INDEX repmaint_facts_dimension_join_column_item_idx ON repmaint_facts (item_code);
 \echo dimension positional
 CREATE INDEX repmaint_items_position_ordered_idx ON repmaint_items (position_in_return_form, code, composition, label, return_form_structure);
 \echo dimension=financial_period
@@ -38,12 +44,16 @@ CREATE INDEX amount_type_code_idx ON amount_type (code);
 CREATE INDEX amount_type_label_idx ON amount_type (label);
 \echo dimension
 CREATE INDEX amount_type_dimension_amount_type_idx ON amount_type (code, label);
+\echo join column
+CREATE INDEX aged_creditor_facts_dimension_join_column_amount_type_idx ON aged_creditor_facts (amount_type_code);
 \echo dimension=demarcation
 \echo attributes
 CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
 CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
 \echo dimension
 CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo join column
+CREATE INDEX aged_creditor_facts_dimension_join_column_demarcation_idx ON aged_creditor_facts (demarcation_code);
 \echo dimension=period_length
 \echo attributes
 CREATE INDEX aged_creditor_facts_period_length_idx ON aged_creditor_facts (period_length);
@@ -56,6 +66,8 @@ CREATE INDEX aged_creditor_items_composition_idx ON aged_creditor_items (composi
 CREATE INDEX aged_creditor_items_label_idx ON aged_creditor_items (label);
 \echo dimension
 CREATE INDEX aged_creditor_items_dimension_item_idx ON aged_creditor_items (code, composition, label, position_in_return_form, return_form_structure);
+\echo join column
+CREATE INDEX aged_creditor_facts_dimension_join_column_item_idx ON aged_creditor_facts (item_code);
 \echo dimension positional
 CREATE INDEX aged_creditor_items_position_ordered_idx ON aged_creditor_items (position_in_return_form, code, composition, label, return_form_structure);
 \echo dimension=financial_period
@@ -71,18 +83,24 @@ CREATE INDEX government_functions_code_idx ON government_functions (code);
 CREATE INDEX government_functions_label_idx ON government_functions (label);
 \echo dimension
 CREATE INDEX government_functions_dimension_function_idx ON government_functions (code, label);
+\echo join column
+CREATE INDEX incexp_facts_dimension_join_column_function_idx ON incexp_facts (function_code);
 \echo dimension=amount_type
 \echo attributes
 CREATE INDEX amount_type_code_idx ON amount_type (code);
 CREATE INDEX amount_type_label_idx ON amount_type (label);
 \echo dimension
 CREATE INDEX amount_type_dimension_amount_type_idx ON amount_type (code, label);
+\echo join column
+CREATE INDEX incexp_facts_dimension_join_column_amount_type_idx ON incexp_facts (amount_type_code);
 \echo dimension=demarcation
 \echo attributes
 CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
 CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
 \echo dimension
 CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo join column
+CREATE INDEX incexp_facts_dimension_join_column_demarcation_idx ON incexp_facts (demarcation_code);
 \echo dimension=period_length
 \echo attributes
 CREATE INDEX incexp_facts_period_length_idx ON incexp_facts (period_length);
@@ -95,6 +113,8 @@ CREATE INDEX incexp_items_composition_idx ON incexp_items (composition);
 CREATE INDEX incexp_items_label_idx ON incexp_items (label);
 \echo dimension
 CREATE INDEX incexp_items_dimension_item_idx ON incexp_items (code, composition, label, position_in_return_form, return_form_structure);
+\echo join column
+CREATE INDEX incexp_facts_dimension_join_column_item_idx ON incexp_facts (item_code);
 \echo dimension positional
 CREATE INDEX incexp_items_position_ordered_idx ON incexp_items (position_in_return_form, code, composition, label, return_form_structure);
 \echo dimension=financial_period
@@ -110,18 +130,24 @@ CREATE INDEX amount_type_code_idx ON amount_type (code);
 CREATE INDEX amount_type_label_idx ON amount_type (label);
 \echo dimension
 CREATE INDEX amount_type_dimension_amount_type_idx ON amount_type (code, label);
+\echo join column
+CREATE INDEX conditional_grants_facts_dimension_join_column_amount_type_idx ON conditional_grants_facts (amount_type_code);
 \echo dimension=demarcation
 \echo attributes
 CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
 CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
 \echo dimension
 CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo join column
+CREATE INDEX conditional_grants_facts_dimension_join_column_demarcation_idx ON conditional_grants_facts (demarcation_code);
 \echo dimension=grant
 \echo attributes
 CREATE INDEX conditional_grants_code_idx ON conditional_grants (code);
 CREATE INDEX conditional_grants_name_idx ON conditional_grants (name);
 \echo dimension
 CREATE INDEX conditional_grants_dimension_grant_idx ON conditional_grants (code, name);
+\echo join column
+CREATE INDEX conditional_grants_facts_dimension_join_column_grant_idx ON conditional_grants_facts (grant_code);
 \echo dimension=period_length
 \echo attributes
 CREATE INDEX conditional_grants_facts_period_length_idx ON conditional_grants_facts (period_length);
@@ -138,12 +164,16 @@ CREATE INDEX amount_type_code_idx ON amount_type (code);
 CREATE INDEX amount_type_label_idx ON amount_type (label);
 \echo dimension
 CREATE INDEX amount_type_dimension_amount_type_idx ON amount_type (code, label);
+\echo join column
+CREATE INDEX bsheet_facts_dimension_join_column_amount_type_idx ON bsheet_facts (amount_type_code);
 \echo dimension=demarcation
 \echo attributes
 CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
 CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
 \echo dimension
 CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo join column
+CREATE INDEX bsheet_facts_dimension_join_column_demarcation_idx ON bsheet_facts (demarcation_code);
 \echo dimension=period_length
 \echo attributes
 CREATE INDEX bsheet_facts_period_length_idx ON bsheet_facts (period_length);
@@ -156,6 +186,8 @@ CREATE INDEX bsheet_items_composition_idx ON bsheet_items (composition);
 CREATE INDEX bsheet_items_label_idx ON bsheet_items (label);
 \echo dimension
 CREATE INDEX bsheet_items_dimension_item_idx ON bsheet_items (code, composition, label, position_in_return_form, return_form_structure);
+\echo join column
+CREATE INDEX bsheet_facts_dimension_join_column_item_idx ON bsheet_facts (item_code);
 \echo dimension positional
 CREATE INDEX bsheet_items_position_ordered_idx ON bsheet_items (position_in_return_form, code, composition, label, return_form_structure);
 \echo dimension=financial_period
@@ -171,12 +203,16 @@ CREATE INDEX amount_type_code_idx ON amount_type (code);
 CREATE INDEX amount_type_label_idx ON amount_type (label);
 \echo dimension
 CREATE INDEX amount_type_dimension_amount_type_idx ON amount_type (code, label);
+\echo join column
+CREATE INDEX cflow_facts_dimension_join_column_amount_type_idx ON cflow_facts (amount_type_code);
 \echo dimension=demarcation
 \echo attributes
 CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
 CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
 \echo dimension
 CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo join column
+CREATE INDEX cflow_facts_dimension_join_column_demarcation_idx ON cflow_facts (demarcation_code);
 \echo dimension=period_length
 \echo attributes
 CREATE INDEX cflow_facts_period_length_idx ON cflow_facts (period_length);
@@ -189,6 +225,8 @@ CREATE INDEX cflow_items_composition_idx ON cflow_items (composition);
 CREATE INDEX cflow_items_label_idx ON cflow_items (label);
 \echo dimension
 CREATE INDEX cflow_items_dimension_item_idx ON cflow_items (code, composition, label, position_in_return_form, return_form_structure);
+\echo join column
+CREATE INDEX cflow_facts_dimension_join_column_item_idx ON cflow_facts (item_code);
 \echo dimension positional
 CREATE INDEX cflow_items_position_ordered_idx ON cflow_items (position_in_return_form, code, composition, label, return_form_structure);
 \echo dimension=financial_period
@@ -220,12 +258,16 @@ CREATE INDEX amount_type_code_idx ON amount_type (code);
 CREATE INDEX amount_type_label_idx ON amount_type (label);
 \echo dimension
 CREATE INDEX amount_type_dimension_amount_type_idx ON amount_type (code, label);
+\echo join column
+CREATE INDEX aged_debtor_facts_dimension_join_column_amount_type_idx ON aged_debtor_facts (amount_type_code);
 \echo dimension=demarcation
 \echo attributes
 CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
 CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
 \echo dimension
 CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo join column
+CREATE INDEX aged_debtor_facts_dimension_join_column_demarcation_idx ON aged_debtor_facts (demarcation_code);
 \echo dimension=period_length
 \echo attributes
 CREATE INDEX aged_debtor_facts_period_length_idx ON aged_debtor_facts (period_length);
@@ -241,6 +283,8 @@ CREATE INDEX aged_debtor_items_composition_idx ON aged_debtor_items (composition
 CREATE INDEX aged_debtor_items_label_idx ON aged_debtor_items (label);
 \echo dimension
 CREATE INDEX aged_debtor_items_dimension_item_idx ON aged_debtor_items (code, composition, label, position_in_return_form, return_form_structure);
+\echo join column
+CREATE INDEX aged_debtor_facts_dimension_join_column_item_idx ON aged_debtor_facts (item_code);
 \echo dimension positional
 CREATE INDEX aged_debtor_items_position_ordered_idx ON aged_debtor_items (position_in_return_form, code, composition, label, return_form_structure);
 \echo dimension=financial_period
@@ -284,6 +328,8 @@ CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
 CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
 \echo dimension
 CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo join column
+CREATE INDEX audit_opinion_facts_dimension_join_column_demarcation_idx ON audit_opinion_facts (demarcation_code);
 \echo dimension=financial_year_end
 \echo attributes
 CREATE INDEX audit_opinion_facts_financial_year_idx ON audit_opinion_facts (financial_year);
@@ -294,18 +340,24 @@ CREATE INDEX government_functions_code_idx ON government_functions (code);
 CREATE INDEX government_functions_label_idx ON government_functions (label);
 \echo dimension
 CREATE INDEX government_functions_dimension_function_idx ON government_functions (code, label);
+\echo join column
+CREATE INDEX capital_facts_dimension_join_column_function_idx ON capital_facts (function_code);
 \echo dimension=amount_type
 \echo attributes
 CREATE INDEX amount_type_code_idx ON amount_type (code);
 CREATE INDEX amount_type_label_idx ON amount_type (label);
 \echo dimension
 CREATE INDEX amount_type_dimension_amount_type_idx ON amount_type (code, label);
+\echo join column
+CREATE INDEX capital_facts_dimension_join_column_amount_type_idx ON capital_facts (amount_type_code);
 \echo dimension=demarcation
 \echo attributes
 CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
 CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
 \echo dimension
 CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
+\echo join column
+CREATE INDEX capital_facts_dimension_join_column_demarcation_idx ON capital_facts (demarcation_code);
 \echo dimension=period_length
 \echo attributes
 CREATE INDEX capital_facts_period_length_idx ON capital_facts (period_length);
@@ -318,6 +370,8 @@ CREATE INDEX capital_items_composition_idx ON capital_items (composition);
 CREATE INDEX capital_items_label_idx ON capital_items (label);
 \echo dimension
 CREATE INDEX capital_items_dimension_item_idx ON capital_items (code, composition, label, position_in_return_form, return_form_structure);
+\echo join column
+CREATE INDEX capital_facts_dimension_join_column_item_idx ON capital_facts (item_code);
 \echo dimension positional
 CREATE INDEX capital_items_position_ordered_idx ON capital_items (position_in_return_form, code, composition, label, return_form_structure);
 \echo dimension=financial_period

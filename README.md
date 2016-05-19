@@ -24,9 +24,10 @@ dokku config:set municipal-finance DJANGO_DEBUG=False \
 
 Data import is still a fairly manual process leveraging the DB and a few SQL scripts to do the hard work. This is usually done against a local DB, sanity checked with a locally-running instance of the API and some tools built on it, and if everything looks ok, dumped table-by-table with something like `pg_dump "postgres://municipal_finance@localhost/municipal_finance" --table=audit_opinions -O -c --if-exists > audit_opinions.sql` and then loaded into the production database.
 
-1. Create the table with the file in the `sql` dir with the table's name, e.g.
+1. Create the tables with the `table_`-prefixes SQL files in the `sql` dir.
 2. Import the first few columns which are supplied by National Treasury
-3. Run the relevant add_labels_-prefixed SQL file to add the remaining labels.
+ - e.g. `\copy incexp(demarcation_code, period_code, function_code, item_code, amount) FROM '/bob/incexp_2015q4.csv' DELIMITER ',' CSV HEADER
+3. Run `sql/decode_period_code.sql` to populate the remaining columns from the period code
   - These should be idempotent so they can simply run again when data is added.
 4. Make sure `create_indices.sql` and its indices are up to date
   - create it with the python module `municiapl_finance.data_import.create_indices`
