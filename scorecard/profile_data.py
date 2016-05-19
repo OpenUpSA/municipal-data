@@ -1,54 +1,59 @@
 import requests
 from collections import defaultdict, OrderedDict
 
+from django.conf import settings
+
 from wazimap.data.utils import percent, ratio
 
 class MuniApiClient(object):
     def __init__(self, geo_code):
         self.API_URL = 'https://data.municipalmoney.org.za/api/cubes/'
+        if settings.DEBUG:
+            self.API_URL = 'http://127.0.0.1:8888/api/cubes/'
+
         self.geo_code = str(geo_code)
-        self.query_structure = self.build_query_structure()
+        self.line_item_params = self.get_line_item_params()
 
         self.results = defaultdict(dict)
         self.years = set()
-        for line_item, query_params in self.query_structure.iteritems():
-            self.results[line_item], self.years = self.get_results_from_api(query_params, self.years)
+        for line_item, query_params in self.line_item_params.iteritems():
+            self.results[line_item], self.years = self.results_from_api(query_params, self.years)
 
-    def get_results_from_api(self, query_params, years):
+    def results_from_api(self, query_params, years):
 
-      if query_params['query_type'] == 'aggregate':
-          url = self.API_URL + query_params['cube'] + '/aggregate'
-          params = {
-              'aggregates': query_params['aggregate'],
-              'cut': '|'.join('{!s}:{!s}'.format(
-                  k, ';'.join('{!r}'.format(item) for item in v))
-                  for (k, v) in query_params['cut'].iteritems()
-              ).replace("'", '"'),
-              'drilldown': 'item.code|item.label|financial_period.period',
-              'page': 0,
-              'order': 'financial_period.period:desc',
-          }
-      elif query_params['query_type'] == 'facts':
-          url = self.API_URL + query_params['cube'] + '/facts'
-          params = {
-              'cut': '|'.join('{!s}:{!r}'.format(k, v)
-                  for (k, v) in query_params['cut'].iteritems()
-              ).replace("'", '"'),
-              'fields': ','.join(field for field in query_params['fields']),
-              'page': 0
-          }
+        if query_params['query_type'] == 'aggregate':
+            url = self.API_URL + query_params['cube'] + '/aggregate'
+            params = {
+                'aggregates': query_params['aggregate'],
+                'cut': '|'.join('{!s}:{!s}'.format(
+                    k, ';'.join('{!r}'.format(item) for item in v))
+                    for (k, v) in query_params['cut'].iteritems()
+                    ).replace("'", '"'),
+                'drilldown': 'item.code|item.label|financial_period.period',
+                'page': 0,
+                'order': 'financial_period.period:desc',
+            }
+        elif query_params['query_type'] == 'facts':
+            url = self.API_URL + query_params['cube'] + '/facts'
+            params = {
+                'cut': '|'.join('{!s}:{!r}'.format(k, v)
+                    for (k, v) in query_params['cut'].iteritems()
+                ).replace("'", '"'),
+                'fields': ','.join(field for field in query_params['fields']),
+                'page': 0
+            }
 
-      api_response = requests.get(url, params=params, verify=False).json()
+        api_response = requests.get(url, params=params, verify=False).json()
 
-      if query_params['query_type'] == 'facts':
-          if query_params['annual']:
-              results, years = self.annual_facts_from_response(api_response, query_params, years)
-          else:
-              results = self.facts_from_response(api_response, query_params)
-      else:
-          results, years = self.aggregate_from_response(api_response, query_params, years)
+        if query_params['query_type'] == 'facts':
+            if query_params['annual']:
+                results, years = self.annual_facts_from_response(api_response, query_params, years)
+            else:
+                results = self.facts_from_response(api_response, query_params)
+        else:
+            results, years = self.aggregate_from_response(api_response, query_params, years)
 
-      return results, years
+        return results, years
 
     @staticmethod
     def aggregate_from_response(response, query_params, years):
@@ -90,7 +95,7 @@ class MuniApiClient(object):
         return response['data']
 
 
-    def build_query_structure(self):
+    def get_line_item_params(self):
         return {
             'op_exp_actual': {
                 'cube': 'incexp',
