@@ -89,6 +89,7 @@ a {
 #cover-map {
 	height: auto;
 	margin: 0;
+  border-bottom: solid 1px $gray-dark;
 }
 
 //== Header box
@@ -163,12 +164,17 @@ a {
 //= Page nav
 //
 .page-nav {
+  width: 100%;
 	background-color: $nt-cream-dark;
-  border-top: solid 1px $gray-dark;
 	margin-bottom: 10px;
+  border-bottom: solid 1px $gray-dark;
+  h1.title {
+    color: $gray-dark;
+    margin: 5px 0;
+    display: none;
+  }
 	.nav {
 		margin-top: 10px;
-		margin-bottom: -1px;
 		border-bottom: 0;
 	}
 	.nav li {
@@ -180,6 +186,7 @@ a {
 		font-weight: bold;
 		font-size: 12px;
 		width: 140px;
+    margin-bottom: -1px;
 	}
 	.nav li a .icon {
 		font-size: 24px;
@@ -233,8 +240,24 @@ a {
 		border-bottom: none;
 		background-color: $white;
 	}
-
 }
+
+.page-nav-wrapper {
+  min-height: 68px;
+}
+
+.affix {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 68px;
+  z-index: 100;
+}
+
+.affix + .container {
+  padding-top: 68px;
+}
+
 //= Sections
 //
 .section {
