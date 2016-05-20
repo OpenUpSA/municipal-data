@@ -16,6 +16,9 @@
         <link rel="stylesheet" href="/static/css/wazimap.css">
         <link rel="stylesheet" href="/static/stylesheets/scorecard.css">
 
+        <!-- Line Icons Font -->
+        <link rel="stylesheet" href="/static/stylesheets/line-icons.css">
+
 <link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
 <!--[if lte IE 8]>
     <link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
@@ -92,10 +95,7 @@
             <header id="header-box" class="column-full">
                 <h1 class="title">Buffalo City</h1>
                 <p class="caption">
-                  Municipality
-                  in
-
-                  Eastern Cape
+                  Municipality in <a href="#">Eastern Cape</a>
                 </p>
             </header>
             <div class="stat stat-primary">
@@ -114,15 +114,18 @@
     </div>
 </div>
 
+<div class="page-nav">
+  <div class="container">
+    <ul class="nav nav-tabs">
+      <li role="presentation" class="active"><a href="#"><div class="icon icon-office-04"></div>About</a></li>
+      <li role="presentation"><a href="#"><div class="icon icon-office-42"></div>Income</a></li>
+      <li role="presentation"><a href="#"><div class="icon icon-shopping-03"></div>Spending</a></li>
+      <li role="presentation"><a href="#"><div class="icon icon-office-16"></div>Performance</a></li>
+    </ul>
+  </div>
+</div>
 
-
-
-
-        <div class="content-container wrapper clearfix">
-
-
-
-
+<!--
 <section class="clearfix" id="compare-place-picker">
     <h2>Compare this place with another</h2>
     <div class="typeahead-container">
@@ -131,11 +134,238 @@
 </section>
 
 <p class="explain">Interact with charts and statistics for additional information.</p>
+-->
 
+<div class="section" id="about">
+  <div class="container">
+    <h1>About the Municipality</h1>
 
+    <div class="sub-section" id="who-runs">
+      <div class="row">
+        <div class="col-md-8 separator-right">
+          <h2>Who runs the municipality?</h2>
+          
+            <div class="row">
 
+              <div class="col-md-6">
+                <table class="table table-bordered">
+                  <tr>
+                    <th colspan="2">Mayor/Executive Mayor</th>
+                  </tr>
+                  <tr class="text-large">
+                    <td class="cell-min"><i class="fa fa-user" aria-hidden="true"></i></td>
+                    <td>Mr Alfred Mtsi</td>
+                  </tr>
+                  <tr class="table-footer">
+                    <td colspan="2">+ Show Contact Details</td>
+                  </tr>
+                </table>
+              </div>
 
+              <div class="col-md-6">
+                <table class="table table-bordered">
+                  <tr>
+                    <th colspan="2">Municipal Manager</th>
+                  </tr>
+                  <tr class="text-large">
+                    <td class="cell-min"><i class="fa fa-user" aria-hidden="true"></i></td>
+                    <td >Mr Nceba Ncunyana</td>
+                  </tr>
+                  <tr class="table-footer">
+                    <td colspan="2">+ Show Contact Details</td>
+                  </tr>
+                </table>
+              </div>
 
+              <div class="col-md-6">
+                <table class="table table-bordered">
+                  <tr>
+                    <th colspan="2">Deputy Mayor/Executive Mayor</th>
+                  </tr>
+                  <tr class="text-large">
+                    <td class="cell-min"><i class="fa fa-user" aria-hidden="true"></i></td>
+                    <td >Mr Xola Pakati</td>
+                  </tr>
+                  <tr class="table-footer">
+                    <td colspan="2">+ Show Contact Details</td>
+                  </tr>
+                </table>
+              </div>
+
+              <div class="col-md-6">
+                <table class="table table-bordered">
+                  <tr>
+                    <th colspan="2">Chief Financial Officer</th>
+                  </tr>
+                  <tr class="text-large">
+                    <td class="cell-min"><i class="fa fa-user" aria-hidden="true"></i></td>
+                    <td >Mr Vincent Pillay</td>
+                  </tr>
+                  <tr class="table-footer">
+                    <td colspan="2">+ Show Contact Details</td>
+                  </tr>
+                </table>
+              </div>
+
+            </div>
+
+          <div class="more"><a href="#"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show More</a></div>
+
+        </div>
+
+        <div class="col-md-4">
+          <h2>Contact details</h2>
+          <table class="table table-bordered">
+            <tr>
+              <td class="cell-min"><i class="fa fa-phone" aria-hidden="true"></i></td>
+              <td><a href="tel:0437052000">043 705 2000</a></td>
+            </tr>
+            <tr>
+              <td class="cell-min"><i class="fa fa-map-marker" aria-hidden="true"></i></td>
+              <td><a href="http://www.buffalocity.gov.za">www.buffalocity.gov.za</a></td>
+            </tr>
+            <tr>
+              <td class="cell-min"><i class="fa fa-map-marker" aria-hidden="true"></i></td>
+              <td>Trust Bank Centre <br>C/O Oxford & North Street <br>East London <br>5200</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-section" id="audit-outcomes">
+      <h2>Audit outcomes</h2>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-3">
+              <table class="table table-bordered">
+                <tr>
+                  <td class="text-large text-center"><strong>2015 <br>Unqualified Audit</strong></td>
+                </tr>
+                <tr class="table-footer">
+                  <td><a href="#">Read report</a></td>
+                </tr>
+              </table>
+            </div>
+            <div class="col-md-3">
+              <table class="table table-bordered">
+                <tr>
+                  <td class="text-center"><strong>2014 <br>Unqualified Audit</strong></td>
+                </tr>
+                <tr class="table-footer">
+                  <td><a href="#">Read report</a></td>
+                </tr>
+              </table>
+            </div>
+            <div class="col-md-3">
+              <table class="table table-bordered">
+                <tr>
+                  <td class="text-center"><strong>2014 <br>Unqualified Audit</strong></td>
+                </tr>
+                <tr class="table-footer">
+                  <td><a href="#">Read report</a></td>
+                </tr>
+              </table>
+            </div>
+            <div class="col-md-3">
+              <table class="table table-bordered">
+                <tr>
+                  <td class="text-center"><strong>2014 <br>Unqualified Audit</strong></td>
+                </tr>
+                <tr class="table-footer">
+                  <td><a href="#">Read report</a></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="more"><a href="#"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show More</a></div>
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-didyouknow">
+            <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+            <div class="panel-body">
+              There are <strong>5 types of audit outcomes</strong>:
+              <ul>
+                <li>A <strong>clean audit</strong> means that there are no irregularities in the municipality's accounting.</li>
+              </ul>
+              <div class="more"><a href="#"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show More</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section" id="income">
+  <div class="container">
+    <h1>Income</h1>
+    <div class="indicator">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="indicator-value indicator-bad">39.3% <i class="fa fa-warning" aria-hidden="true"></i></div>
+          <div class="indicator-description">of income billed for has not been collected</div>
+          <div class="indicator-average">national average: <strong>47.15%</strong></div>
+          <table class="table table-bordered indicator-key">
+            <tr>
+              <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+              <td class="key-description">less than 15%</td>
+            </tr>
+            <tr>
+              <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
+              <td class="key-description">more than 30%</td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-5">
+          [chart]
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-didyouknow">
+            <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+            <div class="panel-body">
+              A <strong>high value</strong> shows that the municipality is unable to effectively collect the income for the services they've provided.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="indicator">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="indicator-value indicator-bad">39.3% <i class="fa fa-warning" aria-hidden="true"></i></div>
+          <div class="indicator-description">of income billed for has not been collected</div>
+          <div class="indicator-average">national average: <strong>47.15%</strong></div>
+          <table class="table table-bordered indicator-key">
+            <tr>
+              <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+              <td class="key-description">less than 15%</td>
+            </tr>
+            <tr>
+              <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
+              <td class="key-description">more than 30%</td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-5">
+          [chart]
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-didyouknow">
+            <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+            <div class="panel-body">
+              A <strong>high value</strong> shows that the municipality is unable to effectively collect the income for the services they've provided.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
 <section>
   <h3>Cash coverage:</h3>
   <ul>
@@ -259,12 +489,7 @@
 
 </section>
 
-
-
-
-
-        </div>
-
+-->
 
         <footer id="page-footer">
             <section class="wrapper footer-container clearfix">
