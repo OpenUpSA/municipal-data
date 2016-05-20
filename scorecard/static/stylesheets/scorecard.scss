@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-// Bootstrap variable overrides 
+// Bootstrap variable overrides
 
 //== Colors
 //
@@ -54,13 +54,13 @@ $nav-tabs-active-link-hover-border-color: inherit !default;
 //######
 
 // Import Bootstrap SCSS
-@import '../../../municipal_finance/static/bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+@import 'scorecard/static/bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss';
 
 //######
 
 // Custom CSS
 
-//== Headings 
+//== Headings
 h1 {
   margin-bottom: 20px;
 }
@@ -153,9 +153,9 @@ a {
 		}
 	}
 
-} 
+}
 
-//= Page header 
+//= Page header
 #page-header {
   background: $brand-primary;
   border-bottom: solid 1px $gray-dark;
@@ -310,7 +310,7 @@ a {
 	font-weight: bold;
 	background: url('/static/img/dot-pattern.gif');
 	background-repeat: repeat-x;
-	background-position: center; 
+	background-position: center;
 	.icon {
 		margin-right: 5px;
 	}
