@@ -143,6 +143,42 @@
     </div>
   </div>
 </div>
+<div class="section" id="performance">
+  <div class="container">
+    <h1>Performance</h1>
+    <div class="indicator">
+      <div class="row">
+        <div class="col-md-3">
+          {% with cash_coverage|first as current_ratio %}
+          <div class="indicator-value {% if current_ratio.result > 3 %}indicator-good{% elif current_ratio < 1 %}indicator-bad{% endif %}">{{ current_ratio.result }} <i class="fa {% if current_ratio.result > 3 %}fa-check{% elif current_ratio < 1 %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+          {% endwith %}
+          <div class="indicator-description">months of operating expenses can be paid for with the cash available.</div>
+          <table class="table table-bordered indicator-key">
+            <tr>
+              <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+              <td class="key-description">more than 3</td>
+            </tr>
+            <tr>
+              <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
+              <td class="key-description">less than 1</td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-5">
+          [chart]
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-didyouknow">
+            <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+            <div class="panel-body">
+              A <strong>low value</strong> shows that the municipality may be unable to pay for the day-to-day expenses.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
 
   <h3>Who runs the municipality?</h3>
   {% for official in mayoral_staff %}

@@ -279,15 +279,25 @@ class IndicatorCalculator(object):
         ]
 
     def cash_coverage(self):
-        values = OrderedDict()
+        # values = OrderedDict()
+        # for year in sorted(list(self.years), reverse=True):
+        #     try:
+        #         values[year] = ratio(
+        #             self.results['cash_flow']['4200'][year],
+        #             (self.results['op_exp_actual']['4600'][year] / 12),
+        #             1)
+        #     except KeyError:
+        #         values[year] = None
+        values = []
         for year in sorted(list(self.years), reverse=True):
             try:
-                values[year] = ratio(
+                result = ratio(
                     self.results['cash_flow']['4200'][year],
                     (self.results['op_exp_actual']['4600'][year] / 12),
                     1)
             except KeyError:
-                values[year] = None
+                result = None
+            values.append({'year': year, 'result': result})
 
         return values
 
