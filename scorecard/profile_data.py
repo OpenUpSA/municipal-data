@@ -417,18 +417,29 @@ class IndicatorCalculator(object):
 
     def mayoral_staff(self):
         values = []
-        exclude_roles = ['Speaker',  'Secretary of Speaker']
 
-        for official in self.results['officials']:
-            if not official['role.role'] in exclude_roles:
-                values.append({
-                    'role': official['role.role'],
-                    'title': official['contact_details.title'],
-                    'name': official['contact_details.name'],
-                    'office_phone': official['contact_details.phone_number'],
-                    'fax_number': official['contact_details.fax_number'],
-                    'email': official['contact_details.email_address']
-                })
+        roles = [
+            'Mayor/Executive Mayor',
+            'Municipal Manager',
+            'Deputy Mayor/Executive Mayor',
+            'Chief Financial Officer',
+            'Secretary of Mayor/Executive Mayor',
+            'Secretary of Municipal Manager',
+            'Secretary of Deputy Mayor/Executive Mayor',
+            'Secretary of Financial Manager',
+        ]
+
+        for role in roles:
+            for official in self.results['officials']:
+                if official['role.role'] == role:
+                    values.append({
+                        'role': official['role.role'],
+                        'title': official['contact_details.title'],
+                        'name': official['contact_details.name'],
+                        'office_phone': official['contact_details.phone_number'],
+                        'fax_number': official['contact_details.fax_number'],
+                        'email': official['contact_details.email_address']
+                    })
 
         return values
 
