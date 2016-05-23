@@ -88,6 +88,45 @@
             {% endfor %}
           </div>
         </div>
+        <div class="col-md-4">
+          <h2>Contact details</h2>
+          <table class="table table-bordered">
+            <tr>
+              <td class="cell-min"><i class="fa fa-phone" aria-hidden="true"></i></td>
+              <td><a href="tel:{{ muni_contact.phone_number }}">{{ muni_contact.phone_number }}</a></td>
+            </tr>
+            <tr>
+              <td class="cell-min"><i class="fa fa-map-marker" aria-hidden="true"></i></td>
+              <td><a href="{{ muni_contact.url }}">{{ muni_contact.url }}</a></td>
+            </tr>
+            <tr>
+              <td class="cell-min"><i class="fa fa-map-marker" aria-hidden="true"></i></td>
+              <td>{{ muni_contact.street_address_1 }} <br> {{ muni_contact.street_address_2 }} <br> {{ muni_contact.street_address_3 }} <br> {{ muni_contact.street_address_4 }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sub-section" id="audit-outcomes">
+  <h2>Audit outcomes</h2>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="row">
+      {% for year, value in audit_opinions.iteritems %}
+        <div class="col-md-3">
+          <table class="table table-bordered">
+            <tr>
+              <td class="text-large text-center"><strong>{{ year|unlocalize }} <br>{{ value }}</strong></td>
+            </tr>
+            <tr class="table-footer">
+              <td><a href="#">Read report</a></td>
+            </tr>
+          </table>
+        </div>
+      {% endfor %}
       </div>
     </div>
   </div>
