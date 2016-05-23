@@ -62,8 +62,36 @@
 
 {% block content %}
 
-<section >
-  <h1>About the municipality</h1>
+<div class="section" id="about">
+  <div class="container">
+    <h1>About the municipality</h1>
+    <div class="sub-section" id="who-runs">
+      <div class="row">
+        <div class="col-md-8 separator-right">
+          <h2>Who runs the municipality?</h2>
+          <div class="row">
+            {% for official in mayoral_staff %}
+              <div class="col-md-6">
+                <table class="table table-bordered">
+                  <tr>
+                    <th colspan="2">{{ official.role }}</th>
+                  </tr>
+                  <tr class="text-large">
+                    <td class="cell-min"><i class="fa fa-user" aria-hidden="true"></i></td>
+                    <td>{{ official.title }} {{ official.name }}</td>
+                  </tr>
+                  <tr class="table-footer">
+                    <td colspan="2">+ Show Contact Details</td>
+                  </tr>
+                </table>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
   <h3>Who runs the municipality?</h3>
   {% for official in mayoral_staff %}
