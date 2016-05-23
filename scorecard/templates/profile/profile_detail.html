@@ -151,7 +151,7 @@
       <div class="row">
         <div class="col-md-3">
           {% with cash_at_year_end|first as latest %}
-          <div class="indicator-value indicator-{{ latest.rating }}">{{ latest.result }} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+          <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">cash balance at the end of the financial year.</div>
           <table class="table table-bordered indicator-key">
@@ -183,7 +183,7 @@
       <div class="row">
         <div class="col-md-3">
           {% with cash_coverage|first as latest %}
-          <div class="indicator-value indicator-{{ latest.rating }}">{{ latest.result }} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+          <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">months of operating expenses can be paid for with the cash available.</div>
           <table class="table table-bordered indicator-key">
@@ -215,7 +215,7 @@
       <div class="row">
         <div class="col-md-3">
           {% with op_budget_diff|first as latest %}
-          <div class="indicator-value indicator-{{ latest.rating }}">{{ latest.result }}% <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+          <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">difference between operating budget and actual expenditure.</div>
           <table class="table table-bordered indicator-key">
@@ -239,7 +239,7 @@
       <div class="row">
         <div class="col-md-3">
           {% with cap_budget_diff|first as latest %}
-          <div class="indicator-value indicator-{{ latest.rating }}">{{ latest.result }}% <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+          <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">difference between capital budget and actual expenditure.</div>
           <table class="table table-bordered indicator-key">
@@ -263,7 +263,7 @@
       <div class="row">
         <div class="col-md-3">
           {% with rep_maint_perc_ppe|first as latest %}
-          <div class="indicator-value indicator-{{ latest.rating }}">{{ latest.result }}% <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+          <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">Repairs and maintenance as a percentage of Property, Plant and Equipment.</div>
           <table class="table table-bordered indicator-key">
