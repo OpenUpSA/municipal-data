@@ -7,42 +7,43 @@
 {% endblock head_css_extra %}
 
 {% block header_content %}
-    <div id="cover-map" class="clearfix">
-        <div id="slippy-map"></div>
-        <div id="cover-profile" class="wrapper">
-            <article class="clearfix column-half">
-                <header id="header-box" class="column-full">
-                    <h1 class="title">{{ geography.this.short_name }}</h1>
-                    <p class="caption">
-                      {{ geography.this.geo_level|capfirst }}
-                      in
-                      {% if geography.parents %}
-                          {% for level, g in geography.parents.items %}
-                            <a href="/profiles/{{ g.full_geoid }}-{{ g.short_name|slugify }}/">{{ g.short_name }}</a>,
-                          {% endfor %}
-                      {% endif %}
-                      {{ geography.this.province_name }}
-                    </p>
-                </header>
-                <div class="stat stat-primary">
-                    <span class="name">Population</span>
-                    <span class="value">{{ total_population|floatformat:"0" }}</span>
-                </div>
-                {% if geography.this.square_kms %}
-                <div class="stat stat-secondary">
-                    <span class="value">{% if geography.this.square_kms < 1.0 %}{{ geography.this.square_kms|floatformat:"3" }}{% else %}{{ geography.this.square_kms|floatformat:"1" }}{% endif %}</span>
-                    <span class="name"> square kilometres</span>
-                    {% if demographics.population_density.values.this %}
-                    <span class="secondary">
-                        <span class="value">{{ demographics.population_density.values.this|floatformat:"1" }}</span>
-                        <span class="name"> people per square kilometre</span>
-                    </span>
-                    {% endif %}
-                </div>
-                {% endif %}
-            </article>
+  <div id="cover-map" class="clearfix">
+    <div id="slippy-map"></div>
+    <div id="cover-profile" class="wrapper">
+      <article class="clearfix column-half">
+        <header id="header-box" class="column-full">
+          <h1 class="title">{{ geography.this.short_name }}</h1>
+          <p class="caption">
+            {{ geography.this.geo_level|capfirst }}
+            in
+            {% if geography.parents %}
+              {% for level, g in geography.parents.items %}
+                <a href="/profiles/{{ g.full_geoid }}-{{ g.short_name|slugify }}/">{{ g.short_name }}</a>,
+              {% endfor %}
+            {% endif %}
+            {{ geography.this.province_name }}
+          </p>
+        </header>
+        <div class="stat stat-primary">
+          <span class="name">Population</span>
+          <span class="value">{{ total_population|floatformat:"0" }}</span>
         </div>
+        {% if geography.this.square_kms %}
+        <div class="stat stat-secondary">
+          <span class="value">{% if geography.this.square_kms < 1.0 %}{{ geography.this.square_kms|floatformat:"3" }}{% else %}{{ geography.this.square_kms|floatformat:"1" }}{% endif %}</span>
+          <span class="name"> square kilometres</span>
+        </div>
+
+          {% if population_density %}
+          <div class="stat stat-secondary">
+            <span class="value">{{ population_density|floatformat:"1" }}</span>
+            <span class="name"> people per square kilometre</span>
+          </div>
+          {% endif %}
+        {% endif %}
+      </article>
     </div>
+  </div>
     {% block page-nav %}
         <div class="page-nav-wrapper">
           <div class="page-nav" data-spy="affix" data-offset-top="281">
@@ -297,13 +298,6 @@
       <li>Email: {{ official.email }}</li>
     </ul>
   {% endfor %}
-
-  <h2>Contact details:</h2>
-  <ul>
-    <li>{{ muni_contact.phone_number }}</li>
-    <li><a href="{{ muni_contact.url }}">{{ muni_contact.url }}</a></li>
-    <li>{{ muni_contact.street_address_1 }}, {{ muni_contact.street_address_2 }}, {{ muni_contact.street_address_3 }} {{ muni_contact.street_address_4 }}</li>
-  </ul>
 
   <h2>Audit opinions:</h2>
   <ul>
