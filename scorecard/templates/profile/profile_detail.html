@@ -111,42 +111,44 @@
         </div>
       </div>
     </div>
+
+    <div class="sub-section" id="audit-outcomes">
+      <h2>Audit outcomes</h2>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="row">
+          {% for year, value in audit_opinions.iteritems %}
+            <div class="col-md-3">
+              <table class="table table-bordered">
+                <tr>
+                  <td class="text{% if forloop.first %}-large{% endif %} text-center"><strong>{{ year|unlocalize }} <br>{{ value }}</strong></td>
+                </tr>
+                <tr class="table-footer">
+                  <td><a href="#">Read report</a></td>
+                </tr>
+              </table>
+            </div>
+          {% endfor %}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-didyouknow">
+            <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+            <div class="panel-body">
+              There are <strong>5 types of audit outcomes</strong>:
+              <ul>
+                <li>A <strong>clean audit</strong> means that there are no irregularities in the municipality's accounting.</li>
+              </ul>
+              <div class="more"><a href="#"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show More</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<div class="sub-section" id="audit-outcomes">
-  <h2>Audit outcomes</h2>
-  <div class="row">
-    <div class="col-md-8">
-      <div class="row">
-      {% for year, value in audit_opinions.iteritems %}
-        <div class="col-md-3">
-          <table class="table table-bordered">
-            <tr>
-              <td class="text-large text-center"><strong>{{ year|unlocalize }} <br>{{ value }}</strong></td>
-            </tr>
-            <tr class="table-footer">
-              <td><a href="#">Read report</a></td>
-            </tr>
-          </table>
-        </div>
-      {% endfor %}
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="panel panel-didyouknow">
-        <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
-        <div class="panel-body">
-          There are <strong>5 types of audit outcomes</strong>:
-          <ul>
-            <li>A <strong>clean audit</strong> means that there are no irregularities in the municipality's accounting.</li>
-          </ul>
-          <div class="more"><a href="#"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show More</a></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 <div class="section" id="performance">
   <div class="container">
     <h1>Performance</h1>
