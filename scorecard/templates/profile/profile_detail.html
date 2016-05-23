@@ -24,28 +24,20 @@
                   {{ geography.this.province_name }}
                 </p>
             </header>
-            <div class="column-half">
-                <div class="stat">
-                    <span class="primary">
-                        <span class="value">{{ total_population|floatformat:"0" }}</span>
-                        <span class="name">Population</span>
-                    </span>
-                </div>
+            <div class="stat stat-primary">
+                <span class="name">Population</span>
+                <span class="value">{{ total_population|floatformat:"0" }}</span>
             </div>
             {% if geography.this.square_kms %}
-            <div class="column-half">
-                <div class="stat">
-                    <span class="secondary">
-                        <span class="value">{% if geography.this.square_kms < 1.0 %}{{ geography.this.square_kms|floatformat:"3" }}{% else %}{{ geography.this.square_kms|floatformat:"1" }}{% endif %}</span>
-                        <span class="name"> square kilometres</span>
-                    </span>
-                    {% if demographics.population_density.values.this %}
-                    <span class="secondary">
-                        <span class="value">{{ demographics.population_density.values.this|floatformat:"1" }}</span>
-                        <span class="name"> people per square kilometre</span>
-                    </span>
-                    {% endif %}
-                </div>
+            <div class="stat stat-secondary">
+                <span class="value">{% if geography.this.square_kms < 1.0 %}{{ geography.this.square_kms|floatformat:"3" }}{% else %}{{ geography.this.square_kms|floatformat:"1" }}{% endif %}</span>
+                <span class="name"> square kilometres</span>
+                {% if demographics.population_density.values.this %}
+                <span class="secondary">
+                    <span class="value">{{ demographics.population_density.values.this|floatformat:"1" }}</span>
+                    <span class="name"> people per square kilometre</span>
+                </span>
+                {% endif %}
             </div>
             {% endif %}
         </article>
