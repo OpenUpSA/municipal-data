@@ -9,7 +9,7 @@ import xlrd
 
 
 def convert(sheet, csv_file):
-    book = xlrd. open_workbook(sheet)
+    book = xlrd.open_workbook(sheet)
     sheet = book.sheet_by_index(0)
 
     label_to_code = {
