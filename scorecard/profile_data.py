@@ -383,7 +383,7 @@ class IndicatorCalculator(object):
         return values
 
     def cash_at_year_end(self):
-        return OrderedDict([(k, v) for k, v in self.results['cash_flow']['4200'].iteritems()])
+        return [{'year': k, 'result':v} for k, v in self.results['cash_flow']['4200'].iteritems()]
 
     def mayoral_staff(self):
         values = []

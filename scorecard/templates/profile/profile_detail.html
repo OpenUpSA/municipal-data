@@ -149,8 +149,8 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with cash_coverage|first as current_ratio %}
-          <div class="indicator-value {% if current_ratio.result > 3 %}indicator-good{% elif current_ratio < 1 %}indicator-bad{% endif %}">{{ current_ratio.result }} <i class="fa {% if current_ratio.result > 3 %}fa-check{% elif current_ratio < 1 %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+          {% with cash_coverage|first as latest %}
+          <div class="indicator-value {% if latest.result > 3 %}indicator-good{% elif latest.result < 1 %}indicator-bad{% endif %}">{{ latest.result }} <i class="fa {% if latest.result > 3 %}fa-check{% elif latest.result < 1 %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">months of operating expenses can be paid for with the cash available.</div>
           <table class="table table-bordered indicator-key">
@@ -178,6 +178,40 @@
       </div>
     </div>
 
+    <div class="indicator">
+      <div class="row">
+        <div class="col-md-3">
+          {% with cash_at_year_end|first as latest %}
+          <div class="indicator-value {% if latest.result > 0 %}indicator-good{% else %}indicator-bad{% endif %}">{{ latest.result }} <i class="fa {% if latest.result > 0 %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+          {% endwith %}
+          <div class="indicator-description">cash balance at the end of the financial year.</div>
+          <table class="table table-bordered indicator-key">
+            <tr>
+              <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+              <td class="key-description">Positive balance</td>
+            </tr>
+            <tr>
+              <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
+              <td class="key-description">Negative balance.</td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-5">
+          [chart]
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-didyouknow">
+            <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+            <div class="panel-body">
+              In terms of section 45 of the MFMA, municipalities are not permitted to close the financial year with any short-term borrowing or overdraft. The fact that a municipality is not able to close the financial year with positive cash positions, is a very strong indicator that these municipality is in financial distress at that date.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 
   <h3>Who runs the municipality?</h3>
