@@ -341,13 +341,16 @@ class IndicatorCalculator(object):
         return values
 
     def rep_maint_perc_ppe(self):
-        values = OrderedDict()
+        values = []
         for year in sorted(list(self.years), reverse=True):
             try:
-                values[year] = percent(self.results['rep_maint']['5005'][year],
+                result = percent(self.results['rep_maint']['5005'][year],
                 (self.results['ppe']['1300'][year] + self.results['invest_prop']['1401'][year]))
             except KeyError:
-                values[year] = None
+                result = None
+            # We don't not have rating levels for this yet.
+            rating = None
+            values.append({'year': year, 'result': result, 'rating': rating})
 
         return values
 
