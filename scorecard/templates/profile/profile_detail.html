@@ -151,7 +151,7 @@
       <div class="row">
         <div class="col-md-3">
           {% with cash_at_year_end|first as latest %}
-          <div class="indicator-value {% if latest.result > 0 %}indicator-good{% else %}indicator-bad{% endif %}">{{ latest.result }} <i class="fa {% if latest.result > 0 %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+          <div class="indicator-value indicator-{{ latest.rating }}">{{ latest.result }} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">cash balance at the end of the financial year.</div>
           <table class="table table-bordered indicator-key">
@@ -183,7 +183,7 @@
       <div class="row">
         <div class="col-md-3">
           {% with cash_coverage|first as latest %}
-          <div class="indicator-value {% if latest.result > 3 %}indicator-good{% elif latest.result < 1 %}indicator-bad{% endif %}">{{ latest.result }} <i class="fa {% if latest.result > 3 %}fa-check{% elif latest.result < 1 %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+          <div class="indicator-value indicator-{{ latest.rating }}">{{ latest.result }} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">months of operating expenses can be paid for with the cash available.</div>
           <table class="table table-bordered indicator-key">

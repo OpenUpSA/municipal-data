@@ -286,9 +286,16 @@ class IndicatorCalculator(object):
                     self.results['cash_flow']['4200'][year],
                     (self.results['op_exp_actual']['4600'][year] / 12),
                     1)
+                if result > 3:
+                    rating = 'good'
+                elif result > 1:
+                    rating = 'ave'
+                else:
+                    rating = 'bad'
             except KeyError:
                 result = None
-            values.append({'year': year, 'result': result})
+                rating = None
+            values.append({'year': year, 'result': result, 'rating': rating})
 
         return values
 
@@ -380,6 +387,19 @@ class IndicatorCalculator(object):
         return values
 
     def cash_at_year_end(self):
+        values = []
+        for year, result in self.results['cash_flow']['4200'].iteritems():
+            if result > 0:
+                rating = 'good'
+            elif result <= 0:
+                rating = 'bad'
+            else:
+                rating = None
+
+            values.append({'year': year, 'result': result, 'rating': rating})
+
+        return values
+
         return [{'year': k, 'result':v} for k, v in self.results['cash_flow']['4200'].iteritems()]
 
     def mayoral_staff(self):
