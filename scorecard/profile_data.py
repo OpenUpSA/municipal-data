@@ -288,10 +288,10 @@ class IndicatorCalculator(object):
                     1)
                 if result > 3:
                     rating = 'good'
-                elif result > 1:
-                    rating = 'ave'
-                else:
+                elif result <= 1:
                     rating = 'bad'
+                else:
+                    rating = 'ave'
             except KeyError:
                 result = None
                 rating = None
@@ -311,6 +311,8 @@ class IndicatorCalculator(object):
                     rating = 'good'
                 elif abs(result) > 25:
                     rating = 'bad'
+                else:
+                    rating = 'ave'
             except KeyError:
                 result = None
                 rating = None
@@ -319,14 +321,22 @@ class IndicatorCalculator(object):
         return values
 
     def cap_budget_diff(self):
-        values = OrderedDict()
+        values = []
         for year in sorted(list(self.years), reverse=True):
             try:
-                values[year] = percent(
+                result = percent(
                     (self.results['cap_exp_budget']['4100'][year] - self.results['cap_exp_actual']['4100'][year]),
                     self.results['cap_exp_budget']['4100'][year])
+                if abs(result) < 10:
+                    rating = 'good'
+                elif abs(result) > 30:
+                    rating = 'bad'
+                else:
+                    rating = 'ave'
             except KeyError:
-                values[year] = None
+                result = None
+                rating = None
+            values.append({'year': year, 'result': result, 'rating': rating})
 
         return values
 
