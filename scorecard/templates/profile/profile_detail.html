@@ -146,6 +146,39 @@
 <div class="section" id="performance">
   <div class="container">
     <h1>Performance</h1>
+
+    <div class="indicator">
+      <div class="row">
+        <div class="col-md-3">
+          {% with cash_at_year_end|first as latest %}
+          <div class="indicator-value {% if latest.result > 0 %}indicator-good{% else %}indicator-bad{% endif %}">{{ latest.result }} <i class="fa {% if latest.result > 0 %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+          {% endwith %}
+          <div class="indicator-description">cash balance at the end of the financial year.</div>
+          <table class="table table-bordered indicator-key">
+            <tr>
+              <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+              <td class="key-description">Positive balance</td>
+            </tr>
+            <tr>
+              <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
+              <td class="key-description">Negative balance.</td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-5">
+          [chart]
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-didyouknow">
+            <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+            <div class="panel-body">
+              In terms of section 45 of the MFMA, municipalities are not permitted to close the financial year with any short-term borrowing or overdraft. The fact that a municipality is not able to close the financial year with positive cash positions, is a very strong indicator that these municipality is in financial distress at that date.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
@@ -181,31 +214,23 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with cash_at_year_end|first as latest %}
-          <div class="indicator-value {% if latest.result > 0 %}indicator-good{% else %}indicator-bad{% endif %}">{{ latest.result }} <i class="fa {% if latest.result > 0 %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+          {% with op_budget_diff|first as latest %}
+          <div class="indicator-value indicator-{{ latest.rating }}">{{ latest.result }}% <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
-          <div class="indicator-description">cash balance at the end of the financial year.</div>
+          <div class="indicator-description">difference between operating budget and actual expenditure.</div>
           <table class="table table-bordered indicator-key">
             <tr>
               <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
-              <td class="key-description">Positive balance</td>
+              <td class="key-description">less than 10%</td>
             </tr>
             <tr>
               <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
-              <td class="key-description">Negative balance.</td>
+              <td class="key-description">more than 25%</td>
             </tr>
           </table>
         </div>
         <div class="col-md-5">
           [chart]
-        </div>
-        <div class="col-md-4">
-          <div class="panel panel-didyouknow">
-            <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
-            <div class="panel-body">
-              In terms of section 45 of the MFMA, municipalities are not permitted to close the financial year with any short-term borrowing or overdraft. The fact that a municipality is not able to close the financial year with positive cash positions, is a very strong indicator that these municipality is in financial distress at that date.
-            </div>
-          </div>
         </div>
       </div>
     </div>
