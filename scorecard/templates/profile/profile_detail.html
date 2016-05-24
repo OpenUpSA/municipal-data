@@ -204,7 +204,7 @@
           </table>
         </div>
         <div class="col-md-5">
-          [chart]
+          <div class="cash-coverage chart-container"></div>
         </div>
         <div class="col-md-4">
           <div class="panel panel-didyouknow">
@@ -302,8 +302,10 @@
 <!-- Bootstrap affix.js & scrollspy.js -->
 <script src="/static/js/affix.js"></script>
 <script src="/static/js/scrollspy.js"></script>
-{% javascript "scorecard" %}
+
 <script type="text/javascript">
-$(document).ready(function(){});
+var DATA = {{ cash_coverage|safe }}
 </script>
+
+{% javascript "scorecard" %}
 {% endblock %}
