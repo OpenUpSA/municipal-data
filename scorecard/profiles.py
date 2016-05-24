@@ -1,16 +1,25 @@
 from wazimap.data.tables import get_datatable
 from profile_data import MuniApiClient, IndicatorCalculator
+from wazimap.geo import geo_data
+
 
 def get_profile(geo_code, geo_level, profile_name=None):
     # Census data
     table = get_datatable('population_2011')
     _, total_pop = table.get_stat_data(geo_level, geo_code, percent=False)
 
+    geo = geo_data.get_geography(geo_code, geo_level)
+    population_density = None
+    if geo.square_kms:
+        population_density = total_pop / geo.square_kms
+
+
     api_client = MuniApiClient(geo_code)
     indicator_calc = IndicatorCalculator(api_client.results, api_client.years)
 
     return {
         'total_population': total_pop,
+        'population_density': population_density,
         'cash_coverage': indicator_calc.cash_coverage(),
         'op_budget_diff': indicator_calc.op_budget_diff(),
         'cap_budget_diff': indicator_calc.cap_budget_diff(),

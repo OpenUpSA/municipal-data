@@ -217,9 +217,10 @@ PIPELINE = {
         'scorecard': {
             'source_filenames': (
                 'stylesheets/scorecard.scss',
+                'stylesheets/line-icons.css',
             ),
             'output_filename': 'scorecard.css'
-        }
+        },
     },
     'JAVASCRIPT': {
         'js': {

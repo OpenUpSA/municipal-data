@@ -279,51 +279,78 @@ class IndicatorCalculator(object):
         ]
 
     def cash_coverage(self):
-        values = OrderedDict()
+        values = []
         for year in sorted(list(self.years), reverse=True):
             try:
-                values[year] = ratio(
+                result = ratio(
                     self.results['cash_flow']['4200'][year],
                     (self.results['op_exp_actual']['4600'][year] / 12),
                     1)
+                if result > 3:
+                    rating = 'good'
+                elif result <= 1:
+                    rating = 'bad'
+                else:
+                    rating = 'ave'
             except KeyError:
-                values[year] = None
+                result = None
+                rating = None
+            values.append({'year': year, 'result': result, 'rating': rating})
 
         return values
 
     def op_budget_diff(self):
-        values = OrderedDict()
+        values = []
         for year in sorted(list(self.years), reverse=True):
             try:
-                values[year] = percent(
+                result = percent(
                     (self.results['op_exp_budget']['4600'][year] - self.results['op_exp_actual']['4600'][year]),
                     self.results['op_exp_budget']['4600'][year],
                     1)
+                if abs(result) < 10:
+                    rating = 'good'
+                elif abs(result) > 25:
+                    rating = 'bad'
+                else:
+                    rating = 'ave'
             except KeyError:
-                values[year] = None
+                result = None
+                rating = None
+            values.append({'year': year, 'result': result, 'rating': rating})
 
         return values
 
     def cap_budget_diff(self):
-        values = OrderedDict()
+        values = []
         for year in sorted(list(self.years), reverse=True):
             try:
-                values[year] = percent(
+                result = percent(
                     (self.results['cap_exp_budget']['4100'][year] - self.results['cap_exp_actual']['4100'][year]),
                     self.results['cap_exp_budget']['4100'][year])
+                if abs(result) < 10:
+                    rating = 'good'
+                elif abs(result) > 30:
+                    rating = 'bad'
+                else:
+                    rating = 'ave'
             except KeyError:
-                values[year] = None
+                result = None
+                rating = None
+            values.append({'year': year, 'result': result, 'rating': rating})
 
         return values
 
     def rep_maint_perc_ppe(self):
-        values = OrderedDict()
+        values = []
         for year in sorted(list(self.years), reverse=True):
             try:
-                values[year] = percent(self.results['rep_maint']['5005'][year],
+                result = percent(self.results['rep_maint']['5005'][year],
                 (self.results['ppe']['1300'][year] + self.results['invest_prop']['1401'][year]))
             except KeyError:
-                values[year] = None
+                result = None
+            # We don't not have rating levels for this yet.
+            rating = None
+            values.append({'year': year, 'result': result, 'rating': rating})
 
         return values
 
@@ -373,22 +400,46 @@ class IndicatorCalculator(object):
         return values
 
     def cash_at_year_end(self):
-        return OrderedDict([(k, v) for k, v in self.results['cash_flow']['4200'].iteritems()])
+        values = []
+        for year, result in self.results['cash_flow']['4200'].iteritems():
+            if result > 0:
+                rating = 'good'
+            elif result <= 0:
+                rating = 'bad'
+            else:
+                rating = None
+
+            values.append({'year': year, 'result': result, 'rating': rating})
+
+        return values
+
+        return [{'year': k, 'result':v} for k, v in self.results['cash_flow']['4200'].iteritems()]
 
     def mayoral_staff(self):
         values = []
-        exclude_roles = ['Speaker',  'Secretary of Speaker']
 
-        for official in self.results['officials']:
-            if not official['role.role'] in exclude_roles:
-                values.append({
-                    'role': official['role.role'],
-                    'title': official['contact_details.title'],
-                    'name': official['contact_details.name'],
-                    'office_phone': official['contact_details.phone_number'],
-                    'fax_number': official['contact_details.fax_number'],
-                    'email': official['contact_details.email_address']
-                })
+        roles = [
+            'Mayor/Executive Mayor',
+            'Municipal Manager',
+            'Deputy Mayor/Executive Mayor',
+            'Chief Financial Officer',
+            'Secretary of Mayor/Executive Mayor',
+            'Secretary of Municipal Manager',
+            'Secretary of Deputy Mayor/Executive Mayor',
+            'Secretary of Financial Manager',
+        ]
+
+        for role in roles:
+            for official in self.results['officials']:
+                if official['role.role'] == role:
+                    values.append({
+                        'role': official['role.role'],
+                        'title': official['contact_details.title'],
+                        'name': official['contact_details.name'],
+                        'office_phone': official['contact_details.phone_number'],
+                        'fax_number': official['contact_details.fax_number'],
+                        'email': official['contact_details.email_address']
+                    })
 
         return values
 
