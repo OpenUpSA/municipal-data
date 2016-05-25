@@ -16,6 +16,7 @@ $nt-green: #009053;
 $nt-cream-dark: #d8bb83;
 $red: #ed1c24;
 $green: #00a651;
+$yellow: #fbb03b;
 
 $brand-primary: $nt-red;
 $brand-secondary: $nt-green;
@@ -399,6 +400,20 @@ a {
 // Charts
 
 .chart-container {
+		font-size: 12px;
+
+		rect.good {
+			fill: $green;
+		}
+
+		rect.ave {
+			fill: $yellow;
+		}
+
+		rect.bad {
+			fill: $red;
+		}
+
 		rect.current {
 			stroke: $black;
 			stroke-width: 1;
@@ -407,5 +422,10 @@ a {
 		text.current {
 			font-weight: bold;
 		}
+
+		.x.axis .tick:first-child {
+			font-weight: bold;
+		}
+
 }
 
