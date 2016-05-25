@@ -29,7 +29,7 @@ $text-color: $gray-darker !default;
 //
 @import url(https://fonts.googleapis.com/css?family=Lato:400,900,700);
 $font-family-sans-serif:  "Lato", Helvetica, Arial, sans-serif !default;
-$font-size-base: 15px !default;
+$font-size-base: 14px !default;
 $font-family-base: $font-family-sans-serif !default;
 $headings-color: $black !default;
 $headings-font-weight: 700 !default;
@@ -87,14 +87,89 @@ a {
 //== Map
 //
 #cover-map {
-	height: auto;
-	margin: 0;
+  position: relative;
+  margin: 0px;
+  height: auto;
   border-bottom: solid 1px $gray-dark;
+}
+#slippy-map {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+//== Header
+//
+#page-header-title {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+
+  .header-buttons {
+    float: right;
+  }
+  .fa-twitter {
+    margin-right: 5px;
+  }
+  .title img {
+    margin-right: 3px;
+    vertical-align: bottom;
+    height: 25px;
+  }
+
+  a {
+    color: $white;
+  }
+
+  a.title {
+    font-size: $font-size-h2;
+  }
+}
+
+#menu {
+  float: right;
+  margin: .2em 0 0 5px;
+  padding: 0;
+}
+
+#menu input {
+  font-size: .83em;
+  border: 0;
+  margin-left: 0;
+  padding: 2px 6px 0;
+  height: 2em;
+  line-height: 2em;
+  border-radius: 4px;
+}
+
+#menu input,
+#menu .tt-dropdown-menu {
+  width: 240px;
+}
+
+#menu-toggle {
+    float: right;
+    font-size: 18px;
+    margin-top: 2px;
+    color: $white;
+    line-height: 1;
+    padding: .25em .33em .2em;
+    background-color: $brand-primary;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: none;
+}
+#menu-toggle.fa:before {
+    cursor: pointer;
 }
 
 //== Header box
 //
 #cover-profile {
+	position: relative;
 
 	article {
 		margin-top: 3em;
@@ -104,6 +179,17 @@ a {
 		padding: 0;
 		line-height: 1;
 		color: $gray-darker;
+		background-color: $white;
+	}
+
+        .caption {
+	  margin-top: 0.25em;
+	  margin-bottom: 0.25em;
+	}
+
+	h1.title {
+	  font-size: 2.5em;
+	  margin: 0px;
 	}
 
 	#header-box {
@@ -155,10 +241,45 @@ a {
 
 }
 
+@media only screen and (max-width: 768px) {
+    #cover-map #slippy-map {
+        height: 200px;
+    }
+    #cover-profile {
+        margin: 200px 1em 0;
+    }
+    #cover-profile article {
+        background-color: inherit;
+        border: none;
+        width: 100%;
+        padding: 1em .25em;
+        margin-top: 0;
+    }
+} 
+
 //= Page header
 #page-header {
   background: $brand-primary;
   border-bottom: solid 1px $gray-dark;
+}
+
+@media only screen and (max-width: 640px) {
+  #menu-toggle {
+    display: block;
+  }
+  #menu {
+    float: none;
+    display: block;
+    padding: 1em 0 .67em;
+    display: none;
+  }
+  #menu input {
+    margin-left: 0;
+  }
+  #menu input,
+  #menu .tt-dropdown-menu {
+    width: 100%;
+  }
 }
 
 //= Page nav
@@ -384,6 +505,24 @@ a {
   .indicator-good { color: $green; }
 }
 
+//= Page footer
+#page-footer {
+  background-color: $nt-cream-dark;
+  border-top: 1px solid $gray-light;
+  padding: 1.5em 0 4.5em;
+
+  ul {
+    margin: 0;
+    padding-left: 1em;
+  }
+
+  img.logo {
+    width: auto;
+    height: 75px;
+    margin-bottom: 20px;
+  }
+}
+
 //= Helper Classes
 //
 .separator-right {
@@ -395,3 +534,68 @@ a {
 .cell-min {
 	width: 1%;
 }
+
+//= Twitter typeahead
+.tt-hint {
+  visibility: hidden;
+}
+
+.tt-dropdown-menu {
+  min-width: 160px;
+  width: 100%;
+  margin-top: 2px;
+  padding: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  height: 320px;
+  overflow-y: auto;
+}
+.tt-dropdown-menu h2 {
+  font-size: 1.2em;
+  padding: .83em;
+  margin-bottom: 0;
+  background-color: #014948;
+  color: #fff;
+}
+.tt-suggestion {
+  display: block;
+  padding: 1.25em .83em .83em;
+  margin: 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: $brand-secondary;
+  cursor: pointer;
+}
+
+.tt-suggestion h5,
+.tt-suggestion p {
+  line-height: 1.5;
+  margin: 0 0 .5em;
+  font-size: 1em;
+}
+
+.twitter-typeahead,
+.twitter-typeahead .tt-query, 
+.twitter-typeahead .tt-hint {
+    width: 100%;
+}
+
+.tt-dataset-always .result-name {
+    font-size: .83em;
+}
+
+.tt-suggestion {
+  .result-name .result-type {
+      float: right;
+      margin: .17em .33em 0 1em;
+      font-size: .83em;
+      font-style: italic;
+  }
+}
+

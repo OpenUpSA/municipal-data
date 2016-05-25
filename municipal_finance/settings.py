@@ -216,6 +216,7 @@ PIPELINE = {
         },
         'scorecard': {
             'source_filenames': (
+                'bower_components/fontawesome/css/font-awesome.css',
                 'stylesheets/scorecard.scss',
                 'stylesheets/line-icons.css',
             ),

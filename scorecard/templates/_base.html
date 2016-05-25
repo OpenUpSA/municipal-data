@@ -1,15 +1,130 @@
-{% extends '_base.html' %}
-{% load pipeline staticfiles %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>{% block head_title %}Municipal Money{% endblock %}</title>
+    <meta name="description" content="{% block head_meta_description %}{% endblock %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block head_css %}
+    <link rel="stylesheet" href="{% static 'stylesheets/scorecard.css' %}">
+    {% block head_css_extra %}{% endblock %}{% endblock head_css %}
+    {% block head_javascript %}
+    <script src="//cdn.jsdelivr.net/g/modernizr@2.7,respond@1.4"></script>
+    {% block head_javascript_extra %}{% endblock %}{% endblock %}
 
-{% block header_branding %}
-{% endblock header_branding %}
+    <!-- End Google Analytics -->
+    <link rel="shortcut icon" href="{{ STATIC_URL }}img/icons/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}img/icons/touch-icon-144x144.png" sizes="144x144" />
+    {% block head_facebook_tags %}{% endblock %}
+    {% block head_twitter_tags %}{% endblock %}
+    <!-- Page generated: {% now "Y-m-d H:i:s.u" %} -->
+  </head>
+  <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
+    {% block body %}
+    <!--[if lt IE 7]>
+      <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+      <![endif]-->
 
-{% block header_content %}
-{% endblock header_content %}
+      {% block header %}
+      <header id="page-header">
+        <div id="page-header-title" class="container">
+          {% if not hide_nav_tools %}
+          <i id="menu-toggle" class="fa fa-bars"></i>
+          {% endif %}
+          <a class="title" href="{% url 'homepage' %}">
+            <img src="{% static 'img/wazi-logo.png' %}"> {{ WAZIMAP.name }}
+          </a>
+          {% if not hide_nav_tools %}
+          {% block nav_tools %}
+          <div id="menu" class="tool-set">
+            <input name="geography_select" id="geography-select" type="text" placeholder="Start typing a place name or address..." autocomplete="off">
+          </div>
+          {% endblock %}
+          {% endif %}
+          <div class="header-buttons">
+            <a class="wide-only" href="https://twitter.com/{{ WAZIMAP.twitter }}" title="{{ WAZIMAP.twitter }} on Twitter"><i class="fa fa-2x fa-twitter"></i></a>
+          </div>
+        </div>
+      </header>
+      {% block header_content %}{% endblock header_content %}
+      {% endblock %}
 
-{% block content %}
-{% endblock content %}
+      {% block content_container %}
+      <div class="content-container container">
+        {% block content %}{% endblock %}
+      </div>
+      {% endblock %}
 
+      <footer id="page-footer">
+        <section class="container footer-container">
+          {% block footer_content %}
+          <div class="col-sm-4">
+            <ul class="list-unstyled">
+              <li>A project of the <a href="http://www.treasury.gov.za/" target="_blank">National Treasury</a></li>
+            </ul>
 
-{% block footer_content %}
-{% endblock footer_content %}
+            <ul class="list-unstyled">
+              <li>Use the <a href="https://data.municipalmoney.org.za/" target="_blank">Municipal Financial Data API</a></li>
+              <li>Contribute on <a href="https://github.com/Code4SA/municipal-data">GitHub</a> <i class="fa fa-github"></i></li>
+            </ul>
+          </div>
+          <div class="col-sm-4">
+          </div>
+          <div class="col-sm-4">
+            <ul class="list-unstyled">
+              <li>
+                <a href="http://www.code4sa.org/" target="_blank"><img class="logo" src="{% static 'images/code4sa-logo.png' %}"></a>
+              </li>
+              <li>
+                <a href="http://www.treasury.gov.za/" target="_blank"><img class="logo" src="{% static 'images/treasury-logo.jpg' %}"></a>
+              </li>
+            </ul>
+          </div>
+          {% endblock footer_content %}
+        </section>
+      </footer>
+      {% endblock body %}
+
+      {% include 'settings_js.html' %}
+
+      {% block body_javascript %}
+      <!-- Begin Google Analytics -->
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        {% if WAZIMAP.ga_tracking_id %}
+        ga('create', '{{ WAZIMAP.ga_tracking_id }}', 'auto');
+        {% endif %}
+        ga('send', 'pageview');
+      </script>
+
+      <!--[if gte IE 9]><!-->
+        <script src="//cdn.jsdelivr.net/g/jquery@2.1,d3js@3.4,typeahead.js@0.10.2(typeahead.bundle.min.js),underscorejs@1.6,spinjs@1.3,handlebarsjs@1.3(handlebars.min.js)"></script>
+      <!--<![endif]-->
+
+      <!-- local patched version of r2d3 handles percentage widths, HTML overlays -->
+      <!--[if lte IE 8]>
+        <script src="{{ STATIC_URL }}js/vendor/r2d3.js" charset="utf-8"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.d3.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+        <script src="//cdn.jsdelivr.net/g/typeahead.js@0.10.2(typeahead.bundle.min.js),underscorejs@1.6,spinjs@1.3,handlebarsjs@1.3(handlebars.min.js)"></script>
+      <![endif]-->
+
+      <!--[if lte IE 9]>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.1/jquery.xdomainrequest.min.js"></script>
+      <![endif]-->
+
+      <script src="{% static 'js/app.js' %}"></script>
+      <script src="{% static 'js/widget.geo.select.js' %}"></script>
+      {% block body_javascript_extra %}{% endblock %}{% endblock body_javascript %}
+  </body>
+</html>
