@@ -1,6 +1,3 @@
-import json
-from collections import defaultdict
-
 from wazimap.data.tables import get_datatable
 from profile_data import MuniApiClient, IndicatorCalculator
 from wazimap.geo import geo_data
@@ -20,23 +17,13 @@ def get_profile(geo_code, geo_level, profile_name=None):
     api_client = MuniApiClient(geo_code)
     indicator_calc = IndicatorCalculator(api_client.results, api_client.years)
 
-    indicators = defaultdict(dict)
+    indicators = {}
 
-    indicators['cash_at_year_end']['results'] = indicator_calc.cash_at_year_end()
-    indicators['cash_at_year_end']['json'] = json.dumps(indicators['cash_at_year_end']['results'])
-
-    indicators['cash_coverage']['results'] = indicator_calc.cash_coverage()
-    indicators['cash_coverage']['json'] = json.dumps(indicators['cash_coverage']['results'])
-
-    indicators['op_budget_diff']['results'] = indicator_calc.op_budget_diff()
-    indicators['op_budget_diff']['json'] = json.dumps(indicators['op_budget_diff']['results'])
-
-    indicators['cap_budget_diff']['results'] = indicator_calc.cap_budget_diff()
-    indicators['cap_budget_diff']['json'] = json.dumps(indicators['cap_budget_diff']['results'])
-
-    indicators['rep_maint_perc_ppe']['results'] = indicator_calc.rep_maint_perc_ppe()
-    indicators['rep_maint_perc_ppe']['json'] = json.dumps(indicators['rep_maint_perc_ppe']['results'])
-
+    indicators['cash_at_year_end'] = indicator_calc.cash_at_year_end()
+    indicators['cash_coverage'] = indicator_calc.cash_coverage()
+    indicators['op_budget_diff'] = indicator_calc.op_budget_diff()
+    indicators['cap_budget_diff'] = indicator_calc.cap_budget_diff()
+    indicators['rep_maint_perc_ppe'] = indicator_calc.rep_maint_perc_ppe()
 
     return {
         'total_population': total_pop,

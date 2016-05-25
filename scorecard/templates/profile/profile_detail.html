@@ -1,5 +1,5 @@
 {% extends 'profile/profile_detail.html' %}
-{% load staticfiles pipeline l10n %}
+{% load staticfiles pipeline l10n jsonify %}
 
 {% block head_css_extra %}
 {{ block.super }}
@@ -156,7 +156,7 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with indicators.cash_at_year_end.results|first as latest %}
+          {% with indicators.cash_at_year_end|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">cash balance at the end of the financial year.</div>
@@ -188,7 +188,7 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with indicators.cash_coverage.results|first as latest %}
+          {% with indicators.cash_coverage|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">months of operating expenses can be paid for with the cash available.</div>
@@ -220,7 +220,7 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with indicators.op_budget_diff.results|first as latest %}
+          {% with indicators.op_budget_diff|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">difference between operating budget and actual expenditure.</div>
@@ -244,7 +244,7 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with indicators.cap_budget_diff.results|first as latest %}
+          {% with indicators.cap_budget_diff|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">difference between capital budget and actual expenditure.</div>
@@ -268,7 +268,7 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with indicators.rep_maint_perc_ppe.results|first as latest %}
+          {% with indicators.rep_maint_perc_ppe|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">Repairs and maintenance as a percentage of Property, Plant and Equipment.</div>
@@ -304,11 +304,11 @@
 <script src="/static/js/scrollspy.js"></script>
 
 <script type="text/javascript">
-  var CASH_AT_YEAR_END = {{ indicators.cash_at_year_end.json|safe }}
-  var CASH_COVERAGE = {{ indicators.cash_coverage.json|safe }}
-  var OP_BUDGET_DIFF = {{ indicators.op_budget_diff.json|safe }}
-  var CAP_BUDGET_DIFF = {{ indicators.cap_budget_diff.json|safe }}
-  var REP_MAINT_PERC_PPE = {{ indicators.rep_maint_perc_ppe.json|safe }}
+  var CASH_AT_YEAR_END = {{ indicators.cash_at_year_end|jsonify|safe }}
+  var CASH_COVERAGE = {{ indicators.cash_coverage|jsonify|safe }}
+  var OP_BUDGET_DIFF = {{ indicators.op_budget_diff|jsonify|safe }}
+  var CAP_BUDGET_DIFF = {{ indicators.cap_budget_diff|jsonify|safe }}
+  var REP_MAINT_PERC_PPE = {{ indicators.rep_maint_perc_ppe|jsonify|safe }}
 </script>
 
 {% javascript "scorecard" %}
