@@ -156,7 +156,7 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with cash_at_year_end|first as latest %}
+          {% with indicators.cash_at_year_end.results|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">cash balance at the end of the financial year.</div>
@@ -172,7 +172,7 @@
           </table>
         </div>
         <div class="col-md-5">
-          [chart]
+          <div class="cash-at-year-end chart-container"></div>
         </div>
         <div class="col-md-4">
           <div class="panel panel-didyouknow">
@@ -188,7 +188,7 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with cash_coverage|first as latest %}
+          {% with indicators.cash_coverage.results|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">months of operating expenses can be paid for with the cash available.</div>
@@ -220,7 +220,7 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with op_budget_diff|first as latest %}
+          {% with indicators.op_budget_diff.results|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">difference between operating budget and actual expenditure.</div>
@@ -236,7 +236,7 @@
           </table>
         </div>
         <div class="col-md-5">
-          [chart]
+          <div class="op-budget-diff chart-container"></div>
         </div>
       </div>
     </div>
@@ -244,7 +244,7 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with cap_budget_diff|first as latest %}
+          {% with indicators.cap_budget_diff.results|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">difference between capital budget and actual expenditure.</div>
@@ -260,7 +260,7 @@
           </table>
         </div>
         <div class="col-md-5">
-          [chart]
+          <div class="cap-budget-diff chart-container"></div>
         </div>
       </div>
     </div>
@@ -268,7 +268,7 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with rep_maint_perc_ppe|first as latest %}
+          {% with indicators.rep_maint_perc_ppe.results|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">Repairs and maintenance as a percentage of Property, Plant and Equipment.</div>
@@ -284,7 +284,7 @@
           </table>
         </div>
         <div class="col-md-5">
-          [chart]
+          <div class="rep-maint-perc-ppe chart-container"></div>
         </div>
       </div>
     </div>
@@ -304,7 +304,12 @@
 <script src="/static/js/scrollspy.js"></script>
 
 <script type="text/javascript">
-var DATA = {{ cash_coverage|safe }}
+var CASH_AT_YEAR_END = {{ indicators.cash_at_year_end.json|safe }}
+var CASH_COVERAGE = {{ indicators.cash_coverage.json|safe }}
+var OP_BUDGET_DIFF = {{ indicators.op_budget_diff.json|safe }}
+var CAP_BUDGET_DIFF = {{ indicators.cap_budget_diff.json|safe }}
+var REP_MAINT_PERC_PPE = {{ indicators.rep_maint_perc_ppe.json|safe }}
+
 </script>
 
 {% javascript "scorecard" %}
