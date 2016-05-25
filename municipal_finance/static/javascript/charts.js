@@ -7,8 +7,6 @@ var Chart = function() {
     self.width = 400 - self.margin.left - self.margin.right;
     self.height = 150 - self.margin.top - self.margin.bottom;
 
-    self.barPadding = 1;
-
     self.x = d3.scale.ordinal()
         .rangeRoundBands([0, self.width], 0.9);
 
@@ -54,20 +52,19 @@ var Chart = function() {
         });
 
     self.svg.selectAll("text.bar")
-      .data(data)
-    .enter().append("text")
-      .attr("class", "bar-label")
-      .attr("text-anchor", "middle")
-      .attr("x", function(d) { return self.x(d.year) + self.x.rangeBand()/2; })
-      .attr("y", function(d) { return self.y(d.result) - 5; })
-      .text(function(d) {
-          return d.result;
-       })
+        .data(data)
+      .enter().append("text")
+        .attr("class", "bar-label")
+        .attr("text-anchor", "middle")
+        .attr("x", function(d) { return self.x(d.year) + self.x.rangeBand()/2; })
+        .attr("y", function(d) { return self.y(d.result) - 5; })
+        .text(function(d) {
+            return d.result;
+         })
   }
 }
 
 var chart = new Chart();
-
 chart.init();
 
 chart.drawChart(CASH_COVERAGE, 'cash-coverage');
@@ -75,5 +72,3 @@ chart.drawChart(CASH_AT_YEAR_END, 'cash-at-year-end');
 chart.drawChart(OP_BUDGET_DIFF, 'op-budget-diff');
 chart.drawChart(CAP_BUDGET_DIFF, 'cap-budget-diff');
 chart.drawChart(REP_MAINT_PERC_PPE, 'rep-maint-perc-ppe');
-
-

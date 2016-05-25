@@ -304,12 +304,11 @@
 <script src="/static/js/scrollspy.js"></script>
 
 <script type="text/javascript">
-var CASH_AT_YEAR_END = {{ indicators.cash_at_year_end.json|safe }}
-var CASH_COVERAGE = {{ indicators.cash_coverage.json|safe }}
-var OP_BUDGET_DIFF = {{ indicators.op_budget_diff.json|safe }}
-var CAP_BUDGET_DIFF = {{ indicators.cap_budget_diff.json|safe }}
-var REP_MAINT_PERC_PPE = {{ indicators.rep_maint_perc_ppe.json|safe }}
-
+  var CASH_AT_YEAR_END = {{ indicators.cash_at_year_end.json|safe }}
+  var CASH_COVERAGE = {{ indicators.cash_coverage.json|safe }}
+  var OP_BUDGET_DIFF = {{ indicators.op_budget_diff.json|safe }}
+  var CAP_BUDGET_DIFF = {{ indicators.cap_budget_diff.json|safe }}
+  var REP_MAINT_PERC_PPE = {{ indicators.rep_maint_perc_ppe.json|safe }}
 </script>
 
 {% javascript "scorecard" %}
