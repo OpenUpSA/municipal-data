@@ -157,7 +157,7 @@
       <div class="row">
         <div class="col-md-3">
           {% with indicators.cash_at_year_end|first as latest %}
-          <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+          <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">cash balance at the end of the financial year.</div>
           <table class="table table-bordered indicator-key">

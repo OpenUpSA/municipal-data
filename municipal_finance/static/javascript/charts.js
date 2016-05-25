@@ -84,8 +84,13 @@ var Chart = function() {
           }
         })
         .text(function(d) {
-          var format = d3.formatPrefix(1000);
-          return self.thousands_format(format.scale(d.result)) + " " + format.symbol
+          if (d.result >= 1000) {
+            var format = d3.formatPrefix(1000);
+            return self.thousands_format(format.scale(d.result)) + " " + format.symbol
+          } else {
+            return d.result
+          }
+
          });
   }
 }
