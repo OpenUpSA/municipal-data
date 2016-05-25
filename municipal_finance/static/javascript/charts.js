@@ -1,6 +1,10 @@
 var Chart = function() {
   var self = this;
 
+  self.green = "#009245";
+  self.red = "#ED1C24";
+  self.yellow = "#FBB03B";
+
   self.init = function() {
     self.drawChart(CASH_COVERAGE, 'cash-coverage');
     self.drawChart(CASH_AT_YEAR_END, 'cash-at-year-end');
@@ -61,11 +65,18 @@ var Chart = function() {
         .attr("height", function(d) { return self.height - self.y(d.result); })
         .attr("fill", function(d) {
           if (d.rating == 'good') {
-            return "green";
+            return self.green;
           } else if (d.rating == 'bad') {
-            return "red";
+            return self.red;
           }
-          return "yellow";
+          return self.yellow;
+        })
+        .attr("class", function(d, i){
+          if (i == 0) {
+            return "current"
+          } else {
+            return "historical"
+          }
         });
 
     self.svg.selectAll("text.bar")
@@ -75,9 +86,16 @@ var Chart = function() {
         .attr("text-anchor", "middle")
         .attr("x", function(d) { return self.x(d.year) + self.x.rangeBand()/2; })
         .attr("y", function(d) { return self.y(d.result) - 5; })
+        .attr("class", function(d, i){
+          if (i == 0) {
+            return "current"
+          } else {
+            return "historical"
+          }
+        })
         .text(function(d) {
             return d.result;
-         })
+         });
   }
 }
 
