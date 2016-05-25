@@ -29,7 +29,7 @@ $text-color: $gray-darker !default;
 //
 @import url(https://fonts.googleapis.com/css?family=Lato:400,900,700);
 $font-family-sans-serif:  "Lato", Helvetica, Arial, sans-serif !default;
-$font-size-base: 15px !default;
+$font-size-base: 14px !default;
 $font-family-base: $font-family-sans-serif !default;
 $headings-color: $black !default;
 $headings-font-weight: 700 !default;
@@ -180,6 +180,16 @@ a {
 		line-height: 1;
 		color: $gray-darker;
 		background-color: $white;
+	}
+
+        .caption {
+	  margin-top: 0.25em;
+	  margin-bottom: 0.25em;
+	}
+
+	h1.title {
+	  font-size: 2.5em;
+	  margin: 0px;
 	}
 
 	#header-box {
