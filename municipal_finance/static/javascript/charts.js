@@ -2,10 +2,24 @@ var Chart = function() {
   var self = this;
 
   self.init = function() {
+    self.drawChart(CASH_COVERAGE, 'cash-coverage');
+    self.drawChart(CASH_AT_YEAR_END, 'cash-at-year-end');
+    self.drawChart(OP_BUDGET_DIFF, 'op-budget-diff');
+    self.drawChart(CAP_BUDGET_DIFF, 'cap-budget-diff');
+    self.drawChart(REP_MAINT_PERC_PPE, 'rep-maint-perc-ppe');
+  };
 
-    self.margin = {top: 20, right: 20, bottom: 30, left: 40};
-    self.width = 400 - self.margin.left - self.margin.right;
-    self.height = 150 - self.margin.top - self.margin.bottom;
+  self.getContainerObject = function(container) {
+    self.container = $("." + container + ".chart-container")
+  }
+
+  self.setDimensions = function (container) {
+    var container_width = self.container.width()
+    var container_height = self.container.closest('.indicator').height()
+
+    self.margin = {top: 20, right: 20, bottom: 30, left: 20};
+    self.width = container_width - self.margin.left - self.margin.right;
+    self.height = container_height - self.margin.top - self.margin.bottom;
 
     self.x = d3.scale.ordinal()
         .rangeRoundBands([0, self.width], 0.9);
@@ -19,6 +33,9 @@ var Chart = function() {
   };
 
   self.drawChart = function(data, container) {
+    self.getContainerObject(container)
+    self.container.empty()
+    self.setDimensions(container)
 
     self.svg = d3.select("." + container + ".chart-container").append("svg")
         .attr("width", self.width + self.margin.left + self.margin.right)
@@ -67,8 +84,6 @@ var Chart = function() {
 var chart = new Chart();
 chart.init();
 
-chart.drawChart(CASH_COVERAGE, 'cash-coverage');
-chart.drawChart(CASH_AT_YEAR_END, 'cash-at-year-end');
-chart.drawChart(OP_BUDGET_DIFF, 'op-budget-diff');
-chart.drawChart(CAP_BUDGET_DIFF, 'cap-budget-diff');
-chart.drawChart(REP_MAINT_PERC_PPE, 'rep-maint-perc-ppe');
+$(window).on('resize', function(){
+  _.debounce(chart.init(), 300);
+});
