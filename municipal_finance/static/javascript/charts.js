@@ -2,6 +2,8 @@ var Chart = function() {
   var self = this;
 
   self.init = function() {
+    self.thousands_format = d3.format(",.0f");
+
     self.drawChart(CASH_COVERAGE, 'cash-coverage');
     self.drawChart(CASH_AT_YEAR_END, 'cash-at-year-end');
     self.drawChart(OP_BUDGET_DIFF, 'op-budget-diff');
@@ -22,7 +24,7 @@ var Chart = function() {
     self.height = container_height - self.margin.top - self.margin.bottom;
 
     self.x = d3.scale.ordinal()
-        .rangeRoundBands([0, self.width], 0.9);
+        .rangeRoundBands([0, self.width], 0.85);
 
     self.y = d3.scale.linear()
         .range([self.height, 0]);
@@ -82,7 +84,8 @@ var Chart = function() {
           }
         })
         .text(function(d) {
-            return d.result;
+          var format = d3.formatPrefix(1000);
+          return self.thousands_format(format.scale(d.result)) + " " + format.symbol
          });
   }
 }
