@@ -469,19 +469,23 @@ a {
 //= Sections
 //
 .section {
-  border-bottom: solid 1px $gray;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid $gray-light;
 
   /*trick to compensate for affixed page-nav */
-  padding-top: 80px;
+  padding-top: 100px;
   margin-top: -80px;
 
   &:last-child {
     border-bottom: none;
   }
+
   h1 {
     text-transform: uppercase;
     letter-spacing: 2px;
     font-size: 24px;
+    margin: 0px;
   }
 }
 
@@ -560,10 +564,20 @@ a {
 //= Indicator
 //
 .indicator {
-  margin-top: 20px;
+  margin-top: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px dotted $gray-light;
+
+  &:last-child {
+    border-bottom-width: 0px;
+  }
 
   h2 {
     margin: 0px 0px 5px;
+  }
+
+  .panel {
+    margin-bottom: 0px;
   }
 
   .indicator-value {
@@ -588,6 +602,11 @@ a {
   table.indicator-key {
     width: auto;
     margin-top: 5px;
+    margin-bottom: 0px;
+
+    td, th {
+      padding: 5px;
+    }
   }
   .key-symbol {
     font-weight: bold;
@@ -728,4 +747,3 @@ a {
     shape-rendering: crispEdges;
   }
 }
-
