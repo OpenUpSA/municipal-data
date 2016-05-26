@@ -36,9 +36,7 @@
           {% if not hide_nav_tools %}
           <i id="menu-toggle" class="fa fa-bars"></i>
           {% endif %}
-          <a class="title" href="{% url 'homepage' %}">
-            <img src="{% static 'img/wazi-logo.png' %}"> {{ WAZIMAP.name }}
-          </a>
+          <a class="title" href="{% url 'homepage' %}">Municipal Money</a>
           {% if not hide_nav_tools %}
           {% block nav_tools %}
           <div id="menu" class="tool-set">
@@ -47,7 +45,9 @@
           {% endblock %}
           {% endif %}
           <div class="header-buttons">
+            {% comment %}
             <a class="wide-only" href="https://twitter.com/{{ WAZIMAP.twitter }}" title="{{ WAZIMAP.twitter }} on Twitter"><i class="fa fa-2x fa-twitter"></i></a>
+            {% endcomment %}
           </div>
         </div>
       </header>
@@ -74,14 +74,18 @@
             </ul>
           </div>
           <div class="col-sm-4">
+            <ul class="list-unstyled">
+              {% comment %}
+              <li>
+                <a href="http://www.treasury.gov.za/" target="_blank"><img class="logo" src="{% static 'images/treasury-logo.jpg' %}"></a>
+              </li>
+              {% endcomment %}
+            </ul>
           </div>
           <div class="col-sm-4">
             <ul class="list-unstyled">
               <li>
                 <a href="http://www.code4sa.org/" target="_blank"><img class="logo" src="{% static 'images/code4sa-logo.png' %}"></a>
-              </li>
-              <li>
-                <a href="http://www.treasury.gov.za/" target="_blank"><img class="logo" src="{% static 'images/treasury-logo.jpg' %}"></a>
               </li>
             </ul>
           </div>
