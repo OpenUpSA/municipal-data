@@ -306,10 +306,13 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
+	//Get page-nav offset from top of page
+	var pagenavOffset = $('#page-nav').offset().top;
+
 	//Affix page-nav to top of page on scroll
 	$('#page-nav').affix({
 		offset: {
-			top: 268
+			top: pagenavOffset
 		}
 	});
 
