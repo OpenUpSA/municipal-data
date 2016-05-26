@@ -282,7 +282,9 @@
           {% with indicators.rep_maint_perc_ppe|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
+
           <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
+          {% comment %}
           <table class="table table-bordered indicator-key">
             <tr>
               <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
@@ -293,6 +295,7 @@
               <td class="key-description">more than 30%</td>
             </tr>
           </table>
+          {% endcomment %}
         </div>
         <div class="col-md-5">
           <div class="rep-maint-perc-ppe chart-container"></div>
