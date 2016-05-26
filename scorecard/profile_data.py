@@ -7,22 +7,21 @@ from wazimap.data.utils import percent, ratio
 
 class MuniApiClient(object):
     def __init__(self, geo_code):
-        self.API_URL = 'https://data.municipalmoney.org.za/api/cubes/'
-        if settings.DEBUG:
-            self.API_URL = 'http://127.0.0.1:8888/api/cubes/'
-
         self.geo_code = str(geo_code)
         self.line_item_params = self.get_line_item_params()
 
         self.results = defaultdict(dict)
         self.years = set()
+        responses = []
         for line_item, query_params in self.line_item_params.iteritems():
-            self.results[line_item], self.years = self.results_from_api(query_params, self.years)
+            responses.append((line_item, query_params, self.api_get(query_params)))
 
-    def results_from_api(self, query_params, years):
+        for (line_item, query_params, response) in responses:
+            self.results[line_item], self.years = self.response_to_results(response, query_params, self.years)
 
+    def api_get(self, query_params):
         if query_params['query_type'] == 'aggregate':
-            url = self.API_URL + query_params['cube'] + '/aggregate'
+            url = settings.API_URL + query_params['cube'] + '/aggregate'
             params = {
                 'aggregates': query_params['aggregate'],
                 'cut': '|'.join('{!s}:{!s}'.format(
@@ -34,7 +33,7 @@ class MuniApiClient(object):
                 'order': 'financial_period.period:desc',
             }
         elif query_params['query_type'] == 'facts':
-            url = self.API_URL + query_params['cube'] + '/facts'
+            url = settings.API_URL + query_params['cube'] + '/facts'
             params = {
                 'cut': '|'.join('{!s}:{!r}'.format(k, v)
                     for (k, v) in query_params['cut'].iteritems()
@@ -42,16 +41,17 @@ class MuniApiClient(object):
                 'fields': ','.join(field for field in query_params['fields']),
                 'page': 0
             }
+        return requests.get(url, params=params, verify=False)
 
-        api_response = requests.get(url, params=params, verify=False).json()
-
+    def response_to_results(self, api_response, query_params, years):
+        response_dict = api_response.json()
         if query_params['query_type'] == 'facts':
             if query_params['annual']:
-                results, years = self.annual_facts_from_response(api_response, query_params, years)
+                results, years = self.annual_facts_from_response(response_dict, query_params, years)
             else:
-                results = self.facts_from_response(api_response, query_params)
+                results = self.facts_from_response(response_dict, query_params)
         else:
-            results, years = self.aggregate_from_response(api_response, query_params, years)
+            results, years = self.aggregate_from_response(response_dict, query_params, years)
 
         return results, years
 
