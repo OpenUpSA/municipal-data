@@ -1,5 +1,5 @@
 {% extends 'profile/profile_detail.html' %}
-{% load staticfiles pipeline l10n %}
+{% load staticfiles pipeline l10n jsonify %}
 
 {% block head_css_extra %}
 {{ block.super }}
@@ -157,7 +157,7 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with cash_at_year_end|first as latest %}
+          {% with indicators.cash_at_year_end|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">cash balance at the end of the financial year.</div>
@@ -173,7 +173,7 @@
           </table>
         </div>
         <div class="col-md-5">
-          [chart]
+          <div class="cash-at-year-end chart-container"></div>
         </div>
         <div class="col-md-4">
           <div class="panel panel-didyouknow">
@@ -189,7 +189,7 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with cash_coverage|first as latest %}
+          {% with indicators.cash_coverage|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">months of operating expenses can be paid for with the cash available.</div>
@@ -205,7 +205,7 @@
           </table>
         </div>
         <div class="col-md-5">
-          [chart]
+          <div class="cash-coverage chart-container"></div>
         </div>
         <div class="col-md-4">
           <div class="panel panel-didyouknow">
@@ -221,7 +221,7 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with op_budget_diff|first as latest %}
+          {% with indicators.op_budget_diff|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">difference between operating budget and actual expenditure.</div>
@@ -237,7 +237,7 @@
           </table>
         </div>
         <div class="col-md-5">
-          [chart]
+          <div class="op-budget-diff chart-container"></div>
         </div>
       </div>
     </div>
@@ -245,7 +245,7 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with cap_budget_diff|first as latest %}
+          {% with indicators.cap_budget_diff|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">difference between capital budget and actual expenditure.</div>
@@ -261,7 +261,7 @@
           </table>
         </div>
         <div class="col-md-5">
-          [chart]
+          <div class="cap-budget-diff chart-container"></div>
         </div>
       </div>
     </div>
@@ -269,7 +269,7 @@
     <div class="indicator">
       <div class="row">
         <div class="col-md-3">
-          {% with rep_maint_perc_ppe|first as latest %}
+          {% with indicators.rep_maint_perc_ppe|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">Repairs and maintenance as a percentage of Property, Plant and Equipment.</div>
@@ -285,7 +285,7 @@
           </table>
         </div>
         <div class="col-md-5">
-          [chart]
+          <div class="rep-maint-perc-ppe chart-container"></div>
         </div>
       </div>
     </div>
@@ -303,68 +303,78 @@
 <!-- Bootstrap affix.js & scrollspy.js -->
 <script src="/static/js/affix.js"></script>
 <script src="/static/js/scrollspy.js"></script>
+
 <script type="text/javascript">
-$(document).ready(function(){
 
-  //Get page-nav offset from top of page
-  var pagenavOffset = $('#page-nav').offset().top;
+  var CASH_AT_YEAR_END = {{ indicators.cash_at_year_end|jsonify|safe }}
+  var CASH_COVERAGE = {{ indicators.cash_coverage|jsonify|safe }}
+  var OP_BUDGET_DIFF = {{ indicators.op_budget_diff|jsonify|safe }}
+  var CAP_BUDGET_DIFF = {{ indicators.cap_budget_diff|jsonify|safe }}
+  var REP_MAINT_PERC_PPE = {{ indicators.rep_maint_perc_ppe|jsonify|safe }}
 
-  //Affix page-nav to top of page on scroll
-  $('#page-nav').affix({
-    offset: {
-      top: pagenavOffset
-    }
-  });
+  $(document).ready(function(){
 
-  //Expand page-nav once affixed
-  $('#page-nav').on('affixed.bs.affix', function () {
-    $('.page-nav-wrapper').addClass('expanded');
-  });
+    //Get page-nav offset from top of page
+    var pagenavOffset = $('#page-nav').offset().top;
 
-  //Un-expand page-nav once nolonger affixed
-  $('#page-nav').on('affixed-top.bs.affix', function () {
-    $('.page-nav-wrapper').removeClass('expanded');
-  });
-
-  //Change active tab when scrolling
-  /*
-  var sectionID = [];
-  var sectionTop = [];
-  var sectionBottom = [];
-  $('.section').each(function(){
-    sectionID.push($(this).attr('id'));
-    sectionTop.push($(this).offset().top);
-    sectionBottom.push( ($(this).offset().top + $(this).height()) );
-  });
-  var scrollOffset = 100;
-  $(window).scroll(function() {
-    var scrollPos = $(document).scrollTop();
-    $(sectionID).each(function(index, value){
-      if (scrollPos >= scrollTop && scrollPos <= scrollBottom){
-        if($('#' + sectionID[index]).hasClass('active') == false){
-          $('#page-nav .nav li').removeClass('active');
-          $('a[href$="ABC"]')
-        }
+    //Affix page-nav to top of page on scroll
+    $('#page-nav').affix({
+      offset: {
+        top: pagenavOffset
       }
     });
+
+    //Expand page-nav once affixed
+    $('#page-nav').on('affixed.bs.affix', function () {
+      $('.page-nav-wrapper').addClass('expanded');
+    });
+
+    //Un-expand page-nav once nolonger affixed
+    $('#page-nav').on('affixed-top.bs.affix', function () {
+      $('.page-nav-wrapper').removeClass('expanded');
+    });
+
+    //Change active tab when scrolling
+    /*
+    var sectionID = [];
+    var sectionTop = [];
+    var sectionBottom = [];
+    $('.section').each(function(){
+      sectionID.push($(this).attr('id'));
+      sectionTop.push($(this).offset().top);
+      sectionBottom.push( ($(this).offset().top + $(this).height()) );
+    });
+    var scrollOffset = 100;
+    $(window).scroll(function() {
+      var scrollPos = $(document).scrollTop();
+      $(sectionID).each(function(index, value){
+        if (scrollPos >= scrollTop && scrollPos <= scrollBottom){
+          if($('#' + sectionID[index]).hasClass('active') == false){
+            $('#page-nav .nav li').removeClass('active');
+            $('a[href$="ABC"]')
+          }
+        }
+      });
+    });
+    */
+
+    //Easy scrolling (a link to #section will scroll to #section)
+    $('a[href^="#"]').on('click',function (e) {
+      e.preventDefault();
+
+      var target = this.hash;
+      var $target = $(target);
+
+      if ($target.length) {
+        $('html, body').stop().animate({
+            'scrollTop': $target.offset().top-15
+        }, 300, 'swing');
+      }
+    });
+
   });
-  */
-
-  //Easy scrolling (a link to #section will scroll to #section)
-  $('a[href^="#"]').on('click',function (e) {
-    e.preventDefault();
-
-    var target = this.hash;
-    var $target = $(target);
-    
-    if ($target.length) {
-      $('html, body').stop().animate({
-          'scrollTop': $target.offset().top-15
-      }, 300, 'swing');
-    }
-  });
-
-});
 
 </script>
+
+{% javascript "scorecard" %}
 {% endblock %}

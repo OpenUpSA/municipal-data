@@ -16,6 +16,7 @@ $nt-green: #009053;
 $nt-cream-dark: #d8bb83;
 $red: #ed1c24;
 $green: #00a651;
+$yellow: #fbb03b;
 
 $green-light: #abd8c6;
 
@@ -175,7 +176,7 @@ a {
   &.container {
     padding-left: 30px;
     padding-right: 30px;
-  } 
+  }
   article {
     margin-top: 3em;
     margin-bottom: 3em;
@@ -480,7 +481,7 @@ a {
 //
 .section {
   border-bottom: solid 1px $gray;
-  
+
   /*trick to compensate for affixed page-nav */
   padding-top: 80px;
   margin-top: -80px;
@@ -628,7 +629,7 @@ a {
   font-size: 150%;
 }
 .cell-min {
-  width: 1%;
+	width: 1%;
 }
 
 //= Twitter typeahead
@@ -677,7 +678,7 @@ a {
 }
 
 .twitter-typeahead,
-.twitter-typeahead .tt-query, 
+.twitter-typeahead .tt-query,
 .twitter-typeahead .tt-hint {
   width: 100%;
 }
@@ -693,5 +694,43 @@ a {
     font-size: .83em;
     font-style: italic;
   }
+}
+
+// Charts
+
+.chart-container {
+		font-size: 12px;
+
+		rect.good {
+			fill: $green;
+		}
+
+		rect.ave {
+			fill: $yellow;
+		}
+
+		rect.bad {
+			fill: $red;
+		}
+
+		rect.current {
+			stroke: $black;
+			stroke-width: 1;
+		}
+
+		text.current {
+			font-weight: bold;
+		}
+
+		.x.axis .tick:first-child {
+			font-weight: bold;
+		}
+
+		.axis path,
+		.axis line {
+		    fill: none;
+		    stroke: black;
+		    shape-rendering: crispEdges;
+		}
 }
 
