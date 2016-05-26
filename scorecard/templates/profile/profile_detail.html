@@ -66,7 +66,6 @@
 {% block content %}
 
 <div class="section" id="about">
-  <div class="container-fluid">
     <h1>About the municipality</h1>
     <div class="sub-section" id="who-runs">
       <div class="row">
@@ -122,188 +121,184 @@
             <div class="col-md-3">
               <table class="table table-bordered">
                 <tr>
-                  <td class="text{% if forloop.first %}-large{% endif %} text-center"><strong>{{ year|unlocalize }} <br>{{ value }}</strong></td>
-                </tr>
-                <tr class="table-footer">
-                  <td><a href="#">Read report</a></td>
-                </tr>
-              </table>
-            </div>
-          {% endfor %}
+                <td class="text{% if forloop.first %}-large{% endif %} text-center"><strong>{{ year|unlocalize }} <br>{{ value }}</strong></td>
+              </tr>
+              <tr class="table-footer">
+                <td><a href="#">Read report</a></td>
+              </tr>
+            </table>
           </div>
+        {% endfor %}
         </div>
-        <div class="col-md-4">
-          <div class="panel panel-didyouknow">
-            <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
-            <div class="panel-body">
-              There are <strong>5 types of audit outcomes</strong>:
-              <ul>
-                <li>A <strong>clean audit</strong> means that there are no irregularities in the municipality's accounting.</li>
-              </ul>
-              <div class="more"><a href="#"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show More</a></div>
-            </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            There are <strong>5 types of audit outcomes</strong>:
+            <ul>
+              <li>A <strong>clean audit</strong> means that there are no irregularities in the municipality's accounting.</li>
+            </ul>
+            <div class="more"><a href="#"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show More</a></div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
 <div class="section" id="performance">
-  <div class="container-fluid">
-    <h1>Performance</h1>
+  <h1>Performance</h1>
 
-    <div class="indicator">
-      <h2>Cash balance</h2>
+  <div class="indicator">
+    <h2>Cash balance</h2>
 
-      <div class="row">
-        <div class="col-sm-4">
-          {% with indicators.cash_at_year_end|first as latest %}
-          <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-          {% endwith %}
-          <div class="indicator-description">cash balance at the end of the financial year.</div>
-          <table class="table table-bordered indicator-key">
-            <tr>
-              <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
-              <td class="key-description">Positive balance</td>
-            </tr>
-            <tr>
-              <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
-              <td class="key-description">Negative balance.</td>
-            </tr>
-          </table>
-        </div>
-        <div class="col-sm-4">
-          <div class="cash-at-year-end chart-container"></div>
-        </div>
-        <div class="col-sm-4">
-          <div class="panel panel-didyouknow">
-            <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
-            <div class="panel-body">
-              In terms of section 45 of the MFMA, municipalities are not permitted to close the financial year with any short-term borrowing or overdraft. The fact that a municipality is not able to close the financial year with positive cash positions, is a very strong indicator that these municipality is in financial distress at that date.
-            </div>
+    <div class="row">
+      <div class="col-sm-4">
+        {% with indicators.cash_at_year_end|first as latest %}
+        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+        {% endwith %}
+        <div class="indicator-description">cash balance at the end of the financial year.</div>
+        <table class="table table-bordered indicator-key">
+          <tr>
+            <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+            <td class="key-description">Positive balance</td>
+          </tr>
+          <tr>
+            <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
+            <td class="key-description">Negative balance.</td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-sm-4">
+        <div class="cash-at-year-end chart-container"></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            In terms of section 45 of the MFMA, municipalities are not permitted to close the financial year with any short-term borrowing or overdraft. The fact that a municipality is not able to close the financial year with positive cash positions, is a very strong indicator that these municipality is in financial distress at that date.
           </div>
         </div>
       </div>
     </div>
-
-    <div class="indicator">
-      <h2>Cash coverage</h2>
-
-      <div class="row">
-        <div class="col-sm-4">
-          {% with indicators.cash_coverage|first as latest %}
-          <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} months{% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-          {% endwith %}
-          <div class="indicator-description">months of operating expenses can be paid for with the cash available.</div>
-          <table class="table table-bordered indicator-key">
-            <tr>
-              <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
-              <td class="key-description">more than 3</td>
-            </tr>
-            <tr>
-              <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
-              <td class="key-description">less than 1</td>
-            </tr>
-          </table>
-        </div>
-        <div class="col-sm-4">
-          <div class="cash-coverage chart-container"></div>
-        </div>
-        <div class="col-sm-4">
-          <div class="panel panel-didyouknow">
-            <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
-            <div class="panel-body">
-              A <strong>low value</strong> shows that the municipality may be unable to pay for the day-to-day expenses.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="indicator">
-      <h2>Spending of Operating Budget</h2>
-
-      <div class="row">
-        <div class="col-sm-4">
-          {% with indicators.op_budget_diff|first as latest %}
-          <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-          {% endwith %}
-          <div class="indicator-description">difference between operating budget and actual expenditure.</div>
-          <table class="table table-bordered indicator-key">
-            <tr>
-              <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
-              <td class="key-description">less than 10%</td>
-            </tr>
-            <tr>
-              <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
-              <td class="key-description">more than 25%</td>
-            </tr>
-          </table>
-        </div>
-        <div class="col-sm-4">
-          <div class="op-budget-diff chart-container"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="indicator">
-      <h2>Spending of Capital Budget</h2>
-
-      <div class="row">
-        <div class="col-sm-4">
-          {% with indicators.cap_budget_diff|first as latest %}
-          <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-          {% endwith %}
-          <div class="indicator-description">difference between capital budget and actual expenditure.</div>
-          <table class="table table-bordered indicator-key">
-            <tr>
-              <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
-              <td class="key-description">less than 10%</td>
-            </tr>
-            <tr>
-              <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
-              <td class="key-description">more than 30%</td>
-            </tr>
-          </table>
-        </div>
-        <div class="col-sm-4">
-          <div class="cap-budget-diff chart-container"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="indicator">
-      <h2>Spending on Repairs and Maintenance</h2>
-
-      <div class="row">
-        <div class="col-sm-4">
-          {% with indicators.rep_maint_perc_ppe|first as latest %}
-          <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-          {% endwith %}
-
-          <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
-          {% comment %}
-          <table class="table table-bordered indicator-key">
-            <tr>
-              <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
-              <td class="key-description">less than 10%</td>
-            </tr>
-            <tr>
-              <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
-              <td class="key-description">more than 30%</td>
-            </tr>
-          </table>
-          {% endcomment %}
-        </div>
-        <div class="col-sm-4">
-          <div class="rep-maint-perc-ppe chart-container"></div>
-        </div>
-      </div>
-    </div>
-
   </div>
+
+  <div class="indicator">
+    <h2>Cash coverage</h2>
+
+    <div class="row">
+      <div class="col-sm-4">
+        {% with indicators.cash_coverage|first as latest %}
+        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} months{% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+        {% endwith %}
+        <div class="indicator-description">months of operating expenses can be paid for with the cash available.</div>
+        <table class="table table-bordered indicator-key">
+          <tr>
+            <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+            <td class="key-description">more than 3</td>
+          </tr>
+          <tr>
+            <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
+            <td class="key-description">less than 1</td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-sm-4">
+        <div class="cash-coverage chart-container"></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            A <strong>low value</strong> shows that the municipality may be unable to pay for the day-to-day expenses.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="indicator">
+    <h2>Spending of Operating Budget</h2>
+
+    <div class="row">
+      <div class="col-sm-4">
+        {% with indicators.op_budget_diff|first as latest %}
+        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+        {% endwith %}
+        <div class="indicator-description">difference between operating budget and actual expenditure.</div>
+        <table class="table table-bordered indicator-key">
+          <tr>
+            <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+            <td class="key-description">less than 10%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
+            <td class="key-description">more than 25%</td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-sm-4">
+        <div class="op-budget-diff chart-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="indicator">
+    <h2>Spending of Capital Budget</h2>
+
+    <div class="row">
+      <div class="col-sm-4">
+        {% with indicators.cap_budget_diff|first as latest %}
+        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+        {% endwith %}
+        <div class="indicator-description">difference between capital budget and actual expenditure.</div>
+        <table class="table table-bordered indicator-key">
+          <tr>
+            <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+            <td class="key-description">less than 10%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
+            <td class="key-description">more than 30%</td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-sm-4">
+        <div class="cap-budget-diff chart-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="indicator">
+    <h2>Spending on Repairs and Maintenance</h2>
+
+    <div class="row">
+      <div class="col-sm-4">
+        {% with indicators.rep_maint_perc_ppe|first as latest %}
+        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+        {% endwith %}
+
+        <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
+        {% comment %}
+        <table class="table table-bordered indicator-key">
+          <tr>
+            <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+            <td class="key-description">less than 10%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
+            <td class="key-description">more than 30%</td>
+          </tr>
+        </table>
+        {% endcomment %}
+      </div>
+      <div class="col-sm-4">
+        <div class="rep-maint-perc-ppe chart-container"></div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 {% endblock %}
