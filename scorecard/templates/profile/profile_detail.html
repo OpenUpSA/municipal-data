@@ -52,10 +52,10 @@
 								<div class="muni-population">Population: {{ total_population|floatformat:"0" }}</div>
 							</div>
 							<ul class="nav nav-tabs">
-								<li role="presentation" class="active"><a href="#"><div class="icon icon-office-04"></div>About</a></li>
-								<li role="presentation"><a href="#"><div class="icon icon-office-42"></div>Income</a></li>
-								<li role="presentation"><a href="#"><div class="icon icon-shopping-03"></div>Spending</a></li>
-								<li role="presentation"><a href="#performance"><div class="icon icon-office-16"></div>Performance</a></li>
+								<li role="presentation" class="active"><a href="#"><div class="icon icon-office-04"></div><span class="nav-text">About</span></a></li>
+								<li role="presentation"><a href="#"><div class="icon icon-office-42"></div><span class="nav-text">Income</span></a></li>
+								<li role="presentation"><a href="#"><div class="icon icon-shopping-03"></div><span class="nav-text">Spending</span></a></li>
+								<li role="presentation"><a href="#performance"><div class="icon icon-office-16"></div><span class="nav-text">Performance</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -66,16 +66,16 @@
 {% block content %}
 
 <div class="section" id="about">
-	<div class="container">
+	<div class="container-fluid">
 		<h1>About the municipality</h1>
 		<div class="sub-section" id="who-runs">
 			<div class="row">
-				<div class="col-md-8 separator-right">
+				<div class="col-md-8">
 					<h2>Who runs the municipality?</h2>
 					<div class="row">
 						{% for official in mayoral_staff %}
 							{% if forloop.counter < 5 %}
-							<div class="col-md-6">
+							<div class="col-md-6 col-sm-6">
 								<table class="table table-bordered">
 									<tr>
 										<th>{{ official.role }}</th>
@@ -151,7 +151,7 @@
 </div>
 
 <div class="section" id="performance">
-	<div class="container">
+	<div class="container-fluid">
 		<h1>Performance</h1>
 
 		<div class="indicator">

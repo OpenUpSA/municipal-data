@@ -170,7 +170,10 @@ a {
 //
 #cover-profile {
 	position: relative;
-
+  &.container {
+    padding-left: 30px;
+    padding-right: 30px;
+  } 
 	article {
 		margin-top: 3em;
 		margin-bottom: 3em;
@@ -216,6 +219,7 @@ a {
 		float: left;
 		margin: 0 0 10px 0;
     text-align: center;
+    padding: 0 5px;
 		.name {
 			display: block;
 			text-transform: uppercase;
@@ -228,6 +232,7 @@ a {
 		width: 70%;
 		float: left;
     margin-bottom: 6px;
+    padding: 0 5px;
     .name {
       font-weight: normal;
     }
@@ -236,25 +241,61 @@ a {
 }
 
 @media only screen and (max-width: 768px) {
-    #cover-map #slippy-map {
-        height: 200px;
-    }
-    #cover-profile {
-        margin: 200px 1em 0;
-    }
-    #cover-profile article {
-        background-color: inherit;
-        border: none;
-        width: 100%;
-        padding: 1em .25em;
-        margin-top: 0;
-    }
-} 
+  #cover-map #slippy-map {
+    height: 200px;
+  }
+  #cover-profile {
+    margin: 200px 1em 0;
+    text-align: center;
+  }
+  #cover-profile article {
+    background-color: inherit;
+    border: none;
+    width: 100%;
+    padding: 1em .25em;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  #cover-profile #header-box {
+    padding-top: 0;
+  }
+  #cover-profile .stat-primary .name {
+    display: inline;
+    text-transform: none;
+    font-weight: normal;
+  }
+  #cover-profile .stat-primary .value {
+    font-size: $font-size-base;
+  }
+  #cover-profile .stat-primary {
+    font-size: inherit;
+  }
+  #cover-profile .stat-primary, #cover-profile .stat-secondary {
+    float: none;
+    display: inline;
+    margin: 5px;
+    padding: 5px;
+    font-size: $font-size-base;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  #cover-profile .stat-primary, #cover-profile .stat-secondary {
+    float: none;
+    display: block;
+    width: auto;
+    padding: 0;
+  }
+}
 
 //= Page header
 #page-header {
   background: $brand-primary;
   border-bottom: solid 1px $gray-dark;
+  .container {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
 }
 
 @media only screen and (max-width: 640px) {
@@ -284,6 +325,10 @@ a {
   height: 68px;
   border-bottom: solid 1px $gray-dark;
   transition: all 0.5s ease;
+  .container {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
   .page-nav-info {
     height: 0;
     overflow: hidden;
@@ -334,6 +379,7 @@ a {
 		line-height: 1;
 	}
 	.nav li a {
+    height: 52px;
 		background-color: $gray-lighter;
 		color: $gray-dark;
 		margin-bottom: 5px;
@@ -343,7 +389,7 @@ a {
 		margin-right: 0;
 		border-radius: 0;
 		padding: 3px;
-		border-right: solid 1px $gray;
+		border-right: solid 1px $gray-light;
     text-decoration: none;
 	}
 	.nav li a:hover {
@@ -357,7 +403,7 @@ a {
 	}
 	.nav li:last-child a {
 		border-radius: 0 5px 0 0;
-		border-right: none;
+		border-right: 0;
 	}
   .nav li.active {
     border-bottom: 0;
@@ -369,6 +415,7 @@ a {
 		box-shadow: none;
 		margin-bottom: 0;
 		border-bottom: none;
+    border-right: 0;
     color: $black;
 		background: $white;
     .icon {
@@ -403,12 +450,37 @@ a {
   }
 }
 
+@media only screen and (max-width: 768px) {
+  .page-nav {
+    text-align: center;
+  }
+  .page-nav ul {
+    display: inline-block;
+    width: auto;
+  }
+  .page-nav .nav li {
+    width: auto;
+  }
+  .page-nav .nav li a {
+    padding: 12px 24px;
+  }
+  .page-nav .nav li .nav-text {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .page-nav .nav li a {
+    padding: 12px 12px;
+  }
+}
+
 //= Sections
 //
 .section {
 	border-bottom: solid 1px $gray;
 	&:last-child {
-		border-top: none;
+		border-bottom: none;
 	}
 	h1 {
 		text-transform: uppercase;
@@ -534,7 +606,7 @@ a {
   background-color: $nt-cream-dark;
   border-top: 1px solid $gray-light;
   padding: 1.5em 0 4.5em;
-
+  margin-top: 10px;
   ul {
     margin: 0;
     padding-left: 1em;
@@ -549,9 +621,6 @@ a {
 
 //= Helper Classes
 //
-.separator-right {
-	border-right: solid 1px $gray-light;
-}
 .text-large {
 	font-size: 150%;
 }
