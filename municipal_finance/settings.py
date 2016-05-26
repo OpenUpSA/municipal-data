@@ -183,6 +183,8 @@ PYSCSS_LOAD_PATHS = [
     os.path.join(BASE_DIR, 'municipal_finance', 'static', 'bower_components'),
     os.path.join(BASE_DIR, 'scorecard', 'static'),
     os.path.join(BASE_DIR, 'scorecard', 'static', 'bower_components'),
+    os.path.join(BASE_DIR, 'census', 'static'),
+    os.path.join(BASE_DIR, 'wazimap', 'static'),
 ]
 
 PIPELINE = {
