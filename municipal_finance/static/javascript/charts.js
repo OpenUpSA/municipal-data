@@ -14,12 +14,12 @@ var Chart = function() {
   };
 
   self.getContainerObject = function(container) {
-    self.container = $("." + container + ".chart-container")
+    self.container = $("." + container + ".chart-container");
   }
 
   self.setDimensions = function (container) {
-    var container_width = self.container.width()
-    var container_height = self.container.closest('.indicator').height()
+    var container_width = self.container.width();
+    var container_height = self.container.closest('.indicator').height();
 
     self.margin = {top: 20, right: 20, bottom: 30, left: 20};
     self.width = container_width - self.margin.left - self.margin.right;
@@ -39,9 +39,9 @@ var Chart = function() {
   };
 
   self.drawChart = function(data, container) {
-    self.getContainerObject(container)
-    self.container.empty()
-    self.setDimensions(container)
+    self.getContainerObject(container);
+    self.container.empty();
+    self.setDimensions(container);
 
     self.svg = d3.select("." + container + ".chart-container").append("svg")
         .attr("width", self.width + self.margin.left + self.margin.right)
@@ -68,10 +68,10 @@ var Chart = function() {
         .attr("y", function(d) { return self.y(d.result); })
         .attr("height", function(d) { return self.height - self.y(d.result); })
         .attr("class", function(d, i){
-          if (i == 0) {
-            return "current " + d.rating
+          if (i === 0) {
+            return "current " + d.rating;
           } else {
-            return "historical " + d.rating
+            return "historical " + d.rating;
           }
         });
 
@@ -84,23 +84,23 @@ var Chart = function() {
         .attr("x", function(d) { return self.x(d.year) + self.x.rangeBand()/2; })
         .attr("y", function(d) { return self.y(d.result) - 5; })
         .attr("class", function(d, i){
-          if (i == 0) {
-            return "current"
+          if (i === 0) {
+            return "current";
           } else {
-            return "historical"
+            return "historical";
           }
         })
         .text(function(d) {
           if (d.result >= 1000) {
             var format = d3.formatPrefix(1000);
-            return self.format(format.scale(d.result)) + " " + format.symbol
+            return self.format(format.scale(d.result)) + " " + format.symbol;
           } else {
-            return d.result
+            return d.result;
           }
 
          });
-  }
-}
+  };
+};
 
 var chart = new Chart();
 chart.init();
