@@ -1,4 +1,5 @@
 import requests
+from requests import Session
 from collections import defaultdict, OrderedDict
 
 from django.conf import settings
@@ -13,6 +14,7 @@ class MuniApiClient(object):
         self.results = defaultdict(dict)
         self.years = set()
         responses = []
+        self.session = Session()
         for line_item, query_params in self.line_item_params.iteritems():
             responses.append((line_item, query_params, self.api_get(query_params)))
 
@@ -41,7 +43,7 @@ class MuniApiClient(object):
                 'fields': ','.join(field for field in query_params['fields']),
                 'page': 0
             }
-        return requests.get(url, params=params, verify=False)
+        return self.session.get(url, params=params, verify=False)
 
     def response_to_results(self, api_response, query_params, years):
         response_dict = api_response.json()
