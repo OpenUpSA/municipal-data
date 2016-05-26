@@ -19,14 +19,14 @@ var Chart = function() {
 
   self.setDimensions = function (container) {
     var container_width = self.container.width();
-    var container_height = self.container.closest('.indicator').height();
+    var container_height = 150;
 
-    self.margin = {top: 20, right: 20, bottom: 30, left: 20};
+    self.margin = {top: 20, right: 0, bottom: 20, left: 0};
     self.width = container_width - self.margin.left - self.margin.right;
     self.height = container_height - self.margin.top - self.margin.bottom;
 
     self.x = d3.scale.ordinal()
-        .rangeRoundBands([0, self.width], 0.85);
+        .rangeRoundBands([0, self.width], 0.5);
 
     self.y = d3.scale.linear()
         .range([self.height, 0]);
