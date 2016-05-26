@@ -155,6 +155,8 @@
     <h1>Performance</h1>
 
     <div class="indicator">
+      <h2>Cash balance</h2>
+
       <div class="row">
         <div class="col-md-3">
           {% with indicators.cash_at_year_end|first as latest %}
@@ -187,10 +189,12 @@
     </div>
 
     <div class="indicator">
+      <h2>Cash coverage</h2>
+
       <div class="row">
         <div class="col-md-3">
           {% with indicators.cash_coverage|first as latest %}
-          <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+          <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} months{% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
           <div class="indicator-description">months of operating expenses can be paid for with the cash available.</div>
           <table class="table table-bordered indicator-key">
@@ -219,6 +223,8 @@
     </div>
 
     <div class="indicator">
+      <h2>Spending of Operating Budget</h2>
+
       <div class="row">
         <div class="col-md-3">
           {% with indicators.op_budget_diff|first as latest %}
@@ -243,6 +249,8 @@
     </div>
 
     <div class="indicator">
+      <h2>Spending of Capital Budget</h2>
+
       <div class="row">
         <div class="col-md-3">
           {% with indicators.cap_budget_diff|first as latest %}
@@ -267,12 +275,14 @@
     </div>
 
     <div class="indicator">
+      <h2>Spending on Repairs and Maintenance</h2>
+
       <div class="row">
         <div class="col-md-3">
           {% with indicators.rep_maint_perc_ppe|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
-          <div class="indicator-description">Repairs and maintenance as a percentage of Property, Plant and Equipment.</div>
+          <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
           <table class="table table-bordered indicator-key">
             <tr>
               <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
