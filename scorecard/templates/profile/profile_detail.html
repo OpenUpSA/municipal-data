@@ -158,7 +158,7 @@
       <h2>Cash balance</h2>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-sm-4">
           {% with indicators.cash_at_year_end|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
@@ -174,10 +174,10 @@
             </tr>
           </table>
         </div>
-        <div class="col-md-5">
+        <div class="col-sm-4">
           <div class="cash-at-year-end chart-container"></div>
         </div>
-        <div class="col-md-4">
+        <div class="col-sm-4">
           <div class="panel panel-didyouknow">
             <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
             <div class="panel-body">
@@ -192,7 +192,7 @@
       <h2>Cash coverage</h2>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-sm-4">
           {% with indicators.cash_coverage|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} months{% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
@@ -208,10 +208,10 @@
             </tr>
           </table>
         </div>
-        <div class="col-md-5">
+        <div class="col-sm-4">
           <div class="cash-coverage chart-container"></div>
         </div>
-        <div class="col-md-4">
+        <div class="col-sm-4">
           <div class="panel panel-didyouknow">
             <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
             <div class="panel-body">
@@ -226,7 +226,7 @@
       <h2>Spending of Operating Budget</h2>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-sm-4">
           {% with indicators.op_budget_diff|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
@@ -242,7 +242,7 @@
             </tr>
           </table>
         </div>
-        <div class="col-md-5">
+        <div class="col-sm-4">
           <div class="op-budget-diff chart-container"></div>
         </div>
       </div>
@@ -252,7 +252,7 @@
       <h2>Spending of Capital Budget</h2>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-sm-4">
           {% with indicators.cap_budget_diff|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
@@ -268,7 +268,7 @@
             </tr>
           </table>
         </div>
-        <div class="col-md-5">
+        <div class="col-sm-4">
           <div class="cap-budget-diff chart-container"></div>
         </div>
       </div>
@@ -278,7 +278,7 @@
       <h2>Spending on Repairs and Maintenance</h2>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-sm-4">
           {% with indicators.rep_maint_perc_ppe|first as latest %}
           <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
           {% endwith %}
@@ -297,7 +297,7 @@
           </table>
           {% endcomment %}
         </div>
-        <div class="col-md-5">
+        <div class="col-sm-4">
           <div class="rep-maint-perc-ppe chart-container"></div>
         </div>
       </div>
