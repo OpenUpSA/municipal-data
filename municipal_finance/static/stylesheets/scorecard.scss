@@ -548,7 +548,7 @@ a {
 //=DidYouKnow Panel
 //
 .panel-didyouknow {
-	background-color: $gray-lighter;
+	border: solid 1px $gray-lighter !important;
 	.panel-heading {
 		text-transform: uppercase;
 		color: $black;
@@ -562,9 +562,6 @@ a {
 	.panel-body {
 		padding-top: 0;
 		font-size: 13px;
-	}
-	.more a{
-		background-color: $gray-lighter;
 	}
 }
 
