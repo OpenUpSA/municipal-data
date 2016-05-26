@@ -2,7 +2,9 @@ var Chart = function() {
   var self = this;
 
   self.init = function() {
-    self.thousands_format = d3.format(",.0f");
+    self.format = d3_format
+        .formatLocale({decimal: ".", thousands: " ", grouping: [3], currency: "R"})
+        .format(",.0f");
 
     self.drawChart(CASH_COVERAGE, 'cash-coverage');
     self.drawChart(CASH_AT_YEAR_END, 'cash-at-year-end');
@@ -31,7 +33,9 @@ var Chart = function() {
 
     self.xAxis = d3.svg.axis()
         .scale(self.x)
-        .orient("bottom");
+        .orient("bottom")
+        .tickSize(0, 0)
+        .tickPadding(10);
   };
 
   self.drawChart = function(data, container) {
@@ -48,11 +52,13 @@ var Chart = function() {
     self.x.domain(data.map(function(d) { return d.year; }));
     self.y.domain([0, d3.max(data, function(d) { return d.result; })]);
 
+    //  Draw the x-axis
     self.svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + self.height + ")")
       .call(self.xAxis);
 
+    //  Draw the bars
     self.svg.selectAll(".bar")
         .data(data)
       .enter().append("rect")
@@ -69,6 +75,7 @@ var Chart = function() {
           }
         });
 
+    // Add the labels
     self.svg.selectAll("text.bar")
         .data(data)
       .enter().append("text")
@@ -86,7 +93,7 @@ var Chart = function() {
         .text(function(d) {
           if (d.result >= 1000) {
             var format = d3.formatPrefix(1000);
-            return self.thousands_format(format.scale(d.result)) + " " + format.symbol
+            return self.format(format.scale(d.result)) + " " + format.symbol
           } else {
             return d.result
           }

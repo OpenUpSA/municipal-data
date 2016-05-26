@@ -632,37 +632,6 @@ a {
 	width: 1%;
 }
 
-// Charts
-
-.chart-container {
-		font-size: 12px;
-
-		rect.good {
-			fill: $green;
-		}
-
-		rect.ave {
-			fill: $yellow;
-		}
-
-		rect.bad {
-			fill: $red;
-		}
-
-		rect.current {
-			stroke: $black;
-			stroke-width: 1;
-		}
-
-		text.current {
-			font-weight: bold;
-		}
-
-		.x.axis .tick:first-child {
-			font-weight: bold;
-		}
-}
-
 //= Twitter typeahead
 .tt-hint {
   visibility: hidden;
@@ -725,6 +694,43 @@ a {
     font-size: .83em;
     font-style: italic;
   }
->>>>>>> master
+}
+
+// Charts
+
+.chart-container {
+		font-size: 12px;
+
+		rect.good {
+			fill: $green;
+		}
+
+		rect.ave {
+			fill: $yellow;
+		}
+
+		rect.bad {
+			fill: $red;
+		}
+
+		rect.current {
+			stroke: $black;
+			stroke-width: 1;
+		}
+
+		text.current {
+			font-weight: bold;
+		}
+
+		.x.axis .tick:first-child {
+			font-weight: bold;
+		}
+
+		.axis path,
+		.axis line {
+		    fill: none;
+		    stroke: black;
+		    shape-rendering: crispEdges;
+		}
 }
 

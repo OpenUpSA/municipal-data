@@ -283,6 +283,7 @@ PIPELINE = {
             'source_filenames': (
                 'bower_components/jquery/dist/jquery.min.js',
                 'bower_components/d3/d3.min.js',
+                'javascript/vendor/d3-format.min.js',
                 'javascript/charts.js'
             ),
             'output_filename': 'scorecard.js'
