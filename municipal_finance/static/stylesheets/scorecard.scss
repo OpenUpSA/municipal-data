@@ -478,6 +478,11 @@ a {
 //
 .section {
 	border-bottom: solid 1px $gray;
+  
+  /*trick to compensate for affixed page-nav */
+  padding-top: 80px;
+  margin-top: -80px;
+
 	&:last-child {
 		border-bottom: none;
 	}
