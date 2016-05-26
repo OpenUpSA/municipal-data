@@ -571,6 +571,12 @@ a {
 //= Indicator
 //
 .indicator {
+  margin-top: 20px;
+
+  h2 {
+    margin: 0px 0px 5px;
+  }
+
   .indicator-value {
     font-size: 28px;
     font-weight: bold;
@@ -580,7 +586,7 @@ a {
   }
   .indicator-description {
     margin-bottom: 5px;
-    font-weight: bold;
+    font-size: 16px;
   }
   .indicator-average {
     display: inline-block;
@@ -629,7 +635,7 @@ a {
   font-size: 150%;
 }
 .cell-min {
-	width: 1%;
+  width: 1%;
 }
 
 //= Twitter typeahead
@@ -699,38 +705,38 @@ a {
 // Charts
 
 .chart-container {
-		font-size: 12px;
+  font-size: 12px;
 
-		rect.good {
-			fill: $green;
-		}
+  rect.good {
+    fill: $green;
+  }
 
-		rect.ave {
-			fill: $yellow;
-		}
+  rect.ave {
+    fill: $yellow;
+  }
 
-		rect.bad {
-			fill: $red;
-		}
+  rect.bad {
+    fill: $red;
+  }
 
-		rect.current {
-			stroke: $black;
-			stroke-width: 1;
-		}
+  rect.current {
+    stroke: $black;
+    stroke-width: 1;
+  }
 
-		text.current {
-			font-weight: bold;
-		}
+  text.current {
+    font-weight: bold;
+  }
 
-		.x.axis .tick:first-child {
-			font-weight: bold;
-		}
+  .x.axis .tick:first-child {
+    font-weight: bold;
+  }
 
-		.axis path,
-		.axis line {
-		    fill: none;
-		    stroke: black;
-		    shape-rendering: crispEdges;
-		}
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+  }
 }
 
