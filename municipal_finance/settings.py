@@ -133,11 +133,11 @@ else:
 
 LANGUAGE_CODE = 'en-za'
 TIME_ZONE = 'Africa/Johannesburg'
-USE_I18N = True
+USE_I18N = False
 USE_L10N = True
 USE_TZ = True
 USE_THOUSAND_SEPARATOR = True
-FORMAT_MODULE_PATH = 'municipal_money.formats'
+FORMAT_MODULE_PATH = 'municipal_finance.formats'
 
 
 # CORS
@@ -216,6 +216,7 @@ PIPELINE = {
         },
         'scorecard': {
             'source_filenames': (
+                'bower_components/fontawesome/css/font-awesome.css',
                 'stylesheets/scorecard.scss',
                 'stylesheets/line-icons.css',
             ),
