@@ -1,5 +1,5 @@
 import requests
-from requests import Session
+from requests_futures.sessions import FuturesSession
 from collections import defaultdict, OrderedDict
 
 from django.conf import settings
@@ -14,7 +14,7 @@ class MuniApiClient(object):
         self.results = defaultdict(dict)
         self.years = set()
         responses = []
-        self.session = Session()
+        self.session = FuturesSession()
         for line_item, query_params in self.line_item_params.iteritems():
             responses.append((line_item, query_params, self.api_get(query_params)))
 
@@ -46,7 +46,7 @@ class MuniApiClient(object):
         return self.session.get(url, params=params, verify=False)
 
     def response_to_results(self, api_response, query_params, years):
-        response_dict = api_response.json()
+        response_dict = api_response.result().json()
         if query_params['query_type'] == 'facts':
             if query_params['annual']:
                 results, years = self.annual_facts_from_response(response_dict, query_params, years)
