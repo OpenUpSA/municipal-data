@@ -288,7 +288,8 @@ PIPELINE = {
                 'javascript/vendor/d3-format.min.js',
                 'js/affix.js',
                 'js/scrollspy.js',
-                'javascript/charts.js'
+                'js/charts.js',
+                'js/scorecard.js',
             ),
             'output_filename': 'scorecard.js'
         }
