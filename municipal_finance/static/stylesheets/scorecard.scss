@@ -4,7 +4,7 @@
 
 //== Colors
 //
-$black: #000;
+$black: #333;
 $white: #fff;
 $gray-darker: #333;
 $gray-dark: #666;
@@ -62,6 +62,11 @@ $nav-tabs-active-link-hover-border-color: inherit !default;
 //######
 
 // Custom CSS
+
+//== Scaffolding
+body {
+  position: relative;
+}
 
 //== Headings
 h1 {
@@ -315,19 +320,19 @@ a {
 
 //= Page nav
 //
-.page-nav {
+.page-nav-container {
   width: 100%;
   background-color: $brand-secondary;
-  height: 68px;
-  border-bottom: solid 1px $gray-dark;
+  max-height: 100px;
+  line-height: 1;
   transition: all 0.5s ease;
   .page-nav-info {
-    height: 0;
+    max-height: 0;
     overflow: hidden;
     transition: all 0.5s ease;
   }
   .page-nav-info .muni-name, .page-nav-info .muni-population {
-    margin-top: 5px;
+    padding-top: 5px;
   }
   .page-nav-info .muni-name {
     display: inline-block;
@@ -349,78 +354,42 @@ a {
     transition: all 1s ease;
     transition-delay: 0.3s;
   }
-  .nav {
-    margin-top: 10px;
-    border-bottom: 0;
-  }
-  .nav li {
-    border-bottom: solid 1px $gray-dark;
-    margin: 0;
-    text-align: center;
-    line-height: 1;
-    text-transform: uppercase;
-    font-weight: bold;
+  #page-nav a {
+    color: rgba(255,255,255,0.5);
     font-size: 12px;
-    width: 140px;
-    margin-bottom: -1px;
-  }
-  .nav li a .icon {
-    font-size: 24px;
-    padding: 0;
-    margin: 0;
-    line-height: 1;
-  }
-  .nav li a {
-    height: 52px;
-    background-color: $gray-lighter;
-    color: $gray-dark;
-    margin-bottom: 5px;
-    -webkit-box-shadow: 0px 5px 0px 0px $gray;
-    -moz-box-shadow: 0px 5px 0px 0px  $gray;
-    box-shadow: 0px 5px 0px 0px $gray;
-    margin-right: 0;
+    font-weight: 900;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     border-radius: 0;
-    padding: 3px;
-    border-right: solid 1px $gray-light;
-    text-decoration: none;
+    padding: 8px 20px;
   }
-  .nav li a:hover {
-    color: $black;
-    .icon {
-      color: $brand-secondary;
-    }
+  #page-nav a:hover, #page-nav a:active, #page-nav a:visited, #page-nav a:focus {
+    background: transparent;
   }
-  .nav li:first-child a {
-    border-radius: 5px 0 0 0;
+  #page-nav a:hover {
+    color: $white;    
   }
-  .nav li:last-child a {
-    border-radius: 0 5px 0 0;
-    border-right: 0;
+  #page-nav li.active {
+    border-bottom: solid 3px $brand-primary;
   }
-  .nav li.active {
-    border-bottom: 0;
+  #page-nav li.active a {
+    background: transparent;
+    color: $white;
   }
-  .nav li.active a:link, .nav li.active a:active, .nav li.active a:visited, .nav li.active a:hover {
-    margin-top: 6px;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    margin-bottom: 0;
-    border-bottom: 0;
-    color: $black;
-    background: $white;
-    .icon {
-      color: $brand-secondary;
-    }
+  #page-nav li.active a .nav-text {
+    text-shadow: 0 0 1px rgba(255,255,255,0.5);
+  }
+  #page-nav .icon {
+    font-size: 28px;
   }
 }
 
-.page-nav.affix {
+.page-nav-container.affix {
   z-index: 100;
   position: fixed;
   top: 0;
   width: 100%;
-  height: 68px;
 }
 
 .page-nav-wrapper {
@@ -431,46 +400,54 @@ a {
 .page-nav-wrapper.expanded {
   height: 120px;
   .page-nav-info {
-    height: 32px;
+    max-height: 50px;
   }
   .page-nav-info .muni-name, .page-nav-info .muni-population {
     opacity: 1;
   }
-  .page-nav {
-    height: 100px;
+  .
+  .page-nav-container {
+    max-height: 140px;
   }
 }
 
 @media only screen and (max-width: 768px) {
-  .page-nav {
+  .page-nav-container {
     text-align: center;
   }
-  .page-nav ul {
+  .page-nav-container ul {
     display: inline-block;
     width: auto;
   }
-  .page-nav .nav li {
+  .page-nav-container .nav li {
     width: auto;
   }
-  .page-nav .nav li a {
+  .page-nav-container .nav li a {
     padding: 12px 24px;
   }
-  .page-nav .nav li .nav-text {
-    display: none;
+  .page-nav-container .nav li .nav-text {
+    font-size: 10px;
+    letter-spacing: 0;
   }
 }
 
 @media only screen and (max-width: 480px) {
-  .page-nav .nav li a {
+  .page-nav-container .nav li a {
     padding: 12px 12px;
+  }
+  .page-nav-info .muni-name, .page-nav-info .muni-population {
+    display: block;
+  }
+  .page-nav-container .nav li .nav-text {
+    display: none;
   }
 }
 
 //= Sections
 //
 .section {
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
   border-bottom: 1px solid $gray-light;
 
   /*trick to compensate for affixed page-nav */
@@ -485,7 +462,60 @@ a {
     text-transform: uppercase;
     letter-spacing: 2px;
     font-size: 24px;
-    margin: 0px;
+    margin: 0 0 10px 0;
+  }
+  h1 .icon {
+    color: $brand-secondary;
+    display: inline-block;
+    font-size: 36px;
+    vertical-align: middle;
+    margin-bottom: 1px;
+  }
+  h2 {
+    margin: 0 0 10px 0;
+  }
+
+}
+
+@media only screen and (max-width: 768px) {
+  .section h1 {
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .section h1 .icon {
+    display: block;
+  }
+}
+
+//= Person info
+.person-info {
+  margin-bottom: 15px;
+  .person-role {
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: $brand-secondary;
+  }
+  .person-name {
+    padding: 3px 0;
+    margin-left: 20px;
+    margin-bottom: 0px;
+  }
+  .person-contact-details a.show-contact-details {
+    padding: 3px 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+    .icon { margin-right: 5px; }
+    &:hover { text-decoration: none; }
+  }
+  .person-contact-details .contact-details {
+    text-align: left;
+    padding: 3px 6px;
+    border: solid 1px $brand-primary;
+    ul { margin-bottom: 0; }
   }
 }
 
