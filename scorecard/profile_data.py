@@ -1,4 +1,4 @@
-import requests
+from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
 from collections import defaultdict, OrderedDict
 
@@ -6,24 +6,29 @@ from django.conf import settings
 
 from wazimap.data.utils import percent, ratio
 
+EXECUTOR = ThreadPoolExecutor(max_workers=10)
+
+
 class MuniApiClient(object):
     def __init__(self, geo_code):
+        self.API_URL = settings.API_URL
         self.geo_code = str(geo_code)
         self.line_item_params = self.get_line_item_params()
 
         self.results = defaultdict(dict)
         self.years = set()
         responses = []
-        self.session = FuturesSession(executor=settings.API_REQ_THREAD_POOL)
+        self.session = FuturesSession(executor=EXECUTOR)
         for line_item, query_params in self.line_item_params.iteritems():
             responses.append((line_item, query_params, self.api_get(query_params)))
 
         for (line_item, query_params, response) in responses:
-            self.results[line_item], self.years = self.response_to_results(response, query_params, self.years)
+            self.results[line_item], self.years = \
+                self.response_to_results(response, query_params, self.years)
 
     def api_get(self, query_params):
         if query_params['query_type'] == 'aggregate':
-            url = settings.API_URL + query_params['cube'] + '/aggregate'
+            url = self.API_URL + query_params['cube'] + '/aggregate'
             params = {
                 'aggregates': query_params['aggregate'],
                 'cut': '|'.join('{!s}:{!s}'.format(
@@ -35,7 +40,7 @@ class MuniApiClient(object):
                 'order': 'financial_period.period:desc',
             }
         elif query_params['query_type'] == 'facts':
-            url = settings.API_URL + query_params['cube'] + '/facts'
+            url = self.API_URL + query_params['cube'] + '/facts'
             params = {
                 'cut': '|'.join('{!s}:{!r}'.format(k, v)
                     for (k, v) in query_params['cut'].iteritems()

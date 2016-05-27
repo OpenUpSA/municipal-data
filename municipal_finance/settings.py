@@ -61,9 +61,6 @@ if DEBUG:
 
 API_URL = os.environ.get('API_URL', 'https://data.municipalmoney.org.za/api/cubes/')
 
-from concurrent.futures import ThreadPoolExecutor
-API_REQ_THREAD_POOL = ThreadPoolExecutor(max_workers=10)
-
 # Wazimap
 from wazimap.settings import WAZIMAP
 WAZIMAP['name'] = 'Municipal Money'
