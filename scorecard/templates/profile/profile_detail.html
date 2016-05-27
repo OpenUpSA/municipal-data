@@ -1,11 +1,6 @@
 {% extends 'profile/profile_detail.html' %}
 {% load staticfiles pipeline l10n jsonify %}
 
-{% block head_css_extra %}
-{{ block.super }}
-{% stylesheet "scorecard" %}
-{% endblock head_css_extra %}
-
 {% block header_content %}
   <div id="cover-map" class="clearfix">
     <div id="slippy-map"></div>
