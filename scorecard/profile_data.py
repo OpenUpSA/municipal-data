@@ -424,32 +424,41 @@ class IndicatorCalculator(object):
         return [{'year': k, 'result':v} for k, v in self.results['cash_flow']['4200'].iteritems()]
 
     def mayoral_staff(self):
-        values = []
-
         roles = [
             'Mayor/Executive Mayor',
             'Municipal Manager',
             'Deputy Mayor/Executive Mayor',
             'Chief Financial Officer',
-            'Secretary of Mayor/Executive Mayor',
-            'Secretary of Municipal Manager',
-            'Secretary of Deputy Mayor/Executive Mayor',
-            'Secretary of Financial Manager',
         ]
 
-        for role in roles:
-            for official in self.results['officials']:
-                if official['role.role'] == role:
-                    values.append({
-                        'role': official['role.role'],
-                        'title': official['contact_details.title'],
-                        'name': official['contact_details.name'],
-                        'office_phone': official['contact_details.phone_number'],
-                        'fax_number': official['contact_details.fax_number'],
-                        'email': official['contact_details.email_address']
-                    })
+        secretaries = {
+            'Mayor/Executive Mayor': 'Secretary of Mayor/Executive Mayor',
+            'Municipal Manager': 'Secretary of Municipal Manager',
+            'Deputy Mayor/Executive Mayor': 'Secretary of Deputy Mayor/Executive Mayor',
+            'Chief Financial Officer': 'Secretary of Financial Manager',
+        }
 
-        return values
+        # index officials by role
+        officials = {
+            f['role.role']: {
+                'role': f['role.role'],
+                'title': f['contact_details.title'],
+                'name': f['contact_details.name'],
+                'office_phone': f['contact_details.phone_number'],
+                'fax_number': f['contact_details.fax_number'],
+                'email': f['contact_details.email_address']
+            } for f in self.results['officials']
+        }
+
+        # fold in secretaries
+        for role in roles:
+            official = officials.get(role)
+            if official:
+                secretary = officials.get(secretaries[role])
+                if secretary:
+                    official['secretary'] = secretary
+
+        return [officials.get(role) for role in roles]
 
     def muni_contact(self):
         muni_contact = self.results['contact_details'][0]

@@ -288,9 +288,12 @@ PIPELINE = {
                 'bower_components/jquery/dist/jquery.min.js',
                 'bower_components/d3/d3.min.js',
                 'javascript/vendor/d3-format.min.js',
-                'js/affix.js',
-                'js/scrollspy.js',
-                'javascript/charts.js'
+                'js/bootstrap-3.3.2/affix.js',
+                'js/bootstrap-3.3.2/scrollspy.js',
+                'js/bootstrap-3.3.2/transition.js',
+                'js/bootstrap-3.3.2/collapse.js',
+                'js/charts.js',
+                'js/scorecard.js',
             ),
             'output_filename': 'scorecard.js'
         }

@@ -1,11 +1,6 @@
 {% extends 'profile/profile_detail.html' %}
 {% load staticfiles pipeline l10n jsonify %}
 
-{% block head_css_extra %}
-{{ block.super }}
-{% stylesheet "scorecard" %}
-{% endblock head_css_extra %}
-
 {% block header_content %}
   <div id="cover-map" class="clearfix">
     <div id="slippy-map"></div>
@@ -99,19 +94,26 @@
                     <li><i class="fa fa-li fa-user" aria-hidden="true"></i> {{ official.title }} {{ official.name }}</li>
                   </ul>
                   <div class="person-contact-details">
-                    <a href="#" class="show-contact-details"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Contact Details</a>
-                    <!--
-                    <div class="contact-details">
-                      <ul class="fa-ul">
-                        <li>
-                          <i class="fa fa-li fa-phone" aria-hidden="true"></i>  <a href="#">[phone number]</a>
-                        </li>
-                        <li>
-                          <i class="fa fa-li fa-envelope" aria-hidden="true"></i> <a href="{{ muni_contact.url }}">[email address]</a>
-                        </li>
-                      </ul>
+                    <a href="#contact-details-{{ forloop.counter }}" data-toggle="collapse" class="show-contact-details show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Contact Details</a>
+                    <div class="contact-details collapse" id="contact-details-{{ forloop.counter }}">
+                      {% if official.secretary %}
+                      <div>
+                        <h4>Secretary</h4>
+                        {{ official.secretary.title }} {{ official.secretary.name }}
+                      </div>
+                      {% endif %}
+
+                      {% with details=official.secretary|default:official %}
+                        <ul class="fa-ul">
+                          <li>
+                            <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ details.office_phone }}">{{ details.office_phone }}</a>
+                          </li>
+                          <li>
+                            <i class="fa fa-li fa-envelope" aria-hidden="true"></i> <a href="{{ details.email }}">{{ details.email }}</a>
+                          </li>
+                        </ul>
+                      {% endwith %}
                     </div>
-                    -->
                   </div>
                 </div>
               </div>
@@ -156,7 +158,7 @@
             <ul>
               <li>A <strong>clean audit</strong> means that there are no irregularities in the municipality's accounting.</li>
             </ul>
-            <div class="more"><a href="#"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show More</a></div>
+            <div class="more"><a href="#" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show More</a></div>
           </div>
         </div>
       </div>
@@ -329,50 +331,6 @@
   var OP_BUDGET_DIFF = {{ indicators.op_budget_diff|jsonify|safe }}
   var CAP_BUDGET_DIFF = {{ indicators.cap_budget_diff|jsonify|safe }}
   var REP_MAINT_PERC_PPE = {{ indicators.rep_maint_perc_ppe|jsonify|safe }}
-
-  $(document).ready(function(){
-
-    //Get page-nav offset from top of page
-    var pagenavOffset = $('.page-nav-container').offset().top;
-
-    //Affix page-nav to top of page on scroll
-    $('.page-nav-container').affix({
-      offset: {
-        top: pagenavOffset
-      }
-    });
-
-    //Expand page-nav once affixed
-    $('.page-nav-container').on('affixed.bs.affix', function () {
-      $('.page-nav-wrapper').addClass('expanded');
-    });
-
-    //Un-expand page-nav once nolonger affixed
-    $('.page-nav-container').on('affixed-top.bs.affix', function () {
-      $('.page-nav-wrapper').removeClass('expanded');
-    });
-
-    //Change active tab when scrolling using Bootstrap scrollspy.js
-    $('body').scrollspy({ 
-      target: '.page-nav-container',
-      offset: 100
-    });    
-
-    //Easy scrolling (a link to #section will scroll to #section)
-    $('a[href^="#"]').on('click',function (e) {
-      e.preventDefault();
-
-      var target = this.hash;
-      var $target = $(target);
-
-      if ($target.length) {
-        $('html, body').stop().animate({
-            'scrollTop': $target.offset().top-15
-        }, 300, 'swing');
-      }
-    });
-
-  });
 
 </script>
 
