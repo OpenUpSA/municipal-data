@@ -1,5 +1,24 @@
-{% extends 'profile/profile_detail.html' %}
+{% extends '_base.html' %}
 {% load staticfiles pipeline l10n jsonify %}
+
+{% block head_title %}{{ geography.this.short_name }} - {{ block.super }}{% endblock %}
+{% block head_meta_description %}Municipal performance for {{ geography.this.short_name}}, and other information.{% endblock %}
+
+{% block head_facebook_tags %}
+    <meta property="og:title" content="Municipal Money Profile: {% firstof geography.this.full_name geography.this.short_name %}" />
+    <meta property="og:site_name" content="Municipal Money" />
+    <meta property="og:description" content="Municipal performance for {{ geography.this.short_name}}, and other information." />
+    <meta property="og:type" content="article" />
+{% endblock %}
+
+{% block head_css_extra %}
+<link rel="stylesheet" href="{% static 'css/vendor/leaflet-0.6.4.css' %}" />
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="{% static 'css/vendor/leaflet-0.6.4.ie.css' %}" />
+<![endif]-->
+<link href="{% static 'css/vendor/leaflet.label.css' %}" rel="stylesheet" />
+{% endblock %}
+{% block body_id %}profile{% endblock %}
 
 {% block header_content %}
   <div id="cover-map" class="clearfix">
@@ -319,12 +338,21 @@
 
 {% endblock %}
 
-{% block profile_javascript_libs %}
-{{ block.super }}
+{% block body_javascript_extra %}
+<script src="{% static 'js/vendor/leaflet-0.6.4.js' %}"></script>
+<script src="{% static 'js/vendor/topojson.v1.min.js' %}"></script>
+<script src="{% static 'js/vendor/leaflet.label.js' %}"></script>
+<script src="{% static 'js/head2head.js' %}"></script>
+<script src="{% static 'js/maps_static.js' %}"></script>
 <script src="{% static 'js/maps_mapit.js' %}"></script>
+<script src="{% static 'js/profile_map.js' %}"></script>
 <script src="{% static 'js/profile_map_mapit.js' %}"></script>
 
 <script type="text/javascript">
+
+  var profileData = {{ profile_data_json }};
+  var maps = new ProfileMaps();
+  maps.drawMapsForProfile(profileData.geography);
 
   var CASH_AT_YEAR_END = {{ indicators.cash_at_year_end|jsonify|safe }}
   var CASH_COVERAGE = {{ indicators.cash_coverage|jsonify|safe }}
