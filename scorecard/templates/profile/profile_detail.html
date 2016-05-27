@@ -71,7 +71,24 @@
     <h1><div class="icon icon-office-04"></div> About the municipality</h1>
     <div class="sub-section" id="who-runs">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-4 col-md-push-8">
+          <ul class="fa-ul">
+            <li>
+              <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ muni_contact.phone_number }}">{{ muni_contact.phone_number }}</a>
+            </li>
+            <li>
+              <i class="fa fa-li fa-globe" aria-hidden="true"></i> <a href="{{ muni_contact.url }}">{{ muni_contact.url }}</a>
+            </li>
+            <li>
+              <i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
+              {{ muni_contact.street_address_1 }}<br>
+              {{ muni_contact.street_address_2 }}<br>
+              {{ muni_contact.street_address_3 }}<br>
+              {{ muni_contact.street_address_4 }}
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-8 col-md-pull-4">
           <div class="row">
             {% for official in mayoral_staff %}
               {% if forloop.counter < 5 %}
@@ -99,26 +116,6 @@
               {% endif %}
             {% endfor %}
           </div>
-        </div>
-        <div class="col-md-2">
-          <ul class="fa-ul">
-            <li>
-              <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ muni_contact.phone_number }}">{{ muni_contact.phone_number }}</a>
-            </li>
-            <li>
-              <i class="fa fa-li fa-globe" aria-hidden="true"></i> <a href="{{ muni_contact.url }}">{{ muni_contact.url }}</a>
-            </li>
-            <li>
-              <i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
-              {{ muni_contact.street_address_1 }}<br>
-              {{ muni_contact.street_address_2 }}<br>
-              {{ muni_contact.street_address_3 }}<br>
-              {{ muni_contact.street_address_4 }}
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-2">
-          [explainer video]
         </div>
       </div>
     </div>
