@@ -12,7 +12,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block head_css %}
     {% stylesheet "scorecard" %}
-    {% block head_css_extra %}{% endblock %}{% endblock head_css %}
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="{% static 'css/vendor/leaflet-0.6.4.ie.css' %}" />
+    <![endif]-->
+    {% block head_css_extra %}{% endblock %}
+    {% endblock head_css %}
     {% block head_javascript %}
     <script src="//cdn.jsdelivr.net/g/modernizr@2.7,respond@1.4"></script>
     {% block head_javascript_extra %}{% endblock %}{% endblock %}
