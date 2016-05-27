@@ -68,39 +68,45 @@
 {% block content %}
 
 <div class="section" id="about">
-    <h1>About the municipality</h1>
+    <h1><div class="icon icon-office-04"></div> About the municipality</h1>
     <div class="sub-section" id="who-runs">
       <div class="row">
-        <div class="col-sm-8 col-md-9">
-          <h2>Who runs the municipality?</h2>
+        <div class="col-md-8">
           <div class="row">
             {% for official in mayoral_staff %}
               {% if forloop.counter < 5 %}
-              <div class="col-sm-6">
-                <table class="table table-bordered">
-                  <tr>
-                    <th>{{ official.role }}</th>
-                  </tr>
-                  <tr class="text-large">
-                    <td><i class="fa fa-fw fa-user" aria-hidden="true"></i> {{ official.title }} {{ official.name }}</td>
-                  </tr>
-                  <tr class="table-footer">
-                    <td>+ Show Contact Details</td>
-                  </tr>
-                </table>
+              <div class="col-sm-3">
+                <div class="person-info">
+                  <div class="person-role">{{ official.role }}</div>
+                  <div class="person-name"><i class="fa fa-fw fa-user" aria-hidden="true"></i> {{ official.title }} {{ official.name }}</div>
+                  <div class="person-contact-details">
+                    <a href="#" class="show-contact-details"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Contact Details</a>
+                    <!--
+                    <div class="contact-details">
+                      <ul class="fa-ul">
+                        <li>
+                          <i class="fa fa-li fa-phone" aria-hidden="true"></i>  <a href="#">[phone number]</a>
+                        </li>
+                        <li>
+                          <i class="fa fa-li fa-envelope" aria-hidden="true"></i> <a href="{{ muni_contact.url }}">[email address]</a>
+                        </li>
+                      </ul>
+                    </div>
+                    -->
+                  </div>
+                </div>
               </div>
               {% endif %}
             {% endfor %}
           </div>
         </div>
-        <div class="col-sm-4 col-md-3">
-          <h2>Contact details</h2>
+        <div class="col-md-2">
           <ul class="fa-ul">
             <li>
               <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ muni_contact.phone_number }}">{{ muni_contact.phone_number }}</a>
             </li>
             <li>
-              <i class="fa fa-li fa-map-marker" aria-hidden="true"></i> <a href="{{ muni_contact.url }}">{{ muni_contact.url }}</a>
+              <i class="fa fa-li fa-globe" aria-hidden="true"></i> <a href="{{ muni_contact.url }}">{{ muni_contact.url }}</a>
             </li>
             <li>
               <i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
@@ -111,12 +117,15 @@
             </li>
           </ul>
         </div>
+        <div class="col-md-2">
+          [explainer video]
+        </div>
       </div>
     </div>
 </div>
 
 <div class="section" id="performance">
-  <h1>Performance</h1>
+  <h1><div class="icon icon-office-16"></div> Performance</h1>
 
   <div class="indicator">
     <h2>Audit outcomes</h2>
@@ -157,7 +166,7 @@
   </div>
 
   <div class="indicator">
-    <h2>Cash balance</h2>
+    <h2 class="sub-heading">Cash balance</h2>
 
     <div class="row">
       <div class="col-sm-4">

@@ -446,8 +446,8 @@ a {
 //= Sections
 //
 .section {
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
   border-bottom: 1px solid $gray-light;
 
   /*trick to compensate for affixed page-nav */
@@ -462,7 +462,59 @@ a {
     text-transform: uppercase;
     letter-spacing: 2px;
     font-size: 24px;
-    margin: 0px;
+    margin: 0 0 10px 0;
+  }
+  h1 .icon {
+    color: $brand-secondary;
+    display: inline-block;
+    font-size: 36px;
+    vertical-align: middle;
+    margin-bottom: 1px;
+  }
+  h2 {
+    margin: 0 0 10px 0;
+  }
+
+}
+
+@media only screen and (max-width: 768px) {
+  .section h1 {
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .section h1 .icon {
+    display: block;
+  }
+}
+
+//= Person info
+.person-info {
+  text-align: center;
+  margin-bottom: 15px;
+  .person-role {
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: $brand-secondary;
+  }
+  .person-name {
+    padding: 3px 0;
+  }
+  .person-contact-details a.show-contact-details {
+    padding: 3px 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+    .icon { margin-right: 5px; }
+    &:hover { text-decoration: none; }
+  }
+  .person-contact-details .contact-details {
+    text-align: left;
+    padding: 3px 6px;
+    border: solid 1px $brand-primary;
+    ul { margin-bottom: 0; }
   }
 }
 
