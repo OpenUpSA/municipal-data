@@ -45,18 +45,20 @@
   </div>
     {% block page-nav %}
         <div class="page-nav-wrapper">
-          <div class="page-nav" id="page-nav">
+          <div class="page-nav-container">
             <div class="container">
               <div class="page-nav-info">
                 <div class="muni-name">{{ geography.this.short_name }}</div>
                 <div class="muni-population">Population: {{ total_population|floatformat:"0" }}</div>
               </div>
-              <ul class="nav nav-tabs">
+              
+              <ul class="nav nav-pills" id="page-nav">
                 <li role="presentation" class="active"><a href="#about"><div class="icon icon-office-04"></div><span class="nav-text">About</span></a></li>
                 <li role="presentation"><a href="#performance"><div class="icon icon-office-16"></div><span class="nav-text">Performance</span></a></li>
                 <li role="presentation"><a href="#"><div class="icon icon-office-42"></div><span class="nav-text">Income</span></a></li>
                 <li role="presentation"><a href="#"><div class="icon icon-shopping-03"></div><span class="nav-text">Spending</span></a></li>
               </ul>
+        
             </div>
           </div>
         </div>
@@ -323,48 +325,30 @@
   $(document).ready(function(){
 
     //Get page-nav offset from top of page
-    var pagenavOffset = $('#page-nav').offset().top;
+    var pagenavOffset = $('.page-nav-container').offset().top;
 
     //Affix page-nav to top of page on scroll
-    $('#page-nav').affix({
+    $('.page-nav-container').affix({
       offset: {
         top: pagenavOffset
       }
     });
 
     //Expand page-nav once affixed
-    $('#page-nav').on('affixed.bs.affix', function () {
+    $('.page-nav-container').on('affixed.bs.affix', function () {
       $('.page-nav-wrapper').addClass('expanded');
     });
 
     //Un-expand page-nav once nolonger affixed
-    $('#page-nav').on('affixed-top.bs.affix', function () {
+    $('.page-nav-container').on('affixed-top.bs.affix', function () {
       $('.page-nav-wrapper').removeClass('expanded');
     });
 
-    //Change active tab when scrolling
-    /*
-    var sectionID = [];
-    var sectionTop = [];
-    var sectionBottom = [];
-    $('.section').each(function(){
-      sectionID.push($(this).attr('id'));
-      sectionTop.push($(this).offset().top);
-      sectionBottom.push( ($(this).offset().top + $(this).height()) );
-    });
-    var scrollOffset = 100;
-    $(window).scroll(function() {
-      var scrollPos = $(document).scrollTop();
-      $(sectionID).each(function(index, value){
-        if (scrollPos >= scrollTop && scrollPos <= scrollBottom){
-          if($('#' + sectionID[index]).hasClass('active') == false){
-            $('#page-nav .nav li').removeClass('active');
-            $('a[href$="ABC"]')
-          }
-        }
-      });
-    });
-    */
+    //Change active tab when scrolling using Bootstrap scrollspy.js
+    $('body').scrollspy({ 
+      target: '.page-nav-container',
+      offset: 100
+    });    
 
     //Easy scrolling (a link to #section will scroll to #section)
     $('a[href^="#"]').on('click',function (e) {
