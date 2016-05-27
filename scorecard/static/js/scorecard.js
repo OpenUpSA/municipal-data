@@ -40,4 +40,14 @@ $(document).ready(function(){
     }
   });
 
+  $('.collapse')
+    .on('shown.bs.collapse', function() {
+      var $toggle = $('a.show-more[href="#' + this.id + '"]');
+      $toggle.find('.fa').removeClass('fa-plus').addClass('fa-minus');
+    })
+    .on('hidden.bs.collapse', function() {
+      var $toggle = $('a.show-more[href="#' + this.id + '"]');
+      $toggle.find('.fa').removeClass('fa-minus').addClass('fa-plus');
+    });
+
 });

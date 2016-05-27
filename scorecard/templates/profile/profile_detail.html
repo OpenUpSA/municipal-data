@@ -94,19 +94,26 @@
                     <li><i class="fa fa-li fa-user" aria-hidden="true"></i> {{ official.title }} {{ official.name }}</li>
                   </ul>
                   <div class="person-contact-details">
-                    <a href="#" class="show-contact-details"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Contact Details</a>
-                    <!--
-                    <div class="contact-details">
-                      <ul class="fa-ul">
-                        <li>
-                          <i class="fa fa-li fa-phone" aria-hidden="true"></i>  <a href="#">[phone number]</a>
-                        </li>
-                        <li>
-                          <i class="fa fa-li fa-envelope" aria-hidden="true"></i> <a href="{{ muni_contact.url }}">[email address]</a>
-                        </li>
-                      </ul>
+                    <a href="#contact-details-{{ forloop.counter }}" data-toggle="collapse" class="show-contact-details show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Contact Details</a>
+                    <div class="contact-details collapse" id="contact-details-{{ forloop.counter }}">
+                      {% if official.secretary %}
+                      <div>
+                        <h4>Secretary</h4>
+                        {{ official.secretary.title }} {{ official.secretary.name }}
+                      </div>
+                      {% endif %}
+
+                      {% with details=official.secretary|default:official %}
+                        <ul class="fa-ul">
+                          <li>
+                            <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ details.office_phone }}">{{ details.office_phone }}</a>
+                          </li>
+                          <li>
+                            <i class="fa fa-li fa-envelope" aria-hidden="true"></i> <a href="{{ details.email }}">{{ details.email }}</a>
+                          </li>
+                        </ul>
+                      {% endwith %}
                     </div>
-                    -->
                   </div>
                 </div>
               </div>
@@ -151,7 +158,7 @@
             <ul>
               <li>A <strong>clean audit</strong> means that there are no irregularities in the municipality's accounting.</li>
             </ul>
-            <div class="more"><a href="#"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show More</a></div>
+            <div class="more"><a href="#" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show More</a></div>
           </div>
         </div>
       </div>
