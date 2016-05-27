@@ -27,7 +27,7 @@ $(document).ready(function(){
   });    
 
   //Easy scrolling (a link to #section will scroll to #section)
-  $('a[href^="#"]').on('click',function (e) {
+  $('.nav a[href^="#"]').on('click',function (e) {
     e.preventDefault();
 
     var target = this.hash;
