@@ -495,6 +495,35 @@ a {
   background-color: $gray-lighter;
 }
 
+//= Videos
+.video-preview {
+  border: solid 1px $gray-dark;
+  border-radius: 5px;
+  .video-thumbnail {
+    background-position: center center;
+    background-size: cover;
+  }
+  .video-thumbnail img {
+    background: rgba(0,0,0,0.3);
+  }
+  .video-description {
+    background-color: $white;
+    padding: 5px;
+    border-top: solid 1px $gray-dark;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .video-description strong {
+    font-weight: 900;
+  }
+  a:hover {
+    text-decoration: none;
+  }
+}
+
 //= Person info
 .person-info {
   margin-bottom: 15px;
