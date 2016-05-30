@@ -77,8 +77,9 @@ class MuniApiClient(object):
         """
         results = {}
         for code in query_params['cut']['item.code']:
+          # Index values by financial period, treating nulls as zero
           results[code] = OrderedDict([
-              (c['financial_period.period'], none_as_zero(c[query_params['aggregate']]))
+              (c['financial_period.period'], c[query_params['aggregate']] or 0)
               for c in response['cells'] if c['item.code'] == code])
           years |= set([int(year) for year in results[code].keys()])
 
@@ -477,10 +478,3 @@ class IndicatorCalculator(object):
         return OrderedDict(sorted(
             self.results['audit_opinions'].items(), key=lambda t: t[0],
             reverse=True))
-
-
-def none_as_zero(value):
-    if value is None:
-        return 0
-    else:
-        return value
