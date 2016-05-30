@@ -89,9 +89,9 @@ class MuniApiClient(object):
         """
         Return facts that have annual results
         """
-        facts = OrderedDict([
+        facts = OrderedDict(sorted([
             (i['financial_year_end.year'], i[query_params['value_label']])
-            for i in response['data']])
+            for i in response['data']], reverse=True))
 
         return facts
 
@@ -479,6 +479,19 @@ class IndicatorCalculator(object):
         return values
 
     def audit_opinions(self):
-        return OrderedDict(sorted(
-            self.results['audit_opinions'].items(), key=lambda t: t[0],
-            reverse=True))
+        values = []
+        for year, result in self.results['audit_opinions'].iteritems():
+            if result == 'Unqualified - No findingsOutstanding' or result == 'Unqualified - Emphasis of Matter items':
+                rating = 'good'
+            elif result == 'Qualified':
+                rating = 'ave'
+            elif result == 'Disclaimer of opinion' or result == 'Adverse opinion':
+                rating = 'bad'
+            else:
+                rating = None
+
+            values.append({'year': year, 'result': result, 'rating': rating})
+
+        return values
+
+

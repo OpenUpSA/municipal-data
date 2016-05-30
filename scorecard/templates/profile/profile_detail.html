@@ -157,11 +157,11 @@
 
       <div class="col-sm-8">
         <div class="row">
-        {% for year, value in audit_opinions.iteritems %}
+        {% for opinion in audit_opinions %}
           <div class="col-sm-3">
             <table class="table table-bordered">
               <tr>
-                <td class="text{% if forloop.first %}-large{% endif %} text-center"><strong>{{ year|unlocalize }} <br>{{ value }}</strong></td>
+                <td class="text{% if forloop.first %}-large{% endif %} text-center"><strong>{{ opinion.year|unlocalize }} <i class="fa {% if opinion.rating == 'good' %}fa-thumbs-up indicator-good{% elif opinion.rating == 'ave' %}fa-thumbs-up indicator-ave{% else %}fa-warning indicator-bad{% endif %}" aria-hidden="true"></i><br>{{ opinion.result }}</strong></td>
               </tr>
               <tr class="table-footer">
                 <td><a href="#">Read report</a></td>
