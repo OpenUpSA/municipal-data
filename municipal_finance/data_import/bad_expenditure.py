@@ -40,7 +40,7 @@ def convert(sheet, csv_file):
                     'demarcation_code': sheet.cell(rowx, 2).value
                 }
                 try:
-                    item['amount'] = int(round(sheet.cell(rowx, 4+idx*2).value))
+                    item['amount'] = int(round(sheet.cell(rowx, 4+idx*2).value) * 1000)
                 except:
                     item['amount'] = None
 
