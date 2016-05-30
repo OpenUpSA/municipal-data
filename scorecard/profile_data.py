@@ -468,7 +468,7 @@ class IndicatorCalculator(object):
             'street_address_3': muni_contact['municipality.street_address_3'],
             'street_address_4': muni_contact['municipality.street_address_4'],
             'phone_number': muni_contact['municipality.phone_number'],
-            'url': muni_contact['municipality.url'].lower()
+            'url': muni_contact['municipality.url']
         }
 
         return values

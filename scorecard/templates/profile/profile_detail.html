@@ -67,9 +67,11 @@
               <li>
                 <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ muni_contact.phone_number }}">{{ muni_contact.phone_number }}</a>
               </li>
+              {% if muni_contact.url %}
               <li>
-                <i class="fa fa-li fa-globe" aria-hidden="true"></i> <a href="{{ muni_contact.url }}">{{ muni_contact.url }}</a>
+                <i class="fa fa-li fa-globe" aria-hidden="true"></i> <a href="{{ muni_contact.url|lower }}">{{ muni_contact.url }}</a>
               </li>
+              {% endif %}
               <li>
                 <i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
                 {{ muni_contact.street_address_1 }}<br>
@@ -121,7 +123,7 @@
       </div>
     </div>
   </div>
-  
+
     {% block page-nav %}
         <div class="page-nav-wrapper">
           <div class="page-nav-container">
@@ -130,13 +132,13 @@
                 <div class="muni-name">{{ geography.this.short_name }}</div>
                 <div class="muni-population">Population: {{ total_population|floatformat:"0" }}</div>
               </div>
-              
+
               <ul class="nav nav-pills" id="page-nav">
                 <li role="presentation" class="active"><a href="#performance"><div class="icon icon-office-16"></div><span class="nav-text">Performance</span></a></li>
                 <li role="presentation"><a href="#"><div class="icon icon-office-42"></div><span class="nav-text">Income</span></a></li>
                 <li role="presentation"><a href="#"><div class="icon icon-shopping-03"></div><span class="nav-text">Spending</span></a></li>
               </ul>
-        
+
             </div>
           </div>
         </div>
