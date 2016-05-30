@@ -368,7 +368,7 @@ a {
     background: transparent;
   }
   #page-nav a:hover {
-    color: $white;    
+    color: $white;
   }
   #page-nav li.active {
     border-bottom: solid 3px $brand-primary;
@@ -772,7 +772,11 @@ a {
   .axis path,
   .axis line {
     fill: none;
-    stroke: black;
-    shape-rendering: crispEdges;
+    stroke: none;
+  }
+
+  .axis.zero path {
+  	stroke: $black;
+  	shape-rendering: crispEdges;
   }
 }
