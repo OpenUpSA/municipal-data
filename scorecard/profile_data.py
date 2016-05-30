@@ -111,7 +111,7 @@ class MuniApiClient(object):
                 'aggregate': 'amount.sum',
                 'cut': {
                     'item.code': ['4600'],
-                    'amount_type.label': ['Audited Actual'],
+                    'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
                 },
@@ -122,7 +122,7 @@ class MuniApiClient(object):
                 'aggregate': 'amount.sum',
                 'cut': {
                     'item.code': ['4600'],
-                    'amount_type.label': ['Adjusted Budget'],
+                    'amount_type.code': ['ADJB'],
                     'demarcation.code': [self.geo_code],
                 },
                 'query_type': 'aggregate',
@@ -132,7 +132,7 @@ class MuniApiClient(object):
                 'aggregate': 'amount.sum',
                 'cut': {
                     'item.code': ['4200'],
-                    'amount_type.label': ['Audited Actual'],
+                    'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year']
                 },
@@ -143,7 +143,7 @@ class MuniApiClient(object):
                 'aggregate': 'asset_register_summary.sum',
                 'cut': {
                     'item.code': ['4100'],
-                    'amount_type.label': ['Audited Actual'],
+                    'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year']
                 },
@@ -154,7 +154,7 @@ class MuniApiClient(object):
                 'aggregate': 'asset_register_summary.sum',
                 'cut': {
                     'item.code': ['4100'],
-                    'amount_type.label': ['Adjusted Budget'],
+                    'amount_type.code': ['ADJB'],
                     'demarcation.code': [self.geo_code],
                 },
                 'query_type': 'aggregate',
@@ -164,7 +164,7 @@ class MuniApiClient(object):
                 'aggregate': 'amount.sum',
                 'cut': {
                     'item.code': ['5005'],
-                    'amount_type.label': ['Audited Actual'],
+                    'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year']
                 },
@@ -175,7 +175,7 @@ class MuniApiClient(object):
                 'aggregate': 'amount.sum',
                 'cut': {
                     'item.code': ['1300'],
-                    'amount_type.label': ['Audited Actual'],
+                    'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
                 },
@@ -186,7 +186,7 @@ class MuniApiClient(object):
                 'aggregate': 'amount.sum',
                 'cut': {
                     'item.code': ['1401'],
-                    'amount_type.label': ['Audited Actual'],
+                    'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
                 },
@@ -197,7 +197,7 @@ class MuniApiClient(object):
                 'aggregate': 'amount.sum',
                 'cut': {
                     'item.code': ['0200', '0400', '1600', '1700', '1900'],
-                    'amount_type.label': ['Audited Actual'],
+                    'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
                 },
@@ -208,7 +208,7 @@ class MuniApiClient(object):
                 'aggregate': 'amount.sum',
                 'cut': {
                     'item.code': ['3000', '3100', '3400', '4100', '4200', '4300', '3700', '4600'],
-                    'amount_type.label': ['Audited Actual'],
+                    'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
                 },
