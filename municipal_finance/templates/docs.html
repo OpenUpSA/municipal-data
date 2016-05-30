@@ -64,7 +64,7 @@
 
     <h3 id="where-from">Where is the data from</h3>
 
-    <p>The data is composed of the Section 71 submissions from municipalities to the Treasury's Local Government database. The submissions take the shape of <a href="http://mfma.treasury.gov.za/Return_Forms/Pages/default.aspx">Excel Spreadsheets provided by Treasury</a> to help municipalities validate the data and supply it in a consistent format. It can be helpful to look at the forms to understand the data better.</p>
+    <p>The data is composed of the Section 71 submissions from municipalities to the Treasury's Local Government database. The submissions take the shape of return forms in <a href="http://mfma.treasury.gov.za/Return_Forms/Pages/default.aspx">Excel Spreadsheets provided by Treasury</a> to help municipalities validate the data and supply it in a consistent format. It can be helpful to look at the forms to understand the data better.</p>
 
     <p>The data where Amount Type is Audited Actual are audit outcomes as stated by the Auditor General and submitted by the municipality to the Local Government database. National Treasury does extensive verification to ensure that the audit outcomes submitted to the database matches the audited Annual Financial Statements as issued by the Auditor General.</p>
 
@@ -104,6 +104,10 @@
     <p>You can use the API to <a href="#list-cubes">list available cubes</a> and get <a href="#model">metadata</a> about a cube that describes its attributes and values. You can also use the API to <a href="#cut">filter or cut</a>, <a href="#sort">sort</a> and <a href="#aggregate">aggregate</a> facts in a cube.</p>
 
     <p>The API is very similar to a pivot table in a spreadsheet. It lets you slice, dice and aggregate values to make sense of a vast amount of information.</p>
+
+    <aside class="info">
+      The values may be <code>null</code> or <code>0</code> when there wasn't another value filled in by the municipality. <code>null</code> should therefore be treated as <code>0</code>. If data isn't returned for a given query, it means this data wasn't <a href="#where-from">supplied to Treasury in an acceptable form</a>.
+    </aside>
 
     <h2 id="pagination">Pagination</h2>
 

@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load staticfiles pipeline %}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -11,15 +11,12 @@
     <meta name="description" content="{% block head_meta_description %}{% endblock %}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block head_css %}
-    <link rel="stylesheet" href="{% static 'stylesheets/scorecard.css' %}">
+    {% stylesheet "scorecard" %}
     {% block head_css_extra %}{% endblock %}{% endblock head_css %}
     {% block head_javascript %}
     <script src="//cdn.jsdelivr.net/g/modernizr@2.7,respond@1.4"></script>
     {% block head_javascript_extra %}{% endblock %}{% endblock %}
 
-    <!-- End Google Analytics -->
-    <link rel="shortcut icon" href="{{ STATIC_URL }}img/icons/favicon.ico" />
-    <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}img/icons/touch-icon-144x144.png" sizes="144x144" />
     {% block head_facebook_tags %}{% endblock %}
     {% block head_twitter_tags %}{% endblock %}
     <!-- Page generated: {% now "Y-m-d H:i:s.u" %} -->
@@ -65,10 +62,6 @@
           {% block footer_content %}
           <div class="col-sm-4">
             <ul class="list-unstyled">
-              <li>A project of the <a href="http://www.treasury.gov.za/" target="_blank">National Treasury</a></li>
-            </ul>
-
-            <ul class="list-unstyled">
               <li>Use the <a href="https://data.municipalmoney.org.za/" target="_blank">Municipal Financial Data API</a></li>
               <li>Contribute on <a href="https://github.com/Code4SA/municipal-data">GitHub</a> <i class="fa fa-github"></i></li>
             </ul>
@@ -109,6 +102,7 @@
         {% endif %}
         ga('send', 'pageview');
       </script>
+      <!-- End Google Analytics -->
 
       <!--[if gte IE 9]><!-->
         <script src="//cdn.jsdelivr.net/g/jquery@2.1,d3js@3.4,typeahead.js@0.10.2(typeahead.bundle.min.js),underscorejs@1.6,spinjs@1.3,handlebarsjs@1.3(handlebars.min.js)"></script>

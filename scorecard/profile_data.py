@@ -1,26 +1,32 @@
-import requests
+from concurrent.futures import ThreadPoolExecutor
+from requests_futures.sessions import FuturesSession
 from collections import defaultdict, OrderedDict
 
 from django.conf import settings
 
 from wazimap.data.utils import percent, ratio
 
+EXECUTOR = ThreadPoolExecutor(max_workers=10)
+
+
 class MuniApiClient(object):
     def __init__(self, geo_code):
-        self.API_URL = 'https://data.municipalmoney.org.za/api/cubes/'
-        if settings.DEBUG:
-            self.API_URL = 'http://127.0.0.1:8888/api/cubes/'
-
+        self.API_URL = settings.API_URL
         self.geo_code = str(geo_code)
         self.line_item_params = self.get_line_item_params()
 
         self.results = defaultdict(dict)
         self.years = set()
+        responses = []
+        self.session = FuturesSession(executor=EXECUTOR)
         for line_item, query_params in self.line_item_params.iteritems():
-            self.results[line_item], self.years = self.results_from_api(query_params, self.years)
+            responses.append((line_item, query_params, self.api_get(query_params)))
 
-    def results_from_api(self, query_params, years):
+        for (line_item, query_params, response) in responses:
+            self.results[line_item], self.years = \
+                self.response_to_results(response, query_params, self.years)
 
+    def api_get(self, query_params):
         if query_params['query_type'] == 'aggregate':
             url = self.API_URL + query_params['cube'] + '/aggregate'
             params = {
@@ -42,16 +48,18 @@ class MuniApiClient(object):
                 'fields': ','.join(field for field in query_params['fields']),
                 'page': 0
             }
+        return self.session.get(url, params=params, verify=False)
 
-        api_response = requests.get(url, params=params, verify=False).json()
-
+    def response_to_results(self, api_response, query_params, years):
+        api_response.result().raise_for_status()
+        response_dict = api_response.result().json()
         if query_params['query_type'] == 'facts':
             if query_params['annual']:
-                results, years = self.annual_facts_from_response(api_response, query_params, years)
+                results, years = self.annual_facts_from_response(response_dict, query_params, years)
             else:
-                results = self.facts_from_response(api_response, query_params)
+                results = self.facts_from_response(response_dict, query_params)
         else:
-            results, years = self.aggregate_from_response(api_response, query_params, years)
+            results, years = self.aggregate_from_response(response_dict, query_params, years)
 
         return results, years
 
@@ -416,32 +424,41 @@ class IndicatorCalculator(object):
         return [{'year': k, 'result':v} for k, v in self.results['cash_flow']['4200'].iteritems()]
 
     def mayoral_staff(self):
-        values = []
-
         roles = [
             'Mayor/Executive Mayor',
             'Municipal Manager',
             'Deputy Mayor/Executive Mayor',
             'Chief Financial Officer',
-            'Secretary of Mayor/Executive Mayor',
-            'Secretary of Municipal Manager',
-            'Secretary of Deputy Mayor/Executive Mayor',
-            'Secretary of Financial Manager',
         ]
 
-        for role in roles:
-            for official in self.results['officials']:
-                if official['role.role'] == role:
-                    values.append({
-                        'role': official['role.role'],
-                        'title': official['contact_details.title'],
-                        'name': official['contact_details.name'],
-                        'office_phone': official['contact_details.phone_number'],
-                        'fax_number': official['contact_details.fax_number'],
-                        'email': official['contact_details.email_address']
-                    })
+        secretaries = {
+            'Mayor/Executive Mayor': 'Secretary of Mayor/Executive Mayor',
+            'Municipal Manager': 'Secretary of Municipal Manager',
+            'Deputy Mayor/Executive Mayor': 'Secretary of Deputy Mayor/Executive Mayor',
+            'Chief Financial Officer': 'Secretary of Financial Manager',
+        }
 
-        return values
+        # index officials by role
+        officials = {
+            f['role.role']: {
+                'role': f['role.role'],
+                'title': f['contact_details.title'],
+                'name': f['contact_details.name'],
+                'office_phone': f['contact_details.phone_number'],
+                'fax_number': f['contact_details.fax_number'],
+                'email': f['contact_details.email_address']
+            } for f in self.results['officials']
+        }
+
+        # fold in secretaries
+        for role in roles:
+            official = officials.get(role)
+            if official:
+                secretary = officials.get(secretaries[role])
+                if secretary:
+                    official['secretary'] = secretary
+
+        return [officials.get(role) for role in roles]
 
     def muni_contact(self):
         muni_contact = self.results['contact_details'][0]
