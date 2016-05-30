@@ -77,8 +77,9 @@ class MuniApiClient(object):
         """
         results = {}
         for code in query_params['cut']['item.code']:
+          # Index values by financial period, treating nulls as zero
           results[code] = OrderedDict([
-              (c['financial_period.period'], c[query_params['aggregate']])
+              (c['financial_period.period'], c[query_params['aggregate']] or 0)
               for c in response['cells'] if c['item.code'] == code])
           years |= set([int(year) for year in results[code].keys()])
 
@@ -468,7 +469,7 @@ class IndicatorCalculator(object):
             'street_address_3': muni_contact['municipality.street_address_3'],
             'street_address_4': muni_contact['municipality.street_address_4'],
             'phone_number': muni_contact['municipality.phone_number'],
-            'url': muni_contact['municipality.url'].lower()
+            'url': muni_contact['municipality.url']
         }
 
         return values
