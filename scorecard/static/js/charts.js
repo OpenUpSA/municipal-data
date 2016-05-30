@@ -47,7 +47,7 @@ var Chart = function() {
         .attr("width", self.width + self.margin.left + self.margin.right)
         .attr("height", self.height + self.margin.top + self.margin.bottom)
       .append("g")
-        .attr("transform", "translate(" + self.margin.left + "," + self.margin.top + ")")
+        .attr("transform", "translate(" + self.margin.left + "," + self.margin.top + ")");
 
     self.x.domain(data.map(function(d) { return d.year; }));
     self.y.domain([
@@ -74,7 +74,7 @@ var Chart = function() {
         .attr("class", "chart-bar")
         .attr("x", function(d) { return self.x(d.year); })
         .attr("width", self.x.rangeBand())
-        .attr("y", function(d) { return d.result < 0 ? self.y(0) : self.y(d.result); })
+        .attr("y", function(d) { return self.y(Math.max(d.result, 0)); })
         .attr("height", function(d) { return Math.abs(self.y(d.result) - self.y(0)); })
         .attr("class", function(d, i){
           if (i === 0) {
