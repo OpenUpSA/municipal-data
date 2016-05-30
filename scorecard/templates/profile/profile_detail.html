@@ -194,6 +194,7 @@
     <div class="row">
       <div class="col-sm-4">
         {% with indicators.cash_at_year_end|first as latest %}
+        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
         {% endwith %}
         <div class="indicator-description">cash balance at the end of the financial year.</div>
@@ -228,6 +229,7 @@
     <div class="row">
       <div class="col-sm-4">
         {% with indicators.cash_coverage|first as latest %}
+        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} months{% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
         {% endwith %}
         <div class="indicator-description">months of operating expenses can be paid for with the cash available.</div>
@@ -262,6 +264,7 @@
     <div class="row">
       <div class="col-sm-4">
         {% with indicators.op_budget_diff|first as latest %}
+        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
         {% endwith %}
         <div class="indicator-description">difference between operating budget and actual expenditure.</div>
@@ -288,6 +291,7 @@
     <div class="row">
       <div class="col-sm-4">
         {% with indicators.cap_budget_diff|first as latest %}
+        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
         {% endwith %}
         <div class="indicator-description">difference between capital budget and actual expenditure.</div>
@@ -314,6 +318,7 @@
     <div class="row">
       <div class="col-sm-4">
         {% with indicators.rep_maint_perc_ppe|first as latest %}
+        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
         {% endwith %}
 
