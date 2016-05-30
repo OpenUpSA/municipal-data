@@ -50,6 +50,73 @@
       </article>
     </div>
   </div>
+
+  <div id="about">
+    <div class="container">
+      <div class="sub-section" id="who-runs">
+        <div class="row">
+          <div class="col-md-4 col-md-push-8">
+            <ul class="fa-ul">
+              <li>
+                <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ muni_contact.phone_number }}">{{ muni_contact.phone_number }}</a>
+              </li>
+              {% if muni_contact.url %}
+              <li>
+                <i class="fa fa-li fa-globe" aria-hidden="true"></i> <a href="{{ muni_contact.url|lower }}">{{ muni_contact.url }}</a>
+              </li>
+              {% endif %}
+              <li>
+                <i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
+                {{ muni_contact.street_address_1 }}<br>
+                {{ muni_contact.street_address_2 }}<br>
+                {{ muni_contact.street_address_3 }}<br>
+                {{ muni_contact.street_address_4 }}
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-8 col-md-pull-4">
+            <div class="row">
+              {% for official in mayoral_staff %}
+                {% if forloop.counter < 5 %}
+                <div class="col-sm-3">
+                  <div class="person-info">
+                    <div class="person-role">{{ official.role }}</div>
+                    <ul class="fa-ul person-name">
+                      <li><i class="fa fa-li fa-user" aria-hidden="true"></i> {{ official.title }} {{ official.name }}</li>
+                    </ul>
+                    <div class="person-contact-details">
+                      <a href="#contact-details-{{ forloop.counter }}" data-toggle="collapse" class="show-contact-details show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Contact Details</a>
+                      <div class="contact-details collapse" id="contact-details-{{ forloop.counter }}">
+                        {% if official.secretary %}
+                        <div>
+                          <h4>Secretary</h4>
+                          {{ official.secretary.title }} {{ official.secretary.name }}
+                        </div>
+                        {% endif %}
+
+                        {% with details=official.secretary|default:official %}
+                          <ul class="fa-ul">
+                            <li>
+                              <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ details.office_phone }}">{{ details.office_phone }}</a>
+                            </li>
+                            <li>
+                              <i class="fa fa-li fa-envelope" aria-hidden="true"></i> <a href="{{ details.email }}">{{ details.email }}</a>
+                            </li>
+                          </ul>
+                        {% endwith %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
     {% block page-nav %}
         <div class="page-nav-wrapper">
           <div class="page-nav-container">
@@ -58,14 +125,13 @@
                 <div class="muni-name">{{ geography.this.short_name }}</div>
                 <div class="muni-population">Population: {{ total_population|floatformat:"0" }}</div>
               </div>
-              
+
               <ul class="nav nav-pills" id="page-nav">
-                <li role="presentation" class="active"><a href="#about"><div class="icon icon-office-04"></div><span class="nav-text">About</span></a></li>
-                <li role="presentation"><a href="#performance"><div class="icon icon-office-16"></div><span class="nav-text">Performance</span></a></li>
+                <li role="presentation" class="active"><a href="#performance"><div class="icon icon-office-16"></div><span class="nav-text">Performance</span></a></li>
                 <li role="presentation"><a href="#"><div class="icon icon-office-42"></div><span class="nav-text">Income</span></a></li>
                 <li role="presentation"><a href="#"><div class="icon icon-shopping-03"></div><span class="nav-text">Spending</span></a></li>
               </ul>
-        
+
             </div>
           </div>
         </div>
@@ -73,69 +139,6 @@
 {% endblock %}
 
 {% block content %}
-
-<div class="section" id="about">
-    <h1><div class="icon icon-office-04"></div> About the municipality</h1>
-    <div class="sub-section" id="who-runs">
-      <div class="row">
-        <div class="col-md-4 col-md-push-8">
-          <ul class="fa-ul">
-            <li>
-              <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ muni_contact.phone_number }}">{{ muni_contact.phone_number }}</a>
-            </li>
-            <li>
-              <i class="fa fa-li fa-globe" aria-hidden="true"></i> <a href="{{ muni_contact.url }}">{{ muni_contact.url }}</a>
-            </li>
-            <li>
-              <i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
-              {{ muni_contact.street_address_1 }}<br>
-              {{ muni_contact.street_address_2 }}<br>
-              {{ muni_contact.street_address_3 }}<br>
-              {{ muni_contact.street_address_4 }}
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-8 col-md-pull-4">
-          <div class="row">
-            {% for official in mayoral_staff %}
-              {% if forloop.counter < 5 %}
-              <div class="col-sm-3">
-                <div class="person-info">
-                  <div class="person-role">{{ official.role }}</div>
-                  <ul class="fa-ul person-name">
-                    <li><i class="fa fa-li fa-user" aria-hidden="true"></i> {{ official.title }} {{ official.name }}</li>
-                  </ul>
-                  <div class="person-contact-details">
-                    <a href="#contact-details-{{ forloop.counter }}" data-toggle="collapse" class="show-contact-details show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Contact Details</a>
-                    <div class="contact-details collapse" id="contact-details-{{ forloop.counter }}">
-                      {% if official.secretary %}
-                      <div>
-                        <h4>Secretary</h4>
-                        {{ official.secretary.title }} {{ official.secretary.name }}
-                      </div>
-                      {% endif %}
-
-                      {% with details=official.secretary|default:official %}
-                        <ul class="fa-ul">
-                          <li>
-                            <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ details.office_phone }}">{{ details.office_phone }}</a>
-                          </li>
-                          <li>
-                            <i class="fa fa-li fa-envelope" aria-hidden="true"></i> <a href="{{ details.email }}">{{ details.email }}</a>
-                          </li>
-                        </ul>
-                      {% endwith %}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {% endif %}
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-    </div>
-</div>
 
 <div class="section" id="performance">
   <h1><div class="icon icon-office-16"></div> Performance</h1>
@@ -184,6 +187,7 @@
     <div class="row">
       <div class="col-sm-4">
         {% with indicators.cash_at_year_end|first as latest %}
+        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
         {% endwith %}
         <div class="indicator-description">cash balance at the end of the financial year.</div>
@@ -218,6 +222,7 @@
     <div class="row">
       <div class="col-sm-4">
         {% with indicators.cash_coverage|first as latest %}
+        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} months{% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
         {% endwith %}
         <div class="indicator-description">months of operating expenses can be paid for with the cash available.</div>
@@ -252,6 +257,7 @@
     <div class="row">
       <div class="col-sm-4">
         {% with indicators.op_budget_diff|first as latest %}
+        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
         {% endwith %}
         <div class="indicator-description">difference between operating budget and actual expenditure.</div>
@@ -278,6 +284,7 @@
     <div class="row">
       <div class="col-sm-4">
         {% with indicators.cap_budget_diff|first as latest %}
+        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
         {% endwith %}
         <div class="indicator-description">difference between capital budget and actual expenditure.</div>
@@ -304,6 +311,7 @@
     <div class="row">
       <div class="col-sm-4">
         {% with indicators.rep_maint_perc_ppe|first as latest %}
+        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
         {% endwith %}
 
