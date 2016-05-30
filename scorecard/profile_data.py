@@ -363,7 +363,7 @@ class IndicatorCalculator(object):
                 (self.results['ppe']['1300'][year] + self.results['invest_prop']['1401'][year]))
             except KeyError:
                 result = None
-            # We don't not have rating levels for this yet.
+            # We don't have rating levels for this yet.
             rating = None
             values.append({'year': year, 'result': result, 'rating': rating})
 
@@ -427,8 +427,6 @@ class IndicatorCalculator(object):
             values.append({'year': year, 'result': result, 'rating': rating})
 
         return values
-
-        return [{'year': k, 'result':v} for k, v in self.results['cash_flow']['4200'].iteritems()]
 
     def mayoral_staff(self):
         roles = [
