@@ -8,23 +8,27 @@ from wazimap.data.utils import percent, ratio
 
 EXECUTOR = ThreadPoolExecutor(max_workers=10)
 
+# The years for which we need results. Latest must be first.
+YEARS = [2015, 2014, 2013, 2012]
 
 class MuniApiClient(object):
     def __init__(self, geo_code):
         self.API_URL = settings.API_URL
         self.geo_code = str(geo_code)
-        self.line_item_params = self.get_line_item_params()
+        self.years = YEARS
+        self.current_year = YEARS[:1]
 
+        self.line_item_params = self.get_line_item_params()
         self.results = defaultdict(dict)
-        self.years = set()
+
         responses = []
         self.session = FuturesSession(executor=EXECUTOR)
         for line_item, query_params in self.line_item_params.iteritems():
             responses.append((line_item, query_params, self.api_get(query_params)))
 
         for (line_item, query_params, response) in responses:
-            self.results[line_item], self.years = \
-                self.response_to_results(response, query_params, self.years)
+            self.results[line_item] = \
+                self.response_to_results(response, query_params)
 
     def api_get(self, query_params):
         if query_params['query_type'] == 'aggregate':
@@ -50,53 +54,45 @@ class MuniApiClient(object):
             }
         return self.session.get(url, params=params, verify=False)
 
-    def response_to_results(self, api_response, query_params, years):
+    def response_to_results(self, api_response, query_params):
         api_response.result().raise_for_status()
         response_dict = api_response.result().json()
         if query_params['query_type'] == 'facts':
             if query_params['annual']:
-                results, years = self.annual_facts_from_response(response_dict, query_params, years)
+                results = self.annual_facts_from_response(response_dict, query_params)
             else:
                 results = self.facts_from_response(response_dict, query_params)
         else:
-            results, years = self.aggregate_from_response(response_dict, query_params, years)
+            results = self.aggregate_from_response(response_dict, query_params)
 
-        return results, years
+        return results
 
     @staticmethod
-    def aggregate_from_response(response, query_params, years):
+    def aggregate_from_response(response, query_params):
         """
-        Return results and years.
-        Results are the values we received from the API in the following format:
+        Results are the values we received from the API converted into the following format:
         {
             '4100': {2015: 11981070609.0}, {2014: 844194485.0}, {2013: 593485329.0}
         }
-
-        Years is a set of years in the results we received,
-        used determine which periods we use when presenting results.
         """
         results = {}
         for code in query_params['cut']['item.code']:
           results[code] = OrderedDict([
               (c['financial_period.period'], c[query_params['aggregate']])
               for c in response['cells'] if c['item.code'] == code])
-          years |= set([int(year) for year in results[code].keys()])
 
-        return results, years
+        return results
 
     @staticmethod
-    def annual_facts_from_response(response, query_params, years):
+    def annual_facts_from_response(response, query_params):
         """
-        Return facts that have annual results,
-        and a set of years in the results we received,
-        used determine which periods we use when presenting results.
+        Return facts that have annual results
         """
         facts = OrderedDict([
             (i['financial_year_end.year'], i[query_params['value_label']])
             for i in response['data']])
-        years |= set([int(year) for year in facts.keys()])
 
-        return facts, years
+        return facts
 
     @staticmethod
     def facts_from_response(response, query_params):
@@ -113,6 +109,7 @@ class MuniApiClient(object):
                     'amount_type.label': ['Audited Actual'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
+                    'financial_period.period': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -123,6 +120,7 @@ class MuniApiClient(object):
                     'item.code': ['4600'],
                     'amount_type.label': ['Adjusted Budget'],
                     'demarcation.code': [self.geo_code],
+                    'financial_period.period': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -133,7 +131,8 @@ class MuniApiClient(object):
                     'item.code': ['4200'],
                     'amount_type.label': ['Audited Actual'],
                     'demarcation.code': [self.geo_code],
-                    'period_length.length': ['year']
+                    'period_length.length': ['year'],
+                    'financial_period.period': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -144,7 +143,8 @@ class MuniApiClient(object):
                     'item.code': ['4100'],
                     'amount_type.label': ['Audited Actual'],
                     'demarcation.code': [self.geo_code],
-                    'period_length.length': ['year']
+                    'period_length.length': ['year'],
+                    'financial_period.period': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -155,6 +155,7 @@ class MuniApiClient(object):
                     'item.code': ['4100'],
                     'amount_type.label': ['Adjusted Budget'],
                     'demarcation.code': [self.geo_code],
+                    'financial_period.period': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -165,7 +166,8 @@ class MuniApiClient(object):
                     'item.code': ['5005'],
                     'amount_type.label': ['Audited Actual'],
                     'demarcation.code': [self.geo_code],
-                    'period_length.length': ['year']
+                    'period_length.length': ['year'],
+                    'financial_period.period': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -177,6 +179,7 @@ class MuniApiClient(object):
                     'amount_type.label': ['Audited Actual'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
+                    'financial_period.period': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -188,6 +191,7 @@ class MuniApiClient(object):
                     'amount_type.label': ['Audited Actual'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
+                    'financial_period.period': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -199,6 +203,7 @@ class MuniApiClient(object):
                     'amount_type.label': ['Audited Actual'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
+                    'financial_period.period': self.current_year
                 },
                 'query_type': 'aggregate',
             },
@@ -210,6 +215,7 @@ class MuniApiClient(object):
                     'amount_type.label': ['Audited Actual'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
+                    'financial_period.period': self.current_year
                 },
                 'query_type': 'aggregate',
             },
@@ -250,7 +256,7 @@ class MuniApiClient(object):
                 'query_type': 'facts',
                 'cube': 'audit_opinions',
                 'cut': {
-                    'demarcation.code': self.geo_code,
+                    'demarcation.code': self.geo_code
                 },
                 'fields': [
                     'opinion.code',
