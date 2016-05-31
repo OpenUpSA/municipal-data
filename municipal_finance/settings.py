@@ -204,7 +204,6 @@ PIPELINE = {
         'docs': {
             'source_filenames': (
                 'bower_components/fontawesome/css/font-awesome.css',
-                'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss',
                 'slate/stylesheets/screen.css',
                 'stylesheets/docs.scss',
             ),
