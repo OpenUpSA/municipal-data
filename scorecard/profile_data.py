@@ -365,10 +365,16 @@ class IndicatorCalculator(object):
             try:
                 result = percent(self.results['rep_maint']['5005'][year],
                 (self.results['ppe']['1300'][year] + self.results['invest_prop']['1401'][year]))
+                if abs(result) >= 8:
+                    rating = 'good'
+                elif abs(result) < 8:
+                    rating = 'bad'
+                else:
+                    rating = None
             except KeyError:
                 result = None
-            # We don't have rating levels for this yet.
-            rating = None
+                rating = None
+
             values.append({'year': year, 'result': result, 'rating': rating})
 
         return values
