@@ -284,13 +284,6 @@ PIPELINE = {
         'api-home': {
             'source_filenames': (
                 'javascript/vendor/jquery-1.12.3.min.js',
-                'slate/javascripts/lib/_energize.js',
-                'slate/javascripts/lib/_lunr.js',
-                'slate/javascripts/lib/_jquery_ui.js',
-                'slate/javascripts/lib/_jquery.tocify.js',
-                'slate/javascripts/lib/_jquery.highlight.js',
-                'slate/javascripts/lib/_imagesloaded.min.js',
-                'slate/javascripts/app/_lang.js',
                 'javascript/home.js',
             ),
             'output_filename': 'home.js',
