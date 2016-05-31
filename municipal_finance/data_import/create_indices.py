@@ -1,5 +1,6 @@
 """
-  from municipal_finance.data_import import create_indices as ci
+from municipal_finance.data_import import create_indices as ci
+ci.create_index_statements()
 """
 
 from municipal_finance.cubes import cube_manager
@@ -7,18 +8,19 @@ from municipal_finance.cubes import cube_manager
 
 def create_index_statements():
     with open('sql/create_indices.sql', 'w') as f:
-        for cube_name in cube_manager.list_cubes():
+        for cube_name in sorted(cube_manager.list_cubes()):
             f.write("\\echo cube=%s\n" % cube_name)
             cube = cube_manager.get_cube(cube_name)
             model = cube.model.to_dict()
-            for dimension_name, dimension in model['dimensions'].iteritems():
+            for dimension_name in sorted(model['dimensions'].keys()):
+                dimension = model['dimensions'][dimension_name]
                 f.write("\\echo dimension=%s\n" % dimension_name)
 
                 attribute_names = dimension['attributes'].keys()
                 fact_table_name = model['fact_table']
 
                 f.write("\\echo attributes\n")
-                for attribute_name in attribute_names:
+                for attribute_name in sorted(attribute_names):
                     attribute_column_index(f,
                                            fact_table_name,
                                            dimension,
@@ -39,7 +41,8 @@ def create_index_statements():
                                                 dimension_name,
                                                 dimension['join_column'])
 
-                if dimension_name == "item":
+                if dimension_name == "item" \
+                   and 'position_in_return_form' in dimension['attributes'].keys():
                     f.write("\\echo dimension positional\n")
                     dimension_positional_index(f,
                                                fact_table_name,

@@ -21,7 +21,12 @@ def index(request):
         cube = cube_manager.get_cube(cube_name)
         (model,) = cube.model.to_dict(),
         if 'item' in model['dimensions'].keys():
-            items = cube.members('item', order='item.position_in_return_form:asc')['data']
+            if 'position_in_return_form' \
+               in model['dimensions']['item']['attributes'].keys():
+                items = cube.members('item',
+                                     order='item.position_in_return_form:asc')['data']
+            else:
+                items = cube.members('item')['data']
         else:
             items = None
         cubes.append({
