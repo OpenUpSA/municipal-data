@@ -24,6 +24,8 @@ def get_profile(geo_code, geo_level, profile_name=None):
     indicators['cap_budget_diff'] = indicator_calc.cap_budget_diff()
     indicators['rep_maint_perc_ppe'] = indicator_calc.rep_maint_perc_ppe()
     indicators['wasteful_exp_perc_exp'] = indicator_calc.wasteful_exp_perc_exp()
+    indicators['revenue_breakdown'] = indicator_calc.revenue_breakdown()
+    indicators['expenditure_breakdown'] = indicator_calc.expenditure_breakdown()
 
     return {
         'total_population': total_pop,

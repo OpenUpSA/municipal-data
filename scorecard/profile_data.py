@@ -281,23 +281,24 @@ class IndicatorCalculator(object):
     def __init__(self, results, years):
         self.results = results
         self.years = years
+        self.current_year = YEARS[0]
 
         self.revenue_breakdown_items = [
-            ('property_rates', '0200'),
-            ('service_charges', '0400'),
-            ('transfers_received', '1600'),
-            ('own_revenue', '1700'),
-            ('total', '1900')
+            ('Property rates', '0200'),
+            ('Service charges', '0400'),
+            ('Transfers received', '1600'),
+            ('Own revenue', '1700'),
+            ('Total', '1900')
         ]
 
         self.expenditure_breakdown_items = [
-            ('employee_related_costs', ['3000', '3100']),
-            ('councillor_remuneration', '3400'),
-            ('bulk_purchases', '4100'),
-            ('contracted_services', '4200'),
-            ('transfers_spent', '4300'),
-            ('depreciation_amortisation', '3700'),
-            ('total', '4600')
+            ('Employee related costs', ['3000', '3100']),
+            ('Councillor remuneration', '3400'),
+            ('Bulk purchases', '4100'),
+            ('Contracted services', '4200'),
+            ('Transfers spent', '4300'),
+            ('Depreciation and amortisation', '3700'),
+            ('Total', '4600')
         ]
 
     def cash_coverage(self):
@@ -387,47 +388,47 @@ class IndicatorCalculator(object):
         return values
 
     def revenue_breakdown(self):
-        values = OrderedDict()
-        for year in self.years:
-            values[year] = {}
-            subtotal = 0.0
-            for name, code in self.revenue_breakdown_items:
-                try:
-                    values[year][name] = self.results['revenue_breakdown'][code][year]
-                    if not name == 'total':
-                        subtotal += values[year][name]
-                except KeyError:
-                    values[year][name] = None
-
-            if values[year]['total']:
-                values[year]['other'] = values[year]['total'] - subtotal
-            else:
-                values[year]['other'] = None
+        values = []
+        subtotal = 0.0
+        for item, code in self.revenue_breakdown_items:
+            try:
+                amount = self.results['revenue_breakdown'][code][self.current_year]
+                if not item == 'Total':
+                    subtotal += amount
+                else:
+                    total = amount
+            except KeyError:
+                amount = None
+            if not item == 'Total':
+                values.append({'item': item, 'amount': amount})
+        if total and subtotal:
+            values.append({'item': 'Other', 'amount': total - subtotal})
 
         return values
 
     def expenditure_breakdown(self):
-        values = OrderedDict()
-        for year in self.years:
-            values[year] = {}
-            subtotal = 0.0
-            for name, code in self.expenditure_breakdown_items:
-                try:
-                    if not type(code) is list:
-                        values[year][name] = self.results['expenditure_breakdown'][code][year]
-                    else:
-                        values[year][name] = 0.0
-                        for c in code:
-                            values[year][name] += self.results['expenditure_breakdown'][c][year]
-                    if not name == 'total':
-                        subtotal += values[year][name]
-                except KeyError:
-                    values[year][name] = None
+        values = []
+        subtotal = 0.0
 
-            if values[year]['total']:
-                values[year]['other'] = values[year]['total'] - subtotal
-            else:
-                values[year]['other'] = None
+        for item, code in self.expenditure_breakdown_items:
+            try:
+                if not type(code) is list:
+                    amount = self.results['expenditure_breakdown'][code][self.current_year]
+                else:
+                    amount = 0.0
+                    for c in code:
+                        amount += self.results['expenditure_breakdown'][c][self.current_year]
+                if not item == 'Total':
+                    subtotal += amount
+                else:
+                    total = amount
+            except KeyError:
+                amount = None
+            if not item == 'Total':
+                values.append({'item': item, 'amount': amount})
+
+        if total and subtotal:
+            values.append({'item': 'Other', 'amount': total - subtotal})
 
         return values
 
