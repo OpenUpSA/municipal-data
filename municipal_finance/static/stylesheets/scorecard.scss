@@ -576,6 +576,24 @@ a {
   }
 }
 
+//= Show calculation
+//
+.show-calc {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
+  .icon {
+    margin-right: 5px;
+  }
+  a {
+    text-decoration: none;
+    background-color: $body-bg;
+  }
+  a:hover {
+    text-decoration: none;
+  }
+}
+
 //=DidYouKnow Panel
 //
 .panel-didyouknow {
@@ -640,7 +658,7 @@ a {
   table.indicator-key {
     width: auto;
     margin-top: 5px;
-    margin-bottom: 0px;
+    margin-bottom: 10px;
 
     td, th {
       padding: 5px;
