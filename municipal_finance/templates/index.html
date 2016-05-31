@@ -29,22 +29,22 @@
         <div class="stat-panel col-md-4">
           <a href="#accept-tou" class="read-the-docs">Read the Docs</a>
         </div>
-        <div class="stat-panel col-md-4">4 years of data</div>
+        <div class="stat-panel col-md-4"><span class="stat-value">4</span> years of data</div>
         <div class="stat-panel col-md-4">
-          <p>8 Metro Municipalities</p>
-          <p>44 District Municipalities</p>
-          <p>226 Local Municipalities</p>
+          <p><span class="stat-value">8</span> Metro Municipalities</p>
+          <p><span class="stat-value">44</span> District Municipalities</p>
+          <p><span class="stat-value">226</span> Local Municipalities</p>
         </div>
         <div class="stat-panel col-md-4">
-          <p>R 1 072 771 439 501<p>
+          <p class="stat-value">R 1 072 771 439 501<p>
           <p>Operating Revenue</p>
         </div>
         <div class="stat-panel col-md-4">
-          <p>R 1 005 624 194 025</p>
+          <p class="stat-value">R 1 005 624 194 025</p>
           <p>Operating Expenditure</p>
         </div>
         <div class="stat-panel col-md-4">
-          <p>12 datasets</p>
+          <p><span class="stat-value">12</span> datasets</p>
           <ul>
             <li>Aged Creditor Analysis</li>
             <li>Aged Debtor Analysis</li>
@@ -60,16 +60,20 @@
             <li>Repairs and Maintenance</li>
           </ul>
         </div>
-      </div>
+      </div> <!-- stat panels -->
     </div>
-    <h2 id="intro">Terms of Use</h2>
-    <aside class="info">
-      Usage of this data is subject to the <b>Terms of Use</b> (To be confirmed)
-    </aside>
 
-    <input type="checkbox" name="accept-tou" id="accept-tou">
-    <label for="accept-tou">I accept the terms of use</label>
-    <p><a href="#accept-tou" class="read-the-docs">Read the Docs</a></p>
+    <h2 id="intro">Terms of Use</h2>
+
+      <aside class="info">
+        Usage of this data is subject to the <b>Terms of Use</b> (To be confirmed)
+      </aside>
+    <div class="col-md-6">
+      <input type="checkbox" name="accept-tou" id="accept-tou">
+      <label for="accept-tou">I accept the terms of use</label>
+      <p><a href="#accept-tou" class="read-the-docs btn btn-default">Read the Docs</a></p>
+    </div>
+
   </div>
 </div>
 {% endblock %}
