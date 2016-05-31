@@ -204,10 +204,20 @@ PIPELINE = {
         'docs': {
             'source_filenames': (
                 'bower_components/fontawesome/css/font-awesome.css',
+                'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss',
                 'slate/stylesheets/screen.css',
                 'stylesheets/docs.scss',
             ),
             'output_filename': 'docs.css',
+        },
+        'api-home': {
+            'source_filenames': (
+                'bower_components/fontawesome/css/font-awesome.css',
+                'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss',
+                'slate/stylesheets/screen.css',
+                'stylesheets/docs.scss',
+            ),
+            'output_filename': 'api-home.css',
         },
         'table': {
             'source_filenames': (
@@ -270,6 +280,20 @@ PIPELINE = {
                 'javascript/docs.js',
             ),
             'output_filename': 'docs.js',
+        },
+        'api-home': {
+            'source_filenames': (
+                'javascript/vendor/jquery-1.12.3.min.js',
+                'slate/javascripts/lib/_energize.js',
+                'slate/javascripts/lib/_lunr.js',
+                'slate/javascripts/lib/_jquery_ui.js',
+                'slate/javascripts/lib/_jquery.tocify.js',
+                'slate/javascripts/lib/_jquery.highlight.js',
+                'slate/javascripts/lib/_imagesloaded.min.js',
+                'slate/javascripts/app/_lang.js',
+                'javascript/home.js',
+            ),
+            'output_filename': 'home.js',
         },
         'table': {
             'source_filenames': (
