@@ -292,6 +292,7 @@ PIPELINE = {
                 'js/bootstrap-3.3.2/scrollspy.js',
                 'js/bootstrap-3.3.2/transition.js',
                 'js/bootstrap-3.3.2/collapse.js',
+                'js/bootstrap-3.3.2/modal.js',
                 'js/charts.js',
                 'js/scorecard.js',
             ),

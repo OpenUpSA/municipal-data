@@ -495,7 +495,7 @@ a {
   background-color: $gray-lighter;
 }
 
-//= Video-preview
+//= Videos
 .video-preview {
   background-color: $gray-lighter;
   border: solid 1px $gray;
@@ -579,6 +579,30 @@ a {
   }
   a:hover .video-description {
     background-color: $brand-primary;
+  }
+}
+
+#video-modal {
+  .modal-header {
+    background-color: $gray-lighter;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 0;
+    min-height: 34px;
+  }
+  .modal-title {
+    padding: 5px 10px;
+  }
+  .btn.close {
+    padding: 6px;
+    color: $brand-primary;
+    opacity: 1;
+  }
+  .btn.close:hover {
+    color: darken($brand-primary,5%);
+  }
+  .modal-body {
+    text-align: center;
   }
 }
 

@@ -50,4 +50,20 @@ $(document).ready(function(){
       $toggle.find('.fa').removeClass('fa-minus').addClass('fa-plus');
     });
 
+  //Load video modal
+  $('.video-link').click(function(event){
+    event.preventDefault();
+
+    var videoTitle = $(this).attr('data-videoTitle');
+    $('#video-title').text(videoTitle);
+
+    var videoURL = $(this).attr('data-videoURL');
+    $('#video-iframe').attr('src', videoURL);
+
+    $('#video-modal').modal('show');
+  });
+  $('#video-modal').on('hide.bs.modal', function(){
+    $('#video-iframe').attr('src', '');
+  });
+
 });

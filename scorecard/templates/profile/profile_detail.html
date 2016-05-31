@@ -149,7 +149,7 @@
 
 <div id="explainer-video">
   <div class="video-preview video-preview-lg">
-    <a href="#">
+    <a href="#" class="video-link" data-toggle="modal" data-videoTitle="Municipal Finance in 5 Minutes" data-videoURL="http://www.youtube.com/embed/HYfLQg4-kVs?autoplay=1">
       <div class="video-image" style="background-image: url('{% static 'img/sa-flag.jpg' %}');">
         <div class="video-image-inner">
           <div class="play-button-wrapper">
@@ -359,6 +359,23 @@
     </div>
   </div>
 
+</div>
+
+<!-- Video Modal -->
+<div class="modal fade" id="video-modal" tabindex="-1" role="dialog" aria-labelledby="VideoModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a class="btn close" href="#" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></a>
+        <h4 class="modal-title" id="video-title"></h4>
+      </div>
+      <div class="modal-body">
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe id="video-iframe" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
