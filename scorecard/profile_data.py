@@ -324,10 +324,12 @@ class IndicatorCalculator(object):
                     1)
                 if abs(result) < 10:
                     rating = 'good'
+                elif abs(result) <= 25:
+                    rating = 'ave'
                 elif abs(result) > 25:
                     rating = 'bad'
                 else:
-                    rating = 'ave'
+                    rating = None
             except KeyError:
                 result = None
                 rating = None
@@ -344,10 +346,12 @@ class IndicatorCalculator(object):
                     self.results['cap_exp_budget']['4100'][year])
                 if abs(result) < 10:
                     rating = 'good'
+                elif abs(result) <= 30:
+                    rating = 'ave'
                 elif abs(result) > 30:
                     rating = 'bad'
                 else:
-                    rating = 'ave'
+                    rating = None
             except KeyError:
                 result = None
                 rating = None
