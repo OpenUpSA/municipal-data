@@ -157,7 +157,13 @@
                 <td class="text{% if forloop.first %}-large{% endif %} text-center"><strong>{{ opinion.year|unlocalize }} <i class="fa {% if opinion.rating == 'good' %}fa-thumbs-up indicator-good{% elif opinion.rating == 'ave' %}fa-thumbs-up indicator-ave{% else %}fa-warning indicator-bad{% endif %}" aria-hidden="true"></i><br>{{ opinion.result }}</strong></td>
               </tr>
               <tr class="table-footer">
-                <td><a href="#">Read report</a></td>
+                <td>
+                  {% if opinion.report_url %}
+                  <a href="{{ opinion.report_url }}" target="_blank">Read report</a>
+                  {% else %}
+                  No report available
+                  {% endif %}
+                </td>
               </tr>
             </table>
           </div>
