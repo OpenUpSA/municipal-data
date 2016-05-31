@@ -60,10 +60,37 @@ $(document).ready(function(){
     var videoURL = $(this).attr('data-videoURL');
     $('#video-iframe').attr('src', videoURL);
 
+    var videoURLAfr = $(this).attr('data-videoURLAfr');
+    var videoURLZul = $(this).attr('data-videoURLZul');
+    var videoURLXho = $(this).attr('data-videoURLXho');
+
+    /* If any of the languages are specified, add a language selection menu to the modal */
+    if ( videoURLAfr.length || videoURLZul.length || videoURLXho.length ){
+      var languageOptions = ('<ul class="nav nav-pills" id="video-language-menu"><li role="presentation" class="active"><a href="' + videoURL + '" target="video-iframe">English</a></li>');
+      if( videoURLAfr.length ) {
+        languageOptions += ('<li role="presentation"><a href="' + videoURLAfr + '" target="video-iframe">Afrikaans</a></li>');
+      }
+      if( videoURLZul.length ) {
+        languageOptions += ('<li role="presentation"><a href="' + videoURLZul + '" target="video-iframe">Zulu</a></li>');
+      }
+      if( videoURLXho.length ) {
+        languageOptions += ('<li role="presentation"><a href="' + videoURLXho + '" target="video-iframe">Xhosa</a></li>');
+      }
+      languageOptions += '</ul>';
+      $('#video-modal .modal-body').append(languageOptions);
+    }
     $('#video-modal').modal('show');
   });
+
   $('#video-modal').on('hide.bs.modal', function(){
     $('#video-iframe').attr('src', '');
+    $('#video-language-menu').remove();
+  });
+
+  //Switch active language nav item when clicked
+  $(document).on("click", "#video-language-menu li a", function() {
+    $('#video-language-menu li.active').removeClass('active');
+    $(this).parent('li').addClass('active');
   });
 
 });
