@@ -132,8 +132,8 @@
 
               <ul class="nav nav-pills" id="page-nav">
                 <li role="presentation" class="active"><a href="#performance"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i><br><span class="nav-text">Performance</span></a></li>
-                <li role="presentation"><a href="#"><i class="fa fa-money fa-2x" aria-hidden="true"></i><br><span class="nav-text">Income</span></a></li>
-                <li role="presentation"><a href="#"><i class="fa fa-credit-card fa-2x" aria-hidden="true"></i><br><span class="nav-text">Spending</span></a></li>
+                <li role="presentation"><a href="#income"><i class="fa fa-money fa-2x" aria-hidden="true"></i><br><span class="nav-text">Income</span></a></li>
+                <li role="presentation"><a href="#spending"><i class="fa fa-credit-card fa-2x" aria-hidden="true"></i><br><span class="nav-text">Spending</span></a></li>
               </ul>
 
             </div>
@@ -489,7 +489,10 @@
     </div>
     {% endwith %}
   </div>
+</div>
 
+<div class="section" id="income">
+  <h1><div class="icon icon-office-42"></div> Income</h1>
   <div class="indicator">
     <h2>Where money comes from</h2>
 
@@ -499,7 +502,10 @@
       </div>
     </div>
   </div>
+</div>
 
+<div class="section" id="spending">
+  <h1><div class="icon icon-shopping-03"></div> Spending</h1>
     <div class="indicator">
     <h2>How money is spent</h2>
 
@@ -509,7 +515,6 @@
       </div>
     </div>
   </div>
-
 </div>
 
 {% endblock %}
