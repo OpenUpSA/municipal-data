@@ -120,10 +120,12 @@ a {
   .fa-twitter {
     margin-right: 5px;
   }
-  .title img {
-    margin-right: 3px;
-    vertical-align: bottom;
-    height: 25px;
+  .title {
+    font-weight: 900;
+    text-shadow: 2px 2px 0 $gray, 3px 3px 0 rgba(0,0,0,0.3);
+  }
+  .title:hover {
+    text-decoration: none;
   }
 
   a {
@@ -295,7 +297,7 @@ a {
 
 //= Page header
 #page-header {
-  background: $gray-dark;
+  background: $gray;
   border-bottom: solid 1px $gray-dark;
 }
 
