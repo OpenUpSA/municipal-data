@@ -370,8 +370,12 @@ a {
   #page-nav a:hover {
     color: $white;
   }
+  #page-nav li {
+    margin-bottom: 3px;
+  }
   #page-nav li.active {
     border-bottom: solid 3px $brand-primary;
+    margin-bottom: 0;
   }
   #page-nav li.active a {
     background: transparent;
