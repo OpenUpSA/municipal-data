@@ -97,7 +97,7 @@ a {
 #cover-map {
   position: relative;
   margin: 0px;
-  height: auto;
+  height: 200px;
   border-bottom: solid 1px $gray-dark;
 }
 #slippy-map {
@@ -179,16 +179,29 @@ a {
 //
 #cover-profile {
   position: relative;
+  margin: 0px auto;
+
+  // mimic .container sizes
+  @media (min-width: 768px) {
+    width: 750px;
+  }
+  @media (min-width: 992px) {
+    width: 970px;
+  }
+  @media (min-width: 1200px) {
+    width: 1170px;
+  }
 
   article {
-    margin-top: 3em;
-    margin-bottom: 3em;
+    margin-top: 30px;
     border: solid $black 1px;
     border-radius: 0;
     padding: 0;
     line-height: 1;
     color: $gray-darker;
     background-color: $white;
+    float: left;
+    width: 50%;
   }
 
   .caption {
@@ -247,6 +260,9 @@ a {
 }
 
 @media only screen and (max-width: 768px) {
+  #cover-map {
+    height: auto;
+  }
   #cover-map #slippy-map {
     height: 200px;
   }
@@ -258,6 +274,7 @@ a {
     background-color: inherit;
     border: none;
     width: 100%;
+    float: none;
     padding: 1em .25em;
     margin-top: 0;
     margin-bottom: 0;
