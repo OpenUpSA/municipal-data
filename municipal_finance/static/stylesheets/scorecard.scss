@@ -97,7 +97,7 @@ a {
 #cover-map {
   position: relative;
   margin: 0px;
-  height: auto;
+  height: 200px;
   border-bottom: solid 1px $gray-dark;
 }
 #slippy-map {
@@ -120,10 +120,11 @@ a {
   .fa-twitter {
     margin-right: 5px;
   }
-  .title img {
-    margin-right: 3px;
-    vertical-align: bottom;
-    height: 25px;
+  .title {
+    font-weight: bold;
+  }
+  .title:hover {
+    text-decoration: none;
   }
 
   a {
@@ -178,16 +179,29 @@ a {
 //
 #cover-profile {
   position: relative;
+  margin: 0px auto;
+
+  // mimic .container sizes
+  @media (min-width: 768px) {
+    width: 750px;
+  }
+  @media (min-width: 992px) {
+    width: 970px;
+  }
+  @media (min-width: 1200px) {
+    width: 1170px;
+  }
 
   article {
-    margin-top: 3em;
-    margin-bottom: 3em;
+    margin-top: 30px;
     border: solid $black 1px;
     border-radius: 0;
     padding: 0;
     line-height: 1;
     color: $gray-darker;
     background-color: $white;
+    float: left;
+    width: 50%;
   }
 
   .caption {
@@ -246,6 +260,9 @@ a {
 }
 
 @media only screen and (max-width: 768px) {
+  #cover-map {
+    height: auto;
+  }
   #cover-map #slippy-map {
     height: 200px;
   }
@@ -257,6 +274,7 @@ a {
     background-color: inherit;
     border: none;
     width: 100%;
+    float: none;
     padding: 1em .25em;
     margin-top: 0;
     margin-bottom: 0;
@@ -295,7 +313,7 @@ a {
 
 //= Page header
 #page-header {
-  background: $gray-dark;
+  background: $gray;
   border-bottom: solid 1px $gray-dark;
 }
 
@@ -370,8 +388,12 @@ a {
   #page-nav a:hover {
     color: $white;
   }
+  #page-nav li {
+    margin-bottom: 3px;
+  }
   #page-nav li.active {
     border-bottom: solid 3px $brand-primary;
+    margin-bottom: 0;
   }
   #page-nav li.active a {
     background: transparent;
@@ -576,6 +598,24 @@ a {
   }
 }
 
+//= Show calculation
+//
+.show-calc {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
+  .icon {
+    margin-right: 5px;
+  }
+  a {
+    text-decoration: none;
+    background-color: $body-bg;
+  }
+  a:hover {
+    text-decoration: none;
+  }
+}
+
 //=DidYouKnow Panel
 //
 .panel-didyouknow {
@@ -640,7 +680,7 @@ a {
   table.indicator-key {
     width: auto;
     margin-top: 5px;
-    margin-bottom: 0px;
+    margin-bottom: 10px;
 
     td, th {
       padding: 5px;
@@ -655,17 +695,17 @@ a {
   }
   .indicator-bad { color: $red; }
   .indicator-good { color: $green; }
+  .indicator-ave { color: $yellow; }
 }
 
 //= Page footer
 #page-footer {
-  background-color: $nt-cream-dark;
+  background-color: $gray-lighter;
   border-top: 1px solid $gray-light;
   padding: 1.5em 0 2em;
   margin-top: 10px;
   ul {
     margin: 0;
-    padding-left: 1em;
   }
 
   img.logo {
@@ -781,8 +821,12 @@ a {
   .axis path,
   .axis line {
     fill: none;
-    stroke: black;
-    shape-rendering: crispEdges;
+    stroke: none;
+  }
+
+  .axis.zero path {
+  	stroke: $black;
+  	shape-rendering: crispEdges;
   }
 }
 

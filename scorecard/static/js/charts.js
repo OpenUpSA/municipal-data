@@ -50,13 +50,22 @@ var Chart = function() {
         .attr("transform", "translate(" + self.margin.left + "," + self.margin.top + ")");
 
     self.x.domain(data.map(function(d) { return d.year; }));
-    self.y.domain([0, d3.max(data, function(d) { return d.result; })]);
+    self.y.domain([
+      Math.min(d3.min(data, function(d) { return d.result }), 0),
+      Math.max(d3.max(data, function(d) { return d.result; }), 0)
+    ]);
 
     //  Draw the x-axis
     self.svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + self.height + ")")
       .call(self.xAxis);
+
+    // Draw the zero line
+    self.svg.append("g")
+        .attr("class", "x axis zero")
+        .attr("transform", "translate(0," + self.y(0) + ")")
+        .call(self.xAxis.tickFormat("").tickSize(0));
 
     //  Draw the bars
     self.svg.selectAll(".bar")
@@ -65,8 +74,8 @@ var Chart = function() {
         .attr("class", "chart-bar")
         .attr("x", function(d) { return self.x(d.year); })
         .attr("width", self.x.rangeBand())
-        .attr("y", function(d) { return self.y(d.result); })
-        .attr("height", function(d) { return self.height - self.y(d.result); })
+        .attr("y", function(d) { return self.y(Math.max(d.result, 0)); })
+        .attr("height", function(d) { return Math.abs(self.y(d.result) - self.y(0)); })
         .attr("class", function(d, i){
           if (i === 0) {
             return "current " + d.rating;

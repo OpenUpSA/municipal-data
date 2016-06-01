@@ -89,9 +89,9 @@ class MuniApiClient(object):
         """
         Return facts that have annual results
         """
-        facts = OrderedDict([
+        facts = OrderedDict(sorted([
             (i['financial_year_end.year'], i[query_params['value_label']])
-            for i in response['data']])
+            for i in response['data']], reverse=True))
 
         return facts
 
@@ -324,10 +324,12 @@ class IndicatorCalculator(object):
                     1)
                 if abs(result) < 10:
                     rating = 'good'
+                elif abs(result) <= 25:
+                    rating = 'ave'
                 elif abs(result) > 25:
                     rating = 'bad'
                 else:
-                    rating = 'ave'
+                    rating = None
             except KeyError:
                 result = None
                 rating = None
@@ -344,10 +346,12 @@ class IndicatorCalculator(object):
                     self.results['cap_exp_budget']['4100'][year])
                 if abs(result) < 10:
                     rating = 'good'
+                elif abs(result) <= 30:
+                    rating = 'ave'
                 elif abs(result) > 30:
                     rating = 'bad'
                 else:
-                    rating = 'ave'
+                    rating = None
             except KeyError:
                 result = None
                 rating = None
@@ -361,10 +365,16 @@ class IndicatorCalculator(object):
             try:
                 result = percent(self.results['rep_maint']['5005'][year],
                 (self.results['ppe']['1300'][year] + self.results['invest_prop']['1401'][year]))
+                if abs(result) >= 8:
+                    rating = 'good'
+                elif abs(result) < 8:
+                    rating = 'bad'
+                else:
+                    rating = None
             except KeyError:
                 result = None
-            # We don't not have rating levels for this yet.
-            rating = None
+                rating = None
+
             values.append({'year': year, 'result': result, 'rating': rating})
 
         return values
@@ -428,8 +438,6 @@ class IndicatorCalculator(object):
 
         return values
 
-        return [{'year': k, 'result':v} for k, v in self.results['cash_flow']['4200'].iteritems()]
-
     def mayoral_staff(self):
         roles = [
             'Mayor/Executive Mayor',
@@ -481,6 +489,19 @@ class IndicatorCalculator(object):
         return values
 
     def audit_opinions(self):
-        return OrderedDict(sorted(
-            self.results['audit_opinions'].items(), key=lambda t: t[0],
-            reverse=True))
+        values = []
+        for year, result in self.results['audit_opinions'].iteritems():
+            if result == 'Unqualified - No findingsOutstanding' or result == 'Unqualified - Emphasis of Matter items':
+                rating = 'good'
+            elif result == 'Qualified':
+                rating = 'ave'
+            elif result == 'Disclaimer of opinion' or result == 'Adverse opinion':
+                rating = 'bad'
+            else:
+                rating = None
+
+            values.append({'year': year, 'result': result, 'rating': rating})
+
+        return values
+
+
