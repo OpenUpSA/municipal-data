@@ -53,7 +53,8 @@ var HorizontalGroupedBarChart = function() {
         .attr("width", self.width + self.margin.left + self.margin.right)
         .attr("height", self.height + self.margin.top + self.margin.bottom)
       .append("g")
-        .attr("transform", "translate(" + self.margin.left + "," + self.margin.top + ")");
+        .attr("transform", "translate(" + self.margin.left + "," + self.margin.top + ")")
+        .attr("class", "grouped-chart");
 
     var years = _.keys(_.countBy(data, function(data) { return data.year; })).reverse();
     var items = _.keys(_.countBy(data, function(data) { return data.item; }));
@@ -80,7 +81,7 @@ var HorizontalGroupedBarChart = function() {
       .attr("class", "y axis")
       .call(self.yAxis);
 
-    // Create the groupings
+    // Create the groups
     var group = self.svg.selectAll(".group")
         .data(groupedData)
       .enter().append("g")
@@ -113,6 +114,26 @@ var HorizontalGroupedBarChart = function() {
             return d.amount;
           }
          });
+
+    var legend = self.svg.selectAll(".legend")
+        .data(years)
+      .enter().append("g")
+        .attr("class", "legend")
+        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+    legend.append("rect")
+        .attr("x", self.width - 18)
+        .attr("width", 18)
+        .attr("height", 18)
+        .style("fill", function (d) { return self.color(d); });
+
+    legend.append("text")
+        .attr("x", self.width - 24)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "end")
+        .text(function(d) { return d; });
+
   };
 }
 
