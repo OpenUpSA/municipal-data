@@ -208,6 +208,8 @@
             <td class="key-description">Negative balance.</td>
           </tr>
         </table>
+        <div class="show-calc"><a href="#cash-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+
       </div>
       <div class="col-sm-4">
         <div class="cash-at-year-end chart-container"></div>
@@ -220,6 +222,17 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="calc collapse" id="cash-calc">
+      <h5>Formula:</h5>
+      <p>= Cash available at year end</p>
+      <h5>API details for items:</h5>
+      Cash available at year end:
+      <ul>
+        <li>Cube: cflow</li>
+        <li>Item code: 4200</li>
+        <li>Amount type: Audited Actual</li>
+      </ul>
     </div>
   </div>
 
@@ -243,6 +256,7 @@
             <td class="key-description">less than 1</td>
           </tr>
         </table>
+        <div class="show-calc"><a href="#cash-coverage-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
         <div class="cash-coverage chart-container"></div>
@@ -255,6 +269,23 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="calc collapse" id="cash-coverage-calc">
+      <h5>Formula:</h5>
+      <p>= Cash available at year end / Operating Expenditure per month</p>
+      <h5>API details for items:</h5>
+      Cash available at year end:
+      <ul>
+        <li>Cube: cflow</li>
+        <li>Item code: 4200</li>
+        <li>Amount type: Audited Actual</li>
+      </ul>
+      Operating Expenditure
+      <ul>
+        <li>Cube: incexp</li>
+        <li>Item code: 4600</li>
+        <li>Amount type: Audited Actual</li>
+      </ul>
     </div>
   </div>
 
@@ -278,10 +309,28 @@
             <td class="key-description">more than 25%</td>
           </tr>
         </table>
+        <div class="show-calc"><a href="#op-budget-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
         <div class="op-budget-diff chart-container"></div>
       </div>
+    </div>
+    <div class="calc collapse" id="op-budget-calc">
+      <h5>Formula:</h5>
+      <p>= (Budgeted Operating Expenditure - Actual Operating Expenditure) / Budgeted Operating Expenditure</p>
+      <h5>API details for items:</h5>
+      Budgeted Operating Expenditure:
+      <ul>
+        <li>Cube: incexp</li>
+        <li>Item code: 4600</li>
+        <li>Amount type: Adjusted Budget</li>
+      </ul>
+      Actual Operating Expenditure
+      <ul>
+        <li>Cube: incexp</li>
+        <li>Item code: 4600</li>
+        <li>Amount type: Audited Actual</li>
+      </ul>
     </div>
   </div>
 
@@ -305,10 +354,28 @@
             <td class="key-description">more than 30%</td>
           </tr>
         </table>
+        <div class="show-calc"><a href="#cap-budget-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
         <div class="cap-budget-diff chart-container"></div>
       </div>
+    </div>
+    <div class="calc collapse" id="cap-budget-calc">
+      <h5>Formula:</h5>
+      <p>= (Budgeted Capital Expenditure - Actual Capital Expenditure) / Budgeted Capital Expenditure</p>
+      <h5>API details for items:</h5>
+      Budgeted Capital Expenditure:
+      <ul>
+        <li>Cube: capital</li>
+        <li>Item code: 4100</li>
+        <li>Amount type: Adjusted Budget</li>
+      </ul>
+      Actual Operating Expenditure
+      <ul>
+        <li>Cube: capital</li>
+        <li>Item code: 4100</li>
+        <li>Amount type: Audited Actual</li>
+      </ul>
     </div>
   </div>
 
@@ -333,10 +400,34 @@
             <td class="key-description">less than 8%</td>
           </tr>
         </table>
+        <div class="show-calc"><a href="#rep-maint-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
         <div class="rep-maint-perc-ppe chart-container"></div>
       </div>
+    </div>
+    <div class="calc collapse" id="rep-maint-calc">
+      <h5>Formula:</h5>
+      <p>= Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)</p>
+      <h5>API details for items:</h5>
+      Repairs and maintenance expenditure
+      <ul>
+        <li>Cube: repmaint</li>
+        <li>Item code: 5005</li>
+        <li>Amount type: Adjusted Budget</li>
+      </ul>
+      Property, Plant and Equipment
+      <ul>
+        <li>Cube: bsheet</li>
+        <li>Item code: 1300</li>
+        <li>Amount type: Audited Actual</li>
+      </ul>
+      Investment Property
+      <ul>
+        <li>Cube: bsheet</li>
+        <li>Item code: 1401</li>
+        <li>Amount type: Audited Actual</li>
+      </ul>
     </div>
   </div>
 
