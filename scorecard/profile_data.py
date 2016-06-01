@@ -11,7 +11,7 @@ from wazimap.data.utils import percent, ratio
 
 EXECUTOR = ThreadPoolExecutor(max_workers=10)
 
-# The years for which we need results. Latest must be first.
+# The years for which we need results. Must be in desceneding order.
 YEARS = [2015, 2014, 2013, 2012]
 
 
@@ -209,7 +209,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_year_end.year': self.current_year
+                    'financial_period.period': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -221,7 +221,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_year_end.year': self.current_year
+                    'financial_period.period': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -282,6 +282,8 @@ class IndicatorCalculator(object):
         self.results = results
         self.years = years
         self.current_year = YEARS[0]
+        self.latest_two_years = YEARS[:2]
+
 
         self.revenue_breakdown_items = [
             ('Property rates', '0200'),
@@ -389,47 +391,47 @@ class IndicatorCalculator(object):
 
     def revenue_breakdown(self):
         values = []
-        subtotal = 0.0
-        for item, code in self.revenue_breakdown_items:
-            try:
-                amount = self.results['revenue_breakdown'][code][self.current_year]
+        for year in self.latest_two_years:
+            subtotal = 0.0
+            for item, code in self.revenue_breakdown_items:
+                try:
+                    amount = self.results['revenue_breakdown'][code][year]
+                    if not item == 'Total':
+                        subtotal += amount
+                    else:
+                        total = amount
+                except KeyError:
+                    amount = None
                 if not item == 'Total':
-                    subtotal += amount
-                else:
-                    total = amount
-            except KeyError:
-                amount = None
-            if not item == 'Total':
-                values.append({'item': item, 'amount': amount})
-        if total and subtotal:
-            values.append({'item': 'Other', 'amount': total - subtotal})
-
+                    values.append({'item': item, 'amount': amount, 'year': year})
+            if total and subtotal:
+                values.append({'item': 'Other', 'amount': total - subtotal, 'year': year})
         return values
 
     def expenditure_breakdown(self):
         values = []
-        subtotal = 0.0
 
-        for item, code in self.expenditure_breakdown_items:
-            try:
-                if not type(code) is list:
-                    amount = self.results['expenditure_breakdown'][code][self.current_year]
-                else:
-                    amount = 0.0
-                    for c in code:
-                        amount += self.results['expenditure_breakdown'][c][self.current_year]
+        for year in self.latest_two_years:
+            subtotal = 0.0
+            for item, code in self.expenditure_breakdown_items:
+                try:
+                    if not type(code) is list:
+                        amount = self.results['expenditure_breakdown'][code][year]
+                    else:
+                        amount = 0.0
+                        for c in code:
+                            amount += self.results['expenditure_breakdown'][c][year]
+                    if not item == 'Total':
+                        subtotal += amount
+                    else:
+                        total = amount
+                except KeyError:
+                    amount = None
                 if not item == 'Total':
-                    subtotal += amount
-                else:
-                    total = amount
-            except KeyError:
-                amount = None
-            if not item == 'Total':
-                values.append({'item': item, 'amount': amount})
+                    values.append({'item': item, 'amount': amount, 'year': year})
 
-        if total and subtotal:
-            values.append({'item': 'Other', 'amount': total - subtotal})
-
+            if total and subtotal:
+                values.append({'item': 'Other', 'amount': total - subtotal, 'year': year})
         return values
 
     def cash_at_year_end(self):

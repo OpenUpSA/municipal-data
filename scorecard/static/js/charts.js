@@ -9,7 +9,7 @@ var getNumberFormat = function() {
         .format(",.0f");
 }
 
-var HorizontalBarChart = function() {
+var HorizontalGroupedBarChart = function() {
   var self = this;
 
   self.init = function() {
@@ -23,22 +23,27 @@ var HorizontalBarChart = function() {
     var container_width = self.container.width();
     var container_height = 300;
 
-    self.margin = {top: 20, right: 200, bottom: 20, left: 200};
+    self.margin = {top: 10, right: 200, bottom: 10, left: 200};
     self.width = container_width - self.margin.left - self.margin.right;
     self.height = container_height - self.margin.top - self.margin.bottom;
 
-    self.y = d3.scale.ordinal()
-        .rangeRoundBands([0, self.height], 0.5);
+    self.y0 = d3.scale.ordinal()
+        .rangeRoundBands([0, self.height], 0.2);
+
+    self.y1 = d3.scale.ordinal()
 
     self.x = d3.scale.linear()
         .range([0, self.width]);
 
     self.yAxis = d3.svg.axis()
-        .scale(self.y)
+        .scale(self.y0)
         .orient("left")
         .tickSize(0, 0)
         .tickPadding(10);
   };
+
+  self.color = d3.scale.ordinal()
+    .range(["#aaa", "#eee"]);
 
   self.drawChart = function(data, container) {
     self.container = getContainerObject(container);
@@ -50,7 +55,24 @@ var HorizontalBarChart = function() {
       .append("g")
         .attr("transform", "translate(" + self.margin.left + "," + self.margin.top + ")");
 
-    self.y.domain(data.map(function(d) { return d.item; }));
+    var years = _.keys(_.countBy(data, function(data) { return data.year; })).reverse();
+    var items = _.keys(_.countBy(data, function(data) { return data.item; }));
+
+    var groupedData = [];
+
+    items.forEach(function(item){
+        var val =[];
+        data.forEach(function (d) {
+            if(item == d.item){
+                val.push(d);
+            }
+        });
+      groupedData.push({item: item, values: val});
+    });
+
+    self.y0.domain(groupedData.map(function(d) { return d.item; }));
+    self.y1.domain(years).rangeRoundBands([0, self.y0.rangeBand()]);
+
     self.x.domain([0, d3.max(data, function(d) { return d.amount })]);
 
     //  Draw the y-axis
@@ -58,24 +80,30 @@ var HorizontalBarChart = function() {
       .attr("class", "y axis")
       .call(self.yAxis);
 
+    // Create the groupings
+    var group = self.svg.selectAll(".group")
+        .data(groupedData)
+      .enter().append("g")
+        .attr("class", "group")
+        .attr("transform", function(d) { return "translate(0," + self.y0(d.item) + ")"; });
+
     //  Draw the bars
-    self.svg.selectAll(".bar")
-        .data(data)
+    group.selectAll(".chart-bar")
+        .data(function(d) { return d.values; })
       .enter().append("rect")
         .attr("class", "chart-bar")
-        .attr("y", function(d) { return self.y(d.item); })
-        .attr("height", self.y.rangeBand())
-        // .attr("x", function(d) { return self.x(d.amount); })
-        // .attr("x", 0 })
+        .attr("y", function(d) { return self.y1(d.year); })
+        .attr("height", self.y1.rangeBand() - 1)
         .attr("width", function(d) { return self.x(d.amount) })
+        .style("fill", function (d) { return self.color(d.year); });
 
-      // Add the labels
-    self.svg.selectAll("text.bar")
-        .data(data)
+    // Add the labels
+    group.selectAll("bar-label")
+        .data(function(d) { return d.values; })
       .enter().append("text")
         .attr("class", "bar-label")
         .attr("text-anchor", "middle")
-        .attr("y", function(d) { return self.y(d.item) + self.y.rangeBand()/2; })
+        .attr("y", function(d) { return self.y1(d.year) + self.y1.rangeBand() / 2; })
         .attr("x", function(d) { return self.x(d.amount) + 50; })
         .text(function(d) {
           if (d.amount >= 1000) {
@@ -87,6 +115,7 @@ var HorizontalBarChart = function() {
          });
   };
 }
+
 
 var VerticalBarChart = function() {
   var self = this;
@@ -196,7 +225,7 @@ var VerticalBarChart = function() {
 };
 
 var vertical_bar_chart = new VerticalBarChart();
-var horizontal_bar_chart = new HorizontalBarChart()
+var horizontal_bar_chart = new HorizontalGroupedBarChart()
 
 vertical_bar_chart.init();
 horizontal_bar_chart.init()
