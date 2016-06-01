@@ -120,10 +120,11 @@ a {
   .fa-twitter {
     margin-right: 5px;
   }
-  .title img {
-    margin-right: 3px;
-    vertical-align: bottom;
-    height: 25px;
+  .title {
+    font-weight: bold;
+  }
+  .title:hover {
+    text-decoration: none;
   }
 
   a {
@@ -295,7 +296,7 @@ a {
 
 //= Page header
 #page-header {
-  background: $gray-dark;
+  background: $gray;
   border-bottom: solid 1px $gray-dark;
 }
 
@@ -370,8 +371,12 @@ a {
   #page-nav a:hover {
     color: $white;
   }
+  #page-nav li {
+    margin-bottom: 3px;
+  }
   #page-nav li.active {
     border-bottom: solid 3px $brand-primary;
+    margin-bottom: 0;
   }
   #page-nav li.active a {
     background: transparent;
@@ -660,13 +665,12 @@ a {
 
 //= Page footer
 #page-footer {
-  background-color: $nt-cream-dark;
+  background-color: $gray-lighter;
   border-top: 1px solid $gray-light;
   padding: 1.5em 0 2em;
   margin-top: 10px;
   ul {
     margin: 0;
-    padding-left: 1em;
   }
 
   img.logo {
