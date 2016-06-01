@@ -1,23 +1,37 @@
-{% extends 'homepage.html' %}
-
+{% extends '_base.html' %}
 {% load pipeline staticfiles %}
 
-{% block head_css_extra %}
-{{ block.super }}
-{% stylesheet "scorecard" %}
-{% endblock head_css_extra %}
+{% block body_id %}homepage{% endblock %}
 
 {% block content_container %}
-
-{% block homepage_detail %}
-<div class="content-container clearfix">
-    <article class="wrapper">
-        <section class="column-full clearfix">
-            <div id="slippy-map"></div>
-        </section>
+<div class="container">
+    <article>
+        <div id="slippy-map"></div>
     </article>
 </div>
 {% endblock %}
 
-{% endblock %}
+{% block body_javascript_extra %}
+{{ block.super }}
 
+<script src="{% static 'js/vendor/leaflet-0.6.4.js' %}"></script>
+<script src="{% static 'js/vendor/topojson.v1.min.js' %}"></script>
+<script src="{% static 'js/vendor/leaflet.label.js' %}"></script>
+<script src="{% static 'js/maps_static.js' %}"></script>
+<script src="{% static 'js/maps_mapit.js' %}"></script>
+<script src="{% static 'js/profile_map.js' %}"></script>
+
+<script>
+// show 'use my current location' button
+if (Modernizr.geolocation) {
+    $('.geolocate-only').show();
+}
+// geoSelect already defined by widget.geo.select.js
+geoSelect.focus()
+
+var maps = new ProfileMaps();
+var centre = [-28, 25];
+var zoom = 5;
+maps.drawMapForHomepage('municipality', centre, zoom);
+</script>
+{% endblock %}
