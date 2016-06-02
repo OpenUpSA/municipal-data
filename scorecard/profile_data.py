@@ -1,6 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
-from collections import defaultdict, OrderedDict
+from collections import defaultdict, OrderedDict, Counter
 
 from django.conf import settings
 
@@ -39,9 +39,9 @@ class MuniApiClient(object):
                     k, ';'.join('{!r}'.format(item) for item in v))
                     for (k, v) in query_params['cut'].iteritems()
                     ).replace("'", '"'),
-                'drilldown': 'item.code|item.label|financial_period.period',
+                'drilldown': 'item.code|item.label|financial_year_end.year',
+                'order': 'financial_year_end.year:desc',
                 'page': 0,
-                'order': 'financial_period.period:desc',
             }
         elif query_params['query_type'] == 'facts':
             url = self.API_URL + query_params['cube'] + '/facts'
@@ -79,7 +79,7 @@ class MuniApiClient(object):
         for code in query_params['cut']['item.code']:
           # Index values by financial period, treating nulls as zero
           results[code] = OrderedDict([
-              (c['financial_period.period'], c[query_params['aggregate']] or 0)
+              (c['financial_year_end.year'], c[query_params['aggregate']] or 0)
               for c in response['cells'] if c['item.code'] == code])
 
         return results
@@ -110,7 +110,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.years
+                    'financial_year_end.year': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -121,7 +121,8 @@ class MuniApiClient(object):
                     'item.code': ['4600'],
                     'amount_type.code': ['ADJB'],
                     'demarcation.code': [self.geo_code],
-                    'financial_period.period': self.years
+                    'period_length.length': ['year'],
+                    'financial_year_end.year': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -133,7 +134,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.years
+                    'financial_year_end.year': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -145,7 +146,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.years
+                    'financial_year_end.year': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -156,7 +157,7 @@ class MuniApiClient(object):
                     'item.code': ['4100'],
                     'amount_type.code': ['ADJB'],
                     'demarcation.code': [self.geo_code],
-                    'financial_period.period': self.years
+                    'financial_year_end.year': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -168,7 +169,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.years
+                    'financial_year_end.year': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -180,7 +181,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.years
+                    'financial_year_end.year': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -192,7 +193,17 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.years
+                    'financial_year_end.year': self.years
+                },
+                'query_type': 'aggregate',
+            },
+            'wasteful_exp': {
+                'cube': 'badexp',
+                'aggregate': 'amount.sum',
+                'cut': {
+                    'item.code': ['irregular', 'fruitless', 'unauthorised'],
+                    'demarcation.code': [self.geo_code],
+                    'financial_year_end.year': self.years,
                 },
                 'query_type': 'aggregate',
             },
@@ -204,7 +215,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.current_year
+                    'financial_year_end.year': self.current_year
                 },
                 'query_type': 'aggregate',
             },
@@ -216,12 +227,11 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.current_year
+                    'financial_year_end.year': self.current_year
                 },
                 'query_type': 'aggregate',
             },
             'officials': {
-                'query_type': 'facts',
                 'cube': 'officials',
                 'cut': {
                     'municipality.demarcation_code': self.geo_code,
@@ -234,10 +244,10 @@ class MuniApiClient(object):
                     'contact_details.phone_number',
                     'contact_details.fax_number'],
                 'annual': False,
-                'value_label': ''
+                'value_label': '',
+                'query_type': 'facts',
             },
             'contact_details' : {
-                'query_type': 'facts',
                 'cube': 'municipalities',
                 'cut': {
                     'municipality.demarcation_code': self.geo_code,
@@ -251,10 +261,10 @@ class MuniApiClient(object):
                     'municipality.url'
                 ],
                 'annual': False,
-                'value_label': ''
+                'value_label': '',
+                'query_type': 'facts',
             },
             'audit_opinions' : {
-                'query_type': 'facts',
                 'cube': 'audit_opinions',
                 'cut': {
                     'demarcation.code': self.geo_code
@@ -265,7 +275,8 @@ class MuniApiClient(object):
                     'financial_year_end.year'
                 ],
                 'annual': True,
-                'value_label': 'opinion.label'
+                'value_label': 'opinion.label',
+                'query_type': 'facts',
             },
         }
 
@@ -436,6 +447,32 @@ class IndicatorCalculator(object):
 
             values.append({'year': year, 'result': result, 'rating': rating})
 
+        return values
+
+    def wasteful_exp_perc_exp(self):
+        values = []
+        aggregate = {}
+        for item, results in self.results['wasteful_exp'].iteritems():
+            for year, amount in results.iteritems():
+                if year in aggregate:
+                    aggregate[year] += amount
+                else:
+                    aggregate[year] = amount
+
+        for year in self.years:
+            try:
+                result = percent(aggregate[year],
+                    self.results['op_exp_actual']['4600'][year])
+                rating = None
+                if result == 0:
+                    rating = 'good'
+                else:
+                    rating = 'bad'
+            except KeyError:
+                result = None
+                rating = None
+
+            values.append({'year': year, 'result': result, 'rating': rating})
         return values
 
     def mayoral_staff(self):
