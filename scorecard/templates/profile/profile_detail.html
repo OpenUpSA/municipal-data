@@ -194,7 +194,7 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} Not available {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
         <div class="indicator-description">Cash balance at the end of the financial year.</div>
         <table class="table table-bordered indicator-key">
           <tr>
@@ -238,7 +238,7 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} months{% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} months{% else %} Not available {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
         <div class="indicator-description">Months of operating expenses can be paid for with the cash available.</div>
         <table class="table table-bordered indicator-key">
           <tr>
@@ -285,7 +285,7 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
         <div class="indicator-description">Difference between operating budget and actual expenditure.</div>
         <table class="table table-bordered indicator-key">
           <tr>
@@ -326,7 +326,7 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
         <div class="indicator-description">Difference between capital budget and actual expenditure.</div>
         <table class="table table-bordered indicator-key">
           <tr>
@@ -367,7 +367,7 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
 
         <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
         <table class="table table-bordered indicator-key">
@@ -409,7 +409,7 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
         <div class="indicator-description">Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage of operating expenditure.</div>
         <table class="table table-bordered indicator-key">
           <tr>
