@@ -451,12 +451,15 @@ class IndicatorCalculator(object):
 
     def wasteful_exp_perc_exp(self):
         values = []
-        aggregate = Counter()
+        aggregate = {}
         for item, results in self.results['wasteful_exp'].iteritems():
             for year, amount in results.iteritems():
-                aggregate[year] += amount
+                if year in aggregate:
+                    aggregate[year] += amount
+                else:
+                    aggregate[year] = amount
 
-        for year in sorted(list(self.years), reverse=True):
+        for year in self.years:
             try:
                 result = percent(aggregate[year],
                     self.results['op_exp_actual']['4600'][year])
