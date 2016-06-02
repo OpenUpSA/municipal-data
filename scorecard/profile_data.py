@@ -515,7 +515,7 @@ class IndicatorCalculator(object):
             'disclaimer': 'bad',
             'outsanding': 'bad',
             'qualified': 'ave',
-            'unqualified': 'good',
+            'unqualified': 'great',
             'unqualified_emphasis_of_matter': 'good',
         }
         for result in self.results['audit_opinions']:

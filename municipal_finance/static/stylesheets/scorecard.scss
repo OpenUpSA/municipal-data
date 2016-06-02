@@ -714,7 +714,9 @@ a {
     text-align: center;
   }
   .indicator-bad { color: $red; }
-  .indicator-good { color: $green; }
+  .indicator-good,
+  .indicator-great { color: $green; }
+  .indicator-great.fa-star { color: orange; }
   .indicator-ave { color: $yellow; }
 }
 
