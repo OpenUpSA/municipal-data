@@ -35,7 +35,7 @@ function noLocation() {
 
 if (navigator.geolocation && !lat && !lon) {
     spinner.spin(spinnerTarget);
-    //navigator.geolocation.getCurrentPosition(foundLocation, noLocation, {timeout:10000});
+    navigator.geolocation.getCurrentPosition(foundLocation, noLocation, {timeout:10000});
 }
 </script>
 {% endblock %}
