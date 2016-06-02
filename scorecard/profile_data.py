@@ -209,7 +209,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_year_end.year': self.current_year
+                    'financial_year_end.year': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -221,7 +221,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_year_end.year': self.current_year
+                    'financial_year_end.year': self.years
                 },
                 'query_type': 'aggregate',
             },
