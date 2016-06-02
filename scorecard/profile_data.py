@@ -295,7 +295,7 @@ class IndicatorCalculator(object):
 
     def cash_coverage(self):
         values = []
-        for year in sorted(list(self.years), reverse=True):
+        for year in self.years:
             try:
                 result = ratio(
                     self.results['cash_flow']['4200'][year],
@@ -316,7 +316,7 @@ class IndicatorCalculator(object):
 
     def op_budget_diff(self):
         values = []
-        for year in sorted(list(self.years), reverse=True):
+        for year in self.years:
             try:
                 result = percent(
                     (self.results['op_exp_budget']['4600'][year] - self.results['op_exp_actual']['4600'][year]),
@@ -339,7 +339,7 @@ class IndicatorCalculator(object):
 
     def cap_budget_diff(self):
         values = []
-        for year in sorted(list(self.years), reverse=True):
+        for year in self.years:
             try:
                 result = percent(
                     (self.results['cap_exp_budget']['4100'][year] - self.results['cap_exp_actual']['4100'][year]),
@@ -361,7 +361,7 @@ class IndicatorCalculator(object):
 
     def rep_maint_perc_ppe(self):
         values = []
-        for year in sorted(list(self.years), reverse=True):
+        for year in self.years:
             try:
                 result = percent(self.results['rep_maint']['5005'][year],
                 (self.results['ppe']['1300'][year] + self.results['invest_prop']['1401'][year]))
@@ -381,7 +381,7 @@ class IndicatorCalculator(object):
 
     def revenue_breakdown(self):
         values = OrderedDict()
-        for year in sorted(list(self.years), reverse=True):
+        for year in self.years:
             values[year] = {}
             subtotal = 0.0
             for name, code in self.revenue_breakdown_items:
@@ -401,7 +401,7 @@ class IndicatorCalculator(object):
 
     def expenditure_breakdown(self):
         values = OrderedDict()
-        for year in sorted(list(self.years), reverse=True):
+        for year in self.years:
             values[year] = {}
             subtotal = 0.0
             for name, code in self.expenditure_breakdown_items:
