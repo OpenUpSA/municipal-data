@@ -58,10 +58,7 @@ class MuniApiClient(object):
         api_response.result().raise_for_status()
         response_dict = api_response.result().json()
         if query_params['query_type'] == 'facts':
-            if query_params['annual']:
-                results = self.annual_facts_from_response(response_dict, query_params)
-            else:
-                results = self.facts_from_response(response_dict, query_params)
+            results = self.facts_from_response(response_dict, query_params)
         else:
             results = self.aggregate_from_response(response_dict, query_params)
 
@@ -85,20 +82,8 @@ class MuniApiClient(object):
         return results
 
     @staticmethod
-    def annual_facts_from_response(response, query_params):
-        """
-        Return facts that have annual results
-        """
-        facts = OrderedDict(sorted([
-            (i['financial_year_end.year'], i[query_params['value_label']])
-            for i in response['data']], reverse=True))
-
-        return facts
-
-    @staticmethod
     def facts_from_response(response, query_params):
         return response['data']
-
 
     def get_line_item_params(self):
         return {
@@ -243,7 +228,6 @@ class MuniApiClient(object):
                     'contact_details.email_address',
                     'contact_details.phone_number',
                     'contact_details.fax_number'],
-                'annual': False,
                 'value_label': '',
                 'query_type': 'facts',
             },
@@ -260,7 +244,6 @@ class MuniApiClient(object):
                     'municipality.street_address_4',
                     'municipality.url'
                 ],
-                'annual': False,
                 'value_label': '',
                 'query_type': 'facts',
             },
@@ -272,9 +255,9 @@ class MuniApiClient(object):
                 'fields': [
                     'opinion.code',
                     'opinion.label',
+                    'opinion.report_url',
                     'financial_year_end.year'
                 ],
-                'annual': True,
                 'value_label': 'opinion.label',
                 'query_type': 'facts',
             },
@@ -527,18 +510,22 @@ class IndicatorCalculator(object):
 
     def audit_opinions(self):
         values = []
-        for year, result in self.results['audit_opinions'].iteritems():
-            if result == 'Unqualified - No findingsOutstanding' or result == 'Unqualified - Emphasis of Matter items':
-                rating = 'good'
-            elif result == 'Qualified':
-                rating = 'ave'
-            elif result == 'Disclaimer of opinion' or result == 'Adverse opinion':
-                rating = 'bad'
-            else:
-                rating = None
-
-            values.append({'year': year, 'result': result, 'rating': rating})
-
+        code_rating = {
+            'adverse': 'bad',
+            'disclaimer': 'bad',
+            'outsanding': 'bad',
+            'qualified': 'ave',
+            'unqualified': 'good',
+            'unqualified_emphasis_of_matter': 'good',
+        }
+        for result in self.results['audit_opinions']:
+            rating = code_rating.get(result['opinion.code'], None)
+            values.append({
+                'year': result['financial_year_end.year'],
+                'result': result['opinion.label'],
+                'rating': rating,
+                'report_url': result['opinion.report_url'],
+            })
+        values = sorted(values, key=lambda r: r['year'])
+        values.reverse()
         return values
-
-
