@@ -724,6 +724,12 @@ a {
   width: 1%;
 }
 
+//= Leaflet
+.leaflet-top, .leaflet-bottom {
+  // ensure that the tt-dropdown menu goes above leaflet controls
+  z-index: 99 !important;
+}
+
 //= Twitter typeahead
 .tt-hint {
   visibility: hidden;
