@@ -59,7 +59,8 @@ INSTALLED_APPS = (
 if DEBUG:
     SITE_ID = int(os.environ.get('SITE_ID', '2'))
 
-API_URL = os.environ.get('API_URL', 'https://data.municipalmoney.org.za/api/cubes/')
+API_BASE = "https://data.municipalmoney.org.za"
+API_URL = os.environ.get('API_URL', API_BASE + '/api/cubes/')
 
 # Wazimap
 from wazimap.settings import WAZIMAP

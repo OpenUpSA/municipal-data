@@ -1,5 +1,5 @@
 {% extends '_base.html' %}
-{% load staticfiles pipeline l10n jsonify %}
+{% load staticfiles pipeline l10n jsonify table %}
 
 {% block head_title %}{{ geography.this.short_name }} - {{ block.super }}{% endblock %}
 {% block head_meta_description %}Municipal performance for {{ geography.this.short_name}}, and other information.{% endblock %}
@@ -188,15 +188,14 @@
   </div>
 
   <div class="indicator">
-    <h2 class="sub-heading">Cash balance</h2>
+    <h2 class="sub-heading">Cash Balance</h2>
 
+    {% with indicators.cash_at_year_end|first as latest %}
     <div class="row">
       <div class="col-sm-4">
-        {% with indicators.cash_at_year_end|first as latest %}
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-        {% endwith %}
-        <div class="indicator-description">cash balance at the end of the financial year.</div>
+        <div class="indicator-description">Cash balance at the end of the financial year.</div>
         <table class="table table-bordered indicator-key">
           <tr>
             <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
@@ -207,7 +206,7 @@
             <td class="key-description">Negative balance.</td>
           </tr>
         </table>
-        <div class="show-calc"><a href="#cash-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+        <div class="show-calc"><a href="#cash-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculations</a></div>
 
       </div>
       <div class="col-sm-4">
@@ -224,27 +223,23 @@
     </div>
     <div class="calc collapse" id="cash-calc">
       <h5>Formula:</h5>
-      <p>= Cash available at year end</p>
-      <h5>API details for items:</h5>
-      Cash available at year end:
-      <ul>
-        <li>Cube: cflow</li>
-        <li>Item code: 4200</li>
-        <li>Amount type: Audited Actual</li>
+      <ul class="formula">
+        <li>Cash available at year end</li>
+        <li>= <a href="{% table_url "cflow" year=latest.year muni=geography.this.geo_code items=4200 %}" target="_blank">Cash Flow item code 4200, Audited Actual</a></li>
       </ul>
     </div>
+    {% endwith %}
   </div>
 
   <div class="indicator">
-    <h2>Cash coverage</h2>
+    <h2>Cash Coverage</h2>
 
+    {% with indicators.cash_coverage|first as latest %}
     <div class="row">
       <div class="col-sm-4">
-        {% with indicators.cash_coverage|first as latest %}
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} months{% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-        {% endwith %}
-        <div class="indicator-description">months of operating expenses can be paid for with the cash available.</div>
+        <div class="indicator-description">Months of operating expenses can be paid for with the cash available.</div>
         <table class="table table-bordered indicator-key">
           <tr>
             <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
@@ -271,33 +266,27 @@
     </div>
     <div class="calc collapse" id="cash-coverage-calc">
       <h5>Formula:</h5>
-      <p>= Cash available at year end / Operating Expenditure per month</p>
-      <h5>API details for items:</h5>
-      Cash available at year end:
-      <ul>
-        <li>Cube: cflow</li>
-        <li>Item code: 4200</li>
-        <li>Amount type: Audited Actual</li>
-      </ul>
-      Operating Expenditure
-      <ul>
-        <li>Cube: incexp</li>
-        <li>Item code: 4600</li>
-        <li>Amount type: Audited Actual</li>
+
+      <ul class="formula">
+        <li>= Cash available at year end / Operating Expenditure per month</li>
+        <li>=
+          <a href="{% table_url "cflow" year=latest.year items=4200 %}" target="_blank">Cash Flow item code 4200, Audited Actual</a>
+          /
+          <a href="{% table_url "incexp" year=latest.year items=4600 %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a></li>
       </ul>
     </div>
+    {% endwith %}
   </div>
 
   <div class="indicator">
     <h2>Spending of Operating Budget</h2>
 
+    {% with indicators.op_budget_diff|first as latest %}
     <div class="row">
       <div class="col-sm-4">
-        {% with indicators.op_budget_diff|first as latest %}
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-        {% endwith %}
-        <div class="indicator-description">difference between operating budget and actual expenditure.</div>
+        <div class="indicator-description">Difference between operating budget and actual expenditure.</div>
         <table class="table table-bordered indicator-key">
           <tr>
             <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
@@ -316,33 +305,29 @@
     </div>
     <div class="calc collapse" id="op-budget-calc">
       <h5>Formula:</h5>
-      <p>= (Budgeted Operating Expenditure - Actual Operating Expenditure) / Budgeted Operating Expenditure</p>
-      <h5>API details for items:</h5>
-      Budgeted Operating Expenditure:
-      <ul>
-        <li>Cube: incexp</li>
-        <li>Item code: 4600</li>
-        <li>Amount type: Adjusted Budget</li>
-      </ul>
-      Actual Operating Expenditure
-      <ul>
-        <li>Cube: incexp</li>
-        <li>Item code: 4600</li>
-        <li>Amount type: Audited Actual</li>
+
+      <ul class="formula">
+        <li>= (Budgeted Operating Expenditure - Actual Operating Expenditure) / Budgeted Operating Expenditure</li>
+        <li>=
+          (<a href="{% table_url "incexp" year=latest.year items=4600 %}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>
+          -
+          <a href="{% table_url "incexp" year=latest.year items=4600 %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>)
+          /
+          <a href="{% table_url "incexp" year=latest.year items=4600 %}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>
       </ul>
     </div>
+    {% endwith %}
   </div>
 
   <div class="indicator">
     <h2>Spending of Capital Budget</h2>
 
+    {% with indicators.cap_budget_diff|first as latest %}
     <div class="row">
       <div class="col-sm-4">
-        {% with indicators.cap_budget_diff|first as latest %}
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-        {% endwith %}
-        <div class="indicator-description">difference between capital budget and actual expenditure.</div>
+        <div class="indicator-description">Difference between capital budget and actual expenditure.</div>
         <table class="table table-bordered indicator-key">
           <tr>
             <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
@@ -361,32 +346,28 @@
     </div>
     <div class="calc collapse" id="cap-budget-calc">
       <h5>Formula:</h5>
-      <p>= (Budgeted Capital Expenditure - Actual Capital Expenditure) / Budgeted Capital Expenditure</p>
-      <h5>API details for items:</h5>
-      Budgeted Capital Expenditure:
-      <ul>
-        <li>Cube: capital</li>
-        <li>Item code: 4100</li>
-        <li>Amount type: Adjusted Budget</li>
-      </ul>
-      Actual Operating Expenditure
-      <ul>
-        <li>Cube: capital</li>
-        <li>Item code: 4100</li>
-        <li>Amount type: Audited Actual</li>
+
+      <ul class="formula">
+        <li>= (Budgeted Capital Expenditure - Actual Capital Expenditure) / Budgeted Capital Expenditure</li>
+        <li>=
+          (<a href="{% table_url "capital" year=latest.year items=4100 %}" target="_blank">Capital item code 4100, Adjusted Budget</a>
+          -
+          <a href="{% table_url "capital" year=latest.year items=4100 %}" target="_blank">Capital item code 4100, Audited Actual</a>)
+          /
+          <a href="{% table_url "capital" year=latest.year items=4100 %}" target="_blank">Capital item code 4100, Adjusted Budget</a>
       </ul>
     </div>
+    {% endwith %}
   </div>
 
   <div class="indicator">
     <h2>Spending on Repairs and Maintenance</h2>
 
+    {% with indicators.rep_maint_perc_ppe|first as latest %}
     <div class="row">
       <div class="col-sm-4">
-        {% with indicators.rep_maint_perc_ppe|first as latest %}
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-        {% endwith %}
 
         <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
         <table class="table table-bordered indicator-key">
@@ -407,38 +388,28 @@
     </div>
     <div class="calc collapse" id="rep-maint-calc">
       <h5>Formula:</h5>
-      <p>= Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)</p>
-      <h5>API details for items:</h5>
-      Repairs and maintenance expenditure
-      <ul>
-        <li>Cube: repmaint</li>
-        <li>Item code: 5005</li>
-        <li>Amount type: Adjusted Budget</li>
-      </ul>
-      Property, Plant and Equipment
-      <ul>
-        <li>Cube: bsheet</li>
-        <li>Item code: 1300</li>
-        <li>Amount type: Audited Actual</li>
-      </ul>
-      Investment Property
-      <ul>
-        <li>Cube: bsheet</li>
-        <li>Item code: 1401</li>
-        <li>Amount type: Audited Actual</li>
+
+      <ul class="formula">
+        <li>= Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)</li>
+        <li>=
+          <a href="{% table_url "repmaint" year=latest.year items=5005 %}" target="_blank">Repairs and maintenance item code 5005, Adjusted Budget</a>
+          /
+          (<a href="{% table_url "bsheet" year=latest.year items=1300 %}" target="_blank">Balance Sheet item code 1300, Audited Actual</a>
+          +
+          <a href="{% table_url "bsheet" year=latest.year items=1401 %}" target="_blank">Balance Sheet item code 1401, Audited Actual</a>)
       </ul>
     </div>
+    {% endwith %}
   </div>
 
   <div class="indicator">
     <h2>Fruitless and wastefull expenditure</h2>
 
+    {% with indicators.wasteful_exp_perc_expenses|first as latest %}
     <div class="row">
       <div class="col-sm-4">
-        {% with indicators.wasteful_exp_perc_expenses|first as latest %}
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-        {% endwith %}
         <div class="indicator-description">Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage of operating expenditure.</div>
         <table class="table table-bordered indicator-key">
           <tr>
@@ -458,20 +429,16 @@
     </div>
     <div class="calc collapse" id="fruitless-exp-calc">
       <h5>Formula:</h5>
-      <p>=  Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure</p>
-      <h5>API details for items:</h5>
-      Unauthorised, Irregular, Fruitless and Wasteful Expenditure
-      <ul>
-        <li>Cube: badexp</li>
-        <li>Item codes: ['irregular', 'fruitless', 'unauthorised']</li>
-      </ul>
-      Operating Expenditure
-      <ul>
-        <li>Cube: incexp</li>
-        <li>Item code: 4600</li>
-        <li>Amount type: Audited Actual</li>
+
+      <ul class="formula">
+        <li>= Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure</li>
+        <li>=
+          <a href="{% table_url "badexp" year=latest.year items="irregular,fruitless,unauthorised" %}" target="_blank">Unauthorised, Irregular, Fruitless and Wasteful Expenditure item codes <i>irregular, fruitless, unauthorised</i></a>
+          /
+          <a href="{% table_url "incexp" year=latest.year items=4600 %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
       </ul>
     </div>
+    {% endwith %}
   </div>
 
 </div>
