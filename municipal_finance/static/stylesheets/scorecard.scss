@@ -54,6 +54,9 @@ $nav-tabs-active-link-hover-bg: $gray-lighter !default;
 $nav-tabs-active-link-hover-color: $gray !default;
 $nav-tabs-active-link-hover-border-color: inherit !default;
 
+//== Forms
+$input-border-focus: $brand-primary;
+
 //######
 
 // Import Bootstrap SCSS
@@ -712,6 +715,50 @@ a {
     width: auto;
     height: 75px;
     margin-bottom: 20px;
+  }
+}
+
+//= Home page
+#homepage {
+  #page-header {
+    border-bottom: 0;
+  }
+  #homepage-search {
+    background-color: $gray-lighter;
+    padding: 40px 0;
+  }
+  #homepage-search h1 {
+    margin: 0 0 20px 0;
+  }
+  #homepage-search .search-container {
+    margin-bottom: 10px;
+  }
+  #homepage-search-input {
+    font-size: 1.6em;
+    height: 2.2em;
+    padding: 0.5em;
+    line-height: 1;
+  }
+  #homepage-search .geolocate-container {
+
+  }
+  #homepage-search .geolocate-container .or {
+    display: inline-block;
+    width: 10%;
+    float: left;
+    font-size: 20px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 2px 0 0 10px;
+  }
+  #homepage-button-geolocate {
+    width: 90%;
+    float: left;
+    font-size: 16px;
+    i { margin-right: 10px; }
+  }
+  #homepage-map {
+    border-top: solid 1px $gray-dark;
   }
 }
 

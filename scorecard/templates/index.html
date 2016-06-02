@@ -4,10 +4,26 @@
 {% block body_id %}homepage{% endblock %}
 
 {% block content_container %}
-<div class="container">
-    <article>
-        <div id="slippy-map"></div>
-    </article>
+<div id="homepage-search">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2 col-md-offset-2">
+        <h1>Where to?</h1>
+      </div>
+      <div class="col-md-6">
+        <div class="search-container">
+          <input type="text" class="form-control" id="homepage-search-input" placeholder="Search for a municipality in South Africa">
+        </div>
+        <div class="geolocate-container">
+          <span class="or">or</span>
+          <a class="btn btn-primary" id="homepage-button-geolocate"><i class="fa fa-location-arrow"></i> Use your current location</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="homepage-map">
+  <div id="slippy-map"></div>
 </div>
 {% endblock %}
 
