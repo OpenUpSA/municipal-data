@@ -431,6 +431,50 @@
     </div>
   </div>
 
+  <div class="indicator">
+    <h2>Fruitless and wastefull expenditure</h2>
+
+    <div class="row">
+      <div class="col-sm-4">
+        {% with indicators.wasteful_exp_perc_expenses|first as latest %}
+        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
+        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' or latest.rating == 'ave' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
+        {% endwith %}
+        <div class="indicator-description">Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage of operating expenditure.</div>
+        <table class="table table-bordered indicator-key">
+          <tr>
+            <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+            <td class="key-description">0%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
+            <td class="key-description">more than 0%</td>
+          </tr>
+        </table>
+        <div class="show-calc"><a href="#fruitless-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="fruitless-exp chart-container"></div>
+      </div>
+    </div>
+    <div class="calc collapse" id="fruitless-exp-calc">
+      <h5>Formula:</h5>
+      <p>=  Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure</p>
+      <h5>API details for items:</h5>
+      Unauthorised, Irregular, Fruitless and Wasteful Expenditure
+      <ul>
+        <li>Cube: badexp</li>
+        <li>Item codes: ['irregular', 'fruitless', 'unauthorised']</li>
+      </ul>
+      Operating Expenditure
+      <ul>
+        <li>Cube: incexp</li>
+        <li>Item code: 4600</li>
+        <li>Amount type: Audited Actual</li>
+      </ul>
+    </div>
+  </div>
+
 </div>
 
 {% endblock %}
@@ -456,6 +500,7 @@
   var OP_BUDGET_DIFF = {{ indicators.op_budget_diff|jsonify|safe }}
   var CAP_BUDGET_DIFF = {{ indicators.cap_budget_diff|jsonify|safe }}
   var REP_MAINT_PERC_PPE = {{ indicators.rep_maint_perc_ppe|jsonify|safe }}
+  var WASTEFUL_EXP_PERC_EXP = {{ indicators.wasteful_exp_perc_exp|jsonify|safe }}
 
 </script>
 

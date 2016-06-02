@@ -1,6 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
-from collections import defaultdict, OrderedDict
+from collections import defaultdict, OrderedDict, Counter
 
 from django.conf import settings
 
@@ -89,7 +89,6 @@ class MuniApiClient(object):
         """
         Return facts that have annual results
         """
-        import ipdb; ipdb.set_trace()
         facts = OrderedDict(sorted([
             (i['financial_year_end.year'], i[query_params['value_label']])
             for i in response['data']], reverse=True))
@@ -208,21 +207,6 @@ class MuniApiClient(object):
                 },
                 'query_type': 'aggregate',
             },
-            # 'wasteful_exp' : {
-            #     'query_type': 'facts',
-            #     'cube': 'badexp',
-            #     'cut': {
-            #         'demarcation.code': self.geo_code,
-            #     },
-            #     'fields': [
-            #         'item.code',
-            #         'item.label',
-            #         'amount',
-            #         'financial_year_end.year'
-            #     ],
-            #     'annual': True,
-            #     'value_label': 'amount'
-            # },
             'revenue_breakdown': {
                 'cube': 'incexp',
                 'aggregate': 'amount.sum',
@@ -465,9 +449,27 @@ class IndicatorCalculator(object):
 
         return values
 
-    def wasteful_exp(self):
+    def wasteful_exp_perc_exp(self):
         values = []
-        import ipdb; ipdb.set_trace()
+        aggregate = Counter()
+        for item, results in self.results['wasteful_exp'].iteritems():
+            for year, amount in results.iteritems():
+                aggregate[year] += amount
+
+        for year in sorted(list(self.years), reverse=True):
+            try:
+                result = percent(aggregate[year],
+                    self.results['op_exp_actual']['4600'][year])
+                rating = None
+                if result == 0:
+                    rating = 'good'
+                else:
+                    rating = 'bad'
+            except KeyError:
+                result = None
+                rating = None
+
+            values.append({'year': year, 'result': result, 'rating': rating})
         return values
 
     def mayoral_staff(self):

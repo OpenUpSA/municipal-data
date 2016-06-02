@@ -11,6 +11,7 @@ var Chart = function() {
     self.drawChart(OP_BUDGET_DIFF, 'op-budget-diff');
     self.drawChart(CAP_BUDGET_DIFF, 'cap-budget-diff');
     self.drawChart(REP_MAINT_PERC_PPE, 'rep-maint-perc-ppe');
+    self.drawChart(WASTEFUL_EXP_PERC_EXP, 'fruitless-exp');
   };
 
   self.getContainerObject = function(container) {
