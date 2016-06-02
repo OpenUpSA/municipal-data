@@ -156,10 +156,7 @@
               <tr>
                 <td class="text{% if forloop.first %}-large{% endif %} text-center"><strong>
                     {{ opinion.year|unlocalize }}
-                    <i class="fa {{ opinion.rating|rating }} indicator-{{ opinion.rating }}" aria-hidden="true"></i>
-                    {% if opinion.rating == "great" %}
-                    <i class="fa fa-star indicator-{{ opinion.rating }}" aria-hidden="true"></i>
-                    {% endif %}
+                    <i class="rating rating-{{ opinion.rating }}" aria-hidden="true"></i>
                     <br>{{ opinion.result }}
                   </strong>
                 </td>
@@ -202,15 +199,15 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} Not available {% endif %} <i class="fa {{ latest.rating|rating }}" aria-hidden="true"></i></div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} Not available {% endif %}</div>
         <div class="indicator-description">Cash balance at the end of the financial year.</div>
         <table class="table table-bordered indicator-key">
           <tr>
-            <td class="key-symbol indicator-good">good <i class="fa {{ "good"|rating }}" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">Positive balance</td>
           </tr>
           <tr>
-            <td class="key-symbol indicator-bad">bad <i class="fa {{ "bad"|rating }}" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-bad">bad</td>
             <td class="key-description">Negative balance</td>
           </tr>
         </table>
@@ -246,19 +243,19 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} months{% else %} Not available {% endif %} <i class="fa {{ latest.rating|rating }}" aria-hidden="true"></i></div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} months{% else %} Not available {% endif %}</div>
         <div class="indicator-description">Months of operating expenses can be paid for with the cash available.</div>
         <table class="table table-bordered indicator-key">
           <tr>
-            <td class="key-symbol indicator-good">good <i class="fa {{ "good"|rating }}" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">more than 3</td>
           </tr>
           <tr>
-            <td class="key-symbol indicator-ave">average <i class="fa {{ "ave"|rating }}" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-ave">average</td>
             <td class="key-description">between 1 and 3</td>
           </tr>
           <tr>
-            <td class="key-symbol indicator-bad">bad <i class="fa {{ "bad"|rating }}" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-bad">bad</td>
             <td class="key-description">less than 1</td>
           </tr>
         </table>
@@ -297,19 +294,19 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %} <i class="fa {{ latest.rating|rating }}" aria-hidden="true"></i></div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %}</div>
         <div class="indicator-description">Difference between operating budget and actual expenditure.</div>
         <table class="table table-bordered indicator-key">
           <tr>
-            <td class="key-symbol indicator-good">good <i class="fa {{ "good"|rating }}" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">less than 10%</td>
           </tr>
           <tr>
-            <td class="key-symbol indicator-ave">average <i class="fa {{ "ave"|rating }}" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-ave">average</td>
             <td class="key-description">between 10% and 25%</td>
           </tr>
           <tr>
-            <td class="key-symbol indicator-bad">bad <i class="fa {{ "bad"|rating }}" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-bad">bad</td>
             <td class="key-description">more than 25%</td>
           </tr>
         </table>
@@ -342,19 +339,19 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %} <i class="fa {{ latest.rating|rating }}" aria-hidden="true"></i></div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %}</div>
         <div class="indicator-description">Difference between capital budget and actual expenditure.</div>
         <table class="table table-bordered indicator-key">
           <tr>
-            <td class="key-symbol indicator-good">good <i class="fa {{ "good"|rating }}" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">less than 10%</td>
           </tr>
           <tr>
-            <td class="key-symbol indicator-ave">average <i class="fa {{ "ave"|rating }}" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-ave">average</td>
             <td class="key-description">between 10% and 30%</td>
           </tr>
           <tr>
-            <td class="key-symbol indicator-bad">bad <i class="fa {{ "bad"|rating }}" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-bad">bad</td>
             <td class="key-description">more than 30%</td>
           </tr>
         </table>
@@ -387,16 +384,16 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %} <i class="fa {{ latest.rating|rating }}" aria-hidden="true"></i></div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %}</div>
 
         <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
         <table class="table table-bordered indicator-key">
           <tr>
-            <td class="key-symbol indicator-good">good <i class="fa {{ "good"|rating }}" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">more than 8%</td>
           </tr>
           <tr>
-            <td class="key-symbol indicator-bad">bad <i class="fa {{ "bad"|rating }}" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-bad">bad</td>
             <td class="key-description">less than 8%</td>
           </tr>
         </table>
@@ -429,15 +426,15 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %} <i class="fa {{ latest.rating|rating }}" aria-hidden="true"></i></div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %}</div>
         <div class="indicator-description">Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage of operating expenditure.</div>
         <table class="table table-bordered indicator-key">
           <tr>
-            <td class="key-symbol indicator-good">good <i class="fa {{ "good"|rating }}" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">0%</td>
           </tr>
           <tr>
-            <td class="key-symbol indicator-bad">bad <i class="fa {{ "bad"|rating }}" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-bad">bad</td>
             <td class="key-description">more than 0%</td>
           </tr>
         </table>
