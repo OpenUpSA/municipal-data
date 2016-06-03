@@ -25,7 +25,8 @@ if DEBUG:
 else:
     SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
-GOOGLE_ANALYTICS_ID = 'UA-48399585-37'
+DATA_GOOGLE_ANALYTICS_ID = 'UA-48399585-37'
+SCORECARD_GOOGLE_ANALYTICS_ID = 'UA-48399585-40'
 
 ALLOWED_HOSTS = ['*']
 
@@ -82,7 +83,7 @@ WAZIMAP['levels'] = {
     },
 }
 WAZIMAP['profile_builder'] = 'scorecard.profiles.get_profile'
-WAZIMAP['ga_tracking_id'] = GOOGLE_ANALYTICS_ID
+WAZIMAP['ga_tracking_id'] = SCORECARD_GOOGLE_ANALYTICS_ID
 WAZIMAP['twitter'] = ''
 WAZIMAP['geodata'] = 'scorecard.geo.GeoData'
 
