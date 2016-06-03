@@ -88,6 +88,7 @@ WAZIMAP['twitter'] = ''
 WAZIMAP['geodata'] = 'scorecard.geo.GeoData'
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.gzip.GZipMiddleware',
     'municipal_finance.middleware.SiteMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
