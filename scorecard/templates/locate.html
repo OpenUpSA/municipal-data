@@ -1,0 +1,41 @@
+{% extends "_base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<article id="locate">
+  {% if nope %}
+    <h2>We can't find you in South Africa.</h2>
+    <p class="text-lead">Are you located somewhere else? Try the search box instead.</p>
+  {% elif not lat and not lon %}
+    <h2>Finding your current location &hellip;</h2>
+  {% endif %}
+</article>
+{% endblock %}
+
+{% block body_javascript_extra %}
+<script src="{% static 'js/vendor/spin.min.js' %}"></script>
+<script>
+var lat = '{{ lat }}',
+    lon = '{{ lon }}';
+
+// prepare spinner
+$('body').append('<div id="body-spinner"></div>');
+var spinnerTarget = document.getElementById('body-spinner');
+    spinner = new Spinner();
+
+function foundLocation(position) {
+    lat = position.coords.latitude;
+    lon = position.coords.longitude;
+    window.location = '{% url "locate" %}?lat=' + lat + '&lon=' + lon;
+}
+
+function noLocation() {
+    alert('Sorry, your browser was unable to determine your location.')
+}
+
+if (navigator.geolocation && !lat && !lon) {
+    spinner.spin(spinnerTarget);
+    navigator.geolocation.getCurrentPosition(foundLocation, noLocation, {timeout:10000});
+}
+</script>
+{% endblock %}

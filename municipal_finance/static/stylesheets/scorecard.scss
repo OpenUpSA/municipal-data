@@ -54,6 +54,9 @@ $nav-tabs-active-link-hover-bg: $gray-lighter !default;
 $nav-tabs-active-link-hover-color: $gray !default;
 $nav-tabs-active-link-hover-border-color: inherit !default;
 
+//== Forms
+$input-border-focus: $brand-primary;
+
 //######
 
 // Import Bootstrap SCSS
@@ -72,6 +75,13 @@ body {
 h1 {
   margin-bottom: 20px;
 }
+
+h1,h2,h3,h4,h5,h6 {
+  strong {
+    font-weight: 900;
+  }
+}
+
 .title {
   color: $brand-secondary;
 }
@@ -97,7 +107,7 @@ a {
 #cover-map {
   position: relative;
   margin: 0px;
-  height: auto;
+  height: 200px;
   border-bottom: solid 1px $gray-dark;
 }
 #slippy-map {
@@ -120,10 +130,11 @@ a {
   .fa-twitter {
     margin-right: 5px;
   }
-  .title img {
-    margin-right: 3px;
-    vertical-align: bottom;
-    height: 25px;
+  .title {
+    font-weight: bold;
+  }
+  .title:hover {
+    text-decoration: none;
   }
 
   a {
@@ -178,16 +189,29 @@ a {
 //
 #cover-profile {
   position: relative;
+  margin: 0px auto;
+
+  // mimic .container sizes
+  @media (min-width: 768px) {
+    width: 750px;
+  }
+  @media (min-width: 992px) {
+    width: 970px;
+  }
+  @media (min-width: 1200px) {
+    width: 1170px;
+  }
 
   article {
-    margin-top: 3em;
-    margin-bottom: 3em;
+    margin-top: 30px;
     border: solid $black 1px;
     border-radius: 0;
     padding: 0;
     line-height: 1;
     color: $gray-darker;
     background-color: $white;
+    float: left;
+    width: 50%;
   }
 
   .caption {
@@ -246,6 +270,9 @@ a {
 }
 
 @media only screen and (max-width: 768px) {
+  #cover-map {
+    height: auto;
+  }
   #cover-map #slippy-map {
     height: 200px;
   }
@@ -257,6 +284,7 @@ a {
     background-color: inherit;
     border: none;
     width: 100%;
+    float: none;
     padding: 1em .25em;
     margin-top: 0;
     margin-bottom: 0;
@@ -295,7 +323,7 @@ a {
 
 //= Page header
 #page-header {
-  background: $gray-dark;
+  background: $gray;
   border-bottom: solid 1px $gray-dark;
 }
 
@@ -370,8 +398,12 @@ a {
   #page-nav a:hover {
     color: $white;
   }
+  #page-nav li {
+    margin-bottom: 3px;
+  }
   #page-nav li.active {
     border-bottom: solid 3px $brand-primary;
+    margin-bottom: 0;
   }
   #page-nav li.active a {
     background: transparent;
@@ -524,6 +556,14 @@ a {
   }
 }
 
+// #instructions
+.section#homepage-instructions {
+  h2 i {
+    color: $brand-secondary;
+    font-size: 26px;
+  }
+}
+
 //= Tables
 //
 .table-bordered {
@@ -573,6 +613,44 @@ a {
   }
   a:hover {
     text-decoration: none;
+  }
+}
+
+//= Show calculation
+//
+.show-calc {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
+  .icon {
+    margin-right: 5px;
+  }
+  a {
+    text-decoration: none;
+    background-color: $body-bg;
+  }
+  a:hover {
+    text-decoration: none;
+  }
+}
+
+.calc {
+  margin-top: 5px;
+
+  h5 {
+    float: left;
+    margin-top: 4px;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+  ul.formula {
+    list-style-type: none;
+    margin-left: 5em;
+    padding-left: 0px;
+
+    a {
+      background-color: palegoldenrod;
+    }
   }
 }
 
@@ -640,7 +718,7 @@ a {
   table.indicator-key {
     width: auto;
     margin-top: 5px;
-    margin-bottom: 0px;
+    margin-bottom: 10px;
 
     td, th {
       padding: 5px;
@@ -653,26 +731,121 @@ a {
     width: 20px;
     text-align: center;
   }
-  .indicator-bad { color: $red; }
-  .indicator-good { color: $green; }
-  .indicator-ave { color: $yellow; }
+  .rating-bad { color: $red; }
+  .rating-ave { color: $yellow; }
+  .rating-good,
+  .rating-great { color: $green; }
+
+  .rating:after {
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    margin-left: 5px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  // icomoon icons
+  .rating-great:after { content: "\e9e0\0020\e99e"; }
+  .rating-good:after { content: "\e9e2"; }
+  .rating-ave:after { content: "\e9f8"; }
+  .rating-bad:after { content: "\e9e6"; }
 }
 
 //= Page footer
 #page-footer {
-  background-color: $nt-cream-dark;
+  background-color: $gray-lighter;
   border-top: 1px solid $gray-light;
   padding: 1.5em 0 2em;
-  margin-top: 10px;
   ul {
     margin: 0;
-    padding-left: 1em;
   }
 
   img.logo {
     width: auto;
     height: 75px;
     margin-bottom: 20px;
+  }
+}
+
+//= Card
+.card {
+  background-color: $gray-lighter;
+  border: solid 1px $gray-light;
+  margin-bottom: 20px;
+  position: relative;
+}
+.card-heading {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  padding: 5px;
+  background-color: $black;
+  background-color: rgba(0,0,0,0.7);
+  color: $white;
+  font-weight: 700;
+  line-height: 1;
+}
+.card-image {
+  border-bottom: solid 1px $gray-light;
+}
+.card-text {
+  padding: 10px;
+}
+.card ul {
+  padding-left: 15px;
+}
+
+//= Home page
+#homepage {
+  #page-header {
+    border-bottom: 0;
+  }
+  #homepage-search {
+    background-color: $gray-lighter;
+    padding: 40px 0;
+  }
+  #homepage-search h1 {
+    margin: 0 0 20px 0;
+    font-size: 32px;
+  }
+  #homepage-search .search-container {
+    margin-bottom: 10px;
+  }
+  #homepage-search input {
+    font-size: 1.6em;
+    height: 2.2em;
+    padding: 0.5em;
+    line-height: 1;
+  }
+  #homepage-search .geolocate-only {
+    display: none;
+  }
+  #homepage-search .geolocate-only .or {
+    display: inline-block;
+    width: 10%;
+    float: left;
+    font-size: 20px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 2px 0 0 10px;
+  }
+  #homepage-button-geolocate {
+    width: 90%;
+    float: left;
+    font-size: 16px;
+    i { margin-right: 10px; }
+  }
+  #homepage-map {
+    border-top: solid 1px $gray-dark;
+    border-bottom: solid 1px $gray-dark;
+  }
+  #menu {
+    display: none;
   }
 }
 
@@ -683,6 +856,15 @@ a {
 }
 .cell-min {
   width: 1%;
+}
+.add-margin-bottom {
+  margin-bottom: 20px !important;
+}
+
+//= Leaflet
+.leaflet-top, .leaflet-bottom {
+  // ensure that the tt-dropdown menu goes above leaflet controls
+  z-index: 99 !important;
 }
 
 //= Twitter typeahead
@@ -789,4 +971,21 @@ a {
   	stroke: $black;
   	shape-rendering: crispEdges;
   }
+}
+
+#homepage #slippy-map {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+    #homepage #slippy-map {
+        display: block;
+        width: 100%;
+        height: 35em;
+        position: relative;
+    }
+}
+
+#locate {
+  min-height: 200px;
 }

@@ -1,16 +1,17 @@
--- Table: public.municipality_contacts
-
--- DROP TABLE public.municipality_contacts;
 
 CREATE TABLE public.municipality_contacts
 (
   demarcation_code text,
-  role text,
-  title text,
-  name text,
-  office_number text,
+  postal_address_1 text,
+  postal_address_2 text,
+  postal_address_3 text,
+  street_address_1 text,
+  street_address_2 text,
+  street_address_3 text,
+  street_address_4 text,
+  phone_number text,
   fax_number text,
-  email_address text
+  url text
 )
 WITH (
   OIDS=FALSE
