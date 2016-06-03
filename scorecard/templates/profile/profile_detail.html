@@ -196,12 +196,10 @@
   </div>
 
   <div class="indicator">
-    <h2 class="sub-heading">Cash Balance</h2>
-
     {% with indicators.cash_at_year_end|first as latest %}
+    <h2>Cash Balance <span class="indicator-date">{{ latest.year|unlocalize }}</span></h2>
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} Not available {% endif %} <i class="fa {{ latest.rating|rating }}" aria-hidden="true"></i></div>
         <div class="indicator-description">Cash balance at the end of the financial year.</div>
         <table class="table table-bordered indicator-key">
@@ -240,12 +238,10 @@
   </div>
 
   <div class="indicator">
-    <h2>Cash Coverage</h2>
-
     {% with indicators.cash_coverage|first as latest %}
+    <h2 class="sub-heading">Cash Coverage <span class="indicator-date">{{ latest.year|unlocalize }}</span></h2>
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} months{% else %} Not available {% endif %} <i class="fa {{ latest.rating|rating }}" aria-hidden="true"></i></div>
         <div class="indicator-description">Months of operating expenses can be paid for with the cash available.</div>
         <table class="table table-bordered indicator-key">
@@ -291,12 +287,10 @@
   </div>
 
   <div class="indicator">
-    <h2>Spending of Operating Budget</h2>
-
     {% with indicators.op_budget_diff|first as latest %}
+    <h2>Spending of Operating Budget <span class="indicator-date">{{ latest.year|unlocalize }}</span></h2>
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %} <i class="fa {{ latest.rating|rating }}" aria-hidden="true"></i></div>
         <div class="indicator-description">Difference between operating budget and actual expenditure.</div>
         <table class="table table-bordered indicator-key">
@@ -336,12 +330,10 @@
   </div>
 
   <div class="indicator">
-    <h2>Spending of Capital Budget</h2>
-
     {% with indicators.cap_budget_diff|first as latest %}
+    <h2>Spending of Capital Budget <span class="indicator-date">{{ latest.year|unlocalize }}</span></h2>
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %} <i class="fa {{ latest.rating|rating }}" aria-hidden="true"></i></div>
         <div class="indicator-description">Difference between capital budget and actual expenditure.</div>
         <table class="table table-bordered indicator-key">
@@ -381,12 +373,10 @@
   </div>
 
   <div class="indicator">
-    <h2>Spending on Repairs and Maintenance</h2>
-
     {% with indicators.rep_maint_perc_ppe|first as latest %}
+    <h2>Spending on Repairs and Maintenance <span class="indicator-date">{{ latest.year|unlocalize }}</span></h2>
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %} <i class="fa {{ latest.rating|rating }}" aria-hidden="true"></i></div>
 
         <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
@@ -423,12 +413,10 @@
   </div>
 
   <div class="indicator">
-    <h2>Fruitless and wastefull expenditure</h2>
-
     {% with indicators.wasteful_exp_perc_expenses|first as latest %}
+    <h2>Fruitless and wastefull expenditure <span class="indicator-date">{{ latest.year|unlocalize }}</span></h2>
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
         <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %} <i class="fa {{ latest.rating|rating }}" aria-hidden="true"></i></div>
         <div class="indicator-description">Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage of operating expenditure.</div>
         <table class="table table-bordered indicator-key">
