@@ -85,7 +85,7 @@ var Location = {
     }
 }
 
-var MUNI_DATA_API = Location.getOrigin() + '/api';
+var MUNI_DATA_API = '{{ API_URL }}';
 var CUBE_NAME = '{{ cube_name|escapejs }}';
 var CUBES = {{ cubes|jsonify|safe }};
 </script>
