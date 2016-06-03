@@ -25,6 +25,86 @@
 <div id="homepage-map">
   <div id="slippy-map"></div>
 </div>
+<div class="section" id="homepage-instructions">
+  <div class="container">
+    <h1 class="add-margin-bottom">Using <strong>Municipal Money</strong></h1>
+    <h2><i class="fa fa-question-circle" aria-hidden="true"></i> How do I <strong>find a municipality</strong>?</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-heading">
+            Option 1
+          </div>
+          <div class="card-image">
+            <img src="{% static 'img/examples/text-search.png' %}" class="img-responsive">
+          </div>
+          <div class="card-text">
+            Start typing the name of the municipality. <br>
+            Then select the correct municipality from the dropdown.
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-heading">
+            Option 2
+          </div>
+          <div class="card-image">
+            <img src="{% static 'img/examples/map-search.png' %}" class="img-responsive">
+          </div>
+          <div class="card-text">
+            Alternatively, select the municipality on the map.<br>
+            Use the <span class="btn-group" id="example-zoom-buttons"><button class="btn btn-default btn-sm"><i class="fa fa-plus"></i></button><button class="btn btn-default btn-sm"><i class="fa fa-minus"></i></button></span> buttons to zoom in and out.
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <h2><i class="fa fa-question-circle" aria-hidden="true"></i> How do I <strong>explore the data</strong>?</h2>
+    <p>Every municipality profile includes <strong>indicators</strong> describing the municipality's financial health.</p>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-image">
+            <img src="{% static 'img/examples/indicator-text.png' %}" class="img-responsive">
+          </div>
+          <div class="card-text">
+            Each indicator includes:
+            <ul>
+              <li>the name of the indicator and the year of the most recent value</li>
+              <li>the most recent indicator value</li>
+              <li>a text description</li>
+              <li>a key</li>
+              <li>a link that shows an explanation of how the value is calculated</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+         <div class="card">
+          <div class="card-image">
+            <img src="{% static 'img/examples/indicator-chart.png' %}" class="img-responsive">
+          </div>
+          <div class="card-text">
+            A chart is shown visualising the value over time.<br>
+            The most recent value is shown first, in <strong>bold</strong>.
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+         <div class="card">
+          <div class="card-image">
+            <img src="{% static 'img/examples/indicator-didyouknow.png' %}" class="img-responsive">
+          </div>
+          <div class="card-text">
+            Many indicator include a <strong>DID YOU KNOW?</strong> box providing additional information or explanations.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 
 {% block body_javascript_extra %}

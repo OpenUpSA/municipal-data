@@ -75,6 +75,13 @@ body {
 h1 {
   margin-bottom: 20px;
 }
+
+h1,h2,h3,h4,h5,h6 {
+  strong {
+    font-weight: 900;
+  }
+}
+
 .title {
   color: $brand-secondary;
 }
@@ -549,6 +556,14 @@ a {
   }
 }
 
+// #instructions
+.section#homepage-instructions {
+  h2 i {
+    color: $brand-secondary;
+    font-size: 26px;
+  }
+}
+
 //= Tables
 //
 .table-bordered {
@@ -706,7 +721,6 @@ a {
   background-color: $gray-lighter;
   border-top: 1px solid $gray-light;
   padding: 1.5em 0 2em;
-  margin-top: 10px;
   ul {
     margin: 0;
   }
@@ -716,6 +730,34 @@ a {
     height: 75px;
     margin-bottom: 20px;
   }
+}
+
+//= Card
+.card {
+  background-color: $gray-lighter;
+  border: solid 1px $gray-light;
+  margin-bottom: 20px;
+  position: relative;
+}
+.card-heading {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  padding: 5px;
+  background-color: $black;
+  background-color: rgba(0,0,0,0.7);
+  color: $white;
+  font-weight: 700;
+  line-height: 1;
+}
+.card-image {
+  border-bottom: solid 1px $gray-light;
+}
+.card-text {
+  padding: 10px;
+}
+.card ul {
+  padding-left: 15px;
 }
 
 //= Home page
@@ -759,6 +801,7 @@ a {
   }
   #homepage-map {
     border-top: solid 1px $gray-dark;
+    border-bottom: solid 1px $gray-dark;
   }
 }
 
@@ -769,6 +812,9 @@ a {
 }
 .cell-min {
   width: 1%;
+}
+.add-margin-bottom {
+  margin-bottom: 20px !important;
 }
 
 //= Twitter typeahead
