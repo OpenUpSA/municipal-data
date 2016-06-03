@@ -30,13 +30,22 @@
 
   // global municipalities list
   var municipalities;
+
+  // cube settings
   var cube = {
-    order: 'item.position_in_return_form:asc',
-    drilldown: ['demarcation.code', 'demarcation.label', 'item.code', 'item.label', 'item.return_form_structure', 'item.position_in_return_form'],
+    order: 'item.code:asc',
+    drilldown: ['demarcation.code', 'demarcation.label', 'item.code', 'item.label'],
     model: CUBES[CUBE_NAME].model,
   };
   cube.aggregates = _.map(cube.model.measures, function(m) { return m.ref + '.sum'; });
 
+  if (cube.model.dimensions.item) {
+    if (cube.model.dimensions.item.return_form_structure) cube.drilldown.push('item.return_form_structure');
+    if (cube.model.dimensions.item.position_in_return_form) {
+      cube.drilldown.push('item.position_in_return_form');
+      cube.order = 'item.position_in_return_form:asc';
+    }
+  }
 
   /** The filters the user can choose
    */
@@ -45,6 +54,7 @@
     events: {
       'click .del': 'muniRemoved',
       'click input[name=year]': 'yearChanged',
+      'change select.amount-type-chooser': 'amountTypeChanged',
     },
 
     initialize: function(opts) {
@@ -64,6 +74,7 @@
       this.filters.set({
         municipalities: this.state.get('municipalities') || [],
         year: this.state.get('year'),
+        amountType: this.state.get('amountType'),
       });
     },
 
@@ -71,7 +82,8 @@
       // save global state to browser history
       this.state.set({
         municipalities: this.filters.get('municipalities'),
-        year: this.filters.get('year')
+        year: this.filters.get('year'),
+        amountType: this.filters.get('amountType'),
       });
     },
 
@@ -104,7 +116,7 @@
       }).always(spinnerStop);
 
       spinnerStart();
-      $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/financial_year_end.year?cut=amount_type.code:AUDA', function(data) {
+      $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/financial_year_end.year', function(data) {
         self.years = _.pluck(data.data, "financial_year_end.year").sort().reverse();
         self.renderYears();
 
@@ -115,6 +127,32 @@
         // force a change so we re-render
         self.filters.trigger('change');
       }).always(spinnerStop);
+
+      // preload amount types
+      if (cube.model.dimensions.amount_type) {
+        spinnerStart();
+        $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/amount_type', function(data) {
+          self.amountTypes = _.map(data.data, function(d) {
+            return {
+              label: d['amount_type.label'],
+              code: d['amount_type.code'],
+            };
+          });
+          self.amountTypes = _.sortBy(self.amountTypes, 'label');
+
+          // sanity check pre-loaded amount type
+          var at = self.filters.get('amountType') || "AUDA";
+          if (_.any(self.amountTypes, function(a) { return a.code == at; })) {
+            self.filters.set('amountType', at);
+          } else {
+            self.filters.set('amountType', self.amountTypes[0].code);
+          }
+          self.renderAmountTypes();
+
+          // force a change so we re-render
+          self.filters.trigger('change');
+        }).always(spinnerStop);
+      }
     },
 
     render: function() {
@@ -145,6 +183,10 @@
       this.$('.year-chooser input[name=year]').prop('checked', function() {
         return $(this).val() == year;
       });
+
+      if (this.filters.get('amountType')) {
+        this.$('select.amount-type-chooser').val(this.filters.get('amountType'));
+      }
     },
 
     renderMunis: function() {
@@ -172,6 +214,20 @@
         templateResult: formatMuni,
       })
         .on('select2:select', _.bind(this.muniSelected, this));
+    },
+
+    renderAmountTypes: function() {
+      var $chooser = this.$('.amount-type-chooser'),
+          chosen = this.filters.get('amountType');
+
+      if (this.amountTypes.length > 0) {
+        $chooser.closest('section').show();
+      }
+
+      for (var i = 0; i < this.amountTypes.length; i++) {
+        var at = this.amountTypes[i];
+        $chooser.append($('<option />').val(at.code).text(at.label).prop('selected', at.label == chosen));
+      }
     },
 
     renderYears: function() {
@@ -206,6 +262,10 @@
     yearChanged: function(e) {
       this.filters.set('year', Number.parseInt(this.$('input[name=year]:checked').val()));
     },
+
+    amountTypeChanged: function(e) {
+      this.filters.set('amountType', $(e.target).val());
+    }
   });
 
 
@@ -241,9 +301,8 @@
     preload: function() {
       var self = this;
 
-      // TODO does this work for all cubes?
       spinnerStart();
-      $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/item?order=item.position_in_return_form:asc', function(data) {
+      $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/item?order=' + cube.order, function(data) {
         // we only care about items that have a label
         self.rowHeadings = _.select(data.data, function(d) { return d['item.label']; });
         self.renderRowHeadings();
@@ -256,7 +315,6 @@
      */
     update: function() {
       var self = this;
-      var url = MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/aggregate?';
 
       if (this.filters.get('municipalities').length === 0) {
         this.cells.set({items: [], meta: {}});
@@ -270,14 +328,14 @@
         aggregates: cube.aggregates,
         drilldown: cube.drilldown,
         order: cube.order,
-        cut: ['financial_period.period:' + self.filters.get('year'),
-              // TODO: work out possibilities here based on year
-              // eg: https://data.municipalmoney.org.za/api/cubes/incexp/members/amount_type?cut=financial_period:2015
-              'amount_type.code:AUDA'],
+        cut: ['financial_period.period:' + self.filters.get('year')],
       };
-      var cut = parts.cut;
+      if (self.filters.get('amountType')) {
+        parts.cut.push('amount_type.code:' + this.filters.get('amountType'));
+      }
 
       // duplicate this, we're going to change it
+      var cut = parts.cut;
       parts.cut = cut.slice();
 
       parts.cut.push('demarcation.code:"' + this.filters.get('municipalities').join('";"') + '"');
@@ -463,6 +521,7 @@
         var url = {
           year: state.year,
           municipalities: state.municipalities.join(','),
+          amountType: state.amountType,
         };
 
         // make the query string url
@@ -488,6 +547,7 @@
         year: Number.parseInt(params.year) || null,
         // highlighted item codes
         items: (params.items || "").split(","),
+        amountType: (params.amountType),
       });
     },
   });
