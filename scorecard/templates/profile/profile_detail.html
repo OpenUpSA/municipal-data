@@ -21,7 +21,7 @@
         <header id="header-box" class="column-full">
           <h1 class="title">{{ geography.this.short_name }}</h1>
           <p class="caption">
-            {{ geography.this.geo_level|capfirst }}
+            {{ geography.this.category_name|capfirst }}
             in
             {% if geography.parents %}
               {% for level, g in geography.parents.items %}
