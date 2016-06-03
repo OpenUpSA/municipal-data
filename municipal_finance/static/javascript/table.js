@@ -206,6 +206,7 @@
           info: muni,
         };
       });
+      munis = _.sortBy(munis, 'text');
 
       this.$muniChooser = this.$('.muni-chooser').select2({
         data: munis,
