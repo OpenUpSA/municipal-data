@@ -713,11 +713,29 @@ a {
     width: 20px;
     text-align: center;
   }
-  .indicator-bad { color: $red; }
-  .indicator-good,
-  .indicator-great { color: $green; }
-  .indicator-great.fa-star { color: orange; }
-  .indicator-ave { color: $yellow; }
+  .rating-bad { color: $red; }
+  .rating-ave { color: $yellow; }
+  .rating-good,
+  .rating-great { color: $green; }
+
+  .rating:after {
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    margin-left: 5px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  // icomoon icons
+  .rating-great:after { content: "\e9e0\0020\e99e"; }
+  .rating-good:after { content: "\e9e2"; }
+  .rating-ave:after { content: "\e9f8"; }
+  .rating-bad:after { content: "\e9e6"; }
 }
 
 //= Page footer
