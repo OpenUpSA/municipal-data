@@ -308,8 +308,8 @@
       if (this.rowHeadings && municipalities) {
         this.renderColHeadings();
         this.renderValues();
-        this.renderCsvLink();
       }
+      this.renderCsvLink();
     },
 
     renderRowHeadings: function() {
@@ -414,11 +414,11 @@
     },
 
     renderCsvLink: function() {
-      if (this.csvUrl) {
+      if (this.csvUrl && !_.isEmpty(this.filters.get('municipalities'))) {
         this.$('a.csv-download').attr('href', this.csvUrl);
-        this.$('a.csv-download').show();
+        this.$('a.csv-download').attr('disabled', false);
       } else {
-        this.$('a.csv-download').hide();
+        this.$('a.csv-download').attr('disabled', true);
       }
     },
 
