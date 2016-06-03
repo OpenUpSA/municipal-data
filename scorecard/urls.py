@@ -20,6 +20,12 @@ urlpatterns = [
         name    = 'geography_detail',
     ),
     url(
+        regex   = '^profiles/(?P<geography_id>\w+-\w+)(-(?P<slug>[\w-]+))?\.pdf$',
+        view    = cache_page(CACHE_SECS)(views.GeographyPDFView.as_view()),
+        kwargs  = {},
+        name    = 'geography_pdf',
+    ),
+    url(
         regex   = '^place-search/json/$',
         view    = cache_page(CACHE_SECS)(PlaceSearchJson.as_view()),
         kwargs  = {},
