@@ -215,7 +215,6 @@
     el: '#table-view',
 
     events: {
-      'click .scale': 'changeScale',
       'mouseover .table-display tr': 'rowOver',
       'mouseout .table-display tr': 'rowOut',
       'click .table-display tr': 'rowClick',
@@ -225,7 +224,6 @@
       this.format = d3_format
         .formatLocale({decimal: ".", thousands: " ", grouping: [3], currency: "R"})
         .format(",d");
-      this.scale = 3;
 
       this.filters = opts.filters;
       this.filters.on('change', this.render, this);
@@ -238,21 +236,6 @@
       this.cells.on('change', this.render, this);
 
       this.preload();
-      this.loadState();
-    },
-
-    loadState: function() {
-      // load state from browser history
-      this.scale = this.state.get('scale');
-      if (!_.contains([0, 3, 6], this.scale)) this.scale = 3;
-      this.render();
-    },
-
-    saveState: function() {
-      // save global state to browser history
-      this.state.set({
-        scale: this.scale,
-      });
     },
 
     preload: function() {
@@ -266,12 +249,6 @@
         self.renderRowHeadings();
         self.render();
       }).always(spinnerStop);
-    },
-
-    changeScale: function() {
-      this.scale = Number.parseInt(this.$('.scale input:checked').attr('value'));
-      this.saveState();
-      this.render();
     },
 
     /**
@@ -333,11 +310,6 @@
         this.renderValues();
         this.renderCsvLink();
       }
-
-      var scale = this.scale.toString();
-      this.$('input[name=scale]').prop('checked', function() {
-        return $(this).val() == scale;
-      });
     },
 
     renderRowHeadings: function() {
@@ -397,7 +369,6 @@
       var table = this.$('.values')[0];
       var cells = this.cells.get('items');
       var munis = this.filters.get('municipalities');
-      var scale = Math.pow(10, Number.parseInt(this.scale));
       // highlightable items as a set of codes
       var highlights = _.inject(this.state.get('items') || [], function(s, i) { s[i] = i; return s; }, {});
       // row indexes to highlight
@@ -428,7 +399,7 @@
 
             for (var a = 0; a < cube.aggregates.length; a++) {
               var v = (cell ? cell[cube.aggregates[a]] : null);
-              tr.insertCell().innerText = v ? self.format(v / scale) : "-";
+              tr.insertCell().innerText = v ? self.format(v) : "-";
             }
           }
         }
@@ -492,7 +463,6 @@
         var url = {
           year: state.year,
           municipalities: state.municipalities.join(','),
-          scale: state.scale,
         };
 
         // make the query string url
@@ -516,7 +486,6 @@
       this.state.set({
         municipalities: (params.municipalities || "").split(","),
         year: Number.parseInt(params.year) || null,
-        scale: Number.parseInt(params.scale),
         // highlighted item codes
         items: (params.items || "").split(","),
       });
