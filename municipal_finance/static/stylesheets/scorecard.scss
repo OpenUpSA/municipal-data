@@ -782,10 +782,10 @@ a {
     padding: 0.5em;
     line-height: 1;
   }
-  #homepage-search .geolocate-container {
-
+  #homepage-search .geolocate-only {
+    display: none;
   }
-  #homepage-search .geolocate-container .or {
+  #homepage-search .geolocate-only .or {
     display: inline-block;
     width: 10%;
     float: left;
@@ -803,6 +803,9 @@ a {
   #homepage-map {
     border-top: solid 1px $gray-dark;
     border-bottom: solid 1px $gray-dark;
+  }
+  #menu {
+    display: none;
   }
 }
 
