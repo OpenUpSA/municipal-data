@@ -24,3 +24,11 @@ def table_url(context, cube, year, muni=None, items=None):
             params[k] = ",".join(v)
 
     return settings.API_BASE + "/table/" + cube + "/?" + urllib.urlencode(params)
+
+
+@register.filter
+def finyear(year):
+    if year:
+        year = int(year)
+        return '%s - %s' % (year - 1, year)
+    return ''
