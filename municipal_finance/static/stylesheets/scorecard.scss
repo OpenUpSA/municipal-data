@@ -54,6 +54,9 @@ $nav-tabs-active-link-hover-bg: $gray-lighter !default;
 $nav-tabs-active-link-hover-color: $gray !default;
 $nav-tabs-active-link-hover-border-color: inherit !default;
 
+//== Forms
+$input-border-focus: $brand-primary;
+
 //######
 
 // Import Bootstrap SCSS
@@ -72,6 +75,13 @@ body {
 h1 {
   margin-bottom: 20px;
 }
+
+h1,h2,h3,h4,h5,h6 {
+  strong {
+    font-weight: 900;
+  }
+}
+
 .title {
   color: $brand-secondary;
 }
@@ -546,6 +556,14 @@ a {
   }
 }
 
+// #instructions
+.section#homepage-instructions {
+  h2 i {
+    color: $brand-secondary;
+    font-size: 26px;
+  }
+}
+
 //= Tables
 //
 .table-bordered {
@@ -743,7 +761,6 @@ a {
   background-color: $gray-lighter;
   border-top: 1px solid $gray-light;
   padding: 1.5em 0 2em;
-  margin-top: 10px;
   ul {
     margin: 0;
   }
@@ -755,6 +772,83 @@ a {
   }
 }
 
+//= Card
+.card {
+  background-color: $gray-lighter;
+  border: solid 1px $gray-light;
+  margin-bottom: 20px;
+  position: relative;
+}
+.card-heading {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  padding: 5px;
+  background-color: $black;
+  background-color: rgba(0,0,0,0.7);
+  color: $white;
+  font-weight: 700;
+  line-height: 1;
+}
+.card-image {
+  border-bottom: solid 1px $gray-light;
+}
+.card-text {
+  padding: 10px;
+}
+.card ul {
+  padding-left: 15px;
+}
+
+//= Home page
+#homepage {
+  #page-header {
+    border-bottom: 0;
+  }
+  #homepage-search {
+    background-color: $gray-lighter;
+    padding: 40px 0;
+  }
+  #homepage-search h1 {
+    margin: 0 0 20px 0;
+    font-size: 32px;
+  }
+  #homepage-search .search-container {
+    margin-bottom: 10px;
+  }
+  #homepage-search input {
+    font-size: 1.6em;
+    height: 2.2em;
+    padding: 0.5em;
+    line-height: 1;
+  }
+  #homepage-search .geolocate-only {
+    display: none;
+  }
+  #homepage-search .geolocate-only .or {
+    display: inline-block;
+    width: 10%;
+    float: left;
+    font-size: 20px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 2px 0 0 10px;
+  }
+  #homepage-button-geolocate {
+    width: 90%;
+    float: left;
+    font-size: 16px;
+    i { margin-right: 10px; }
+  }
+  #homepage-map {
+    border-top: solid 1px $gray-dark;
+    border-bottom: solid 1px $gray-dark;
+  }
+  #menu {
+    display: none;
+  }
+}
+
 //= Helper Classes
 //
 .text-large {
@@ -762,6 +856,9 @@ a {
 }
 .cell-min {
   width: 1%;
+}
+.add-margin-bottom {
+  margin-bottom: 20px !important;
 }
 
 //= Leaflet
