@@ -7,6 +7,7 @@ import string
 import sys
 import traceback
 import xlrd
+from urlparse import urlparse, ParseResult
 
 expected_headings = [
     'Cat \nCode',
@@ -118,11 +119,11 @@ def convert_muni(sheet, person_csv_name):
             'postal_address_3',
             'street_address_1',
             'street_address_2',
+            'street_address_3',
             'street_address_4',
             'phone_number',
             'fax_number',
             'url',
-            'street_address_3',
         ]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
@@ -144,11 +145,11 @@ def convert_muni(sheet, person_csv_name):
                 'postal_address_3': clean(sheet.cell(rowx, 6).value),
                 'street_address_1': clean(sheet.cell(rowx, 7).value),
                 'street_address_2': clean(sheet.cell(rowx, 8).value),
-                'street_address_4': clean(sheet.cell(rowx, 9).value),
-                'phone_number': clean(sheet.cell(rowx, 10).value),
-                'fax_number': clean(sheet.cell(rowx, 11).value),
-                'url': clean(sheet.cell(rowx, 12).value),
-                'street_address_3': clean(sheet.cell(rowx, 13).value),
+                'street_address_3': clean(sheet.cell(rowx, 9).value),
+                'street_address_4': clean(sheet.cell(rowx, 10).value),
+                'phone_number': clean(sheet.cell(rowx, 11).value),
+                'fax_number': clean(sheet.cell(rowx, 12).value),
+                'url': clean_url(sheet.cell(rowx, 14).value),
             }
             writer.writerow(item)
 
@@ -163,6 +164,16 @@ def check_columns(sheet):
 
 def clean(dirty):
     return filter(lambda c: c in printable, dirty)
+
+
+def clean_url(url):
+    if url:
+        if not url.lower().startswith('http'):
+            url = 'http://' + url
+        p = urlparse(url)
+        url = "%s://%s%s" % (p.scheme, p.hostname.lower(), p.path)
+        return url
+    return None
 
 
 def check_role(role):
