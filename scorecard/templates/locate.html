@@ -13,10 +13,9 @@
 {% endblock %}
 
 {% block body_javascript_extra %}
-<script src="{% static 'js/vendor/spin.min.js' %}"></script>
 <script>
-var lat = '{{ lat }}',
-    lon = '{{ lon }}';
+var lat = '{{ lat|default:"" }}',
+    lon = '{{ lon|default:"" }}';
 
 // prepare spinner
 $('body').append('<div id="body-spinner"></div>');
