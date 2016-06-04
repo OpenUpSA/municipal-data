@@ -11,9 +11,10 @@ EXECUTOR = ThreadPoolExecutor(max_workers=10)
 # The years for which we need results. Latest must be first.
 YEARS = [2015, 2014, 2013, 2012]
 
+
 class MuniApiClient(object):
     def __init__(self, geo_code):
-        self.API_URL = settings.API_URL
+        self.API_URL = settings.API_URL + "/cubes/"
         self.geo_code = str(geo_code)
         self.years = YEARS
         self.current_year = YEARS[:1]

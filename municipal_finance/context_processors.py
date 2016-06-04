@@ -15,3 +15,9 @@ def google_analytics(request):
             ga_id = getattr(settings, 'DATA_GOOGLE_ANALYTICS_ID', None)
 
     return {'GOOGLE_ANALYTICS_ID': ga_id}
+
+
+def api_details(request):
+    return {
+        'API_URL': settings.API_URL
+    }

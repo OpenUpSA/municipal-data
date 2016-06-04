@@ -61,7 +61,7 @@ if DEBUG:
     SITE_ID = int(os.environ.get('SITE_ID', '2'))
 
 API_BASE = "https://data.municipalmoney.org.za"
-API_URL = os.environ.get('API_URL', API_BASE + '/api/cubes/')
+API_URL = os.environ.get('API_URL', API_BASE + '/api')
 
 # Wazimap
 from wazimap.settings import WAZIMAP
@@ -161,6 +161,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     "wazimap.context_processors.wazimap_settings",
     "municipal_finance.context_processors.google_analytics",
+    "municipal_finance.context_processors.api_details",
 )
 
 
