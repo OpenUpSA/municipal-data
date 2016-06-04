@@ -38,6 +38,7 @@
     model: CUBES[CUBE_NAME].model,
   };
   cube.aggregates = _.map(cube.model.measures, function(m) { return m.ref + '.sum'; });
+  cube.hasAmountType = !!cube.model.dimensions.amount_type;
 
   if (cube.model.dimensions.item) {
     if (cube.model.dimensions.item.return_form_structure) cube.drilldown.push('item.return_form_structure');
@@ -90,6 +91,7 @@
     preload: function() {
       var self = this;
 
+      // preload municipalities
       spinnerStart();
       $.get(MUNI_DATA_API + '/cubes/municipalities/facts', function(resp) {
         var munis = _.map(resp.data, function(muni) {
@@ -115,44 +117,45 @@
         self.filters.trigger('change');
       }).always(spinnerStop);
 
+      // preload years and amount types
+      var url = '/cubes/' + CUBE_NAME + '/aggregate?aggregates=_count&drilldown=financial_year_end.year';
+      if (cube.hasAmountType) url += '|amount_type';
+
       spinnerStart();
-      $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/financial_year_end.year', function(data) {
-        self.years = _.pluck(data.data, "financial_year_end.year").sort().reverse();
+      $.get(MUNI_DATA_API + url, function(data) {
+        self.years = _.uniq(_.pluck(data.cells, 'financial_year_end.year')).sort().reverse();
         self.renderYears();
 
         // sanity check pre-loaded year
         var year = self.filters.get('year');
-        self.filters.set('year', _.contains(self.years, year) ? year : self.years[0], {silent: true});
+        year = _.contains(self.years, year) ? year : self.years[0];
+        self.filters.set('year', year, {silent: true});
 
-        // force a change so we re-render
-        self.filters.trigger('change');
-      }).always(spinnerStop);
-
-      // preload amount types
-      if (cube.model.dimensions.amount_type) {
-        spinnerStart();
-        $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/amount_type', function(data) {
-          self.amountTypes = _.map(data.data, function(d) {
-            return {
-              label: d['amount_type.label'],
-              code: d['amount_type.code'],
-            };
+        // amount types per year
+        self.amountTypes = {};
+        if (cube.hasAmountType) {
+          _.each(_.groupBy(data.cells, 'financial_year_end.year'), function(data, year) {
+            var types = _.map(data, function(d) {
+                return {
+                  code: d['amount_type.code'],
+                  label: d['amount_type.label'],
+                };
+              });
+            types = _.sortBy(types, 'label');
+            self.amountTypes[year] = types;
           });
-          self.amountTypes = _.sortBy(self.amountTypes, 'label');
 
           // sanity check pre-loaded amount type
-          var at = self.filters.get('amountType') || "AUDA";
-          if (_.any(self.amountTypes, function(a) { return a.code == at; })) {
-            self.filters.set('amountType', at);
-          } else {
-            self.filters.set('amountType', self.amountTypes[0].code);
+          var type = self.filters.get('amountType') || "AUDA";
+          if (!type || !_.any(self.amountTypes[year], function(at) { return at.code == type; })) {
+            type = self.amountTypes[year][0].code;
           }
-          self.renderAmountTypes();
+          self.filters.set('amountType', type, {silent: true});
+        }
 
-          // force a change so we re-render
-          self.filters.trigger('change');
-        }).always(spinnerStop);
-      }
+        $('.loading').hide();
+        self.filters.trigger('change');
+      }).always(spinnerStop);
     },
 
     render: function() {
@@ -184,9 +187,7 @@
         return $(this).val() == year;
       });
 
-      if (this.filters.get('amountType')) {
-        this.$('select.amount-type-chooser').val(this.filters.get('amountType'));
-      }
+      this.renderAmountTypes();
     },
 
     renderMunis: function() {
@@ -219,15 +220,18 @@
 
     renderAmountTypes: function() {
       var $chooser = this.$('.amount-type-chooser'),
-          chosen = this.filters.get('amountType');
+          chosen = this.filters.get('amountType'),
+          year = this.filters.get('year');
 
-      if (this.amountTypes.length > 0) {
+      if (!_.isEmpty(this.amountTypes)) {
         $chooser.closest('section').show();
-      }
+        $chooser.empty();
 
-      for (var i = 0; i < this.amountTypes.length; i++) {
-        var at = this.amountTypes[i];
-        $chooser.append($('<option />').val(at.code).text(at.label).prop('selected', at.label == chosen));
+        for (var i = 0; i < this.amountTypes[year].length; i++) {
+          var at = this.amountTypes[year][i];
+          $chooser.append($('<option />').val(at.code).text(at.label));
+        }
+        $chooser.val(chosen);
       }
     },
 
@@ -261,7 +265,14 @@
     },
 
     yearChanged: function(e) {
-      this.filters.set('year', Number.parseInt(this.$('input[name=year]:checked').val()));
+      var year = Number.parseInt(this.$('input[name=year]:checked').val());
+      this.filters.set('year', year);
+
+      // sanity check amount type
+      var at = this.filters.get('amountType');
+      if (!_.isEmpty(this.amountTypes) && !_.any(this.amountTypes[year], function(a) { return a.code == at; })) {
+        this.filters.set('amountType', this.amountTypes[year][0].code);
+      }
     },
 
     amountTypeChanged: function(e) {
