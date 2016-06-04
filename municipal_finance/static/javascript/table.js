@@ -135,14 +135,12 @@
         self.amountTypes = {};
         if (cube.hasAmountType) {
           _.each(_.groupBy(data.cells, 'financial_year_end.year'), function(data, year) {
-            var types = _.map(data, function(d) {
+            self.amountTypes[year] = _.sortBy(_.map(data, function(d) {
                 return {
                   code: d['amount_type.code'],
                   label: d['amount_type.label'],
                 };
-              });
-            types = _.sortBy(types, 'label');
-            self.amountTypes[year] = types;
+              }), 'label');
           });
 
           // sanity check pre-loaded amount type
@@ -215,6 +213,8 @@
         allowClear: true,
         templateResult: formatMuni,
       })
+        .val(null)
+        .trigger('change')
         .on('select2:select', _.bind(this.muniSelected, this));
     },
 
