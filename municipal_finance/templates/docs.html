@@ -80,6 +80,60 @@
 
     <p><img src="{% static 'images/babbage-export.png' %}" /></p>
 
+    <h1 id="datasets">Datasets</h1>
+
+    {% for cube in cubes|dictsort:"name" %}
+      <h2 id="cube-{{ cube.name }}">{{ cube.model.label }} - {{ cube.name }}</h2>
+
+      {% if cube.model.description %}
+      <p>{{ cube.model.description }}</p>
+      {% endif %}
+
+      <p>
+        {% if cube.items %}
+        <a href="/table/{{ cube.name }}/">View the data</a> |
+        <a href="/explore/{{ cube.name }}/#/?view=crosstab&rows=item.position_in_return_form&rows=item.code&rows=item.label&order=&cut=amount_type.label:Audited%20Actual&cut=period_length.length:year&cut=financial_period.period:2015&cut=demarcation.label:Buffalo%20City" title="This link shows some example view parameters set. When using the Pivot Table functionality, it's important not to aggregate things that you don't mean to. For example, some line items don't make sense to sum together because one is a subtotal which includes the other. This view is ordered to appear as it does in the return forms to help understand the structure of items a little better.">Advanced interface</a>
+        {% else %}
+        <a href="/explore/{{ cube.name }}/">Advanced interface</a>
+        {% endif %}
+      </p>
+
+      {% if cube.items %}
+      <h3 id="{{ cube.name }}-items">Items</h3>
+
+      <table class="items">
+        <tr><th>Code</th><th>Item</th><th>Composition</th></tr>
+        {% for item in cube.items %}
+          <tr class="{{ item|get:'item.return_form_structure' }}-item">
+            <td>{{ item|get:"item.code" }}</td>
+            <td>{{ item|get:"item.label" }}</td>
+            <td>{{ item|get:"item.composition"|default_if_none:"" }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+      {% endif %}
+
+      <h3 id="{{ cube.name }}-dimensions">Dimensions and their attributes</h3>
+
+      <table class="dimensions">
+        {% for dimension in cube.model.dimensions.values|dictsort:"label" %}
+          <tr class="dimension">
+            <td colspan="2">{{ dimension.label }}</td>
+            <td colspan="2">{{ dimension.description }}</td>
+          </tr>
+
+          {% for attribute in dimension.attributes.values|dictsort:"label" %}
+            <tr class="attribute">
+              <td><b>{{ attribute.label }}</b></td>
+              <td>{{ attribute.ref }}</td>
+              <td>{{ attribute.type }}</td>
+              <td>{{ attribute.description }}</td>
+            </tr>
+          {% endfor %}
+        {% endfor %}
+      </table>
+    {% endfor %}
+
     <h1 id="general">Using the API</h1>
 
     <p>The API endpoint is <code>http://data.municipalmoney.org.za/api</code></p>
@@ -493,60 +547,6 @@ GET /api/cubes/incexp/aggregate
         <td>Determines whether output is in <code>json</code> or <code>csv</code> format. </td>
       </tr>
     </table>
-
-    <h1 id="datasets">Available Datasets (Cubes)</h1>
-
-    {% for cube in cubes|dictsort:"name" %}
-      <h2 id="cube-{{ cube.name }}">{{ cube.model.label }} - {{ cube.name }}</h2>
-
-      {% if cube.model.description %}
-      <p>{{ cube.model.description }}</p>
-      {% endif %}
-
-      <p>
-        {% if cube.items %}
-        <a href="/table/{{ cube.name }}/">View the data</a> |
-        <a href="/explore/{{ cube.name }}/#/?view=crosstab&rows=item.position_in_return_form&rows=item.code&rows=item.label&order=&cut=amount_type.label:Audited%20Actual&cut=period_length.length:year&cut=financial_period.period:2015&cut=demarcation.label:Buffalo%20City" title="This link shows some example view parameters set. When using the Pivot Table functionality, it's important not to aggregate things that you don't mean to. For example, some line items don't make sense to sum together because one is a subtotal which includes the other. This view is ordered to appear as it does in the return forms to help understand the structure of items a little better.">Advanced interface</a>
-        {% else %}
-        <a href="/explore/{{ cube.name }}/">Advanced interface</a>
-        {% endif %}
-      </p>
-
-      {% if cube.items %}
-      <h3 id="{{ cube.name }}-items">Items</h3>
-
-      <table class="items">
-        <tr><th>Code</th><th>Item</th><th>Composition</th></tr>
-        {% for item in cube.items %}
-          <tr class="{{ item|get:'item.return_form_structure' }}-item">
-            <td>{{ item|get:"item.code" }}</td>
-            <td>{{ item|get:"item.label" }}</td>
-            <td>{{ item|get:"item.composition"|default_if_none:"" }}</td>
-          </tr>
-        {% endfor %}
-      </table>
-      {% endif %}
-
-      <h3 id="{{ cube.name }}-dimensions">Dimensions and their attributes</h3>
-
-      <table class="dimensions">
-        {% for dimension in cube.model.dimensions.values|dictsort:"label" %}
-          <tr class="dimension">
-            <td colspan="2">{{ dimension.label }}</td>
-            <td colspan="2">{{ dimension.description }}</td>
-          </tr>
-
-          {% for attribute in dimension.attributes.values|dictsort:"label" %}
-            <tr class="attribute">
-              <td><b>{{ attribute.label }}</b></td>
-              <td>{{ attribute.ref }}</td>
-              <td>{{ attribute.type }}</td>
-              <td>{{ attribute.description }}</td>
-            </tr>
-          {% endfor %}
-        {% endfor %}
-      </table>
-    {% endfor %}
 
   </div>
 </div>
