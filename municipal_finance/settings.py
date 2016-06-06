@@ -213,6 +213,14 @@ PIPELINE = {
             ),
             'output_filename': 'docs.css',
         },
+        'api-home': {
+            'source_filenames': (
+                'bower_components/fontawesome/css/font-awesome.css',
+                'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss',
+                'stylesheets/site.scss',
+            ),
+            'output_filename': 'api-home.css',
+        },
         'table': {
             'source_filenames': (
                 'bower_components/fontawesome/css/font-awesome.css',
@@ -277,6 +285,13 @@ PIPELINE = {
                 'javascript/docs.js',
             ),
             'output_filename': 'docs.js',
+        },
+        'api-home': {
+            'source_filenames': (
+                'javascript/vendor/jquery-1.12.3.min.js',
+                'bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js',
+            ),
+            'output_filename': 'home.js',
         },
         'table': {
             'source_filenames': (

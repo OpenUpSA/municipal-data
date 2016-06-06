@@ -10,7 +10,7 @@ API_CACHE_SECS = 12 * 60 * 60
 
 urlpatterns = [
     url(r'^$', cache_page(API_CACHE_SECS)(views.index), name='homepage'),
-    url(r'^docs$', views.docs),
+    url(r'^docs$', cache_page(API_CACHE_SECS)(views.docs)),
     url(r'^explore/(?P<cube_name>[\w_]+)/embed.html$', views.embed),
     url(r'^explore/(?P<cube_name>[\w_]+)/$', views.explore),
     url(r'^table/(?P<cube_name>[\w_]+)/$', views.table, name='table'),
