@@ -225,6 +225,18 @@ class MuniApiClient(object):
                 },
                 'query_type': 'aggregate',
             },
+            'expenditure_trends': {
+                'cube': 'incexp',
+                'aggregate': 'amount.sum',
+                'cut': {
+                    'item.code': ['3000', '3100', '4200', '4600', ],
+                    'amount_type.code': ['AUDA'],
+                    'demarcation.code': [self.geo_code],
+                    'period_length.length': ['year'],
+                    'financial_year_end.year': self.years
+                },
+                'query_type': 'aggregate',
+            },
             'officials': {
                 'cube': 'officials',
                 'cut': {
@@ -404,6 +416,29 @@ class IndicatorCalculator(object):
                     values.append({'item': item, 'amount': amount, 'year': year})
             if total and subtotal:
                 values.append({'item': 'Other', 'amount': total - subtotal, 'year': year})
+        return values
+
+    def expenditure_trends(self):
+        values = []
+
+        for year in self.years:
+            try:
+                staff = self.results['expenditure_breakdown']['3000'][year] \
+                        + self.results['expenditure_breakdown']['3100'][year]
+                contracting = self.results['expenditure_breakdown']['4200'][year]
+                total = self.results['expenditure_breakdown']['4600'][year]
+                values.append({
+                    'contracting': (contracting/total)*100,
+                    'staff': (staff/total)*100,
+                    'year': year,
+                })
+            except KeyError:
+                values.append({
+                    'contracting': None,
+                    'staff': None,
+                    'year': year,
+                })
+
         return values
 
     def expenditure_breakdown(self):

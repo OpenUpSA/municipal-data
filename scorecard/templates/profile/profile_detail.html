@@ -541,8 +541,9 @@
   var CAP_BUDGET_DIFF = {{ indicators.cap_budget_diff|jsonify|safe }}
   var REP_MAINT_PERC_PPE = {{ indicators.rep_maint_perc_ppe|jsonify|safe }}
   var WASTEFUL_EXP_PERC_EXP = {{ indicators.wasteful_exp_perc_exp|jsonify|safe }}
-  var REVENUE_BREAKDOWN = {{ indicators.revenue_breakdown|jsonify|safe }}
-  var EXPENDITURE_BREAKDOWN = {{ indicators.expenditure_breakdown|jsonify|safe }}
+  var REVENUE_BREAKDOWN = {{ revenue_breakdown|jsonify|safe }}
+  var EXPENDITURE_BREAKDOWN = {{ expenditure_breakdown|jsonify|safe }}
+  var EXPENDITURE_TRENDS = {{ indicators.expenditure_trends|jsonify|safe }}
 
 </script>
 
