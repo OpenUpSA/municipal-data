@@ -209,7 +209,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.years
+                    'financial_year_end.year': self.current_year
                 },
                 'query_type': 'aggregate',
             },
@@ -221,7 +221,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.years
+                    'financial_year_end.year': self.current_year
                 },
                 'query_type': 'aggregate',
             },
@@ -282,8 +282,6 @@ class IndicatorCalculator(object):
         self.results = results
         self.years = years
         self.current_year = YEARS[0]
-        self.latest_two_years = YEARS[:2]
-
 
         self.revenue_breakdown_items = [
             ('Property rates', '0200'),
@@ -391,7 +389,7 @@ class IndicatorCalculator(object):
 
     def revenue_breakdown(self):
         values = []
-        for year in self.latest_two_years:
+        for year in self.years:
             subtotal = 0.0
             for item, code in self.revenue_breakdown_items:
                 try:
@@ -411,7 +409,7 @@ class IndicatorCalculator(object):
     def expenditure_breakdown(self):
         values = []
 
-        for year in self.latest_two_years:
+        for year in self.years:
             subtotal = 0.0
             for item, code in self.expenditure_breakdown_items:
                 try:
