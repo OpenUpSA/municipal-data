@@ -1,6 +1,9 @@
 from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
 from collections import defaultdict, OrderedDict, Counter
+import dateutil.parser
+import copy
+
 
 from django.conf import settings
 
@@ -53,6 +56,9 @@ class MuniApiClient(object):
                 'fields': ','.join(field for field in query_params['fields']),
                 'page': 0
             }
+        elif query_params['query_type'] == 'model':
+            url = self.API_URL + query_params['cube'] + '/model'
+            params = {}
         return self.session.get(url, params=params, verify=False)
 
     def response_to_results(self, api_response, query_params):
@@ -60,8 +66,10 @@ class MuniApiClient(object):
         response_dict = api_response.result().json()
         if query_params['query_type'] == 'facts':
             results = self.facts_from_response(response_dict, query_params)
-        else:
+        elif query_params['query_type'] == 'aggregate':
             results = self.aggregate_from_response(response_dict, query_params)
+        elif query_params['query_type'] == 'model':
+            results = response_dict['model']
 
         return results
 
@@ -231,6 +239,10 @@ class MuniApiClient(object):
                     'contact_details.fax_number'],
                 'value_label': '',
                 'query_type': 'facts',
+            },
+            'officials_date': {
+                'cube': 'officials',
+                'query_type': 'model',
             },
             'contact_details' : {
                 'cube': 'municipalities',
@@ -494,7 +506,14 @@ class IndicatorCalculator(object):
                 if secretary:
                     official['secretary'] = secretary
 
-        return [officials.get(role) for role in roles]
+        date = self.results['officials_date'].get('last_updated')
+        if date:
+            date = dateutil.parser.parse(date).strftime("%B %Y")
+
+        return {
+            'officials': [officials.get(role) for role in roles],
+            'updated_date': date,
+        }
 
     def muni_contact(self):
         muni_contact = self.results['contact_details'][0]

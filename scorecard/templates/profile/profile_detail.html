@@ -76,7 +76,7 @@
           </div>
           <div class="col-md-8 col-md-pull-4">
             <div class="row">
-              {% for official in mayoral_staff %}
+              {% for official in mayoral_staff.officials %}
                 {% if forloop.counter < 5 %}
                 <div class="col-sm-3">
                   <div class="person-info">
@@ -111,6 +111,10 @@
                 {% endif %}
               {% endfor %}
             </div>
+
+            {% if mayoral_staff.updated_date %}
+            Last updated: {{ mayoral_staff.updated_date }}
+            {% endif %}
           </div>
         </div>
       </div>

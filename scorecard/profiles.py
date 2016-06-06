@@ -13,7 +13,6 @@ def get_profile(geo_code, geo_level, profile_name=None):
     if geo.square_kms:
         population_density = total_pop / geo.square_kms
 
-
     api_client = MuniApiClient(geo_code)
     indicator_calc = IndicatorCalculator(api_client.results, api_client.years)
 
@@ -34,5 +33,5 @@ def get_profile(geo_code, geo_level, profile_name=None):
         'audit_opinions': indicator_calc.audit_opinions(),
         'indicators': indicators,
         'revenue_breakdown': indicator_calc.revenue_breakdown(),
-        'expenditure_breakdown': indicator_calc.expenditure_breakdown()
+        'expenditure_breakdown': indicator_calc.expenditure_breakdown(),
     }
