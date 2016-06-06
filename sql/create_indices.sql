@@ -95,8 +95,9 @@ CREATE INDEX audit_opinion_facts_financial_year_idx ON audit_opinion_facts (fina
 \echo attributes
 CREATE INDEX audit_opinion_facts_opinion_code_idx ON audit_opinion_facts (opinion_code);
 CREATE INDEX audit_opinion_facts_opinion_label_idx ON audit_opinion_facts (opinion_label);
+CREATE INDEX audit_opinion_facts_report_url_idx ON audit_opinion_facts (report_url);
 \echo dimension
-CREATE INDEX audit_opinion_facts_dimension_opinion_idx ON audit_opinion_facts (opinion_code, opinion_label);
+CREATE INDEX audit_opinion_facts_dimension_opinion_idx ON audit_opinion_facts (opinion_code, opinion_label, report_url);
 \echo cube=badexp
 \echo dimension=demarcation
 \echo attributes
@@ -299,10 +300,12 @@ CREATE INDEX incexp_facts_financial_period_idx ON incexp_facts (financial_period
 CREATE INDEX incexp_facts_financial_year_idx ON incexp_facts (financial_year);
 \echo dimension=function
 \echo attributes
+CREATE INDEX government_functions_category_label_idx ON government_functions (category_label);
 CREATE INDEX government_functions_code_idx ON government_functions (code);
 CREATE INDEX government_functions_label_idx ON government_functions (label);
+CREATE INDEX government_functions_subcategory_label_idx ON government_functions (subcategory_label);
 \echo dimension
-CREATE INDEX government_functions_dimension_function_idx ON government_functions (code, label);
+CREATE INDEX government_functions_dimension_function_idx ON government_functions (category_label, code, label, subcategory_label);
 \echo join column
 CREATE INDEX incexp_facts_dimension_join_column_function_idx ON incexp_facts (function_code);
 \echo dimension=item
@@ -346,19 +349,19 @@ CREATE INDEX scorecard_geography_dimension_municipality_idx ON scorecard_geograp
 \echo cube=officials
 \echo dimension=contact_details
 \echo attributes
-CREATE INDEX municipality_contacts_email_address_idx ON municipality_contacts (email_address);
-CREATE INDEX municipality_contacts_fax_number_idx ON municipality_contacts (fax_number);
-CREATE INDEX municipality_contacts_name_idx ON municipality_contacts (name);
-CREATE INDEX municipality_contacts_office_number_idx ON municipality_contacts (office_number);
-CREATE INDEX municipality_contacts_title_idx ON municipality_contacts (title);
+CREATE INDEX municipality_staff_contacts_email_address_idx ON municipality_staff_contacts (email_address);
+CREATE INDEX municipality_staff_contacts_fax_number_idx ON municipality_staff_contacts (fax_number);
+CREATE INDEX municipality_staff_contacts_name_idx ON municipality_staff_contacts (name);
+CREATE INDEX municipality_staff_contacts_office_number_idx ON municipality_staff_contacts (office_number);
+CREATE INDEX municipality_staff_contacts_title_idx ON municipality_staff_contacts (title);
 \echo dimension
-CREATE INDEX municipality_contacts_dimension_contact_details_idx ON municipality_contacts (email_address, fax_number, name, office_number, title);
+CREATE INDEX municipality_staff_contacts_dimension_contact_details_idx ON municipality_staff_contacts (email_address, fax_number, name, office_number, title);
 \echo dimension=municipality
 \echo attributes
-CREATE INDEX municipality_contacts_demarcation_code_idx ON municipality_contacts (demarcation_code);
+CREATE INDEX municipality_staff_contacts_demarcation_code_idx ON municipality_staff_contacts (demarcation_code);
 \echo dimension=role
 \echo attributes
-CREATE INDEX municipality_contacts_role_idx ON municipality_contacts (role);
+CREATE INDEX municipality_staff_contacts_role_idx ON municipality_staff_contacts (role);
 \echo cube=repmaint
 \echo dimension=amount_type
 \echo attributes
