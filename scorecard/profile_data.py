@@ -1,6 +1,9 @@
 from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
 from collections import defaultdict, OrderedDict, Counter
+import dateutil.parser
+import copy
+
 
 from django.conf import settings
 
@@ -62,8 +65,10 @@ class MuniApiClient(object):
         response_dict = api_response.result().json()
         if query_params['query_type'] == 'facts':
             results = self.facts_from_response(response_dict, query_params)
-        else:
+        elif query_params['query_type'] == 'aggregate':
             results = self.aggregate_from_response(response_dict, query_params)
+        elif query_params['query_type'] == 'model':
+            results = response_dict['model']
 
         return results
 
@@ -574,5 +579,5 @@ class IndicatorCalculator(object):
         for key in self.results.keys():
             if key.endswith('_model'):
                 name = key.replace('_model', '')
-                models[name] = (self.results[key])
+                models[name] = self.results[key]
         return models
