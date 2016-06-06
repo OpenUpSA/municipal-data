@@ -511,20 +511,11 @@ class IndicatorCalculator(object):
 
     def audit_opinions(self):
         values = []
-        code_rating = {
-            'adverse': 'bad',
-            'disclaimer': 'bad',
-            'outsanding': 'bad',
-            'qualified': 'ave',
-            'unqualified': 'great',
-            'unqualified_emphasis_of_matter': 'good',
-        }
         for result in self.results['audit_opinions']:
-            rating = code_rating.get(result['opinion.code'], None)
             values.append({
                 'year': result['financial_year_end.year'],
                 'result': result['opinion.label'],
-                'rating': rating,
+                'rating': result['opinion.code'],
                 'report_url': result['opinion.report_url'],
             })
         values = sorted(values, key=lambda r: r['year'])
