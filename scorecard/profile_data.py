@@ -52,6 +52,9 @@ class MuniApiClient(object):
                 'fields': ','.join(field for field in query_params['fields']),
                 'page': 0
             }
+        elif query_params['query_type'] == 'model':
+            url = self.API_URL + query_params['cube'] + '/model'
+            params = {}
         return self.session.get(url, params=params, verify=False)
 
     def response_to_results(self, api_response, query_params):
@@ -260,6 +263,42 @@ class MuniApiClient(object):
                 ],
                 'value_label': 'opinion.label',
                 'query_type': 'facts',
+            },
+            'audit_opinions_model': {
+                'cube': 'audit_opinions',
+                'query_type': 'model',
+            },
+            'badexp_model': {
+                'cube': 'badexp',
+                'query_type': 'model',
+            },
+            'bsheet_model': {
+                'cube': 'bsheet',
+                'query_type': 'model',
+            },
+            'capital_model': {
+                'cube': 'capital',
+                'query_type': 'model',
+            },
+            'cflow_model': {
+                'cube': 'cflow',
+                'query_type': 'model',
+            },
+            'incexp_model': {
+                'cube': 'incexp',
+                'query_type': 'model',
+            },
+            'municipalities_model': {
+                'cube': 'municipalities',
+                'query_type': 'model',
+            },
+            'officials_model': {
+                'cube': 'officials',
+                'query_type': 'model',
+            },
+            'repmaint_model': {
+                'cube': 'repmaint',
+                'query_type': 'model',
             },
         }
 
@@ -529,3 +568,11 @@ class IndicatorCalculator(object):
         values = sorted(values, key=lambda r: r['year'])
         values.reverse()
         return values
+
+    def models(self):
+        models = {}
+        for key in self.results.keys():
+            if key.endswith('_model'):
+                name = key.replace('_model', '')
+                models[name] = (self.results[key])
+        return models
