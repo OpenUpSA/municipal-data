@@ -982,19 +982,6 @@ a {
     fill: $red;
   }
 
-  rect.current {
-    stroke: $black;
-    stroke-width: 1;
-  }
-
-  text.current {
-    font-weight: bold;
-  }
-
-  .x.axis .tick:first-child {
-    font-weight: bold;
-  }
-
   .axis path,
   .axis line {
     fill: none;
@@ -1002,8 +989,8 @@ a {
   }
 
   .axis.zero path {
-  	stroke: $black;
-  	shape-rendering: crispEdges;
+    stroke: $gray;
+    shape-rendering: crispEdges;
   }
 }
 
