@@ -239,6 +239,10 @@ class MuniApiClient(object):
                 'value_label': '',
                 'query_type': 'facts',
             },
+            'officials_date': {
+                'cube': 'officials',
+                'query_type': 'model',
+            },
             'contact_details' : {
                 'cube': 'municipalities',
                 'cut': {
@@ -268,42 +272,6 @@ class MuniApiClient(object):
                 ],
                 'value_label': 'opinion.label',
                 'query_type': 'facts',
-            },
-            'audit_opinions_model': {
-                'cube': 'audit_opinions',
-                'query_type': 'model',
-            },
-            'badexp_model': {
-                'cube': 'badexp',
-                'query_type': 'model',
-            },
-            'bsheet_model': {
-                'cube': 'bsheet',
-                'query_type': 'model',
-            },
-            'capital_model': {
-                'cube': 'capital',
-                'query_type': 'model',
-            },
-            'cflow_model': {
-                'cube': 'cflow',
-                'query_type': 'model',
-            },
-            'incexp_model': {
-                'cube': 'incexp',
-                'query_type': 'model',
-            },
-            'municipalities_model': {
-                'cube': 'municipalities',
-                'query_type': 'model',
-            },
-            'officials_model': {
-                'cube': 'officials',
-                'query_type': 'model',
-            },
-            'repmaint_model': {
-                'cube': 'repmaint',
-                'query_type': 'model',
             },
         }
 
@@ -537,7 +505,14 @@ class IndicatorCalculator(object):
                 if secretary:
                     official['secretary'] = secretary
 
-        return [officials.get(role) for role in roles]
+        date = self.results['officials_date'].get('last_updated')
+        if date:
+            date = dateutil.parser.parse(date).strftime("%B %Y")
+
+        return {
+            'officials': [officials.get(role) for role in roles],
+            'updated_date': date,
+        }
 
     def muni_contact(self):
         muni_contact = self.results['contact_details'][0]
@@ -573,11 +548,3 @@ class IndicatorCalculator(object):
         values = sorted(values, key=lambda r: r['year'])
         values.reverse()
         return values
-
-    def models(self):
-        models = {}
-        for key in self.results.keys():
-            if key.endswith('_model'):
-                name = key.replace('_model', '')
-                models[name] = self.results[key]
-        return models

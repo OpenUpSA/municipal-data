@@ -1,5 +1,5 @@
 {% extends '_base.html' %}
-{% load lookup staticfiles pipeline l10n jsonify finance %}
+{% load staticfiles pipeline l10n jsonify finance %}
 
 {% block head_title %}{{ geography.this.short_name }} - {{ block.super }}{% endblock %}
 {% block head_meta_description %}Municipal performance for {{ geography.this.short_name}}, and other information.{% endblock %}
@@ -76,7 +76,7 @@
           </div>
           <div class="col-md-8 col-md-pull-4">
             <div class="row">
-              {% for official in mayoral_staff %}
+              {% for official in mayoral_staff.officials %}
                 {% if forloop.counter < 5 %}
                 <div class="col-sm-3">
                   <div class="person-info">
@@ -111,13 +111,10 @@
                 {% endif %}
               {% endfor %}
             </div>
-          </div>
-          <div class="col-md-8 col-md-pull-4">
-            <div class="row">
-              {% with model=models|get:'officials' %}
-              Last updated {{ model|get:'last_updated' }} {{ date|date:"F Y" }}
-              {% endwith %}
-            </div>
+
+            {% if mayoral_staff.updated_date %}
+            Last updated: {{ mayoral_staff.updated_date }}
+            {% endif %}
           </div>
         </div>
       </div>

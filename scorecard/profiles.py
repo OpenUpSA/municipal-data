@@ -13,7 +13,6 @@ def get_profile(geo_code, geo_level, profile_name=None):
     if geo.square_kms:
         population_density = total_pop / geo.square_kms
 
-
     api_client = MuniApiClient(geo_code)
     indicator_calc = IndicatorCalculator(api_client.results, api_client.years)
 
@@ -26,7 +25,6 @@ def get_profile(geo_code, geo_level, profile_name=None):
     indicators['rep_maint_perc_ppe'] = indicator_calc.rep_maint_perc_ppe()
     indicators['wasteful_exp_perc_exp'] = indicator_calc.wasteful_exp_perc_exp()
 
-    import dateutil.parser
     return {
         'total_population': total_pop,
         'population_density': population_density,
@@ -36,6 +34,4 @@ def get_profile(geo_code, geo_level, profile_name=None):
         'indicators': indicators,
         'revenue_breakdown': indicator_calc.revenue_breakdown(),
         'expenditure_breakdown': indicator_calc.expenditure_breakdown(),
-        'models': indicator_calc.models(),
-        'date': dateutil.parser.parse('2016-06'),
     }
