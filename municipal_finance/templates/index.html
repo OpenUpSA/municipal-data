@@ -15,65 +15,94 @@
 {% endblock %}
 
 {% block content %}
+<header id="header">
+  <div class="jumbotron text-center">
+    <div class="container">
+      <img src="{% static 'images/treasury-logo.jpg' %}" class="logo">
+      <h1>Municipal Finance Data</h1>
 
+      <p class="lead">
+      Current and historical Municipal budget and financial performance data from the National Treasury.
+      </p>
 
-<div class="page-wrapper">
-  <div class="content">
-    <h1 id="intro">Municipal Money API</h1>
-    <aside class="info">
-      Usage of this data is subject to the <b>Terms of Use</b> (To be confirmed)
-    </aside>
+      <p>
+      <a href="#" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#terms-modal">Get started</a>
+      </p>
+    </div>
+  </div>
+</header>
 
-    <div class="wrapper">
-      <div class="stat-panels">
-        <div class="stat-panel col-md-4">
-          <a href="#accept-tou" class="read-the-docs">Read the Docs</a>
-        </div>
-        <div class="stat-panel col-md-4"><span class="stat-value">4</span> years of data</div>
-        <div class="stat-panel col-md-4">
-          <p><span class="stat-value">8</span> Metro Municipalities</p>
-          <p><span class="stat-value">44</span> District Municipalities</p>
-          <p><span class="stat-value">226</span> Local Municipalities</p>
-        </div>
-        <div class="stat-panel col-md-4">
-          <p class="stat-value">R 1 072 771 439 501<p>
-          <p>Operating Revenue</p>
-        </div>
-        <div class="stat-panel col-md-4">
-          <p class="stat-value">R 1 005 624 194 025</p>
-          <p>Operating Expenditure</p>
-        </div>
-        <div class="stat-panel col-md-4">
-          <p><span class="stat-value">12</span> datasets</p>
-          <ul>
-            <li>Aged Creditor Analysis</li>
-            <li>Aged Debtor Analysis</li>
-            <li>Audit Opinions</li>
-            <li>Unauthorised, Irregular, Fruitless and Wasteful Expenditure</li>
-            <li>Balance Sheet</li>
-            <li>Capital Aquisition</li>
-            <li>Cash Flow</li>
-            <li>Conditional Grants</li>
-            <li>Income and Expenditure</li>
-            <li>Municipalities</li>
-            <li>Municipal Officials</li>
-            <li>Repairs and Maintenance</li>
-          </ul>
-        </div>
-      </div> <!-- stat panels -->
+<article>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 col-md-4 col-md-offset-2">
+        <h2>4 years of data</h2>
+        <p class="lead">Financial years 2012-2013 to 2015-2016.</p>
+      </div>
+
+      <div class="col-sm-6 col-md-4">
+        <h2>278 Municipalities</h2>
+        <p class="lead">8 metros, 44 district and 226 local municipalities.</p>
+      </div>
     </div>
 
-    <h2 id="intro">Terms of Use</h2>
-
-      <aside class="info">
-        Usage of this data is subject to the <b>Terms of Use</b> (To be confirmed)
-      </aside>
-    <div class="col-md-6">
-      <input type="checkbox" name="accept-tou" id="accept-tou">
-      <label for="accept-tou">I accept the terms of use</label>
-      <p><a href="#accept-tou" class="read-the-docs btn btn-default">Read the Docs</a></p>
+    <div class="row">
+      <div class="col-sm-6 col-md-offset-2">
+        <h2>12 Datasets</h2>
+        <ul>
+          {% for cube in cubes|dictsort:"label" %}
+          <li>{{ cube.label }}</li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
 
   </div>
-</div>
+</article>
+
+<footer id="footer">
+  <section class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <ul class="list-unstyled">
+          <li>Contribute on <a href="https://github.com/Code4SA/municipal-data">GitHub</a> <i class="fa fa-github"></i></li>
+        </ul>
+      </div>
+      <div class="col-sm-4">
+        <ul class="list-unstyled">
+          {% comment %}
+          <li>
+            <a href="http://www.treasury.gov.za/" target="_blank"><img class="logo" src="{% static 'images/treasury-logo.jpg' %}"></a>
+          </li>
+          {% endcomment %}
+        </ul>
+      </div>
+      <div class="col-sm-4">
+        <ul class="list-unstyled">
+          <li>
+            <a href="http://www.code4sa.org/" target="_blank"><img class="logo" src="{% static 'images/code4sa-logo.png' %}"></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</footer>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="terms-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Please accept the Terms of Use</h4>
+      </div>
+      <div class="modal-body">
+        <p>[terms of use]</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <a href="/docs" class="btn btn-primary">Accept Terms of Use</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 {% endblock %}

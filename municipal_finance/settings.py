@@ -217,8 +217,7 @@ PIPELINE = {
             'source_filenames': (
                 'bower_components/fontawesome/css/font-awesome.css',
                 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss',
-                'slate/stylesheets/screen.css',
-                'stylesheets/docs.scss',
+                'stylesheets/site.scss',
             ),
             'output_filename': 'api-home.css',
         },
@@ -290,7 +289,7 @@ PIPELINE = {
         'api-home': {
             'source_filenames': (
                 'javascript/vendor/jquery-1.12.3.min.js',
-                'javascript/home.js',
+                'bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js',
             ),
             'output_filename': 'home.js',
         },
