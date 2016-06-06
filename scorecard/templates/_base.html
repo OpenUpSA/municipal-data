@@ -12,7 +12,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block head_css %}
     {% stylesheet "scorecard" %}
-    {% block head_css_extra %}{% endblock %}{% endblock head_css %}
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="{% static 'css/vendor/leaflet-0.6.4.ie.css' %}" />
+    <![endif]-->
+    {% block head_css_extra %}{% endblock %}
+    {% endblock head_css %}
     {% block head_javascript %}
     <script src="//cdn.jsdelivr.net/g/modernizr@2.7,respond@1.4"></script>
     {% block head_javascript_extra %}{% endblock %}{% endblock %}
@@ -60,27 +64,29 @@
       <footer id="page-footer">
         <section class="container footer-container">
           {% block footer_content %}
-          <div class="col-sm-4">
-            <ul class="list-unstyled">
-              <li>Use the <a href="https://data.municipalmoney.org.za/" target="_blank">Municipal Financial Data API</a></li>
-              <li>Contribute on <a href="https://github.com/Code4SA/municipal-data">GitHub</a> <i class="fa fa-github"></i></li>
-            </ul>
-          </div>
-          <div class="col-sm-4">
-            <ul class="list-unstyled">
-              {% comment %}
-              <li>
-                <a href="http://www.treasury.gov.za/" target="_blank"><img class="logo" src="{% static 'images/treasury-logo.jpg' %}"></a>
-              </li>
-              {% endcomment %}
-            </ul>
-          </div>
-          <div class="col-sm-4">
-            <ul class="list-unstyled">
-              <li>
-                <a href="http://www.code4sa.org/" target="_blank"><img class="logo" src="{% static 'images/code4sa-logo.png' %}"></a>
-              </li>
-            </ul>
+            <div class="row">
+            <div class="col-sm-4">
+              <ul class="list-unstyled">
+                <li>Use the <a href="https://data.municipalmoney.org.za/" target="_blank">Municipal Financial Data API</a></li>
+                <li>Contribute on <a href="https://github.com/Code4SA/municipal-data">GitHub</a> <i class="fa fa-github"></i></li>
+              </ul>
+            </div>
+            <div class="col-sm-4">
+              <ul class="list-unstyled">
+                {% comment %}
+                <li>
+                  <a href="http://www.treasury.gov.za/" target="_blank"><img class="logo" src="{% static 'images/treasury-logo.jpg' %}"></a>
+                </li>
+                {% endcomment %}
+              </ul>
+            </div>
+            <div class="col-sm-4">
+              <ul class="list-unstyled">
+                <li>
+                  <a href="http://www.code4sa.org/" target="_blank"><img class="logo" src="{% static 'images/code4sa-logo.png' %}"></a>
+                </li>
+              </ul>
+            </div>
           </div>
           {% endblock footer_content %}
         </section>

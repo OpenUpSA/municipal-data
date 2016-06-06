@@ -1,5 +1,5 @@
 {% extends '_base.html' %}
-{% load staticfiles pipeline l10n jsonify %}
+{% load staticfiles pipeline l10n jsonify finance %}
 
 {% block head_title %}{{ geography.this.short_name }} - {{ block.super }}{% endblock %}
 {% block head_meta_description %}Municipal performance for {{ geography.this.short_name}}, and other information.{% endblock %}
@@ -11,24 +11,17 @@
     <meta property="og:type" content="article" />
 {% endblock %}
 
-{% block head_css_extra %}
-<link rel="stylesheet" href="{% static 'css/vendor/leaflet-0.6.4.css' %}" />
-<!--[if lte IE 8]>
-    <link rel="stylesheet" href="{% static 'css/vendor/leaflet-0.6.4.ie.css' %}" />
-<![endif]-->
-<link href="{% static 'css/vendor/leaflet.label.css' %}" rel="stylesheet" />
-{% endblock %}
 {% block body_id %}profile{% endblock %}
 
 {% block header_content %}
   <div id="cover-map" class="clearfix">
     <div id="slippy-map"></div>
-    <div id="cover-profile" class="container">
+    <div id="cover-profile">
       <article class="clearfix column-half">
         <header id="header-box" class="column-full">
           <h1 class="title">{{ geography.this.short_name }}</h1>
           <p class="caption">
-            {{ geography.this.geo_level|capfirst }}
+            {{ geography.this.category_name|capfirst }}
             in
             {% if geography.parents %}
               {% for level, g in geography.parents.items %}
@@ -69,7 +62,7 @@
               </li>
               {% if muni_contact.url %}
               <li>
-                <i class="fa fa-li fa-globe" aria-hidden="true"></i> <a href="{{ muni_contact.url|lower }}">{{ muni_contact.url }}</a>
+                <i class="fa fa-li fa-globe" aria-hidden="true"></i> <a href="{{ muni_contact.url|lower }}" target="_blank">{{ muni_contact.url|lower }}</a>
               </li>
               {% endif %}
               <li>
@@ -161,10 +154,24 @@
           <div class="col-sm-3">
             <table class="table table-bordered">
               <tr>
-                <td class="text{% if forloop.first %}-large{% endif %} text-center"><strong>{{ opinion.year|unlocalize }} <i class="fa {% if opinion.rating == 'good' %}fa-thumbs-up indicator-good{% elif opinion.rating == 'ave' %}fa-thumbs-up indicator-ave{% else %}fa-warning indicator-bad{% endif %}" aria-hidden="true"></i><br>{{ opinion.result }}</strong></td>
+                <td class="text{% if forloop.first %}-large{% endif %} text-center"><strong>
+                    {{ opinion.year|unlocalize }}
+                    <i class="audit-rating audit-{{ opinion.rating }}" aria-hidden="true"></i>
+                    {% if opinion.rating == "unqualified" %}
+                    <i class="audit-rating audit-unqualified_extra" area-hidden="true"></i>
+                    {% endif %}
+                    <br>{{ opinion.result }}
+                  </strong>
+                </td>
               </tr>
               <tr class="table-footer">
-                <td><a href="#">Read report</a></td>
+                <td>
+                  {% if opinion.report_url %}
+                  <a href="{{ opinion.report_url }}" target="_blank">Read report <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                  {% else %}
+                  No report available
+                  {% endif %}
+                </td>
               </tr>
             </table>
           </div>
@@ -178,9 +185,20 @@
           <div class="panel-body">
             There are <strong>5 types of audit outcomes</strong>:
             <ul>
-              <li>A <strong>clean audit</strong> means that there are no irregularities in the municipality's accounting.</li>
+              <li><strong>Unqualified - No findings</strong><i class="audit-rating audit-unqualified" area-hidden="true"></i><i class="audit-rating audit-unqualified_extra" area-hidden="true"></i> is one in which the Auditor-General can state, without reservation, that the financial  statements of the municipality fairly represent the financial position of the municipality and are in line with Generally Recognised Accounting Practices (GRAP)</li>
             </ul>
-            <div class="more"><a href="#" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show More</a></div>
+            <div class="more">
+              <a href="#more-audit-opinions" data-toggle="collapse" class="show-more-audit-opinions show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show More</a>
+            </div>
+            <div class="more-audit-opinions collapse" id="more-audit-opinions">
+              <ul>
+                <li><strong>Unqualified - Emphasis of Matter items</strong><i class="audit-rating audit-unqualified_emphasis_of_matter" area-hidden="true"></i> Same as an unqualified opinion with no findings, but modified without affecting the status of the opinion on the financial statement of the municipality.</li>
+                <li><strong>A Qualified opinion</strong><i class="audit-rating audit-qualified" area-hidden="true"></i>: Expresses reservations by the Auditor-General about the fair presentation of the financial statements. These are expressed when some scope limitation or a departure from Generally Recognised Accounting Practices (GRAP) exists but is not sufficiently serious as to warrant an adverse opinion or disclaimer of opinion. One common reason for a qualified opinion may be an insufficiency of the underlying financial records to support some of the data in the financial statements. In this case the Auditor-General may conclude that the financial statements are presented fairly except for the insufficiently supported data.</li>
+                <li><strong>An Adverse opinion</strong><i class="audit-rating audit-adverse" area-hidden="true"></i> is expressed when the auditor concludes that the annual financial statements do not present the municipality’s financial position, results of operations and cash flows in line with Generally Recognised Accounting Practices (GRAP)  It is only issued in situations where financial statements contain serious departures from GRAP and the qualification of annual financial statements is not sufficient to disclose the misleading or incomplete nature of the financial statements.</li>
+                <li><strong>A Disclaimer of opinion</strong><i class="audit-rating audit-disclaimer" area-hidden="true"></i> is issued when the Auditor-General does not have all of the underlying documentation needed to determine an opinion about whether the financial statements are fairly presented. For example, at some point the lack of underlying documentation and the amounts in question may be so great so that it is impossible to give any opinion on all, or a significant portion of the financial statements.</li>
+                <li><strong>An Outstanding opinion</strong><i class="audit-rating audit-outstanding" area-hidden="true"></i> means that the Auditor General raised queries with the municipality and therefore has not submitted another opinion.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -189,25 +207,25 @@
   </div>
 
   <div class="indicator">
-    <h2 class="sub-heading">Cash balance</h2>
+    {% with indicators.cash_at_year_end|first as latest %}
+    <h2 class="sub-heading">Cash Balance <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
-        {% with indicators.cash_at_year_end|first as latest %}
-        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-        {% endwith %}
-        <div class="indicator-description">cash balance at the end of the financial year.</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} Not available {% endif %}</div>
+        <div class="indicator-description">Cash balance at the end of the financial year.</div>
         <table class="table table-bordered indicator-key">
           <tr>
-            <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">Positive balance</td>
           </tr>
           <tr>
-            <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
-            <td class="key-description">Negative balance.</td>
+            <td class="key-symbol rating rating-bad">bad</td>
+            <td class="key-description">Negative balance</td>
           </tr>
         </table>
+        <div class="show-calc"><a href="#cash-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculations</a></div>
+
       </div>
       <div class="col-sm-4">
         <div class="cash-at-year-end chart-container"></div>
@@ -221,28 +239,39 @@
         </div>
       </div>
     </div>
+    <div class="calc collapse" id="cash-calc">
+      <h5>Formula:</h5>
+      <ul class="formula">
+        <li>Cash available at year end</li>
+        <li>= <a href="{% table_url "cflow" year=latest.year muni=geography.this.geo_code items=4200 amountType="ACT" %}" target="_blank">Cash Flow item code 4200, Audited Actual</a></li>
+      </ul>
+    </div>
+    {% endwith %}
   </div>
 
   <div class="indicator">
-    <h2>Cash coverage</h2>
+    {% with indicators.cash_coverage|first as latest %}
+    <h2>Cash Coverage <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
-        {% with indicators.cash_coverage|first as latest %}
-        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} months{% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-        {% endwith %}
-        <div class="indicator-description">months of operating expenses can be paid for with the cash available.</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} months{% else %} Not available {% endif %}</div>
+        <div class="indicator-description">Months of operating expenses can be paid for with the cash available.</div>
         <table class="table table-bordered indicator-key">
           <tr>
-            <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">more than 3</td>
           </tr>
           <tr>
-            <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-ave">average</td>
+            <td class="key-description">between 1 and 3</td>
+          </tr>
+          <tr>
+            <td class="key-symbol rating rating-bad">bad</td>
             <td class="key-description">less than 1</td>
           </tr>
         </table>
+        <div class="show-calc"><a href="#cash-coverage-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
         <div class="cash-coverage chart-container"></div>
@@ -256,90 +285,185 @@
         </div>
       </div>
     </div>
+    <div class="calc collapse" id="cash-coverage-calc">
+      <h5>Formula:</h5>
+
+      <ul class="formula">
+        <li>= Cash available at year end / Operating Expenditure per month</li>
+        <li>=
+          <a href="{% table_url "cflow" year=latest.year items=4200 amountType="ACT" %}" target="_blank">Cash Flow item code 4200, Audited Actual</a>
+          /
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="ACT" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a></li>
+      </ul>
+    </div>
+    {% endwith %}
   </div>
 
   <div class="indicator">
-    <h2>Spending of Operating Budget</h2>
+    {% with indicators.op_budget_diff|first as latest %}
+    <h2>Spending of Operating Budget <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
-        {% with indicators.op_budget_diff|first as latest %}
-        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-        {% endwith %}
-        <div class="indicator-description">difference between operating budget and actual expenditure.</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %}</div>
+        <div class="indicator-description">Difference between operating budget and actual expenditure.</div>
         <table class="table table-bordered indicator-key">
           <tr>
-            <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">less than 10%</td>
           </tr>
           <tr>
-            <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-ave">average</td>
+            <td class="key-description">between 10% and 25%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol rating rating-bad">bad</td>
             <td class="key-description">more than 25%</td>
           </tr>
         </table>
+        <div class="show-calc"><a href="#op-budget-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
         <div class="op-budget-diff chart-container"></div>
       </div>
     </div>
+    <div class="calc collapse" id="op-budget-calc">
+      <h5>Formula:</h5>
+
+      <ul class="formula">
+        <li>= (Budgeted Operating Expenditure - Actual Operating Expenditure) / Budgeted Operating Expenditure</li>
+        <li>=
+          (<a href="{% table_url "incexp" year=latest.year items=4600 amountType="ADJB" %}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>
+          -
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="ACT" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>)
+          /
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="ADJB "%}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>
+      </ul>
+    </div>
+    {% endwith %}
   </div>
 
   <div class="indicator">
-    <h2>Spending of Capital Budget</h2>
+    {% with indicators.cap_budget_diff|first as latest %}
+    <h2>Spending of Capital Budget <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
-        {% with indicators.cap_budget_diff|first as latest %}
-        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-        {% endwith %}
-        <div class="indicator-description">difference between capital budget and actual expenditure.</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %}</div>
+        <div class="indicator-description">Difference between capital budget and actual expenditure.</div>
         <table class="table table-bordered indicator-key">
           <tr>
-            <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">less than 10%</td>
           </tr>
           <tr>
-            <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-ave">average</td>
+            <td class="key-description">between 10% and 30%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol rating rating-bad">bad</td>
             <td class="key-description">more than 30%</td>
           </tr>
         </table>
+        <div class="show-calc"><a href="#cap-budget-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
         <div class="cap-budget-diff chart-container"></div>
       </div>
     </div>
+    <div class="calc collapse" id="cap-budget-calc">
+      <h5>Formula:</h5>
+
+      <ul class="formula">
+        <li>= (Budgeted Capital Expenditure - Actual Capital Expenditure) / Budgeted Capital Expenditure</li>
+        <li>=
+          (<a href="{% table_url "capital" year=latest.year items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Adjusted Budget</a>
+          -
+          <a href="{% table_url "capital" year=latest.year items=4100 amountType="ACT" %}" target="_blank">Capital item code 4100, Audited Actual</a>)
+          /
+          <a href="{% table_url "capital" year=latest.year items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Adjusted Budget</a>
+      </ul>
+    </div>
+    {% endwith %}
   </div>
 
   <div class="indicator">
-    <h2>Spending on Repairs and Maintenance</h2>
+    {% with indicators.rep_maint_perc_ppe|first as latest %}
+    <h2>Spending on Repairs and Maintenance <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
-        {% with indicators.rep_maint_perc_ppe|first as latest %}
-        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-        {% endwith %}
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %}</div>
 
         <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
-        {% comment %}
         <table class="table table-bordered indicator-key">
           <tr>
-            <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
-            <td class="key-description">less than 10%</td>
+            <td class="key-symbol rating rating-good">good</td>
+            <td class="key-description">more than 8%</td>
           </tr>
           <tr>
-            <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
-            <td class="key-description">more than 30%</td>
+            <td class="key-symbol rating rating-bad">bad</td>
+            <td class="key-description">less than 8%</td>
           </tr>
         </table>
-        {% endcomment %}
+        <div class="show-calc"><a href="#rep-maint-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
         <div class="rep-maint-perc-ppe chart-container"></div>
       </div>
     </div>
+    <div class="calc collapse" id="rep-maint-calc">
+      <h5>Formula:</h5>
+
+      <ul class="formula">
+        <li>= Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)</li>
+        <li>=
+          <a href="{% table_url "repmaint" year=latest.year items=5005 amountType="ADJB" %}" target="_blank">Repairs and maintenance item code 5005, Adjusted Budget</a>
+          /
+          (<a href="{% table_url "bsheet" year=latest.year items=1300 amountType="ACT" %}" target="_blank">Balance Sheet item code 1300, Audited Actual</a>
+          +
+          <a href="{% table_url "bsheet" year=latest.year items=1401 amountType="ACT" %}" target="_blank">Balance Sheet item code 1401, Audited Actual</a>)
+      </ul>
+    </div>
+    {% endwith %}
+  </div>
+
+  <div class="indicator">
+    {% with indicators.wasteful_exp_perc_expenses|first as latest %}
+    <h2>Fruitless and wastefull expenditure <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %}</div>
+        <div class="indicator-description">Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage of operating expenditure.</div>
+        <table class="table table-bordered indicator-key">
+          <tr>
+            <td class="key-symbol rating rating-good">good</td>
+            <td class="key-description">0%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol rating rating-bad">bad</td>
+            <td class="key-description">more than 0%</td>
+          </tr>
+        </table>
+        <div class="show-calc"><a href="#fruitless-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="fruitless-exp chart-container"></div>
+      </div>
+    </div>
+    <div class="calc collapse" id="fruitless-exp-calc">
+      <h5>Formula:</h5>
+
+      <ul class="formula">
+        <li>= Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure</li>
+        <li>=
+          <a href="{% table_url "badexp" year=latest.year items="irregular,fruitless,unauthorised" %}" target="_blank">Unauthorised, Irregular, Fruitless and Wasteful Expenditure item codes <i>irregular, fruitless, unauthorised</i></a>
+          /
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="ACT" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
+      </ul>
+    </div>
+    {% endwith %}
   </div>
 
 </div>
@@ -367,6 +491,7 @@
   var OP_BUDGET_DIFF = {{ indicators.op_budget_diff|jsonify|safe }}
   var CAP_BUDGET_DIFF = {{ indicators.cap_budget_diff|jsonify|safe }}
   var REP_MAINT_PERC_PPE = {{ indicators.rep_maint_perc_ppe|jsonify|safe }}
+  var WASTEFUL_EXP_PERC_EXP = {{ indicators.wasteful_exp_perc_exp|jsonify|safe }}
 
 </script>
 

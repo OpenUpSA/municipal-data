@@ -25,7 +25,8 @@ if DEBUG:
 else:
     SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
-GOOGLE_ANALYTICS_ID = 'UA-48399585-37'
+DATA_GOOGLE_ANALYTICS_ID = 'UA-48399585-37'
+SCORECARD_GOOGLE_ANALYTICS_ID = 'UA-48399585-40'
 
 ALLOWED_HOSTS = ['*']
 
@@ -59,7 +60,8 @@ INSTALLED_APPS = (
 if DEBUG:
     SITE_ID = int(os.environ.get('SITE_ID', '2'))
 
-API_URL = os.environ.get('API_URL', 'https://data.municipalmoney.org.za/api/cubes/')
+API_BASE = "https://data.municipalmoney.org.za"
+API_URL = os.environ.get('API_URL', API_BASE + '/api')
 
 # Wazimap
 from wazimap.settings import WAZIMAP
@@ -81,11 +83,12 @@ WAZIMAP['levels'] = {
     },
 }
 WAZIMAP['profile_builder'] = 'scorecard.profiles.get_profile'
-WAZIMAP['ga_tracking_id'] = GOOGLE_ANALYTICS_ID
+WAZIMAP['ga_tracking_id'] = SCORECARD_GOOGLE_ANALYTICS_ID
 WAZIMAP['twitter'] = ''
 WAZIMAP['geodata'] = 'scorecard.geo.GeoData'
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.gzip.GZipMiddleware',
     'municipal_finance.middleware.SiteMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -158,6 +161,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     "wazimap.context_processors.wazimap_settings",
     "municipal_finance.context_processors.google_analytics",
+    "municipal_finance.context_processors.api_details",
 )
 
 
@@ -229,7 +233,10 @@ PIPELINE = {
         },
         'scorecard': {
             'source_filenames': (
+                'css/vendor/leaflet-0.6.4.css',
+                'css/vendor/leaflet.label.css',
                 'bower_components/fontawesome/css/font-awesome.css',
+                'css/icomoon.css',
                 'stylesheets/scorecard.scss',
                 'stylesheets/line-icons.css',
             ),
@@ -308,6 +315,7 @@ PIPELINE = {
                 'js/bootstrap-3.3.2/scrollspy.js',
                 'js/bootstrap-3.3.2/transition.js',
                 'js/bootstrap-3.3.2/collapse.js',
+                'js/spin.min.js',
                 'js/charts.js',
                 'js/scorecard.js',
             ),

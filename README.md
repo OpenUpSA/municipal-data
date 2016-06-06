@@ -1,4 +1,7 @@
-# municpal data
+# Municipal Money
+
+Municipal Money is a project between the [South African National Treasury](http://www.treasury.gov.za/) and [Code for South Africa](http://code4sa.org) to
+make municipal finance information available to the public. It is made up of a citizen-facing app and an API.
 
 # Local development
 

@@ -1,6 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
-from collections import defaultdict, OrderedDict
+from collections import defaultdict, OrderedDict, Counter
 
 from django.conf import settings
 
@@ -11,9 +11,10 @@ EXECUTOR = ThreadPoolExecutor(max_workers=10)
 # The years for which we need results. Latest must be first.
 YEARS = [2015, 2014, 2013, 2012]
 
+
 class MuniApiClient(object):
     def __init__(self, geo_code):
-        self.API_URL = settings.API_URL
+        self.API_URL = settings.API_URL + "/cubes/"
         self.geo_code = str(geo_code)
         self.years = YEARS
         self.current_year = YEARS[:1]
@@ -39,9 +40,9 @@ class MuniApiClient(object):
                     k, ';'.join('{!r}'.format(item) for item in v))
                     for (k, v) in query_params['cut'].iteritems()
                     ).replace("'", '"'),
-                'drilldown': 'item.code|item.label|financial_period.period',
+                'drilldown': 'item.code|item.label|financial_year_end.year',
+                'order': 'financial_year_end.year:desc',
                 'page': 0,
-                'order': 'financial_period.period:desc',
             }
         elif query_params['query_type'] == 'facts':
             url = self.API_URL + query_params['cube'] + '/facts'
@@ -58,10 +59,7 @@ class MuniApiClient(object):
         api_response.result().raise_for_status()
         response_dict = api_response.result().json()
         if query_params['query_type'] == 'facts':
-            if query_params['annual']:
-                results = self.annual_facts_from_response(response_dict, query_params)
-            else:
-                results = self.facts_from_response(response_dict, query_params)
+            results = self.facts_from_response(response_dict, query_params)
         else:
             results = self.aggregate_from_response(response_dict, query_params)
 
@@ -79,26 +77,14 @@ class MuniApiClient(object):
         for code in query_params['cut']['item.code']:
           # Index values by financial period, treating nulls as zero
           results[code] = OrderedDict([
-              (c['financial_period.period'], c[query_params['aggregate']] or 0)
+              (c['financial_year_end.year'], c[query_params['aggregate']] or 0)
               for c in response['cells'] if c['item.code'] == code])
 
         return results
 
     @staticmethod
-    def annual_facts_from_response(response, query_params):
-        """
-        Return facts that have annual results
-        """
-        facts = OrderedDict(sorted([
-            (i['financial_year_end.year'], i[query_params['value_label']])
-            for i in response['data']], reverse=True))
-
-        return facts
-
-    @staticmethod
     def facts_from_response(response, query_params):
         return response['data']
-
 
     def get_line_item_params(self):
         return {
@@ -110,7 +96,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.years
+                    'financial_year_end.year': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -121,7 +107,8 @@ class MuniApiClient(object):
                     'item.code': ['4600'],
                     'amount_type.code': ['ADJB'],
                     'demarcation.code': [self.geo_code],
-                    'financial_period.period': self.years
+                    'period_length.length': ['year'],
+                    'financial_year_end.year': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -133,7 +120,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.years
+                    'financial_year_end.year': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -145,7 +132,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.years
+                    'financial_year_end.year': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -156,7 +143,7 @@ class MuniApiClient(object):
                     'item.code': ['4100'],
                     'amount_type.code': ['ADJB'],
                     'demarcation.code': [self.geo_code],
-                    'financial_period.period': self.years
+                    'financial_year_end.year': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -168,7 +155,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.years
+                    'financial_year_end.year': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -180,7 +167,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.years
+                    'financial_year_end.year': self.years
                 },
                 'query_type': 'aggregate',
             },
@@ -192,7 +179,17 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.years
+                    'financial_year_end.year': self.years
+                },
+                'query_type': 'aggregate',
+            },
+            'wasteful_exp': {
+                'cube': 'badexp',
+                'aggregate': 'amount.sum',
+                'cut': {
+                    'item.code': ['irregular', 'fruitless', 'unauthorised'],
+                    'demarcation.code': [self.geo_code],
+                    'financial_year_end.year': self.years,
                 },
                 'query_type': 'aggregate',
             },
@@ -204,7 +201,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.current_year
+                    'financial_year_end.year': self.current_year
                 },
                 'query_type': 'aggregate',
             },
@@ -216,12 +213,11 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_period.period': self.current_year
+                    'financial_year_end.year': self.current_year
                 },
                 'query_type': 'aggregate',
             },
             'officials': {
-                'query_type': 'facts',
                 'cube': 'officials',
                 'cut': {
                     'municipality.demarcation_code': self.geo_code,
@@ -233,11 +229,10 @@ class MuniApiClient(object):
                     'contact_details.email_address',
                     'contact_details.phone_number',
                     'contact_details.fax_number'],
-                'annual': False,
-                'value_label': ''
+                'value_label': '',
+                'query_type': 'facts',
             },
             'contact_details' : {
-                'query_type': 'facts',
                 'cube': 'municipalities',
                 'cut': {
                     'municipality.demarcation_code': self.geo_code,
@@ -250,11 +245,10 @@ class MuniApiClient(object):
                     'municipality.street_address_4',
                     'municipality.url'
                 ],
-                'annual': False,
-                'value_label': ''
+                'value_label': '',
+                'query_type': 'facts',
             },
             'audit_opinions' : {
-                'query_type': 'facts',
                 'cube': 'audit_opinions',
                 'cut': {
                     'demarcation.code': self.geo_code
@@ -262,10 +256,11 @@ class MuniApiClient(object):
                 'fields': [
                     'opinion.code',
                     'opinion.label',
+                    'opinion.report_url',
                     'financial_year_end.year'
                 ],
-                'annual': True,
-                'value_label': 'opinion.label'
+                'value_label': 'opinion.label',
+                'query_type': 'facts',
             },
         }
 
@@ -295,7 +290,7 @@ class IndicatorCalculator(object):
 
     def cash_coverage(self):
         values = []
-        for year in sorted(list(self.years), reverse=True):
+        for year in self.years:
             try:
                 result = ratio(
                     self.results['cash_flow']['4200'][year],
@@ -316,7 +311,7 @@ class IndicatorCalculator(object):
 
     def op_budget_diff(self):
         values = []
-        for year in sorted(list(self.years), reverse=True):
+        for year in self.years:
             try:
                 result = percent(
                     (self.results['op_exp_budget']['4600'][year] - self.results['op_exp_actual']['4600'][year]),
@@ -324,10 +319,12 @@ class IndicatorCalculator(object):
                     1)
                 if abs(result) < 10:
                     rating = 'good'
+                elif abs(result) <= 25:
+                    rating = 'ave'
                 elif abs(result) > 25:
                     rating = 'bad'
                 else:
-                    rating = 'ave'
+                    rating = None
             except KeyError:
                 result = None
                 rating = None
@@ -337,17 +334,19 @@ class IndicatorCalculator(object):
 
     def cap_budget_diff(self):
         values = []
-        for year in sorted(list(self.years), reverse=True):
+        for year in self.years:
             try:
                 result = percent(
                     (self.results['cap_exp_budget']['4100'][year] - self.results['cap_exp_actual']['4100'][year]),
                     self.results['cap_exp_budget']['4100'][year])
                 if abs(result) < 10:
                     rating = 'good'
+                elif abs(result) <= 30:
+                    rating = 'ave'
                 elif abs(result) > 30:
                     rating = 'bad'
                 else:
-                    rating = 'ave'
+                    rating = None
             except KeyError:
                 result = None
                 rating = None
@@ -357,21 +356,27 @@ class IndicatorCalculator(object):
 
     def rep_maint_perc_ppe(self):
         values = []
-        for year in sorted(list(self.years), reverse=True):
+        for year in self.years:
             try:
                 result = percent(self.results['rep_maint']['5005'][year],
                 (self.results['ppe']['1300'][year] + self.results['invest_prop']['1401'][year]))
+                if abs(result) >= 8:
+                    rating = 'good'
+                elif abs(result) < 8:
+                    rating = 'bad'
+                else:
+                    rating = None
             except KeyError:
                 result = None
-            # We don't have rating levels for this yet.
-            rating = None
+                rating = None
+
             values.append({'year': year, 'result': result, 'rating': rating})
 
         return values
 
     def revenue_breakdown(self):
         values = OrderedDict()
-        for year in sorted(list(self.years), reverse=True):
+        for year in self.years:
             values[year] = {}
             subtotal = 0.0
             for name, code in self.revenue_breakdown_items:
@@ -391,7 +396,7 @@ class IndicatorCalculator(object):
 
     def expenditure_breakdown(self):
         values = OrderedDict()
-        for year in sorted(list(self.years), reverse=True):
+        for year in self.years:
             values[year] = {}
             subtotal = 0.0
             for name, code in self.expenditure_breakdown_items:
@@ -426,6 +431,32 @@ class IndicatorCalculator(object):
 
             values.append({'year': year, 'result': result, 'rating': rating})
 
+        return values
+
+    def wasteful_exp_perc_exp(self):
+        values = []
+        aggregate = {}
+        for item, results in self.results['wasteful_exp'].iteritems():
+            for year, amount in results.iteritems():
+                if year in aggregate:
+                    aggregate[year] += amount
+                else:
+                    aggregate[year] = amount
+
+        for year in self.years:
+            try:
+                result = percent(aggregate[year],
+                    self.results['op_exp_actual']['4600'][year])
+                rating = None
+                if result == 0:
+                    rating = 'good'
+                else:
+                    rating = 'bad'
+            except KeyError:
+                result = None
+                rating = None
+
+            values.append({'year': year, 'result': result, 'rating': rating})
         return values
 
     def mayoral_staff(self):
@@ -480,18 +511,13 @@ class IndicatorCalculator(object):
 
     def audit_opinions(self):
         values = []
-        for year, result in self.results['audit_opinions'].iteritems():
-            if result == 'Unqualified - No findingsOutstanding' or result == 'Unqualified - Emphasis of Matter items':
-                rating = 'good'
-            elif result == 'Qualified':
-                rating = 'ave'
-            elif result == 'Disclaimer of opinion' or result == 'Adverse opinion':
-                rating = 'bad'
-            else:
-                rating = None
-
-            values.append({'year': year, 'result': result, 'rating': rating})
-
+        for result in self.results['audit_opinions']:
+            values.append({
+                'year': result['financial_year_end.year'],
+                'result': result['opinion.label'],
+                'rating': result['opinion.code'],
+                'report_url': result['opinion.report_url'],
+            })
+        values = sorted(values, key=lambda r: r['year'])
+        values.reverse()
         return values
-
-
