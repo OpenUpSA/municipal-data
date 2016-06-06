@@ -92,7 +92,7 @@ var Chart = function() {
         .attr("class", "bar-label")
         .attr("text-anchor", "middle")
         .attr("x", function(d) { return self.x(d.year) + self.x.rangeBand()/2; })
-        .attr("y", function(d) { return self.y(d.result) - 5; })
+        .attr("y", function(d) { return self.y(Math.max(d.result, 0)) - 5; })
         .attr("class", function(d, i){
           if (i === 0) {
             return "current";
@@ -101,7 +101,7 @@ var Chart = function() {
           }
         })
         .text(function(d) {
-          if (d.result >= 1000) {
+          if (Math.abs(d.result) >= 1000) {
             var format = d3.formatPrefix(1000);
             return self.format(format.scale(d.result)) + " " + format.symbol;
           } else {
