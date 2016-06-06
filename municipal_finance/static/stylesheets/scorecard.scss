@@ -752,10 +752,42 @@ a {
   }
 
   // icomoon icons
-  .rating-great:after { content: "\e9e0\0020\e99e"; }
   .rating-good:after { content: "\e9e2"; }
   .rating-ave:after { content: "\e9f8"; }
   .rating-bad:after { content: "\e9e6"; }
+
+  .audit-rating {
+    font-family: 'fontawesome' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    margin-left: 5px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .audit-unqualified,
+  .audit-unqualified_emphasis_of_matter { color: $green; }
+  .audit-unqualified_extra {
+    color: $yellow;
+    margin-left: 0px;
+  }
+  .audit-qualified,
+  .audit-adverse,
+  .audit-disclaimer { color: $red; }
+
+  .audit-unqualified:after { content: "\f164"; }
+  .audit-unqualified_emphasis_of_matter:after { content: "\f164"; }
+  .audit-qualified:after { content: "\f165"; }
+  .audit-adverse:after,
+  .audit-disclaimer:after { content: "\f071"; }
+  .audit-unqualified_extra:after {
+    font-family: "icomoon";
+    content: "\e99e";
+  }
 }
 
 //= Page footer
