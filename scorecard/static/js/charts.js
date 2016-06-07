@@ -30,7 +30,7 @@ var HorizontalGroupedBarChart = function() {
     self.y0 = d3.scale.ordinal()
         .rangeRoundBands([0, self.height], 0.2);
 
-    self.y1 = d3.scale.ordinal()
+    self.y1 = d3.scale.ordinal();
 
     self.x = d3.scale.linear()
         .range([0, self.width]);
@@ -74,7 +74,7 @@ var HorizontalGroupedBarChart = function() {
     self.y0.domain(groupedData.map(function(d) { return d.item; }));
     self.y1.domain(years).rangeRoundBands([0, self.y0.rangeBand()]);
 
-    self.x.domain([0, d3.max(data, function(d) { return d.amount })]);
+    self.x.domain([0, d3.max(data, function(d) { return d.amount; })]);
 
     //  Draw the y-axis
     self.svg.append("g")
@@ -95,7 +95,7 @@ var HorizontalGroupedBarChart = function() {
         .attr("class", "chart-bar")
         .attr("y", function(d) { return self.y1(d.year); })
         .attr("height", self.y1.rangeBand() - 1)
-        .attr("width", function(d) { return self.x(d.amount) })
+        .attr("width", function(d) { return self.x(d.amount); })
         .style("fill", function (d) { return self.color(d.year); });
 
     // Add the labels
@@ -135,7 +135,7 @@ var HorizontalGroupedBarChart = function() {
         .text(function(d) { return d; });
 
   };
-}
+};
 
 
 var VerticalBarChart = function() {
@@ -187,7 +187,7 @@ var VerticalBarChart = function() {
 
     self.x.domain(data.map(function(d) { return d.year; }));
     self.y.domain([
-      Math.min(d3.min(data, function(d) { return d.result }), 0),
+      Math.min(d3.min(data, function(d) { return d.result; }), 0),
       Math.max(d3.max(data, function(d) { return d.result; }), 0)
     ]);
 
@@ -248,10 +248,10 @@ var VerticalBarChart = function() {
 };
 
 var vertical_bar_chart = new VerticalBarChart();
-var horizontal_bar_chart = new HorizontalGroupedBarChart()
+var horizontal_bar_chart = new HorizontalGroupedBarChart();
 
 vertical_bar_chart.init();
-horizontal_bar_chart.init()
+horizontal_bar_chart.init();
 
 $(window).on('resize', function(){
   _.debounce(vertical_bar_chart.init(), 300);
