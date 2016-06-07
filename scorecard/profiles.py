@@ -35,4 +35,5 @@ def get_profile(geo_code, geo_level, profile_name=None):
         'indicators': indicators,
         'revenue_breakdown': indicator_calc.revenue_breakdown(),
         'expenditure_breakdown': indicator_calc.expenditure_breakdown(),
+        'expenditure_functional_breakdown': indicator_calc.expenditure_functional_breakdown(),
     }

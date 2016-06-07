@@ -258,6 +258,23 @@ class MuniApiClient(object):
                 'query_type': 'aggregate',
                 'results_structure': self.item_code_year_aggregate,
             },
+            'expenditure_functional_breakdown': {
+                'cube': 'incexp',
+                'aggregate': 'amount.sum',
+                'cut': {
+                    'item.code': ['4600'],
+                    'amount_type.code': ['AUDA'],
+                    'demarcation.code': [self.geo_code],
+                    'period_length.length': ['year'],
+                    'financial_year_end.year': self.years
+                },
+                'drilldown': [
+                    'function.category_label',
+                    'financial_year_end.year',
+                ],
+                'query_type': 'aggregate',
+                'results_structure': self.noop_structure,
+            },
             'expenditure_trends': {
                 'cube': 'incexp',
                 'aggregate': 'amount.sum',
@@ -508,6 +525,9 @@ class IndicatorCalculator(object):
             if total and subtotal:
                 values.append({'item': 'Other', 'amount': total - subtotal, 'year': year})
         return values
+
+    def expenditure_functional_breakdown(self):
+        return self.results['expenditure_functional_breakdown']
 
     def cash_at_year_end(self):
         values = []
