@@ -1,8 +1,9 @@
 from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
-from collections import defaultdict, OrderedDict, Counter
+from collections import defaultdict, OrderedDict
 import dateutil.parser
 import copy
+from itertools import groupby
 
 
 from django.conf import settings
@@ -11,8 +12,13 @@ from wazimap.data.utils import percent, ratio
 
 EXECUTOR = ThreadPoolExecutor(max_workers=10)
 
-# The years for which we need results. Latest must be first.
+# The years for which we need results. Must be in desceneding order.
 YEARS = [2015, 2014, 2013, 2012]
+
+YEAR_ITEM_DRILLDOWN = [
+    'item.code',
+    'financial_year_end.year',
+]
 
 
 class MuniApiClient(object):
@@ -22,79 +28,81 @@ class MuniApiClient(object):
         self.years = YEARS
         self.current_year = YEARS[:1]
 
-        self.line_item_params = self.get_line_item_params()
+        self.queries = self.get_queries()
         self.results = defaultdict(dict)
 
         responses = []
         self.session = FuturesSession(executor=EXECUTOR)
-        for line_item, query_params in self.line_item_params.iteritems():
-            responses.append((line_item, query_params, self.api_get(query_params)))
+        for query_name, query in self.queries.iteritems():
+            responses.append((query_name, query, self.api_get(query)))
 
-        for (line_item, query_params, response) in responses:
-            self.results[line_item] = \
-                self.response_to_results(response, query_params)
+        for (query_name, query, response) in responses:
+            self.results[query_name] = \
+                self.response_to_results(response, query)
 
-    def api_get(self, query_params):
-        if query_params['query_type'] == 'aggregate':
-            url = self.API_URL + query_params['cube'] + '/aggregate'
+    def api_get(self, query):
+        if query['query_type'] == 'aggregate':
+            url = self.API_URL + query['cube'] + '/aggregate'
             params = {
-                'aggregates': query_params['aggregate'],
+                'aggregates': query['aggregate'],
                 'cut': '|'.join('{!s}:{!s}'.format(
                     k, ';'.join('{!r}'.format(item) for item in v))
-                    for (k, v) in query_params['cut'].iteritems()
+                    for (k, v) in query['cut'].iteritems()
                     ).replace("'", '"'),
-                'drilldown': 'item.code|item.label|financial_year_end.year',
+                'drilldown': '|'.join(query['drilldown']),
                 'order': 'financial_year_end.year:desc',
                 'page': 0,
             }
-        elif query_params['query_type'] == 'facts':
-            url = self.API_URL + query_params['cube'] + '/facts'
+        elif query['query_type'] == 'facts':
+            url = self.API_URL + query['cube'] + '/facts'
             params = {
                 'cut': '|'.join('{!s}:{!r}'.format(k, v)
-                    for (k, v) in query_params['cut'].iteritems()
+                    for (k, v) in query['cut'].iteritems()
                 ).replace("'", '"'),
-                'fields': ','.join(field for field in query_params['fields']),
+                'fields': ','.join(field for field in query['fields']),
                 'page': 0
             }
-        elif query_params['query_type'] == 'model':
-            url = self.API_URL + query_params['cube'] + '/model'
+        elif query['query_type'] == 'model':
+            url = self.API_URL + query['cube'] + '/model'
             params = {}
         return self.session.get(url, params=params, verify=False)
 
-    def response_to_results(self, api_response, query_params):
+    def response_to_results(self, api_response, query):
         api_response.result().raise_for_status()
         response_dict = api_response.result().json()
-        if query_params['query_type'] == 'facts':
-            results = self.facts_from_response(response_dict, query_params)
-        elif query_params['query_type'] == 'aggregate':
-            results = self.aggregate_from_response(response_dict, query_params)
-        elif query_params['query_type'] == 'model':
-            results = response_dict['model']
-
-        return results
+        if query['query_type'] == 'facts':
+            return query['results_structure'](query, response_dict['data'])
+        elif query['query_type'] == 'aggregate':
+            return query['results_structure'](query, response_dict['cells'])
+        elif query['query_type'] == 'model':
+            return query['results_structure'](query, response_dict['model'])
 
     @staticmethod
-    def aggregate_from_response(response, query_params):
+    def item_code_year_aggregate(query, response):
         """
-        Results are the values we received from the API converted into the following format:
+        Results are the values we received from the API converted into the
+        following format:
         {
-            '4100': {2015: 11981070609.0}, {2014: 844194485.0}, {2013: 593485329.0}
+            '4100': [
+                {2015: 11981070609.0},
+                {2014: 844194485.0},
+                {2013: 593485329.0}
+            ]
         }
         """
         results = {}
-        for code in query_params['cut']['item.code']:
-          # Index values by financial period, treating nulls as zero
-          results[code] = OrderedDict([
-              (c['financial_year_end.year'], c[query_params['aggregate']] or 0)
-              for c in response['cells'] if c['item.code'] == code])
-
+        for code in query['cut']['item.code']:
+            # Index values by financial period, treating nulls as zero
+            results[code] = OrderedDict([
+              (c['financial_year_end.year'], c[query['aggregate']] or 0)
+              for c in response if c['item.code'] == code])
         return results
 
     @staticmethod
-    def facts_from_response(response, query_params):
-        return response['data']
+    def noop_structure(query, response):
+        return response
 
-    def get_line_item_params(self):
+    def get_queries(self):
         return {
             'op_exp_actual': {
                 'cube': 'incexp',
@@ -106,7 +114,9 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'op_exp_budget': {
                 'cube': 'incexp',
@@ -118,7 +128,9 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'cash_flow': {
                 'cube': 'cflow',
@@ -130,7 +142,9 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'cap_exp_actual': {
                 'cube': 'capital',
@@ -142,7 +156,9 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'cap_exp_budget': {
                 'cube': 'capital',
@@ -153,7 +169,9 @@ class MuniApiClient(object):
                     'demarcation.code': [self.geo_code],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'rep_maint': {
                 'cube': 'repmaint',
@@ -165,7 +183,9 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'ppe': {
                 'cube': 'bsheet',
@@ -177,7 +197,9 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'invest_prop': {
                 'cube': 'bsheet',
@@ -189,7 +211,9 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'wasteful_exp': {
                 'cube': 'badexp',
@@ -199,7 +223,9 @@ class MuniApiClient(object):
                     'demarcation.code': [self.geo_code],
                     'financial_year_end.year': self.years,
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'revenue_breakdown': {
                 'cube': 'incexp',
@@ -209,21 +235,58 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_year_end.year': self.current_year
+                    'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'expenditure_breakdown': {
                 'cube': 'incexp',
                 'aggregate': 'amount.sum',
                 'cut': {
-                    'item.code': ['3000', '3100', '3400', '4100', '4200', '4300', '3700', '4600'],
+                    'item.code': [
+                        '3000', '3100', '4200', '4600',
+                    ],
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_year_end.year': self.current_year
+                    'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
+            },
+            'expenditure_functional_breakdown': {
+                'cube': 'incexp',
+                'aggregate': 'amount.sum',
+                'cut': {
+                    'item.code': ['4600'],
+                    'amount_type.code': ['AUDA'],
+                    'demarcation.code': [self.geo_code],
+                    'period_length.length': ['year'],
+                    'financial_year_end.year': self.years
+                },
+                'drilldown': [
+                    'function.category_label',
+                    'financial_year_end.year',
+                ],
+                'query_type': 'aggregate',
+                'results_structure': self.noop_structure,
+            },
+            'expenditure_trends': {
+                'cube': 'incexp',
+                'aggregate': 'amount.sum',
+                'cut': {
+                    'item.code': ['3000', '3100', '4200', '4600', ],
+                    'amount_type.code': ['AUDA'],
+                    'demarcation.code': [self.geo_code],
+                    'period_length.length': ['year'],
+                    'financial_year_end.year': self.years
+                },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
+                'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'officials': {
                 'cube': 'officials',
@@ -239,12 +302,14 @@ class MuniApiClient(object):
                     'contact_details.fax_number'],
                 'value_label': '',
                 'query_type': 'facts',
+                'results_structure': self.noop_structure,
             },
             'officials_date': {
                 'cube': 'officials',
                 'query_type': 'model',
+                'results_structure': self.noop_structure,
             },
-            'contact_details' : {
+            'contact_details': {
                 'cube': 'municipalities',
                 'cut': {
                     'municipality.demarcation_code': self.geo_code,
@@ -259,8 +324,9 @@ class MuniApiClient(object):
                 ],
                 'value_label': '',
                 'query_type': 'facts',
+                'results_structure': self.noop_structure,
             },
-            'audit_opinions' : {
+            'audit_opinions': {
                 'cube': 'audit_opinions',
                 'cut': {
                     'demarcation.code': self.geo_code
@@ -273,6 +339,7 @@ class MuniApiClient(object):
                 ],
                 'value_label': 'opinion.label',
                 'query_type': 'facts',
+                'results_structure': self.noop_structure,
             },
         }
 
@@ -281,23 +348,14 @@ class IndicatorCalculator(object):
     def __init__(self, results, years):
         self.results = results
         self.years = years
+        self.current_year = YEARS[0]
 
         self.revenue_breakdown_items = [
-            ('property_rates', '0200'),
-            ('service_charges', '0400'),
-            ('transfers_received', '1600'),
-            ('own_revenue', '1700'),
-            ('total', '1900')
-        ]
-
-        self.expenditure_breakdown_items = [
-            ('employee_related_costs', ['3000', '3100']),
-            ('councillor_remuneration', '3400'),
-            ('bulk_purchases', '4100'),
-            ('contracted_services', '4200'),
-            ('transfers_spent', '4300'),
-            ('depreciation_amortisation', '3700'),
-            ('total', '4600')
+            ('Property rates', '0200'),
+            ('Service charges', '0400'),
+            ('Transfers received', '1600'),
+            ('Own revenue', '1700'),
+            ('Total', '1900')
         ]
 
     def cash_coverage(self):
@@ -326,7 +384,8 @@ class IndicatorCalculator(object):
         for year in self.years:
             try:
                 result = percent(
-                    (self.results['op_exp_budget']['4600'][year] - self.results['op_exp_actual']['4600'][year]),
+                    (self.results['op_exp_budget']['4600'][year]
+                     - self.results['op_exp_actual']['4600'][year]),
                     self.results['op_exp_budget']['4600'][year],
                     1)
                 if abs(result) < 10:
@@ -349,7 +408,8 @@ class IndicatorCalculator(object):
         for year in self.years:
             try:
                 result = percent(
-                    (self.results['cap_exp_budget']['4100'][year] - self.results['cap_exp_actual']['4100'][year]),
+                    (self.results['cap_exp_budget']['4100'][year]
+                     - self.results['cap_exp_actual']['4100'][year]),
                     self.results['cap_exp_budget']['4100'][year])
                 if abs(result) < 10:
                     rating = 'good'
@@ -371,7 +431,8 @@ class IndicatorCalculator(object):
         for year in self.years:
             try:
                 result = percent(self.results['rep_maint']['5005'][year],
-                (self.results['ppe']['1300'][year] + self.results['invest_prop']['1401'][year]))
+                                 (self.results['ppe']['1300'][year]
+                                  + self.results['invest_prop']['1401'][year]))
                 if abs(result) >= 8:
                     rating = 'good'
                 elif abs(result) < 8:
@@ -387,49 +448,78 @@ class IndicatorCalculator(object):
         return values
 
     def revenue_breakdown(self):
-        values = OrderedDict()
+        values = []
         for year in self.years:
-            values[year] = {}
             subtotal = 0.0
-            for name, code in self.revenue_breakdown_items:
+            for item, code in self.revenue_breakdown_items:
                 try:
-                    values[year][name] = self.results['revenue_breakdown'][code][year]
-                    if not name == 'total':
-                        subtotal += values[year][name]
-                except KeyError:
-                    values[year][name] = None
-
-            if values[year]['total']:
-                values[year]['other'] = values[year]['total'] - subtotal
-            else:
-                values[year]['other'] = None
-
-        return values
-
-    def expenditure_breakdown(self):
-        values = OrderedDict()
-        for year in self.years:
-            values[year] = {}
-            subtotal = 0.0
-            for name, code in self.expenditure_breakdown_items:
-                try:
-                    if not type(code) is list:
-                        values[year][name] = self.results['expenditure_breakdown'][code][year]
+                    amount = self.results['revenue_breakdown'][code][year]
+                    if not item == 'Total':
+                        subtotal += amount
                     else:
-                        values[year][name] = 0.0
-                        for c in code:
-                            values[year][name] += self.results['expenditure_breakdown'][c][year]
-                    if not name == 'total':
-                        subtotal += values[year][name]
+                        total = amount
                 except KeyError:
-                    values[year][name] = None
+                    amount = None
+                if not item == 'Total':
+                    values.append({'item': item, 'amount': amount, 'year': year})
+            if total and subtotal:
+                values.append({'item': 'Other', 'amount': total - subtotal, 'year': year})
+        return values
 
-            if values[year]['total']:
-                values[year]['other'] = values[year]['total'] - subtotal
-            else:
-                values[year]['other'] = None
+    def expenditure_trends(self):
+        values = []
+
+        for year in self.years:
+            try:
+                staff = self.results['expenditure_breakdown']['3000'][year] \
+                        + self.results['expenditure_breakdown']['3100'][year]
+                contracting = self.results['expenditure_breakdown']['4200'][year]
+                total = self.results['expenditure_breakdown']['4600'][year]
+                values.append({
+                    'contracting': (contracting/total)*100,
+                    'staff': (staff/total)*100,
+                    'year': year,
+                })
+            except KeyError:
+                values.append({
+                    'contracting': None,
+                    'staff': None,
+                    'year': year,
+                })
 
         return values
+
+    def expenditure_functional_breakdown(self):
+        GAPD_categories = {
+            'Budget & Treasury Office',
+            'Executive & Council',
+            'Planning and Development',
+        }
+        GAPD_label = 'Governance, Administration, Planning and Development'
+        results = self.results['expenditure_functional_breakdown']
+        keyfun = lambda r: r['financial_year_end.year']
+        grouped_results = []
+        years = sorted(list(set(r['financial_year_end.year'] for r in results)))
+        years.reverse()
+        for year, yeargroup in groupby(results, keyfun):
+            if year in years[:2]:
+                total = self.results['expenditure_breakdown']['4600'][year]
+                GAPD_total = 0.0
+                for result in yeargroup:
+                    if result['function.category_label'] in GAPD_categories:
+                        GAPD_total += result['amount.sum']
+                    else:
+                        grouped_results.append({
+                            'amount': (result['amount.sum']/total)*100,
+                            'item': result['function.category_label'],
+                            'year': result['financial_year_end.year'],
+                        })
+                grouped_results.append({
+                    'amount': (GAPD_total/total)*100,
+                    'item': GAPD_label,
+                    'year': year
+                })
+        return sorted(grouped_results, key=lambda r: str(r['year'])+r['item'])
 
     def cash_at_year_end(self):
         values = []
@@ -458,7 +548,7 @@ class IndicatorCalculator(object):
         for year in self.years:
             try:
                 result = percent(aggregate[year],
-                    self.results['op_exp_actual']['4600'][year])
+                                 self.results['op_exp_actual']['4600'][year])
                 rating = None
                 if result == 0:
                     rating = 'good'
