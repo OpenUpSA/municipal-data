@@ -14,6 +14,12 @@ EXECUTOR = ThreadPoolExecutor(max_workers=10)
 # The years for which we need results. Must be in desceneding order.
 YEARS = [2015, 2014, 2013, 2012]
 
+YEAR_ITEM_DRILLDOWN = [
+    'item.code',
+    'item.label',
+    'financial_year_end.year',
+]
+
 
 class MuniApiClient(object):
     def __init__(self, geo_code):
@@ -43,7 +49,7 @@ class MuniApiClient(object):
                     k, ';'.join('{!r}'.format(item) for item in v))
                     for (k, v) in query_params['cut'].iteritems()
                     ).replace("'", '"'),
-                'drilldown': 'item.code|item.label|financial_year_end.year',
+                'drilldown': '|'.join(query_params['drilldown']),
                 'order': 'financial_year_end.year:desc',
                 'page': 0,
             }
@@ -106,6 +112,7 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
             },
             'op_exp_budget': {
@@ -118,6 +125,7 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
             },
             'cash_flow': {
@@ -130,6 +138,7 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
             },
             'cap_exp_actual': {
@@ -142,6 +151,7 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
             },
             'cap_exp_budget': {
@@ -153,6 +163,7 @@ class MuniApiClient(object):
                     'demarcation.code': [self.geo_code],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
             },
             'rep_maint': {
@@ -165,6 +176,7 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
             },
             'ppe': {
@@ -177,6 +189,7 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
             },
             'invest_prop': {
@@ -189,6 +202,7 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
             },
             'wasteful_exp': {
@@ -199,6 +213,7 @@ class MuniApiClient(object):
                     'demarcation.code': [self.geo_code],
                     'financial_year_end.year': self.years,
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
             },
             'revenue_breakdown': {
@@ -211,6 +226,7 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
             },
             'expenditure_breakdown': {
@@ -223,6 +239,7 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
             },
             'expenditure_trends': {
@@ -235,6 +252,7 @@ class MuniApiClient(object):
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years
                 },
+                'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
             },
             'officials': {
