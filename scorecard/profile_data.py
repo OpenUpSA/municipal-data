@@ -2,7 +2,6 @@ from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
 from collections import defaultdict, OrderedDict
 import dateutil.parser
-import copy
 from itertools import groupby
 
 
@@ -48,7 +47,7 @@ class MuniApiClient(object):
                 'cut': '|'.join('{!s}:{!s}'.format(
                     k, ';'.join('{!r}'.format(item) for item in v))
                     for (k, v) in query['cut'].iteritems()
-                    ).replace("'", '"'),
+                ).replace("'", '"'),
                 'drilldown': '|'.join(query['drilldown']),
                 'order': 'financial_year_end.year:desc',
                 'page': 0,
@@ -56,8 +55,8 @@ class MuniApiClient(object):
         elif query['query_type'] == 'facts':
             url = self.API_URL + query['cube'] + '/facts'
             params = {
-                'cut': '|'.join('{!s}:{!r}'.format(k, v)
-                    for (k, v) in query['cut'].iteritems()
+                'cut': '|'.join(
+                    '{!s}:{!r}'.format(k, v) for (k, v) in query['cut'].iteritems()
                 ).replace("'", '"'),
                 'fields': ','.join(field for field in query['fields']),
                 'page': 0
@@ -94,8 +93,8 @@ class MuniApiClient(object):
         for code in query['cut']['item.code']:
             # Index values by financial period, treating nulls as zero
             results[code] = OrderedDict([
-              (c['financial_year_end.year'], c[query['aggregate']] or 0)
-              for c in response if c['item.code'] == code])
+                (c['financial_year_end.year'], c[query['aggregate']] or 0)
+                for c in response if c['item.code'] == code])
         return results
 
     @staticmethod
@@ -472,12 +471,12 @@ class IndicatorCalculator(object):
         for year in self.years:
             try:
                 staff = self.results['expenditure_breakdown']['3000'][year] \
-                        + self.results['expenditure_breakdown']['3100'][year]
+                    + self.results['expenditure_breakdown']['3100'][year]
                 contracting = self.results['expenditure_breakdown']['4200'][year]
                 total = self.results['expenditure_breakdown']['4600'][year]
                 values.append({
-                    'contracting': (contracting/total)*100,
-                    'staff': (staff/total)*100,
+                    'contracting': (contracting / total) * 100,
+                    'staff': (staff / total) * 100,
                     'year': year,
                 })
             except KeyError:
@@ -510,16 +509,16 @@ class IndicatorCalculator(object):
                         GAPD_total += result['amount.sum']
                     else:
                         grouped_results.append({
-                            'amount': (result['amount.sum']/total)*100,
+                            'amount': (result['amount.sum'] / total) * 100,
                             'item': result['function.category_label'],
                             'year': result['financial_year_end.year'],
                         })
                 grouped_results.append({
-                    'amount': (GAPD_total/total)*100,
+                    'amount': (GAPD_total / total) * 100,
                     'item': GAPD_label,
                     'year': year
                 })
-        return sorted(grouped_results, key=lambda r: str(r['year'])+r['item'])
+        return sorted(grouped_results, key=lambda r: str(r['year']) + r['item'])
 
     def cash_at_year_end(self):
         values = []
