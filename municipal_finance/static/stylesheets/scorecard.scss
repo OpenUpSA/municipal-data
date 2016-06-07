@@ -412,8 +412,9 @@ a {
   #page-nav li.active a .nav-text {
     text-shadow: 0 0 1px rgba(255,255,255,0.5);
   }
-  #page-nav .icon {
-    font-size: 28px;
+  .nav li .nav-text {
+    display: block;
+    margin-top: 5px;
   }
 }
 
@@ -502,6 +503,9 @@ a {
     font-size: 36px;
     vertical-align: middle;
     margin-bottom: 1px;
+  }
+  i.fa {
+    color: $brand-secondary;
   }
   h2 {
     margin: 0 0 10px 0;
