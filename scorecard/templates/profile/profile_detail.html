@@ -67,10 +67,10 @@
               {% endif %}
               <li>
                 <i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
-                {{ muni_contact.street_address_1 }}<br>
-                {{ muni_contact.street_address_2 }}<br>
-                {{ muni_contact.street_address_3 }}<br>
-                {{ muni_contact.street_address_4 }}
+                {% if muni_contact.street_address_1 %}{{ muni_contact.street_address_1 }}<br>{% endif %}
+                {% if muni_contact.street_address_2 %}{{ muni_contact.street_address_2 }}<br>{% endif %}
+                {% if muni_contact.street_address_3 %}{{ muni_contact.street_address_3 }}<br>{% endif %}
+                {% if muni_contact.street_address_4 %}{{ muni_contact.street_address_4 }}{% endif %}
               </li>
             </ul>
           </div>
@@ -82,29 +82,37 @@
                   <div class="person-info">
                     <div class="person-role">{{ official.role }}</div>
                     <ul class="fa-ul person-name">
+                      {% if official and official.name %}
                       <li><i class="fa fa-li fa-user" aria-hidden="true"></i> {{ official.title }} {{ official.name }}</li>
+                      {% endif %}
                     </ul>
                     <div class="person-contact-details">
+                      {% with details=official.secretary|default:official %}
+                      {% if details.name %}
                       <a href="#contact-details-{{ forloop.counter }}" data-toggle="collapse" class="show-contact-details show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Contact Details</a>
                       <div class="contact-details collapse" id="contact-details-{{ forloop.counter }}">
-                        {% if official.secretary %}
+                        {% if official.secretary and official.secretary.name %}
                         <div>
                           <h4>Secretary</h4>
                           {{ official.secretary.title }} {{ official.secretary.name }}
                         </div>
                         {% endif %}
 
-                        {% with details=official.secretary|default:official %}
-                          <ul class="fa-ul">
+                        <ul class="fa-ul">
+                            {% if details.office_phone %}
                             <li>
                               <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ details.office_phone }}">{{ details.office_phone }}</a>
                             </li>
+                            {% endif %}
+                            {% if details.email %}
                             <li>
-                              <i class="fa fa-li fa-envelope" aria-hidden="true"></i> <a href="{{ details.email }}">{{ details.email }}</a>
+                              <i class="fa fa-li fa-envelope" aria-hidden="true"></i> <a href="mailto:{{ details.email }}">{{ details.email }}</a>
                             </li>
+                            {% endif %}
                           </ul>
-                        {% endwith %}
                       </div>
+                      {% endif %}
+                      {% endwith %}
                     </div>
                   </div>
                 </div>
