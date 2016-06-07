@@ -247,8 +247,7 @@ class MuniApiClient(object):
                 'aggregate': 'amount.sum',
                 'cut': {
                     'item.code': [
-                        '3000', '3100', '3400', '4100',
-                        '4200', '4300', '3700', '4600'
+                        '3000', '3100', '4200', '4600',
                     ],
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
@@ -499,32 +498,6 @@ class IndicatorCalculator(object):
                     'year': year,
                 })
 
-        return values
-
-    def expenditure_breakdown(self):
-        values = []
-
-        for year in self.years:
-            subtotal = 0.0
-            for item, code in self.expenditure_breakdown_items:
-                try:
-                    if not type(code) is list:
-                        amount = self.results['expenditure_breakdown'][code][year]
-                    else:
-                        amount = 0.0
-                        for c in code:
-                            amount += self.results['expenditure_breakdown'][c][year]
-                    if not item == 'Total':
-                        subtotal += amount
-                    else:
-                        total = amount
-                except KeyError:
-                    amount = None
-                if not item == 'Total':
-                    values.append({'item': item, 'amount': amount, 'year': year})
-
-            if total and subtotal:
-                values.append({'item': 'Other', 'amount': total - subtotal, 'year': year})
         return values
 
     def expenditure_functional_breakdown(self):

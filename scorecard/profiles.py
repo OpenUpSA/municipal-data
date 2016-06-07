@@ -34,6 +34,6 @@ def get_profile(geo_code, geo_level, profile_name=None):
         'audit_opinions': indicator_calc.audit_opinions(),
         'indicators': indicators,
         'revenue_breakdown': indicator_calc.revenue_breakdown(),
-        'expenditure_breakdown': indicator_calc.expenditure_breakdown(),
-        'expenditure_functional_breakdown': indicator_calc.expenditure_functional_breakdown(),
+        'expenditure_functional_breakdown':
+        indicator_calc.expenditure_functional_breakdown(),
     }
