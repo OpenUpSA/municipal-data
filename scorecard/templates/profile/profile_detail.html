@@ -83,7 +83,7 @@
                     <div class="person-role">{{ official.role }}</div>
                     <ul class="fa-ul person-name">
                       {% if official and official.name %}
-                      <li><i class="fa fa-li fa-user" aria-hidden="true"></i> {{ official.title }} {{ official.name }}</li>
+                      <li><i class="fa fa-li fa-user" aria-hidden="true"></i> {{ official.title|default:'' }} {{ official.name }}</li>
                       {% endif %}
                     </ul>
                     <div class="person-contact-details">
@@ -94,7 +94,7 @@
                         {% if official.secretary and official.secretary.name %}
                         <div>
                           <h4>Secretary</h4>
-                          {{ official.secretary.title }} {{ official.secretary.name }}
+                          {{ official.secretary.title|default:'' }} {{ official.secretary.name }}
                         </div>
                         {% endif %}
 
