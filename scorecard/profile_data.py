@@ -449,7 +449,7 @@ class IndicatorCalculator(object):
 
     def revenue_breakdown(self):
         values = []
-        for year in self.years:
+        for year in self.years[:2]:
             subtotal = 0.0
             for item, code in self.revenue_breakdown_items:
                 try:
