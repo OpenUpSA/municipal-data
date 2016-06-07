@@ -17,7 +17,6 @@ YEARS = [2015, 2014, 2013, 2012]
 
 YEAR_ITEM_DRILLDOWN = [
     'item.code',
-    'item.label',
     'financial_year_end.year',
 ]
 
