@@ -358,16 +358,6 @@ class IndicatorCalculator(object):
             ('Total', '1900')
         ]
 
-        self.expenditure_breakdown_items = [
-            ('Employee related costs', ['3000', '3100']),
-            ('Councillor remuneration', '3400'),
-            ('Bulk purchases', '4100'),
-            ('Contracted services', '4200'),
-            ('Transfers spent', '4300'),
-            ('Depreciation and amortisation', '3700'),
-            ('Total', '4600')
-        ]
-
     def cash_coverage(self):
         values = []
         for year in self.years:
