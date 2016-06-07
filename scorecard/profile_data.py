@@ -503,18 +503,19 @@ class IndicatorCalculator(object):
         years.reverse()
         for year, yeargroup in groupby(results, keyfun):
             if year in years[:2]:
+                total = self.results['expenditure_breakdown']['4600'][year]
                 GAPD_total = 0.0
                 for result in yeargroup:
                     if result['function.category_label'] in GAPD_categories:
                         GAPD_total += result['amount.sum']
                     else:
                         grouped_results.append({
-                            'amount': result['amount.sum'],
+                            'amount': (result['amount.sum']/total)*100,
                             'item': result['function.category_label'],
                             'year': result['financial_year_end.year'],
                         })
                 grouped_results.append({
-                    'amount': GAPD_total,
+                    'amount': (GAPD_total/total)*100,
                     'item': GAPD_label,
                     'year': year
                 })
