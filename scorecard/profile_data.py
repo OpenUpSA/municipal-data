@@ -1,6 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
-from collections import defaultdict, OrderedDict, Counter
+from collections import defaultdict, OrderedDict
 import dateutil.parser
 import copy
 
@@ -28,79 +28,81 @@ class MuniApiClient(object):
         self.years = YEARS
         self.current_year = YEARS[:1]
 
-        self.line_item_params = self.get_line_item_params()
+        self.queries = self.get_queries()
         self.results = defaultdict(dict)
 
         responses = []
         self.session = FuturesSession(executor=EXECUTOR)
-        for line_item, query_params in self.line_item_params.iteritems():
-            responses.append((line_item, query_params, self.api_get(query_params)))
+        for query_name, query in self.queries.iteritems():
+            responses.append((query_name, query, self.api_get(query)))
 
-        for (line_item, query_params, response) in responses:
-            self.results[line_item] = \
-                self.response_to_results(response, query_params)
+        for (query_name, query, response) in responses:
+            self.results[query_name] = \
+                self.response_to_results(response, query)
 
-    def api_get(self, query_params):
-        if query_params['query_type'] == 'aggregate':
-            url = self.API_URL + query_params['cube'] + '/aggregate'
+    def api_get(self, query):
+        if query['query_type'] == 'aggregate':
+            url = self.API_URL + query['cube'] + '/aggregate'
             params = {
-                'aggregates': query_params['aggregate'],
+                'aggregates': query['aggregate'],
                 'cut': '|'.join('{!s}:{!s}'.format(
                     k, ';'.join('{!r}'.format(item) for item in v))
-                    for (k, v) in query_params['cut'].iteritems()
+                    for (k, v) in query['cut'].iteritems()
                     ).replace("'", '"'),
-                'drilldown': '|'.join(query_params['drilldown']),
+                'drilldown': '|'.join(query['drilldown']),
                 'order': 'financial_year_end.year:desc',
                 'page': 0,
             }
-        elif query_params['query_type'] == 'facts':
-            url = self.API_URL + query_params['cube'] + '/facts'
+        elif query['query_type'] == 'facts':
+            url = self.API_URL + query['cube'] + '/facts'
             params = {
                 'cut': '|'.join('{!s}:{!r}'.format(k, v)
-                    for (k, v) in query_params['cut'].iteritems()
+                    for (k, v) in query['cut'].iteritems()
                 ).replace("'", '"'),
-                'fields': ','.join(field for field in query_params['fields']),
+                'fields': ','.join(field for field in query['fields']),
                 'page': 0
             }
-        elif query_params['query_type'] == 'model':
-            url = self.API_URL + query_params['cube'] + '/model'
+        elif query['query_type'] == 'model':
+            url = self.API_URL + query['cube'] + '/model'
             params = {}
         return self.session.get(url, params=params, verify=False)
 
-    def response_to_results(self, api_response, query_params):
+    def response_to_results(self, api_response, query):
         api_response.result().raise_for_status()
         response_dict = api_response.result().json()
-        if query_params['query_type'] == 'facts':
-            results = self.facts_from_response(response_dict, query_params)
-        elif query_params['query_type'] == 'aggregate':
-            results = self.aggregate_from_response(response_dict, query_params)
-        elif query_params['query_type'] == 'model':
-            results = response_dict['model']
-
-        return results
+        if query['query_type'] == 'facts':
+            return query['results_structure'](query, response_dict['data'])
+        elif query['query_type'] == 'aggregate':
+            return query['results_structure'](query, response_dict['cells'])
+        elif query['query_type'] == 'model':
+            return query['results_structure'](query, response_dict['model'])
 
     @staticmethod
-    def aggregate_from_response(response, query_params):
+    def item_code_year_aggregate(query, response):
         """
-        Results are the values we received from the API converted into the following format:
+        Results are the values we received from the API converted into the
+        following format:
         {
-            '4100': {2015: 11981070609.0}, {2014: 844194485.0}, {2013: 593485329.0}
+            '4100': [
+                {2015: 11981070609.0},
+                {2014: 844194485.0},
+                {2013: 593485329.0}
+            ]
         }
         """
         results = {}
-        for code in query_params['cut']['item.code']:
-          # Index values by financial period, treating nulls as zero
-          results[code] = OrderedDict([
-              (c['financial_year_end.year'], c[query_params['aggregate']] or 0)
-              for c in response['cells'] if c['item.code'] == code])
-
+        for code in query['cut']['item.code']:
+            # Index values by financial period, treating nulls as zero
+            results[code] = OrderedDict([
+              (c['financial_year_end.year'], c[query['aggregate']] or 0)
+              for c in response if c['item.code'] == code])
         return results
 
     @staticmethod
-    def facts_from_response(response, query_params):
-        return response['data']
+    def noop_structure(query, response):
+        return response
 
-    def get_line_item_params(self):
+    def get_queries(self):
         return {
             'op_exp_actual': {
                 'cube': 'incexp',
@@ -114,6 +116,7 @@ class MuniApiClient(object):
                 },
                 'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'op_exp_budget': {
                 'cube': 'incexp',
@@ -127,6 +130,7 @@ class MuniApiClient(object):
                 },
                 'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'cash_flow': {
                 'cube': 'cflow',
@@ -140,6 +144,7 @@ class MuniApiClient(object):
                 },
                 'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'cap_exp_actual': {
                 'cube': 'capital',
@@ -153,6 +158,7 @@ class MuniApiClient(object):
                 },
                 'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'cap_exp_budget': {
                 'cube': 'capital',
@@ -165,6 +171,7 @@ class MuniApiClient(object):
                 },
                 'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'rep_maint': {
                 'cube': 'repmaint',
@@ -178,6 +185,7 @@ class MuniApiClient(object):
                 },
                 'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'ppe': {
                 'cube': 'bsheet',
@@ -191,6 +199,7 @@ class MuniApiClient(object):
                 },
                 'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'invest_prop': {
                 'cube': 'bsheet',
@@ -204,6 +213,7 @@ class MuniApiClient(object):
                 },
                 'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'wasteful_exp': {
                 'cube': 'badexp',
@@ -215,6 +225,7 @@ class MuniApiClient(object):
                 },
                 'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'revenue_breakdown': {
                 'cube': 'incexp',
@@ -228,12 +239,16 @@ class MuniApiClient(object):
                 },
                 'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'expenditure_breakdown': {
                 'cube': 'incexp',
                 'aggregate': 'amount.sum',
                 'cut': {
-                    'item.code': ['3000', '3100', '3400', '4100', '4200', '4300', '3700', '4600'],
+                    'item.code': [
+                        '3000', '3100', '3400', '4100',
+                        '4200', '4300', '3700', '4600'
+                    ],
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
@@ -241,6 +256,7 @@ class MuniApiClient(object):
                 },
                 'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'expenditure_trends': {
                 'cube': 'incexp',
@@ -254,6 +270,7 @@ class MuniApiClient(object):
                 },
                 'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
+                'results_structure': self.item_code_year_aggregate,
             },
             'officials': {
                 'cube': 'officials',
@@ -269,12 +286,14 @@ class MuniApiClient(object):
                     'contact_details.fax_number'],
                 'value_label': '',
                 'query_type': 'facts',
+                'results_structure': self.noop_structure,
             },
             'officials_date': {
                 'cube': 'officials',
                 'query_type': 'model',
+                'results_structure': self.noop_structure,
             },
-            'contact_details' : {
+            'contact_details': {
                 'cube': 'municipalities',
                 'cut': {
                     'municipality.demarcation_code': self.geo_code,
@@ -289,8 +308,9 @@ class MuniApiClient(object):
                 ],
                 'value_label': '',
                 'query_type': 'facts',
+                'results_structure': self.noop_structure,
             },
-            'audit_opinions' : {
+            'audit_opinions': {
                 'cube': 'audit_opinions',
                 'cut': {
                     'demarcation.code': self.geo_code
@@ -303,6 +323,7 @@ class MuniApiClient(object):
                 ],
                 'value_label': 'opinion.label',
                 'query_type': 'facts',
+                'results_structure': self.noop_structure,
             },
         }
 
@@ -357,7 +378,8 @@ class IndicatorCalculator(object):
         for year in self.years:
             try:
                 result = percent(
-                    (self.results['op_exp_budget']['4600'][year] - self.results['op_exp_actual']['4600'][year]),
+                    (self.results['op_exp_budget']['4600'][year]
+                     - self.results['op_exp_actual']['4600'][year]),
                     self.results['op_exp_budget']['4600'][year],
                     1)
                 if abs(result) < 10:
@@ -380,7 +402,8 @@ class IndicatorCalculator(object):
         for year in self.years:
             try:
                 result = percent(
-                    (self.results['cap_exp_budget']['4100'][year] - self.results['cap_exp_actual']['4100'][year]),
+                    (self.results['cap_exp_budget']['4100'][year]
+                     - self.results['cap_exp_actual']['4100'][year]),
                     self.results['cap_exp_budget']['4100'][year])
                 if abs(result) < 10:
                     rating = 'good'
@@ -402,7 +425,8 @@ class IndicatorCalculator(object):
         for year in self.years:
             try:
                 result = percent(self.results['rep_maint']['5005'][year],
-                (self.results['ppe']['1300'][year] + self.results['invest_prop']['1401'][year]))
+                                 (self.results['ppe']['1300'][year]
+                                  + self.results['invest_prop']['1401'][year]))
                 if abs(result) >= 8:
                     rating = 'good'
                 elif abs(result) < 8:
@@ -512,7 +536,7 @@ class IndicatorCalculator(object):
         for year in self.years:
             try:
                 result = percent(aggregate[year],
-                    self.results['op_exp_actual']['4600'][year])
+                                 self.results['op_exp_actual']['4600'][year])
                 rating = None
                 if result == 0:
                     rating = 'good'
