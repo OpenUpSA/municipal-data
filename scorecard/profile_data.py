@@ -3,6 +3,7 @@ from requests_futures.sessions import FuturesSession
 from collections import defaultdict, OrderedDict
 import dateutil.parser
 import copy
+from itertools import groupby
 
 
 from django.conf import settings
@@ -527,7 +528,28 @@ class IndicatorCalculator(object):
         return values
 
     def expenditure_functional_breakdown(self):
-        return self.results['expenditure_functional_breakdown']
+        GAPD_categories = {
+            'Budget & Treasury Office',
+            'Executive & Council',
+            'Planning and Development',
+        }
+        GAPD_label = 'Governance, Administration, Planning and Development'
+        results = self.results['expenditure_functional_breakdown']
+        keyfun = lambda r: r['financial_year_end.year']
+        grouped_results = []
+        for year, yeargroup in groupby(results, keyfun):
+            GAPD_total = 0.0
+            for result in yeargroup:
+                if result['function.category_label'] in GAPD_categories:
+                    GAPD_total += result['amount.sum']
+                else:
+                    grouped_results.append(result)
+            grouped_results.append({
+                'amount.sum': GAPD_total,
+                'function.category_label': GAPD_label,
+                'financial_year_end.year': year
+            })
+        return grouped_results
 
     def cash_at_year_end(self):
         values = []
