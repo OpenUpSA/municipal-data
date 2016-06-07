@@ -10,7 +10,7 @@ import scorecard.views as views
 CACHE_SECS = 12 * 60 * 60
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='index.html'), name='homepage'),
+    url(r'^$', TemplateView.as_view(template_name='homepage.html'), name='homepage'),
 
     # e.g. /profiles/province-GT/
     url(
