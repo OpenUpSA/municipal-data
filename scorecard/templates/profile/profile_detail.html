@@ -252,7 +252,7 @@
 
       </div>
       <div class="col-sm-4">
-        <div class="cash-at-year-end chart-container"></div>
+        <div class="chart-container" data-chart="column-cash_at_year_end"></div>
       </div>
       <div class="col-sm-4">
         <div class="panel panel-didyouknow">
@@ -298,7 +298,7 @@
         <div class="show-calc"><a href="#cash-coverage-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
-        <div class="cash-coverage chart-container"></div>
+        <div class="chart-container" data-chart="column-cash_coverage"></div>
       </div>
       <div class="col-sm-4">
         <div class="panel panel-didyouknow">
@@ -348,7 +348,7 @@
         <div class="show-calc"><a href="#op-budget-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
-        <div class="op-budget-diff chart-container"></div>
+        <div class="chart-container" data-chart="column-op_budget_diff"></div>
       </div>
     </div>
     <div class="calc collapse" id="op-budget-calc">
@@ -392,7 +392,7 @@
         <div class="show-calc"><a href="#cap-budget-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
-        <div class="cap-budget-diff chart-container"></div>
+        <div class="chart-container" data-chart="column-cap_budget_diff"></div>
       </div>
     </div>
     <div class="calc collapse" id="cap-budget-calc">
@@ -433,7 +433,7 @@
         <div class="show-calc"><a href="#rep-maint-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
-        <div class="rep-maint-perc-ppe chart-container"></div>
+        <div class="chart-container" data-chart="column-rep_maint_perc_ppe"></div>
       </div>
     </div>
     <div class="calc collapse" id="rep-maint-calc">
@@ -473,7 +473,7 @@
         <div class="show-calc"><a href="#fruitless-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
-        <div class="fruitless-exp chart-container"></div>
+        <div class="chart-container" data-chart="column-wasteful_exp"></div>
       </div>
     </div>
     <div class="calc collapse" id="fruitless-exp-calc">
@@ -498,7 +498,7 @@
 
     <div class="row">
       <div class="col-sm-12">
-        <div class="revenue-breakdown chart-container"></div>
+        <div class="chart-container" data-chart="grouped-bar-revenue_breakdown"></div>
       </div>
     </div>
   </div>
@@ -511,7 +511,7 @@
 
     <div class="row">
       <div class="col-sm-12">
-        <div class="expenditure-breakdown chart-container"></div>
+        <div class="chart-container" data-chart="grouped-bar-expenditure_functional_breakdown"></div>
       </div>
     </div>
   </div>
@@ -527,7 +527,7 @@
         <div class="show-calc"><a href="#staff-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
-        <div class="staff-exp chart-container"></div>
+        <div class="chart-container" data-chart="column-expenditure_trends.staff"></div>
       </div>
     </div>
     <div class="calc collapse" id="staff-exp-calc">
@@ -555,7 +555,7 @@
         <div class="show-calc"><a href="#contracting-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
-        <div class="contracting-exp chart-container"></div>
+        <div class="chart-container" data-chart="column-expenditure_trends.contracting"></div>
       </div>
     </div>
     <div class="calc collapse" id="contracting-exp-calc">
@@ -590,16 +590,6 @@
   var profileData = {{ profile_data_json }};
   var maps = new ProfileMaps();
   maps.drawMapsForProfile(profileData.geography);
-
-  var CASH_AT_YEAR_END = {{ indicators.cash_at_year_end|jsonify|safe }}
-  var CASH_COVERAGE = {{ indicators.cash_coverage|jsonify|safe }}
-  var OP_BUDGET_DIFF = {{ indicators.op_budget_diff|jsonify|safe }}
-  var CAP_BUDGET_DIFF = {{ indicators.cap_budget_diff|jsonify|safe }}
-  var REP_MAINT_PERC_PPE = {{ indicators.rep_maint_perc_ppe|jsonify|safe }}
-  var WASTEFUL_EXP_PERC_EXP = {{ indicators.wasteful_exp_perc_exp|jsonify|safe }}
-  var REVENUE_BREAKDOWN = {{ revenue_breakdown|jsonify|safe }}
-  var EXPENDITURE_FUNCTIONAL_BREAKDOWN = {{ expenditure_functional_breakdown|jsonify|safe }}
-  var EXPENDITURE_TRENDS = {{ indicators.expenditure_trends|jsonify|safe }}
 
 </script>
 

@@ -1,25 +1,28 @@
-
-var getContainerObject = function(container) {
-  return $("." + container + ".chart-container").empty();
-}
-
 var getNumberFormat = function() {
   return d3_format
         .formatLocale({decimal: ".", thousands: " ", grouping: [3], currency: "R"})
         .format(",.0f");
-}
+};
 
 var HorizontalGroupedBarChart = function() {
   var self = this;
 
   self.init = function() {
-    self.format = getNumberFormat()
+    self.format = getNumberFormat();
 
-    self.drawChart(REVENUE_BREAKDOWN, 'revenue-breakdown')
-    self.drawChart(EXPENDITURE_FUNCTIONAL_BREAKDOWN, 'expenditure-breakdown')
+    $('.chart-container[data-chart^=grouped-bar-]').each(function() {
+      var $container = $(this),
+          name = $container.data('chart').substring(12),
+          data = profileData.indicators;
+
+      // find nested data
+      _.each(name.split("."), function(p) { data = data[p]; });
+
+      self.drawChart(data, name, $container);
+    });
   };
 
-  self.setDimensions = function (container) {
+  self.setDimensions = function() {
     var container_width = self.container.width();
     var container_height = 300;
 
@@ -45,11 +48,11 @@ var HorizontalGroupedBarChart = function() {
   self.color = d3.scale.ordinal()
     .range(["#aaa", "#eee"]);
 
-  self.drawChart = function(data, container) {
-    self.container = getContainerObject(container);
-    self.setDimensions(container);
+  self.drawChart = function(data, name, $container) {
+    self.container = $container.empty();
+    self.setDimensions();
 
-    self.svg = d3.select("." + container + ".chart-container").append("svg")
+    self.svg = d3.select($container[0]).append("svg")
         .attr("width", self.width + self.margin.left + self.margin.right)
         .attr("height", self.height + self.margin.top + self.margin.bottom)
       .append("g")
@@ -144,17 +147,19 @@ var VerticalBarChart = function() {
   self.init = function() {
     self.format = getNumberFormat();
 
-    self.drawChart(CASH_COVERAGE, 'cash-coverage');
-    self.drawChart(CASH_AT_YEAR_END, 'cash-at-year-end');
-    self.drawChart(OP_BUDGET_DIFF, 'op-budget-diff');
-    self.drawChart(CAP_BUDGET_DIFF, 'cap-budget-diff');
-    self.drawChart(REP_MAINT_PERC_PPE, 'rep-maint-perc-ppe');
-    self.drawChart(WASTEFUL_EXP_PERC_EXP, 'fruitless-exp');
-    self.drawChart(profileData.indicators.expenditure_trends.staff, 'staff-exp');
-    self.drawChart(profileData.indicators.expenditure_trends.contracting, 'contracting-exp');
+    $('.chart-container[data-chart^=column-]').each(function() {
+      var $container = $(this),
+          name = $container.data('chart').substring(7),
+          data = profileData.indicators;
+
+      // find nested data
+      _.each(name.split("."), function(p) { data = data[p]; });
+
+      self.drawChart(data, name, $container);
+    });
   };
 
-  self.setDimensions = function (container) {
+  self.setDimensions = function() {
     var container_width = self.container.width();
     var container_height = 150;
 
@@ -175,11 +180,11 @@ var VerticalBarChart = function() {
         .tickPadding(10);
   };
 
-  self.drawChart = function(data, container) {
-    self.container = getContainerObject(container);
-    self.setDimensions(container);
+  self.drawChart = function(data, name, $container) {
+    self.container = $container.empty();
+    self.setDimensions();
 
-    self.svg = d3.select("." + container + ".chart-container").append("svg")
+    self.svg = d3.select($container[0]).append("svg")
         .attr("width", self.width + self.margin.left + self.margin.right)
         .attr("height", self.height + self.margin.top + self.margin.bottom)
       .append("g")
