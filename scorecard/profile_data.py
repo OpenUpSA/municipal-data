@@ -466,25 +466,27 @@ class IndicatorCalculator(object):
         return values
 
     def expenditure_trends(self):
-        values = []
-
+        values = defaultdict(list)
         for year in self.years:
             try:
-                staff = self.results['expenditure_breakdown']['3000'][year] \
-                    + self.results['expenditure_breakdown']['3100'][year]
-                contracting = self.results['expenditure_breakdown']['4200'][year]
                 total = self.results['expenditure_breakdown']['4600'][year]
-                values.append({
-                    'contracting': (contracting / total) * 100,
-                    'staff': (staff / total) * 100,
-                    'year': year,
-                })
             except KeyError:
-                values.append({
-                    'contracting': None,
-                    'staff': None,
-                    'year': year,
-                })
+                total = None
+
+            try:
+                staff = percent(self.results['expenditure_breakdown']['3000'][year] +
+                                self.results['expenditure_breakdown']['3100'][year],
+                                total)
+            except KeyError:
+                staff = None
+
+            try:
+                contracting = percent(self.results['expenditure_breakdown']['4200'][year], total)
+            except KeyError:
+                contracting = None
+
+            values['staff'].append({'year': year, 'result': staff})
+            values['contracting'].append({'year': year, 'result': contracting})
 
         return values
 

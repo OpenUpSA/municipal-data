@@ -506,7 +506,7 @@
 
 <div class="section" id="spending">
   <h1><i class="fa fa-credit-card"></i> Spending</h1>
-    <div class="indicator">
+  <div class="indicator">
     <h2>How money is spent</h2>
 
     <div class="row">
@@ -514,6 +514,62 @@
         <div class="expenditure-breakdown chart-container"></div>
       </div>
     </div>
+  </div>
+
+  <div class="indicator">
+    {% with indicators.expenditure_trends.staff|first as latest %}
+    <h2>Staff Wages and Salaries <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="indicator-value">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %}</div>
+        <div class="indicator-description">Staff salaries and wages as a percentage of operating expenditure.</div>
+        <div class="show-calc"><a href="#staff-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="staff-exp chart-container"></div>
+      </div>
+    </div>
+    <div class="calc collapse" id="staff-exp-calc">
+      <h5>Formula:</h5>
+
+      <ul class="formula">
+        <li>= Wages & Salaries + Social Contributions / Actual Operating Expenditure</li>
+        <li>=
+          <a href="{% table_url "incexp" year=latest.year items="3000,3100" amountType="AUDA" %}" target="_blank">Income & Expenditure item codes 3000, 3100, Audited Actual</a>
+          /
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
+      </ul>
+    </div>
+    {% endwith %}
+  </div>
+
+  <div class="indicator">
+    {% with indicators.expenditure_trends.contracting|first as latest %}
+    <h2>Contractor Services <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="indicator-value">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %}</div>
+        <div class="indicator-description">Costs of contractor services as a percentage of operating expenditure.</div>
+        <div class="show-calc"><a href="#contracting-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="contracting-exp chart-container"></div>
+      </div>
+    </div>
+    <div class="calc collapse" id="contracting-exp-calc">
+      <h5>Formula:</h5>
+
+      <ul class="formula">
+        <li>= Contracted Services / Actual Operating Expenditure</li>
+        <li>=
+          <a href="{% table_url "incexp" year=latest.year items="4200" amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4200, Audited Actual</a>
+          /
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
+      </ul>
+    </div>
+    {% endwith %}
   </div>
 </div>
 

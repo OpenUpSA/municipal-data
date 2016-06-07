@@ -142,7 +142,7 @@ var VerticalBarChart = function() {
   var self = this;
 
   self.init = function() {
-    self.format = getNumberFormat()
+    self.format = getNumberFormat();
 
     self.drawChart(CASH_COVERAGE, 'cash-coverage');
     self.drawChart(CASH_AT_YEAR_END, 'cash-at-year-end');
@@ -150,6 +150,8 @@ var VerticalBarChart = function() {
     self.drawChart(CAP_BUDGET_DIFF, 'cap-budget-diff');
     self.drawChart(REP_MAINT_PERC_PPE, 'rep-maint-perc-ppe');
     self.drawChart(WASTEFUL_EXP_PERC_EXP, 'fruitless-exp');
+    self.drawChart(profileData.indicators.expenditure_trends.staff, 'staff-exp');
+    self.drawChart(profileData.indicators.expenditure_trends.contracting, 'contracting-exp');
   };
 
   self.setDimensions = function (container) {
