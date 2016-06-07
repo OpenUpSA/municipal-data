@@ -371,10 +371,9 @@ class IndicatorCalculator(object):
         values = []
         for year in self.years:
             try:
-                result = ratio(
-                    self.results['cash_flow']['4200'][year],
-                    (self.results['op_exp_actual']['4600'][year] / 12),
-                    1)
+                cash = self.results['cash_flow']['4200'][year]
+                monthly_expenses = self.results['op_exp_actual']['4600'][year] / 12
+                result = max(ratio(cash, monthly_expenses, 1), 0)
                 if result > 3:
                     rating = 'good'
                 elif result <= 1:

@@ -326,6 +326,7 @@
           <a href="{% table_url "cflow" year=latest.year items=4200 amountType="AUDA" %}" target="_blank">Cash Flow item code 4200, Audited Actual</a>
           /
           <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a></li>
+        <li>If Cash available at year end is negative, we say Cash Coverage is zero months.</li>
       </ul>
     </div>
     {% endwith %}
