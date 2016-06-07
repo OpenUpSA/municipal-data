@@ -275,7 +275,7 @@
       <h5>Formula:</h5>
       <ul class="formula">
         <li>Cash available at year end</li>
-        <li>= <a href="{% table_url "cflow" year=latest.year muni=geography.this.geo_code items=4200 amountType="ACT" %}" target="_blank">Cash Flow item code 4200, Audited Actual</a></li>
+        <li>= <a href="{% table_url "cflow" year=latest.year muni=geography.this.geo_code items=4200 amountType="AUDA" %}" target="_blank">Cash Flow item code 4200, Audited Actual</a></li>
       </ul>
     </div>
     {% endwith %}
@@ -323,9 +323,10 @@
       <ul class="formula">
         <li>= Cash available at year end / Operating Expenditure per month</li>
         <li>=
-          <a href="{% table_url "cflow" year=latest.year items=4200 amountType="ACT" %}" target="_blank">Cash Flow item code 4200, Audited Actual</a>
+          <a href="{% table_url "cflow" year=latest.year items=4200 amountType="AUDA" %}" target="_blank">Cash Flow item code 4200, Audited Actual</a>
           /
-          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="ACT" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a></li>
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a></li>
+        <li>If Cash available at year end is negative, we say Cash Coverage is zero months.</li>
       </ul>
     </div>
     {% endwith %}
@@ -367,7 +368,7 @@
         <li>=
           (<a href="{% table_url "incexp" year=latest.year items=4600 amountType="ADJB" %}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>
           -
-          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="ACT" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>)
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>)
           /
           <a href="{% table_url "incexp" year=latest.year items=4600 amountType="ADJB"%}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>
       </ul>
@@ -411,7 +412,7 @@
         <li>=
           (<a href="{% table_url "capital" year=latest.year items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Adjusted Budget</a>
           -
-          <a href="{% table_url "capital" year=latest.year items=4100 amountType="ACT" %}" target="_blank">Capital item code 4100, Audited Actual</a>)
+          <a href="{% table_url "capital" year=latest.year items=4100 amountType="AUDA" %}" target="_blank">Capital item code 4100, Audited Actual</a>)
           /
           <a href="{% table_url "capital" year=latest.year items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Adjusted Budget</a>
       </ul>
@@ -452,9 +453,9 @@
         <li>=
           <a href="{% table_url "repmaint" year=latest.year items=5005 amountType="ADJB" %}" target="_blank">Repairs and maintenance item code 5005, Adjusted Budget</a>
           /
-          (<a href="{% table_url "bsheet" year=latest.year items=1300 amountType="ACT" %}" target="_blank">Balance Sheet item code 1300, Audited Actual</a>
+          (<a href="{% table_url "bsheet" year=latest.year items=1300 amountType="AUDA" %}" target="_blank">Balance Sheet item code 1300, Audited Actual</a>
           +
-          <a href="{% table_url "bsheet" year=latest.year items=1401 amountType="ACT" %}" target="_blank">Balance Sheet item code 1401, Audited Actual</a>)
+          <a href="{% table_url "bsheet" year=latest.year items=1401 amountType="AUDA" %}" target="_blank">Balance Sheet item code 1401, Audited Actual</a>)
       </ul>
     </div>
     {% endwith %}
@@ -492,7 +493,7 @@
         <li>=
           <a href="{% table_url "badexp" year=latest.year items="irregular,fruitless,unauthorised" %}" target="_blank">Unauthorised, Irregular, Fruitless and Wasteful Expenditure item codes <i>irregular, fruitless, unauthorised</i></a>
           /
-          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="ACT" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
       </ul>
     </div>
     {% endwith %}
