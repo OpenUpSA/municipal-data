@@ -537,19 +537,26 @@ class IndicatorCalculator(object):
         results = self.results['expenditure_functional_breakdown']
         keyfun = lambda r: r['financial_year_end.year']
         grouped_results = []
+        years = sorted(list(set(r['financial_year_end.year'] for r in results)))
+        years.reverse()
         for year, yeargroup in groupby(results, keyfun):
-            GAPD_total = 0.0
-            for result in yeargroup:
-                if result['function.category_label'] in GAPD_categories:
-                    GAPD_total += result['amount.sum']
-                else:
-                    grouped_results.append(result)
-            grouped_results.append({
-                'amount.sum': GAPD_total,
-                'function.category_label': GAPD_label,
-                'financial_year_end.year': year
-            })
-        return grouped_results
+            if year in years[:2]:
+                GAPD_total = 0.0
+                for result in yeargroup:
+                    if result['function.category_label'] in GAPD_categories:
+                        GAPD_total += result['amount.sum']
+                    else:
+                        grouped_results.append({
+                            'amount': result['amount.sum'],
+                            'item': result['function.category_label'],
+                            'year': result['financial_year_end.year'],
+                        })
+                grouped_results.append({
+                    'amount': GAPD_total,
+                    'item': GAPD_label,
+                    'year': year
+                })
+        return sorted(grouped_results, key=lambda r: str(r['year'])+r['item'])
 
     def cash_at_year_end(self):
         values = []

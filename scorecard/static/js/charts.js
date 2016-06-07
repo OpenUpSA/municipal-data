@@ -16,7 +16,7 @@ var HorizontalGroupedBarChart = function() {
     self.format = getNumberFormat()
 
     self.drawChart(REVENUE_BREAKDOWN, 'revenue-breakdown')
-    self.drawChart(EXPENDITURE_BREAKDOWN, 'expenditure-breakdown')
+    self.drawChart(EXPENDITURE_FUNCTIONAL_BREAKDOWN, 'expenditure-breakdown')
   };
 
   self.setDimensions = function (container) {
