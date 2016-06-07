@@ -516,10 +516,10 @@ class IndicatorCalculator(object):
                 GAPD_total = 0.0
                 for result in yeargroup:
                     if result['function.category_label'] in GAPD_categories:
-                        GAPD_total += result['amount.sum']
+                        GAPD_total += (result['amount.sum'] or 0)
                     else:
                         grouped_results.append({
-                            'amount': (result['amount.sum']/total)*100,
+                            'amount': ((result['amount.sum'] or 0)/total)*100,
                             'item': result['function.category_label'],
                             'year': result['financial_year_end.year'],
                         })
