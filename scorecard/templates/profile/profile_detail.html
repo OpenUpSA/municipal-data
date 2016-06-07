@@ -67,10 +67,10 @@
               {% endif %}
               <li>
                 <i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
-                {{ muni_contact.street_address_1 }}<br>
-                {{ muni_contact.street_address_2 }}<br>
-                {{ muni_contact.street_address_3 }}<br>
-                {{ muni_contact.street_address_4 }}
+                {% if muni_contact.street_address_1 %}{{ muni_contact.street_address_1 }}<br>{% endif %}
+                {% if muni_contact.street_address_2 %}{{ muni_contact.street_address_2 }}<br>{% endif %}
+                {% if muni_contact.street_address_3 %}{{ muni_contact.street_address_3 }}<br>{% endif %}
+                {% if muni_contact.street_address_4 %}{{ muni_contact.street_address_4 }}{% endif %}
               </li>
             </ul>
           </div>
