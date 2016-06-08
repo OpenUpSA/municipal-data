@@ -189,17 +189,27 @@ class IndicatorCalculator(object):
         for year in self.years + [self.budget_year]:
             year_name = year if year != self.budget_year else ("%s budget" % year)
             subtotal = 0.0
-            total = self.results['revenue_breakdown']['1900'][year]
+            try:
+                total = self.results['revenue_breakdown']['1900'][year]
 
-            for item, code in self.revenue_breakdown_items:
-                try:
+                for item, code in self.revenue_breakdown_items:
                     amount = self.results['revenue_breakdown'][code][year]
                     subtotal += amount
-                except KeyError:
-                    amount = None
-                values.append({'item': item, 'amount': amount, 'percent': percent(amount, total), 'year': year_name})
-            if total and subtotal and (total != subtotal):
-                values.append({'item': 'Other', 'amount': total - subtotal, 'percent': percent(total - subtotal, total), 'year': year_name})
+                    values.append({
+                        'item': item,
+                        'amount': amount,
+                        'percent': percent(amount, total),
+                        'year': year_name,
+                    })
+                if total and subtotal and (total != subtotal):
+                    values.append({
+                        'item': 'Other',
+                        'amount': total - subtotal,
+                        'percent': percent(total - subtotal, total),
+                        'year': year_name,
+                    })
+            except KeyError:
+                continue
         return values
 
     def expenditure_trends(self):
@@ -239,29 +249,32 @@ class IndicatorCalculator(object):
         grouped_results = []
 
         for year, yeargroup in groupby(results, lambda r: r['financial_year_end.year']):
-            total = self.results['expenditure_breakdown']['4600'][year]
-            GAPD_total = 0.0
-            year_name = year if year != self.budget_year else ("%s budget" % year)
+            try:
+                total = self.results['expenditure_breakdown']['4600'][year]
+                GAPD_total = 0.0
+                year_name = year if year != self.budget_year else ("%s budget" % year)
 
-            for result in yeargroup:
-                # only do budget for budget year, use auda for others
-                if self.check_budget_actual(year, result['amount_type.code']):
-                    if result['function.category_label'] in GAPD_categories:
-                        GAPD_total += (result['amount.sum'] or 0)
-                    else:
-                        grouped_results.append({
-                            'amount': result['amount.sum'] or 0,
-                            'percent': percent(result['amount.sum'], total),
-                            'item': result['function.category_label'],
-                            'year': year_name,
-                        })
+                for result in yeargroup:
+                    # only do budget for budget year, use auda for others
+                    if self.check_budget_actual(year, result['amount_type.code']):
+                        if result['function.category_label'] in GAPD_categories:
+                            GAPD_total += (result['amount.sum'] or 0)
+                        else:
+                            grouped_results.append({
+                                'amount': result['amount.sum'] or 0,
+                                'percent': percent((result['amount.sum'] or 0), total),
+                                'item': result['function.category_label'],
+                                'year': year_name,
+                            })
 
-            grouped_results.append({
-                'amount': GAPD_total,
-                'percent': percent(GAPD_total, total),
-                'item': GAPD_label,
-                'year': year_name,
-            })
+                grouped_results.append({
+                    'amount': GAPD_total,
+                    'percent': percent(GAPD_total, total),
+                    'item': GAPD_label,
+                    'year': year_name,
+                })
+            except KeyError:
+                continue
 
         return sorted(grouped_results, key=lambda r: (r['year'], r['item']))
 
