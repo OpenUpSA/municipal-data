@@ -23,7 +23,8 @@ CREATE TABLE public.audit_opinion_facts
   opinion_label text NOT NULL,
   report_url text,
   id serial,
-  CONSTRAINT audit_opinion_facts_demarcation_code_financial_year_key UNIQUE (demarcation_code, financial_year)
+  CONSTRAINT audit_opinion_facts_pkey PUBLIC KEY (id),
+  CONSTRAINT audit_opinion_facts_unique_demarcation_financial_year UNIQUE (demarcation_code, financial_year)
 )
 WITH (
   OIDS=FALSE

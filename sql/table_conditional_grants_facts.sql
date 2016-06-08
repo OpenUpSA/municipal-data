@@ -13,7 +13,8 @@ CREATE TABLE public.conditional_grants_facts
   financial_year integer,
   period_length text,
   financial_period integer,
-  CONSTRAINT conditional_grants_facts_pkey PRIMARY KEY (id)
+  CONSTRAINT conditional_grants_facts_pkey PRIMARY KEY (id),
+  CONSTRAINT conditional_grants_facts_unique_demarcation_period_item UNIQUE (demarcation_code, period_code, grant_code)
 )
 WITH (
   OIDS=FALSE
