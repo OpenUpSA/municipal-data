@@ -1013,6 +1013,12 @@ a {
     stroke: $gray;
     shape-rendering: crispEdges;
   }
+
+  .grouped-bar {
+    .bar-label {
+      display: none;
+    }
+  }
 }
 
 #homepage #slippy-map {
@@ -1030,10 +1036,4 @@ a {
 
 #locate {
   min-height: 200px;
-}
-
-.grouped-chart {
-  .bar-label {
-    display: none;
-  }
 }

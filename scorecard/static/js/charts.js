@@ -59,7 +59,7 @@ var HorizontalGroupedBarChart = function() {
         .attr("height", self.height + self.margin.top + self.margin.bottom)
       .append("g")
         .attr("transform", "translate(" + self.margin.left + "," + self.margin.top + ")")
-        .attr("class", "grouped-chart");
+        .attr("class", "grouped-bar");
 
     var years = _.keys(_.countBy(data, function(data) { return data.year; })).reverse();
     var items = _.keys(_.countBy(data, function(data) { return data.item; }));
@@ -67,12 +67,12 @@ var HorizontalGroupedBarChart = function() {
     var groupedData = [];
 
     items.forEach(function(item){
-        var val =[];
-        data.forEach(function (d) {
-            if(item == d.item){
-                val.push(d);
-            }
-        });
+      var val =[];
+      data.forEach(function (d) {
+        if(item == d.item){
+          val.push(d);
+        }
+      });
       groupedData.push({item: item, values: val});
     });
 
