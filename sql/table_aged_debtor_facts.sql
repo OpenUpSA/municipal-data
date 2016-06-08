@@ -25,7 +25,7 @@ CREATE TABLE public.aged_debtor_facts
   financial_period integer,
   amount_type_code text,
   CONSTRAINT aged_debtor_facts_pkey PRIMARY KEY (id),
-  CONSTRAINT aged_debtor_facts_unique_demarcation_period_item UNIQUE (demarcation_code, period_code, item_code)
+  CONSTRAINT aged_debtor_facts_unique_demarcation_period_item UNIQUE (demarcation_code, period_code, customer_group_code, item_code)
 )
 WITH (
   OIDS=FALSE
