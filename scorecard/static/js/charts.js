@@ -122,7 +122,7 @@ var HorizontalGroupedBarChart = function() {
         .data(years)
       .enter().append("g")
         .attr("class", "legend")
-        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+        .attr("transform", function(d, i) { return "translate(0," + (self.height - (years.length - i + 1) * 20) + ")"; });
 
     legend.append("rect")
         .attr("x", self.width - 18)
