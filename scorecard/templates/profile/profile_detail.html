@@ -462,7 +462,7 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.wasteful_exp_perc_expenses|first as latest %}
+    {% with indicators.wasteful_exp|first as latest %}
     <h2>Fruitless and wastefull expenditure <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
