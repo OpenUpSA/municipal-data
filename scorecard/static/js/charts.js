@@ -4,6 +4,33 @@ var getNumberFormat = function() {
         .format(",.0f");
 };
 
+function wrapText(text, width) {
+  // see https://bl.ocks.org/mbostock/7555321
+  text.each(function() {
+    var text = d3.select(this),
+        words = text.text().split(/\s+/).reverse(),
+        word,
+        line = [],
+        lineNumber = 0,
+        lineHeight = 1.1, // ems
+        x = text.attr("x"),
+        y = text.attr("y"),
+        dy = parseFloat(text.attr("dy")),
+        tspan = text.text(null).append("tspan").attr("y", y).attr("dy", dy + "em");
+
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+      }
+    }
+  });
+}
+
 var HorizontalGroupedBarChart = function() {
   var self = this;
 
@@ -28,7 +55,7 @@ var HorizontalGroupedBarChart = function() {
 
     if (self.container.hasClass('tall')) container_height = container_height * 2;
 
-    self.margin = {top: 10, right: 10, bottom: 10, left: 200};
+    self.margin = {top: 10, right: 0, bottom: 10, left: 200};
     self.width = container_width - self.margin.left - self.margin.right;
     self.height = container_height - self.margin.top - self.margin.bottom;
 
@@ -84,7 +111,9 @@ var HorizontalGroupedBarChart = function() {
     //  Draw the y-axis
     self.svg.append("g")
       .attr("class", "y axis")
-      .call(self.yAxis);
+      .call(self.yAxis)
+      .selectAll(".tick text")
+        .call(wrapText, self.margin.left - 10);
 
     // Create the groups
     var group = self.svg.selectAll(".group")
