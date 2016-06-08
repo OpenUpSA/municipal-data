@@ -46,7 +46,7 @@ var HorizontalGroupedBarChart = function() {
   };
 
   self.color = d3.scale.ordinal()
-    .range(["#aaa", "#eee"]);
+    .range(["#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"]);
 
   self.drawChart = function(data, name, $container) {
     self.container = $container.empty();
@@ -212,17 +212,12 @@ var VerticalBarChart = function() {
     self.svg.selectAll(".bar")
         .data(data)
       .enter().append("rect")
-        .attr("class", "chart-bar")
         .attr("x", function(d) { return self.x(d.year); })
         .attr("width", self.x.rangeBand())
         .attr("y", function(d) { return self.y(Math.max(d.result, 0)); })
         .attr("height", function(d) { return Math.abs(self.y(d.result) - self.y(0)); })
-        .attr("class", function(d, i){
-          if (i === 0) {
-            return "current " + d.rating;
-          } else {
-            return "historical " + d.rating;
-          }
+        .attr("class", function(d) {
+          return "chart-bar " + d.rating;
         });
 
     // Add the labels
