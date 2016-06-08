@@ -987,6 +987,11 @@ a {
 .chart-container {
   font-size: 12px;
 
+  rect.chart-bar,
+  rect.chart-column {
+    fill: #17becf;
+  }
+
   rect.good {
     fill: $green;
   }
@@ -1009,6 +1014,12 @@ a {
     stroke: $gray;
     shape-rendering: crispEdges;
   }
+
+  .grouped-bar {
+    .bar-label {
+      display: none;
+    }
+  }
 }
 
 #homepage #slippy-map {
@@ -1028,8 +1039,11 @@ a {
   min-height: 200px;
 }
 
-.grouped-chart {
-  .bar-label {
-    display: none;
-  }
+.chart-tooltip {
+  position: absolute;
+  padding: 5px;
+  background: white;
+  border: 1px solid $gray-dark;
+  border-radius: 5px;
+  pointer-events: none;
 }
