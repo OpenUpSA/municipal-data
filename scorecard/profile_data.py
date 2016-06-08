@@ -75,7 +75,6 @@ class IndicatorCalculator(object):
             ('Service charges', '0400'),
             ('Transfers received', '1600'),
             ('Own revenue', '1700'),
-            ('Total', '1900')
         ]
 
     def calculate(self):
@@ -184,20 +183,17 @@ class IndicatorCalculator(object):
         for year in self.years + [self.budget_year]:
             year_name = year if year != self.budget_year else ("%s budget" % year)
             subtotal = 0.0
+            total = self.results['revenue_breakdown']['1900'][year]
 
             for item, code in self.revenue_breakdown_items:
                 try:
                     amount = self.results['revenue_breakdown'][code][year]
-                    if not item == 'Total':
-                        subtotal += amount
-                    else:
-                        total = amount
+                    subtotal += amount
                 except KeyError:
                     amount = None
-                if not item == 'Total':
-                    values.append({'item': item, 'amount': amount, 'year': year_name})
-            if total and subtotal:
-                values.append({'item': 'Other', 'amount': total - subtotal, 'year': year_name})
+                values.append({'item': item, 'amount': amount, 'percent': percent(amount, total), 'year': year_name})
+            if total and subtotal and (total != subtotal):
+                values.append({'item': 'Other', 'amount': total - subtotal, 'percent': percent(total - subtotal, total), 'year': year_name})
         return values
 
     def expenditure_trends(self):
@@ -237,6 +233,7 @@ class IndicatorCalculator(object):
         grouped_results = []
 
         for year, yeargroup in groupby(results, lambda r: r['financial_year_end.year']):
+            total = self.results['expenditure_breakdown']['4600'][year]
             GAPD_total = 0.0
             year_name = year if year != self.budget_year else ("%s budget" % year)
 
@@ -248,12 +245,14 @@ class IndicatorCalculator(object):
                     else:
                         grouped_results.append({
                             'amount': result['amount.sum'] or 0,
+                            'percent': percent(result['amount.sum'], total),
                             'item': result['function.category_label'],
                             'year': year_name,
                         })
 
             grouped_results.append({
                 'amount': GAPD_total,
+                'percent': percent(GAPD_total, total),
                 'item': GAPD_label,
                 'year': year_name,
             })
@@ -552,14 +551,15 @@ class IndicatorCalculator(object):
                     'item.code': [
                         '3000', '3100', '4200', '4600',
                     ],
-                    'amount_type.code': ['AUDA'],
+                    'amount_type.code': ['AUDA', 'ORGB'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_year_end.year': self.years
+                    'financial_year_end.year': self.years + [self.budget_year],
                 },
-                'drilldown': YEAR_ITEM_DRILLDOWN,
+                'drilldown': YEAR_ITEM_DRILLDOWN + ['amount_type.code'],
                 'query_type': 'aggregate',
                 'results_structure': self.item_code_year_aggregate,
+                'split_on_budget': True,
             },
             'expenditure_functional_breakdown': {
                 'cube': 'incexp',

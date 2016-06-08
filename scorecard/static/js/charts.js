@@ -106,10 +106,6 @@ var HorizontalGroupedBarChart = function() {
 
     var years = _.keys(_.countBy(data, function(data) { return data.year; })).reverse();
     var items = _.keys(_.countBy(data, function(data) { return data.item; }));
-    var totals = _.groupBy(data, function(data) { return data.year; });
-    _.each(totals, function(items, year, totals) {
-      totals[year] = _.reduce(items, function(s, d) { return s + d.amount; }, 0);
-    });
 
     var groupedData = [];
 
@@ -126,7 +122,7 @@ var HorizontalGroupedBarChart = function() {
     self.y0.domain(groupedData.map(function(d) { return d.item; }));
     self.y1.domain(years).rangeRoundBands([0, self.y0.rangeBand()]);
 
-    self.x.domain([0, d3.max(data, function(d) { return d.amount; })]);
+    self.x.domain([0, d3.max(data, function(d) { return d.percent; })]);
 
     //  Draw the y-axis
     self.svg.append("g")
@@ -149,11 +145,10 @@ var HorizontalGroupedBarChart = function() {
         .attr("class", "chart-bar")
         .attr("y", function(d) { return self.y1(d.year); })
         .attr("height", self.y1.rangeBand() - 1)
-        .attr("width", function(d) { return self.x(d.amount); })
+        .attr("width", function(d) { return self.x(d.percent); })
         .style("fill", function (d) { return self.color(d.year); })
         .on("mouseover", function(d) {
-          var perc = d.amount / totals[d.year] * 100;
-          showTooltip(d.year, self.format(d.amount) + " (" + self.format(perc) + "%)");
+          showTooltip(d.year, self.format(d.percent) + "%<br>R " + self.format(d.amount));
         })
         .on("mouseout", hideTooltip);
 
