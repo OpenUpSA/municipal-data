@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block head_css %}
     {% stylesheet "scorecard" %}
+    <link href="{% static 'stylesheets/print.css' %}" rel="stylesheet" type="text/css" {% if not request.GET.pdf %}media="print"{% endif %} />
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="{% static 'css/vendor/leaflet-0.6.4.ie.css' %}" />
     <![endif]-->

@@ -129,25 +129,25 @@
     </div>
   </div>
 
-    {% block page-nav %}
-        <div class="page-nav-wrapper">
-          <div class="page-nav-container">
-            <div class="container">
-              <div class="page-nav-info">
-                <div class="muni-name">{{ geography.this.short_name }}</div>
-                <div class="muni-population">Population: {{ total_population|floatformat:"0" }}</div>
-              </div>
-
-              <ul class="nav nav-pills" id="page-nav">
-                <li role="presentation" class="active"><a href="#performance"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i><br><span class="nav-text">Performance</span></a></li>
-                <li role="presentation"><a href="#income"><i class="fa fa-money fa-2x" aria-hidden="true"></i><br><span class="nav-text">Income</span></a></li>
-                <li role="presentation"><a href="#spending"><i class="fa fa-credit-card fa-2x" aria-hidden="true"></i><br><span class="nav-text">Spending</span></a></li>
-              </ul>
-
-            </div>
-          </div>
+  {% block page-nav %}
+  <nav class="page-nav-wrapper">
+    <div class="page-nav-container">
+      <div class="container">
+        <div class="page-nav-info">
+          <div class="muni-name">{{ geography.this.short_name }}</div>
+          <div class="muni-population">Population: {{ total_population|floatformat:"0" }}</div>
         </div>
-    {% endblock %}
+
+        <ul class="nav nav-pills" id="page-nav">
+          <li role="presentation" class="active"><a href="#performance"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i><br><span class="nav-text">Performance</span></a></li>
+          <li role="presentation"><a href="#income"><i class="fa fa-money fa-2x" aria-hidden="true"></i><br><span class="nav-text">Income</span></a></li>
+          <li role="presentation"><a href="#spending"><i class="fa fa-credit-card fa-2x" aria-hidden="true"></i><br><span class="nav-text">Spending</span></a></li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+  {% endblock %}
 {% endblock %}
 
 {% block content %}
