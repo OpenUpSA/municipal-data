@@ -26,6 +26,8 @@ var HorizontalGroupedBarChart = function() {
     var container_width = self.container.width();
     var container_height = 300;
 
+    if (self.container.hasClass('tall')) container_height = container_height * 2;
+
     self.margin = {top: 10, right: 10, bottom: 10, left: 200};
     self.width = container_width - self.margin.left - self.margin.right;
     self.height = container_height - self.margin.top - self.margin.bottom;
