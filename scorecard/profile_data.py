@@ -25,7 +25,7 @@ class MuniApiClient(object):
         self.API_URL = settings.API_URL + "/cubes/"
         self.geo_code = str(geo_code)
         self.years = YEARS
-        self.current_year = YEARS[:1]
+        self.budget_year = self.years[0] + 1
 
         self.queries = self.get_queries()
         self.results = defaultdict(dict)
@@ -71,8 +71,11 @@ class MuniApiClient(object):
         elif query['query_type'] == 'model':
             return query['results_structure'](query, response_dict['model'])
 
-    @staticmethod
-    def item_code_year_aggregate(query, response):
+    def check_budget_actual(self, year, amount_type):
+        return (year == self.budget_year and amount_type == 'ORGB'
+                or year != self.budget_year and amount_type != 'ORGB')
+
+    def item_code_year_aggregate(self, query, response):
         """
         Results are the values we received from the API converted into the
         following format:
@@ -85,6 +88,12 @@ class MuniApiClient(object):
         }
         """
         results = {}
+
+        # should we handle budget years differently?
+        if query.get('split_on_budget'):
+            response = [r for r in response
+                        if self.check_budget_actual(r['financial_year_end.year'], r['amount_type.code'])]
+
         for code in query['cut']['item.code']:
             # Index values by financial period, treating nulls as zero
             results[code] = OrderedDict([
@@ -226,14 +235,15 @@ class MuniApiClient(object):
                 'aggregate': 'amount.sum',
                 'cut': {
                     'item.code': ['0200', '0400', '1600', '1700', '1900'],
-                    'amount_type.code': ['AUDA'],
+                    'amount_type.code': ['AUDA', 'ORGB'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_year_end.year': self.years
+                    'financial_year_end.year': self.years + [self.budget_year],
                 },
-                'drilldown': YEAR_ITEM_DRILLDOWN,
+                'drilldown': YEAR_ITEM_DRILLDOWN + ['amount_type.code'],
                 'query_type': 'aggregate',
                 'results_structure': self.item_code_year_aggregate,
+                'split_on_budget': True,
             },
             'expenditure_breakdown': {
                 'cube': 'incexp',
@@ -256,14 +266,15 @@ class MuniApiClient(object):
                 'aggregate': 'amount.sum',
                 'cut': {
                     'item.code': ['4600'],
-                    'amount_type.code': ['AUDA'],
+                    'amount_type.code': ['AUDA', 'ORGB'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_year_end.year': self.years[:2]
+                    'financial_year_end.year': self.years + [self.budget_year]
                 },
                 'drilldown': [
                     'function.category_label',
                     'financial_year_end.year',
+                    'amount_type.code',
                 ],
                 'query_type': 'aggregate',
                 'results_structure': self.noop_structure,
@@ -356,7 +367,7 @@ class IndicatorCalculator(object):
     def __init__(self, results, years):
         self.results = results
         self.years = years
-        self.current_year = YEARS[0]
+        self.budget_year = self.years[0] + 1
 
         self.revenue_breakdown_items = [
             ('Property rates', '0200'),
@@ -456,8 +467,10 @@ class IndicatorCalculator(object):
 
     def revenue_breakdown(self):
         values = []
-        for year in self.years:
+        for year in self.years + [self.budget_year]:
+            year_name = year if year != self.budget_year else ("%s budget" % year)
             subtotal = 0.0
+
             for item, code in self.revenue_breakdown_items:
                 try:
                     amount = self.results['revenue_breakdown'][code][year]
@@ -468,9 +481,9 @@ class IndicatorCalculator(object):
                 except KeyError:
                     amount = None
                 if not item == 'Total':
-                    values.append({'item': item, 'amount': amount, 'year': year})
+                    values.append({'item': item, 'amount': amount, 'year': year_name})
             if total and subtotal:
-                values.append({'item': 'Other', 'amount': total - subtotal, 'year': year})
+                values.append({'item': 'Other', 'amount': total - subtotal, 'year': year_name})
         return values
 
     def expenditure_trends(self):
@@ -505,30 +518,35 @@ class IndicatorCalculator(object):
             'Planning and Development',
         }
         GAPD_label = 'Governance, Administration, Planning and Development'
+
         results = self.results['expenditure_functional_breakdown']
-        keyfun = lambda r: r['financial_year_end.year']
         grouped_results = []
-        years = sorted(list(set(r['financial_year_end.year'] for r in results)))
-        years.reverse()
-        for year, yeargroup in groupby(results, keyfun):
-            if year in years:
-                total = self.results['expenditure_breakdown']['4600'][year]
-                GAPD_total = 0.0
-                for result in yeargroup:
+
+        for year, yeargroup in groupby(results, lambda r: r['financial_year_end.year']):
+            GAPD_total = 0.0
+            year_name = year if year != self.budget_year else ("%s budget" % year)
+
+            for result in yeargroup:
+                # only do budget for budget year, use auda for others
+                if (year == self.budget_year and result['amount_type.code'] == 'ORGB'
+                        or year != self.budget_year and result['amount_type.code'] != 'ORGB'):
+
                     if result['function.category_label'] in GAPD_categories:
                         GAPD_total += (result['amount.sum'] or 0)
                     else:
                         grouped_results.append({
-                            'amount': ((result['amount.sum'] or 0) / total) * 100,
+                            'amount': result['amount.sum'] or 0,
                             'item': result['function.category_label'],
-                            'year': result['financial_year_end.year'],
+                            'year': year_name,
                         })
-                grouped_results.append({
-                    'amount': (GAPD_total / total) * 100,
-                    'item': GAPD_label,
-                    'year': year
-                })
-        return sorted(grouped_results, key=lambda r: str(r['year']) + r['item'])
+
+            grouped_results.append({
+                'amount': GAPD_total,
+                'item': GAPD_label,
+                'year': year_name,
+            })
+
+        return sorted(grouped_results, key=lambda r: (r['year'], r['item']))
 
     def cash_at_year_end(self):
         values = []
