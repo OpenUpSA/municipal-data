@@ -117,11 +117,9 @@ class IndicatorCalculator(object):
         values = []
         for year in self.years:
             try:
-                result = percent(
-                    (self.results['op_exp_budget']['4600'][year]
-                     - self.results['op_exp_actual']['4600'][year]),
-                    self.results['op_exp_budget']['4600'][year],
-                    1)
+                op_ex_budget = self.results['op_exp_budget']['4600'][year]
+                op_ex_actual = self.results['op_exp_actual']['4600'][year]
+                result = percent((op_ex_budget - op_ex_actual), op_ex_budget, 1)
                 if abs(result) < 10:
                     rating = 'good'
                 elif abs(result) <= 25:
@@ -141,10 +139,9 @@ class IndicatorCalculator(object):
         values = []
         for year in self.years:
             try:
-                result = percent(
-                    (self.results['cap_exp_budget']['4100'][year]
-                     - self.results['cap_exp_actual']['4100'][year]),
-                    self.results['cap_exp_budget']['4100'][year])
+                cap_ex_budget = self.results['cap_exp_budget']['4100'][year]
+                cap_ex_actual = self.results['cap_exp_actual']['4100'][year]
+                result = percent((cap_ex_budget - cap_ex_actual), cap_ex_budget)
                 if abs(result) < 10:
                     rating = 'good'
                 elif abs(result) <= 30:
@@ -164,9 +161,10 @@ class IndicatorCalculator(object):
         values = []
         for year in self.years:
             try:
-                result = percent(self.results['rep_maint']['5005'][year],
-                                 (self.results['ppe']['1300'][year]
-                                  + self.results['invest_prop']['1401'][year]))
+                rep_maint = self.results['rep_maint']['5005'][year]
+                ppe = self.results['ppe']['1300'][year]
+                invest_prop = self.results['invest_prop']['1401'][year]
+                result = percent(rep_maint, (ppe + invest_prop))
                 if abs(result) >= 8:
                     rating = 'good'
                 elif abs(result) < 8:
@@ -288,8 +286,8 @@ class IndicatorCalculator(object):
 
         for year in self.years:
             try:
-                result = percent(aggregate[year],
-                                 self.results['op_exp_actual']['4600'][year])
+                op_ex_actual = self.results['op_exp_actual']['4600'][year]
+                result = percent(aggregate[year], op_ex_actual)
                 rating = None
                 if result == 0:
                     rating = 'good'
