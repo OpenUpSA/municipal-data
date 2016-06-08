@@ -1,3 +1,6 @@
+/* NB NB NB
+   This MUST be compiled with the scss commandline tool and NOT pyscss
+*/
 .container {
   margin-right: auto;
   margin-left: auto;
@@ -6287,10 +6290,11 @@
 .col-lg-offset-12 {
   margin-left: 100%; }
 
-.nav,
+nav,
 input,
 #slippy-map,
-#menu-toggle {
+#menu-toggle,
+a.show-more {
   display: none; }
 
 #cover-profile {
