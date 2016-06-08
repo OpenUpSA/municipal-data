@@ -44,10 +44,7 @@ class MuniApiClient(object):
             url = self.API_URL + query['cube'] + '/aggregate'
             params = {
                 'aggregates': query['aggregate'],
-                'cut': '|'.join('{!s}:{!s}'.format(
-                    k, ';'.join('{!r}'.format(item) for item in v))
-                    for (k, v) in query['cut'].iteritems()
-                ).replace("'", '"'),
+                'cut': format_cut_param(query['cut']),
                 'drilldown': '|'.join(query['drilldown']),
                 'order': 'financial_year_end.year:desc',
                 'page': 0,
@@ -55,9 +52,7 @@ class MuniApiClient(object):
         elif query['query_type'] == 'facts':
             url = self.API_URL + query['cube'] + '/facts'
             params = {
-                'cut': '|'.join(
-                    '{!s}:{!r}'.format(k, v) for (k, v) in query['cut'].iteritems()
-                ).replace("'", '"'),
+                'cut': format_cut_param(query['cut']),
                 'fields': ','.join(field for field in query['fields']),
                 'page': 0
             }
@@ -264,7 +259,7 @@ class MuniApiClient(object):
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
-                    'financial_year_end.year': self.years
+                    'financial_year_end.year': self.years[:2]
                 },
                 'drilldown': [
                     'function.category_label',
@@ -290,7 +285,7 @@ class MuniApiClient(object):
             'officials': {
                 'cube': 'officials',
                 'cut': {
-                    'municipality.demarcation_code': self.geo_code,
+                    'municipality.demarcation_code': [self.geo_code],
                 },
                 'fields': [
                     'role.role',
@@ -311,7 +306,7 @@ class MuniApiClient(object):
             'contact_details': {
                 'cube': 'municipalities',
                 'cut': {
-                    'municipality.demarcation_code': self.geo_code,
+                    'municipality.demarcation_code': [self.geo_code],
                 },
                 'fields': [
                     'municipality.phone_number',
@@ -328,7 +323,8 @@ class MuniApiClient(object):
             'audit_opinions': {
                 'cube': 'audit_opinions',
                 'cut': {
-                    'demarcation.code': self.geo_code
+                    'demarcation.code': [self.geo_code],
+                    'financial_year_end.year': self.years[:4],
                 },
                 'fields': [
                     'opinion.code',
@@ -341,6 +337,19 @@ class MuniApiClient(object):
                 'results_structure': self.noop_structure,
             },
         }
+
+
+def format_cut_param(cuts):
+    keypairs = []
+    for key, vals in cuts.iteritems():
+        vals_as_strings = []
+        for val in vals:
+            if type(val) == str:
+                vals_as_strings.append('"' + val + '"')
+            if type(val) == int:
+                vals_as_strings.append(str(val))
+        keypairs.append((key, ';'.join(vals_as_strings)))
+    return '|'.join('{!s}:{!s}'.format(pair[0], pair[1]) for pair in keypairs)
 
 
 class IndicatorCalculator(object):
@@ -361,10 +370,9 @@ class IndicatorCalculator(object):
         values = []
         for year in self.years:
             try:
-                result = ratio(
-                    self.results['cash_flow']['4200'][year],
-                    (self.results['op_exp_actual']['4600'][year] / 12),
-                    1)
+                cash = self.results['cash_flow']['4200'][year]
+                monthly_expenses = self.results['op_exp_actual']['4600'][year] / 12
+                result = max(ratio(cash, monthly_expenses, 1), 0)
                 if result > 3:
                     rating = 'good'
                 elif result <= 1:
@@ -503,15 +511,15 @@ class IndicatorCalculator(object):
         years = sorted(list(set(r['financial_year_end.year'] for r in results)))
         years.reverse()
         for year, yeargroup in groupby(results, keyfun):
-            if year in years[:2]:
+            if year in years:
                 total = self.results['expenditure_breakdown']['4600'][year]
                 GAPD_total = 0.0
                 for result in yeargroup:
                     if result['function.category_label'] in GAPD_categories:
-                        GAPD_total += result['amount.sum']
+                        GAPD_total += (result['amount.sum'] or 0)
                     else:
                         grouped_results.append({
-                            'amount': (result['amount.sum'] / total) * 100,
+                            'amount': ((result['amount.sum'] or 0) / total) * 100,
                             'item': result['function.category_label'],
                             'year': result['financial_year_end.year'],
                         })
@@ -594,6 +602,8 @@ class IndicatorCalculator(object):
             official = officials.get(role)
             if official:
                 secretary = officials.get(secretaries[role])
+                if secretary['name'] is None:
+                    secretary = None
                 if secretary:
                     official['secretary'] = secretary
 
