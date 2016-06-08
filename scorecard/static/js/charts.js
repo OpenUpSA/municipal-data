@@ -31,6 +31,22 @@ function wrapText(text, width) {
   });
 }
 
+var tooltip = d3.select("body").append("div")	
+  .attr("class", "chart-tooltip")				
+  .style("opacity", 0);
+
+function showTooltip(cat, value) {
+  tooltip
+    .style("opacity", 1)
+    .html("<b>" + cat + ":</b> " + value)
+    .style("left", (d3.event.pageX) + "px")
+    .style("top", (d3.event.pageY - 28) + "px");
+}
+
+function hideTooltip() {
+  tooltip.style("opacity", 0);
+}
+
 var HorizontalGroupedBarChart = function() {
   var self = this;
 
@@ -90,6 +106,10 @@ var HorizontalGroupedBarChart = function() {
 
     var years = _.keys(_.countBy(data, function(data) { return data.year; })).reverse();
     var items = _.keys(_.countBy(data, function(data) { return data.item; }));
+    var totals = _.groupBy(data, function(data) { return data.year; });
+    _.each(totals, function(items, year, totals) {
+      totals[year] = _.reduce(items, function(s, d) { return s + d.amount; }, 0);
+    });
 
     var groupedData = [];
 
@@ -130,7 +150,12 @@ var HorizontalGroupedBarChart = function() {
         .attr("y", function(d) { return self.y1(d.year); })
         .attr("height", self.y1.rangeBand() - 1)
         .attr("width", function(d) { return self.x(d.amount); })
-        .style("fill", function (d) { return self.color(d.year); });
+        .style("fill", function (d) { return self.color(d.year); })
+        .on("mouseover", function(d) {
+          var perc = d.amount / totals[d.year] * 100;
+          showTooltip(d.year, self.format(d.amount) + " (" + self.format(perc) + "%)");
+        })
+        .on("mouseout", hideTooltip);
 
     var legend = self.svg.selectAll(".legend")
         .data(years)
@@ -222,8 +247,8 @@ var VerticalBarChart = function() {
         .attr("transform", "translate(0," + self.y(0) + ")")
         .call(self.xAxis.tickFormat("").tickSize(0));
 
-    //  Draw the bars
-    self.svg.selectAll(".chart-bar")
+    //  Draw the columns
+    self.svg.selectAll(".chart-column")
         .data(data)
       .enter().append("rect")
         .attr("x", function(d) { return self.x(d.year); })
@@ -231,14 +256,14 @@ var VerticalBarChart = function() {
         .attr("y", function(d) { return self.y(Math.max(d.result, 0)); })
         .attr("height", function(d) { return Math.abs(self.y(d.result) - self.y(0)); })
         .attr("class", function(d) {
-          return "chart-bar " + d.rating;
+          return "chart-column " + d.rating;
         });
 
     // Add the labels
-    self.svg.selectAll("text.bar")
+    self.svg.selectAll("text")
         .data(data)
       .enter().append("text")
-        .attr("class", "bar-label")
+        .attr("class", "column-label")
         .attr("text-anchor", "middle")
         .attr("x", function(d) { return self.x(d.year) + self.x.rangeBand()/2; })
         .attr("y", function(d) { return self.y(Math.max(d.result, 0)) - 5; })

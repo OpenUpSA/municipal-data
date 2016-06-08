@@ -987,7 +987,8 @@ a {
 .chart-container {
   font-size: 12px;
 
-  rect.chart-bar {
+  rect.chart-bar,
+  rect.chart-column {
     fill: #17becf;
   }
 
@@ -1036,4 +1037,14 @@ a {
 
 #locate {
   min-height: 200px;
+}
+
+.chart-tooltip {
+  position: absolute;
+  height: 28px;
+  padding: 5px;
+  background: white;
+  border: 1px solid $gray-dark;
+  border-radius: 5px;
+  pointer-events: none;
 }
