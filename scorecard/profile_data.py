@@ -208,7 +208,7 @@ class IndicatorCalculator(object):
                         'percent': percent(total - subtotal, total),
                         'year': year_name,
                     })
-            except:
+            except KeyError:
                 continue
         return values
 
@@ -273,7 +273,7 @@ class IndicatorCalculator(object):
                     'item': GAPD_label,
                     'year': year_name,
                 })
-            except:
+            except KeyError:
                 continue
 
         return sorted(grouped_results, key=lambda r: (r['year'], r['item']))
