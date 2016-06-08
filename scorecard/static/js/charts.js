@@ -103,23 +103,6 @@ var HorizontalGroupedBarChart = function() {
         .attr("width", function(d) { return self.x(d.amount); })
         .style("fill", function (d) { return self.color(d.year); });
 
-    // Add the labels
-    group.selectAll("bar-label")
-        .data(function(d) { return d.values; })
-      .enter().append("text")
-        .attr("class", "bar-label")
-        .attr("text-anchor", "middle")
-        .attr("y", function(d) { return self.y1(d.year) + self.y1.rangeBand() / 2; })
-        .attr("x", function(d) { return self.x(d.amount) + 50; })
-        .text(function(d) {
-          if (d.amount >= 1000) {
-            var format = d3.formatPrefix(1000);
-            return self.format(format.scale(d.amount)) + " " + format.symbol;
-          } else {
-            return d.amount;
-          }
-         });
-
     var legend = self.svg.selectAll(".legend")
         .data(years)
       .enter().append("g")
@@ -211,7 +194,7 @@ var VerticalBarChart = function() {
         .call(self.xAxis.tickFormat("").tickSize(0));
 
     //  Draw the bars
-    self.svg.selectAll(".bar")
+    self.svg.selectAll(".chart-bar")
         .data(data)
       .enter().append("rect")
         .attr("x", function(d) { return self.x(d.year); })
@@ -230,13 +213,6 @@ var VerticalBarChart = function() {
         .attr("text-anchor", "middle")
         .attr("x", function(d) { return self.x(d.year) + self.x.rangeBand()/2; })
         .attr("y", function(d) { return self.y(Math.max(d.result, 0)) - 5; })
-        .attr("class", function(d, i){
-          if (i === 0) {
-            return "current";
-          } else {
-            return "historical";
-          }
-        })
         .text(function(d) {
           if (Math.abs(d.result) >= 1000) {
             var format = d3.formatPrefix(1000);
