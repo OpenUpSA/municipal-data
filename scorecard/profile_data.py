@@ -46,9 +46,7 @@ class MuniApiClient(object):
             url = self.API_URL + query['cube'] + '/model'
             params = {}
 
-        response = self.session.get(url, params=params, verify=False)
-        response.result().raise_for_status()
-        return response.result().json()
+        return self.session.get(url, params=params, verify=False)
 
     def format_cut_param(self, cuts):
         keypairs = []
@@ -80,11 +78,19 @@ class IndicatorCalculator(object):
     def calculate(self):
         self.queries = self.get_queries()
         self.results = defaultdict(dict)
+
+        # api_get returns a future, so fire off a bunch of
+        # requests and then only start collecting them later
+        responses = []
         for query_name, query in self.queries.iteritems():
-            response = self.client.api_get(query)
+            responses.append((query_name, query, self.client.api_get(query)))
+
+        for (query_name, query, response) in responses:
             self.results[query_name] = self.response_to_results(response, query)
 
-    def response_to_results(self, response_dict, query):
+    def response_to_results(self, api_response, query):
+        api_response.result().raise_for_status()
+        response_dict = api_response.result().json()
         if query['query_type'] == 'facts':
             return query['results_structure'](query, response_dict['data'])
         elif query['query_type'] == 'aggregate':
