@@ -255,7 +255,7 @@ var VerticalBarChart = function() {
         });
 
     // Add the labels
-    self.svg.selectAll("text")
+    self.svg.selectAll("text.bar")
         .data(data)
       .enter().append("text")
         .attr("class", "column-label")
