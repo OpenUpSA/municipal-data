@@ -1,5 +1,5 @@
 from wazimap.data.tables import get_datatable
-from profile_data import MuniApiClient, IndicatorCalculator
+from profile_data import IndicatorCalculator
 from wazimap.geo import geo_data
 
 
@@ -13,8 +13,8 @@ def get_profile(geo_code, geo_level, profile_name=None):
     if geo.square_kms:
         population_density = total_pop / geo.square_kms
 
-    api_client = MuniApiClient(geo_code)
-    indicator_calc = IndicatorCalculator(api_client.results, api_client.years)
+    indicator_calc = IndicatorCalculator(geo_code)
+    indicator_calc.calculate()
 
     indicators = {}
 
