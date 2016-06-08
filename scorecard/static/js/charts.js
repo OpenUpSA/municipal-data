@@ -69,6 +69,8 @@ var HorizontalGroupedBarChart = function() {
     var container_width = self.container.width();
     var container_height = 300;
 
+    if ($('body').hasClass('print')) container_width = 700;
+
     if (self.container.hasClass('tall')) container_height = container_height * 2;
 
     self.margin = {top: 10, right: 0, bottom: 10, left: 200};
@@ -196,6 +198,8 @@ var VerticalBarChart = function() {
   self.setDimensions = function() {
     var container_width = self.container.width();
     var container_height = 150;
+
+    if ($('body').hasClass('print')) container_width = 300;
 
     self.margin = {top: 20, right: 0, bottom: 20, left: 0};
     self.width = container_width - self.margin.left - self.margin.right;

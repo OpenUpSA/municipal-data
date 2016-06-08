@@ -1,3 +1,7 @@
+/* NB NB NB
+   This MUST be compiled with the scss commandline tool and NOT pyscss
+*/
+
 @import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/clearfix";
 @import 'bootstrap-sass/assets/stylesheets/bootstrap/mixins/grid-framework';
 @import 'bootstrap-sass/assets/stylesheets/bootstrap/mixins/grid';
@@ -29,6 +33,7 @@ a[href]:after {
   content: none;
 }
 
-.section h1 {
+.section h1,
+.panel-didyouknow .panel-heading {
   letter-spacing: normal;
 }

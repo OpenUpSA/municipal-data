@@ -38,7 +38,7 @@ def locate(request):
 class GeographyPDFView(GeographyDetailView):
     def get(self, request, *args, **kwargs):
         # render as pdf
-        url = '/profiles/%s-%s-%s?pdf=1' % (self.geo_level, self.geo_code, self.geo.slug)
+        url = '/profiles/%s-%s-%s?print=1' % (self.geo_level, self.geo_code, self.geo.slug)
         url = request.build_absolute_uri(url)
         pdf = wkhtmltopdf(url, zoom=0.7)
 
