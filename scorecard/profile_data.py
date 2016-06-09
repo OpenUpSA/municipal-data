@@ -242,6 +242,7 @@ class IndicatorCalculator(object):
             'Budget & Treasury Office',
             'Executive & Council',
             'Planning and Development',
+            'Corporate Services',
         }
         GAPD_label = 'Governance, Administration, Planning and Development'
 
