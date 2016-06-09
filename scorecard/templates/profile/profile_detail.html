@@ -501,10 +501,9 @@
 </div>
 
 <div class="section" id="income">
-  <h1><i class="fa fa-money"></i> Income</h1>
-  <div class="indicator">
-    <h2>Where money comes from</h2>
+  <h1><i class="fa fa-money"></i> Income <span class="subtitle">- Where money comes from</span></h1>
 
+  <div class="indicator">
     <div class="row">
       <div class="col-sm-12 col-lg-10">
         <div class="chart-container" data-chart="grouped-bar-revenue_breakdown"></div>
@@ -514,7 +513,7 @@
 </div>
 
 <div class="section" id="spending">
-  <h1><i class="fa fa-credit-card"></i> Spending</h1>
+  <h1><i class="fa fa-credit-card"></i> Spending <span class="subtitle">- How money is spent</span></h1>
 
   <div class="indicator">
     {% with indicators.expenditure_trends.staff|first as latest %}

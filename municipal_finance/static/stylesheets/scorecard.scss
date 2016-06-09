@@ -496,6 +496,11 @@ a {
     letter-spacing: 2px;
     font-size: 24px;
     margin: 0 0 10px 0;
+
+    .subtitle {
+      letter-spacing: normal;
+      text-transform: none;
+    }
   }
   h1 .icon {
     color: $brand-secondary;
@@ -585,15 +590,6 @@ a {
 //
 .table-bordered {
   border: solid 2px $gray-dark;
-
-  tr th {
-    background-color: transparent;
-    text-align: center;
-    letter-spacing: 1px;
-    font-weight: 900;
-    text-transform: uppercase;
-    color: $brand-secondary;
-  }
 
   .table-footer td, .table-footer:hover td, tr:hover th {
     text-align: center;
