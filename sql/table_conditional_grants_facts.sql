@@ -4,7 +4,7 @@
 
 CREATE TABLE public.conditional_grants_facts
 (
-  demarcation_code text,
+  demarcation_code text REFERENCES scorecard_geography (geo_code),
   period_code text,
   grant_code text REFERENCES conditional_grants (code) MATCH FULL,
   amount bigint,

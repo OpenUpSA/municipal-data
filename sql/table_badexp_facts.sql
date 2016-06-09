@@ -1,6 +1,6 @@
 CREATE TABLE public.badexp_facts
 (
-  demarcation_code text,
+  demarcation_code text REFERENCES scorecard_geography (geo_code),
   financial_year integer,
   item_code text,
   item_label text,

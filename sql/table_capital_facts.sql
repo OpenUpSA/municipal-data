@@ -4,7 +4,7 @@
 
 CREATE TABLE public.capital_facts
 (
-  demarcation_code text,
+  demarcation_code text REFERENCES scorecard_geography (geo_code),
   period_code text,
   function_code text,
   item_code text,
