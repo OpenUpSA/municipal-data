@@ -6,7 +6,7 @@ CREATE TABLE public.conditional_grants_facts
 (
   demarcation_code text,
   period_code text,
-  grant_code text,
+  grant_code text REFERENCES conditional_grants (code) MATCH FULL,
   amount bigint,
   amount_type_code text,
   id serial,

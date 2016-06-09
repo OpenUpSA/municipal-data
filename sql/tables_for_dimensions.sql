@@ -126,7 +126,10 @@ ALTER TABLE public.repmaint_items
 CREATE TABLE public.conditional_grants
 (
   code text,
-  name text
+  name text,
+  id serial,
+  CONSTRAINT conditional_grants_pkey PRIMARY KEY (id),
+  CONSTRAINT conditional_grants_unique_code UNIQUE (code)
 )
 WITH (
   OIDS=FALSE
