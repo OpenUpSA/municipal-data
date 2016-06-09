@@ -15,7 +15,7 @@ CREATE TABLE public.incexp_facts
   financial_period integer,
   amount_type_code text,
   CONSTRAINT incexp_facts_pkey PRIMARY KEY (id),
-  CONSTRAINT incexp_facts_unique_demarcation_period_item UNIQUE (demarcation_code, period_code, item_code)
+  CONSTRAINT incexp_facts_unique_demarcation_period_function_item UNIQUE (demarcation_code, period_code, function_code, item_code)
 )
 WITH (
   OIDS=FALSE

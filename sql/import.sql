@@ -1,12 +1,11 @@
 create table repmaint_facts_import as select * from repmaint_facts limit 0;
-create table incexp_facts_import as select * from incecp_facts limit 0;
+create table incexp_facts_import as select * from incexp_facts limit 0;
+create table conditional_grants_facts_import as select * from conditional_grants_facts limit 0;
 create table cflow_facts_import as select * from cflow_facts limit 0;
 create table capital_facts_import as select * from capital_facts limit 0;
 create table bsheet_facts_import as select * from bsheet_facts limit 0;
 create table aged_debtor_facts_import as select * from aged_debtor_facts limit 0;
 create table aged_creditor_facts_import as select * from aged_creditor_facts limit 0;
-
-\copy repmaint_facts_import (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/all_muni/rm_2014q4_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \copy aged_creditor_facts (demarcation_code, period_code, item_code, g1_amount, l1_amount, l120_amount, l150_amount, l180_amount, l30_amount, l60_amount, l90_amount, total_amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/all_muni/cred_2015q4_acrmun.csv' DELIMITER ',' CSV HEADER;
 
@@ -23,6 +22,22 @@ create table aged_creditor_facts_import as select * from aged_creditor_facts lim
 \copy capital_facts (demarcation_code, period_code, function_code, item_code, new_assets, renewal_of_existing, total_assets, repairs_maintenance, asset_register_summary) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/all_muni/capital_2015q4_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \copy capital_facts_import (demarcation_code, period_code, function_code, item_code, new_assets, renewal_of_existing, total_assets, repairs_maintenance, asset_register_summary) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/all_muni/capital_2014q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+
+\copy cflow_facts (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/all_muni/cflow_2015q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+
+\copy cflow_facts_import (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/all_muni/cflow_2014q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+
+\copy conditional_grants_facts (demarcation_code, period_code, grant_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/all_muni/grants_2015q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+
+\copy conditional_grants_facts_import (demarcation_code, period_code, grant_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/all_muni/grants_2014q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+
+\copy incexp_facts (demarcation_code, period_code, function_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/all_muni/incexp_2015q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+
+\copy incexp_facts_import (demarcation_code, period_code, function_code,  item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/all_muni/incexp_2014q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+
+\copy repmaint_facts (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/all_muni/rm_2015q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+
+\copy repmaint_facts_import (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/all_muni/rm_2014q4_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 insert into repmaint_facts (demarcation_code, period_code, item_code, amount)
 (select i.demarcation_code, i.period_code, i.item_code, i.amount
@@ -60,6 +75,31 @@ where l.demarcation_code is null);
 insert into capital_facts (demarcation_code, period_code, function_code, item_code, new_assets, renewal_of_existing, total_assets, repairs_maintenance, asset_register_summary)
 (select i.demarcation_code, i.period_code, i.function_code, i.item_code, i.new_assets, i.renewal_of_existing, i.total_assets, i.repairs_maintenance, i.asset_register_summary
 from capital_facts l right join capital_facts_import i on
+ l.demarcation_code=i.demarcation_code
+and l.period_code=i.period_code
+and l.function_code = i.function_code
+and l.item_code=i.item_code
+where l.demarcation_code is null);
+
+insert into cflow_facts (demarcation_code, period_code, item_code, amount)
+(select i.demarcation_code, i.period_code, i.item_code, i.amount
+from cflow_facts l right join cflow_facts_import i on
+ l.demarcation_code=i.demarcation_code
+and l.period_code=i.period_code
+and l.item_code=i.item_code
+where l.demarcation_code is null);
+
+insert into conditional_grants_facts (demarcation_code, period_code, grant_code, amount)
+(select i.demarcation_code, i.period_code, i.grant_code, i.amount
+from conditional_grants_facts l right join conditional_grants_facts_import i on
+ l.demarcation_code=i.demarcation_code
+and l.period_code=i.period_code
+and l.grant_code=i.grant_code
+where l.demarcation_code is null);
+
+insert into incexp_facts (demarcation_code, period_code, function_code, item_code, amount)
+(select i.demarcation_code, i.period_code, i.function_code, i.item_code, i.amount
+from incexp_facts l right join incexp_facts_import i on
  l.demarcation_code=i.demarcation_code
 and l.period_code=i.period_code
 and l.function_code = i.function_code
