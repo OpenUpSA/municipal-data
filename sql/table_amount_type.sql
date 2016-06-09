@@ -6,7 +6,9 @@ CREATE TABLE public.amount_type
 (
   code text NOT NULL,
   label text,
-  CONSTRAINT amount_type_pkey PRIMARY KEY (code)
+  id serial,
+  CONSTRAINT amount_type_pkey PRIMARY KEY (id),
+  CONSTRAINT amount_type_unique_code UNIQUE (code)
 )
 WITH (
   OIDS=FALSE

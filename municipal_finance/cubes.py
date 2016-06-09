@@ -18,7 +18,6 @@ class PreloadingJSONCubeManager(JSONCubeManager):
         for name in self._cube_names:
             self._models[name] = super(PreloadingJSONCubeManager, self).get_cube_model(name)
             self._cubes[name] = super(PreloadingJSONCubeManager, self).get_cube(name)
-            self._cubes[name].compute_cardinalities()
 
     def list_cubes(self):
         return self._cube_names

@@ -6,7 +6,8 @@ CREATE TABLE public.government_functions
   label text,
   category_label text,
   subcategory_label text,
-  CONSTRAINT government_functions_primary_key PRIMARY KEY (code)
+  CONSTRAINT government_functions_pkey PRIMARY KEY (id),
+  CONSTRAINT government_functions_unique_code UNIQUE (code)
 )
 WITH (
   OIDS=FALSE

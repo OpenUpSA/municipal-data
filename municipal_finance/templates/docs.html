@@ -79,9 +79,7 @@
 
     <h2 id="export-csv">Export CSV</h2>
 
-    <p>You can export a subset of the data as CSV if you want to explore that offline. As you <a href="#datasets">explore the data of a cube</a>, you can download the entire dataset matching your current filters showing only the columns you have selected. Once you've narrowed down what you want, click the Download CSV button in the bottom right, as shown in the screenshot below.</p>
-
-    <p><img src="{% static 'images/babbage-export.png' %}" /></p>
+    <p>You can export a subset of the data as CSV if you want to explore that offline. As you <a href="#datasets">explore the data of a cube</a>, you can download the entire dataset matching your current filters showing only the columns you have selected. Once you've narrowed down what you want, click the Download CSV button.</p>
 
     <h1 id="datasets">Datasets</h1>
 
@@ -92,14 +90,11 @@
       <p>{{ cube.model.description }}</p>
       {% endif %}
 
+      {% if cube.items %}
       <p>
-        {% if cube.items %}
-        <a href="/table/{{ cube.name }}/">View the data</a> |
-        <a href="/explore/{{ cube.name }}/#/?view=crosstab&rows=item.position_in_return_form&rows=item.code&rows=item.label&order=&cut=amount_type.label:Audited%20Actual&cut=period_length.length:year&cut=financial_period.period:2015&cut=demarcation.label:Buffalo%20City" title="This link shows some example view parameters set. When using the Pivot Table functionality, it's important not to aggregate things that you don't mean to. For example, some line items don't make sense to sum together because one is a subtotal which includes the other. This view is ordered to appear as it does in the return forms to help understand the structure of items a little better.">Advanced interface</a>
-        {% else %}
-        <a href="/explore/{{ cube.name }}/">Advanced interface</a>
-        {% endif %}
+        <a href="/table/{{ cube.name }}/">View the data</a>
       </p>
+      {% endif %}
 
       {% if cube.items %}
       <h3 id="{{ cube.name }}-items">Items</h3>
@@ -141,12 +136,6 @@
 
     <p>The API endpoint is <code>http://data.municipalmoney.org.za/api</code></p>
     <p>The API only supports <code>GET</code> requests. Successful responses have response code 200 and are in JSON format.</p>
-
-    {% with cube=cubes|first %}
-    <p>The quickest way to put together a query against the API is to use the <a href="/explore/{{ cube.name }}/#/?view=crosstab&rows=item.position_in_return_form&rows=item.code&rows=item.label&aggregates=asset_register_summary.sum&aggregates=repairs_maintenance.sum&aggregates=new_assets.sum&aggregates=renewal_of_existing.sum&order=&cut=amount_type.label:Audited%20Actual&cut=period_length.length:year&cut=financial_period.period:2015&cut=demarcation.label:Buffalo%20City" target="_blank">advanced API exploring user interface</a>, narrow down the selection to an interesting subset, and copy the API query URL producing that data on the bottom right of the window as shown below.</p>
-    {% endwith %}
-
-    <p><img src="{% static 'images/babbage-query.png' %}" /></p>
 
     <h2 id="data-formats">How the API works</h2>
 

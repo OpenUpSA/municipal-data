@@ -5,7 +5,7 @@
 
 CREATE TABLE public.aged_creditor_facts
 (
-  demarcation_code text,
+  demarcation_code text REFERENCES scorecard_geography (geo_code),
   period_code text,
   item_code text,
   g1_amount bigint,
@@ -22,7 +22,8 @@ CREATE TABLE public.aged_creditor_facts
   period_length text,
   financial_period integer,
   amount_type_code text,
-  CONSTRAINT aged_creditor_facts_pkey PRIMARY KEY (id)
+  CONSTRAINT aged_creditor_facts_pkey PRIMARY KEY (id),
+  CONSTRAINT aged_creditor_facts_unique_demarcation_period_item UNIQUE (demarcation_code, period_code, item_code)
 )
 WITH (
   OIDS=FALSE

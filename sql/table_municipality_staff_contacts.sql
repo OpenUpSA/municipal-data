@@ -10,7 +10,9 @@ CREATE TABLE public.municipality_staff_contacts
   name text,
   office_number text,
   fax_number text,
-  email_address text
+  email_address text,
+  CONSTRAINT municipality_staff_contacts_pkey PRIMARY KEY (code),
+  CONSTRAINT municipality_staff_contacts_unique_demarcation UNIQUE (demarcation_code)
 )
 WITH (
   OIDS=FALSE
