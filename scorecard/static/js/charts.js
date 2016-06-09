@@ -72,6 +72,8 @@ var HorizontalGroupedBarChart = function() {
     if (self.container.hasClass('tall')) container_height = container_height * 2;
 
     self.margin = {top: 10, right: 0, bottom: 10, left: 200};
+    if (self.container.hasClass('narrow-margin')) self.margin.left = 120;
+
     self.width = container_width - self.margin.left - self.margin.right;
     self.height = container_height - self.margin.top - self.margin.bottom;
 
