@@ -26,7 +26,7 @@ class PreloadingJSONCubeManager(JSONCubeManager):
                 for aname, attribute in dimension['attributes'].iteritems():
                     if attribute['type'] == 'string':
                         someref = "%s.%s" % (dname, aname)
-            self._cubes[name].facts(page_size=1, cuts=someref + ':dummy'))
+            self._cubes[name].facts(page_size=1, cuts=someref + ':dummy')
 
     def list_cubes(self):
         return self._cube_names
