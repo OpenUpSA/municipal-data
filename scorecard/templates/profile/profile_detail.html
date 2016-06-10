@@ -338,8 +338,15 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
-        <div class="indicator-description">Difference between operating budget and actual expenditure.</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">
+          {% if latest.result == none %}
+            Not available
+          {% else %}
+            {{ latest.result }}%
+            {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
+          {% endif %}
+        </div>
+        <div class="indicator-description">Difference between budgeted operating expenditure and what was actually spent.</div>
         <table class="table table-bordered indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
@@ -364,11 +371,11 @@
       <h5>Formula:</h5>
 
       <ul class="formula">
-        <li>= (Budgeted Operating Expenditure - Actual Operating Expenditure) / Budgeted Operating Expenditure</li>
+        <li>= (Actual Operating Expenditure - Budget Operating Expenditure) / Budgeted Operating Expenditure</li>
         <li>=
-          (<a href="{% table_url "incexp" year=latest.year items=4600 amountType="ADJB" %}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>
+          (<a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
           -
-          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>)
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="ADJB" %}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>)
           /
           <a href="{% table_url "incexp" year=latest.year items=4600 amountType="ADJB"%}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>
       </ul>
@@ -382,8 +389,15 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
-        <div class="indicator-description">Difference between capital budget and actual expenditure.</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">
+          {% if latest.result == none %}
+            Not available
+          {% else %}
+            {{ latest.result }}%
+            {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
+          {% endif %}
+        </div>
+        <div class="indicator-description">Difference between budgeted capital expenditure and what was actually spent.</div>
         <table class="table table-bordered indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
@@ -408,11 +422,11 @@
       <h5>Formula:</h5>
 
       <ul class="formula">
-        <li>= (Budgeted Capital Expenditure - Actual Capital Expenditure) / Budgeted Capital Expenditure</li>
+        <li>= (Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure</li>
         <li>=
-          (<a href="{% table_url "capital" year=latest.year items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Adjusted Budget</a>
+          (<a href="{% table_url "capital" year=latest.year items=4100 amountType="AUDA" %}" target="_blank">Capital item code 4100, Audited Actual</a>
           -
-          <a href="{% table_url "capital" year=latest.year items=4100 amountType="AUDA" %}" target="_blank">Capital item code 4100, Audited Actual</a>)
+          <a href="{% table_url "capital" year=latest.year items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Adjusted Budget</a>)
           /
           <a href="{% table_url "capital" year=latest.year items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Adjusted Budget</a>
       </ul>
