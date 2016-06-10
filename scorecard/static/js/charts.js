@@ -1,7 +1,24 @@
-var getNumberFormat = function() {
-  return d3_format
-        .formatLocale({decimal: ".", thousands: " ", grouping: [3], currency: "R"})
-        .format(",.0f");
+var formatLocale = d3_format.formatLocale({decimal: ".", thousands: " ", grouping: [3], currency: ["R", ""]});
+
+var formats = {
+  currency: formatLocale.format("$,.0f"),
+  percent: function(n) { return formatLocale.format(",.1f")(n) + "%"; },
+  num: formatLocale.format(",.1f"),
+  terse: function(n, f) {
+    var format;
+
+    if (Math.abs(n) >= 1000 * 1000 * 1000) {
+      format = d3.formatPrefix(1000 * 1000);
+      return f(format.scale(n)) + format.symbol;
+
+    } else if (Math.abs(n) >= 1000) {
+      format = d3.formatPrefix(1000);
+      return f(format.scale(n)) + format.symbol;
+
+    } else {
+      return f(n);
+    }
+  },
 };
 
 function wrapText(text, width) {
@@ -39,8 +56,8 @@ function showTooltip(cat, value) {
   tooltip
     .style("opacity", 1)
     .html("<b>" + cat + ":</b> " + value)
-    .style("left", (d3.event.pageX) + "px")
-    .style("top", (d3.event.pageY - 28) + "px");
+    .style("left", (d3.event.pageX - 20) + "px")
+    .style("top", (d3.event.pageY - 50) + "px");
 }
 
 function hideTooltip() {
@@ -50,28 +67,32 @@ function hideTooltip() {
 var HorizontalGroupedBarChart = function() {
   var self = this;
 
-  self.init = function() {
-    self.format = getNumberFormat();
-
+  self.discover = function() {
+    // find all charts
     $('.chart-container[data-chart^=grouped-bar-]').each(function() {
-      var $container = $(this),
-          name = $container.data('chart').substring(12),
-          data = profileData.indicators;
-
-      // find nested data
-      _.each(name.split("."), function(p) { data = data[p]; });
-
-      self.drawChart(data, name, $container);
+      var chart = new HorizontalGroupedBarChart();
+      chart.init(this);
+      $(window).on('resize', _.debounce(chart.drawChart, 300));
     });
   };
 
-  self.setDimensions = function() {
+  self.init = function(container) {
+    self.container = $(container);
+    self.name = self.container.data('chart').substring(12);
+
+    // find nested data
+    var data = profileData.indicators;
+    _.each(self.name.split("."), function(p) { data = data[p]; });
+
+    self.data = data;
+    self.drawChart();
+  };
+
+  self.setDimensions = function(items) {
     var container_width = self.container.width();
-    var container_height = 300;
+    var container_height = (items > 5 ? 10 : 13) * items;
 
     if ($('body').hasClass('print')) container_width = 550;
-
-    if (self.container.hasClass('tall')) container_height = container_height * 2;
 
     self.margin = {top: 10, right: 0, bottom: 10, left: 200};
     if (self.container.hasClass('narrow-margin')) self.margin.left = 120;
@@ -97,19 +118,21 @@ var HorizontalGroupedBarChart = function() {
   self.color = d3.scale.ordinal()
     .range(["#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"]);
 
-  self.drawChart = function(data, name, $container) {
-    self.container = $container.empty();
-    self.setDimensions();
+  self.drawChart = function() {
+    var data = self.data,
+        name = self.name,
+        years = _.keys(_.countBy(data, function(data) { return data.year; })).reverse(),
+        items = _.keys(_.countBy(data, function(data) { return data.item; }));
 
-    self.svg = d3.select($container[0]).append("svg")
+    self.container.empty();
+    self.setDimensions(years.length * items.length);
+
+    self.svg = d3.select(self.container[0]).append("svg")
         .attr("width", self.width + self.margin.left + self.margin.right)
         .attr("height", self.height + self.margin.top + self.margin.bottom)
       .append("g")
         .attr("transform", "translate(" + self.margin.left + "," + self.margin.top + ")")
         .attr("class", "grouped-bar");
-
-    var years = _.keys(_.countBy(data, function(data) { return data.year; })).reverse();
-    var items = _.keys(_.countBy(data, function(data) { return data.item; }));
 
     var groupedData = [];
 
@@ -152,7 +175,7 @@ var HorizontalGroupedBarChart = function() {
         .attr("width", function(d) { return self.x(d.percent); })
         .style("fill", function (d) { return self.color(d.year); })
         .on("mouseover", function(d) {
-          showTooltip(d.year, self.format(d.percent) + "%<br>R " + self.format(d.amount));
+          showTooltip(d.year, formats.percent(d.percent) + "<br>" + formats.currency(d.amount));
         })
         .on("mouseout", hideTooltip);
 
@@ -182,19 +205,27 @@ var HorizontalGroupedBarChart = function() {
 var VerticalBarChart = function() {
   var self = this;
 
-  self.init = function() {
-    self.format = getNumberFormat();
-
+  self.discover = function() {
+    // find all charts
     $('.chart-container[data-chart^=column-]').each(function() {
-      var $container = $(this),
-          name = $container.data('chart').substring(7),
-          data = profileData.indicators;
-
-      // find nested data
-      _.each(name.split("."), function(p) { data = data[p]; });
-
-      self.drawChart(data, name, $container);
+      var chart = new VerticalBarChart();
+      chart.init(this);
+      $(window).on('resize', _.debounce(chart.drawChart, 300));
     });
+  };
+
+  self.init = function(container) {
+    self.container = $(container);
+    self.name = self.container.data('chart').substring(7);
+
+    // find nested data
+    var data = profileData.indicators;
+    _.each(self.name.split("."), function(p) { data = data[p]; });
+
+    self.data = data;
+    // establish format
+    self.format = formats[self.container.data('unit') || "currency"];
+    self.drawChart();
   };
 
   self.setDimensions = function() {
@@ -220,11 +251,13 @@ var VerticalBarChart = function() {
         .tickPadding(10);
   };
 
-  self.drawChart = function(data, name, $container) {
-    self.container = $container.empty();
+  self.drawChart = function() {
+    var data = self.data;
+
+    self.container.empty();
     self.setDimensions();
 
-    self.svg = d3.select($container[0]).append("svg")
+    self.svg = d3.select(self.container[0]).append("svg")
         .attr("width", self.width + self.margin.left + self.margin.right)
         .attr("height", self.height + self.margin.top + self.margin.bottom)
       .append("g")
@@ -258,7 +291,11 @@ var VerticalBarChart = function() {
         .attr("height", function(d) { return Math.abs(self.y(d.result) - self.y(0)); })
         .attr("class", function(d) {
           return "chart-column " + d.rating;
-        });
+        })
+        .on("mouseover", function(d) {
+          showTooltip(d.year, self.format(d.result));
+        })
+        .on("mouseout", hideTooltip);
 
     // Add the labels
     self.svg.selectAll("text.bar")
@@ -268,25 +305,9 @@ var VerticalBarChart = function() {
         .attr("text-anchor", "middle")
         .attr("x", function(d) { return self.x(d.year) + self.x.rangeBand()/2; })
         .attr("y", function(d) { return self.y(Math.max(d.result, 0)) - 5; })
-        .text(function(d) {
-          if (Math.abs(d.result) >= 1000) {
-            var format = d3.formatPrefix(1000);
-            return self.format(format.scale(d.result)) + " " + format.symbol;
-          } else {
-            return d.result;
-          }
-
-         });
+        .text(function(d) { return formats.terse(d.result, self.format); });
   };
 };
 
-var vertical_bar_chart = new VerticalBarChart();
-var horizontal_bar_chart = new HorizontalGroupedBarChart();
-
-vertical_bar_chart.init();
-horizontal_bar_chart.init();
-
-$(window).on('resize', function(){
-  _.debounce(vertical_bar_chart.init(), 300);
-  _.debounce(horizontal_bar_chart.init(), 300);
-});
+new VerticalBarChart().discover();
+new HorizontalGroupedBarChart().discover();
