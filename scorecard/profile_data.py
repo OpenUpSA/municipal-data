@@ -137,6 +137,7 @@ class IndicatorCalculator(object):
             except KeyError:
                 result = None
                 rating = None
+                overunder = None
             values.append({
                 'year': year,
                 'result': result,
@@ -165,6 +166,7 @@ class IndicatorCalculator(object):
             except KeyError:
                 result = None
                 rating = None
+                overunder = None
             values.append({
                 'year': year,
                 'result': result,
