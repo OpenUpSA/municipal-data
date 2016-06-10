@@ -26,5 +26,6 @@ class Geography(GeographyBase):
             'province_code': self.province_code,
             'category': self.category,
             'category_name': self.category_name,
+            'slug': self.slug,
         })
         return d
