@@ -1,10 +1,10 @@
--- drop table bsheet_labels;
--- drop table aged_creditor_labels;
--- drop table aged_debtor_labels;
--- drop table capital_labels;
--- drop table cflow_labels;
--- drop table incexp_labels;
--- drop table repmaint_labels;
+-- DROP TABLE bsheet_items;
+-- DROP TABLE aged_creditor_items;
+-- DROP TABLE aged_debtor_items;
+-- DROP TABLE capital_items;
+-- DROP TABLE cflow_items;
+-- DROP TABLE incexp_items;
+-- DROP TABLE repmaint_items;
 
 CREATE TABLE public.bsheet_items
 (

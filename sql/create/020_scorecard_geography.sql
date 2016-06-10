@@ -55,7 +55,7 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE scorecard_geography (
-    id integer NOT NULL,
+    id serial,
     geo_level character varying(15) NOT NULL,
     geo_code character varying(10) NOT NULL,
     name character varying(100) NOT NULL,
@@ -79,18 +79,9 @@ CREATE TABLE scorecard_geography (
     street_address_3 text,
     CONSTRAINT scorecard_geography_unique_geo_code UNIQUE (geo_code)
 );
+ALTER TABLE scorecard_geography
+  OWNER TO municipal_finance;
 
-
---
--- Name: scorecard_geography_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE scorecard_geography_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
 
 
 --

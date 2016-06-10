@@ -1,6 +1,7 @@
 --
 -- PostgreSQL database dump
 --
+-- DROP TABLE population_2011;
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -16,7 +17,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: population_2011; Type: TABLE; Schema: public; Owner: municipal_finance; Tablespace: 
+-- Name: population_2011; Type: TABLE; Schema: public; Owner: municipal_finance; Tablespace:
 --
 
 CREATE TABLE population_2011 (
@@ -4609,4 +4610,3 @@ district	WC	3740026
 --
 -- PostgreSQL database dump complete
 --
-

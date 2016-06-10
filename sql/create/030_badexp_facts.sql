@@ -1,3 +1,5 @@
+-- DROP TABLE badexp_facts;
+
 CREATE TABLE public.badexp_facts
 (
   demarcation_code text REFERENCES scorecard_geography (geo_code),
