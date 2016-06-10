@@ -65,13 +65,11 @@ var HorizontalGroupedBarChart = function() {
     });
   };
 
-  self.setDimensions = function() {
+  self.setDimensions = function(items) {
     var container_width = self.container.width();
-    var container_height = 300;
+    var container_height = (items > 5 ? 10 : 13) * items;
 
     if ($('body').hasClass('print')) container_width = 550;
-
-    if (self.container.hasClass('tall')) container_height = container_height * 2;
 
     self.margin = {top: 10, right: 0, bottom: 10, left: 200};
     if (self.container.hasClass('narrow-margin')) self.margin.left = 120;
@@ -98,8 +96,11 @@ var HorizontalGroupedBarChart = function() {
     .range(["#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"]);
 
   self.drawChart = function(data, name, $container) {
+    var years = _.keys(_.countBy(data, function(data) { return data.year; })).reverse();
+    var items = _.keys(_.countBy(data, function(data) { return data.item; }));
+
     self.container = $container.empty();
-    self.setDimensions();
+    self.setDimensions(years.length * items.length);
 
     self.svg = d3.select($container[0]).append("svg")
         .attr("width", self.width + self.margin.left + self.margin.right)
@@ -107,9 +108,6 @@ var HorizontalGroupedBarChart = function() {
       .append("g")
         .attr("transform", "translate(" + self.margin.left + "," + self.margin.top + ")")
         .attr("class", "grouped-bar");
-
-    var years = _.keys(_.countBy(data, function(data) { return data.year; })).reverse();
-    var items = _.keys(_.countBy(data, function(data) { return data.item; }));
 
     var groupedData = [];
 
