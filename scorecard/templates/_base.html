@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block head_css %}
     {% stylesheet "scorecard" %}
+    <link href="{% static 'stylesheets/print.css' %}" rel="stylesheet" type="text/css" {% if not request.GET.print %}media="print"{% endif %} />
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="{% static 'css/vendor/leaflet-0.6.4.ie.css' %}" />
     <![endif]-->
@@ -23,9 +24,8 @@
 
     {% block head_facebook_tags %}{% endblock %}
     {% block head_twitter_tags %}{% endblock %}
-    <!-- Page generated: {% now "Y-m-d H:i:s.u" %} -->
   </head>
-  <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
+  <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %} {% if request.GET.print %}print{% endif %}">
     {% block body %}
     <!--[if lt IE 7]>
       <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
@@ -34,17 +34,12 @@
       {% block header %}
       <header id="page-header">
         <div id="page-header-title" class="container">
-          {% if not hide_nav_tools %}
-          <i id="menu-toggle" class="fa fa-bars"></i>
-          {% endif %}
-          <a class="title" href="{% url 'homepage' %}">Municipal Money</a>
-          {% if not hide_nav_tools %}
+          <a class="title" href="{% url 'homepage' %}">Municipal Money <span class="visible-print-inline">{{ WAZIMAP.url }}</span></a>
           {% block nav_tools %}
           <div id="menu" class="tool-set">
             <input name="geography_select" id="geography-select" type="text" placeholder="Start typing a place name or address..." autocomplete="off">
           </div>
           {% endblock %}
-          {% endif %}
           <div class="header-buttons">
             {% comment %}
             <a class="wide-only" href="https://twitter.com/{{ WAZIMAP.twitter }}" title="{{ WAZIMAP.twitter }} on Twitter"><i class="fa fa-2x fa-twitter"></i></a>
@@ -130,5 +125,6 @@
       <script src="{% static 'js/app.js' %}"></script>
       <script src="{% static 'js/widget.geo.select.js' %}"></script>
       {% block body_javascript_extra %}{% endblock %}{% endblock body_javascript %}
+      <div class="visible-print-inline">Page generated: {% now "Y-m-d H:i:s.u" %}</div>
   </body>
 </html>
