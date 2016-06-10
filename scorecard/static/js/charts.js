@@ -7,12 +7,12 @@ var formats = {
   terse: function(n, f) {
     var format;
 
-    if (Math.abs(n) >= 1000) {
-      format = d3.formatPrefix(1000);
+    if (Math.abs(n) >= 1000 * 1000 * 1000) {
+      format = d3.formatPrefix(1000 * 1000);
       return f(format.scale(n)) + format.symbol;
 
-    } else if (Math.abs(n) >= 1000 * 1000 * 1000) {
-      format = d3.formatPrefix(1000 * 1000);
+    } else if (Math.abs(n) >= 1000) {
+      format = d3.formatPrefix(1000);
       return f(format.scale(n)) + format.symbol;
 
     } else {
@@ -67,19 +67,25 @@ function hideTooltip() {
 var HorizontalGroupedBarChart = function() {
   var self = this;
 
-  self.init = function() {
-    self.format = getNumberFormat();
-
+  self.discover = function() {
+    // find all charts
     $('.chart-container[data-chart^=grouped-bar-]').each(function() {
-      var $container = $(this),
-          name = $container.data('chart').substring(12),
-          data = profileData.indicators;
-
-      // find nested data
-      _.each(name.split("."), function(p) { data = data[p]; });
-
-      self.drawChart(data, name, $container);
+      var chart = new HorizontalGroupedBarChart();
+      chart.init(this);
+      $(window).on('resize', _.debounce(chart.drawChart, 300));
     });
+  };
+
+  self.init = function(container) {
+    self.container = $(container);
+    self.name = self.container.data('chart').substring(12);
+
+    // find nested data
+    var data = profileData.indicators;
+    _.each(self.name.split("."), function(p) { data = data[p]; });
+
+    self.data = data;
+    self.drawChart();
   };
 
   self.setDimensions = function(items) {
@@ -112,14 +118,16 @@ var HorizontalGroupedBarChart = function() {
   self.color = d3.scale.ordinal()
     .range(["#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"]);
 
-  self.drawChart = function(data, name, $container) {
-    var years = _.keys(_.countBy(data, function(data) { return data.year; })).reverse();
-    var items = _.keys(_.countBy(data, function(data) { return data.item; }));
+  self.drawChart = function() {
+    var data = self.data,
+        name = self.name,
+        years = _.keys(_.countBy(data, function(data) { return data.year; })).reverse(),
+        items = _.keys(_.countBy(data, function(data) { return data.item; }));
 
-    self.container = $container.empty();
+    self.container.empty();
     self.setDimensions(years.length * items.length);
 
-    self.svg = d3.select($container[0]).append("svg")
+    self.svg = d3.select(self.container[0]).append("svg")
         .attr("width", self.width + self.margin.left + self.margin.right)
         .attr("height", self.height + self.margin.top + self.margin.bottom)
       .append("g")
@@ -167,7 +175,7 @@ var HorizontalGroupedBarChart = function() {
         .attr("width", function(d) { return self.x(d.percent); })
         .style("fill", function (d) { return self.color(d.year); })
         .on("mouseover", function(d) {
-          showTooltip(d.year, self.format(d.percent) + "%<br>R " + self.format(d.amount));
+          showTooltip(d.year, formats.percent(d.percent) + "<br>" + formats.currency(d.amount));
         })
         .on("mouseout", hideTooltip);
 
@@ -197,17 +205,27 @@ var HorizontalGroupedBarChart = function() {
 var VerticalBarChart = function() {
   var self = this;
 
-  self.init = function() {
+  self.discover = function() {
+    // find all charts
     $('.chart-container[data-chart^=column-]').each(function() {
-      var $container = $(this),
-          name = $container.data('chart').substring(7),
-          data = profileData.indicators;
-
-      // find nested data
-      _.each(name.split("."), function(p) { data = data[p]; });
-
-      self.drawChart(data, name, $container);
+      var chart = new VerticalBarChart();
+      chart.init(this);
+      $(window).on('resize', _.debounce(chart.drawChart, 300));
     });
+  };
+
+  self.init = function(container) {
+    self.container = $(container);
+    self.name = self.container.data('chart').substring(7);
+
+    // find nested data
+    var data = profileData.indicators;
+    _.each(self.name.split("."), function(p) { data = data[p]; });
+
+    self.data = data;
+    // establish format
+    self.format = formats[self.container.data('unit') || "currency"];
+    self.drawChart();
   };
 
   self.setDimensions = function() {
@@ -233,11 +251,13 @@ var VerticalBarChart = function() {
         .tickPadding(10);
   };
 
-  self.drawChart = function(data, name, $container) {
-    self.container = $container.empty();
+  self.drawChart = function() {
+    var data = self.data;
+
+    self.container.empty();
     self.setDimensions();
 
-    self.svg = d3.select($container[0]).append("svg")
+    self.svg = d3.select(self.container[0]).append("svg")
         .attr("width", self.width + self.margin.left + self.margin.right)
         .attr("height", self.height + self.margin.top + self.margin.bottom)
       .append("g")
@@ -248,9 +268,6 @@ var VerticalBarChart = function() {
       Math.min(d3.min(data, function(d) { return d.result; }), 0),
       Math.max(d3.max(data, function(d) { return d.result; }), 0)
     ]);
-
-    // establish format
-    var format = formats[self.container.data('unit') || "currency"];
 
     //  Draw the x-axis
     self.svg.append("g")
@@ -276,7 +293,7 @@ var VerticalBarChart = function() {
           return "chart-column " + d.rating;
         })
         .on("mouseover", function(d) {
-          showTooltip(d.year, format(d.result));
+          showTooltip(d.year, self.format(d.result));
         })
         .on("mouseout", hideTooltip);
 
@@ -288,17 +305,9 @@ var VerticalBarChart = function() {
         .attr("text-anchor", "middle")
         .attr("x", function(d) { return self.x(d.year) + self.x.rangeBand()/2; })
         .attr("y", function(d) { return self.y(Math.max(d.result, 0)) - 5; })
-        .text(function(d) { return formats.terse(d.result, format); });
+        .text(function(d) { return formats.terse(d.result, self.format); });
   };
 };
 
-var vertical_bar_chart = new VerticalBarChart();
-var horizontal_bar_chart = new HorizontalGroupedBarChart();
-
-vertical_bar_chart.init();
-horizontal_bar_chart.init();
-
-$(window).on('resize', function(){
-  _.debounce(vertical_bar_chart.init(), 300);
-  _.debounce(horizontal_bar_chart.init(), 300);
-});
+new VerticalBarChart().discover();
+new HorizontalGroupedBarChart().discover();
