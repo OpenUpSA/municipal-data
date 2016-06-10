@@ -1,5 +1,11 @@
 /* NB NB NB
    This MUST be compiled with the scss commandline tool and NOT pyscss
+
+   By default, when printing a Bootstrap page the browser thinks the page is
+   about the size of a mobile device, and so Bootstrap's grid system
+   acts in "sm" or "xs" mode. It's hard to tell the browser otherwise. So, we
+   adjust bootstrap so that no matter what, the "sm", "md" and "lg" grid sizes
+   still apply and don't collapse.
 */
 
 @import "bootstrap-sass/assets/stylesheets/bootstrap/mixins/clearfix";
@@ -8,16 +14,19 @@
 @import 'bootstrap-sass/assets/stylesheets/bootstrap/variables';
 @import 'bootstrap-sass/assets/stylesheets/bootstrap/grid';
 
+// force a container width the size of the page
 .container {
   width: 100%;
 }
 
+// make bootstrap grids
 @for $i from 1 through 12 {
   @include make-grid("sm");
   @include make-grid("md");
   @include make-grid("lg");
 }
 
+/* Print-specific CSS styling, nothing to do with Bootstrap */
 nav,
 input,
 #slippy-map,
