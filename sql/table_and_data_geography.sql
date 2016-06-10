@@ -76,7 +76,8 @@ CREATE TABLE scorecard_geography (
     phone_number text,
     fax_number text,
     url text,
-    street_address_3 text
+    street_address_3 text,
+    CONSTRAINT scorecard_geography_unique_geo_code UNIQUE (geo_code)
 );
 
 

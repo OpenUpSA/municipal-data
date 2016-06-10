@@ -4,7 +4,7 @@
 
 CREATE TABLE public.capital_facts
 (
-  demarcation_code text,
+  demarcation_code text REFERENCES scorecard_geography (geo_code),
   period_code text,
   function_code text,
   item_code text,
@@ -18,7 +18,8 @@ CREATE TABLE public.capital_facts
   period_length text,
   financial_period integer,
   amount_type_code text,
-  CONSTRAINT capital_facts_pkey PRIMARY KEY (id)
+  CONSTRAINT capital_facts_pkey PRIMARY KEY (id),
+  CONSTRAINT capital_facts_unique_demarcation_period_function_item UNIQUE (demarcation_code, period_code, function_code, item_code)
 )
 WITH (
   OIDS=FALSE

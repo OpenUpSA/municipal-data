@@ -124,7 +124,8 @@ class IndicatorCalculator(object):
             try:
                 op_ex_budget = self.results['op_exp_budget']['4600'][year]
                 op_ex_actual = self.results['op_exp_actual']['4600'][year]
-                result = percent((op_ex_budget - op_ex_actual), op_ex_budget, 1)
+                result = percent((op_ex_actual - op_ex_budget), op_ex_budget, 1)
+                overunder = 'under' if result < 0 else 'over'
                 if abs(result) < 10:
                     rating = 'good'
                 elif abs(result) <= 25:
@@ -136,7 +137,12 @@ class IndicatorCalculator(object):
             except KeyError:
                 result = None
                 rating = None
-            values.append({'year': year, 'result': result, 'rating': rating})
+            values.append({
+                'year': year,
+                'result': abs(result) if result is not None else None,
+                'overunder': overunder,
+                'rating': rating
+            })
 
         return values
 
@@ -146,7 +152,8 @@ class IndicatorCalculator(object):
             try:
                 cap_ex_budget = self.results['cap_exp_budget']['4100'][year]
                 cap_ex_actual = self.results['cap_exp_actual']['4100'][year]
-                result = percent((cap_ex_budget - cap_ex_actual), cap_ex_budget)
+                result = percent((cap_ex_actual - cap_ex_budget), cap_ex_budget)
+                overunder = 'under' if result < 0 else 'over'
                 if abs(result) < 10:
                     rating = 'good'
                 elif abs(result) <= 30:
@@ -158,7 +165,12 @@ class IndicatorCalculator(object):
             except KeyError:
                 result = None
                 rating = None
-            values.append({'year': year, 'result': result, 'rating': rating})
+            values.append({
+                'year': year,
+                'result': abs(result) if result is not None else None,
+                'overunder': overunder,
+                'rating': rating
+            })
 
         return values
 
@@ -242,6 +254,7 @@ class IndicatorCalculator(object):
             'Budget & Treasury Office',
             'Executive & Council',
             'Planning and Development',
+            'Corporate Services',
         }
         GAPD_label = 'Governance, Administration, Planning and Development'
 

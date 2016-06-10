@@ -209,14 +209,14 @@
       <div class="panel-body">
         <div class="row">
           <div class="col-md-2">
-            <h3><i class="audit-rating audit-unqualified" area-hidden="true"></i><i class="audit-rating audit-unqualified_extra" area-hidden="true"></i><br>Unqualified</h3>
+            <h3><i class="audit-rating audit-unqualified" area-hidden="true"></i><i class="audit-rating audit-unqualified_extra" area-hidden="true"></i><br>Unqualified Opinion</h3>
             <h4>No Findings</h4>
             The Auditor-General can state, without reservation, that the financial  statements of the municipality fairly represent the financial position of the municipality and are in line with Generally Recognised Accounting Practices (GRAP)
           </div>
           <div class="col-md-2">
-            <h3><i class="audit-rating audit-unqualified_emphasis_of_matter" area-hidden="true"></i><br>Unqualified</h3>
+            <h3><i class="audit-rating audit-unqualified_emphasis_of_matter" area-hidden="true"></i><br>Unqualified Opinion</h3>
             <h4>Emphasis of Matter Items</h4>
-            Same as an unqualified opinion with no findings, but modified without affecting the status of the opinion on the financial statement of the municipality.
+            Same as an Unqualified Opinion with no findings, but the Auditor-General wants to bring something particular to the attention of the reader.
           </div>
           <div class="col-md-2">
             <h3><i class="audit-rating audit-qualified" area-hidden="true"></i><br>Qualified Opinion</h3>
@@ -232,7 +232,7 @@
           </div>
           <div class="col-md-2">
             <h3><i class="audit-rating audit-outstanding" area-hidden="true"></i><br>An Outstanding Opinion</h3>
-            means that the Auditor General raised queries with the municipality and therefore has not submitted another opinion.
+            Means that the Auditor General raised queries with the municipality and therefore has not submitted another opinion.
           </div>
         </div>
       </div>
@@ -245,7 +245,7 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} Not available {% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}R {{ latest.result|floatformat:"0" }}{% endif %}</div>
         <div class="indicator-description">Cash balance at the end of the financial year.</div>
         <table class="table table-bordered indicator-key">
           <tr>
@@ -288,7 +288,7 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} months{% else %} Not available {% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }} months{% endif %}</div>
         <div class="indicator-description">Months of operating expenses can be paid for with the cash available.</div>
         <table class="table table-bordered indicator-key">
           <tr>
@@ -339,8 +339,15 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %}</div>
-        <div class="indicator-description">Difference between operating budget and actual expenditure.</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">
+          {% if latest.result == none %}
+            Not available
+          {% else %}
+            {{ latest.result }}%
+            {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
+          {% endif %}
+        </div>
+        <div class="indicator-description">Difference between budgeted operating expenditure and what was actually spent.</div>
         <table class="table table-bordered indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
@@ -365,11 +372,11 @@
       <h5>Formula:</h5>
 
       <ul class="formula">
-        <li>= (Budgeted Operating Expenditure - Actual Operating Expenditure) / Budgeted Operating Expenditure</li>
+        <li>= (Actual Operating Expenditure - Budget Operating Expenditure) / Budgeted Operating Expenditure</li>
         <li>=
-          (<a href="{% table_url "incexp" year=latest.year items=4600 amountType="ADJB" %}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>
+          (<a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
           -
-          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>)
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="ADJB" %}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>)
           /
           <a href="{% table_url "incexp" year=latest.year items=4600 amountType="ADJB"%}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>
       </ul>
@@ -383,8 +390,15 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %}</div>
-        <div class="indicator-description">Difference between capital budget and actual expenditure.</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">
+          {% if latest.result == none %}
+            Not available
+          {% else %}
+            {{ latest.result }}%
+            {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
+          {% endif %}
+        </div>
+        <div class="indicator-description">Difference between budgeted capital expenditure and what was actually spent.</div>
         <table class="table table-bordered indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
@@ -409,11 +423,11 @@
       <h5>Formula:</h5>
 
       <ul class="formula">
-        <li>= (Budgeted Capital Expenditure - Actual Capital Expenditure) / Budgeted Capital Expenditure</li>
+        <li>= (Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure</li>
         <li>=
-          (<a href="{% table_url "capital" year=latest.year items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Adjusted Budget</a>
+          (<a href="{% table_url "capital" year=latest.year items=4100 amountType="AUDA" %}" target="_blank">Capital item code 4100, Audited Actual</a>
           -
-          <a href="{% table_url "capital" year=latest.year items=4100 amountType="AUDA" %}" target="_blank">Capital item code 4100, Audited Actual</a>)
+          <a href="{% table_url "capital" year=latest.year items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Adjusted Budget</a>)
           /
           <a href="{% table_url "capital" year=latest.year items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Adjusted Budget</a>
       </ul>
@@ -427,7 +441,7 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
 
         <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
         <table class="table table-bordered indicator-key">
@@ -464,11 +478,11 @@
 
   <div class="indicator">
     {% with indicators.wasteful_exp|first as latest %}
-    <h2>Fruitless and wastefull expenditure <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+    <h2>Fruitless and wasteful expenditure <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
         <div class="indicator-description">Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage of operating expenditure.</div>
         <table class="table table-bordered indicator-key">
           <tr>
@@ -502,20 +516,28 @@
 </div>
 
 <div class="section" id="income">
-  <h1><i class="fa fa-money"></i> Income</h1>
-  <div class="indicator">
-    <h2>Where money comes from</h2>
+  <h1><i class="fa fa-money"></i> Income <span class="subtitle">- Where money comes from</span></h1>
 
+  <div class="indicator">
     <div class="row">
-      <div class="col-sm-12 col-lg-10">
-        <div class="chart-container" data-chart="grouped-bar-revenue_breakdown"></div>
+      <div class="col-sm-8">
+        <div class="chart-container narrow-margin" data-chart="grouped-bar-revenue_breakdown"></div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            Municipalities receive money from a couple of sources: from Government, by charging residents for services such as water and electricity, and from licenses and fines.
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <div class="section" id="spending">
-  <h1><i class="fa fa-credit-card"></i> Spending</h1>
+  <h1><i class="fa fa-credit-card"></i> Spending <span class="subtitle">- How money is spent</span></h1>
 
   <div class="indicator">
     {% with indicators.expenditure_trends.staff|first as latest %}
@@ -523,7 +545,7 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %}</div>
+        <div class="indicator-value">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
         <div class="indicator-description">Staff salaries and wages as a percentage of operating expenditure.</div>
         <div class="show-calc"><a href="#staff-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
@@ -551,7 +573,7 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value">{% if latest.result %}{{ latest.result }}% {% else %} Not available {% endif %}</div>
+        <div class="indicator-value">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
         <div class="indicator-description">Costs of contractor services as a percentage of operating expenditure.</div>
         <div class="show-calc"><a href="#contracting-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
@@ -574,11 +596,20 @@
   </div>
 
   <div class="indicator">
-    <h2>How money is spent</h2>
+    <h2>What is Money Spent On?</h2>
 
     <div class="row">
-      <div class="col-sm-12 col-lg-10">
+      <div class="col-sm-8">
         <div class="chart-container tall" data-chart="grouped-bar-expenditure_functional_breakdown"></div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            Municipalities spend money on providing services and maintaining facilities for their residents.
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -90,13 +90,8 @@ WAZIMAP['geodata'] = 'scorecard.geo.GeoData'
 MIDDLEWARE_CLASSES = (
     'django.middleware.gzip.GZipMiddleware',
     'municipal_finance.middleware.SiteMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'municipal_finance.middleware.ApiErrorHandler',
 )

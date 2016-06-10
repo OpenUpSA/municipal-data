@@ -4,7 +4,7 @@
 
 CREATE TABLE public.audit_report_import
 (
-  demarcation_code text NOT NULL,
+  demarcation_code text NOT NULL REFERENCES scorecard_geography (geo_code),
   financial_year integer NOT NULL,
   report_url text,
   CONSTRAINT audit_report_import_composit_pkey UNIQUE (demarcation_code, financial_year)
@@ -17,13 +17,14 @@ ALTER TABLE public.audit_report_import
 
 CREATE TABLE public.audit_opinion_facts
 (
-  demarcation_code text NOT NULL,
+  demarcation_code text NOT NULL REFERENCES scorecard_geography (geo_code),
   financial_year integer NOT NULL,
   opinion_code text NOT NULL,
   opinion_label text NOT NULL,
   report_url text,
   id serial,
-  CONSTRAINT audit_opinion_facts_demarcation_code_financial_year_key UNIQUE (demarcation_code, financial_year)
+  CONSTRAINT audit_opinion_facts_pkey PUBLIC KEY (id),
+  CONSTRAINT audit_opinion_facts_unique_demarcation_financial_year UNIQUE (demarcation_code, financial_year)
 )
 WITH (
   OIDS=FALSE
