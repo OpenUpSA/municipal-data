@@ -39,7 +39,7 @@ function showTooltip(cat, value) {
   tooltip
     .style("opacity", 1)
     .html("<b>" + cat + ":</b> " + value)
-    .style("left", (d3.event.pageX) + "px")
+    .style("left", (d3.event.pageX + 20) + "px")
     .style("top", (d3.event.pageY - 28) + "px");
 }
 
