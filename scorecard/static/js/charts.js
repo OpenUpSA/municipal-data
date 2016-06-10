@@ -69,7 +69,7 @@ var HorizontalGroupedBarChart = function() {
     var container_width = self.container.width();
     var container_height = 300;
 
-    if ($('body').hasClass('print')) container_width = 700;
+    if ($('body').hasClass('print')) container_width = 550;
 
     if (self.container.hasClass('tall')) container_height = container_height * 2;
 
