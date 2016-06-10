@@ -24,7 +24,6 @@
 
     {% block head_facebook_tags %}{% endblock %}
     {% block head_twitter_tags %}{% endblock %}
-    <!-- Page generated: {% now "Y-m-d H:i:s.u" %} -->
   </head>
   <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %} {% if request.GET.print %}print{% endif %}">
     {% block body %}
@@ -126,5 +125,6 @@
       <script src="{% static 'js/app.js' %}"></script>
       <script src="{% static 'js/widget.geo.select.js' %}"></script>
       {% block body_javascript_extra %}{% endblock %}{% endblock body_javascript %}
+      <div class="visible-print-inline">Page generated: {% now "Y-m-d H:i:s.u" %}</div>
   </body>
 </html>

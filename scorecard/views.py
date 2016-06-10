@@ -41,5 +41,6 @@ class GeographyPDFView(GeographyDetailView):
         url = '/profiles/%s-%s-%s?print=1' % (self.geo_level, self.geo_code, self.geo.slug)
         url = request.build_absolute_uri(url)
         pdf = wkhtmltopdf(url, zoom=0.7)
+        filename = '%s-%s-%s.pdf' % (self.geo_level, self.geo_code, self.geo.slug)
 
-        return PDFResponse(pdf, filename='foo.pdf')
+        return PDFResponse(pdf, filename=filename)
