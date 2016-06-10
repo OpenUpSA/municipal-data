@@ -35,17 +35,12 @@
       {% block header %}
       <header id="page-header">
         <div id="page-header-title" class="container">
-          {% if not hide_nav_tools %}
-          <i id="menu-toggle" class="fa fa-bars"></i>
-          {% endif %}
-          <a class="title" href="{% url 'homepage' %}">Municipal Money</a>
-          {% if not hide_nav_tools %}
+          <a class="title" href="{% url 'homepage' %}">Municipal Money <span class="visible-print-inline">{{ WAZIMAP.url }}</span></a>
           {% block nav_tools %}
           <div id="menu" class="tool-set">
             <input name="geography_select" id="geography-select" type="text" placeholder="Start typing a place name or address..." autocomplete="off">
           </div>
           {% endblock %}
-          {% endif %}
           <div class="header-buttons">
             {% comment %}
             <a class="wide-only" href="https://twitter.com/{{ WAZIMAP.twitter }}" title="{{ WAZIMAP.twitter }} on Twitter"><i class="fa fa-2x fa-twitter"></i></a>
