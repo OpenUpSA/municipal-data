@@ -40,4 +40,11 @@ class PreloadingJSONCubeManager(JSONCubeManager):
     def get_cube_model(self, name):
         return self._models[name]
 
-cube_manager = PreloadingJSONCubeManager(engine, models_directory)
+_cube_manager = None
+
+
+def get_manager():
+    global _cube_manager
+    if _cube_manager is None:
+        _cube_manager = PreloadingJSONCubeManager(engine, models_directory)
+    return _cube_manager

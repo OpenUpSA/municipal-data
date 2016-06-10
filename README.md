@@ -27,6 +27,8 @@ dokku config:set municipal-finance DJANGO_DEBUG=False \
 
 Data import is still a fairly manual process leveraging the DB and a few SQL scripts to do the hard work. This is usually done against a local DB, sanity checked with a locally-running instance of the API and some tools built on it, and if everything looks ok, dumped table-by-table with something like `pg_dump "postgres://municipal_finance@localhost/municipal_finance" --table=audit_opinions -O -c --if-exists > audit_opinions.sql` and then loaded into the production database.
 
+1. Create the population table with `cat sql/create/030_population_2011.sql | psql municipal_finance`
+2. `python manage.py migrate`
 1. Create the tables with `cat sql/create/* | psql municipal_finance`
 2. Import the first few columns of the fact tables which are supplied by National Treasury
  - e.g. `psql# \copy incexp(demarcation_code, period_code, function_code, item_code, amount) FROM '/bob/incexp_2015q4.csv' DELIMITER ',' CSV HEADER`
