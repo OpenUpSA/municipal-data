@@ -1,7 +1,24 @@
-var getNumberFormat = function() {
-  return d3_format
-        .formatLocale({decimal: ".", thousands: " ", grouping: [3], currency: "R"})
-        .format(",.0f");
+var formatLocale = d3_format.formatLocale({decimal: ".", thousands: " ", grouping: [3], currency: ["R", ""]});
+
+var formats = {
+  currency: formatLocale.format("$,.0f"),
+  percent: function(n) { return formatLocale.format(",.1f")(n) + "%"; },
+  num: formatLocale.format(",.1f"),
+  terse: function(n, f) {
+    var format;
+
+    if (Math.abs(n) >= 1000) {
+      format = d3.formatPrefix(1000);
+      return f(format.scale(n)) + format.symbol;
+
+    } else if (Math.abs(n) >= 1000 * 1000 * 1000) {
+      format = d3.formatPrefix(1000 * 1000);
+      return f(format.scale(n)) + format.symbol;
+
+    } else {
+      return f(n);
+    }
+  },
 };
 
 function wrapText(text, width) {
@@ -181,8 +198,6 @@ var VerticalBarChart = function() {
   var self = this;
 
   self.init = function() {
-    self.format = getNumberFormat();
-
     $('.chart-container[data-chart^=column-]').each(function() {
       var $container = $(this),
           name = $container.data('chart').substring(7),
@@ -234,6 +249,9 @@ var VerticalBarChart = function() {
       Math.max(d3.max(data, function(d) { return d.result; }), 0)
     ]);
 
+    // establish format
+    var format = formats[self.container.data('unit') || "currency"];
+
     //  Draw the x-axis
     self.svg.append("g")
       .attr("class", "x axis")
@@ -256,7 +274,11 @@ var VerticalBarChart = function() {
         .attr("height", function(d) { return Math.abs(self.y(d.result) - self.y(0)); })
         .attr("class", function(d) {
           return "chart-column " + d.rating;
-        });
+        })
+        .on("mouseover", function(d) {
+          showTooltip(d.year, format(d.result));
+        })
+        .on("mouseout", hideTooltip);
 
     // Add the labels
     self.svg.selectAll("text.bar")
@@ -266,15 +288,7 @@ var VerticalBarChart = function() {
         .attr("text-anchor", "middle")
         .attr("x", function(d) { return self.x(d.year) + self.x.rangeBand()/2; })
         .attr("y", function(d) { return self.y(Math.max(d.result, 0)) - 5; })
-        .text(function(d) {
-          if (Math.abs(d.result) >= 1000) {
-            var format = d3.formatPrefix(1000);
-            return self.format(format.scale(d.result)) + " " + format.symbol;
-          } else {
-            return d.result;
-          }
-
-         });
+        .text(function(d) { return formats.terse(d.result, format); });
   };
 };
 
