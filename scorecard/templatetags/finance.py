@@ -34,3 +34,9 @@ def finyear(year):
         year = int(year)
         return '%s - %s' % (year - 1, year)
     return ''
+
+
+@register.filter
+def absolute(result):
+    if result is not None:
+        return abs(result)

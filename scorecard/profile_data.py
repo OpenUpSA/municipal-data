@@ -139,7 +139,7 @@ class IndicatorCalculator(object):
                 rating = None
             values.append({
                 'year': year,
-                'result': abs(result) if result is not None else None,
+                'result': result,
                 'overunder': overunder,
                 'rating': rating
             })
@@ -167,7 +167,7 @@ class IndicatorCalculator(object):
                 rating = None
             values.append({
                 'year': year,
-                'result': abs(result) if result is not None else None,
+                'result': result,
                 'overunder': overunder,
                 'rating': rating
             })

@@ -342,7 +342,7 @@
           {% if latest.result == none %}
             Not available
           {% else %}
-            {{ latest.result }}%
+            {{ latest.result|absolute }}%
             {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
           {% endif %}
         </div>
@@ -393,7 +393,7 @@
           {% if latest.result == none %}
             Not available
           {% else %}
-            {{ latest.result }}%
+            {{ latest.result|absolute }}%
             {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
           {% endif %}
         </div>
