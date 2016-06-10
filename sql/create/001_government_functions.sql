@@ -6,6 +6,7 @@ CREATE TABLE public.government_functions
   label text,
   category_label text,
   subcategory_label text,
+  id serial,
   CONSTRAINT government_functions_pkey PRIMARY KEY (id),
   CONSTRAINT government_functions_unique_code UNIQUE (code)
 )

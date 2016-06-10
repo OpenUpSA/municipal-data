@@ -79,6 +79,8 @@ CREATE TABLE scorecard_geography (
     street_address_3 text,
     CONSTRAINT scorecard_geography_unique_geo_code UNIQUE (geo_code)
 );
+ALTER TABLE scorecard_geography
+  OWNER TO municipal_finance;
 
 
 --

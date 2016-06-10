@@ -19,6 +19,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'true') == 'true'
 
+PRELOAD_CUBES = os.environ.get('PRELOAD_CUBES', 'false') == 'true'
+
 # SECURITY WARNING: keep the secret key used in production secret!
 if DEBUG:
     SECRET_KEY = '-r&cjf5&l80y&(q_fiidd$-u7&o$=gv)s84=2^a2$o^&9aco0o'

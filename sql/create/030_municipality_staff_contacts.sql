@@ -11,8 +11,9 @@ CREATE TABLE public.municipality_staff_contacts
   office_number text,
   fax_number text,
   email_address text,
-  CONSTRAINT municipality_staff_contacts_pkey PRIMARY KEY (code),
-  CONSTRAINT municipality_staff_contacts_unique_demarcation UNIQUE (demarcation_code)
+  id serial,
+  CONSTRAINT municipality_staff_contacts_pkey PRIMARY KEY (id),
+  CONSTRAINT municipality_staff_contacts_unique_demarcation_role UNIQUE (demarcation_code, role)
 )
 WITH (
   OIDS=FALSE
