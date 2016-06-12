@@ -30,7 +30,7 @@ $text-color: $gray-darker !default;
 
 //== Typography
 //
-@import url(https://fonts.googleapis.com/css?family=Lato:400,900,700);
+@import url(https://fonts.googleapis.com/css?family=Lato:300,400,900,700);
 $font-family-sans-serif:  "Lato", Helvetica, Arial, sans-serif !default;
 $font-size-base: 14px !default;
 $font-family-base: $font-family-sans-serif !default;
@@ -57,6 +57,10 @@ $nav-tabs-active-link-hover-border-color: inherit !default;
 //== Forms
 $input-border-focus: $brand-primary;
 
+//== Jumbotron
+$jumbotron-padding: 20px !default;
+$jumbotron-color: $white;
+$jumbotron-bg: $brand-secondary;
 //######
 
 // Import Bootstrap SCSS
@@ -91,6 +95,16 @@ a {
   text-decoration: underline;
 }
 
+//== Blockquotes
+blockquote {
+  border-left: solid 1px $gray-light !important;
+  font-size: 1.4em !important;
+}
+@media only screen and (max-width: 992px) {
+  blockquote {
+    border-left: 0 !important;
+  }
+}
 //== Columns
 //
 .column-full {
@@ -606,6 +620,22 @@ a {
 
 }
 
+//= Jumbotron
+//
+.jumbotron {
+  padding: $jumbotron-padding !important;
+  h1 {
+    font-size: 36px !important;
+    font-weight: 900;
+    margin-top: 0;
+  }
+  h2 {
+    margin-top: 0;
+    color: inherit;
+    opacity: 0.7;
+  }
+}
+
 //= More
 //
 .more {
@@ -903,6 +933,9 @@ a {
 }
 .cell-min {
   width: 1%;
+}
+.add-margin-top {
+  margin-top: 20px !important;
 }
 .add-margin-bottom {
   margin-bottom: 20px !important;
