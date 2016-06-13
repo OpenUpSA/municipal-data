@@ -267,7 +267,7 @@
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
           <div class="panel-body">
-            A municipality's cash balance refers to the money it has in its short-term bank account that it can access easily. If a municipality's bank account is in overdraft it has a negative cash balance. One measure of financial risk is the number of months (over a six-month period) where a municipality ended the month with a negative cash balance
+            A municipality's cash balance refers to the money it has in the bank that it can access easily. If a municipality's bank account is in overdraft it has a negative cash balance. Negative cash balances are a sign of serious financial management problems. A municipality should have enough cash on hand from month to month so that it can pay salaries, suppliers and so on.
           </div>
         </div>
       </div>
@@ -313,7 +313,7 @@
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
           <div class="panel-body">
-            If a municipality had to rely on its cash reserves to pay all short-term bills, how long could it last? Cash coverage measures the length of time, in months, that a municipality could manage to pay for its day-to-day expenses using just its cash reserves.
+            Cash coverage measures the length of time, in months, that a municipality could manage to pay for its day-to-day expenses using just its cash reserves.  So, if a municipality had to rely on its cash reserves to pay all short-term bills, how long could it last? Ideally, a municipality should have at least three months' of cash cover.
           </div>
         </div>
       </div>
@@ -371,7 +371,8 @@
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
           <div class="panel-body">
-            A municipality needs to control its day-to-day expenses in order to avoid excessive borrowing and cash shortages.  This measure looks at the percentage by which operational spending exceeds the actual operating budget.
+            <p>This indicator is about how much more a municipalty spent on its operating expenses, than was planned and budgeted for. It is important that a municipality controls its day-to-day expenses in order to avoid cash shortages.  If a municipality sigificantly overspends its operating budget this is a sign of poor operating controls or something more sinister.</p>
+            <p>Overspending by up to 10 percent is usually condoned; overspending in excess of 25 percent is a sign of high risk.</p>
           </div>
         </div>
       </div>
@@ -430,7 +431,8 @@
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
           <div class="panel-body">
-            Capital spending includes spending on roads, water pipes and electricity connections. Underspending on a capital budget can lead to an under-delivery of basic services. This measure looks at the percentage by which capital spending falls short of the actual capital budget.
+            <p>Capital spending includes spending on infrastructure projects like new water pipes or building a library. Underspending on a capital budget can lead to an under-delivery of basic services. This indicator looks at the percentage by which actual spending falls short of the budget for capital expenses.  Persistent underspending may be due to underresourced municipalities which cannot manage large projects on time.</p>
+            <p>Municipalities should aim to spend at least 90 percent of their capital budgets. Failure to spend even 70 percent is a clear warning sign.</p>
           </div>
         </div>
       </div>
@@ -479,7 +481,8 @@
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
           <div class="panel-body">
-            Infrastructure must be maintained so that service delivery is not affected. This measure looks at the value of budgeted spending on repairs and maintenance, as a percentage of total fixed assets (property, plant and equipment).
+            <p>Infrastructure must be maintained so that service delivery is not affected. This indicator looks at how much money was budgeted for repairs and maintenance, as a percentage of total fixed assets (property, plant and equipment).  For every R10 spent on building/replacing infrastructure, R1 should be spent every year on repairs and maintenance.</p>
+            <p>This translates into a Repairs and Maintenance budget that should be 10 percent of the value of property, plant and equipment.</p>
           </div>
         </div>
       </div>
@@ -527,7 +530,7 @@
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
           <div class="panel-body">
-            Fruitless and wasteful expenditure concerns spending which was made in vain and would have been avoided had reasonable care been exercised. An example of such expenditure would be paying a deposit for a venue and not using it, and so losing the deposit.
+            <p>Unauthorised expenditure means any spending that was not budgeted for or that is unrelated to the municpal department's function.  An example is using municipal funds to pay for unbudgeted projects.     Irregular Expenditure is spending that goes against the relevant legislation, municipal policies or by-laws.  An example is awarding a contract that did not go through tender procedures.  Fruitless and wasteful expenditure concerns spending which was made in vain and would have been avoided had reasonable care been exercised.  An example of such expenditure would include paying a deposit for a venue and not using it and losing the deposit.</p>
           </div>
         </div>
       </div>
@@ -559,7 +562,7 @@
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
           <div class="panel-body">
-            How self-sufficient is a municipality? This measure compares the portion of its revenue that a municipality generates by itself compared with the portion of revenue it receives as transfers and grants from national government.
+            <p>This indicator compares how much of a municipality's income it is able to generate itself (through property rates, service charges, etc), compared with how much it receives as transfers and grants from national government.  The more a municipality is able to generate its own income, the more self-sufficient it is.  Municipalities should not be too reliant on transfers and grants from other spheres of government.  If they have to rely on transfers for over half of their total operating revenue it is a clear sign of financial risk.  Municipalities should aim to generate at least 75 percent of their own revenue. </p>
           </div>
         </div>
       </div>
@@ -576,9 +579,19 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
         <div class="indicator-description">Staff salaries and wages as a percentage of operating expenditure.</div>
         <div class="show-calc"><a href="#staff-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+        <table class="table table-bordered indicator-key">
+          <tr>
+            <td class="key-symbol rating rating-good">good</td>
+            <td class="key-description">25% to 40%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol rating rating-ave">average</td>
+            <td class="key-description">less than 25% or more than 40%</td>
+          </tr>
+        </table>
       </div>
       <div class="col-sm-4">
         <div class="chart-container" data-chart="column-expenditure_trends.staff" data-unit="percent"></div>
@@ -587,7 +600,8 @@
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
           <div class="panel-body">
-            Employee-related costs are the biggest risk to the operating budget. Municipalities must guard against spending too much on staff while also making sure they have the people they need to deliver services effectively.
+            <p>Employee-related costs are typically the largest portion of operating expenditure, but they should not grow so large that they threaten the sustainability of the operating budget.</p>
+            <p>The normal range for this indicator is between 25% - 40% of total operating expenditure.  Municipalities must guard against spending too much on staff while also making sure they have the people they need to deliver services effectively.</p>
           </div>
         </div>
       </div>
@@ -612,9 +626,19 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
         <div class="indicator-description">Costs of contractor services as a percentage of operating expenditure.</div>
         <div class="show-calc"><a href="#contracting-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+        <table class="table table-bordered indicator-key">
+          <tr>
+            <td class="key-symbol rating rating-good">good</td>
+            <td class="key-description">up to 5%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol rating rating-ave">average</td>
+            <td class="key-description">more than 5%</td>
+          </tr>
+        </table>
       </div>
       <div class="col-sm-4">
         <div class="chart-container" data-chart="column-expenditure_trends.contracting" data-unit="percent"></div>
@@ -623,7 +647,8 @@
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
           <div class="panel-body">
-            Private contractors are needed for certain work but they are typically more expensive than municipal staff. Every effort should be made to avoid using contractors to do work that municipalities should be able to manage.
+            <p>Private contractors are sometimes needed for certain work, but they are usually more expensive than municipal staff.  This should be kept to a minimum and efforts should be made to provide services in-house, where possible.</p>
+            <p>This measure is normally between 2 percent and 5 percent of total operating expenditure.</p>
           </div>
         </div>
       </div>
