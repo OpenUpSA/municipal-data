@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% load pipeline jsonify staticfiles %}
 
-{% block title %}Municipal Finance Data - {{ cube_model.label }}{% endblock %}
+{% block title %}Municipal Money Data - {{ cube_model.label }}{% endblock %}
 {% block description %}Current and historical Municipal {{ cube_model.label }} data from the National Treasury{% endblock %}
 
 {% block body-class %}table-page{% endblock %}
@@ -17,7 +17,7 @@
       <a class="btn btn-default" href="/" target="_blank"><i class="fa fa-question-circle"></i> Help</a>
     </div>
     <img src="{% static 'images/treasury-logo.jpg' %}" class="logo">
-    <h1>Municipal Finance Data Tables</h1>
+    <h1>Municipal Money Data Tables</h1>
   </div>
   <div id="spinner" class="progress-bar progress-bar-striped active"></div>
 </header>
