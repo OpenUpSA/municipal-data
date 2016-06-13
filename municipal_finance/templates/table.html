@@ -81,16 +81,6 @@
 </article>
 
 <script>
-var Location = {
-      getOrigin: function() {
-      if (!window.location.origin) {
-        window.location.origin = window.location.protocol
-            + "//" + window.location.hostname
-            + (window.location.port ? ':' + window.location.port: '');
-      }
-      return window.location.origin;
-    }
-}
 
 var MUNI_DATA_API = '{{ API_URL }}';
 var CUBE_NAME = '{{ cube_name|escapejs }}';
