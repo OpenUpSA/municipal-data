@@ -491,7 +491,7 @@ class IndicatorCalculator(object):
             },
             'cap_exp_actual': {
                 'cube': 'capital',
-                'aggregate': 'asset_register_summary.sum',
+                'aggregate': 'total_assets.sum',
                 'cut': {
                     'item.code': ['4100'],
                     'amount_type.code': ['AUDA'],
@@ -505,7 +505,7 @@ class IndicatorCalculator(object):
             },
             'cap_exp_budget': {
                 'cube': 'capital',
-                'aggregate': 'asset_register_summary.sum',
+                'aggregate': 'total_assets.sum',
                 'cut': {
                     'item.code': ['4100'],
                     'amount_type.code': ['ADJB'],
