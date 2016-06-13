@@ -29,22 +29,25 @@
         <a href="" class="csv-download btn btn-default" disabled="disabled"><i class="fa fa-download"></i> Download CSV</a>
       </aside>
       <h2>{{ cube_model.label }}</h2>
+
+      <div class="dropdown">
+        <a href="#" data-toggle="dropdown">
+          Change dataset
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          {% for cube in cubes.values|dictsort:"name" %}
+          <li><a href="{% url 'table' cube.name %}">{{ cube.model.label }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
     </header>
 
     <aside class="table-controls">
       <header>
         {{ cube_model.description }}
-        <div class="dropdown">
-          <a href="#" data-toggle="dropdown">
-            Change dataset
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            {% for cube in cubes.values|dictsort:"name" %}
-            <li><a href="{% url 'table' cube.name %}">{{ cube.model.label }}</a></li>
-            {% endfor %}
-          </ul>
-        </div>
+        <br>
+        <a href="/docs#cube-{{ cube_name }}" target="_blank"><i class="fa fa-question-circle"></i> Documentation</a>
       </header>
 
       <section>
