@@ -240,14 +240,21 @@ class IndicatorCalculator(object):
                                 total)
             except KeyError:
                 staff = None
+            values['staff'].append({
+                'year': year,
+                'result': staff,
+                'rating': 'good' if staff >= 25 and staff <= 40 else 'ave',
+            })
 
             try:
                 contracting = percent(self.results['expenditure_breakdown']['4200'][year], total)
             except KeyError:
                 contracting = None
-
-            values['staff'].append({'year': year, 'result': staff})
-            values['contracting'].append({'year': year, 'result': contracting})
+            values['contracting'].append({
+                'year': year,
+                'result': contracting,
+                'rating': 'good' if contracting <= 5 else 'ave',
+            })
 
         return values
 
