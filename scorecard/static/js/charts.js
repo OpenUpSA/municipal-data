@@ -3,26 +3,32 @@ var formatLocale = d3_format.formatLocale({decimal: ".", thousands: " ", groupin
 var formats = {
   currency: formatLocale.format("$,.0f"),
   percent: function(n) {
-    if (n === null) {
+    if (n === null)
       return "";
-    } else {
+    else
       return formatLocale.format(",.1f")(n) + "%";
-    }
   },
-  num: formatLocale.format(",.1f"),
+  num: function(n) {
+    if (n === null)
+      return "";
+    else
+      return formatLocale.format(",.1f")(n);
+  },
   terse: function(n, f) {
     var format;
 
-    if (Math.abs(n) >= 1000 * 1000 * 1000) {
-      format = d3.formatPrefix(1000 * 1000);
-      return f(format.scale(n)) + format.symbol;
-
-    } else if (Math.abs(n) >= 1000) {
-      format = d3.formatPrefix(1000);
-      return f(format.scale(n)) + format.symbol;
-
+    if (n === null) {
+      return "";
     } else {
-      return f(n);
+      if (Math.abs(n) >= 1000 * 1000 * 1000) {
+        format = d3.formatPrefix(1000 * 1000);
+        return f(format.scale(n)) + format.symbol;
+      } else if (Math.abs(n) >= 1000) {
+        format = d3.formatPrefix(1000);
+        return f(format.scale(n)) + format.symbol;
+      } else {
+        return f(n);
+      }
     }
   },
 };
