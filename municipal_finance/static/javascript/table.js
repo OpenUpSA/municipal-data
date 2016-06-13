@@ -296,13 +296,13 @@
       this.format = d3_format
         .formatLocale({decimal: ".", thousands: " ", grouping: [3], currency: "R"})
         .format(",d");
+      this.firstRender = true;
 
       this.filters = opts.filters;
       this.filters.on('change', this.render, this);
       this.filters.on('change', this.update, this);
 
       this.state = opts.state;
-      this.state.on('change', this.loadState, this);
 
       this.cells = opts.cells;
       this.cells.on('change', this.render, this);
@@ -480,6 +480,12 @@
         var ix = toHighlight[h];
         this.$('table.row-headings tr:eq(' + ix + '), table.values tr:eq(' + ix + ')')
           .addClass('toggled');
+      }
+
+      // jump to highlighted row on first render
+      if (self.firstRender && toHighlight.length > 0) {
+        self.firstRender = false;
+        this.$('.table-display').scrollTop(this.$('table.row-headings .toggled').position().top - 50);
       }
     },
 
