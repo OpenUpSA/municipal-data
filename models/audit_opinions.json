@@ -2,6 +2,8 @@
     "fact_table": "audit_opinion_facts",
     "label": "Audit Opinions",
     "description": "",
+    "update_cycle": "year",
+    "last_updated": "2015",
     "dimensions": {
         "demarcation": {
             "attributes": {
@@ -29,7 +31,7 @@
                 "year": {
                     "column": "financial_year",
                     "label": "Year End",
-                    "type": "string",
+                    "type": "integer",
                     "description": ""
                 }
             },
@@ -50,6 +52,11 @@
                 "label": {
                     "label": "Label",
                     "column": "opinion_label",
+                    "type": "string"
+                },
+                "report_url": {
+                    "label": "Auditor General's Report URL",
+                    "column": "report_url",
                     "type": "string"
                 }
             }

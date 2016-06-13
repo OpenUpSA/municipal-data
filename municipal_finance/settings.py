@@ -19,13 +19,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'true') == 'true'
 
+PRELOAD_CUBES = os.environ.get('PRELOAD_CUBES', 'false') == 'true'
+
 # SECURITY WARNING: keep the secret key used in production secret!
 if DEBUG:
     SECRET_KEY = '-r&cjf5&l80y&(q_fiidd$-u7&o$=gv)s84=2^a2$o^&9aco0o'
 else:
     SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
-GOOGLE_ANALYTICS_ID = 'UA-48399585-37'
+DATA_GOOGLE_ANALYTICS_ID = 'UA-48399585-37'
+SCORECARD_GOOGLE_ANALYTICS_ID = 'UA-48399585-40'
 
 ALLOWED_HOSTS = ['*']
 
@@ -59,7 +62,8 @@ INSTALLED_APPS = (
 if DEBUG:
     SITE_ID = int(os.environ.get('SITE_ID', '2'))
 
-API_URL = os.environ.get('API_URL', 'https://data.municipalmoney.org.za/api/cubes/')
+API_BASE = "https://data.municipalmoney.org.za"
+API_URL = os.environ.get('API_URL', API_BASE + '/api')
 
 # Wazimap
 from wazimap.settings import WAZIMAP
@@ -81,19 +85,15 @@ WAZIMAP['levels'] = {
     },
 }
 WAZIMAP['profile_builder'] = 'scorecard.profiles.get_profile'
-WAZIMAP['ga_tracking_id'] = GOOGLE_ANALYTICS_ID
+WAZIMAP['ga_tracking_id'] = SCORECARD_GOOGLE_ANALYTICS_ID
 WAZIMAP['twitter'] = ''
 WAZIMAP['geodata'] = 'scorecard.geo.GeoData'
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.gzip.GZipMiddleware',
     'municipal_finance.middleware.SiteMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'municipal_finance.middleware.ApiErrorHandler',
 )
@@ -155,9 +155,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media",
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
+    "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
     "wazimap.context_processors.wazimap_settings",
     "municipal_finance.context_processors.google_analytics",
+    "municipal_finance.context_processors.api_details",
 )
 
 
@@ -209,6 +211,14 @@ PIPELINE = {
             ),
             'output_filename': 'docs.css',
         },
+        'api-home': {
+            'source_filenames': (
+                'bower_components/fontawesome/css/font-awesome.css',
+                'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss',
+                'stylesheets/site.scss',
+            ),
+            'output_filename': 'api-home.css',
+        },
         'table': {
             'source_filenames': (
                 'bower_components/fontawesome/css/font-awesome.css',
@@ -220,9 +230,11 @@ PIPELINE = {
         },
         'scorecard': {
             'source_filenames': (
+                'css/vendor/leaflet-0.6.4.css',
+                'css/vendor/leaflet.label.css',
                 'bower_components/fontawesome/css/font-awesome.css',
+                'css/icomoon.css',
                 'stylesheets/scorecard.scss',
-                'stylesheets/line-icons.css',
             ),
             'output_filename': 'scorecard.css'
         },
@@ -271,6 +283,13 @@ PIPELINE = {
             ),
             'output_filename': 'docs.js',
         },
+        'api-home': {
+            'source_filenames': (
+                'javascript/vendor/jquery-1.12.3.min.js',
+                'bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js',
+            ),
+            'output_filename': 'home.js',
+        },
         'table': {
             'source_filenames': (
                 'javascript/vendor/jquery-1.12.3.min.js',
@@ -293,6 +312,7 @@ PIPELINE = {
                 'js/bootstrap-3.3.2/transition.js',
                 'js/bootstrap-3.3.2/collapse.js',
                 'js/bootstrap-3.3.2/modal.js',
+                'js/spin.min.js',
                 'js/charts.js',
                 'js/scorecard.js',
             ),

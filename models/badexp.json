@@ -1,0 +1,69 @@
+{
+    "fact_table": "badexp_facts",
+    "label": " Unauthorised, Irregular, Fruitless and Wasteful Expenditure",
+    "description": "An audit outcome. Must be recorded in the notes to the annual financial statements",
+    "update_cycle": "year",
+    "last_updated": "2015",
+    "dimensions": {
+        "demarcation": {
+            "attributes": {
+                "code": {
+                    "column": "scorecard_geography.geo_code",
+                    "label": "Demarcation Code",
+                    "type": "string",
+                    "description": "Municipality code assigned by the Municipal Demarcation Board"
+                },
+                "label": {
+                    "column": "scorecard_geography.name",
+                    "label": "Name",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "label",
+            "description": "Municipality demarcation details",
+            "label": "Municipality",
+            "join_column": "demarcation_code"
+        },
+        "item": {
+            "attributes": {
+                "code": {
+                    "column": "item_code",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "Code used by treasury"
+                },
+                "label": {
+                    "column": "item_label",
+                    "label": "Label",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "label",
+            "description": "",
+            "label": "Item"
+        },
+        "financial_year_end": {
+            "attributes": {
+                "year": {
+                    "column": "financial_year",
+                    "label": "Year End",
+                    "type": "integer",
+                    "description": ""
+                }
+            },
+            "key_attribute": "year",
+            "description": "The calendar year falling at the end of the financial year",
+            "label": "Financial Year"
+        }
+    },
+    "measures": {
+        "amount": {
+            "column": "amount",
+            "label": "Amount"
+        }
+    }
+}

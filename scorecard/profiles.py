@@ -1,5 +1,5 @@
 from wazimap.data.tables import get_datatable
-from profile_data import MuniApiClient, IndicatorCalculator
+from profile_data import IndicatorCalculator
 from wazimap.geo import geo_data
 
 
@@ -13,9 +13,8 @@ def get_profile(geo_code, geo_level, profile_name=None):
     if geo.square_kms:
         population_density = total_pop / geo.square_kms
 
-
-    api_client = MuniApiClient(geo_code)
-    indicator_calc = IndicatorCalculator(api_client.results, api_client.years)
+    indicator_calc = IndicatorCalculator(geo_code)
+    indicator_calc.calculate()
 
     indicators = {}
 
@@ -24,6 +23,11 @@ def get_profile(geo_code, geo_level, profile_name=None):
     indicators['op_budget_diff'] = indicator_calc.op_budget_diff()
     indicators['cap_budget_diff'] = indicator_calc.cap_budget_diff()
     indicators['rep_maint_perc_ppe'] = indicator_calc.rep_maint_perc_ppe()
+    indicators['wasteful_exp'] = indicator_calc.wasteful_exp_perc_exp()
+    indicators['expenditure_trends'] = indicator_calc.expenditure_trends()
+    indicators['revenue_breakdown'] = indicator_calc.revenue_breakdown()
+    indicators['expenditure_trends'] = indicator_calc.expenditure_trends()
+    indicators['expenditure_functional_breakdown'] = indicator_calc.expenditure_functional_breakdown()
 
     return {
         'total_population': total_pop,
@@ -32,6 +36,4 @@ def get_profile(geo_code, geo_level, profile_name=None):
         'muni_contact': indicator_calc.muni_contact(),
         'audit_opinions': indicator_calc.audit_opinions(),
         'indicators': indicators,
-        'revenue_breakdown': indicator_calc.revenue_breakdown(),
-        'expenditure_breakdown': indicator_calc.expenditure_breakdown()
     }

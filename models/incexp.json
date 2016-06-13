@@ -2,6 +2,8 @@
     "fact_table": "incexp_facts",
     "label": "Income and Expenditure",
     "description": "Statement of financial performance. This is based on the OSB, OSR, OSA and OSAA return forms.",
+    "update_cycle": "quarter",
+    "last_updated": "2015-06",
     "dimensions": {
         "demarcation": {
             "attributes": {
@@ -37,12 +39,24 @@
                     "label": "Label",
                     "type": "string",
                     "description": ""
+                },
+                "category_label": {
+                    "column": "government_functions.category_label",
+                    "label": "Category Label",
+                    "type": "string",
+                    "description": ""
+                },
+                "subcategory_label": {
+                    "column": "government_functions.subcategory_label",
+                    "label": "Subcategory Label",
+                    "type": "string",
+                    "description": ""
                 }
             },
             "key_attribute": "code",
             "label_attribute": "label",
-            "description": "Function of government classification adapted from International Monetary Fund's Government Financial Statistics manual",
-            "label": "Function",
+            "description": "Function of government classification adapted from International Monetary Fund's (IMF) Government Financial Statistics (GFS) manual",
+            "label": "Government Function",
             "join_column": "function_code"
         },
         "item": {

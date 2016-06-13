@@ -18,7 +18,15 @@ class PreloadingJSONCubeManager(JSONCubeManager):
         for name in self._cube_names:
             self._models[name] = super(PreloadingJSONCubeManager, self).get_cube_model(name)
             self._cubes[name] = super(PreloadingJSONCubeManager, self).get_cube(name)
-            self._cubes[name].compute_cardinalities()
+            # Hack to cheaply force babbage to read and cache tables
+            # Do some query that hits all tables in the cube but cut on
+            # something that probably doesn't exist to minimize the rows
+            # counted for the result
+            for dname, dimension in self._models[name]['dimensions'].iteritems():
+                for aname, attribute in dimension['attributes'].iteritems():
+                    if attribute['type'] == 'string':
+                        someref = "%s.%s" % (dname, aname)
+            self._cubes[name].facts(page_size=1, cuts=someref + ':dummy')
 
     def list_cubes(self):
         return self._cube_names
@@ -32,4 +40,11 @@ class PreloadingJSONCubeManager(JSONCubeManager):
     def get_cube_model(self, name):
         return self._models[name]
 
-cube_manager = PreloadingJSONCubeManager(engine, models_directory)
+_cube_manager = None
+
+
+def get_manager():
+    global _cube_manager
+    if _cube_manager is None:
+        _cube_manager = PreloadingJSONCubeManager(engine, models_directory)
+    return _cube_manager

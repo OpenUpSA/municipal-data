@@ -21,18 +21,19 @@ def convert(sheet, csv_file):
         'Outstanding': 'outstanding',
     }
 
-    item = None
 
     with open(csv_file, 'w') as f:
         fieldnames = ['demarcation_code', 'year', 'opinion_code', 'opinion_label']
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         for rowx in xrange(7, sheet.nrows):
-            if str(sheet.cell(rowx, 0).value) not in ['A', 'B', 'C']:
+            item = None
+            if not sheet.cell(rowx, 2).value:
+                # Skip Province: rows
                 continue
-            for colx in xrange(4, sheet.ncols):
+            for colx in xrange(3, sheet.ncols):
                 if sheet.cell(2, colx).value != '':
-                    # new year
+                    # Create new item when a new year column is found
                     current_year = sheet.cell(2, colx).value
                     item = {
                         'year': current_year,
@@ -43,6 +44,7 @@ def convert(sheet, csv_file):
                     item['opinion_label'] = sheet.cell(4, colx).value
                     item['opinion_code'] = label_to_code[item['opinion_label']]
                     writer.writerow(item)
+                    item = None
 
 
 def main():

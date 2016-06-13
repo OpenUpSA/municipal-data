@@ -1,6 +1,6 @@
 from django.http import Http404
-from django.shortcuts import render, redirect
-from cubes import cube_manager
+from django.shortcuts import render
+from cubes import get_manager
 
 from utils import jsonify, csvify
 
@@ -9,19 +9,32 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 def get_cube(name):
     """ Load the named cube from the current registered ``CubeManager``. """
-    if not cube_manager.has_cube(name):
+    if not get_manager().has_cube(name):
         raise Http404('No such cube: %s' % name)
-    return cube_manager.get_cube(name)
+    return get_manager().get_cube(name)
 
 
 @xframe_options_exempt
 def index(request):
+    cubes = [get_manager().get_cube(c).model.to_dict() for c in get_manager().list_cubes()]
+    return render(request, 'index.html', {
+        'cubes': cubes,
+    })
+
+
+@xframe_options_exempt
+def docs(request):
     cubes = []
-    for cube_name in cube_manager.list_cubes():
-        cube = cube_manager.get_cube(cube_name)
+    for cube_name in get_manager().list_cubes():
+        cube = get_manager().get_cube(cube_name)
         (model,) = cube.model.to_dict(),
         if 'item' in model['dimensions'].keys():
-            items = cube.members('item', order='item.position_in_return_form:asc')['data']
+            if 'position_in_return_form' \
+               in model['dimensions']['item']['attributes'].keys():
+                items = cube.members('item',
+                                     order='item.position_in_return_form:asc')['data']
+            else:
+                items = cube.members('item')['data']
         else:
             items = None
         cubes.append({
@@ -36,19 +49,14 @@ def index(request):
 
 
 @xframe_options_exempt
-def docs(request):
-    return redirect('/')
-
-
-@xframe_options_exempt
 def explore(request, cube_name):
     cubes = []
-    for name in cube_manager.list_cubes():
+    for name in get_manager().list_cubes():
         cubes.append({
-            'model': cube_manager.get_cube(name).model.to_dict(),
+            'model': get_manager().get_cube(name).model.to_dict(),
             'name': name,
         })
-    cube = cube_manager.get_cube(cube_name).model.to_dict()
+    cube = get_manager().get_cube(cube_name).model.to_dict()
     return render(request, 'explore.html', {
         'cube_name': cube_name,
         'cube_model': cube,
@@ -77,8 +85,8 @@ def status(request):
 def cubes(request):
     """ Get a listing of all publicly available cubes. """
     cubes = []
-    for name in cube_manager.list_cubes():
-        cube = cube_manager.get_cube(name)
+    for name in get_manager().list_cubes():
+        cube = get_manager().get_cube(name)
         cubes.append({
             'name': name,
             'label': cube.model.spec['label'],
@@ -164,14 +172,14 @@ def members(request, cube_name, member_ref):
 @xframe_options_exempt
 def table(request, cube_name):
     cubes = {}
-    for name in cube_manager.list_cubes():
+    for name in get_manager().list_cubes():
         if name not in ['municipalities', 'officials']:
             cubes[name] = {
-                'model': cube_manager.get_cube(name).model.to_dict(),
+                'model': get_manager().get_cube(name).model.to_dict(),
                 'name': name,
             }
 
-    cube = cube_manager.get_cube(cube_name).model.to_dict()
+    cube = get_manager().get_cube(cube_name).model.to_dict()
     return render(request, 'table.html', {
         'cube_name': cube_name,
         'cube_model': cube,

@@ -1,5 +1,5 @@
 {% extends '_base.html' %}
-{% load staticfiles pipeline l10n jsonify %}
+{% load staticfiles pipeline l10n jsonify finance %}
 
 {% block head_title %}{{ geography.this.short_name }} - {{ block.super }}{% endblock %}
 {% block head_meta_description %}Municipal performance for {{ geography.this.short_name}}, and other information.{% endblock %}
@@ -11,24 +11,17 @@
     <meta property="og:type" content="article" />
 {% endblock %}
 
-{% block head_css_extra %}
-<link rel="stylesheet" href="{% static 'css/vendor/leaflet-0.6.4.css' %}" />
-<!--[if lte IE 8]>
-    <link rel="stylesheet" href="{% static 'css/vendor/leaflet-0.6.4.ie.css' %}" />
-<![endif]-->
-<link href="{% static 'css/vendor/leaflet.label.css' %}" rel="stylesheet" />
-{% endblock %}
 {% block body_id %}profile{% endblock %}
 
 {% block header_content %}
   <div id="cover-map" class="clearfix">
     <div id="slippy-map"></div>
-    <div id="cover-profile" class="container">
+    <div id="cover-profile">
       <article class="clearfix column-half">
         <header id="header-box" class="column-full">
           <h1 class="title">{{ geography.this.short_name }}</h1>
           <p class="caption">
-            {{ geography.this.geo_level|capfirst }}
+            {{ geography.this.category_name|capfirst }}
             in
             {% if geography.parents %}
               {% for level, g in geography.parents.items %}
@@ -69,80 +62,93 @@
               </li>
               {% if muni_contact.url %}
               <li>
-                <i class="fa fa-li fa-globe" aria-hidden="true"></i> <a href="{{ muni_contact.url|lower }}">{{ muni_contact.url }}</a>
+                <i class="fa fa-li fa-globe" aria-hidden="true"></i> <a href="{{ muni_contact.url|lower }}" target="_blank">{{ muni_contact.url|lower }}</a>
               </li>
               {% endif %}
               <li>
                 <i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
-                {{ muni_contact.street_address_1 }}<br>
-                {{ muni_contact.street_address_2 }}<br>
-                {{ muni_contact.street_address_3 }}<br>
-                {{ muni_contact.street_address_4 }}
+                {% if muni_contact.street_address_1 %}{{ muni_contact.street_address_1 }}<br>{% endif %}
+                {% if muni_contact.street_address_2 %}{{ muni_contact.street_address_2 }}<br>{% endif %}
+                {% if muni_contact.street_address_3 %}{{ muni_contact.street_address_3 }}<br>{% endif %}
+                {% if muni_contact.street_address_4 %}{{ muni_contact.street_address_4 }}{% endif %}
               </li>
             </ul>
           </div>
           <div class="col-md-8 col-md-pull-4">
             <div class="row">
-              {% for official in mayoral_staff %}
+              {% for official in mayoral_staff.officials %}
                 {% if forloop.counter < 5 %}
                 <div class="col-sm-3">
                   <div class="person-info">
                     <div class="person-role">{{ official.role }}</div>
                     <ul class="fa-ul person-name">
-                      <li><i class="fa fa-li fa-user" aria-hidden="true"></i> {{ official.title }} {{ official.name }}</li>
+                      {% if official and official.name %}
+                      <li><i class="fa fa-li fa-user" aria-hidden="true"></i> {{ official.title|default:'' }} {{ official.name }}</li>
+                      {% endif %}
                     </ul>
                     <div class="person-contact-details">
+                      {% with details=official.secretary|default:official %}
+                      {% if details.name %}
                       <a href="#contact-details-{{ forloop.counter }}" data-toggle="collapse" class="show-contact-details show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Contact Details</a>
                       <div class="contact-details collapse" id="contact-details-{{ forloop.counter }}">
-                        {% if official.secretary %}
+                        {% if official.secretary and official.secretary.name %}
                         <div>
                           <h4>Secretary</h4>
-                          {{ official.secretary.title }} {{ official.secretary.name }}
+                          {{ official.secretary.title|default:'' }} {{ official.secretary.name }}
                         </div>
                         {% endif %}
 
-                        {% with details=official.secretary|default:official %}
-                          <ul class="fa-ul">
+                        <ul class="fa-ul">
+                            {% if details.office_phone %}
                             <li>
                               <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ details.office_phone }}">{{ details.office_phone }}</a>
                             </li>
+                            {% endif %}
+                            {% if details.email %}
                             <li>
-                              <i class="fa fa-li fa-envelope" aria-hidden="true"></i> <a href="{{ details.email }}">{{ details.email }}</a>
+                              <i class="fa fa-li fa-envelope" aria-hidden="true"></i> <a href="mailto:{{ details.email }}">{{ details.email }}</a>
                             </li>
+                            {% endif %}
                           </ul>
-                        {% endwith %}
                       </div>
+                      {% endif %}
+                      {% endwith %}
                     </div>
                   </div>
                 </div>
                 {% endif %}
               {% endfor %}
             </div>
+
+            {% if mayoral_staff.updated_date %}
+            Last updated: {{ mayoral_staff.updated_date }}
+            {% endif %}
           </div>
         </div>
       </div>
     </div>
   </div>
 
-    {% block page-nav %}
-        <div class="page-nav-wrapper">
-          <div class="page-nav-container">
-            <div class="container">
-              <div class="page-nav-info">
-                <div class="muni-name">{{ geography.this.short_name }}</div>
-                <div class="muni-population">Population: {{ total_population|floatformat:"0" }}</div>
-              </div>
-
-              <ul class="nav nav-pills" id="page-nav">
-                <li role="presentation"><a href="#performance"><div class="icon icon-office-16"></div><span class="nav-text">Performance</span></a></li>
-                <li role="presentation"><a href="#"><div class="icon icon-office-42"></div><span class="nav-text">Income</span></a></li>
-                <li role="presentation"><a href="#"><div class="icon icon-shopping-03"></div><span class="nav-text">Spending</span></a></li>
-              </ul>
-
-            </div>
-          </div>
+  {% block page-nav %}
+  <nav class="page-nav-wrapper">
+    <div class="page-nav-container">
+      <div class="container">
+        <div class="page-nav-info">
+          <div class="muni-name">{{ geography.this.short_name }}</div>
+          <div class="muni-population">Population: {{ total_population|floatformat:"0" }}</div>
         </div>
-    {% endblock %}
+
+        <ul class="nav nav-pills" id="page-nav">
+          <li role="presentation" class="active"><a href="#performance"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i><br><span class="nav-text">Performance</span></a></li>
+          <li role="presentation"><a href="#income"><i class="fa fa-money fa-2x" aria-hidden="true"></i><br><span class="nav-text">Income</span></a></li>
+          <li role="presentation"><a href="#spending"><i class="fa fa-credit-card fa-2x" aria-hidden="true"></i><br><span class="nav-text">Spending</span></a></li>
+          <li role="presentation" class="pull-right hidden-xs"><a href="/profiles/{{ geography.this.geo_level }}-{{ geography.this.geo_code }}-{{ geography.this.slug }}.pdf" target="_blank" rel="alternate" type="application/pdf"><i class="fa fa-print fa-2x" area-hidden="true"></i><br><span class="nav-text">Print PDF</span></a></li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+  {% endblock %}
 {% endblock %}
 
 {% block content %}
@@ -165,7 +171,7 @@
 </div>
 
 <div class="section" id="performance">
-  <h1><div class="icon icon-office-16"></div> Performance</h1>
+  <h1><i class="fa fa-line-chart" aria-hidden="true"></i> Performance</h1>
 
   <div class="indicator">
     <h2>Audit outcomes</h2>
@@ -174,14 +180,28 @@
 
       <div class="col-sm-8">
         <div class="row">
-        {% for year, value in audit_opinions.iteritems %}
+        {% for opinion in audit_opinions %}
           <div class="col-sm-3">
             <table class="table table-bordered">
               <tr>
-                <td class="text{% if forloop.first %}-large{% endif %} text-center"><strong>{{ year|unlocalize }} <br>{{ value }}</strong></td>
+                <td class="text{% if forloop.first %}-large{% endif %} text-center"><strong>
+                    {{ opinion.year|unlocalize }}
+                    <i class="audit-rating audit-{{ opinion.rating }}" aria-hidden="true"></i>
+                    {% if opinion.rating == "unqualified" %}
+                    <i class="audit-rating audit-unqualified_extra" area-hidden="true"></i>
+                    {% endif %}
+                    <br>{{ opinion.result }}
+                  </strong>
+                </td>
               </tr>
               <tr class="table-footer">
-                <td><a href="#">Read report</a></td>
+                <td>
+                  {% if opinion.report_url %}
+                  <a href="{{ opinion.report_url }}" target="_blank">Read report <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                  {% else %}
+                  No report available
+                  {% endif %}
+                </td>
               </tr>
             </table>
           </div>
@@ -193,172 +213,505 @@
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
           <div class="panel-body">
-            There are <strong>5 types of audit outcomes</strong>:
-            <ul>
-              <li>A <strong>clean audit</strong> means that there are no irregularities in the municipality's accounting.</li>
-            </ul>
-            <div class="more"><a href="#" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show More</a></div>
+            <p>There are <strong>5 types of audit outcomes.</strong></p>
+            <div class="more">
+              <a href="#more-audit-opinions" data-toggle="collapse" class="show-more-audit-opinions show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Learn what they are</a>
+            </div>
           </div>
         </div>
       </div>
 
     </div>
+    <div class="more-audit-opinions collapse panel panel-didyouknow" id="more-audit-opinions">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-2">
+            <h3><i class="audit-rating audit-unqualified" area-hidden="true"></i><i class="audit-rating audit-unqualified_extra" area-hidden="true"></i><br>Unqualified Opinion</h3>
+            <h4>No Findings</h4>
+            The Auditor-General can state, without reservation, that the financial  statements of the municipality fairly represent the financial position of the municipality and are in line with Generally Recognised Accounting Practices (GRAP)
+          </div>
+          <div class="col-md-2">
+            <h3><i class="audit-rating audit-unqualified_emphasis_of_matter" area-hidden="true"></i><br>Unqualified Opinion</h3>
+            <h4>Emphasis of Matter Items</h4>
+            Same as an Unqualified Opinion with no findings, but the Auditor-General wants to bring something particular to the attention of the reader.
+          </div>
+          <div class="col-md-2">
+            <h3><i class="audit-rating audit-qualified" area-hidden="true"></i><br>Qualified Opinion</h3>
+            The Auditor-General expresses reservations about the fair presentation of the financial statements. There is some departure from the Generally Recognised Accounting Practices (GRAP) but is not sufficiently serious as to warrant an adverse opinion or disclaimer of opinion.
+          </div>
+          <div class="col-md-2">
+            <h3><i class="audit-rating audit-adverse" area-hidden="true"></i><br>Adverse Opinion</h3>
+            This is expressed when the auditor concludes that the annual financial statements do not present the municipality’s financial position, results of operations and cash flows in line with Generally Recognised Accounting Practices (GRAP).
+          </div>
+          <div class="col-md-2">
+            <h3><i class="audit-rating audit-disclaimer" area-hidden="true"></i><br>Disclaimer of Opinion</h3>
+            The Auditor-General does not have all of the underlying documentation needed to determine an opinion. For example, the lack of underlying documentation and the amounts in question may be so great so that it is impossible to give any opinion on all.
+          </div>
+          <div class="col-md-2">
+            <h3><i class="audit-rating audit-outstanding" area-hidden="true"></i><br>An Outstanding Opinion</h3>
+            Means that the Auditor General raised queries with the municipality and therefore has not submitted another opinion.
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="indicator">
-    <h2 class="sub-heading">Cash balance</h2>
+    {% with indicators.cash_at_year_end|first as latest %}
+    <h2 class="sub-heading">Cash Balance <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
-        {% with indicators.cash_at_year_end|first as latest %}
-        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}R {{ latest.result|floatformat:"0" }} {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-        {% endwith %}
-        <div class="indicator-description">cash balance at the end of the financial year.</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}R {{ latest.result|floatformat:"0" }}{% endif %}</div>
+        <div class="indicator-description">Cash balance at the end of the financial year.</div>
         <table class="table table-bordered indicator-key">
           <tr>
-            <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">Positive balance</td>
           </tr>
           <tr>
-            <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
-            <td class="key-description">Negative balance.</td>
+            <td class="key-symbol rating rating-bad">bad</td>
+            <td class="key-description">Negative balance</td>
           </tr>
         </table>
+        <div class="show-calc"><a href="#cash-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculations</a></div>
+
       </div>
       <div class="col-sm-4">
-        <div class="cash-at-year-end chart-container"></div>
+        <div class="chart-container" data-chart="column-cash_at_year_end" data-unit="currency"></div>
       </div>
       <div class="col-sm-4">
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
           <div class="panel-body">
-            In terms of section 45 of the MFMA, municipalities are not permitted to close the financial year with any short-term borrowing or overdraft. The fact that a municipality is not able to close the financial year with positive cash positions, is a very strong indicator that these municipality is in financial distress at that date.
+            A municipality's cash balance refers to the money it has in the bank that it can access easily. If a municipality's bank account is in overdraft it has a negative cash balance. Negative cash balances are a sign of serious financial management problems. A municipality should have enough cash on hand from month to month so that it can pay salaries, suppliers and so on.
           </div>
         </div>
       </div>
     </div>
+    <div class="calc collapse" id="cash-calc">
+      <h5>Formula:</h5>
+      <ul class="formula">
+        <li>Cash available at year end</li>
+        <li>= <a href="{% table_url "cflow" year=latest.year muni=geography.this.geo_code items=4200 amountType="AUDA" %}" target="_blank">Cash Flow item code 4200, Audited Actual</a></li>
+      </ul>
+    </div>
+    {% endwith %}
   </div>
 
   <div class="indicator">
-    <h2>Cash coverage</h2>
+    {% with indicators.cash_coverage|first as latest %}
+    <h2>Cash Coverage <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
-        {% with indicators.cash_coverage|first as latest %}
-        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }} months{% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-        {% endwith %}
-        <div class="indicator-description">months of operating expenses can be paid for with the cash available.</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }} months{% endif %}</div>
+        <div class="indicator-description">Months of operating expenses can be paid for with the cash available.</div>
         <table class="table table-bordered indicator-key">
           <tr>
-            <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">more than 3</td>
           </tr>
           <tr>
-            <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
+            <td class="key-symbol rating rating-ave">average</td>
+            <td class="key-description">between 1 and 3</td>
+          </tr>
+          <tr>
+            <td class="key-symbol rating rating-bad">bad</td>
             <td class="key-description">less than 1</td>
           </tr>
         </table>
+        <div class="show-calc"><a href="#cash-coverage-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
-        <div class="cash-coverage chart-container"></div>
+        <div class="chart-container" data-chart="column-cash_coverage" data-unit="num"></div>
       </div>
       <div class="col-sm-4">
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
           <div class="panel-body">
-            A <strong>low value</strong> shows that the municipality may be unable to pay for the day-to-day expenses.
+            Cash coverage measures the length of time, in months, that a municipality could manage to pay for its day-to-day expenses using just its cash reserves.  So, if a municipality had to rely on its cash reserves to pay all short-term bills, how long could it last? Ideally, a municipality should have at least three months' of cash cover.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calc collapse" id="cash-coverage-calc">
+      <h5>Formula:</h5>
+
+      <ul class="formula">
+        <li>= Cash available at year end / Operating Expenditure per month</li>
+        <li>=
+          <a href="{% table_url "cflow" year=latest.year items=4200 amountType="AUDA" %}" target="_blank">Cash Flow item code 4200, Audited Actual</a>
+          /
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a></li>
+        <li>If Cash available at year end is negative, we say Cash Coverage is zero months.</li>
+      </ul>
+    </div>
+    {% endwith %}
+  </div>
+
+  <div class="indicator">
+    {% with indicators.op_budget_diff|first as latest %}
+    <h2>Spending of Operating Budget <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="indicator-value rating rating-{{ latest.rating }}">
+          {% if latest.result == none %}
+            Not available
+          {% else %}
+            {{ latest.result|absolute }}%
+            {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
+          {% endif %}
+        </div>
+        <div class="indicator-description">Difference between budgeted operating expenditure and what was actually spent.</div>
+        <table class="table table-bordered indicator-key">
+          <tr>
+            <td class="key-symbol rating rating-good">good</td>
+            <td class="key-description">less than 10%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol rating rating-ave">average</td>
+            <td class="key-description">between 10% and 25%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol rating rating-bad">bad</td>
+            <td class="key-description">more than 25%</td>
+          </tr>
+        </table>
+        <div class="show-calc"><a href="#op-budget-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="chart-container" data-chart="column-op_budget_diff" data-unit="percent"></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            <p>This indicator is about how much more a municipalty spent on its operating expenses, than was planned and budgeted for. It is important that a municipality controls its day-to-day expenses in order to avoid cash shortages.  If a municipality sigificantly overspends its operating budget this is a sign of poor operating controls or something more sinister.</p>
+            <p>Overspending by up to 10 percent is usually condoned; overspending in excess of 25 percent is a sign of high risk.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calc collapse" id="op-budget-calc">
+      <h5>Formula:</h5>
+
+      <ul class="formula">
+        <li>= (Actual Operating Expenditure - Budget Operating Expenditure) / Budgeted Operating Expenditure</li>
+        <li>=
+          (<a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
+          -
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="ADJB" %}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>)
+          /
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="ADJB"%}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>
+      </ul>
+    </div>
+    {% endwith %}
+  </div>
+
+  <div class="indicator">
+    {% with indicators.cap_budget_diff|first as latest %}
+    <h2>Spending of Capital Budget <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="indicator-value rating rating-{{ latest.rating }}">
+          {% if latest.result == none %}
+            Not available
+          {% else %}
+            {{ latest.result|absolute }}%
+            {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
+          {% endif %}
+        </div>
+        <div class="indicator-description">Difference between budgeted capital expenditure and what was actually spent.</div>
+        <table class="table table-bordered indicator-key">
+          <tr>
+            <td class="key-symbol rating rating-good">good</td>
+            <td class="key-description">less than 10%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol rating rating-ave">average</td>
+            <td class="key-description">between 10% and 30%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol rating rating-bad">bad</td>
+            <td class="key-description">more than 30%</td>
+          </tr>
+        </table>
+        <div class="show-calc"><a href="#cap-budget-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="chart-container" data-chart="column-cap_budget_diff" data-unit="percent"></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            <p>Capital spending includes spending on infrastructure projects like new water pipes or building a library. Underspending on a capital budget can lead to an under-delivery of basic services. This indicator looks at the percentage by which actual spending falls short of the budget for capital expenses.  Persistent underspending may be due to underresourced municipalities which cannot manage large projects on time.</p>
+            <p>Municipalities should aim to spend at least 90 percent of their capital budgets. Failure to spend even 70 percent is a clear warning sign.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calc collapse" id="cap-budget-calc">
+      <h5>Formula:</h5>
+
+      <ul class="formula">
+        <li>= (Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure</li>
+        <li>=
+          (<a href="{% table_url "capital" year=latest.year items=4100 amountType="AUDA" %}" target="_blank">Capital item code 4100, Audited Actual</a>
+          -
+          <a href="{% table_url "capital" year=latest.year items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Adjusted Budget</a>)
+          /
+          <a href="{% table_url "capital" year=latest.year items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Adjusted Budget</a>
+      </ul>
+    </div>
+    {% endwith %}
+  </div>
+
+  <div class="indicator">
+    {% with indicators.rep_maint_perc_ppe|first as latest %}
+    <h2>Spending on Repairs and Maintenance <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+
+        <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
+        <table class="table table-bordered indicator-key">
+          <tr>
+            <td class="key-symbol rating rating-good">good</td>
+            <td class="key-description">more than 8%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol rating rating-bad">bad</td>
+            <td class="key-description">less than 8%</td>
+          </tr>
+        </table>
+        <div class="show-calc"><a href="#rep-maint-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="chart-container" data-chart="column-rep_maint_perc_ppe" data-unit="percent"></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            <p>Infrastructure must be maintained so that service delivery is not affected. This indicator looks at how much money was budgeted for repairs and maintenance, as a percentage of total fixed assets (property, plant and equipment).  For every R10 spent on building/replacing infrastructure, R1 should be spent every year on repairs and maintenance.</p>
+            <p>This translates into a Repairs and Maintenance budget that should be 10 percent of the value of property, plant and equipment.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calc collapse" id="rep-maint-calc">
+      <h5>Formula:</h5>
+
+      <ul class="formula">
+        <li>= Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)</li>
+        <li>=
+          <a href="{% table_url "repmaint" year=latest.year items=5005 amountType="ADJB" %}" target="_blank">Repairs and maintenance item code 5005, Adjusted Budget</a>
+          /
+          (<a href="{% table_url "bsheet" year=latest.year items=1300 amountType="AUDA" %}" target="_blank">Balance Sheet item code 1300, Audited Actual</a>
+          +
+          <a href="{% table_url "bsheet" year=latest.year items=1401 amountType="AUDA" %}" target="_blank">Balance Sheet item code 1401, Audited Actual</a>)
+      </ul>
+    </div>
+    {% endwith %}
+  </div>
+
+  <div class="indicator">
+    {% with indicators.wasteful_exp|first as latest %}
+    <h2>Fruitless and wasteful expenditure <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-description">Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage of operating expenditure.</div>
+        <table class="table table-bordered indicator-key">
+          <tr>
+            <td class="key-symbol rating rating-good">good</td>
+            <td class="key-description">0%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol rating rating-bad">bad</td>
+            <td class="key-description">more than 0%</td>
+          </tr>
+        </table>
+        <div class="show-calc"><a href="#fruitless-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="chart-container" data-chart="column-wasteful_exp" data-unit="percent"></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            <p>Unauthorised expenditure means any spending that was not budgeted for or that is unrelated to the municpal department's function.  An example is using municipal funds to pay for unbudgeted projects.     Irregular Expenditure is spending that goes against the relevant legislation, municipal policies or by-laws.  An example is awarding a contract that did not go through tender procedures.  Fruitless and wasteful expenditure concerns spending which was made in vain and would have been avoided had reasonable care been exercised.  An example of such expenditure would include paying a deposit for a venue and not using it and losing the deposit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calc collapse" id="fruitless-exp-calc">
+      <h5>Formula:</h5>
+
+      <ul class="formula">
+        <li>= Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure</li>
+        <li>=
+          <a href="{% table_url "badexp" year=latest.year items="irregular,fruitless,unauthorised" %}" target="_blank">Unauthorised, Irregular, Fruitless and Wasteful Expenditure item codes <i>irregular, fruitless, unauthorised</i></a>
+          /
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
+      </ul>
+    </div>
+    {% endwith %}
+  </div>
+</div>
+
+<div class="section" id="income">
+  <h1><i class="fa fa-money"></i> Income <span class="subtitle">- Where money comes from</span></h1>
+
+  <div class="indicator">
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="chart-container narrow-margin" data-chart="grouped-bar-revenue_breakdown" data-unit="currency"></div>
+        <div class="show-calc"><a href="#income-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Source</a></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            <p>This indicator compares how much of a municipality's income it is able to generate itself (through property rates, service charges, etc), compared with how much it receives as transfers and grants from national government.  The more a municipality is able to generate its own income, the more self-sufficient it is.  Municipalities should not be too reliant on transfers and grants from other spheres of government.  If they have to rely on transfers for over half of their total operating revenue it is a clear sign of financial risk.  Municipalities should aim to generate at least 75 percent of their own revenue. </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calc collapse" id="income-calc">
+      <h5>Source:</h5>
+
+      <ul class="formula">
+        <li>
+          <a href="{% table_url "incexp" %}" target="_blank">Income & Expenditure</a> Audited Actual and Original Budget
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="spending">
+  <h1><i class="fa fa-credit-card"></i> Spending <span class="subtitle">- How money is spent</span></h1>
+
+  <div class="indicator">
+    {% with indicators.expenditure_trends.staff|first as latest %}
+    <h2>Staff Wages and Salaries <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-description">Staff salaries and wages as a percentage of operating expenditure.</div>
+        <div class="show-calc"><a href="#staff-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+        <table class="table table-bordered indicator-key">
+          <tr>
+            <td class="key-symbol rating rating-good">good</td>
+            <td class="key-description">25% to 40%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol rating rating-ave">average</td>
+            <td class="key-description">less than 25% or more than 40%</td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-sm-4">
+        <div class="chart-container" data-chart="column-expenditure_trends.staff" data-unit="percent"></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            <p>Employee-related costs are typically the largest portion of operating expenditure, but they should not grow so large that they threaten the sustainability of the operating budget.</p>
+            <p>The normal range for this indicator is between 25% - 40% of total operating expenditure.  Municipalities must guard against spending too much on staff while also making sure they have the people they need to deliver services effectively.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calc collapse" id="staff-exp-calc">
+      <h5>Formula:</h5>
+
+      <ul class="formula">
+        <li>= Wages & Salaries + Social Contributions / Actual Operating Expenditure</li>
+        <li>=
+          <a href="{% table_url "incexp" year=latest.year items="3000,3100" amountType="AUDA" %}" target="_blank">Income & Expenditure item codes 3000, 3100, Audited Actual</a>
+          /
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
+      </ul>
+    </div>
+    {% endwith %}
+  </div>
+
+  <div class="indicator">
+    {% with indicators.expenditure_trends.contracting|first as latest %}
+    <h2>Contractor Services <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-description">Costs of contractor services as a percentage of operating expenditure.</div>
+        <div class="show-calc"><a href="#contracting-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+        <table class="table table-bordered indicator-key">
+          <tr>
+            <td class="key-symbol rating rating-good">good</td>
+            <td class="key-description">up to 5%</td>
+          </tr>
+          <tr>
+            <td class="key-symbol rating rating-ave">average</td>
+            <td class="key-description">more than 5%</td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-sm-4">
+        <div class="chart-container" data-chart="column-expenditure_trends.contracting" data-unit="percent"></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            <p>Private contractors are sometimes needed for certain work, but they are usually more expensive than municipal staff.  This should be kept to a minimum and efforts should be made to provide services in-house, where possible.</p>
+            <p>This measure is normally between 2 percent and 5 percent of total operating expenditure.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calc collapse" id="contracting-exp-calc">
+      <h5>Formula:</h5>
+
+      <ul class="formula">
+        <li>= Contracted Services / Actual Operating Expenditure</li>
+        <li>=
+          <a href="{% table_url "incexp" year=latest.year items="4200" amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4200, Audited Actual</a>
+          /
+          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
+      </ul>
+    </div>
+    {% endwith %}
+  </div>
+
+  <div class="indicator">
+    <h2>What is Money Spent On?</h2>
+
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="chart-container" data-chart="grouped-bar-expenditure_functional_breakdown" data-unit="currency"></div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            Municipalities spend money on providing services and maintaining facilities for their residents.
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="indicator">
-    <h2>Spending of Operating Budget</h2>
-
-    <div class="row">
-      <div class="col-sm-4">
-        {% with indicators.op_budget_diff|first as latest %}
-        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-        {% endwith %}
-        <div class="indicator-description">difference between operating budget and actual expenditure.</div>
-        <table class="table table-bordered indicator-key">
-          <tr>
-            <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
-            <td class="key-description">less than 10%</td>
-          </tr>
-          <tr>
-            <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
-            <td class="key-description">more than 25%</td>
-          </tr>
-        </table>
-      </div>
-      <div class="col-sm-4">
-        <div class="op-budget-diff chart-container"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="indicator">
-    <h2>Spending of Capital Budget</h2>
-
-    <div class="row">
-      <div class="col-sm-4">
-        {% with indicators.cap_budget_diff|first as latest %}
-        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% else %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-        {% endwith %}
-        <div class="indicator-description">difference between capital budget and actual expenditure.</div>
-        <table class="table table-bordered indicator-key">
-          <tr>
-            <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
-            <td class="key-description">less than 10%</td>
-          </tr>
-          <tr>
-            <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
-            <td class="key-description">more than 30%</td>
-          </tr>
-        </table>
-      </div>
-      <div class="col-sm-4">
-        <div class="cap-budget-diff chart-container"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="indicator">
-    <h2>Spending on Repairs and Maintenance</h2>
-
-    <div class="row">
-      <div class="col-sm-4">
-        {% with indicators.rep_maint_perc_ppe|first as latest %}
-        <div class="indicator-date">{{ latest.year|unlocalize }}</div>
-        <div class="indicator-value indicator-{{ latest.rating }}">{% if latest.result %}{{ latest.result }}% {% else %} N/A {% endif %} <i class="fa {% if latest.rating == 'good' %}fa-check{% elif latest.rating == 'bad' %}fa-warning{% endif %}" aria-hidden="true"></i></div>
-        {% endwith %}
-
-        <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
-        {% comment %}
-        <table class="table table-bordered indicator-key">
-          <tr>
-            <td class="key-symbol indicator-good">good <i class="fa fa-check" aria-hidden="true"></i></td>
-            <td class="key-description">less than 10%</td>
-          </tr>
-          <tr>
-            <td class="key-symbol indicator-bad">bad <i class="fa fa-warning" aria-hidden="true"></i></td>
-            <td class="key-description">more than 30%</td>
-          </tr>
-        </table>
-        {% endcomment %}
-      </div>
-      <div class="col-sm-4">
-        <div class="rep-maint-perc-ppe chart-container"></div>
-      </div>
-    </div>
-  </div>
-
 </div>
 
 <!-- Video Modal -->
@@ -395,12 +748,6 @@
   var profileData = {{ profile_data_json }};
   var maps = new ProfileMaps();
   maps.drawMapsForProfile(profileData.geography);
-
-  var CASH_AT_YEAR_END = {{ indicators.cash_at_year_end|jsonify|safe }}
-  var CASH_COVERAGE = {{ indicators.cash_coverage|jsonify|safe }}
-  var OP_BUDGET_DIFF = {{ indicators.op_budget_diff|jsonify|safe }}
-  var CAP_BUDGET_DIFF = {{ indicators.cap_budget_diff|jsonify|safe }}
-  var REP_MAINT_PERC_PPE = {{ indicators.rep_maint_perc_ppe|jsonify|safe }}
 
 </script>
 

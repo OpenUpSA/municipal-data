@@ -2,6 +2,7 @@
 {% load pipeline jsonify staticfiles %}
 
 {% block title %}Municipal Finance Data - {{ cube_model.label }}{% endblock %}
+{% block description %}Current and historical Municipal {{ cube_model.label }} data from the National Treasury{% endblock %}
 
 {% block body-class %}table-page{% endblock %}
 
@@ -24,12 +25,9 @@
 <article id="table-view">
   <div class="container-fluid">
     <header class="article-header">
-      <div class="pull-right">
-        <label class="scale"><input type="radio" name="scale" value="6"> R millions</input></label>
-        <label class="scale"><input type="radio" name="scale" value="3" checked> R thousands</input></label>
-        <label class="scale"><input type="radio" name="scale" value="0"> Rands</input></label>
-      </div>
-
+      <aside>
+        <a href="" class="csv-download btn btn-default" disabled="disabled"><i class="fa fa-download"></i> Download CSV</a>
+      </aside>
       <h2>{{ cube_model.label }}</h2>
     </header>
 
@@ -61,13 +59,16 @@
 
       <section>
         <h5>Financial year end</h5>
-        <p>
-          <i>Note: Audited results only</i>
-        </p>
         <ul class="year-chooser list-unstyled"></ul>
       </section>
-      <section>
-        <a href="" class="csv-download">Download CSV</a>
+
+      <section class="amount-type">
+        <h5>Amount type</h5>
+        <select class="amount-type-chooser form-control"></select>
+      </section>
+
+      <section class="loading">
+        <i>Loading...</i>
       </section>
     </aside>
     <section class="table-display">
@@ -91,7 +92,7 @@ var Location = {
     }
 }
 
-var MUNI_DATA_API = Location.getOrigin() + '/api';
+var MUNI_DATA_API = '{{ API_URL }}';
 var CUBE_NAME = '{{ cube_name|escapejs }}';
 var CUBES = {{ cubes|jsonify|safe }};
 </script>
