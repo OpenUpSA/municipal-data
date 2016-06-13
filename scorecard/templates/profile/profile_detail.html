@@ -504,7 +504,7 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.wasteful_exp|first as latest %}
+    {% with indicators.wasteful_exp.1 as latest %}
     <h2>Fruitless and wasteful expenditure <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
@@ -531,6 +531,7 @@
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
           <div class="panel-body">
             <p>Unauthorised expenditure means any spending that was not budgeted for or that is unrelated to the municpal department's function.  An example is using municipal funds to pay for unbudgeted projects.     Irregular Expenditure is spending that goes against the relevant legislation, municipal policies or by-laws.  An example is awarding a contract that did not go through tender procedures.  Fruitless and wasteful expenditure concerns spending which was made in vain and would have been avoided had reasonable care been exercised.  An example of such expenditure would include paying a deposit for a venue and not using it and losing the deposit.</p>
+            <p>Since calling expenditures unauthorised, fruitless and wasteful or irregular can involve quite a lot of debate, the numbers used are the restated audited amounts 18 months after the financial year end - part of the Medium Term Revenue and Expenditure Framework.</p>
           </div>
         </div>
       </div>
