@@ -493,17 +493,7 @@ blockquote {
 //= Sections
 //
 .section {
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid $gray-light;
-
-  /*trick to compensate for affixed page-nav */
-  padding-top: 100px;
-  margin-top: -80px;
-
-  &:last-child {
-    border-bottom: none;
-  }
+  padding: 40px 0px;
 
   h1 {
     text-transform: uppercase;
@@ -526,10 +516,24 @@ blockquote {
   h1 i.fa {
     color: $brand-secondary;
   }
+}
+
+#profile .section {
+  padding: 10px 0px;
+  margin-bottom: 10px;
+
+  /*trick to compensate for affixed page-nav */
+  padding-top: 100px;
+  margin-top: -80px;
+
+  border-bottom: 1px solid $gray-light;
+  &:last-child {
+    border-bottom: none;
+  }
+
   h2 {
     margin: 0 0 10px 0;
   }
-
 }
 
 @media only screen and (max-width: 768px) {
@@ -694,14 +698,6 @@ blockquote {
   }
   .person-contact-details .contact-details {
     h4 { margin-bottom: 0; }
-  }
-}
-
-// #instructions
-.section#homepage-instructions {
-  h2 i {
-    color: $brand-secondary;
-    font-size: 26px;
   }
 }
 
@@ -1041,10 +1037,17 @@ blockquote {
   }
   #homepage-video {
     background-color: $gray-lighter;
-    padding: 40px 0px;
+    padding-top: 30px;
   }
   #menu {
     display: none;
+  }
+
+  #homepage-instructions {
+    h2 i {
+      color: $brand-secondary;
+      font-size: 26px;
+    }
   }
 }
 
