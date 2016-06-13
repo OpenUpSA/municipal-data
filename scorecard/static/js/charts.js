@@ -2,7 +2,13 @@ var formatLocale = d3_format.formatLocale({decimal: ".", thousands: " ", groupin
 
 var formats = {
   currency: formatLocale.format("$,.0f"),
-  percent: function(n) { return formatLocale.format(",.1f")(n) + "%"; },
+  percent: function(n) {
+    if (n === null) {
+      return "";
+    } else {
+      return formatLocale.format(",.1f")(n) + "%";
+    }
+  },
   num: formatLocale.format(",.1f"),
   terse: function(n, f) {
     var format;
@@ -48,8 +54,8 @@ function wrapText(text, width) {
   });
 }
 
-var tooltip = d3.select("body").append("div")	
-  .attr("class", "chart-tooltip")				
+var tooltip = d3.select("body").append("div")
+  .attr("class", "chart-tooltip")
   .style("opacity", 0);
 
 function showTooltip(cat, value) {
