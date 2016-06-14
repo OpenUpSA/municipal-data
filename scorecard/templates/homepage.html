@@ -142,13 +142,6 @@
 {% block body_javascript_extra %}
 {{ block.super }}
 
-<script src="{% static 'js/vendor/leaflet-0.6.4.js' %}"></script>
-<script src="{% static 'js/vendor/topojson.v1.min.js' %}"></script>
-<script src="{% static 'js/vendor/leaflet.label.js' %}"></script>
-<script src="{% static 'js/maps_static.js' %}"></script>
-<script src="{% static 'js/maps_mapit.js' %}"></script>
-<script src="{% static 'js/profile_map.js' %}"></script>
-
 <script>
 // show 'use my current location' button
 if (Modernizr.geolocation) {
@@ -157,9 +150,9 @@ if (Modernizr.geolocation) {
 // geoSelect already defined by widget.geo.select.js
 geoSelect.focus()
 
-var maps = new ProfileMaps();
+var maps = new Maps();
 var centre = [-28, 25];
 var zoom = 5;
-maps.drawMapForHomepage('municipality', centre, zoom);
+maps.drawMapForHomepage(centre, zoom);
 </script>
 {% endblock %}

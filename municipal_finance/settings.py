@@ -319,6 +319,7 @@ PIPELINE = {
                 'js/vendor/leaflet.label.js',
                 'js/charts.js',
                 'js/place-finder.js',
+                'js/maps.js',
                 'js/scorecard.js',
             ),
             'output_filename': 'scorecard.js'

@@ -739,15 +739,11 @@
 
 {% block body_javascript_extra %}
 <script src="{% static 'js/head2head.js' %}"></script>
-<script src="{% static 'js/maps_static.js' %}"></script>
-<script src="{% static 'js/maps_mapit.js' %}"></script>
-<script src="{% static 'js/profile_map.js' %}"></script>
-<script src="{% static 'js/profile_map_mapit.js' %}"></script>
 
 <script type="text/javascript">
 
   var profileData = {{ profile_data_json }};
-  var maps = new ProfileMaps();
+  var maps = new Maps();
   maps.drawMapsForProfile(profileData.geography);
 
 </script>
