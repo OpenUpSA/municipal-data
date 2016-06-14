@@ -314,6 +314,7 @@ PIPELINE = {
                 'js/bootstrap-3.3.2/modal.js',
                 'js/spin.min.js',
                 'js/charts.js',
+                'js/place-finder.js',
                 'js/scorecard.js',
             ),
             'output_filename': 'scorecard.js'
