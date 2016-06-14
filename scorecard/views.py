@@ -1,10 +1,14 @@
 from django.shortcuts import redirect, render_to_response
+from django.views.generic.base import TemplateView
+from django.http import Http404
 from django.core.urlresolvers import reverse
 from wkhtmltopdf.views import PDFResponse
 from wkhtmltopdf.utils import wkhtmltopdf
 
 from wazimap.geo import geo_data
-from wazimap.views import GeographyDetailView
+from wazimap.data.utils import LocationNotFound
+
+from scorecard.profiles import get_profile
 
 
 def locate(request):
@@ -33,6 +37,43 @@ def locate(request):
         'lat': lat,
         'lon': lon,
     })
+
+
+class GeographyDetailView(TemplateView):
+    template_name = 'profile/profile_detail.html'
+
+    def dispatch(self, *args, **kwargs):
+        self.geo_id = self.kwargs.get('geography_id', None)
+
+        try:
+            self.geo_level, self.geo_code = self.geo_id.split('-', 1)
+            self.geo = geo_data.get_geography(self.geo_code, self.geo_level)
+        except (ValueError, LocationNotFound):
+            raise Http404
+
+        # check slug
+        if kwargs.get('slug') or self.geo.slug:
+            if kwargs['slug'] != self.geo.slug:
+                kwargs['slug'] = self.geo.slug
+                url = '/profiles/%s-%s-%s' % (self.geo_level, self.geo_code, self.geo.slug)
+                return redirect(url, permanent=True)
+
+        return super(GeographyDetailView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, *args, **kwargs):
+        page_context = {}
+
+        profile = get_profile(self.geo_code, self.geo_level)
+        page_context.update(profile)
+
+        profile['geography'] = self.geo.as_dict()
+        page_context['profile_data'] = profile
+        page_context['geography'] = self.geo
+
+        # is this a head-to-head view?
+        page_context['head2head'] = 'h2h' in self.request.GET
+
+        return page_context
 
 
 class GeographyPDFView(GeographyDetailView):

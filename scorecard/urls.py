@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
-from wazimap.views import GeographyDetailView, PlaceSearchJson
+from wazimap.views import PlaceSearchJson
 
 import scorecard.views as views
 
@@ -15,7 +15,7 @@ urlpatterns = [
     # e.g. /profiles/province-GT/
     url(
         regex   = '^profiles/(?P<geography_id>\w+-\w+)(-(?P<slug>[\w-]+))?/$',
-        view    = cache_page(CACHE_SECS)(GeographyDetailView.as_view()),
+        view    = cache_page(CACHE_SECS)(views.GeographyDetailView.as_view()),
         kwargs  = {},
         name    = 'geography_detail',
     ),
