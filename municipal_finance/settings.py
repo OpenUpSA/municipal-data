@@ -313,6 +313,7 @@ PIPELINE = {
                 'js/bootstrap-3.3.2/transition.js',
                 'js/bootstrap-3.3.2/collapse.js',
                 'js/bootstrap-3.3.2/modal.js',
+                'js/typeahead-0.11.1.js',
                 'js/spin.min.js',
                 'js/charts.js',
                 'js/place-finder.js',

@@ -321,5 +321,7 @@ var VerticalBarChart = function() {
   };
 };
 
-new VerticalBarChart().discover();
-new HorizontalGroupedBarChart().discover();
+$(function() {
+  new VerticalBarChart().discover();
+  new HorizontalGroupedBarChart().discover();
+});

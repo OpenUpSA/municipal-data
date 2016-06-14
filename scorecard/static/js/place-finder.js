@@ -1,7 +1,10 @@
 var textmatchAPI = '/place-search/json/',
     geocodingAPI = 'https://maps.googleapis.com/maps/api/geocode/json?address=%QUERY&components=country:ZA&region=ZA',
-    resultTemplate = Handlebars.compile('<p class="result-name"><span class="result-type">{{geo_level}}</span>{{full_name}}</p>'),
     geoSelect = $('#geography-select, #geography-select-home');
+
+function resultTemplate(info) {
+    return '<p class="result-name"><span class="result-type">' + info.geo_level + '</span>' + info.full_name + '</p>';
+}
 
 var textMatchEngine = new Bloodhound({
     datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
