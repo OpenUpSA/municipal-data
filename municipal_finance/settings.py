@@ -306,6 +306,7 @@ PIPELINE = {
             'source_filenames': (
                 'bower_components/jquery/dist/jquery.min.js',
                 'bower_components/d3/d3.min.js',
+                'bower_components/underscore/underscore-min.js',
                 'javascript/vendor/d3-format.min.js',
                 'js/bootstrap-3.3.2/affix.js',
                 'js/bootstrap-3.3.2/scrollspy.js',
