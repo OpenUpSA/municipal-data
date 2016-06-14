@@ -38,7 +38,6 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = (
     'municipal_finance',
     'scorecard',
-    'wazimap_mapit',
     'wazimap.apps.WazimapConfig',
     'census',
 

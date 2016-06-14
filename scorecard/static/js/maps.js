@@ -2,9 +2,25 @@
  * A class that loads geography boundary information from
  * mapit.code4sa.org.
  */
+var MAPIT = {
+  level_codes: {
+    ward: 'WD',
+    municipality: 'MN',
+    district: 'DC',
+    province: 'PR',
+    country: 'CY',
+  },
+  level_simplify: {
+    DC: 0.01,
+    PR: 0.005,
+    MN: 0.005,
+    WD: 0.0001,
+  },
+};
+
 function MapItGeometryLoader() {
   var self = this;
-  self.mapit_url = MAPIT.url;
+  self.mapit_url = 'https://mapit.code4sa.org';
 
   this.decorateFeature = function(feature) {
     feature.properties.level = feature.properties.type_name.toLowerCase();
@@ -20,6 +36,7 @@ function MapItGeometryLoader() {
     }
 
     d3.json(this.mapit_url + url, function(error, geojson) {
+      if (error) return console.warn(error);
       var features = _.values(geojson.features);
       _.each(features, self.decorateFeature);
       success({features: features});
@@ -129,23 +146,13 @@ var Maps = function() {
     var geo_code = this.geo ? this.geo.geo_code : null;
 
     // draw all local munis
-    var url = '/areas/MN.geojson?generation=1&simplify_tolerance=' + MAPIT.level_simplify.MN;
-
-    d3.json(self.mapit_url + url, function(error, geojson) {
-      if (error) return console.warn(error);
-
+    GeometryLoader.loadGeometryForLevel('municipality', function(data) {
       // don't include this smaller geo, we already have a shape for that
-      geojson.features = _.filter(geojson.features, function(f) {
+      data.features = _.filter(data.features, function(f) {
         return f.properties.codes.MDB != geo_code;
       });
 
-      // update names
-      _.each(geojson.features, function(f) {
-        f.properties.code = f.properties.codes.MDB;
-        f.properties.level = 'municipality';
-      });
-
-      self.drawFeatures(geojson);
+      self.drawFeatures(data);
     });
   };
 
