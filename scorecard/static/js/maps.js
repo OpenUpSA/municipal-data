@@ -75,7 +75,7 @@ var Maps = function() {
     this.addImagery();
 
     // draw this geometry
-    GeometryLoader.loadGeometryForGeo(this.geo.this.geo_level, this.geo.this.geo_code, function(feature) {
+    GeometryLoader.loadGeometryForGeo(this.geo.geo_level, this.geo.geo_code, function(feature) {
       self.drawFocusFeature(feature);
     });
 
