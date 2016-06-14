@@ -10,16 +10,18 @@ var textMatchEngine = new Bloodhound({
     datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     limit: 20,
-    remote: {
-        url: textmatchAPI,
-        rateLimitWait: 600,
-        replace: function (url, query) {
-            return url += '?q=' + query;
+    prefetch: {
+        url: API_URL + '/cubes/municipalities/facts',
+        cache: false,
+        transform: function(data) {
+            return _.map(data.data, function(d) {
+                return {
+                    geo_level: d['municipality.category'] == 'C' ? 'district' : 'municipality',
+                    full_name: d['municipality.long_name'],
+                };
+            });
         },
-        filter: function(response) {
-            return response.results;
-        }
-    }
+    },
 });
 textMatchEngine.initialize();
 
