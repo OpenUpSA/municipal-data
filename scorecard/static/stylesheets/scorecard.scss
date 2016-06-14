@@ -177,7 +177,7 @@ blockquote {
 }
 
 #menu input,
-#menu .tt-dropdown-menu {
+#menu .tt-menu {
   width: 240px;
 }
 
@@ -355,7 +355,7 @@ blockquote {
     margin-left: 0;
   }
   #menu input,
-  #menu .tt-dropdown-menu {
+  #menu .tt-menu {
     width: 100%;
   }
 }
@@ -1068,7 +1068,7 @@ blockquote {
 
 //= Leaflet
 .leaflet-top, .leaflet-bottom {
-  // ensure that the tt-dropdown menu goes above leaflet controls
+  // ensure that the tt-menu menu goes above leaflet controls
   z-index: 99 !important;
 }
 
@@ -1077,7 +1077,7 @@ blockquote {
   visibility: hidden;
 }
 
-.tt-dropdown-menu {
+.tt-menu {
   min-width: 160px;
   width: 100%;
   margin-top: 2px;
@@ -1090,7 +1090,7 @@ blockquote {
   height: 320px;
   overflow-y: auto;
 }
-.tt-dropdown-menu h2 {
+.tt-menu h2 {
   font-size: 1.2em;
   padding: .83em;
   margin-bottom: 0;
@@ -1104,7 +1104,8 @@ blockquote {
   border-bottom: 1px solid #e0e0e0;
 }
 
-.tt-suggestion.tt-cursor {
+.tt-suggestion.tt-cursor,
+.tt-suggestion:hover {
   color: #fff;
   background-color: $brand-secondary;
   cursor: pointer;
@@ -1127,13 +1128,11 @@ blockquote {
   font-size: .83em;
 }
 
-.tt-suggestion {
-  .result-name .result-type {
-    float: right;
-    margin: .17em .33em 0 1em;
-    font-size: .83em;
-    font-style: italic;
-  }
+.tt-suggestion.result-name .result-type {
+  float: right;
+  margin: .17em .33em 0 1em;
+  font-size: .83em;
+  font-style: italic;
 }
 
 // Charts
