@@ -305,7 +305,7 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }} months{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result|month_days }}{% endif %}</div>
         <div class="indicator-description">Months of operating expenses can be paid for with the cash available.</div>
         <table class="table table-bordered indicator-key">
           <tr>
