@@ -233,7 +233,7 @@ PIPELINE = {
                 'css/vendor/leaflet-0.6.4.css',
                 'css/vendor/leaflet.label.css',
                 'bower_components/fontawesome/css/font-awesome.css',
-                'css/icomoon.css',
+                'stylesheets/icomoon.css',
                 'stylesheets/scorecard.scss',
             ),
             'output_filename': 'scorecard.css'
