@@ -326,6 +326,7 @@ PIPELINE = {
     },
     'CSS_COMPRESSOR': None,
     'JS_COMPRESSOR': None,
+    'DISABLE_WRAPPER': True,
 
     'COMPILERS': (
         'municipal_finance.pipeline.PyScssCompiler',
