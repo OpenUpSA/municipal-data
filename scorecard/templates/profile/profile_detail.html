@@ -295,11 +295,12 @@
           </tr>
         </table>
         <div class="show-calc"><a href="#cash-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
-
       </div>
+
       <div class="col-sm-4">
         <div class="chart-container" data-chart="column-cash_at_year_end" data-unit="currency"></div>
       </div>
+
       <div class="col-sm-4">
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
@@ -310,6 +311,8 @@
       </div>
     </div>
     <div class="calc collapse" id="cash-calc">
+      <div class="source"><span class="h5">Reference:</span> <a href="{{ sources.solgf.url }}" target="_blank">{{ sources.solgf.title }}</a></div>
+
       <h5>Formula:</h5>
       <ul class="formula">
         <li>Cash available at year end</li>
@@ -356,8 +359,9 @@
       </div>
     </div>
     <div class="calc collapse" id="cash-coverage-calc">
-      <h5>Formula:</h5>
+      <div class="source"><span class="h5">Reference:</span> <a href="{{ sources.solgf.url }}" target="_blank">{{ sources.solgf.title }}</a></div>
 
+      <h5>Formula:</h5>
       <ul class="formula">
         <li>= Cash available at year end / Operating Expenditure per month</li>
         <li>=
@@ -415,8 +419,9 @@
       </div>
     </div>
     <div class="calc collapse" id="op-budget-calc">
-      <h5>Formula:</h5>
+      <div class="source"><span class="h5">Reference:</span> <a href="{{ sources.solgf.url }}" target="_blank">{{ sources.solgf.title }}</a></div>
 
+      <h5>Formula:</h5>
       <ul class="formula">
         <li>= (Actual Operating Expenditure - Budget Operating Expenditure) / Budgeted Operating Expenditure</li>
         <li>=
@@ -475,8 +480,9 @@
       </div>
     </div>
     <div class="calc collapse" id="cap-budget-calc">
-      <h5>Formula:</h5>
+      <div class="source"><span class="h5">Reference:</span> <a href="{{ sources.solgf.url }}" target="_blank">{{ sources.solgf.title }}</a></div>
 
+      <h5>Formula:</h5>
       <ul class="formula">
         <li>= (Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure</li>
         <li>=
@@ -525,8 +531,9 @@
       </div>
     </div>
     <div class="calc collapse" id="rep-maint-calc">
-      <h5>Formula:</h5>
+      <div class="source"><span class="h5">Reference:</span> <a href="{{ sources.circular71.url }}" target="_blank">{{ sources.circular71.title }}</a></div>
 
+      <h5>Formula:</h5>
       <ul class="formula">
         <li>= Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)</li>
         <li>=
@@ -574,8 +581,9 @@
       </div>
     </div>
     <div class="calc collapse" id="fruitless-exp-calc">
-      <h5>Formula:</h5>
+      <div class="source"><span class="h5">Reference:</span> <a href="{{ sources.circular71.url }}" target="_blank">{{ sources.circular71.title }}</a></div>
 
+      <h5>Formula:</h5>
       <ul class="formula">
         <li>= Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure</li>
         <li>=

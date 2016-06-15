@@ -75,6 +75,17 @@ class IndicatorCalculator(object):
             ('Own revenue', '1700'),
         ]
 
+        self.sources = {
+            'solgf': {
+                'title': 'State of Local Government Finances 2014',
+                'url': 'http://mfma.treasury.gov.za/Media_Releases/The%20state%20of%20local%20government%20finances/Documents/State%20of%20LG%20Finances%20Report%202013-14%20-%2018%20Nov%202014%20(final).pdf',
+            },
+            'circular71': {
+                'title': 'Circular 71',
+                'url': 'http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx',
+            },
+        }
+
     def calculate(self):
         self.queries = self.get_queries()
         self.results = defaultdict(dict)
