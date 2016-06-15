@@ -738,22 +738,14 @@
 {% endblock %}
 
 {% block body_javascript_extra %}
-<script src="{% static 'js/vendor/leaflet-0.6.4.js' %}"></script>
-<script src="{% static 'js/vendor/topojson.v1.min.js' %}"></script>
-<script src="{% static 'js/vendor/leaflet.label.js' %}"></script>
 <script src="{% static 'js/head2head.js' %}"></script>
-<script src="{% static 'js/maps_static.js' %}"></script>
-<script src="{% static 'js/maps_mapit.js' %}"></script>
-<script src="{% static 'js/profile_map.js' %}"></script>
-<script src="{% static 'js/profile_map_mapit.js' %}"></script>
 
 <script type="text/javascript">
 
   var profileData = {{ profile_data_json }};
-  var maps = new ProfileMaps();
-  maps.drawMapsForProfile(profileData.geography);
+  var maps = new Maps();
+  maps.drawMapsForProfile(profileData.geography.this);
 
 </script>
 
-{% javascript "scorecard" %}
 {% endblock %}
