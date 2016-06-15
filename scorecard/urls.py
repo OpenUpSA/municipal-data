@@ -1,7 +1,6 @@
 from django.conf.urls import url
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
-from wazimap.views import PlaceSearchJson
 
 import scorecard.views as views
 
@@ -24,12 +23,6 @@ urlpatterns = [
         view    = cache_page(CACHE_SECS)(views.GeographyPDFView.as_view()),
         kwargs  = {},
         name    = 'geography_pdf',
-    ),
-    url(
-        regex   = '^place-search/json/$',
-        view    = cache_page(CACHE_SECS)(PlaceSearchJson.as_view()),
-        kwargs  = {},
-        name    = 'place_search_json',
     ),
     url(
         regex   = '^locate/$',
