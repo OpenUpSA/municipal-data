@@ -31,6 +31,7 @@ var geocodeAddressEngine = new Bloodhound({
     limit: 5,
     remote: {
         url: geocodingAPI,
+        wildcard: "%QUERY",
         rateLimitWait: 600,
         filter: function(response) {
             if (response.status != 'OK') return [];
@@ -53,14 +54,16 @@ geocodeAddressEngine.initialize();
 var geocodeEngine = function(query, cb) {
     // first use google to geocode the address, handling caching,
     // the translate coordinates into places using our api
-    geocodeAddressEngine.get(query, function(datums) {
+    function found(datums) {
         // now lookup places for these coords
         var coords = _.map(datums, function(d) { return d.lat + ',' + d.lng; });
         var url = textmatchAPI + '?coords=' + coords.join('&coords=');
         $.getJSON(url, function(response) {
             cb(response.results);
         });
-    });
+    }
+
+    geocodeAddressEngine.search(query, found, found);
 };
 
 function makeGeoSelectWidget(element, selected) {
