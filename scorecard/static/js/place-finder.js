@@ -51,16 +51,18 @@ var geocodeAddressEngine = new Bloodhound({
 });
 geocodeAddressEngine.initialize();
 
-var geocodeEngine = function(query, cb) {
+var geocodeEngine = function(query, sync, cb) {
     // first use google to geocode the address, handling caching,
     // the translate coordinates into places using our api
     function found(datums) {
         // now lookup places for these coords
-        var coords = _.map(datums, function(d) { return d.lat + ',' + d.lng; });
-        var url = textmatchAPI + '?coords=' + coords.join('&coords=');
-        $.getJSON(url, function(response) {
-            cb(response.results);
-        });
+        if (datums.length > 0) {
+            var coords = _.map(datums, function(d) { return d.lat + ',' + d.lng; });
+            var url = textmatchAPI + '?coords=' + coords.join('&coords=');
+            $.getJSON(url, function(response) {
+                cb(response.results);
+            });
+        }
     }
 
     geocodeAddressEngine.search(query, found, found);
