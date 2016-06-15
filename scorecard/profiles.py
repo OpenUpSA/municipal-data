@@ -1,6 +1,8 @@
 from wazimap.data.tables import get_datatable
-from profile_data import IndicatorCalculator
 from wazimap.geo import geo_data
+
+
+from profile_data import IndicatorCalculator
 
 
 def get_profile(geo_code, geo_level, profile_name=None):

@@ -1,13 +1,13 @@
 {% extends '_base.html' %}
 {% load staticfiles pipeline l10n jsonify finance %}
 
-{% block head_title %}{{ geography.this.short_name }} - {{ block.super }}{% endblock %}
-{% block head_meta_description %}Municipal performance for {{ geography.this.short_name}}, and other information.{% endblock %}
+{% block head_title %}{{ geography.name  }} - {{ block.super }}{% endblock %}
+{% block head_meta_description %}Financial Performance for {{ geography.name }}, and other information.{% endblock %}
 
 {% block head_facebook_tags %}
-    <meta property="og:title" content="Municipal Money Profile: {% firstof geography.this.full_name geography.this.short_name %}" />
+    <meta property="og:title" content="Municipal Money Profile: {% firstof geography.name %}" />
     <meta property="og:site_name" content="Municipal Money" />
-    <meta property="og:description" content="Municipal performance for {{ geography.this.short_name}}, and other information." />
+    <meta property="og:description" content="Financial Performance for {{ geography.name }}, and other information." />
     <meta property="og:type" content="article" />
 {% endblock %}
 
@@ -19,25 +19,25 @@
     <div id="cover-profile">
       <article class="clearfix column-half">
         <header id="header-box" class="column-full">
-          <h1 class="title">{{ geography.this.short_name }}</h1>
+          <h1 class="title">{{ geography.name }}</h1>
           <p class="caption">
-            {{ geography.this.category_name|capfirst }}
+            {{ geography.category_name|capfirst }}
             in
-            {% if geography.parents %}
-              {% for level, g in geography.parents.items %}
-                <a href="/profiles/{{ g.full_geoid }}-{{ g.short_name|slugify }}/">{{ g.short_name }}</a>,
+            {% if geography.ancestors %}
+              {% for g in geography.ancestors %}
+                <a href="/profiles/{{ g.geoid }}-{{ g.name|slugify }}/">{{ g.name }}</a>,
               {% endfor %}
             {% endif %}
-            {{ geography.this.province_name }}
+            {{ geography.province_name }}
           </p>
         </header>
         <div class="stat stat-primary">
           <span class="name">Population</span>
           <span class="value">{{ total_population|floatformat:"0" }}</span>
         </div>
-        {% if geography.this.square_kms %}
+        {% if geography.square_kms %}
         <div class="stat stat-secondary">
-          <span class="value">{% if geography.this.square_kms < 1.0 %}{{ geography.this.square_kms|floatformat:"3" }}{% else %}{{ geography.this.square_kms|floatformat:"1" }}{% endif %}</span>
+          <span class="value">{% if geography.square_kms < 1.0 %}{{ geography.square_kms|floatformat:"3" }}{% else %}{{ geography.square_kms|floatformat:"1" }}{% endif %}</span>
           <span class="name"> square kilometres</span>
         </div>
           {% if population_density %}
@@ -134,7 +134,7 @@
     <div class="page-nav-container">
       <div class="container">
         <div class="page-nav-info">
-          <div class="muni-name">{{ geography.this.short_name }}</div>
+          <div class="muni-name">{{ geography.name }}</div>
           <div class="muni-population">Population: {{ total_population|floatformat:"0" }}</div>
         </div>
 
@@ -142,7 +142,7 @@
           <li role="presentation" class="active"><a href="#performance"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i><br><span class="nav-text">Performance</span></a></li>
           <li role="presentation"><a href="#income"><i class="fa fa-money fa-2x" aria-hidden="true"></i><br><span class="nav-text">Income</span></a></li>
           <li role="presentation"><a href="#spending"><i class="fa fa-credit-card fa-2x" aria-hidden="true"></i><br><span class="nav-text">Spending</span></a></li>
-          <li role="presentation" class="pull-right hidden-xs"><a href="/profiles/{{ geography.this.geo_level }}-{{ geography.this.geo_code }}-{{ geography.this.slug }}.pdf" target="_blank" rel="alternate" type="application/pdf"><i class="fa fa-print fa-2x" area-hidden="true"></i><br><span class="nav-text">Print PDF</span></a></li>
+          <li role="presentation" class="pull-right hidden-xs"><a href="/profiles/{{ geography.geo_level }}-{{ geography.geo_code }}-{{ geography.slug }}.pdf" target="_blank" rel="alternate" type="application/pdf"><i class="fa fa-print fa-2x" area-hidden="true"></i><br><span class="nav-text">Print PDF</span></a></li>
         </ul>
 
       </div>
@@ -293,7 +293,7 @@
       <h5>Formula:</h5>
       <ul class="formula">
         <li>Cash available at year end</li>
-        <li>= <a href="{% table_url "cflow" year=latest.year muni=geography.this.geo_code items=4200 amountType="AUDA" %}" target="_blank">Cash Flow item code 4200, Audited Actual</a></li>
+        <li>= <a href="{% table_url "cflow" year=latest.year items=4200 amountType="AUDA" %}" target="_blank">Cash Flow item code 4200, Audited Actual</a></li>
       </ul>
     </div>
     {% endwith %}
@@ -742,9 +742,9 @@
 
 <script type="text/javascript">
 
-  var profileData = {{ profile_data_json }};
+  var profileData = {{ profile_data|jsonify|safe }}
   var maps = new Maps();
-  maps.drawMapsForProfile(profileData.geography.this);
+  maps.drawMapsForProfile(profileData.geography);
 
 </script>
 

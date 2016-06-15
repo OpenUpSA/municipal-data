@@ -10,7 +10,7 @@ register = template.Library()
 @register.simple_tag(takes_context=True)
 def table_url(context, cube, year=None, muni=None, items=None, amountType=None):
     if not muni:
-        muni = context['geography']['this']['geo_code']
+        muni = context['geography'].geo_code
 
     params = {
         "municipalities": muni,
