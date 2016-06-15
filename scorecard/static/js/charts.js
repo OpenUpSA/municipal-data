@@ -8,11 +8,11 @@ var formats = {
     else
       return formatLocale.format(",.1f")(n) + "%";
   },
-  num: function(n) {
+  num: function(n, name) {
     if (n === null)
       return "";
     else
-      return formatLocale.format(",.1f")(n);
+      return formatLocale.format(",.1f")(n) + (name ? " " + name : "");
   },
   terse: function(n, f) {
     var format;
@@ -237,6 +237,7 @@ var VerticalBarChart = function() {
     self.data = data;
     // establish format
     self.format = formats[self.container.data('unit') || "currency"];
+    self.unit_name = self.container.data('unit-name');
     self.drawChart();
   };
 
@@ -305,7 +306,7 @@ var VerticalBarChart = function() {
           return "chart-column " + d.rating;
         })
         .on("mouseover", function(d) {
-          showTooltip(d.year, self.format(d.result));
+          showTooltip(d.year, self.format(d.result, self.unit_name));
         })
         .on("mouseout", hideTooltip);
 

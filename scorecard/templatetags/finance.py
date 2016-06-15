@@ -41,3 +41,15 @@ def finyear(year):
 def absolute(result):
     if result is not None:
         return abs(result)
+
+
+@register.filter
+def month_days(n):
+    # months if >= 1, else days
+    if n is None:
+        return None
+
+    if n < 1.0:
+        return "%d days" % (n * 30)
+    else:
+        return "%.2g months" % n
