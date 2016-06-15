@@ -200,7 +200,7 @@
 
       <div class="col-sm-8">
         <div class="row">
-        {% for opinion in audit_opinions %}
+        {% for opinion in audit_opinions.values %}
           <div class="col-sm-3">
             <table class="table table-bordered">
               <tr>
@@ -277,7 +277,7 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.cash_at_year_end|first as latest %}
+    {% with indicators.cash_at_year_end.values|first as latest %}
     <h2 class="sub-heading">Cash Balance <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
@@ -311,7 +311,7 @@
       </div>
     </div>
     <div class="calc collapse" id="cash-calc">
-      <div class="source"><span class="h5">Reference:</span> <a href="{{ sources.solgf.url }}" target="_blank">{{ sources.solgf.title }}</a></div>
+      <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.cash_at_year_end.ref.url }}" target="_blank">{{ indicators.cash_at_year_end.ref.title }}</a></div>
 
       <h5>Formula:</h5>
       <ul class="formula">
@@ -323,7 +323,7 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.cash_coverage|first as latest %}
+    {% with indicators.cash_coverage.values|first as latest %}
     <h2>Cash Coverage <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
@@ -359,7 +359,7 @@
       </div>
     </div>
     <div class="calc collapse" id="cash-coverage-calc">
-      <div class="source"><span class="h5">Reference:</span> <a href="{{ sources.solgf.url }}" target="_blank">{{ sources.solgf.title }}</a></div>
+      <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.cash_coverage.ref.url }}" target="_blank">{{ indicators.cash_coverage.ref.title }}</a></div>
 
       <h5>Formula:</h5>
       <ul class="formula">
@@ -375,7 +375,7 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.op_budget_diff|first as latest %}
+    {% with indicators.op_budget_diff.values|first as latest %}
     <h2>Spending of Operating Budget <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
@@ -419,7 +419,7 @@
       </div>
     </div>
     <div class="calc collapse" id="op-budget-calc">
-      <div class="source"><span class="h5">Reference:</span> <a href="{{ sources.solgf.url }}" target="_blank">{{ sources.solgf.title }}</a></div>
+      <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.op_budget_diff.ref.url }}" target="_blank">{{ indicators.op_budget_diff.ref.title }}</a></div>
 
       <h5>Formula:</h5>
       <ul class="formula">
@@ -436,7 +436,7 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.cap_budget_diff|first as latest %}
+    {% with indicators.cap_budget_diff.values|first as latest %}
     <h2>Spending of Capital Budget <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
@@ -480,7 +480,7 @@
       </div>
     </div>
     <div class="calc collapse" id="cap-budget-calc">
-      <div class="source"><span class="h5">Reference:</span> <a href="{{ sources.solgf.url }}" target="_blank">{{ sources.solgf.title }}</a></div>
+      <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.cap_budget_diff.ref.url }}" target="_blank">{{ indicators.cap_budget_diff.ref.title }}</a></div>
 
       <h5>Formula:</h5>
       <ul class="formula">
@@ -497,7 +497,7 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.rep_maint_perc_ppe|first as latest %}
+    {% with indicators.rep_maint_perc_ppe.values|first as latest %}
     <h2>Spending on Repairs and Maintenance <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
@@ -531,7 +531,7 @@
       </div>
     </div>
     <div class="calc collapse" id="rep-maint-calc">
-      <div class="source"><span class="h5">Reference:</span> <a href="{{ sources.circular71.url }}" target="_blank">{{ sources.circular71.title }}</a></div>
+      <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.rep_maint_perc_ppe.ref.url }}" target="_blank">{{ indicators.rep_maint_perc_ppe.ref.title }}</a></div>
 
       <h5>Formula:</h5>
       <ul class="formula">
@@ -548,7 +548,7 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.wasteful_exp.1 as latest %}
+    {% with indicators.wasteful_exp.values.1 as latest %}
     <h2>Fruitless and wasteful expenditure <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
@@ -581,7 +581,7 @@
       </div>
     </div>
     <div class="calc collapse" id="fruitless-exp-calc">
-      <div class="source"><span class="h5">Reference:</span> <a href="{{ sources.circular71.url }}" target="_blank">{{ sources.circular71.title }}</a></div>
+      <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.wasteful_exp.ref.url }}" target="_blank">{{ indicators.wasteful_exp.ref.title }}</a></div>
 
       <h5>Formula:</h5>
       <ul class="formula">
@@ -630,7 +630,7 @@
   <h1><i class="fa fa-credit-card"></i> Spending <span class="subtitle">- How money is spent</span></h1>
 
   <div class="indicator">
-    {% with indicators.expenditure_trends.staff|first as latest %}
+    {% with indicators.expenditure_trends.staff.values|first as latest %}
     <h2>Staff Wages and Salaries <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
@@ -677,7 +677,7 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.expenditure_trends.contracting|first as latest %}
+    {% with indicators.expenditure_trends.contracting.values|first as latest %}
     <h2>Contractor Services <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">

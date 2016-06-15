@@ -38,5 +38,4 @@ def get_profile(geo_code, geo_level, profile_name=None):
         'muni_contact': indicator_calc.muni_contact(),
         'audit_opinions': indicator_calc.audit_opinions(),
         'indicators': indicators,
-        'sources': indicator_calc.sources,
     }
