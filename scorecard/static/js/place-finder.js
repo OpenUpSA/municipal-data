@@ -1,5 +1,4 @@
-var textmatchAPI = '/place-search/json/',
-    geocodingAPI = 'https://maps.googleapis.com/maps/api/geocode/json?address=%QUERY&components=country:ZA&region=ZA',
+var geocodingAPI = 'https://maps.googleapis.com/maps/api/geocode/json?address=%QUERY&components=country:ZA&region=ZA',
     geoSelect = $('#geography-select, #geography-select-home');
 
 function resultTemplate(info) {
@@ -15,9 +14,11 @@ var textMatchEngine = new Bloodhound({
         cache: false,
         transform: function(data) {
             return _.map(data.data, function(d) {
+                var geo_level = d['municipality.category'] == 'C' ? 'district' : 'municipality';
                 return {
-                    geo_level: d['municipality.category'] == 'C' ? 'district' : 'municipality',
+                    geo_level: geo_level,
                     full_name: d['municipality.long_name'],
+                    full_geoid: geo_level + '-' + d['municipality.code'],
                 };
             });
         },
@@ -40,8 +41,6 @@ var geocodeAddressEngine = new Bloodhound({
             var coords = [];
             for (var i = 0; i < response.results.length; i++) {
                 var result = response.results[i];
-                if (result.partial_match) continue;
-
                 coords.push({'lat': result.geometry.location.lat, 'lng': result.geometry.location.lng});
             }
 
@@ -57,10 +56,21 @@ var geocodeEngine = function(query, sync, cb) {
     function found(datums) {
         // now lookup places for these coords
         if (datums.length > 0) {
-            var coords = _.map(datums, function(d) { return d.lat + ',' + d.lng; });
-            var url = textmatchAPI + '?coords=' + coords.join('&coords=');
+            var url = 'https://mapit.code4sa.org/point/4326/' + datums[0].lng + ',' + datums[0].lat + '.json';
+
             $.getJSON(url, function(response) {
-                cb(response.results);
+                // munis and districts
+                var geos = _.filter(_.values(response), function(g) { return g.type == "MN" || g.type == "DC"; });
+                geos = _.map(geos, function(g) {
+                    var geo_level = g.type == "MN" ? "municipality" : "district";
+                    return {
+                        geo_level: geo_level,
+                        full_name: g.name,
+                        full_geoid: geo_level + '-' + g.codes.MDB,
+                    };
+                });
+
+                cb(geos);
             });
         }
     }
@@ -102,7 +112,7 @@ function makeGeoSelectWidget(element, selected) {
 
 makeGeoSelectWidget(geoSelect);
 makeGeoSelectWidget($('#compare-place-select'), function(event, datum) {
-    var geoId = [profileData.geography.this.geo_level, profileData.geography.this.geo_code].join('-');
+    var geoId = [profileData.geography.geo_level, profileData.geography.geo_code].join('-');
     event.stopPropagation();
     window.location = '/compare/' + geoId + '/vs/' + datum.full_geoid + '/';
 });
