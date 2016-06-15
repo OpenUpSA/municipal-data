@@ -200,7 +200,7 @@
 
       <div class="col-sm-8">
         <div class="row">
-        {% for opinion in audit_opinions %}
+        {% for opinion in audit_opinions.values %}
           <div class="col-sm-3">
             <table class="table table-bordered">
               <tr>
@@ -277,14 +277,14 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.cash_at_year_end|first as latest %}
+    {% with indicators.cash_at_year_end.values|first as latest %}
     <h2 class="sub-heading">Cash Balance <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}R {{ latest.result|floatformat:"0" }}{% endif %}</div>
         <div class="indicator-description">Cash balance at the end of the financial year.</div>
-        <table class="table table-bordered indicator-key">
+        <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">Positive balance</td>
@@ -295,11 +295,12 @@
           </tr>
         </table>
         <div class="show-calc"><a href="#cash-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
-
       </div>
+
       <div class="col-sm-4">
         <div class="chart-container" data-chart="column-cash_at_year_end" data-unit="currency"></div>
       </div>
+
       <div class="col-sm-4">
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
@@ -310,6 +311,8 @@
       </div>
     </div>
     <div class="calc collapse" id="cash-calc">
+      <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.cash_at_year_end.ref.url }}" target="_blank">{{ indicators.cash_at_year_end.ref.title }}</a></div>
+
       <h5>Formula:</h5>
       <ul class="formula">
         <li>Cash available at year end</li>
@@ -320,14 +323,14 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.cash_coverage|first as latest %}
+    {% with indicators.cash_coverage.values|first as latest %}
     <h2>Cash Coverage <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result|month_days }}{% endif %}</div>
         <div class="indicator-description">Months of operating expenses can be paid for with the cash available.</div>
-        <table class="table table-bordered indicator-key">
+        <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">more than 3</td>
@@ -356,8 +359,9 @@
       </div>
     </div>
     <div class="calc collapse" id="cash-coverage-calc">
-      <h5>Formula:</h5>
+      <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.cash_coverage.ref.url }}" target="_blank">{{ indicators.cash_coverage.ref.title }}</a></div>
 
+      <h5>Formula:</h5>
       <ul class="formula">
         <li>= Cash available at year end / Operating Expenditure per month</li>
         <li>=
@@ -371,7 +375,7 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.op_budget_diff|first as latest %}
+    {% with indicators.op_budget_diff.values|first as latest %}
     <h2>Spending of Operating Budget <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
@@ -385,7 +389,7 @@
           {% endif %}
         </div>
         <div class="indicator-description">Difference between budgeted operating expenditure and what was actually spent.</div>
-        <table class="table table-bordered indicator-key">
+        <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">less than 10%</td>
@@ -415,8 +419,9 @@
       </div>
     </div>
     <div class="calc collapse" id="op-budget-calc">
-      <h5>Formula:</h5>
+      <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.op_budget_diff.ref.url }}" target="_blank">{{ indicators.op_budget_diff.ref.title }}</a></div>
 
+      <h5>Formula:</h5>
       <ul class="formula">
         <li>= (Actual Operating Expenditure - Budget Operating Expenditure) / Budgeted Operating Expenditure</li>
         <li>=
@@ -431,7 +436,7 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.cap_budget_diff|first as latest %}
+    {% with indicators.cap_budget_diff.values|first as latest %}
     <h2>Spending of Capital Budget <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
@@ -445,7 +450,7 @@
           {% endif %}
         </div>
         <div class="indicator-description">Difference between budgeted capital expenditure and what was actually spent.</div>
-        <table class="table table-bordered indicator-key">
+        <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">less than 10%</td>
@@ -475,8 +480,9 @@
       </div>
     </div>
     <div class="calc collapse" id="cap-budget-calc">
-      <h5>Formula:</h5>
+      <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.cap_budget_diff.ref.url }}" target="_blank">{{ indicators.cap_budget_diff.ref.title }}</a></div>
 
+      <h5>Formula:</h5>
       <ul class="formula">
         <li>= (Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure</li>
         <li>=
@@ -491,7 +497,7 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.rep_maint_perc_ppe|first as latest %}
+    {% with indicators.rep_maint_perc_ppe.values|first as latest %}
     <h2>Spending on Repairs and Maintenance <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
@@ -499,7 +505,7 @@
         <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
 
         <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
-        <table class="table table-bordered indicator-key">
+        <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">more than 8%</td>
@@ -525,8 +531,9 @@
       </div>
     </div>
     <div class="calc collapse" id="rep-maint-calc">
-      <h5>Formula:</h5>
+      <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.rep_maint_perc_ppe.ref.url }}" target="_blank">{{ indicators.rep_maint_perc_ppe.ref.title }}</a></div>
 
+      <h5>Formula:</h5>
       <ul class="formula">
         <li>= Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)</li>
         <li>=
@@ -541,14 +548,14 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.wasteful_exp.1 as latest %}
+    {% with indicators.wasteful_exp.values.1 as latest %}
     <h2>Fruitless and wasteful expenditure <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
         <div class="indicator-description">Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage of operating expenditure.</div>
-        <table class="table table-bordered indicator-key">
+        <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">0%</td>
@@ -567,15 +574,15 @@
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
           <div class="panel-body">
-            <p>Unauthorised expenditure means any spending that was not budgeted for or that is unrelated to the municpal department's function.  An example is using municipal funds to pay for unbudgeted projects.     Irregular Expenditure is spending that goes against the relevant legislation, municipal policies or by-laws.  An example is awarding a contract that did not go through tender procedures.  Fruitless and wasteful expenditure concerns spending which was made in vain and would have been avoided had reasonable care been exercised.  An example of such expenditure would include paying a deposit for a venue and not using it and losing the deposit.</p>
-            <p>Since calling expenditures unauthorised, fruitless and wasteful or irregular can involve quite a lot of debate, the numbers used are the restated audited amounts 18 months after the financial year end - part of the Medium Term Revenue and Expenditure Framework.</p>
+            <p><strong>Unauthorised</strong> expenditure means any spending that was not budgeted for or that is unrelated to the municpal department's function.  An example is using municipal funds to pay for unbudgeted projects. <strong>Irregular </strong> expenditure is spending that goes against the relevant legislation, municipal policies or by-laws.  An example is awarding a contract that did not go through tender procedures. <strong>Fruitless and wasteful</strong> expenditure concerns spending which was made in vain and would have been avoided had reasonable care been exercised.  An example of such expenditure would include paying a deposit for a venue and not using it and losing the deposit.</p>
           </div>
         </div>
       </div>
     </div>
     <div class="calc collapse" id="fruitless-exp-calc">
-      <h5>Formula:</h5>
+      <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.wasteful_exp.ref.url }}" target="_blank">{{ indicators.wasteful_exp.ref.title }}</a></div>
 
+      <h5>Formula:</h5>
       <ul class="formula">
         <li>= Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure</li>
         <li>=
@@ -583,6 +590,7 @@
           /
           <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
       </ul>
+      <p><span class="h5">Note:</span> Since calling expenditures unauthorised, fruitless and wasteful or irregular can involve quite a lot of debate, the numbers used are the restated audited amounts 18 months after the financial year end - part of the Medium Term Revenue and Expenditure Framework.</p>
     </div>
     {% endwith %}
   </div>
@@ -622,14 +630,14 @@
   <h1><i class="fa fa-credit-card"></i> Spending <span class="subtitle">- How money is spent</span></h1>
 
   <div class="indicator">
-    {% with indicators.expenditure_trends.staff|first as latest %}
+    {% with indicators.expenditure_trends.staff.values|first as latest %}
     <h2>Staff Wages and Salaries <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
         <div class="indicator-description">Staff salaries and wages as a percentage of operating expenditure.</div>
-        <table class="table table-bordered indicator-key">
+        <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">25% to 40%</td>
@@ -669,14 +677,14 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.expenditure_trends.contracting|first as latest %}
+    {% with indicators.expenditure_trends.contracting.values|first as latest %}
     <h2>Contractor Services <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
         <div class="indicator-description">Costs of contractor services as a percentage of operating expenditure.</div>
-        <table class="table table-bordered indicator-key">
+        <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
             <td class="key-description">up to 5%</td>

@@ -96,7 +96,7 @@ var HorizontalGroupedBarChart = function() {
     var data = profileData.indicators;
     _.each(self.name.split("."), function(p) { data = data[p]; });
 
-    self.data = data;
+    self.data = data.values;
     self.drawChart();
   };
 
@@ -234,7 +234,7 @@ var VerticalBarChart = function() {
     var data = profileData.indicators;
     _.each(self.name.split("."), function(p) { data = data[p]; });
 
-    self.data = data;
+    self.data = data.values;
     // establish format
     self.format = formats[self.container.data('unit') || "currency"];
     self.unit_name = self.container.data('unit-name');

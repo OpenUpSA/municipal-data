@@ -75,6 +75,17 @@ class IndicatorCalculator(object):
             ('Own revenue', '1700'),
         ]
 
+        self.references = {
+            'solgf': {
+                'title': 'State of Local Government Finances 2014',
+                'url': 'http://mfma.treasury.gov.za/Media_Releases/The%20state%20of%20local%20government%20finances/Documents/State%20of%20LG%20Finances%20Report%202013-14%20-%2018%20Nov%202014%20(final).pdf',
+            },
+            'circular71': {
+                'title': 'Circular 71',
+                'url': 'http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx',
+            },
+        }
+
     def calculate(self):
         self.queries = self.get_queries()
         self.results = defaultdict(dict)
@@ -116,7 +127,10 @@ class IndicatorCalculator(object):
                 rating = None
             values.append({'year': year, 'result': result, 'rating': rating})
 
-        return values
+        return {
+            'values': values,
+            'ref': self.references['solgf'],
+        }
 
     def op_budget_diff(self):
         values = []
@@ -145,7 +159,10 @@ class IndicatorCalculator(object):
                 'rating': rating
             })
 
-        return values
+        return {
+            'values': values,
+            'ref': self.references['solgf'],
+        }
 
     def cap_budget_diff(self):
         values = []
@@ -174,7 +191,10 @@ class IndicatorCalculator(object):
                 'rating': rating
             })
 
-        return values
+        return {
+            'values': values,
+            'ref': self.references['solgf'],
+        }
 
     def rep_maint_perc_ppe(self):
         values = []
@@ -196,7 +216,10 @@ class IndicatorCalculator(object):
 
             values.append({'year': year, 'result': result, 'rating': rating})
 
-        return values
+        return {
+            'values': values,
+            'ref': self.references['circular71'],
+        }
 
     def revenue_breakdown(self):
         values = []
@@ -224,10 +247,14 @@ class IndicatorCalculator(object):
                     })
             except KeyError:
                 continue
-        return values
+        return {'values': values}
 
     def expenditure_trends(self):
-        values = defaultdict(list)
+        values = {
+            'staff': {'values': []},
+            'contracting': {'values': []},
+        }
+
         for year in self.years:
             try:
                 total = self.results['expenditure_breakdown']['4600'][year]
@@ -240,7 +267,7 @@ class IndicatorCalculator(object):
                                 total)
             except KeyError:
                 staff = None
-            values['staff'].append({
+            values['staff']['values'].append({
                 'year': year,
                 'result': staff,
                 'rating': 'good' if staff >= 25 and staff <= 40 else 'ave',
@@ -250,7 +277,7 @@ class IndicatorCalculator(object):
                 contracting = percent(self.results['expenditure_breakdown']['4200'][year], total)
             except KeyError:
                 contracting = None
-            values['contracting'].append({
+            values['contracting']['values'].append({
                 'year': year,
                 'result': contracting,
                 'rating': 'good' if contracting <= 5 else 'ave',
@@ -298,7 +325,8 @@ class IndicatorCalculator(object):
             except KeyError:
                 continue
 
-        return sorted(grouped_results, key=lambda r: (r['year'], r['item']))
+        grouped_results = sorted(grouped_results, key=lambda r: (r['year'], r['item']))
+        return {'values': grouped_results}
 
     def cash_at_year_end(self):
         values = []
@@ -312,7 +340,10 @@ class IndicatorCalculator(object):
 
             values.append({'year': year, 'result': result, 'rating': rating})
 
-        return values
+        return {
+            'values': values,
+            'ref': self.references['solgf'],
+        }
 
     def wasteful_exp_perc_exp(self):
         values = []
@@ -338,7 +369,11 @@ class IndicatorCalculator(object):
                 rating = None
 
             values.append({'year': year, 'result': result, 'rating': rating})
-        return values
+
+        return {
+            'values': values,
+            'ref': self.references['circular71'],
+        }
 
     def mayoral_staff(self):
         roles = [
@@ -410,7 +445,7 @@ class IndicatorCalculator(object):
             })
         values = sorted(values, key=lambda r: r['year'])
         values.reverse()
-        return values
+        return {'values': values}
 
     def check_budget_actual(self, year, amount_type):
         return (year == self.budget_year and amount_type == 'ORGB'
