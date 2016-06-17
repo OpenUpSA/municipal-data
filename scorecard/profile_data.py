@@ -9,7 +9,11 @@ from django.conf import settings
 
 from wazimap.data.utils import percent, ratio
 
-EXECUTOR = ThreadPoolExecutor(max_workers=10)
+if settings.LOCAL_PROFILING:
+    max_workers = 1
+else:
+    max_workers = 10
+EXECUTOR = ThreadPoolExecutor(max_workers=max_workers)
 
 # The years for which we need results. Must be in desceneding order.
 YEARS = [2015, 2014, 2013, 2012]

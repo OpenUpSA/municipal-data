@@ -18,6 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'true') == 'true'
+LOCAL_PROFILING = os.environ.get('LOCAL_PROFILING', 'false') == 'true'
 
 PRELOAD_CUBES = os.environ.get('PRELOAD_CUBES', 'false') == 'true'
 
@@ -96,6 +97,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'municipal_finance.middleware.ApiErrorHandler',
 )
+if LOCAL_PROFILING:
+    MIDDLEWARE_CLASSES = ('municipal_finance.middleware.ProfilingMiddleware',) \
+                         + MIDDLEWARE_CLASSES
 
 ROOT_URLCONF = 'municipal_finance.urls'
 
