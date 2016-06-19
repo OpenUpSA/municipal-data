@@ -296,6 +296,7 @@ PIPELINE = {
                 'bower_components/backbone/backbone-min.js',
                 'javascript/vendor/d3-format.min.js',
                 'javascript/vendor/select2.min.js',
+                'javascript/vendor/js.cookie.js',
                 'bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js',
                 'javascript/table.js',
             ),
