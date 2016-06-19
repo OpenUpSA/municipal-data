@@ -191,9 +191,9 @@
     renderMunis: function() {
       function formatMuni(item) {
         if (item.info) {
-          return $("<div>" + item.info.name + " (" + item.id + ")<br><i>" + item.info.province_name + "</i></div>");
+          return $("<div>" + item.info.name + ", " + item.info.province_name + " <i>" + item.id + "</i>");
         } else {
-          return item.text;
+          return $("<div>" + item.text + " <i>Category " + item.cat + "</i>");
         }
       }
 
@@ -206,6 +206,23 @@
         };
       });
       munis = _.sortBy(munis, 'text');
+
+      // add the quick selections
+      munis.unshift({
+        id: "cat-C",
+        text: "All district municipalities",
+        cat: "C",
+      });
+      munis.unshift({
+        id: "cat-B",
+        text: "All local municipalities",
+        cat: "B",
+      });
+      munis.unshift({
+        id: "cat-A",
+        text: "All metro municipalities",
+        cat: "A",
+      });
 
       this.$muniChooser = this.$('.muni-chooser').select2({
         data: munis,
@@ -248,13 +265,18 @@
       var munis = this.filters.get('municipalities');
       var id = e.params.data.id;
 
-      if (id && _.indexOf(munis, id) === -1) {
+      if (e.params.data.cat) {
+        var chosen = _.select(municipalities, function(m) { return m.category == e.params.data.cat; });
+        chosen = _.pluck(chosen, 'demarcation_code');
+        munis = _.uniq(munis.concat(chosen));
+
+      } else if (id && _.indexOf(munis, id) === -1) {
         // duplicate the array
         munis = munis.concat([id]);
-        this.filters.set('municipalities', _.sortBy(munis, function(m) { return municipalities[m].name; }));
-        this.filters.trigger('change');
       }
 
+      this.filters.set('municipalities', _.sortBy(munis, function(m) { return municipalities[m].name; }));
+      this.filters.trigger('change');
       this.$muniChooser.val(null).trigger('change');
     },
 
