@@ -167,7 +167,7 @@
 
       // show chosen munis
       if (munis.length === 0) {
-        $list.append('<li>').html('<i>Choose a municipality below.</i>');
+        $list.append('<li>').html('<i>Choose a municipality above.</i>');
       } else if (municipalities) {
         _.each(munis, function(muni) {
           muni = municipalities[muni];
