@@ -521,6 +521,12 @@
   /** Overall table view on this page
    */
   var MainView = Backbone.View.extend({
+    el: document,
+    events: {
+      'click button.accept': 'acceptTOU',
+      'click button.decline': 'declineTOU',
+    },
+
     initialize: function() {
       this.filters = new Filters();
       this.cells = new Cells();
@@ -531,6 +537,13 @@
 
       this.filterView = new FilterView({filters: this.filters, state: this.state});
       this.tableView = new TableView({filters: this.filters, cells: this.cells, state: this.state});
+
+      // show terms of use dialog?
+      if (!Cookies.get('tou-ok')) {
+        $('#terms-modal').modal();
+      } else {
+        this.acceptTOU();
+      }
     },
 
     saveState: function() {
@@ -567,6 +580,21 @@
         items: (params.items || "").split(","),
         amountType: (params.amountType),
       });
+    },
+
+    showTOU: function() {
+      $('#terms-modal').modal();
+    },
+
+    acceptTOU: function() {
+      Cookies.set('tou-ok', true);
+      $('#terms-modal').modal('hide');
+      $('#terms-ok').removeClass('hidden');
+    },
+
+    declineTOU: function() {
+      Cookies.remove('tou-ok');
+      window.location = "/";
     },
   });
 

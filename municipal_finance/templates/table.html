@@ -14,10 +14,16 @@
 <header id="header">
   <div class="container-fluid">
     <div class="pull-right">
-      <a class="btn btn-default" href="/" target="_blank"><i class="fa fa-question-circle"></i> Help</a>
+      <ul class="list-unstyled">
+        <li id="terms-ok" class="text hidden">You've accepted the <a data-toggle="modal" href="#terms-modal">Terms of Use</a></li>
+        <li>
+          <a class="btn btn-default" href="/" target="_blank"><i class="fa fa-question-circle"></i> Help</a>
+        </li>
+      </ul>
     </div>
+
     <img src="{% static 'images/treasury-logo.jpg' %}" class="logo">
-    <h1>Municipal Money Data Tables</h1>
+    <h1><a href="/">Municipal Money Data Tables</a></h1>
   </div>
   <div id="spinner" class="progress-bar progress-bar-striped active"></div>
 </header>
@@ -78,6 +84,23 @@
     </section>
   </div>
 </article>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="terms-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Please accept the Terms of Use</h4>
+      </div>
+      <div class="modal-body">
+        <p>[terms of use]</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default decline">Decline</button>
+        <button type="button" class="btn btn-primary accept">Accept Terms of Use</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <script>
 
