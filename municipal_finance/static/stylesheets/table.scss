@@ -111,6 +111,8 @@ label {
   padding-left: 15px;
   padding-right: 10px;
 
+  font-size: 13px;
+
   select {
     width: 100%;
   }
@@ -132,7 +134,24 @@ label {
   }
 
   .chosen-munis {
-    margin-top: 10px;
+    margin-top: 5px;
+    max-height: 250px;
+    overflow-y: scroll;
+  }
+
+  .clear-munis {
+    margin-top: 5px;
+    display: none;
+  }
+
+  .year-chooser {
+    li {
+      float: left;
+      width: 50%;
+    }
+    label {
+      margin-bottom: 2px;
+    }
   }
 }
 
@@ -208,4 +227,8 @@ label {
   tr.toggled td {
     background-color: gold;
   }
+}
+
+.select2-results__option i {
+  float: right;
 }
