@@ -86,14 +86,18 @@
     {% for cube in cubes|dictsort:"name" %}
       <h2 id="cube-{{ cube.name }}">{{ cube.model.label }} - {{ cube.name }}</h2>
 
+      {% if cube.items %}
+      <p>
+        <a href="/table/{{ cube.name }}/">Explore this dataset</a>
+      </p>
+      {% endif %}
+
       {% if cube.model.description %}
       <p>{{ cube.model.description }}</p>
       {% endif %}
 
-      {% if cube.items %}
-      <p>
-        <a href="/table/{{ cube.name }}/">View the data</a>
-      </p>
+      {% if cube.model.return_forms %}
+      <p>Submitted to National Treasury using return forms: <a href="http://mfma.treasury.gov.za/Return_Forms/Pages/default.aspx" target="_blank">{{ cube.model.return_forms|join:", " }}</a>.</p>
       {% endif %}
 
       {% if cube.items %}

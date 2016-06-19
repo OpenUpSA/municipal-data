@@ -52,8 +52,12 @@
     <aside class="table-controls">
       <header>
         {{ cube_model.description }}
+        <a href="/docs#cube-{{ cube_name }}" target="_blank">Read more →</a>
+        {% if cube_model.return_forms %}
         <br>
-        <a href="/docs#cube-{{ cube_name }}" target="_blank"><i class="fa fa-question-circle"></i> Documentation</a>
+        Return forms: <a href="http://mfma.treasury.gov.za/Return_Forms/Pages/default.aspx" target="_blank">{{ cube_model.return_forms|join:", " }}</a>
+        {% endif %}
+        <br>
       </header>
 
       <section>
