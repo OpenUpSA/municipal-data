@@ -36,27 +36,35 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-sm-6 col-md-4 col-md-offset-2">
+      <div class="col-sm-4">
         <h2>4 years of data</h2>
         <p class="lead">Financial years 2012-2013 to 2015-2016.</p>
       </div>
 
-      <div class="col-sm-6 col-md-4">
+      <div class="col-sm-4">
         <h2>278 Municipalities</h2>
         <p class="lead">8 metros, 44 district and 226 local municipalities.</p>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-sm-6 col-md-offset-2">
-        <h2>12 Datasets</h2>
-        <ul>
-          {% for cube in cubes|dictsort:"label" %}
-          <li>{{ cube.label }}</li>
-          {% endfor %}
-        </ul>
+      <div class="col-sm-4">
+        <h2>{{ cube_count }} Datasets</h2>
+        <p class="lead">Budgeted and actual figures for income and expenditure, cash flow and lots more.</p>
       </div>
     </div>
+
+    <h2>Explore a dateset</h2>
+
+    {% for group in cubes %}
+      <div class="dataset-buttons clearfix">
+      {% for cube_name, cube in group %}
+        <a href="/table/{{ cube_name }}/" class="dataset">
+          <h4>{{ cube.label}}</h4>
+          <p>{{ cube.description }}</p>
+          <p class="small">Updated: {{ cube.last_updated }}</p>
+        </a>
+      {% endfor %}
+      </div>
+    {% endfor %}
 
   </div>
 </article>

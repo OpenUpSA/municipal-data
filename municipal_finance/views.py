@@ -16,9 +16,16 @@ def get_cube(name):
 
 @xframe_options_exempt
 def index(request):
-    cubes = [get_manager().get_cube(c).model.to_dict() for c in get_manager().list_cubes()]
+    mgr = get_manager()
+    cube_names = mgr.list_cubes()
+    cubes = [(c, mgr.get_cube(c).model.to_dict()) for c in cube_names]
+    cubes = sorted(cubes, key=lambda p: p[1]['label'])
+
+    # group into rows of four
+    cubes = [cubes[i:i + 4] for i in xrange(0, len(cubes), 4)]
     return render(request, 'index.html', {
         'cubes': cubes,
+        'cube_count': len(cube_names),
     })
 
 
