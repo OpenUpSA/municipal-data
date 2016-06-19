@@ -56,6 +56,7 @@
       'click .del': 'muniRemoved',
       'click input[name=year]': 'yearChanged',
       'change select.amount-type-chooser': 'amountTypeChanged',
+      'click #clear-munis': 'clearMunis',
     },
 
     initialize: function(opts) {
@@ -168,7 +169,11 @@
       // show chosen munis
       if (munis.length === 0) {
         $list.append('<li>').html('<i>Choose a municipality above.</i>');
+        this.$('.clear-munis').hide();
+
       } else if (municipalities) {
+        this.$('.clear-munis').show();
+
         _.each(munis, function(muni) {
           muni = municipalities[muni];
           $list.append($('<li>')
@@ -278,6 +283,11 @@
       this.filters.set('municipalities', _.sortBy(munis, function(m) { return municipalities[m].name; }));
       this.filters.trigger('change');
       this.$muniChooser.val(null).trigger('change');
+    },
+
+    clearMunis: function(e) {
+      e.preventDefault();
+      this.filters.set('municipalities', []);
     },
 
     muniRemoved: function(e) {
