@@ -18,7 +18,7 @@ var textMatchEngine = new Bloodhound({
                 return {
                     geo_level: geo_level,
                     full_name: d['municipality.long_name'],
-                    full_geoid: geo_level + '-' + d['municipality.code'],
+                    full_geoid: geo_level + '-' + d['municipality.demarcation_code'],
                 };
             });
         },
