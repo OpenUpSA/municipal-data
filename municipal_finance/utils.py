@@ -5,7 +5,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import StreamingHttpResponse
 from django.http import JsonResponse
 
-import csv
+import unicodecsv as csv
 
 
 class BabbageJSONEncoder(DjangoJSONEncoder):
