@@ -41,9 +41,8 @@
   cube.hasAmountType = !!cube.model.dimensions.amount_type;
 
   if (cube.model.dimensions.item) {
-    if (cube.model.dimensions.item.return_form_structure) cube.drilldown.push('item.return_form_structure');
-    if (cube.model.dimensions.item.position_in_return_form) {
-      cube.drilldown.push('item.position_in_return_form');
+    if (cube.model.dimensions.item.attributes.return_form_structure) cube.drilldown.push('item.return_form_structure');
+    if (cube.model.dimensions.item.attributes.position_in_return_form) {
       cube.order = 'item.position_in_return_form:asc';
     }
   }
