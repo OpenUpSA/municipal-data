@@ -3,11 +3,15 @@ from requests_futures.sessions import FuturesSession
 from collections import defaultdict, OrderedDict
 import dateutil.parser
 from itertools import groupby
-
+from datetime import datetime
+import logging
+import urllib
 
 from django.conf import settings
 
 from wazimap.data.utils import percent, ratio
+
+logger = logging.getLogger('municipal_finance')
 
 EXECUTOR = ThreadPoolExecutor(max_workers=10)
 
@@ -46,6 +50,7 @@ class MuniApiClient(object):
             url = self.API_URL + query['cube'] + '/model'
             params = {}
 
+        logger.info("API query %s?%s" % (url, urllib.urlencode(params)))
         return self.session.get(url, params=params, verify=False)
 
     def format_cut_param(self, cuts):
@@ -248,6 +253,44 @@ class IndicatorCalculator(object):
             except KeyError:
                 continue
         return {'values': values}
+
+    def current_ratio(self):
+        values = []
+        results = self.results['in_year_bsheet']
+        year_key = lambda r: r['financial_year_end.year']
+        month_key = lambda r: r['financial_period.period']
+        year_sorted = sorted(results, key=year_key)
+        year_sorted.reverse()
+        quarters = {}
+        for year, yeargroup in groupby(year_sorted, year_key):
+            month_sorted =  sorted(yeargroup, key=month_key)
+            month_sorted.reverse()
+            # Loop over months that exist and add their values to quarters
+            for month, monthgroup in groupby(month_sorted, key=month_key):
+                monthitems = list(monthgroup)
+                quarter_idx = ((month - 1) / 3) + 1
+                quarter_key = "%sq%s" % (year, quarter_idx)
+                try:
+                    # Rely on index out of range for missing values to skip month if one's missing
+                    assets = [m['amount.sum'] for m in monthitems if m['item.code'] == '2150'][0]
+                    liabilities = [m['amount.sum'] for m in monthitems if m['item.code'] == '1600'][0]
+
+                    if quarter_key not in quarters:
+                        q = {
+                            'year': year,
+                            'month': month,
+                            'amount_type': 'ACT',
+                            'quarter': quarter_idx,
+                            'assets': assets,
+                            'liabilities': liabilities,
+                            'current_ratio': ratio(assets, liabilities),
+                        }
+                        quarters[quarter_key] = q
+                except IndexError:
+                    print
+                    print("%s %s" % (year, month))
+                    print
+        return quarters
 
     def expenditure_trends(self):
         values = {
@@ -487,7 +530,24 @@ class IndicatorCalculator(object):
         return response
 
     def get_queries(self):
+        today = datetime.now()
+        in_year_years = [today.year, today.year-1, today.year-2]
         return {
+            # monthly values for in-year calculations from bsheet
+            'in_year_bsheet': {
+                'cube': 'bsheet',
+                'aggregate': 'amount.sum',
+                'cut': {
+                    'item.code': ['2150', '1600'],
+                    'amount_type.code': ['ACT'],
+                    'demarcation.code': [self.geo_code],
+                    'period_length.length': ['month'],
+                    'financial_year_end.year': in_year_years,
+                },
+                'drilldown': YEAR_ITEM_DRILLDOWN + ['financial_period.period'],
+                'query_type': 'aggregate',
+                'results_structure': self.noop_structure,
+            },
             'op_exp_actual': {
                 'cube': 'incexp',
                 'aggregate': 'amount.sum',
