@@ -284,7 +284,7 @@ class IndicatorCalculator(object):
                             'quarter': quarter_idx,
                             'assets': assets,
                             'liabilities': liabilities,
-                            'current_ratio': ratio(assets, liabilities),
+                            'result': ratio(assets, liabilities),
                         }
                         quarters[quarter_key] = q
                         if latest_quarter is None:
@@ -308,9 +308,9 @@ class IndicatorCalculator(object):
                     result_quarters.append({
                         'year': key[0],
                         'quarter': key[1],
-                        'current_ratio': None
+                        'result': None
                     })
-        return result_quarters
+        return {'values': result_quarters}
 
     def expenditure_trends(self):
         values = {

@@ -594,6 +594,54 @@
   </div>
 </div>
 
+<div class="indicator">
+  {% with indicators.current_ratio.values|first as latest %}
+  <h2>Current Ratio <span class="indicator-date">{{ latest.year|finyear }} Quarter {{ latest.quarter }}</span></h2>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result }}{% endif %}</div>
+      <div class="indicator-description">Current Ratio</div>
+      <table class="indicator-key">
+        <tr>
+          <td class="key-symbol rating rating-good">good</td>
+          <td class="key-description">More than 1</td>
+        </tr>
+        <tr>
+          <td class="key-symbol rating rating-bad">bad</td>
+          <td class="key-description">Less than 1</td>
+        </tr>
+      </table>
+      <div class="show-calc"><a href="#current-ratio-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+    </div>
+    <div class="col-sm-4">
+      <div class="chart-container" data-chart="column-current_ratio" data-unit=""></div>
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-didyouknow">
+        <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+        <div class="panel-body">
+          <p>The current ratio compares the value of a municipality's short-term assets (cash, bank deposits, etc) compared with its short-term liabilities (creditors, loans due and so on)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="calc collapse" id="current-ratio-calc">
+    <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.current_ratio.ref.url }}" target="_blank">{{ indicators.current_ratio.ref.title }}</a></div>
+
+    <h5>Formula:</h5>
+    <ul class="formula">
+      <li>= Current Assets / Current Liabilities</li>
+      <li>=
+        <a href="{% table_url "bsheet" year=latest.year items="2150" amountType="ACT" %}" target="_blank">Balance Sheet item code <i>2150</i>, Monthly Actual</a>
+        /
+        <a href="{% table_url "bsheet" year=latest.year items="1600" amountType="ACT" %}" target="_blank">Balance Sheet item code <i>1600</i>, Monthly Actual</a>
+    </ul>
+    <p><span class="h5">Note:</span>The quarterly summary looks at the state at the end of each quarter. If the monthly data is missing for the last month in the quarter, the previous month in that quarter. If all months are missing, that quarter is shown as blank.</p>
+  </div>
+  {% endwith %}
+</div>
+
 <div class="section" id="income">
   <h1><i class="fa fa-money"></i> Income <span class="subtitle">- Where money comes from</span></h1>
 
