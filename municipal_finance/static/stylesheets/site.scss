@@ -36,13 +36,13 @@ $black: #333;
     float: left;
     width: 23%;
 
-    border: 1px solid #ddd;
+    border: 1px solid $nt-red;
     border-radius: 5px;
     margin: 0px 10px 10px 0px;
     padding: 10px 10px;
 
     color: $black;
-    background-color: #eee;
+    background-color: white;
 
     &:active,
     &:focus,
@@ -58,7 +58,7 @@ $black: #333;
 
     &:hover h4 {
       background-color: $nt-red;
-      color: white;
+      color: #efefef;
     }
 
     &:hover {
@@ -68,5 +68,16 @@ $black: #333;
     p:last-child {
       margin-bottom: 0px;
     }
+  }
+}
+
+#home {
+  article section {
+    padding: 20px 0px;
+  }
+
+  section.band-dark {
+    background-color: #efefef;
+
   }
 }
