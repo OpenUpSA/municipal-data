@@ -130,7 +130,7 @@ class IndicatorCalculator(object):
             except KeyError:
                 result = None
                 rating = None
-            values.append({'year': year, 'result': result, 'rating': rating})
+            values.append({'date': year, 'result': result, 'rating': rating})
 
         return {
             'values': values,
@@ -158,7 +158,7 @@ class IndicatorCalculator(object):
                 rating = None
                 overunder = None
             values.append({
-                'year': year,
+                'date': year,
                 'result': result,
                 'overunder': overunder,
                 'rating': rating
@@ -190,7 +190,7 @@ class IndicatorCalculator(object):
                 rating = None
                 overunder = None
             values.append({
-                'year': year,
+                'date': year,
                 'result': result,
                 'overunder': overunder,
                 'rating': rating
@@ -219,7 +219,7 @@ class IndicatorCalculator(object):
                 result = None
                 rating = None
 
-            values.append({'year': year, 'result': result, 'rating': rating})
+            values.append({'date': year, 'result': result, 'rating': rating})
 
         return {
             'values': values,
@@ -241,14 +241,14 @@ class IndicatorCalculator(object):
                         'item': item,
                         'amount': amount,
                         'percent': percent(amount, total),
-                        'year': year_name,
+                        'date': year_name,
                     })
                 if total and subtotal and (total != subtotal):
                     values.append({
                         'item': 'Other',
                         'amount': total - subtotal,
                         'percent': percent(total - subtotal, total),
-                        'year': year_name,
+                        'date': year_name,
                     })
             except KeyError:
                 continue
@@ -278,6 +278,7 @@ class IndicatorCalculator(object):
 
                     if quarter_key not in quarters:
                         q = {
+                            'date': "%sq%s" % quarter_key,
                             'year': year,
                             'month': month,
                             'amount_type': 'ACT',
@@ -307,6 +308,7 @@ class IndicatorCalculator(object):
                 else:
                     result_quarters.append({
                         'year': key[0],
+                        'date': "%sq%s" % key,
                         'quarter': key[1],
                         'result': None
                     })
@@ -334,7 +336,7 @@ class IndicatorCalculator(object):
                 rating = None
 
             values['staff']['values'].append({
-                'year': year,
+                'date': year,
                 'result': staff,
                 'rating': rating,
             })
@@ -347,7 +349,7 @@ class IndicatorCalculator(object):
                 rating = None
 
             values['contracting']['values'].append({
-                'year': year,
+                'date': year,
                 'result': contracting,
                 'rating': rating,
             })
@@ -382,19 +384,19 @@ class IndicatorCalculator(object):
                                 'amount': result['amount.sum'] or 0,
                                 'percent': percent((result['amount.sum'] or 0), total),
                                 'item': result['function.category_label'],
-                                'year': year_name,
+                                'date': year_name,
                             })
 
                 grouped_results.append({
                     'amount': GAPD_total,
                     'percent': percent(GAPD_total, total),
                     'item': GAPD_label,
-                    'year': year_name,
+                    'date': year_name,
                 })
             except KeyError:
                 continue
 
-        grouped_results = sorted(grouped_results, key=lambda r: (r['year'], r['item']))
+        grouped_results = sorted(grouped_results, key=lambda r: (r['date'], r['item']))
         return {'values': grouped_results}
 
     def cash_at_year_end(self):
@@ -407,7 +409,7 @@ class IndicatorCalculator(object):
             else:
                 rating = None
 
-            values.append({'year': year, 'result': result, 'rating': rating})
+            values.append({'date': year, 'result': result, 'rating': rating})
 
         return {
             'values': values,
@@ -437,7 +439,7 @@ class IndicatorCalculator(object):
                 result = None
                 rating = None
 
-            values.append({'year': year, 'result': result, 'rating': rating})
+            values.append({'date': year, 'result': result, 'rating': rating})
 
         return {
             'values': values,
@@ -507,12 +509,12 @@ class IndicatorCalculator(object):
         values = []
         for result in self.results['audit_opinions']:
             values.append({
-                'year': result['financial_year_end.year'],
+                'date': result['financial_year_end.year'],
                 'result': result['opinion.label'],
                 'rating': result['opinion.code'],
                 'report_url': result['opinion.report_url'],
             })
-        values = sorted(values, key=lambda r: r['year'])
+        values = sorted(values, key=lambda r: r['date'])
         values.reverse()
         return {'values': values}
 

@@ -133,7 +133,7 @@ var HorizontalGroupedBarChart = function() {
   self.drawChart = function() {
     var data = self.data,
         name = self.name,
-        years = _.keys(_.countBy(data, function(data) { return data.year; })).reverse(),
+        dates = _.keys(_.countBy(data, function(data) { return data.date; })).reverse(),
         items = _.keys(_.countBy(data, function(data) { return data.item; }));
 
     self.container.empty();
@@ -182,12 +182,12 @@ var HorizontalGroupedBarChart = function() {
         .data(function(d) { return d.values; })
       .enter().append("rect")
         .attr("class", "chart-bar")
-        .attr("y", function(d) { return self.y1(d.year); })
+        .attr("y", function(d) { return self.y1(d.date); })
         .attr("height", self.y1.rangeBand() - 1)
         .attr("width", function(d) { return self.x(d.percent); })
-        .style("fill", function (d) { return self.color(d.year); })
+        .style("fill", function (d) { return self.color(d.date); })
         .on("mouseover", function(d) {
-          showTooltip(d.year, formats.percent(d.percent) + "<br>" + formats.currency(d.amount));
+          showTooltip(d.date, formats.percent(d.percent) + "<br>" + formats.currency(d.amount));
         })
         .on("mouseout", hideTooltip);
 
@@ -276,7 +276,7 @@ var VerticalBarChart = function() {
       .append("g")
         .attr("transform", "translate(" + self.margin.left + "," + self.margin.top + ")");
 
-    self.x.domain(data.map(function(d) { return d.year; }));
+    self.x.domain(data.map(function(d) { return d.date; }));
     self.y.domain([
       Math.min(d3.min(data, function(d) { return d.result; }), 0),
       Math.max(d3.max(data, function(d) { return d.result; }), 0)
@@ -298,7 +298,7 @@ var VerticalBarChart = function() {
     self.svg.selectAll(".chart-column")
         .data(data)
       .enter().append("rect")
-        .attr("x", function(d) { return self.x(d.year); })
+        .attr("x", function(d) { return self.x(d.date); })
         .attr("width", self.x.rangeBand())
         .attr("y", function(d) { return self.y(Math.max(d.result, 0)); })
         .attr("height", function(d) { return Math.abs(self.y(d.result) - self.y(0)); })
@@ -306,7 +306,7 @@ var VerticalBarChart = function() {
           return "chart-column " + d.rating;
         })
         .on("mouseover", function(d) {
-          showTooltip(d.year, self.format(d.result, self.unit_name));
+          showTooltip(d.date, self.format(d.result, self.unit_name));
         })
         .on("mouseout", hideTooltip);
 
@@ -316,7 +316,7 @@ var VerticalBarChart = function() {
       .enter().append("text")
         .attr("class", "column-label")
         .attr("text-anchor", "middle")
-        .attr("x", function(d) { return self.x(d.year) + self.x.rangeBand()/2; })
+        .attr("x", function(d) { return self.x(d.date) + self.x.rangeBand()/2; })
         .attr("y", function(d) { return self.y(Math.max(d.result, 0)) - 5; })
         .text(function(d) { return formats.terse(d.result, self.format); });
   };
