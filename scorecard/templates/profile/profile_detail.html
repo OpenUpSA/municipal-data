@@ -155,7 +155,7 @@
 
 <div id="explainer-video">
   <div class="video-preview video-preview-lg">
-    <a href="#" class="video-link" data-toggle="modal" data-videoTitle="Municipal Finance in 5 Minutes" data-videoURL="http://www.youtube.com/embed/HYfLQg4-kVs?autoplay=1" data-videoURLAfr="https://www.youtube.com/embed/iI512PoMgbA?autoplay=1" data-videoURLZul="https://www.youtube.com/embed/LLJ_vhxwzTs?autoplay=1" data-videoURLXho="https://www.youtube.com/embed/Ory8fhyRsHY?autoplay=1">
+    <a href="#video-modal" data-toggle="modal">
       <div class="video-image" style="background-image: url('{% static 'img/video-placeholder.jpg' %}');">
         <div class="video-image-inner">
           <div class="play-button-wrapper">
@@ -175,19 +175,13 @@
       <div class="modal-content">
         <div class="modal-header">
           <a class="btn close" href="#" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></a>
-          <h4 class="modal-title" id="video-title"></h4>
+          <h4 class="modal-title">Municipal Finance in 5 Minutes</h4>
         </div>
-        <div class="modal-body">
-          <div class="embed-responsive embed-responsive-16by9">
-            <img src="{% static 'img/video-placeholder.jpg' %}">
-            {% comment %}
-            <iframe id="video-iframe" width="560" height="315" frameborder="0" allowfullscreen name="video-iframe"></iframe>
-            {% endcomment %}
-          </div>
-        </div>
+        <div class="modal-body">{% include "_videos.html" %}</div>
       </div>
     </div>
   </div>
+
 </div>
 
 <div class="section" id="performance">
