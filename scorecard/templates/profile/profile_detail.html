@@ -286,7 +286,7 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}R {{ latest.result|floatformat:"0" }}{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}R {{ latest.result|floatformat:"0" }}{% endif %}</div>
         <div class="indicator-description">Cash balance at the end of the financial year.</div>
         <table class="indicator-key">
           <tr>
@@ -332,7 +332,7 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result|month_days }}{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result|month_days }}{% endif %}</div>
         <div class="indicator-description">Months of operating expenses can be paid for with the cash available.</div>
         <table class="indicator-key">
           <tr>
@@ -385,7 +385,7 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-value rating rating-{{ latest.rating }}">
-          {% if latest.result == none %}
+          {% if latest.result == None %}
             Not available
           {% else %}
             {{ latest.result|absolute }}%
@@ -446,7 +446,7 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-value rating rating-{{ latest.rating }}">
-          {% if latest.result == none %}
+          {% if latest.result == None %}
             Not available
           {% else %}
             {{ latest.result|absolute }}%
@@ -506,7 +506,7 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
 
         <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
         <table class="indicator-key">
@@ -557,7 +557,7 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
         <div class="indicator-description">Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage of operating expenditure.</div>
         <table class="indicator-key">
           <tr>
@@ -639,7 +639,7 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
         <div class="indicator-description">Staff salaries and wages as a percentage of operating expenditure.</div>
         <table class="indicator-key">
           <tr>
@@ -686,7 +686,7 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == none %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
         <div class="indicator-description">Costs of contractor services as a percentage of operating expenditure.</div>
         <table class="indicator-key">
           <tr>
