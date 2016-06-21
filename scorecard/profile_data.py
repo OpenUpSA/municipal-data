@@ -262,6 +262,7 @@ class IndicatorCalculator(object):
         year_sorted = sorted(results, key=year_key)
         year_sorted.reverse()
         quarters = {}
+        latest_quarter = None
         for year, yeargroup in groupby(year_sorted, year_key):
             month_sorted =  sorted(yeargroup, key=month_key)
             month_sorted.reverse()
@@ -269,7 +270,7 @@ class IndicatorCalculator(object):
             for month, monthgroup in groupby(month_sorted, key=month_key):
                 monthitems = list(monthgroup)
                 quarter_idx = ((month - 1) / 3) + 1
-                quarter_key = "%sq%s" % (year, quarter_idx)
+                quarter_key = (year, quarter_idx)
                 try:
                     # Rely on index out of range for missing values to skip month if one's missing
                     assets = [m['amount.sum'] for m in monthitems if m['item.code'] == '2150'][0]
@@ -286,11 +287,30 @@ class IndicatorCalculator(object):
                             'current_ratio': ratio(assets, liabilities),
                         }
                         quarters[quarter_key] = q
+                        if latest_quarter is None:
+                            latest_quarter = q
                 except IndexError:
-                    print
-                    print("%s %s" % (year, month))
-                    print
-        return quarters
+                    pass
+        # Enumerate the quarter keys we can expect to exist based on the latest
+        keys = []
+        result_quarters = []
+        if latest_quarter is not None:
+            for q in xrange(latest_quarter['quarter'], 0, -1):
+                keys.append((latest_quarter['year'], q))
+            for q in xrange(4, 0, -1):
+                keys.append((latest_quarter['year']-1, q))
+            keys.reverse()
+            while len(result_quarters) < 5 and len(keys):
+                key = keys.pop()
+                if key in quarters:
+                    result_quarters.append(quarters[key])
+                else:
+                    result_quarters.append({
+                        'year': key[0],
+                        'quarter': key[1],
+                        'current_ratio': None
+                    })
+        return result_quarters
 
     def expenditure_trends(self):
         values = {
