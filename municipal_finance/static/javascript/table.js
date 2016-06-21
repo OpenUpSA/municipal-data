@@ -195,9 +195,11 @@
     renderMunis: function() {
       function formatMuni(item) {
         if (item.info) {
-          return $("<div>" + item.info.name + ", " + item.info.province_name + " <i>" + item.id + "</i>");
+          return $("<div>" + item.info.name + ", " + item.info.province_name + " <i>" + item.id + "</i></div>");
+        } else if (item.cat) {
+          return $("<div>" + item.text + " <i>Category " + item.cat + "</i></div>");
         } else {
-          return $("<div>" + item.text + " <i>Category " + item.cat + "</i>");
+          return $("<div>" + item.text + "</div>");
         }
       }
 
@@ -213,19 +215,20 @@
 
       // add the quick selections
       munis.unshift({
-        id: "cat-C",
-        text: "All district municipalities",
-        cat: "C",
-      });
-      munis.unshift({
-        id: "cat-B",
-        text: "All local municipalities",
-        cat: "B",
-      });
-      munis.unshift({
+        id: "all",
+        text: "All municipalities",
+      }, {
         id: "cat-A",
         text: "All metro municipalities",
         cat: "A",
+      }, {
+        id: "cat-B",
+        text: "All local municipalities",
+        cat: "B",
+      }, {
+        id: "cat-C",
+        text: "All district municipalities",
+        cat: "C",
       });
 
       this.$muniChooser = this.$('.muni-chooser').select2({
@@ -273,6 +276,9 @@
         var chosen = _.select(municipalities, function(m) { return m.category == e.params.data.cat; });
         chosen = _.pluck(chosen, 'demarcation_code');
         munis = _.uniq(munis.concat(chosen));
+
+      } else if (id == "all") {
+        munis = _.keys(municipalities);
 
       } else if (id && _.indexOf(munis, id) === -1) {
         // duplicate the array
