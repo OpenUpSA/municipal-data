@@ -4,6 +4,7 @@
 {% load staticfiles %}
 
 {% block title %}Municipal Finance Data{% endblock %}
+{% block body-id %}home{% endblock %}
 
 {% block head-css %}
 {% stylesheet "api-home" %}
@@ -30,47 +31,69 @@
     </div>
   </div>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-4">
-        <h2>4 years of data</h2>
-        <p class="lead">Financial years 2012-2013 to 2015-2016.</p>
-      </div>
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4">
+          <h2>4 years of data</h2>
+          <p class="lead">Financial years 2012-2013 to 2015-2016.</p>
+        </div>
 
-      <div class="col-sm-4">
-        <h2>278 Municipalities</h2>
-        <p class="lead">8 metros, 44 district and 226 local municipalities.</p>
-      </div>
+        <div class="col-sm-4">
+          <h2>278 municipalities</h2>
+          <p class="lead">8 metros, 44 district and 226 local municipalities.</p>
+        </div>
 
-      <div class="col-sm-4">
-        <h2>{{ cube_count }} Datasets</h2>
-        <p class="lead">Budgeted and actual figures for income and expenditure, cash flow and lots more.</p>
+        <div class="col-sm-4">
+          <h2>39 million facts</h2>
+          <p class="lead">Budgeted and actual figures for income and expenditure, cash flow and lots more.</p>
+        </div>
       </div>
     </div>
+  </section>
 
-    <h2>Explore a dateset</h2>
+  <section class="band-dark">
+    <div class="container">
+      <h2>Explore a dateset</h2>
 
-    {% for group in cubes %}
-      <div class="dataset-buttons clearfix">
-      {% for cube_name, cube in group %}
-        <a href="/table/{{ cube_name }}/" class="dataset">
-          <h4>{{ cube.label}}</h4>
-          <p>{{ cube.description }}</p>
-          <p class="small">Updated: {{ cube.last_updated }}</p>
-        </a>
+      {% for group in cubes %}
+        <div class="dataset-buttons clearfix">
+        {% for cube_name, cube in group %}
+          <a href="/table/{{ cube_name }}/" class="dataset">
+            <h4>{{ cube.label}}</h4>
+            <p>{{ cube.description }}</p>
+            <p class="small">Updated: {{ cube.last_updated }}</p>
+          </a>
+        {% endfor %}
+        </div>
       {% endfor %}
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Build on the API</h2>
+
+          <p class="lead">All this data is available through a powerful but simple JSON API.</p>
+
+          <p>
+            <a href="/docs" class="btn btn-primary btn-lg">Read the API Docs</a>
+          </p>
+        </div>
+        <div class="col-md-6">
+          <h2>Municipal Money Website</h2>
+
+          <p class="lead">Browse municipal finance performance around the country.</p>
+
+          <p>
+            <a href="{{ WAZIMAP.url }}" target="_blank" class="btn btn-primary btn-lg">Municipal Money</a>
+          </p>
+        </div>
       </div>
-    {% endfor %}
-
-    <h2>Build on the API</h2>
-
-    <p class="lead">All this data is available through a powerful but simple JSON API.</p>
-
-    <p>
-      <a href="/docs" class="btn btn-primary btn-lg">Read the API Docs</a>
-    </p>
-
-  </div>
+    </div>
+  </section>
 </article>
 
 <footer id="footer">
