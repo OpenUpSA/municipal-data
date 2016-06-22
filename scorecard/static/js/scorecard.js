@@ -54,7 +54,9 @@ $(document).ready(function(){
       if ($target.length) {
         $('html, body').stop().animate({
             'scrollTop': $target.offset().top-15
-        }, 300, 'swing');
+        }, 300, 'swing', function() {
+          window.location.hash = target;
+        });
       }
     });
 
