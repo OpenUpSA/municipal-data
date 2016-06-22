@@ -727,6 +727,7 @@
     <div class="row">
       <div class="col-sm-8">
         <div class="chart-container" data-chart="grouped-bar-expenditure_functional_breakdown" data-unit="currency"></div>
+        <div class="show-calc"><a href="#expenditure-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Source</a></div>
       </div>
 
       <div class="col-sm-4">
@@ -737,6 +738,16 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="calc collapse" id="expenditure-calc">
+      <h5>Source:</h5>
+
+      <ul class="formula">
+        <li>
+          <a href="{% table_url "incexp" %}" target="_blank">Income & Expenditure</a> Audited Actual and Original Budget
+        </li>
+      </ul>
     </div>
   </div>
 </div>
