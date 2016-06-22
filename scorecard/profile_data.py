@@ -307,7 +307,10 @@ class IndicatorCalculator(object):
                                        'result': None,
                                        'rating': 'bad',
             }) for k in keys][:5]
-        return {'values': values}
+        return {
+            'values': values,
+            'ref': self.references['circular71'],
+        }
 
     def expenditure_trends(self):
         values = {
