@@ -286,7 +286,7 @@ class IndicatorCalculator(object):
                             'assets': assets,
                             'liabilities': liabilities,
                             'result': result,
-                            'rating': 'good' if result >= 1 else 'bad',
+                            'rating': 'good' if result >= 1.5 else 'ave' if result >= 1 else 'bad',
                         }
                         quarters[quarter_key] = q
                         if latest_quarter is None:
