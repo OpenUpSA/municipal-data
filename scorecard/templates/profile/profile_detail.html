@@ -199,7 +199,7 @@
             <table class="table table-bordered">
               <tr>
                 <td class="text{% if forloop.first %}-large{% endif %} text-center"><strong>
-                    {{ opinion.year|unlocalize }}
+                    {{ opinion.date|unlocalize }}
                     <i class="audit-rating audit-{{ opinion.rating }}" aria-hidden="true"></i>
                     {% if opinion.rating == "unqualified" %}
                     <i class="audit-rating audit-unqualified_extra" area-hidden="true"></i>
@@ -276,7 +276,7 @@
 
   <div class="indicator">
     {% with indicators.cash_at_year_end.values|first as latest %}
-    <h2 class="sub-heading">Cash Balance <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+    <h2 class="sub-heading">Cash Balance <span class="indicator-date">{{ latest.date|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
@@ -314,7 +314,7 @@
       <h5>Formula:</h5>
       <ul class="formula">
         <li>Cash available at year end</li>
-        <li>= <a href="{% table_url "cflow" year=latest.year items=4200 amountType="AUDA" %}" target="_blank">Cash Flow item code 4200, Audited Actual</a></li>
+        <li>= <a href="{% table_url "cflow" year=latest.date items=4200 amountType="AUDA" %}" target="_blank">Cash Flow item code 4200, Audited Actual</a></li>
       </ul>
     </div>
     {% endwith %}
@@ -322,7 +322,7 @@
 
   <div class="indicator">
     {% with indicators.cash_coverage.values|first as latest %}
-    <h2>Cash Coverage <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+    <h2>Cash Coverage <span class="indicator-date">{{ latest.date|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
@@ -363,9 +363,9 @@
       <ul class="formula">
         <li>= Cash available at year end / Operating Expenditure per month</li>
         <li>=
-          <a href="{% table_url "cflow" year=latest.year items=4200 amountType="AUDA" %}" target="_blank">Cash Flow item code 4200, Audited Actual</a>
+          <a href="{% table_url "cflow" year=latest.date items=4200 amountType="AUDA" %}" target="_blank">Cash Flow item code 4200, Audited Actual</a>
           /
-          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a></li>
+          <a href="{% table_url "incexp" year=latest.date items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a></li>
         <li>If Cash available at year end is negative, we say Cash Coverage is zero months.</li>
       </ul>
     </div>
@@ -374,7 +374,7 @@
 
   <div class="indicator">
     {% with indicators.op_budget_diff.values|first as latest %}
-    <h2>Spending of Operating Budget <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+    <h2>Spending of Operating Budget <span class="indicator-date">{{ latest.date|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
@@ -423,11 +423,11 @@
       <ul class="formula">
         <li>= (Actual Operating Expenditure - Budget Operating Expenditure) / Budgeted Operating Expenditure</li>
         <li>=
-          (<a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
+          (<a href="{% table_url "incexp" year=latest.date items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
           -
-          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="ADJB" %}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>)
+          <a href="{% table_url "incexp" year=latest.date items=4600 amountType="ADJB" %}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>)
           /
-          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="ADJB"%}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>
+          <a href="{% table_url "incexp" year=latest.date items=4600 amountType="ADJB"%}" target="_blank">Income & Expenditure item code 4600, Adjusted Budget</a>
       </ul>
     </div>
     {% endwith %}
@@ -435,7 +435,7 @@
 
   <div class="indicator">
     {% with indicators.cap_budget_diff.values|first as latest %}
-    <h2>Spending of Capital Budget <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+    <h2>Spending of Capital Budget <span class="indicator-date">{{ latest.date|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
@@ -484,11 +484,11 @@
       <ul class="formula">
         <li>= (Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure</li>
         <li>=
-          (<a href="{% table_url "capital" year=latest.year items=4100 amountType="AUDA" %}" target="_blank">Capital item code 4100, Total Assets, Audited Actual</a>
+          (<a href="{% table_url "capital" year=latest.date items=4100 amountType="AUDA" %}" target="_blank">Capital item code 4100, Total Assets, Audited Actual</a>
           -
-          <a href="{% table_url "capital" year=latest.year items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Total Assets, Adjusted Budget</a>)
+          <a href="{% table_url "capital" year=latest.date items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Total Assets, Adjusted Budget</a>)
           /
-          <a href="{% table_url "capital" year=latest.year items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Total Assets, Adjusted Budget</a>
+          <a href="{% table_url "capital" year=latest.date items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Total Assets, Adjusted Budget</a>
       </ul>
     </div>
     {% endwith %}
@@ -496,7 +496,7 @@
 
   <div class="indicator">
     {% with indicators.rep_maint_perc_ppe.values|first as latest %}
-    <h2>Spending on Repairs and Maintenance <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+    <h2>Spending on Repairs and Maintenance <span class="indicator-date">{{ latest.date|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
@@ -535,11 +535,11 @@
       <ul class="formula">
         <li>= Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)</li>
         <li>=
-          <a href="{% table_url "capital" year=latest.year items=4100 amountType="AUDA" %}" target="_blank">Capital Acquisition item code 4100, Audited Actual</a>
+          <a href="{% table_url "capital" year=latest.date items=4100 amountType="AUDA" %}" target="_blank">Capital Acquisition item code 4100, Audited Actual</a>
           /
-          (<a href="{% table_url "bsheet" year=latest.year items=1300 amountType="AUDA" %}" target="_blank">Balance Sheet item code 1300, Audited Actual</a>
+          (<a href="{% table_url "bsheet" year=latest.date items=1300 amountType="AUDA" %}" target="_blank">Balance Sheet item code 1300, Audited Actual</a>
           +
-          <a href="{% table_url "bsheet" year=latest.year items=1401 amountType="AUDA" %}" target="_blank">Balance Sheet item code 1401, Audited Actual</a>)
+          <a href="{% table_url "bsheet" year=latest.date items=1401 amountType="AUDA" %}" target="_blank">Balance Sheet item code 1401, Audited Actual</a>)
       </ul>
     </div>
     {% endwith %}
@@ -547,7 +547,7 @@
 
   <div class="indicator">
     {% with indicators.wasteful_exp.values.1 as latest %}
-    <h2>Fruitless and wasteful expenditure <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+    <h2>Fruitless and wasteful expenditure <span class="indicator-date">{{ latest.date|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
@@ -584,14 +584,66 @@
       <ul class="formula">
         <li>= Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure</li>
         <li>=
-          <a href="{% table_url "badexp" year=latest.year items="irregular,fruitless,unauthorised" %}" target="_blank">Unauthorised, Irregular, Fruitless and Wasteful Expenditure item codes <i>irregular, fruitless, unauthorised</i></a>
+          <a href="{% table_url "badexp" year=latest.date items="irregular,fruitless,unauthorised" %}" target="_blank">Unauthorised, Irregular, Fruitless and Wasteful Expenditure item codes <i>irregular, fruitless, unauthorised</i></a>
           /
-          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
+          <a href="{% table_url "incexp" year=latest.date items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
       </ul>
       <p><span class="h5">Note:</span> Since calling expenditures unauthorised, fruitless and wasteful or irregular can involve quite a lot of debate, the numbers used are the restated audited amounts 18 months after the financial year end - part of the Medium Term Revenue and Expenditure Framework.</p>
     </div>
     {% endwith %}
   </div>
+</div>
+
+<div class="indicator">
+  {% with indicators.current_ratio.values|first as latest %}
+  <h2>Current Ratio <span class="indicator-date">{{ latest.year|finyear }} Quarter {{ latest.quarter }}</span></h2>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result }}{% endif %}</div>
+      <div class="indicator-description">Current Ratio</div>
+      <table class="indicator-key">
+        <tr>
+          <td class="key-symbol rating rating-good">good</td>
+          <td class="key-description">More than 1.5</td>
+        </tr>
+        <tr>
+          <td class="key-symbol rating rating-ave">good</td>
+          <td class="key-description">Between 1 and 1.5</td>
+        </tr>
+        <tr>
+          <td class="key-symbol rating rating-bad">bad</td>
+          <td class="key-description">Less than 1</td>
+        </tr>
+      </table>
+      <div class="show-calc"><a href="#current-ratio-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+    </div>
+    <div class="col-sm-4">
+      <div class="chart-container" data-chart="column-current_ratio" data-unit="num"></div>
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-didyouknow">
+        <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+        <div class="panel-body">
+          <p>The current ratio compares the value of a municipality's short-term assets (cash, bank deposits, etc) compared with its short-term liabilities (creditors, loans due and so on)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="calc collapse" id="current-ratio-calc">
+    <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.current_ratio.ref.url }}" target="_blank">{{ indicators.current_ratio.ref.title }}</a></div>
+
+    <h5>Formula:</h5>
+    <ul class="formula">
+      <li>= Current Assets / Current Liabilities</li>
+      <li>=
+        <a href="{% table_url "bsheet" year=latest.year items="2150" amountType="ACT" %}" target="_blank">Balance Sheet item code <i>2150</i>, Monthly Actual</a>
+        /
+        <a href="{% table_url "bsheet" year=latest.year items="1600" amountType="ACT" %}" target="_blank">Balance Sheet item code <i>1600</i>, Monthly Actual</a>
+    </ul>
+    <p><span class="h5">Note:</span> The quarterly summary looks at the state at the end of each quarter. If the monthly data is missing for the last month in the quarter, the previous month in that quarter. If all months are missing, that quarter is shown as blank.</p>
+  </div>
+  {% endwith %}
 </div>
 
 <div class="section" id="income">
@@ -629,7 +681,7 @@
 
   <div class="indicator">
     {% with indicators.expenditure_trends.staff.values|first as latest %}
-    <h2>Staff Wages and Salaries <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+    <h2>Staff Wages and Salaries <span class="indicator-date">{{ latest.date|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
@@ -666,9 +718,9 @@
       <ul class="formula">
         <li>= Wages & Salaries + Social Contributions / Actual Operating Expenditure</li>
         <li>=
-          <a href="{% table_url "incexp" year=latest.year items="3000,3100" amountType="AUDA" %}" target="_blank">Income & Expenditure item codes 3000, 3100, Audited Actual</a>
+          <a href="{% table_url "incexp" year=latest.date items="3000,3100" amountType="AUDA" %}" target="_blank">Income & Expenditure item codes 3000, 3100, Audited Actual</a>
           /
-          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
+          <a href="{% table_url "incexp" year=latest.date items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
       </ul>
     </div>
     {% endwith %}
@@ -676,7 +728,7 @@
 
   <div class="indicator">
     {% with indicators.expenditure_trends.contracting.values|first as latest %}
-    <h2>Contractor Services <span class="indicator-date">{{ latest.year|finyear }}</span></h2>
+    <h2>Contractor Services <span class="indicator-date">{{ latest.date|finyear }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
@@ -713,9 +765,9 @@
       <ul class="formula">
         <li>= Contracted Services / Actual Operating Expenditure</li>
         <li>=
-          <a href="{% table_url "incexp" year=latest.year items="4200" amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4200, Audited Actual</a>
+          <a href="{% table_url "incexp" year=latest.date items="4200" amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4200, Audited Actual</a>
           /
-          <a href="{% table_url "incexp" year=latest.year items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
+          <a href="{% table_url "incexp" year=latest.date items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
       </ul>
     </div>
     {% endwith %}

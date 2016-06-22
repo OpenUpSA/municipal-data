@@ -24,6 +24,7 @@ def get_profile(geo_code, geo_level, profile_name=None):
     indicators['cash_coverage'] = indicator_calc.cash_coverage()
     indicators['op_budget_diff'] = indicator_calc.op_budget_diff()
     indicators['cap_budget_diff'] = indicator_calc.cap_budget_diff()
+    indicators['current_ratio'] = indicator_calc.current_ratio()
     indicators['rep_maint_perc_ppe'] = indicator_calc.rep_maint_perc_ppe()
     indicators['wasteful_exp'] = indicator_calc.wasteful_exp_perc_exp()
     indicators['expenditure_trends'] = indicator_calc.expenditure_trends()

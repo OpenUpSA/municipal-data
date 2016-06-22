@@ -3,11 +3,15 @@ from requests_futures.sessions import FuturesSession
 from collections import defaultdict, OrderedDict
 import dateutil.parser
 from itertools import groupby
-
+from datetime import datetime
+import logging
+import urllib
 
 from django.conf import settings
 
 from wazimap.data.utils import percent, ratio
+
+logger = logging.getLogger('municipal_finance')
 
 EXECUTOR = ThreadPoolExecutor(max_workers=10)
 
@@ -46,6 +50,7 @@ class MuniApiClient(object):
             url = self.API_URL + query['cube'] + '/model'
             params = {}
 
+        logger.debug("API query %s?%s" % (url, urllib.urlencode(params)))
         return self.session.get(url, params=params, verify=False)
 
     def format_cut_param(self, cuts):
@@ -125,7 +130,7 @@ class IndicatorCalculator(object):
             except KeyError:
                 result = None
                 rating = None
-            values.append({'year': year, 'result': result, 'rating': rating})
+            values.append({'date': year, 'result': result, 'rating': rating})
 
         return {
             'values': values,
@@ -153,7 +158,7 @@ class IndicatorCalculator(object):
                 rating = None
                 overunder = None
             values.append({
-                'year': year,
+                'date': year,
                 'result': result,
                 'overunder': overunder,
                 'rating': rating
@@ -185,7 +190,7 @@ class IndicatorCalculator(object):
                 rating = None
                 overunder = None
             values.append({
-                'year': year,
+                'date': year,
                 'result': result,
                 'overunder': overunder,
                 'rating': rating
@@ -214,7 +219,7 @@ class IndicatorCalculator(object):
                 result = None
                 rating = None
 
-            values.append({'year': year, 'result': result, 'rating': rating})
+            values.append({'date': year, 'result': result, 'rating': rating})
 
         return {
             'values': values,
@@ -236,18 +241,75 @@ class IndicatorCalculator(object):
                         'item': item,
                         'amount': amount,
                         'percent': percent(amount, total),
-                        'year': year_name,
+                        'date': year_name,
                     })
                 if total and subtotal and (total != subtotal):
                     values.append({
                         'item': 'Other',
                         'amount': total - subtotal,
                         'percent': percent(total - subtotal, total),
-                        'year': year_name,
+                        'date': year_name,
                     })
             except KeyError:
                 continue
         return {'values': values}
+
+    def current_ratio(self):
+        values = []
+        results = self.results['in_year_bsheet']
+        year_month_key = lambda r: (r['financial_year_end.year'], r['financial_period.period'])
+        year_month_sorted = sorted(results, key=year_month_key, reverse=True)
+        quarters = {}
+        latest_quarter = None
+        # Loop over months that exist and add their values to quarters
+        for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
+            monthitems = list(yearmonthgroup)
+            quarter_idx = ((month - 1) / 3) + 1
+            quarter_key = (year, quarter_idx)
+            try:
+                # Rely on index out of range for missing values to skip month if one's missing
+                assets = [m['amount.sum'] for m in monthitems
+                          if m['item.code'] == '2150'
+                          and m['financial_period.period'] == month][0]
+                liabilities = [m['amount.sum'] for m in monthitems
+                               if m['item.code'] == '1600'
+                               and m['financial_period.period'] == month][0]
+
+                if quarter_key not in quarters:
+                    result = ratio(assets, liabilities)
+                    q = {
+                        'date': "%sq%s" % quarter_key,
+                        'year': year,
+                        'month': month,
+                        'amount_type': 'ACT',
+                        'quarter': quarter_idx,
+                        'assets': assets,
+                        'liabilities': liabilities,
+                        'result': result,
+                        'rating': 'good' if result >= 1.5 else 'ave' if result >= 1 else 'bad',
+                    }
+                    quarters[quarter_key] = q
+                    if latest_quarter is None:
+                        latest_quarter = q
+            except IndexError:
+                pass
+        # Enumerate the quarter keys we can expect to exist based on the latest
+        keys = []
+        if latest_quarter is not None:
+            for q in xrange(latest_quarter['quarter'], 0, -1):
+                keys.append((latest_quarter['year'], q))
+            for q in xrange(4, 0, -1):
+                keys.append((latest_quarter['year']-1, q))
+            values = [quarters.get(k, {'year': k[0],
+                                       'date': "%sq%s" % k,
+                                       'quarter': k[1],
+                                       'result': None,
+                                       'rating': 'bad',
+            }) for k in keys][:5]
+        return {
+            'values': values,
+            'ref': self.references['circular71'],
+        }
 
     def expenditure_trends(self):
         values = {
@@ -271,7 +333,7 @@ class IndicatorCalculator(object):
                 rating = None
 
             values['staff']['values'].append({
-                'year': year,
+                'date': year,
                 'result': staff,
                 'rating': rating,
             })
@@ -284,7 +346,7 @@ class IndicatorCalculator(object):
                 rating = None
 
             values['contracting']['values'].append({
-                'year': year,
+                'date': year,
                 'result': contracting,
                 'rating': rating,
             })
@@ -319,19 +381,19 @@ class IndicatorCalculator(object):
                                 'amount': result['amount.sum'] or 0,
                                 'percent': percent((result['amount.sum'] or 0), total),
                                 'item': result['function.category_label'],
-                                'year': year_name,
+                                'date': year_name,
                             })
 
                 grouped_results.append({
                     'amount': GAPD_total,
                     'percent': percent(GAPD_total, total),
                     'item': GAPD_label,
-                    'year': year_name,
+                    'date': year_name,
                 })
             except KeyError:
                 continue
 
-        grouped_results = sorted(grouped_results, key=lambda r: (r['year'], r['item']))
+        grouped_results = sorted(grouped_results, key=lambda r: (r['date'], r['item']))
         return {'values': grouped_results}
 
     def cash_at_year_end(self):
@@ -344,7 +406,7 @@ class IndicatorCalculator(object):
             else:
                 rating = None
 
-            values.append({'year': year, 'result': result, 'rating': rating})
+            values.append({'date': year, 'result': result, 'rating': rating})
 
         return {
             'values': values,
@@ -374,7 +436,7 @@ class IndicatorCalculator(object):
                 result = None
                 rating = None
 
-            values.append({'year': year, 'result': result, 'rating': rating})
+            values.append({'date': year, 'result': result, 'rating': rating})
 
         return {
             'values': values,
@@ -444,12 +506,12 @@ class IndicatorCalculator(object):
         values = []
         for result in self.results['audit_opinions']:
             values.append({
-                'year': result['financial_year_end.year'],
+                'date': result['financial_year_end.year'],
                 'result': result['opinion.label'],
                 'rating': result['opinion.code'],
                 'report_url': result['opinion.report_url'],
             })
-        values = sorted(values, key=lambda r: r['year'])
+        values = sorted(values, key=lambda r: r['date'])
         values.reverse()
         return {'values': values}
 
@@ -487,7 +549,24 @@ class IndicatorCalculator(object):
         return response
 
     def get_queries(self):
+        today = datetime.now()
+        in_year_years = [today.year, today.year-1, today.year-2]
         return {
+            # monthly values for in-year calculations from bsheet
+            'in_year_bsheet': {
+                'cube': 'bsheet',
+                'aggregate': 'amount.sum',
+                'cut': {
+                    'item.code': ['2150', '1600'],
+                    'amount_type.code': ['ACT'],
+                    'demarcation.code': [self.geo_code],
+                    'period_length.length': ['month'],
+                    'financial_year_end.year': in_year_years,
+                },
+                'drilldown': YEAR_ITEM_DRILLDOWN + ['financial_period.period'],
+                'query_type': 'aggregate',
+                'results_structure': self.noop_structure,
+            },
             'op_exp_actual': {
                 'cube': 'incexp',
                 'aggregate': 'amount.sum',
