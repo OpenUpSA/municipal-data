@@ -278,7 +278,7 @@ class IndicatorCalculator(object):
 
             try:
                 contracting = percent(self.results['expenditure_breakdown']['4200'][year], total)
-                rating = 'good' if contracting <= 5 else 'ave'
+                rating = 'good' if contracting <= 5 else 'bad'
             except KeyError:
                 contracting = None
                 rating = None
