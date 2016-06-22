@@ -257,45 +257,44 @@ class IndicatorCalculator(object):
     def current_ratio(self):
         values = []
         results = self.results['in_year_bsheet']
-        year_key = lambda r: r['financial_year_end.year']
-        month_key = lambda r: r['financial_period.period']
-        year_sorted = sorted(results, key=year_key)
-        year_sorted.reverse()
+        year_month_key = lambda r: (r['financial_year_end.year'], r['financial_period.period'])
+        year_month_sorted = sorted(results, key=year_month_key, reverse=True)
         quarters = {}
         latest_quarter = None
-        for year, yeargroup in groupby(year_sorted, year_key):
-            month_sorted = sorted(yeargroup, key=month_key, reverse=True)
-            # Loop over months that exist and add their values to quarters
-            for month, monthgroup in groupby(month_sorted, key=month_key):
-                monthitems = list(monthgroup)
-                quarter_idx = ((month - 1) / 3) + 1
-                quarter_key = (year, quarter_idx)
-                try:
-                    # Rely on index out of range for missing values to skip month if one's missing
-                    assets = [m['amount.sum'] for m in monthitems if m['item.code'] == '2150'][0]
-                    liabilities = [m['amount.sum'] for m in monthitems if m['item.code'] == '1600'][0]
+        # Loop over months that exist and add their values to quarters
+        for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
+            monthitems = list(yearmonthgroup)
+            quarter_idx = ((month - 1) / 3) + 1
+            quarter_key = (year, quarter_idx)
+            try:
+                # Rely on index out of range for missing values to skip month if one's missing
+                assets = [m['amount.sum'] for m in monthitems
+                          if m['item.code'] == '2150'
+                          and m['financial_period.period'] == month][0]
+                liabilities = [m['amount.sum'] for m in monthitems
+                               if m['item.code'] == '1600'
+                               and m['financial_period.period'] == month][0]
 
-                    if quarter_key not in quarters:
-                        result = ratio(assets, liabilities)
-                        q = {
-                            'date': "%sq%s" % quarter_key,
-                            'year': year,
-                            'month': month,
-                            'amount_type': 'ACT',
-                            'quarter': quarter_idx,
-                            'assets': assets,
-                            'liabilities': liabilities,
-                            'result': result,
-                            'rating': 'good' if result >= 1.5 else 'ave' if result >= 1 else 'bad',
-                        }
-                        quarters[quarter_key] = q
-                        if latest_quarter is None:
-                            latest_quarter = q
-                except IndexError:
-                    pass
+                if quarter_key not in quarters:
+                    result = ratio(assets, liabilities)
+                    q = {
+                        'date': "%sq%s" % quarter_key,
+                        'year': year,
+                        'month': month,
+                        'amount_type': 'ACT',
+                        'quarter': quarter_idx,
+                        'assets': assets,
+                        'liabilities': liabilities,
+                        'result': result,
+                        'rating': 'good' if result >= 1.5 else 'ave' if result >= 1 else 'bad',
+                    }
+                    quarters[quarter_key] = q
+                    if latest_quarter is None:
+                        latest_quarter = q
+            except IndexError:
+                pass
         # Enumerate the quarter keys we can expect to exist based on the latest
         keys = []
-        result_quarters = []
         if latest_quarter is not None:
             for q in xrange(latest_quarter['quarter'], 0, -1):
                 keys.append((latest_quarter['year'], q))
