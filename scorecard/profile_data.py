@@ -200,7 +200,7 @@ class IndicatorCalculator(object):
         values = []
         for year in self.years:
             try:
-                rep_maint = self.results['rep_maint']['5005'][year]
+                rep_maint = self.results['rep_maint']['4100'][year]
                 ppe = self.results['ppe']['1300'][year]
                 invest_prop = self.results['invest_prop']['1401'][year]
                 result = percent(rep_maint, (ppe + invest_prop))
@@ -558,10 +558,10 @@ class IndicatorCalculator(object):
                 'results_structure': self.item_code_year_aggregate,
             },
             'rep_maint': {
-                'cube': 'repmaint',
-                'aggregate': 'amount.sum',
+                'cube': 'capital',
+                'aggregate': 'repairs_maintenance.sum',
                 'cut': {
-                    'item.code': ['5005'],
+                    'item.code': ['4100'],
                     'amount_type.code': ['AUDA'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
