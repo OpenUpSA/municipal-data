@@ -50,7 +50,7 @@ class MuniApiClient(object):
             url = self.API_URL + query['cube'] + '/model'
             params = {}
 
-        logger.info("API query %s?%s" % (url, urllib.urlencode(params)))
+        logger.debug("API query %s?%s" % (url, urllib.urlencode(params)))
         return self.session.get(url, params=params, verify=False)
 
     def format_cut_param(self, cuts):
@@ -264,8 +264,7 @@ class IndicatorCalculator(object):
         quarters = {}
         latest_quarter = None
         for year, yeargroup in groupby(year_sorted, year_key):
-            month_sorted =  sorted(yeargroup, key=month_key)
-            month_sorted.reverse()
+            month_sorted = sorted(yeargroup, key=month_key, reverse=True)
             # Loop over months that exist and add their values to quarters
             for month, monthgroup in groupby(month_sorted, key=month_key):
                 monthitems = list(monthgroup)
@@ -277,6 +276,7 @@ class IndicatorCalculator(object):
                     liabilities = [m['amount.sum'] for m in monthitems if m['item.code'] == '1600'][0]
 
                     if quarter_key not in quarters:
+                        result = ratio(assets, liabilities)
                         q = {
                             'date': "%sq%s" % quarter_key,
                             'year': year,
@@ -285,7 +285,8 @@ class IndicatorCalculator(object):
                             'quarter': quarter_idx,
                             'assets': assets,
                             'liabilities': liabilities,
-                            'result': ratio(assets, liabilities),
+                            'result': result,
+                            'rating': 'good' if result >= 1 else 'bad',
                         }
                         quarters[quarter_key] = q
                         if latest_quarter is None:
@@ -300,19 +301,13 @@ class IndicatorCalculator(object):
                 keys.append((latest_quarter['year'], q))
             for q in xrange(4, 0, -1):
                 keys.append((latest_quarter['year']-1, q))
-            keys.reverse()
-            while len(result_quarters) < 5 and len(keys):
-                key = keys.pop()
-                if key in quarters:
-                    result_quarters.append(quarters[key])
-                else:
-                    result_quarters.append({
-                        'year': key[0],
-                        'date': "%sq%s" % key,
-                        'quarter': key[1],
-                        'result': None
-                    })
-        return {'values': result_quarters}
+            values = [quarters.get(k, {'year': k[0],
+                                       'date': "%sq%s" % k,
+                                       'quarter': k[1],
+                                       'result': None,
+                                       'rating': 'bad',
+            }) for k in keys][:5]
+        return {'values': values}
 
     def expenditure_trends(self):
         values = {

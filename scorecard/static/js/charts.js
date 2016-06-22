@@ -137,7 +137,7 @@ var HorizontalGroupedBarChart = function() {
         items = _.keys(_.countBy(data, function(data) { return data.item; }));
 
     self.container.empty();
-    self.setDimensions(years.length * items.length);
+    self.setDimensions(dates.length * items.length);
 
     self.svg = d3.select(self.container[0]).append("svg")
         .attr("width", self.width + self.margin.left + self.margin.right)
@@ -159,7 +159,7 @@ var HorizontalGroupedBarChart = function() {
     });
 
     self.y0.domain(groupedData.map(function(d) { return d.item; }));
-    self.y1.domain(years).rangeRoundBands([0, self.y0.rangeBand()]);
+    self.y1.domain(dates).rangeRoundBands([0, self.y0.rangeBand()]);
 
     self.x.domain([0, d3.max(data, function(d) { return d.percent; })]);
 
@@ -192,10 +192,10 @@ var HorizontalGroupedBarChart = function() {
         .on("mouseout", hideTooltip);
 
     var legend = self.svg.selectAll(".legend")
-        .data(years)
+        .data(dates)
       .enter().append("g")
         .attr("class", "legend")
-        .attr("transform", function(d, i) { return "translate(0," + (self.height - (years.length - i + 1) * 20) + ")"; });
+        .attr("transform", function(d, i) { return "translate(0," + (self.height - (dates.length - i + 1) * 20) + ")"; });
 
     legend.append("rect")
         .attr("x", self.width - 18)
