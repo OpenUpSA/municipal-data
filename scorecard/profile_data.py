@@ -219,6 +219,45 @@ class IndicatorCalculator(object):
             'ref': self.references['circular71'],
         }
 
+    def revenue_sources(self):
+        year = self.years[0]
+        results = {
+            'local': {
+                'amount': 0,
+                'items': [],
+                },
+            'government': {
+                'amount': 0,
+                'items': [],
+                },
+            'year': year,
+        }
+        code_to_source = {
+            '0200': 'local',
+            '0300': 'local',
+            '0400': 'local',
+            '0700': 'local',
+            '0800': 'local',
+            '1000': 'local',
+            '1100': 'local',
+            '1300': 'local',
+            '1400': 'local',
+            '1500': 'local',
+            '1600': 'government',
+            '1610': 'government',
+            '1700': 'local',
+            '1800': 'local',
+        }
+        for item in self.results['revenue_breakdown']:
+            if item['financial_year_end.year'] != year:
+                continue
+            if item['item.code'] == '1900':
+                continue
+            amount = item['amount.sum'] or 0
+            results[code_to_source[item['item.code']]]['amount'] += amount
+            results[code_to_source[item['item.code']]]['items'].append(item)
+        return results
+
     def revenue_breakdown(self):
         results = {}
         for item in self.results['revenue_breakdown']:
@@ -702,6 +741,7 @@ class IndicatorCalculator(object):
                         '1400',
                         '1500',
                         '1600',
+                        '1610',
                         '1700',
                         '1800',
                         '1900',

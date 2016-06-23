@@ -648,6 +648,11 @@
 
 <div class="section" id="income">
   <h1><i class="fa fa-money"></i> Income <span class="subtitle">- Where money comes from</span></h1>
+  <h2>Two sources <span class="indicator-date">{{ indicators.revenue_sources.year }}</span></h2>
+  <div><strong>Government:</strong> {{ indicators.revenue_sources.government.amount }}</div>
+  <div><strong>Local:</strong> {{ indicators.revenue_sources.local.amount }}</div>
+
+  <h2>Detailed breakdown <span class="indicator-date"></span></h2>
 
   <div class="indicator">
     <div class="row">
