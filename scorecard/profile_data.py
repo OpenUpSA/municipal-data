@@ -390,7 +390,7 @@ class IndicatorCalculator(object):
                 staff = percent(self.results['expenditure_breakdown']['3000'][year] +
                                 self.results['expenditure_breakdown']['3100'][year],
                                 total)
-                rating = 'good' if staff >= 25 and staff <= 40 else 'ave'
+                rating = 'good' if staff >= 25 and staff <= 40 else 'bad'
             except KeyError:
                 staff = None
                 rating = None
