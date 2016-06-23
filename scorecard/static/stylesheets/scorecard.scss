@@ -1273,3 +1273,40 @@ blockquote {
   border-radius: 5px;
   pointer-events: none;
 }
+
+/* head to head comparisons */
+#profile-head2head-view {
+  background-color: #eee;
+
+  .container {
+    width: 100% !important;
+  }
+
+  #head2head-wrapper {
+    background-color: #eee;
+  }
+
+  iframe {
+    float: left;
+    width: 50%;
+    height: 10000px;
+
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+
+    overflow-y: hidden;
+  }
+  
+  .frame-right {
+    left: 50%;
+    border-left: 5px solid #eee;
+  }
+}
+
+.profile-head2head-frame {
+  #page-header,
+  #page-footer {
+    display: none;
+  }
+}
