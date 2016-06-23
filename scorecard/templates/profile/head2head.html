@@ -1,0 +1,27 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block head_title %}{{ geo1.name }} vs {{ geo2.name }} - {{ block.super }}{% endblock %}
+{% block head_facebook_tags %}
+    <meta property="og:title" content="Municipal Money comparison: {{ geo1.name }} vs {{ geo2.name }}" />
+    <meta property="og:site_name" content="Municiapl Money" />
+    <meta property="og:description" content="Compare financial performance between {{ geo1.name }} vs {{ geo2.name }}." />
+    <meta property="og:type" content="article" />
+{% endblock %}
+
+{% block body_id %}profile-head2head-view{% endblock %}
+
+{% block content_container %}
+
+<div class="head2head-wrapper">
+    <iframe class="frame-left" scrolling="no" src="/profiles/{{ geo_id1 }}-{{ geo1.slug }}?head2head=1"></iframe>
+    <iframe class="frame-right" scrolling="no" src="/profiles/{{ geo_id2 }}-{{ geo2.slug }}?head2head=1"></iframe>
+
+    <div class="clearfix"></div>
+</div>
+
+<div class="container">
+    {% include 'profile/_resources.html' %}
+</div>
+
+{% endblock %}

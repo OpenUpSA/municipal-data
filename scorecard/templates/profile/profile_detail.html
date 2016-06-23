@@ -14,145 +14,67 @@
 {% block body_id %}profile{% endblock %}
 
 {% block header_content %}
-  <div id="cover-map" class="clearfix">
-    <div id="slippy-map"></div>
-    <div id="cover-profile">
-      <article class="clearfix column-half">
-        <header id="header-box" class="column-full">
-          <h1 class="title">{{ geography.name }}</h1>
-          <p class="caption">
-            {{ geography.category_name|capfirst }}
-            in
-            {% if geography.ancestors %}
-              {% for g in geography.ancestors %}
-                <a href="/profiles/{{ g.geoid }}-{{ g.name|slugify }}/">{{ g.name }}</a>,
-              {% endfor %}
-            {% endif %}
-            {{ geography.province_name }}
-          </p>
-        </header>
-        <div class="stat stat-primary">
-          <span class="name">Population</span>
-          <span class="value">{{ total_population|floatformat:"0" }}</span>
-        </div>
-        {% if geography.square_kms %}
-        <div class="stat stat-secondary">
-          <span class="value">{% if geography.square_kms < 1.0 %}{{ geography.square_kms|floatformat:"3" }}{% else %}{{ geography.square_kms|floatformat:"1" }}{% endif %}</span>
-          <span class="name"> square kilometres</span>
-        </div>
-          {% if population_density %}
-          <div class="stat stat-secondary">
-            <span class="value">{{ population_density|floatformat:"1" }}</span>
-            <span class="name"> people per square kilometre</span>
-          </div>
+<div id="cover-map" class="clearfix">
+  <div id="slippy-map"></div>
+  <div id="cover-profile">
+    <article class="clearfix column-half">
+      <header id="header-box" class="column-full">
+        <h1 class="title"><a href="{{ request.path }}">{{ geography.name }}</a></h1>
+        <p class="caption">
+          {{ geography.category_name|capfirst }}
+          in
+          {% if geography.ancestors %}
+            {% for g in geography.ancestors %}
+              <a href="/profiles/{{ g.geoid }}-{{ g.name|slugify }}/">{{ g.name }}</a>,
+            {% endfor %}
           {% endif %}
+          {{ geography.province_name }}
+        </p>
+      </header>
+      <div class="stat stat-primary">
+        <span class="name">Population</span>
+        <span class="value">{{ total_population|floatformat:"0" }}</span>
+      </div>
+      {% if geography.square_kms %}
+      <div class="stat stat-secondary">
+        <span class="value">{% if geography.square_kms < 1.0 %}{{ geography.square_kms|floatformat:"3" }}{% else %}{{ geography.square_kms|floatformat:"1" }}{% endif %}</span>
+        <span class="name"> square kilometres</span>
+      </div>
+        {% if population_density %}
+        <div class="stat stat-secondary">
+          <span class="value">{{ population_density|floatformat:"1" }}</span>
+          <span class="name"> people per square kilometre</span>
+        </div>
         {% endif %}
-      </article>
-    </div>
+      {% endif %}
+    </article>
   </div>
+</div>
 
-  <div id="about">
+{% include 'profile/_about.html' %}
+
+<nav class="page-nav-wrapper">
+  <div class="page-nav-container">
     <div class="container">
-      <div class="sub-section" id="who-runs">
-        <div class="row">
-          <div class="col-md-4 col-md-push-8">
-            <ul class="fa-ul">
-              <li>
-                <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ muni_contact.phone_number }}">{{ muni_contact.phone_number }}</a>
-              </li>
-              {% if muni_contact.url %}
-              <li>
-                <i class="fa fa-li fa-globe" aria-hidden="true"></i> <a href="{{ muni_contact.url|lower }}" target="_blank">{{ muni_contact.url|lower }}</a>
-              </li>
-              {% endif %}
-              <li>
-                <i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
-                {% if muni_contact.street_address_1 %}{{ muni_contact.street_address_1 }}<br>{% endif %}
-                {% if muni_contact.street_address_2 %}{{ muni_contact.street_address_2 }}<br>{% endif %}
-                {% if muni_contact.street_address_3 %}{{ muni_contact.street_address_3 }}<br>{% endif %}
-                {% if muni_contact.street_address_4 %}{{ muni_contact.street_address_4 }}{% endif %}
-              </li>
-            </ul>
-          </div>
-          <div class="col-md-8 col-md-pull-4">
-            <div class="row">
-              {% for official in mayoral_staff.officials %}
-                {% if forloop.counter < 5 %}
-                <div class="col-sm-3">
-                  <div class="person-info">
-                    <div class="person-role">{{ official.role }}</div>
-                    <ul class="fa-ul person-name">
-                      {% if official and official.name %}
-                      <li><i class="fa fa-li fa-user" aria-hidden="true"></i> {{ official.title|default:'' }} {{ official.name }}</li>
-                      {% endif %}
-                    </ul>
-                    <div class="person-contact-details">
-                      {% with details=official.secretary|default:official %}
-                      {% if details.name %}
-                      <a href="#contact-details-{{ forloop.counter }}" data-toggle="collapse" class="show-contact-details show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Contact Details</a>
-                      <div class="contact-details collapse" id="contact-details-{{ forloop.counter }}">
-                        {% if official.secretary and official.secretary.name %}
-                        <div>
-                          <h4>Secretary</h4>
-                          {{ official.secretary.title|default:'' }} {{ official.secretary.name }}
-                        </div>
-                        {% endif %}
-
-                        <ul class="fa-ul">
-                            {% if details.office_phone %}
-                            <li>
-                              <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ details.office_phone }}">{{ details.office_phone }}</a>
-                            </li>
-                            {% endif %}
-                            {% if details.email %}
-                            <li>
-                              <i class="fa fa-li fa-envelope" aria-hidden="true"></i> <a href="mailto:{{ details.email }}">{{ details.email }}</a>
-                            </li>
-                            {% endif %}
-                          </ul>
-                      </div>
-                      {% endif %}
-                      {% endwith %}
-                    </div>
-                  </div>
-                </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-
-            {% if mayoral_staff.updated_date %}
-            Last updated: {{ mayoral_staff.updated_date }}
-            {% endif %}
-          </div>
-        </div>
+      <div class="page-nav-info">
+        <div class="muni-name">{{ geography.name }}</div>
+        <div class="muni-population">Population: {{ total_population|floatformat:"0" }}</div>
       </div>
+
+      <ul class="nav nav-pills" id="page-nav">
+        <li role="presentation" class="active"><a href="#performance"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i><br><span class="nav-text">Financial<br>Performance</span></a></li>
+        <li role="presentation"><a href="#income"><i class="fa fa-money fa-2x" aria-hidden="true"></i><br><span class="nav-text">Income</span></a></li>
+        <li role="presentation"><a href="#spending"><i class="fa fa-credit-card fa-2x" aria-hidden="true"></i><br><span class="nav-text">Spending</span></a></li>
+        <li role="presentation" class="pull-right hidden-xs"><a href="/profiles/{{ geography.geo_level }}-{{ geography.geo_code }}-{{ geography.slug }}.pdf" target="_blank" rel="alternate" type="application/pdf"><i class="fa fa-print fa-2x" area-hidden="true"></i><br><span class="nav-text">Print PDF</span></a></li>
+      </ul>
+
     </div>
   </div>
-
-  {% block page-nav %}
-  <nav class="page-nav-wrapper">
-    <div class="page-nav-container">
-      <div class="container">
-        <div class="page-nav-info">
-          <div class="muni-name">{{ geography.name }}</div>
-          <div class="muni-population">Population: {{ total_population|floatformat:"0" }}</div>
-        </div>
-
-        <ul class="nav nav-pills" id="page-nav">
-          <li role="presentation" class="active"><a href="#performance"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i><br><span class="nav-text">Financial<br>Performance</span></a></li>
-          <li role="presentation"><a href="#income"><i class="fa fa-money fa-2x" aria-hidden="true"></i><br><span class="nav-text">Income</span></a></li>
-          <li role="presentation"><a href="#spending"><i class="fa fa-credit-card fa-2x" aria-hidden="true"></i><br><span class="nav-text">Spending</span></a></li>
-          <li role="presentation" class="pull-right hidden-xs"><a href="/profiles/{{ geography.geo_level }}-{{ geography.geo_code }}-{{ geography.slug }}.pdf" target="_blank" rel="alternate" type="application/pdf"><i class="fa fa-print fa-2x" area-hidden="true"></i><br><span class="nav-text">Print PDF</span></a></li>
-        </ul>
-
-      </div>
-    </div>
-  </nav>
-  {% endblock %}
+</nav>
 {% endblock %}
 
-{% block content %}
 
+{% block content %}
 <div id="explainer-video">
   <div class="video-preview video-preview-lg">
     <a href="#video-modal" data-toggle="modal">
@@ -187,44 +109,7 @@
 {% include 'profile/_performance.html' %}
 {% include 'profile/_income.html' %}
 {% include 'profile/_spending.html' %}
-
-<div class="section">
-  <h1><i class="fa fa-book" aria-hidden="true"></i> More Resources</h1>
-
-  <div class="row">
-    <div class="col-md-6">
-      <h2>Financial Reports</h2>
-
-      <p>Read more about Local Government Finances and learn about how your money is spent.</p>
-
-      <ul>
-        <li>
-          <a href="http://mfma.treasury.gov.za/Media_Releases/The%20state%20of%20local%20government%20finances/Pages/default.aspx" target="_blank">State of Local Government Finances reports</a> are published every year by National Treasury and describe in detail how Municipalities are performing.
-        </li>
-        <li>
-          <a href="http://mfma.treasury.gov.za/Media_Releases/s71/Pages/default.aspx" target="_blank">In-year Management, Monitoring and Evaluation of Municipal Finances</a>. Annual and quarterly PDF and Excel reports on Municipal finances since 2007.
-        </li>
-      </ul>
-
-      <br>
-
-      <h2>Understanding Municipal Finance</h2>
-
-      <ul>
-        <li>
-          <a href="http://mfma.treasury.gov.za/Return_Forms/Pages/default.aspx" target="_blank">MFMA Return Forms</a> submitted by Municipalities to National Treasury. Understanding these forms can help you understand the information on Municipal Money.
-        </li>
-        <li>
-          <a href="http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx" target="_blank">Circular 71</a> explains many of the financial norms and indicators used to gauge the financial performance of Municipalities.</a>
-        </li>
-        <li>
-          <a href="http://mfma.treasury.gov.za/Pages/Default.aspx" target="_blank">Treasury's Municipal Finance website</a> is filled with resources on municipal finance.
-        </li>
-      </ul>
-    </div>
-  </div>
-
-</div>
+{% include 'profile/_resources.html' %}
 
 {% endblock %}
 
