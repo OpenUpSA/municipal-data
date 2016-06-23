@@ -10,8 +10,8 @@
       <div class="col-sm-5 from-govt">
         <div class="arrow">↗</div>
 
-        <h2>Money from Government <span class="indicator-date">{{ 2015|finyear }}</span></h2>
-        <div class="indicator-value">R 123 123 123</div>
+        <h2>Money from Government <span class="indicator-date">{{ indicators.revenue_sources.year|finyear }}</span></h2>
+        <div class="indicator-value">R {{ indicators.revenue_sources.government.amount|floatformat:"0" }}</div>
         <div class="indicator-description">From the <b>Equitable Share</b> of taxes, and <b>Grants from Government</b>.</div>
       </div>
 
@@ -22,10 +22,11 @@
       <div class="col-sm-5 from-local">
         <div class="arrow">↖</div>
 
-        <h2>Money Generated Locally <span class="indicator-date">{{ 2015|finyear }}</span></h2>
-        <div class="indicator-value">R 123 123 123</div>
+        <h2>Money Generated Locally <span class="indicator-date">{{ indicators.revenue_sources.year|finyear }}</span></h2>
+        <div class="indicator-value">R {{ indicators.revenue_sources.local.amount|floatformat:"0" }}</div>
         <div class="indicator-description">From residents paying for <b>water & electricity, rates</b>, licenses & fines, and from interest and investments.</div>
       </div>
+
 
     </div>
 
