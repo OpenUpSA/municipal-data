@@ -322,7 +322,75 @@ var VerticalBarChart = function() {
   };
 };
 
+var IncomeSplitPieChart = function() {
+  var self = this;
+
+  self.discover = function() {
+    // find all charts
+    $('#income-split-pie').each(function() {
+      var chart = new IncomeSplitPieChart();
+      chart.init(this);
+      $(window).on('resize', _.debounce(chart.drawChart, 300));
+    });
+  };
+
+  self.init = function(container) {
+    self.container = $(container);
+    self.color = d3.scale.ordinal()
+      .range(["#bcbd22", "#17becf"]);
+    self.data = [{
+        name: "From Government",
+        amount: profileData.indicators.revenue_sources.government.amount,
+      }, {
+        name: "Generated locally",
+        amount: profileData.indicators.revenue_sources.local.amount,
+      }];
+
+    self.drawChart();
+  };
+
+  self.drawChart = function() {
+    self.container.empty();
+    self.setDimensions();
+
+    self.svg = d3.select(self.container[0]).append("svg")
+        .attr("width", self.width)
+        .attr("height", self.height)
+      .append("g")
+        .attr("transform", "translate(" + self.width / 2 + "," + self.height / 2 + ")")
+        .attr("class", "pie");
+
+    var arc = d3.svg.arc()
+        .outerRadius(self.radius - 10)
+        .innerRadius(0);
+
+    var pie = d3.layout.pie()
+        .sort(null)
+        .value(function(d) { return d.amount; });
+
+    var g = self.svg.selectAll(".arc")
+        .data(pie(self.data))
+      .enter().append("g")
+        .attr("class", "arc");
+
+    g.append("path")
+        .attr("d", arc)
+        .style("fill", function(d) { return self.color(d.data.name); });
+  };
+
+  self.setDimensions = function() {
+    self.width = self.container.width();
+    if ($('body').hasClass('print')) self.width = 100;
+
+    self.width = Math.min(self.width, 150);
+    self.height = self.width;
+    self.radius = Math.min(self.width, self.height) / 2;
+
+  };
+};
+
 $(function() {
   new VerticalBarChart().discover();
   new HorizontalGroupedBarChart().discover();
+  new IncomeSplitPieChart().discover();
 });

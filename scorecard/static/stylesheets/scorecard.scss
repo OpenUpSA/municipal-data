@@ -790,6 +790,10 @@ blockquote {
   a:hover {
     text-decoration: none;
   }
+
+  @media (max-width: 767px) {
+    margin-bottom: 20px;
+  }
 }
 
 .calc {
@@ -869,6 +873,7 @@ blockquote {
     font-size: 16px;
     color: $gray-light;
     font-weight: normal;
+    white-space: nowrap;
   }
   .indicator-description {
     margin-bottom: 5px;
@@ -973,23 +978,25 @@ blockquote {
     margin-top: 20px;
   }
 
+  .right {
+    margin-bottom: 20px;
+  }
+
   @media only screen and (min-width: 768px) {
-    .from-govt {
+    .left {
       .arrow {
         display: block;
         margin-left: 50%;
       }
     }
 
-    .from-local {
+    .right {
+      margin-bottom: 0px;
+
       .arrow {
         display: block;
         margin-right: 50%;
       }
-    }
-
-    .middle {
-      margin-top: 100px;
     }
   }
 }
@@ -1219,6 +1226,10 @@ blockquote {
     .bar-label {
       display: none;
     }
+  }
+
+  @media (max-width: 767px) {
+    margin-bottom: 20px;
   }
 }
 

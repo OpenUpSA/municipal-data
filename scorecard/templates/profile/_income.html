@@ -1,38 +1,54 @@
 {% load l10n finance %}
 
 <div class="section" id="income">
-  <h1><i class="fa fa-money"></i> Income <span class="subtitle">- Where money comes from</span></h1>
+  <h1><i class="fa fa-money"></i> Income</h1>
 
   <div class="income-split indicator">
-    <h2 class="text-center">Municipalities get money from two sources</h2>
+    <div class="row">
+      <div class="col-md-8">
+        <h2 class="text-center">Municipalities get money from two sources</h2>
+
+        <div class="row">
+          <div class="col-sm-5 left">
+            <div class="arrow">↗</div>
+
+            <h2><span class="visible-xs-inline">1. </span> Money Generated Locally <span class="indicator-date">{{ indicators.revenue_sources.year|finyear }}</span></h2>
+            <div class="indicator-value">R {{ indicators.revenue_sources.local.amount|floatformat:"0" }}</div>
+            <div class="indicator-description">From residents paying for <b>water & electricity, rates</b>, licenses & fines, and from interest and investments.</div>
+          </div>
+
+          <div class="col-sm-2 middle">
+            <span class="plus">+</span>
+            <div id="income-split-pie" class="hidden-xs"></div>
+          </div>
+
+          <div class="col-sm-5 right">
+            <div class="arrow">↖</div>
+
+            <h2><span class="visible-xs-inline">2. </span> Money from Government <span class="indicator-date">{{ indicators.revenue_sources.year|finyear }}</span></h2>
+            <div class="indicator-value">R {{ indicators.revenue_sources.government.amount|floatformat:"0" }}</div>
+            <div class="indicator-description">From the <b>Equitable Share</b> of taxes, and <b>Grants from Government</b>.</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-4">
+
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            <p>The more a municipality is able to generate its own income, the more self-sufficient it is.  Municipalities should not be too reliant on transfers and grants from other spheres of government.  If they have to rely on transfers for over half of their total operating revenue it is a clear sign of financial risk.  Municipalities should aim to generate at least 75 percent of their own revenue. </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="income-split indicator">
+    <h2>Where money comes from</h2>
 
     <div class="row">
-      <div class="col-sm-5 from-govt">
-        <div class="arrow">↗</div>
-
-        <h2>Money from Government <span class="indicator-date">{{ indicators.revenue_sources.year|finyear }}</span></h2>
-        <div class="indicator-value">R {{ indicators.revenue_sources.government.amount|floatformat:"0" }}</div>
-        <div class="indicator-description">From the <b>Equitable Share</b> of taxes, and <b>Grants from Government</b>.</div>
-      </div>
-
-      <div class="col-sm-2 middle">
-        <span class="plus">+</span>
-      </div>
-
-      <div class="col-sm-5 from-local">
-        <div class="arrow">↖</div>
-
-        <h2>Money Generated Locally <span class="indicator-date">{{ indicators.revenue_sources.year|finyear }}</span></h2>
-        <div class="indicator-value">R {{ indicators.revenue_sources.local.amount|floatformat:"0" }}</div>
-        <div class="indicator-description">From residents paying for <b>water & electricity, rates</b>, licenses & fines, and from interest and investments.</div>
-      </div>
-
-
-    </div>
-
-    <div class="row chart">
       <div class="col-sm-8">
-        <h3>Different sources of income</h3>
 
         <div class="chart-container narrow-margin" data-chart="grouped-bar-revenue_breakdown" data-unit="currency"></div>
         <div class="show-calc"><a href="#income-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Source</a></div>
@@ -41,11 +57,12 @@
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
           <div class="panel-body">
-            <p>This indicator compares how much of a municipality's income it is able to generate itself (through property rates, service charges, etc), compared with how much it receives as transfers and grants from national government.  The more a municipality is able to generate its own income, the more self-sufficient it is.  Municipalities should not be too reliant on transfers and grants from other spheres of government.  If they have to rely on transfers for over half of their total operating revenue it is a clear sign of financial risk.  Municipalities should aim to generate at least 75 percent of their own revenue. </p>
+            <p>This shows how much of a municipality's income it is able to generate itself (through property rates, service charges, etc), compared with how much it receives as transfers and grants from national government.  The more a municipality is able to generate its own income, the more self-sufficient it is. </p>
           </div>
         </div>
       </div>
     </div>
+
     <div class="calc collapse" id="income-calc">
       <h5>Source:</h5>
 
