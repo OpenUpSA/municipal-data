@@ -13,7 +13,7 @@
             <div class="arrow">↗</div>
 
             <h2><span class="visible-xs-inline">1. </span> Money Generated Locally <span class="indicator-date">{{ indicators.revenue_sources.year|finyear }}</span></h2>
-            <div class="indicator-value">R {{ indicators.revenue_sources.local.amount|floatformat:"0" }}</div>
+            <div class="indicator-value">{{ indicators.revenue_sources.local.percent }}%</div>
             <div class="indicator-description">From residents paying for <b>water & electricity, rates</b>, licenses & fines, and from interest and investments.</div>
           </div>
 
@@ -26,7 +26,7 @@
             <div class="arrow">↖</div>
 
             <h2><span class="visible-xs-inline">2. </span> Money from Government <span class="indicator-date">{{ indicators.revenue_sources.year|finyear }}</span></h2>
-            <div class="indicator-value">R {{ indicators.revenue_sources.government.amount|floatformat:"0" }}</div>
+            <div class="indicator-value">{{ indicators.revenue_sources.government.percent }}%</div>
             <div class="indicator-description">From the <b>Equitable Share</b> of taxes, and <b>Grants from Government</b>.</div>
           </div>
         </div>
