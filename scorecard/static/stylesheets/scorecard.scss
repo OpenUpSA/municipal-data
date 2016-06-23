@@ -88,6 +88,10 @@ h1,h2,h3,h4,h5,h6 {
 
 .title {
   color: $brand-secondary;
+  a,
+  a:visited {
+    color: $brand-secondary;
+  }
 }
 
 //== Links
@@ -1305,6 +1309,7 @@ blockquote {
 }
 
 .profile-head2head-frame {
+  .leaflet-control-attribution,
   #about,
   .page-nav-wrapper,
   #explainer-video,
