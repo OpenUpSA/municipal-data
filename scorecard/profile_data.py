@@ -82,6 +82,10 @@ class IndicatorCalculator(object):
                 'title': 'Circular 71',
                 'url': 'http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx',
             },
+            'overunder': {
+                'title': 'Over and under spending reports to parliament',
+                'url': 'http://mfma.treasury.gov.za/Media_Releases/Reports%20to%20Parliament/Pages/default.aspx',
+            },
         }
 
     def calculate(self):
@@ -138,11 +142,11 @@ class IndicatorCalculator(object):
                 op_ex_actual = self.results['op_exp_actual']['4600'][year]
                 result = percent((op_ex_actual - op_ex_budget), op_ex_budget, 1)
                 overunder = 'under' if result < 0 else 'over'
-                if abs(result) < 10:
+                if abs(result) <= 5:
                     rating = 'good'
-                elif abs(result) <= 25:
+                elif abs(result) <= 15:
                     rating = 'ave'
-                elif abs(result) > 25:
+                elif abs(result) > 15:
                     rating = 'bad'
                 else:
                     rating = None
@@ -159,7 +163,7 @@ class IndicatorCalculator(object):
 
         return {
             'values': values,
-            'ref': self.references['solgf'],
+            'ref': self.references['overunder'],
         }
 
     def cap_budget_diff(self):
@@ -170,11 +174,11 @@ class IndicatorCalculator(object):
                 cap_ex_actual = self.results['cap_exp_actual']['4100'][year]
                 result = percent((cap_ex_actual - cap_ex_budget), cap_ex_budget)
                 overunder = 'under' if result < 0 else 'over'
-                if abs(result) < 10:
+                if abs(result) <= 5:
                     rating = 'good'
-                elif abs(result) <= 30:
+                elif abs(result) <= 15:
                     rating = 'ave'
-                elif abs(result) > 30:
+                elif abs(result) > 15:
                     rating = 'bad'
                 else:
                     rating = None
@@ -191,7 +195,7 @@ class IndicatorCalculator(object):
 
         return {
             'values': values,
-            'ref': self.references['solgf'],
+            'ref': self.references['overunder'],
         }
 
     def rep_maint_perc_ppe(self):
