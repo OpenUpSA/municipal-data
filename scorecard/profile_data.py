@@ -265,7 +265,14 @@ class IndicatorCalculator(object):
             results[code_to_source[item['item.code']]]['amount'] += amount
             results[code_to_source[item['item.code']]]['items'].append(item)
         results['government']['percent'] = percent(results['government']['amount'], total)
-        results['local']['percent'] = percent(results['local']['amount'], total)
+        local_pct = percent(results['local']['amount'], total)
+        results['local']['percent'] = local_pct
+        if local_pct >= 75:
+            results['rating'] = 'good'
+        elif local_pct >= 50:
+            results['rating'] = 'ave'
+        else:
+            results['rating'] = 'bad'
         return results
 
     def revenue_breakdown(self):
