@@ -970,6 +970,7 @@ blockquote {
 
   .arrow {
     font-size: 48px;
+    font-weight: bold;
     text-align: center;
     display: none;
   }
@@ -988,6 +989,15 @@ blockquote {
         display: block;
         margin-left: 50%;
       }
+
+      h2 {
+        padding-left: 5px;
+        border-left: 5px solid #17becf;
+      }
+    }
+
+    .plus {
+      color: white;
     }
 
     .right {
@@ -996,6 +1006,11 @@ blockquote {
       .arrow {
         display: block;
         margin-right: 50%;
+      }
+
+      h2 {
+        padding-left: 5px;
+        border-left: 5px solid #bcbd22;
       }
     }
   }
