@@ -103,12 +103,11 @@ var HorizontalGroupedBarChart = function() {
   self.setDimensions = function(items) {
     var container_width = self.container.width();
     var container_height = (items > 5 ? 10 : 13) * items;
+    var narrow = document.documentElement.clientWidth < 768;
 
     if ($('body').hasClass('print')) container_width = 550;
 
-    self.margin = {top: 10, right: 0, bottom: 10, left: 200};
-    if (self.container.hasClass('narrow-margin')) self.margin.left = 120;
-
+    self.margin = {top: 10, right: 0, bottom: 10, left: narrow ? 120 : 200};
     self.width = container_width - self.margin.left - self.margin.right;
     self.height = container_height - self.margin.top - self.margin.bottom;
 
