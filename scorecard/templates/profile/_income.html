@@ -1,0 +1,31 @@
+{% load l10n finance %}
+
+<div class="section" id="income">
+  <h1><i class="fa fa-money"></i> Income <span class="subtitle">- Where money comes from</span></h1>
+
+  <div class="indicator">
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="chart-container narrow-margin" data-chart="grouped-bar-revenue_breakdown" data-unit="currency"></div>
+        <div class="show-calc"><a href="#income-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Source</a></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            <p>This indicator compares how much of a municipality's income it is able to generate itself (through property rates, service charges, etc), compared with how much it receives as transfers and grants from national government.  The more a municipality is able to generate its own income, the more self-sufficient it is.  Municipalities should not be too reliant on transfers and grants from other spheres of government.  If they have to rely on transfers for over half of their total operating revenue it is a clear sign of financial risk.  Municipalities should aim to generate at least 75 percent of their own revenue. </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calc collapse" id="income-calc">
+      <h5>Source:</h5>
+
+      <ul class="formula">
+        <li>
+          <a href="{% table_url "incexp" %}" target="_blank">Income & Expenditure</a> Audited Actual and Original Budget
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
