@@ -1020,6 +1020,25 @@ blockquote {
   }
 }
 
+.compare-place-picker {
+  background-color: $gray-lighter;
+  margin-top: 5px;
+
+  h5 {
+    float: left;
+    margin-top: 5px;
+    margin-right: 10px;
+  }
+
+  .input {
+    float: left;
+  }
+
+  input {
+    width: 20em;
+  }
+}
+
 //= Page footer
 #page-footer {
   background-color: $gray-lighter;
@@ -1287,7 +1306,7 @@ blockquote {
   }
 
   #head2head-wrapper {
-    background-color: #eee;
+    background-color: $gray-lighter;
   }
 
   iframe {
@@ -1304,7 +1323,7 @@ blockquote {
   
   .frame-right {
     left: 50%;
-    border-left: 5px solid #eee;
+    border-left: 5px solid $gray-lighter;
   }
 }
 
