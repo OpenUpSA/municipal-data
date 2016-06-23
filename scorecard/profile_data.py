@@ -248,14 +248,20 @@ class IndicatorCalculator(object):
             '1700': 'local',
             '1800': 'local',
         }
+        total = None
         for item in self.results['revenue_breakdown']:
             if item['financial_year_end.year'] != year:
                 continue
+            if item['amount_type.code'] != 'AUDA':
+                continue
             if item['item.code'] == '1900':
+                total = item['amount.sum']
                 continue
             amount = item['amount.sum'] or 0
             results[code_to_source[item['item.code']]]['amount'] += amount
             results[code_to_source[item['item.code']]]['items'].append(item)
+        results['government']['percent'] = percent(results['government']['amount'], total)
+        results['local']['percent'] = percent(results['local']['amount'], total)
         return results
 
     def revenue_breakdown(self):
