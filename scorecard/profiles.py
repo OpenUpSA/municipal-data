@@ -28,6 +28,7 @@ def get_profile(geo_code, geo_level, profile_name=None):
     indicators['rep_maint_perc_ppe'] = indicator_calc.rep_maint_perc_ppe()
     indicators['wasteful_exp'] = indicator_calc.wasteful_exp_perc_exp()
     indicators['expenditure_trends'] = indicator_calc.expenditure_trends()
+    indicators['revenue_sources'] = indicator_calc.revenue_sources()
     indicators['revenue_breakdown'] = indicator_calc.revenue_breakdown()
     indicators['expenditure_trends'] = indicator_calc.expenditure_trends()
     indicators['expenditure_functional_breakdown'] = indicator_calc.expenditure_functional_breakdown()

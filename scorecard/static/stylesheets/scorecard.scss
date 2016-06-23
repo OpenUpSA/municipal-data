@@ -790,6 +790,10 @@ blockquote {
   a:hover {
     text-decoration: none;
   }
+
+  @media (max-width: 767px) {
+    margin-bottom: 20px;
+  }
 }
 
 .calc {
@@ -869,6 +873,7 @@ blockquote {
     font-size: 16px;
     color: $gray-light;
     font-weight: normal;
+    white-space: nowrap;
   }
   .indicator-description {
     margin-bottom: 5px;
@@ -953,6 +958,46 @@ blockquote {
   .audit-unqualified_extra:after {
     font-family: "icomoon";
     content: "\e99e";
+  }
+}
+
+// income split
+.income-split {
+  .middle {
+    text-align: center;
+    font-size: 48px;
+  }
+
+  .arrow {
+    font-size: 48px;
+    text-align: center;
+    display: none;
+  }
+
+  .chart {
+    margin-top: 20px;
+  }
+
+  .right {
+    margin-bottom: 20px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .left {
+      .arrow {
+        display: block;
+        margin-left: 50%;
+      }
+    }
+
+    .right {
+      margin-bottom: 0px;
+
+      .arrow {
+        display: block;
+        margin-right: 50%;
+      }
+    }
   }
 }
 
@@ -1181,6 +1226,10 @@ blockquote {
     .bar-label {
       display: none;
     }
+  }
+
+  @media (max-width: 767px) {
+    margin-bottom: 20px;
   }
 }
 

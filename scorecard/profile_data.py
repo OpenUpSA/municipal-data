@@ -73,13 +73,6 @@ class IndicatorCalculator(object):
         self.budget_year = self.years[0] + 1
         self.client = client or MuniApiClient()
 
-        self.revenue_breakdown_items = [
-            ('Property rates', '0200'),
-            ('Service charges', '0400'),
-            ('Transfers received', '1600'),
-            ('Own revenue', '1700'),
-        ]
-
         self.references = {
             'solgf': {
                 'title': 'State of Local Government Finances',
@@ -226,32 +219,102 @@ class IndicatorCalculator(object):
             'ref': self.references['circular71'],
         }
 
+    def revenue_sources(self):
+        year = self.years[0]
+        results = {
+            'local': {
+                'amount': 0,
+                'items': [],
+                },
+            'government': {
+                'amount': 0,
+                'items': [],
+                },
+            'year': year,
+        }
+        code_to_source = {
+            '0200': 'local',
+            '0300': 'local',
+            '0400': 'local',
+            '0700': 'local',
+            '0800': 'local',
+            '1000': 'local',
+            '1100': 'local',
+            '1300': 'local',
+            '1400': 'local',
+            '1500': 'local',
+            '1600': 'government',
+            '1610': 'government',
+            '1700': 'local',
+            '1800': 'local',
+        }
+        total = None
+        for item in self.results['revenue_breakdown']:
+            if item['financial_year_end.year'] != year:
+                continue
+            if item['amount_type.code'] != 'AUDA':
+                continue
+            if item['item.code'] == '1900':
+                total = item['amount.sum']
+                continue
+            amount = item['amount.sum'] or 0
+            results[code_to_source[item['item.code']]]['amount'] += amount
+            results[code_to_source[item['item.code']]]['items'].append(item)
+        results['government']['percent'] = percent(results['government']['amount'], total)
+        results['local']['percent'] = percent(results['local']['amount'], total)
+        return results
+
     def revenue_breakdown(self):
+        groups = [
+            ('Property rates', ['0200', '0300']),
+            ('Service Charges', ['0400']),
+            ('Rental income', ['0700']),
+            ('Interest and investments', ['0800', '1000', '1100']),
+            ('Fines', ['1300']),
+            ('Licenses and Permits', ['1400']),
+            ('Agency services', ['1500']),
+            ('Transfers for Operating Expenses', ['1600']),
+            ('Transfers for Capital Expenses', ['1610']),
+            ('Other', ['1700', '1800']),
+        ]
+        results = {}
+        for item in self.results['revenue_breakdown']:
+            if item['financial_year_end.year'] not in results:
+                results[item['financial_year_end.year']] = {}
+            if item['item.code'] not in results[item['financial_year_end.year']]:
+                results[item['financial_year_end.year']][item['item.code']] = {}
+            results[item['financial_year_end.year']][item['item.code']][item['amount_type.code']] \
+                = item
         values = []
         for year in self.years + [self.budget_year]:
-            year_name = year if year != self.budget_year else ("%s budget" % year)
-            subtotal = 0.0
+            if year == self.budget_year:
+                year_name = "%s budget" % year
+                amount_type = 'ORGB'
+            else:
+                year_name = year
+                amount_type = 'AUDA'
             try:
-                total = self.results['revenue_breakdown']['1900'][year]
-
-                for item, code in self.revenue_breakdown_items:
-                    amount = self.results['revenue_breakdown'][code][year]
-                    subtotal += amount
+                total = results[year]['1900'][amount_type]['amount.sum']
+                for (label, codes) in groups:
+                    amount = 0
+                    for code in codes:
+                        amount += results[year][code][amount_type]['amount.sum'] or 0
                     values.append({
-                        'item': item,
+                        'item': label,
                         'amount': amount,
-                        'percent': percent(amount, total),
+                        'percent': percent(amount, total) if amount else 0,
                         'date': year_name,
-                    })
-                if total and subtotal and (total != subtotal):
-                    values.append({
-                        'item': 'Other',
-                        'amount': total - subtotal,
-                        'percent': percent(total - subtotal, total),
-                        'date': year_name,
+                        'amount_type': amount_type,
                     })
             except KeyError:
-                continue
+                values.append({
+                    'item': None,
+                    'amount': None,
+                    'percent': None,
+                    'date': year_name,
+                    'amount_type': amount_type,
+                })
+
         return {'values': values}
 
     def current_ratio(self):
@@ -694,15 +757,31 @@ class IndicatorCalculator(object):
                 'cube': 'incexp',
                 'aggregate': 'amount.sum',
                 'cut': {
-                    'item.code': ['0200', '0400', '1600', '1700', '1900'],
+                    'item.code': [
+                        '0200',
+                        '0300',
+                        '0400',
+                        '0700',
+                        '0800',
+                        '1000',
+                        '1100',
+                        '1300',
+                        '1400',
+                        '1500',
+                        '1600',
+                        '1610',
+                        '1700',
+                        '1800',
+                        '1900',
+                    ],
                     'amount_type.code': ['AUDA', 'ORGB'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['year'],
                     'financial_year_end.year': self.years + [self.budget_year],
                 },
-                'drilldown': YEAR_ITEM_DRILLDOWN + ['amount_type.code'],
+                'drilldown': YEAR_ITEM_DRILLDOWN + ['item.label', 'amount_type.code'],
                 'query_type': 'aggregate',
-                'results_structure': self.item_code_year_aggregate,
+                'results_structure': self.noop_structure,
                 'split_on_budget': True,
             },
             'expenditure_breakdown': {
