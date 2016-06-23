@@ -956,6 +956,48 @@ blockquote {
   }
 }
 
+// income split
+.income-split {
+  h3 {
+    text-align: center;
+  }
+
+  .middle {
+    text-align: center;
+    font-size: 48px;
+  }
+
+  .arrow {
+    font-size: 48px;
+    text-align: center;
+    display: none;
+  }
+
+  .chart {
+    margin-top: 20px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .from-govt {
+      .arrow {
+        display: block;
+        margin-left: 50%;
+      }
+    }
+
+    .from-local {
+      .arrow {
+        display: block;
+        margin-right: 50%;
+      }
+    }
+
+    .middle {
+      margin-top: 110px;
+    }
+  }
+}
+
 //= Page footer
 #page-footer {
   background-color: $gray-lighter;
