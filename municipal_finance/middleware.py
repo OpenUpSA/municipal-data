@@ -30,11 +30,10 @@ def authenticated(request):
 
     if 'HTTP_AUTHORIZATION' in request.META:
         auth = request.META['HTTP_AUTHORIZATION'].split()
-        if len(auth) == 2:
-            if auth[0].lower() == "basic":
-                uname, passwd = base64.b64decode(auth[1]).split(':')
-                if uname == settings.HTTP_AUTH_USER and passwd == settings.HTTP_AUTH_PASS:
-                    return True
+        if len(auth) == 2 and auth[0].lower() == "basic":
+            uname, passwd = base64.b64decode(auth[1]).split(':')
+            if uname == settings.HTTP_AUTH_USER and passwd == settings.HTTP_AUTH_PASS:
+                return True
 
 
 class SiteMiddleware(object):
