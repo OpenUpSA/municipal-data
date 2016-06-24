@@ -313,6 +313,7 @@ class IndicatorCalculator(object):
             ('Other', ['1700', '1800']),
         ]
         results = {}
+        # Structure as {'2015': {'1900': {'AUDA': ..., 'ORGB': ...}, '0200': ...}, '2016': ...}
         for item in self.results['revenue_breakdown']:
             if item['financial_year_end.year'] not in results:
                 results[item['financial_year_end.year']] = {}
@@ -394,8 +395,9 @@ class IndicatorCalculator(object):
             except IndexError:
                 pass
         # Enumerate the quarter keys we can expect to exist based on the latest
-        keys = []
+        # If if latest is missing, there are none to show.
         if latest_quarter is not None:
+            keys = []
             for q in xrange(latest_quarter['quarter'], 0, -1):
                 keys.append((latest_quarter['year'], q))
             for q in xrange(4, 0, -1):
@@ -467,12 +469,13 @@ class IndicatorCalculator(object):
 
         for year, yeargroup in groupby(results, lambda r: r['financial_year_end.year']):
             try:
+                # Skip an entire year if total is missing, suggesting the year is missing
                 total = self.results['expenditure_breakdown']['4600'][year]
                 GAPD_total = 0.0
                 year_name = year if year != self.budget_year else ("%s budget" % year)
 
                 for result in yeargroup:
-                    # only do budget for budget year, use auda for others
+                    # only do budget for budget year, use AUDA for others
                     if self.check_budget_actual(year, result['amount_type.code']):
                         if result['function.category_label'] in GAPD_categories:
                             GAPD_total += (result['amount.sum'])
@@ -498,16 +501,20 @@ class IndicatorCalculator(object):
 
     def cash_at_year_end(self):
         values = []
-        for year, result in self.results['cash_flow']['4200'].iteritems():
-            if result > 0:
-                rating = 'good'
-            elif result <= 0:
-                rating = 'bad'
-            else:
-                rating = None
+        for year in self.years:
+            try:
+                result = self.results['cash_flow']['4200'][year]
 
-            values.append({'date': year, 'result': result, 'rating': rating})
+                if result > 0:
+                    rating = 'good'
+                elif result <= 0:
+                    rating = 'bad'
+                else:
+                    rating = None
 
+                values.append({'date': year, 'result': result, 'rating': rating})
+            except KeyError:
+                values.append({'date': year, 'result': None, 'rating': None})
         return {
             'values': values,
             'ref': self.references['solgf'],
@@ -916,6 +923,11 @@ class IndicatorCalculator(object):
                 'query_type': 'facts',
                 'results_structure': self.noop_structure,
             },
+            # For audit opinions, null results mean the opinion PDF
+            # wasn't available when the dataset was updated, even if
+            # we return a row for the municipality and date. Therefore
+            # it's fine to let nulls go through as null to the frontend
+            # unlike the numeric information
             'audit_opinions': {
                 'cube': 'audit_opinions',
                 'cut': {
