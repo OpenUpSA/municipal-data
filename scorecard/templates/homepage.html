@@ -23,10 +23,6 @@
   </div>
 </div>
 
-<div id="homepage-map">
-  <div id="slippy-map"></div>
-</div>
-
 <div id="homepage-video" class="section">
   <div class="container">
     <h1><strong>Municipal Finance</strong> in 5 minutes</h1>
@@ -43,12 +39,20 @@
         As citizens, we should know how this money has been spent and also have a say in how money is spent in the future to better our lives.
         </p>
         <p class="lead">
-          <a href="/about">Find out more →</a>
+          <a class="btn btn-primary btn-lg" href="/about">Find out more →</a>
         </p>
         </p>
       </div>
     </div>
   </div>
+</div>
+
+<div id="homepage-map">
+  <div class="container">
+    <h1>Where do you live?</h1>
+  </div>
+
+  <div id="slippy-map"></div>
 </div>
 
 <div class="section" id="homepage-instructions">
@@ -146,7 +150,7 @@ if (Modernizr.geolocation) {
 geoSelect.focus()
 
 var maps = new Maps();
-var centre = [-28, 25];
+var centre = [-28.5, 25];
 var zoom = 5;
 maps.drawMapForHomepage(centre, zoom);
 </script>
