@@ -2,9 +2,11 @@ from datetime import date, datetime
 from decimal import Decimal
 
 from django.core.serializers.json import DjangoJSONEncoder
-from django.http import StreamingHttpResponse
+from django.http import StreamingHttpResponse, Http404, HttpResponse
 from django.http import JsonResponse
 
+import xlsxwriter
+import StringIO
 import unicodecsv as csv
 
 
@@ -36,7 +38,7 @@ class EchoBuffer(object):
         return value
 
 
-def csvify(name_base, fields, rows):
+def csvify(fields, rows):
     header_row = {}
     for field in fields:
         header_row[field] = field
@@ -44,7 +46,36 @@ def csvify(name_base, fields, rows):
 
     writer = csv.DictWriter(EchoBuffer(), fields)
     stream = (writer.writerow(row) for row in rows)
-    response = StreamingHttpResponse(stream, content_type='text/csv')
-    filename = name_base + '_' + datetime.now().isoformat() + '.csv'
+    return StreamingHttpResponse(stream, content_type='text/csv')
+
+
+def xlsxify(fields, rows):
+    output = StringIO.StringIO()
+    wb = xlsxwriter.Workbook(output)
+    ws = wb.add_worksheet('data')
+
+    data = [[r[f] for f in fields] for r in rows]
+
+    ws.add_table(0, 0, len(rows), len(fields) - 1, {
+        'columns': [{'header': f} for f in fields],
+        'data': data,
+    })
+
+    wb.close()
+    output.seek(0)
+    output = output.read()
+
+    return HttpResponse(output, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+
+def serialize(format, name_base, fields, rows):
+    if format == 'csv':
+        response = csvify(fields, rows)
+    elif format == 'xlsx':
+        response = xlsxify(fields, rows)
+    else:
+        raise Http404()
+
+    filename = name_base + '_' + datetime.now().isoformat() + '.%s' % format
     response['Content-Disposition'] = 'attachment; filename="' + filename + '"'
     return response
