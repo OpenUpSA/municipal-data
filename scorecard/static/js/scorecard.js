@@ -64,6 +64,8 @@ $(document).ready(function(){
       .on('shown.bs.collapse', function() {
         var $toggle = $('a.show-more[href="#' + this.id + '"]');
         $toggle.find('.fa').removeClass('fa-plus').addClass('fa-minus');
+        // send google analytics event
+        ga('send', 'event', 'show-more', this.id);
       })
       .on('hidden.bs.collapse', function() {
         var $toggle = $('a.show-more[href="#' + this.id + '"]');
