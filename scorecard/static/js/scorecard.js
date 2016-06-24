@@ -64,6 +64,8 @@ $(document).ready(function(){
       .on('shown.bs.collapse', function() {
         var $toggle = $('a.show-more[href="#' + this.id + '"]');
         $toggle.find('.fa').removeClass('fa-plus').addClass('fa-minus');
+        // send google analytics event
+        ga('send', 'event', 'show-more', this.id);
       })
       .on('hidden.bs.collapse', function() {
         var $toggle = $('a.show-more[href="#' + this.id + '"]');
@@ -80,14 +82,25 @@ $(function() {
     var $btn = $(this);
     $btn.closest('.nav').find('li').removeClass('active');
     $btn.closest('li').addClass('active');
+
     $iframe.attr('src', this.href + "?autoplay=1");
+    ga('send', 'event', 'play-video', $btn.data('lang'));
   });
 
   $('#video-modal')
     .on('show.bs.modal', function() {
-      $iframe.attr('src', $('.video-chooser .video-choices .active a')[0].href + '?autoplay=1');
+      var $target = $('.video-chooser .video-choices .active a');
+      $iframe.attr('src', $target.attr('href') + '?autoplay=1');
+      ga('send', 'event', 'play-video', $target.data('lang'));
     })
     .on('hide.bs.modal', function() {
       $iframe.attr('src', '');
     });
+});
+
+$(function() {
+  // track outbound links
+  $('a[href^=http]').on('click', function(e) {
+    ga('send', 'event', 'outbound-click', e.target.href);
+  });
 });
