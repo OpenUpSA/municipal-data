@@ -232,3 +232,8 @@ label {
 .select2-results__option i {
   float: right;
 }
+
+// prevent boxes from getting in the way
+.article-header .downloads {
+  z-index: 10;
+}
