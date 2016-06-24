@@ -1,3 +1,20 @@
+"""
+Municipality Profile data preparation
+Gather data from the municipal finance API and provide values ready for display
+on the page with little further processing.
+
+If the API returns a null value, it can generally be treated as zero. That
+happens in this library and nulls that should be zeros should not be
+left to the frontend to handle.
+
+The shape of data produced by this library is generally a series of years
+or quarters in reverse chronological order with associated values. Only the
+years that are to be shown are returned.
+
+If data needed to calculate a value for a given date is missing, an
+object is returned for that year with the value being None,
+to indicate in the page that it is missing.
+"""
 from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
 from collections import defaultdict, OrderedDict
@@ -261,7 +278,7 @@ class IndicatorCalculator(object):
             if item['item.code'] == '1900':
                 total = item['amount.sum']
                 continue
-            amount = item['amount.sum'] or 0
+            amount = item['amount.sum']
             results[code_to_source[item['item.code']]]['amount'] += amount
             results[code_to_source[item['item.code']]]['items'].append(item)
         if total is None:
@@ -316,7 +333,7 @@ class IndicatorCalculator(object):
                 for (label, codes) in groups:
                     amount = 0
                     for code in codes:
-                        amount += results[year][code][amount_type]['amount.sum'] or 0
+                        amount += results[year][code][amount_type]['amount.sum']
                     values.append({
                         'item': label,
                         'amount': amount,
@@ -342,7 +359,7 @@ class IndicatorCalculator(object):
         year_month_sorted = sorted(results, key=year_month_key, reverse=True)
         quarters = {}
         latest_quarter = None
-        # Loop over months that exist and add their values to quarters
+        # Loop over months that exist and use their values in quarters
         for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
             monthitems = list(yearmonthgroup)
             quarter_idx = ((month - 1) / 3) + 1
@@ -355,7 +372,9 @@ class IndicatorCalculator(object):
                 liabilities = [m['amount.sum'] for m in monthitems
                                if m['item.code'] == '1600'
                                and m['financial_period.period'] == month][0]
-
+                # Add a quarter the first time a month in the quarter is seen.
+                # Skip the remaining months in that quarter. Thus the latest
+                # month in the quarter is used.
                 if quarter_key not in quarters:
                     result = ratio(assets, liabilities)
                     q = {
@@ -456,11 +475,11 @@ class IndicatorCalculator(object):
                     # only do budget for budget year, use auda for others
                     if self.check_budget_actual(year, result['amount_type.code']):
                         if result['function.category_label'] in GAPD_categories:
-                            GAPD_total += (result['amount.sum'] or 0)
+                            GAPD_total += (result['amount.sum'])
                         else:
                             grouped_results.append({
-                                'amount': result['amount.sum'] or 0,
-                                'percent': percent((result['amount.sum'] or 0), total),
+                                'amount': result['amount.sum'],
+                                'percent': percent(result['amount.sum'], total),
                                 'item': result['function.category_label'],
                                 'date': year_name,
                             })
@@ -602,6 +621,7 @@ class IndicatorCalculator(object):
 
     def item_code_year_aggregate(self, query, response):
         """
+        Restructure and ensure API nulls become zeros
         Results are the values we received from the API converted into the
         following format:
         {
@@ -622,11 +642,18 @@ class IndicatorCalculator(object):
         for code in query['cut']['item.code']:
             # Index values by financial period, treating nulls as zero
             results[code] = OrderedDict([
-                (c['financial_year_end.year'], c[query['aggregate']] or 0)
+                (c['financial_year_end.year'], c[query['aggregate']] or 0.0)
                 for c in response if c['item.code'] == code])
         return results
 
     def noop_structure(self, query, response):
+        """
+        No restructuring, just ensure API nulls become zeros
+        """
+        if query['query_type'] == 'aggregate':
+            aggregate = query['aggregate']
+            for cell in response:
+                cell[aggregate] = cell[aggregate] or 0.0
         return response
 
     def get_queries(self):
