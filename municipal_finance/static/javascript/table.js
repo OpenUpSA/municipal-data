@@ -377,10 +377,13 @@
         aggregates: cube.aggregates,
         drilldown: cube.drilldown,
         order: cube.order,
-        cut: ['financial_period.period:' + self.filters.get('year')],
+        cut: ['financial_year_end.year:' + self.filters.get('year')],
       };
       if (self.filters.get('amountType')) {
         parts.cut.push('amount_type.code:' + this.filters.get('amountType'));
+      }
+      if (cube.model.dimensions.financial_period) {
+        parts.cut.push('financial_period.period:' + this.filters.get('year'));
       }
 
       // duplicate this, we're going to change it
