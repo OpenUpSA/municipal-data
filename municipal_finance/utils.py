@@ -56,7 +56,7 @@ def xlsxify(fields, rows):
 
     data = [[r[f] for f in fields] for r in rows]
 
-    ws.add_table(0, 0, len(rows) - 1, len(fields) - 1, {
+    ws.add_table(0, 0, len(rows), len(fields) - 1, {
         'columns': [{'header': f} for f in fields],
         'data': data,
     })
