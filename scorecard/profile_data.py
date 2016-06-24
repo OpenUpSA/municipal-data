@@ -105,7 +105,7 @@ class IndicatorCalculator(object):
             },
         }
 
-    def calculate(self):
+    def fetch_data(self):
         self.queries = self.get_queries()
         self.results = defaultdict(dict)
 

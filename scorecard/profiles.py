@@ -16,7 +16,7 @@ def get_profile(geo_code, geo_level, profile_name=None):
         population_density = total_pop / geo.square_kms
 
     indicator_calc = IndicatorCalculator(geo_code)
-    indicator_calc.calculate()
+    indicator_calc.fetch_data()
 
     indicators = {}
 
