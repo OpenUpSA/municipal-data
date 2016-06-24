@@ -7,7 +7,7 @@ CREATE TABLE public.aged_debtor_facts
   demarcation_code text REFERENCES scorecard_geography (geo_code),
   period_code text,
   customer_group_code text,
-  item_code text,
+  item_code text REFERENCES aged_debtor_items (code),
   bad_amount bigint,
   badi_amount bigint,
   g1_amount bigint,
