@@ -6,7 +6,7 @@ CREATE TABLE public.bsheet_facts
 (
   demarcation_code text REFERENCES scorecard_geography (geo_code),
   period_code text,
-  item_code text,
+  item_code text REFERENCES bsheet_items (code),
   amount bigint,
   id serial,
   financial_year integer,

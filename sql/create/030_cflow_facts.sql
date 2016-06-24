@@ -6,7 +6,7 @@ CREATE TABLE public.cflow_facts
 (
   demarcation_code text REFERENCES scorecard_geography (geo_code),
   period_code text,
-  item_code text,
+  item_code text REFERENCES cflow_items (code),
   amount bigint,
   amount_type_code text,
   id serial,
