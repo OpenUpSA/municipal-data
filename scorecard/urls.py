@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 
@@ -36,5 +37,12 @@ urlpatterns = [
         view    = cache_page(CACHE_SECS)(views.locate),
         kwargs  = {},
         name    = 'locate',
+    ),
+    url(
+        regex='^robots.txt$',
+        view=lambda r: HttpResponse(
+            "User-agent: *\nDisallow: /",
+            content_type="text/plain"
+        )
     ),
 ]
