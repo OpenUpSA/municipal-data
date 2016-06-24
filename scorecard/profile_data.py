@@ -1,5 +1,6 @@
 """
 Municipality Profile data preparation
+-------------------------------------
 Gather data from the municipal finance API and provide values ready for display
 on the page with little further processing.
 
@@ -395,7 +396,7 @@ class IndicatorCalculator(object):
             except IndexError:
                 pass
         # Enumerate the quarter keys we can expect to exist based on the latest
-        # If if latest is missing, there are none to show.
+        # If latest is missing, there are none to show.
         if latest_quarter is not None:
             keys = []
             for q in xrange(latest_quarter['quarter'], 0, -1):
