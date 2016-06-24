@@ -8,6 +8,14 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 
 DUMP_FORMATS = ['csv', 'xlsx']
+FORMATS = DUMP_FORMATS + ['json']
+
+
+def get_format(request):
+    format = request.GET.get('format', 'json')
+    if format in FORMATS:
+        return format
+    raise Http404()
 
 
 def get_cube(name):
@@ -123,7 +131,7 @@ def model(request, cube_name):
 def aggregate(request, cube_name):
     """ Perform an aggregation request. """
     cube = get_cube(cube_name)
-    format = request.GET.get('format', 'json')
+    format = get_format(request)
     page_max = request.GET.get('pagesize') if format in DUMP_FORMATS else 10000
     result = cube.aggregate(aggregates=request.GET.get('aggregates'),
                             drilldowns=request.GET.get('drilldown'),
@@ -145,7 +153,7 @@ def facts(request, cube_name):
     """ List the fact table entries in the current cube. This is the full
     materialized dataset. """
     cube = get_cube(cube_name)
-    format = request.GET.get('format', 'json')
+    format = get_format(request)
     page_max = request.GET.get('pagesize') if format in DUMP_FORMATS else 10000
     result = cube.facts(fields=request.GET.get('fields'),
                         cuts=request.GET.get('cut'),
@@ -165,7 +173,7 @@ def members(request, cube_name, member_ref):
     """ List the members of a specific dimension or the distinct values of a
     given attribute. """
     cube = get_cube(cube_name)
-    format = request.GET.get('format', 'json')
+    format = get_format(request)
     page_max = request.GET.get('pagesize') if format in DUMP_FORMATS else 10000
     result = cube.members(member_ref,
                           cuts=request.GET.get('cut'),
