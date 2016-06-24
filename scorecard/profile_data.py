@@ -514,7 +514,7 @@ class IndicatorCalculator(object):
 
                 values.append({'date': year, 'result': result, 'rating': rating})
             except KeyError:
-                values.append({'date': year, 'result': None, 'rating': None})
+                values.append({'date': year, 'result': None, 'rating': 'bad'})
         return {
             'values': values,
             'ref': self.references['solgf'],
