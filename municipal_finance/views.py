@@ -174,13 +174,11 @@ def members(request, cube_name, member_ref):
     given attribute. """
     cube = get_cube(cube_name)
     format = get_format(request)
-    page_max = request.GET.get('pagesize') if format in DUMP_FORMATS else 10000
     result = cube.members(member_ref,
                           cuts=request.GET.get('cut'),
                           order=request.GET.get('order'),
                           page=request.GET.get('page'),
-                          page_size=request.GET.get('pagesize'),
-                          page_max=page_max)
+                          page_size=request.GET.get('pagesize'))
     if format == 'json':
         result['status'] = 'ok'
         return jsonify(result)
