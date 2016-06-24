@@ -376,7 +376,6 @@
       var parts = {
         aggregates: cube.aggregates,
         drilldown: cube.drilldown,
-        order: cube.order,
         cut: ['financial_year_end.year:' + self.filters.get('year')],
       };
       if (self.filters.get('amountType')) {
@@ -402,8 +401,26 @@
         self.cells.set('items', self.cells.get('items').concat(data.cells));
 
         // establish download url
-        var params = {page: 1, pagesize: data.total_cell_count};
-        _.extend(params, parts);
+        var params = _.clone(parts);
+        _.extend(params, {
+          page: 1,
+          pagesize: data.total_cell_count,
+          order: 'demarcation.code:asc,' + cube.order,
+        });
+
+        // copy this, we're going to change it
+        params.drilldown = params.drilldown.slice();
+
+        // ensure the download has all attributes, except function
+        // which we'll deal with later
+        _.each(cube.model.dimensions, function(dim, dim_name) {
+          if (dim_name != 'function') {
+            _.each(dim.attributes, function(attr, attr_name) {
+              params.drilldown.unshift(dim_name + '.' + attr_name);
+            });
+          }
+        });
+
         self.downloadUrl = self.makeUrl(params);
       }).always(spinnerStop);
     },
