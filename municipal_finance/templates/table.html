@@ -32,7 +32,15 @@
   <div class="container-fluid">
     <header class="article-header">
       <aside>
-        <a href="" class="csv-download btn btn-default" disabled="disabled"><i class="fa fa-download"></i> Download CSV</a>
+        <div class="dropdown downloads">
+          <button type="button" id="downloadBtn" class="btn btn-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="disabled">
+            <i class="fa fa-download"></i> Download <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="downloadBtn">
+            <li><a href="#" data-format="xlsx" target="_blank">Excel (.xlsx)</a></li>
+            <li><a href="#" data-format="csv" target="_blank">CSV (.csv)</a></li>
+          </ul>
+        </div>
       </aside>
       <h2>{{ cube_model.label }}</h2>
 

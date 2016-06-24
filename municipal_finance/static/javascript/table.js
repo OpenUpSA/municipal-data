@@ -400,9 +400,11 @@
       spinnerStart();
       $.get(url, function(data) {
         self.cells.set('items', self.cells.get('items').concat(data.cells));
-        var csvParams = {page: 1, pagesize: data.total_cell_count, format: 'csv'};
-        var csvParts = $.extend(csvParams, parts);
-        self.csvUrl = self.makeUrl(csvParts);
+
+        // establish download url
+        var params = {page: 1, pagesize: data.total_cell_count};
+        _.extend(params, parts);
+        self.downloadUrl = self.makeUrl(params);
       }).always(spinnerStop);
     },
 
@@ -419,7 +421,7 @@
         this.renderColHeadings();
         this.renderValues();
       }
-      this.renderCsvLink();
+      this.renderDownloadLinks();
     },
 
     renderRowHeadings: function() {
@@ -529,12 +531,19 @@
       }
     },
 
-    renderCsvLink: function() {
-      if (this.csvUrl && !_.isEmpty(this.filters.get('municipalities'))) {
-        this.$('a.csv-download').attr('href', this.csvUrl);
-        this.$('a.csv-download').attr('disabled', false);
+    renderDownloadLinks: function() {
+      var self = this;
+
+      if (this.downloadUrl && !_.isEmpty(this.filters.get('municipalities'))) {
+        this.$('.downloads button').attr('disabled', false);
+
+        // setup urls
+        this.$('.downloads .dropdown-menu a').attr('href', function() {
+          return self.downloadUrl + '&format=' + $(this).data('format');
+        });
+
       } else {
-        this.$('a.csv-download').attr('disabled', true);
+        this.$('.downloads').attr('disabled', true);
       }
     },
 
