@@ -15,6 +15,19 @@ $(document).ready(function(){
   var spinnerTarget = document.getElementById('body-spinner'),
       spinner = new Spinner();
 
+  // FAQ sub-nav
+  $('#faq-subnav').affix({
+    offset: {
+      top: function () {
+        return (this.top = $('#faq-subnav').offset().top)
+      },
+      bottom: function () {
+        return (this.bottom = $('#page-footer').outerHeight(true))
+      }
+    }
+  })
+  $('body').scrollspy({ target: '#faq-subnav' });
+
   if ($('#profile').length > 0) {
     // profile page stuff
 

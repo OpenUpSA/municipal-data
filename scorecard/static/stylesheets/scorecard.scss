@@ -489,6 +489,28 @@ blockquote {
   }
 }
 
+//= FAQ
+
+#faq-subnav.affix {
+  z-index: 100;
+  position: fixed;
+  top: 0;
+}
+#faq-subnav.affix-bottom {
+  position: absolute;
+}
+#faq-subnav li a {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+#faq-subnav li a:hover{
+  background-color: transparent;
+  text-decoration: underline;
+}
+#faq-subnav li.active a {
+  font-weight: bold;
+}
+
 //= Sections
 //
 .section {
