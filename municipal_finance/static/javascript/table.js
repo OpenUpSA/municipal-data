@@ -528,7 +528,13 @@
 
             for (var a = 0; a < cube.aggregates.length; a++) {
               var v = (cell ? cell[cube.aggregates[a]] : null);
-              tr.insertCell().innerText = v ? self.format(v) : "-";
+              if (v === null) {
+                v = "-";
+              } else {
+                v = self.format(v);
+              }
+
+              tr.insertCell().innerText = v;
             }
           }
         }
