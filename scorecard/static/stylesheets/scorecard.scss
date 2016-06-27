@@ -369,7 +369,6 @@ blockquote {
   transition: all 0.5s ease;
   .page-nav-info {
     max-height: 0;
-    overflow: hidden;
     transition: all 0.5s ease;
   }
   .page-nav-info .muni-name, .page-nav-info .muni-population {
@@ -396,6 +395,7 @@ blockquote {
     transition-delay: 0.3s;
   }
   #page-nav a {
+    height: 69px;
     color: rgba(255,255,255,0.5);
     font-size: 12px;
     font-weight: 900;
@@ -480,6 +480,7 @@ blockquote {
 @media only screen and (max-width: 480px) {
   .page-nav-container .nav li a {
     padding: 12px 12px;
+    height: auto !important;
   }
   .page-nav-info .muni-name, .page-nav-info .muni-population {
     display: block;
