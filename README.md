@@ -23,7 +23,7 @@ dokku config:set municipal-finance DJANGO_DEBUG=False \
                                    DATABASE_URL=postgres://municipal_finance:...@postgresq....amazonaws.com/municipal_finance
 ```
 
-# Data Import
+# Initial Data Import
 
 Data import is still a fairly manual process leveraging the DB and a few SQL scripts to do the hard work. This is usually done against a local DB, sanity checked with a locally-running instance of the API and some tools built on it, and if everything looks ok, dumped table-by-table with something like `pg_dump "postgres://municipal_finance@localhost/municipal_finance" --table=audit_opinions -O -c --if-exists > audit_opinions.sql` and then loaded into the production database.
 
@@ -41,6 +41,41 @@ Data import is still a fairly manual process leveraging the DB and a few SQL scr
   - the prod DB doesn't support CREATE INDEX IF NOT EXISTS yet so ignore errors for existing indices unless their columns changed and they need to be manually removed and recreated.
 
 *Remember to run `VACUUM ANALYSE` or REINDEX tables after significant changes to ensure stats are up to date to use indices properly.*
+
+# Standard Operating Procedure
+
+This covers how to keep the data up to date. Each quarter, as new data is released, the following needs to be done to update the data served by the API and the Citizen Scorecard. It's best to do this on a test database first and verify the results before updating the production database.
+
+## Extract CSV datasets from Excel Spreadsheets
+
+Extract CSV datasets from Excel Spreadsheets using the following scripts in `municipal_finance/data_import/`
+
+- audit_opinions.py
+- contact_details.py
+- bad_expenditure.py
+
+## Scrape http:/mfma.treasury.gov.za for the Audit Report URLs into a CSV file
+
+Using `municipal_finance/data_import/audit_reports`
+
+## Insert/update from CSV files
+
+1. Update the paths in the per-cube files in `sql/upsert/`
+2. Execute the files
+
+These files work as follows:
+
+1. Create a temporary table
+2. Import the CSV file to the temporary table
+3. Decode the `period_code` column into dedicated columns (Some Financial datasets only)
+4. Update values  in the fact table that already exist
+5. Insert new rows to the fact table
+
+Update the last-updated date in the model files for each cube in `models/*.json`
+
+## Annual data
+
+Whenever 4th Quarter data becomes available, typically 2 quarters after that financial year end, also adjust the years used by `scorecard/profile_data.py` to include the latest financial year available.
 
 # License
 
