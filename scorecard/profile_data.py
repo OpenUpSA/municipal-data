@@ -309,8 +309,8 @@ class IndicatorCalculator(object):
             ('Fines', ['1300']),
             ('Licenses and Permits', ['1400']),
             ('Agency services', ['1500']),
-            ('Transfers for Operating Expenses', ['1600']),
-            ('Transfers for Capital Expenses', ['1610']),
+            ('Government Transfers for Operating Expenses', ['1600']),
+            ('Government Transfers for Capital Expenses', ['1610']),
             ('Other', ['1700', '1800']),
         ]
         results = {}
