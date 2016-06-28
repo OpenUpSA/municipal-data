@@ -18,6 +18,9 @@ CREATE TEMPORARY TABLE capital_import (
 
 \copy capital_import (demarcation_code, period_code, function_code, item_code, new_assets, renewal_of_existing, total_assets, repairs_maintenance, asset_register_summary) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2016q3/capital_2016q3_acrmun.csv' DELIMITER ',' CSV HEADER;
 
+-- 2016Q3 Delete the following function codes that were entered incorrectly as confirmed with Treasury 2016-06-28
+delete from capital_import where function_code in ('AC','BT','CL','CM','ER','HA','HO','HR','HS','IL','IT','LB','LT','MC','MM','OA','OS','PF','PK','PL','PT','PY','RD','RO','RR','SL','SR','TR','WD','WP');
+
 update capital_import set financial_year = cast(left(period_code, 4) as int);
 update capital_import set amount_type_code = substr(period_code, 5) where substr(period_code, 5) in ('IBY1', 'IBY2', 'ADJB', 'ORGB', 'AUDA', 'PAUD');
 update capital_import set amount_type_code = 'ACT' where substr(period_code, 5) not in ('IBY1', 'IBY2', 'ADJB', 'ORGB', 'AUDA', 'PAUD');
