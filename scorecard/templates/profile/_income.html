@@ -35,7 +35,7 @@
           <div class="col-sm-5 right">
             <div class="arrow">↖</div>
 
-            <h2><span class="visible-xs-inline">2. </span> Money from Government <span class="indicator-date">{{ indicators.revenue_sources.year|finyear }}</span></h2>
+            <h2><span class="visible-xs-inline">2. </span> Money from National Government <span class="indicator-date">{{ indicators.revenue_sources.year|finyear }}</span></h2>
             <div class="indicator-value">
               {% if indicators.revenue_sources.government.percent == None %}
               Not Available
@@ -43,7 +43,7 @@
               {{ indicators.revenue_sources.government.percent }}%
               {% endif %}
             </div>
-            <div class="indicator-description">From the <b>Equitable Share</b> of taxes, and <b>Grants from Government</b>.</div>
+            <div class="indicator-description">From the <b>Equitable Share</b> of taxes, and <b>Grants from National Government</b>.</div>
           </div>
         </div>
 
@@ -65,7 +65,7 @@
         <div class="panel panel-didyouknow">
           <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
           <div class="panel-body">
-            <p>The more a municipality is able to generate its own income, the more self-sufficient it is.  Municipalities should not be too reliant on transfers and grants from other spheres of government.  If they have to rely on transfers for over half of their total operating revenue it is a clear sign of financial risk.  Municipalities should aim to generate at least 75 percent of their own revenue. </p>
+            <p>The more a municipality is able to generate its own income, the more self-sufficient it is.  Municipalities should not be too reliant on transfers and grants from other spheres of government.</p>
           </div>
         </div>
 

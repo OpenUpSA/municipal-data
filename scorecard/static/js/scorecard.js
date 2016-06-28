@@ -4,11 +4,6 @@ jQuery.support.cors = true;
 window.browserWidth = document.documentElement.clientWidth;
 window.browserHeight = document.documentElement.clientHeight;
 
-// navigation menu
-$('#menu-toggle').on('click', function() {
-    $('#menu').slideToggle(150);
-});
-
 $(document).ready(function(){
   // prepare ajax spinners
   $('body').append('<div id="body-spinner"></div>');

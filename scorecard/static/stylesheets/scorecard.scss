@@ -142,14 +142,9 @@ blockquote {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
 
-  .header-buttons {
-    float: right;
-  }
-  .fa-twitter {
-    margin-right: 5px;
-  }
   .title {
     font-weight: bold;
+    float: left;
   }
   .title:hover {
     text-decoration: none;
@@ -162,22 +157,69 @@ blockquote {
   a.title {
     font-size: $font-size-h2;
   }
-}
 
-#menu {
-  float: right;
-  margin: .2em 0 0 5px;
-  padding: 0;
-}
+  .menu-nav {
+    float: left;
+    margin-top: 7px;
+  }
 
-#menu input {
-  height: 2em;
-  color: $black;
-}
+  ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
 
-#menu input,
-#menu .tt-menu {
-  width: 240px;
+    li {
+      display: inline-block;
+      margin-left: 30px;
+    }
+  }
+  
+  .search {
+    float: right;
+    margin-top: 4px;
+
+    input {
+      height: 2em;
+      color: $black;
+    }
+
+    input,
+    .tt-menu {
+      width: 240px;
+    }
+  }
+
+  @media only screen and (max-width: 640px) {
+    .title {
+      float: none;
+      display: block;
+    }
+
+    #menu {
+      display: none;
+    }
+    #menu.in {
+      display: block;
+    }
+
+    nav,
+    .menu-nav,
+    .search {
+      float: none;
+      display: block;
+      padding: 5px 0px;
+
+      ul li {
+        display: block;
+        margin: 0px 0px 5px;
+      }
+
+      input,
+      .tt-menu {
+        width: 100%;
+      }
+    }
+  }
 }
 
 #menu-toggle {
@@ -197,6 +239,7 @@ blockquote {
 #menu-toggle.fa:before {
     cursor: pointer;
 }
+
 
 //== Header box
 //
@@ -338,25 +381,6 @@ blockquote {
 #page-header {
   background: $gray-dark;
   border-bottom: solid 1px $gray-dark;
-}
-
-@media only screen and (max-width: 640px) {
-  #menu-toggle {
-    display: block;
-  }
-  #menu {
-    float: none;
-    display: block;
-    padding: 1em 0 .67em;
-    display: none;
-  }
-  #menu input {
-    margin-left: 0;
-  }
-  #menu input,
-  #menu .tt-menu {
-    width: 100%;
-  }
 }
 
 //= Page nav
@@ -565,7 +589,7 @@ blockquote {
   border-radius: 5px;
   overflow: hidden;
   .video-image {
-    background-position: center center;
+    background-position: center 260px;
     background-size: cover;
     text-align: center;
     border-bottom-left-radius: 5px;
@@ -1133,9 +1157,6 @@ blockquote {
   }
   #homepage-video {
     padding-top: 30px;
-  }
-  #menu {
-    display: none;
   }
 
   #homepage-instructions {
