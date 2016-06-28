@@ -34,17 +34,18 @@
       {% block header %}
       <header id="page-header">
         <div id="page-header-title" class="container">
-          <i id="menu-toggle" class="fa fa-bars"></i>
+          <a id="menu-toggle" class="visible-xs fa fa-bars" href="#menu" data-toggle="collapse"></a>
           <a class="title" href="{% url 'homepage' %}">Municipal Money <span class="visible-print-inline">{{ WAZIMAP.url }}</span></a>
-          {% block nav_tools %}
-          <div id="menu" class="tool-set">
-            <input name="geography_select" class="form-control input-sm" id="geography-select" type="text" placeholder="Type a municipality name or address..." autocomplete="off">
-          </div>
-          {% endblock %}
-          <div class="header-buttons">
-            {% comment %}
-            <a class="wide-only" href="https://twitter.com/{{ WAZIMAP.twitter }}" title="{{ WAZIMAP.twitter }} on Twitter"><i class="fa fa-2x fa-twitter"></i></a>
-            {% endcomment %}
+
+          <div id="menu">
+            <nav class="menu-nav">
+              <ul>
+                <li><a href="/about">About</a></li>
+              </ul>
+            </nav>
+            <nav class="search">
+              <input name="geography_select" class="form-control input-sm" id="geography-select" type="text" placeholder="Type a municipality name or address..." autocomplete="off">
+            </nav>
           </div>
         </div>
       </header>
