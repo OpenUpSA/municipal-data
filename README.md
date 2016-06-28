@@ -54,9 +54,9 @@ Extract CSV datasets from Excel Spreadsheets using the following scripts in `mun
 - contact_details.py
 - bad_expenditure.py
 
-## Scrape http:/mfma.treasury.gov.za for the Audit Report URLs into a CSV file
+## Scrape the MFMA website for the Audit Report URLs into a CSV file
 
-Using `municipal_finance/data_import/audit_reports`
+Using `municipal_finance/data_import/audit_reports.py`
 
 ## Insert/update from CSV files
 
@@ -81,16 +81,21 @@ Whenever 4th Quarter data becomes available, typically 2 quarters after that fin
 
 Do each of these for a sample of municipalities. Check some metros, some districts, and some locals. Try to find some doing well and some doing badly. Try to compare some with fairly complete data and some with missing data.
 
-You can use `municipal_finance/data_import/data_audit.py` to generate a CSV showing which which data is available for which munis. With this you can find munis missing specific datasets.
+You can use `municipal_finance/data_import/data_audit.py` to generate a CSV showing which data is available for which munis. With this you can find munis lacking specific datasets.
 
-- [ ] Contact details
-  - [ ] Check that the website link works
-  - [ ] Compare some contacts to those in the [Budgets on the MFMA website](http://mfma.treasury.gov.za/Documents/03.%20Budget%20Documentation)
-- [ ] Follow Audit report links and check that the link works, and that the opinion in the report matches what is shown on the page. The heading "Basis for Qualified Opinion" seems to be around page 2 or 3 for a _Qualified_ opinion on the page.
-- [ ] Compare Original Budget (ORGB) values to [Adopted Budgets on the MFMA website](http://mfma.treasury.gov.za/Documents/03.%20Budget%20Documentation)
-  - [ ] Grants - Not all of them appear in our conditional grant dataset - compare those that do e.g. _Local Government Financial Management Grant_
-  - [ ] Operating Revenue and expenditure
-  -
+-  Contact details
+  -  Check that the website link works
+  -  Compare some contacts to those in the [Budgets on the MFMA website](http://mfma.treasury.gov.za/Documents/03.%20Budget%20Documentation)
+-  Follow Audit report links on the Scorecard site and check that the link works, and that the opinion in the report matches what is shown on the page. For example, the heading "Basis for Qualified Opinion" seems to be around page 2 or 3 for a _Qualified_ opinion on the page. You can also find the [Audit Reports on the MFMA website](http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports)
+-  Compare Original Budget (ORGB) values to [Adopted Budgets on the MFMA website](http://mfma.treasury.gov.za/Documents/03.%20Budget%20Documentation)
+  -  Grants - Not all of them appear in our conditional grant dataset - compare those that do e.g. _Local Government Financial Management Grant_
+  -  Operating Revenue and expenditure
+- Compare Audited (AUDA) values to the [audited financial statements on the MFMA website](http://mfma.treasury.gov.za/Documents/05.%20Annual%20Financial%20Statements)
+  - Use the _consolidated_ financial statements where available for municipalities with entities
+  - You can compare some values in the Scorecard site and the rest in the Table View
+- Compare in-year values to [Section 71 in-year reports](http://mfma.treasury.gov.za/Media_Releases/s71/Pages/default.aspx)
+  - This isn't available in the Table View yet so use the API or the database
+  - Compare the latest available month of a quarter to the quarter value in the report
 
 # License
 
