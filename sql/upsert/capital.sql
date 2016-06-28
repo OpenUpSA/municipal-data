@@ -48,11 +48,11 @@ WHERE f.demarcation_code = i.demarcation_code
 AND f.period_code = i.period_code
 AND f.item_code = i.item_code
 AND f.function_code = i.function_code
-AND (f.new_assets = i.new_assets
-  OR f.renewal_of_existing = round(i.renewal_of_existing)
-  OR f.total_assets = i.total_assets
-  OR f.repairs_maintenance = round(i.repairs_maintenance)
-  OR f.asset_register_summary = i.asset_register_summary);
+AND (f.new_assets != i.new_assets
+  OR f.renewal_of_existing != round(i.renewal_of_existing)
+  OR f.total_assets != i.total_assets
+  OR f.repairs_maintenance != round(i.repairs_maintenance)
+  OR f.asset_register_summary != i.asset_register_summary);
 
 INSERT INTO capital_facts
 (
