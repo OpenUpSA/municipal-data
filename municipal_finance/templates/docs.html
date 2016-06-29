@@ -263,6 +263,9 @@ GET /cubes/incexp/model
 {
   "status": "ok",
   "model": {
+    "description": "a.k.a. Financial Performance. Financial obligations in and out.",
+    "update_cycle": "quarter",
+    "last_updated": "2016-06",
     "dimensions": {
       "function": {
         "description": "Function",
@@ -296,7 +299,8 @@ GET /cubes/incexp/model
     </pre>
 
     <p>Returns a description of the cube. The metadata includes attributes, measures, dimensions, aggregates etc.</p>
-
+    <p><code>update_cycle</code> indicates how frequently you can expect later data and corrections in this dataset</p>
+<p><code>last_updated</code> is a partial ISO 8601 date indicating the date of the latest update. E.g. 2016-06 means the financial year 2015-2016 4th Quarter updates have been applied, which happen some time after it's actually 2016-06. Note that due to the time it takes to verify and submit data, the latest data in a given dataset lags behind that dataset's date.</p>
 
     <h2 id="list-facts">List Facts</h2>
 
