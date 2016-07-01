@@ -98,6 +98,14 @@ label {
   aside {
     float: right;
   }
+
+  .note {
+    position: fixed;
+    left: $controls-width + 25px;
+    right: 0px;
+    top: 80px;
+    font-size: 12px;
+  }
 }
 
 .table-controls {
@@ -158,16 +166,15 @@ label {
 .table-display {
   position: fixed;
   top: 100px;
-  bottom: 15px;
+  bottom: 0px;
   left: $controls-width + 15px;
-  right: 15px;
+  right: 0px;
   overflow: auto;
   font-size: 12px;
 
   background-color: white;
   padding: 10px;
   border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
 
   td, th {
     padding: 2px;
