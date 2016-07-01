@@ -216,18 +216,24 @@ label {
     }
   }
 
-  .values th {
-    font-weight: bold;
-    text-align: center;
-    border-bottom: 1px solid #ccc;
-    border-right: 5px solid white;
-  }
-
-  .values tr:first-child th {
-    background-color: #efefef;
-  }
-
   .values {
+    th {
+      font-weight: bold;
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+      border-right: 5px solid white;
+    }
+
+    tr:first-child th {
+      background-color: $nt-red;
+      color: white;
+      border-bottom-color: #7f1a1d;
+    }
+
+    tr:nth-child(2) th {
+      background-color: #efefef;
+    }
+
     td {
       text-align: right;
       padding-left: 10px;

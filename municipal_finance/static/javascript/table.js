@@ -192,6 +192,8 @@
         });
 
         cube.trigger('change');
+        // TODO: check pre-chosen function
+        //self.filters.trigger('change');
       }).always(spinnerStop);
     },
 
@@ -410,8 +412,7 @@
 
       this.cells = opts.cells;
       this.cells.on('change', this.render, this);
-
-      cube.on('change', this.renderRowHeadings, this);
+      cube.on('change', this.render, this);
 
       this.preload();
     },
@@ -424,7 +425,6 @@
         // we only care about items that have a label
         cube.itemHeadings = _.select(data.data, function(d) { return d['item.label']; });
         cube.trigger('change');
-        self.render();
       }).always(spinnerStop);
     },
 
@@ -507,18 +507,27 @@
     },
 
     render: function() {
-      if (cube.itemHeadings && municipalities) {
-        this.renderColHeadings();
-        this.renderValues();
+      if (cube.itemHeadings) {
+        this.renderRowHeadings();
+
+        if (municipalities) {
+          this.renderColHeadings();
+          this.renderValues();
+        }
       }
+
       this.renderDownloadLinks();
     },
 
     renderRowHeadings: function() {
       // render row headings table
-      var table = this.$('.row-headings')[0];
+      var table = this.$('.row-headings').empty()[0];
+      var blanks = 1;
+      
+      if (cube.aggregates.length > 1) blanks++;
+      if (!_.isEmpty(this.filters.get('functions'))) blanks++;
 
-      for (var i = 0; i < (cube.aggregates.length > 1 ? 2 : 1); i++) {
+      for (var i = 0; i < blanks; i++) {
         var spacer = $('<th>').html('&nbsp;').addClass('spacer');
         table.insertRow().appendChild(spacer[0]);
       }
@@ -540,6 +549,7 @@
 
     renderColHeadings: function() {
       var table = this.$('.values').empty()[0];
+      var functions = this.functionHeadings();
 
       // municipality headings
       var tr = table.insertRow();
@@ -548,22 +558,36 @@
         var muni = municipalities[munis[i]];
         var th = document.createElement('th');
         th.innerText = muni.name;
-        th.setAttribute('colspan', cube.aggregates.length);
+        th.setAttribute('colspan', cube.aggregates.length * Math.max(functions.length, 1));
         th.setAttribute('title', muni.demarcation_code);
         tr.appendChild(th);
+      }
+
+      // function headings
+      if (cube.hasFunctions && !_.isEmpty(functions)) {
+        tr = table.insertRow();
+
+        _.times(munis.length, function() {
+          _.each(functions, function(func) {
+            var th = document.createElement('th');
+            th.innerText = func.label;
+            th.setAttribute('colspan', cube.aggregates.length);
+            tr.appendChild(th);
+          });
+        });
       }
 
       // aggregate headings
       if (cube.aggregates.length > 1) {
         tr = table.insertRow();
 
-        for (i = 0; i < munis.length; i++) {
+        _.times(munis.length, function() {
           _.each(cube.model.measures, function(measure) {
             var th = document.createElement('th');
             th.innerText = measure.label;
             tr.appendChild(th);
           });
-        }
+        });
       }
     },
 
@@ -571,6 +595,8 @@
       var table = this.$('.values')[0];
       var cells = this.cells.get('items');
       var munis = this.filters.get('municipalities');
+      var functions = this.functionHeadings();
+
       // highlightable items as a set of codes
       var highlights = _.inject(this.state.get('items') || [], function(s, i) { s[i] = i; return s; }, {});
       // row indexes to highlight
@@ -659,6 +685,12 @@
       var ix = $(e.currentTarget).index();
       this.$('table.row-headings tr:eq(' + ix + '), table.values tr:eq(' + ix + ')')
         .removeClass('hover');
+    },
+
+    functionHeadings: function() {
+      var functions = this.filters.get('functions') || [];
+      functions = _.filter(cube.functions, function(f) { return _.contains(functions, f.code); });
+      return _.sortBy(functions, 'label');
     },
   });
 
