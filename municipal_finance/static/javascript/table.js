@@ -93,6 +93,7 @@
         municipalities: this.filters.get('municipalities'),
         year: this.filters.get('year'),
         amountType: this.filters.get('amountType'),
+        functions: this.filters.get('functions'),
       });
     },
 
@@ -177,6 +178,8 @@
     preloadFunctions: function() {
       if (!cube.hasFunctions) return;
 
+      var self = this;
+
       // preload govt functions
       spinnerStart();
       $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/function?order=function.label', function(resp) {
@@ -192,8 +195,11 @@
         });
 
         cube.trigger('change');
-        // TODO: check pre-chosen function
-        //self.filters.trigger('change');
+
+        // sanity check pre-loaded functions
+        self.filters.set('functions', _.select(self.filters.get('functions'), function(code) {
+          return _.any(cube.functions, function(func) { return func.code == code; });
+        }));
       }).always(spinnerStop);
     },
 
@@ -730,6 +736,7 @@
           year: state.year,
           municipalities: state.municipalities.join(','),
           amountType: state.amountType,
+          functions: state.functions,
         };
 
         // make the query string url
@@ -756,6 +763,7 @@
         // highlighted item codes
         items: (params.items || "").split(","),
         amountType: (params.amountType),
+        functions: (params.functions || "").split(","),
       });
     },
 
