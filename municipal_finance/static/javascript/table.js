@@ -46,6 +46,11 @@
       cube.order = 'item.position_in_return_form:asc';
     }
   }
+  cube.hasFunctions = !!cube.model.dimensions.function;
+
+  // ensure the cube can handle events
+  _.extend(cube, Backbone.Events);
+
 
   /** The filters the user can choose
    */
@@ -55,6 +60,7 @@
       'click .del': 'muniRemoved',
       'click input[name=year]': 'yearChanged',
       'change select.amount-type-chooser': 'amountTypeChanged',
+      'change select.function-chooser': 'functionChanged',
       'click #clear-munis': 'clearMunis',
     },
 
@@ -62,6 +68,8 @@
       this.filters = opts.filters;
       this.filters.on('change', this.render, this);
       this.filters.on('change', this.saveState, this);
+
+      cube.on('change', this.render, this);
 
       this.state = opts.state;
       this.state.on('change', this.loadState, this);
@@ -89,6 +97,12 @@
     },
 
     preload: function() {
+      this.preloadMunis();
+      this.preloadAmountTypes();
+      this.preloadFunctions();
+    },
+
+    preloadMunis: function() {
       var self = this;
 
       // preload municipalities
@@ -116,6 +130,10 @@
         // force a change so we re-render
         self.filters.trigger('change');
       }).always(spinnerStop);
+    },
+
+    preloadAmountTypes: function() {
+      var self = this;
 
       // preload years and amount types
       var url = '/cubes/' + CUBE_NAME + '/aggregate?aggregates=_count&drilldown=financial_year_end.year';
@@ -156,6 +174,27 @@
       }).always(spinnerStop);
     },
 
+    preloadFunctions: function() {
+      if (!cube.hasFunctions) return;
+
+      // preload govt functions
+      spinnerStart();
+      $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/function?order=function.label', function(resp) {
+        cube.functions = _.map(resp.data, function(func) {
+          // change municipality.foo to foo
+          _.each(_.keys(func), function(key) {
+            if (key.startsWith("function.")) {
+              func[key.substring(9)] = func[key];
+              delete func[key];
+            }
+          });
+          return func;
+        });
+
+        cube.trigger('change');
+      }).always(spinnerStop);
+    },
+
     render: function() {
       var $list = this.$('.chosen-munis').empty();
       var munis = this.filters.get('municipalities');
@@ -190,6 +229,10 @@
       });
 
       this.renderAmountTypes();
+
+      if (!_.isEmpty(cube.functions) && this.$el.find('.function-chooser option').length == 0) {
+        this.renderFunctions();
+      }
     },
 
     renderMunis: function() {
@@ -259,6 +302,20 @@
       }
     },
 
+    renderFunctions: function() {
+      var $chooser = this.$('.function-chooser'),
+          chosen = this.filters.get('function') || "all";
+
+      $chooser.closest('section').show();
+      $chooser.append($('<option />').val("all").text("All functions"));
+
+      for (var i = 0; i < cube.functions.length; i++) {
+        var func = cube.functions[i];
+        $chooser.append($('<option />').val(func.code).text(func.label));
+      }
+      $chooser.val(chosen);
+    },
+
     renderYears: function() {
       var $chooser = this.$('.year-chooser');
 
@@ -314,7 +371,17 @@
 
     amountTypeChanged: function(e) {
       this.filters.set('amountType', $(e.target).val());
-    }
+    },
+
+    functionChanged: function(e) {
+      var v = $(e.target).val();
+
+      if (v == "all") {
+        this.filters.unset('functions');
+      } else {
+        this.filters.set('functions', [v]);
+      }
+    },
   });
 
 
@@ -344,6 +411,8 @@
       this.cells = opts.cells;
       this.cells.on('change', this.render, this);
 
+      cube.on('change', this.renderRowHeadings, this);
+
       this.preload();
     },
 
@@ -353,8 +422,8 @@
       spinnerStart();
       $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/item?order=' + cube.order, function(data) {
         // we only care about items that have a label
-        self.rowHeadings = _.select(data.data, function(d) { return d['item.label']; });
-        self.renderRowHeadings();
+        cube.itemHeadings = _.select(data.data, function(d) { return d['item.label']; });
+        cube.trigger('change');
         self.render();
       }).always(spinnerStop);
     },
@@ -376,13 +445,17 @@
       var parts = {
         aggregates: cube.aggregates,
         drilldown: cube.drilldown,
-        cut: ['financial_year_end.year:' + self.filters.get('year')],
+        cut: ['financial_year_end.year:' + this.filters.get('year')],
       };
-      if (self.filters.get('amountType')) {
+      if (this.filters.get('amountType')) {
         parts.cut.push('amount_type.code:' + this.filters.get('amountType'));
       }
       if (cube.model.dimensions.financial_period) {
         parts.cut.push('financial_period.period:' + this.filters.get('year'));
+      }
+      if (!_.isEmpty(this.filters.get('functions'))) {
+        parts.cut.push('function.code:"' + this.filters.get('functions').join('";"') + '"');
+        parts.drilldown = ['function.code'].concat(parts.drilldown);
       }
 
       // duplicate this, we're going to change it
@@ -434,7 +507,7 @@
     },
 
     render: function() {
-      if (this.rowHeadings && municipalities) {
+      if (cube.itemHeadings && municipalities) {
         this.renderColHeadings();
         this.renderValues();
       }
@@ -450,8 +523,8 @@
         table.insertRow().appendChild(spacer[0]);
       }
 
-      for (i = 0; i < this.rowHeadings.length; i++) {
-        var item = this.rowHeadings[i];
+      for (i = 0; i < (cube.itemHeadings || []).length; i++) {
+        var item = cube.itemHeadings[i];
         var tr = table.insertRow();
         var td;
 
@@ -512,8 +585,8 @@
 
       // values
       if (!_.isEmpty(cells)) {
-        for (var i = 0; i < this.rowHeadings.length; i++) {
-          var row = this.rowHeadings[i];
+        for (var i = 0; i < cube.itemHeadings.length; i++) {
+          var row = cube.itemHeadings[i];
           var tr = table.insertRow();
           $(tr).addClass('item-' + row['item.return_form_structure']);
 
