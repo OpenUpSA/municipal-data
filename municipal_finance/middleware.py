@@ -41,14 +41,16 @@ class SiteMiddleware(object):
     """
     def process_request(self, request):
         site = get_current_site(request)
-        if site.name == 'Scorecard':
-            # HACK http-basic auth
+
+        # HACK http-basic auth
+        if site.name == 'Scorecard' or not request.path.startswith('/api'):
             if not authenticated(request):
                 response = HttpResponse()
                 response.status_code = 401
                 response['WWW-Authenticate'] = 'Basic realm="private"'
                 return response
 
+        if site.name == 'Scorecard':
             request.urlconf = 'scorecard.urls'
         else:
             request.urlconf = 'municipal_finance.urls'
