@@ -246,6 +246,40 @@ label {
   }
 }
 
+#function-box {
+  section {
+    float: left;
+    width: 33%;
+
+    h4:first-child {
+      margin-top: 0px;
+    }
+
+    h4 {
+      margin-bottom: 5px;
+    }
+
+    ul {
+      padding-left: 15px;
+
+      .checkbox {
+        margin: 0px;
+      }
+    }
+  }
+
+  .options {
+    overflow-y: scroll;
+    max-height: 455px;
+    padding-top: 15px;
+  }
+
+  .modal-body {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+}
+
 .select2-results__option i {
   float: right;
 }

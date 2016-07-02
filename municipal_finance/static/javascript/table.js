@@ -60,7 +60,6 @@
       'click .del': 'muniRemoved',
       'click input[name=year]': 'yearChanged',
       'change select.amount-type-chooser': 'amountTypeChanged',
-      'change select.function-chooser': 'functionChanged',
       'click #clear-munis': 'clearMunis',
     },
 
@@ -73,6 +72,8 @@
 
       this.state = opts.state;
       this.state.on('change', this.loadState, this);
+
+      $('#function-box').on('hide.bs.modal', _.bind(this.functionsChanged, this));
 
       this.preload();
       this.loadState();
@@ -237,10 +238,7 @@
       });
 
       this.renderAmountTypes();
-
-      if (!_.isEmpty(cube.functions) && this.$el.find('.function-chooser option').length == 0) {
-        this.renderFunctions();
-      }
+      this.renderFunctions();
     },
 
     renderMunis: function() {
@@ -311,17 +309,46 @@
     },
 
     renderFunctions: function() {
-      var $chooser = this.$('.function-chooser'),
-          chosen = this.filters.get('function') || "all";
+      if (_.isEmpty(cube.functions)) return;
 
-      $chooser.closest('section').show();
-      $chooser.append($('<option />').val("all").text("All functions"));
+      if ($('#function-box li').length === 0) {
+        var $box = $('#function-box .options');
+        var groups = _.groupBy(cube.functions, 'category_label');
+        var $section,
+            count = 0,
+            groupSize = Math.ceil(cube.functions.length / 3);
 
-      for (var i = 0; i < cube.functions.length; i++) {
-        var func = cube.functions[i];
-        $chooser.append($('<option />').val(func.code).text(func.label));
+        _.each(groups, function(group, label) {
+          // group into columns of up to 20 items
+          if (!$section || count > groupSize) {
+            $section = $('<section>').appendTo($box);
+            count = 0;
+          }
+          count += group.length;
+
+          $section.append($('<h4>').text(label));
+          var $ul = $('<ul>');
+          _.each(group, function(func) {
+            var $item = $('<li class="checkbox"><label><input type="checkbox" value="' + func.code + '">' + func.subcategory_label + '</label></li>');
+            $ul.append($item);
+          });
+          $section.append($ul);
+        });
       }
-      $chooser.val(chosen);
+
+      var selected = (this.filters.get('functions') || []).length;
+      var text;
+
+      if (selected === 0) {
+        text = "All government functions";
+      } else if (selected === 1) {
+        var code = this.filters.get('functions')[0];
+        text = _.find(cube.functions, function(func) { return func.code == code; }).label;
+      } else {
+        text = selected + " government functions";
+      }
+
+      this.$('.function-chooser').text(text + "...");
     },
 
     renderYears: function() {
@@ -381,14 +408,14 @@
       this.filters.set('amountType', $(e.target).val());
     },
 
-    functionChanged: function(e) {
-      var v = $(e.target).val();
+    functionsChanged: function(e) {
+      var values = [];
 
-      if (v == "all") {
-        this.filters.unset('functions');
-      } else {
-        this.filters.set('functions', [v]);
-      }
+      $('#function-box input:checked').each(function() {
+        values.unshift($(this).val());
+      });
+
+      this.filters.set('functions', values);
     },
   });
 
