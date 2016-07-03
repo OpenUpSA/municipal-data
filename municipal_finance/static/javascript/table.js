@@ -74,6 +74,7 @@
       this.state.on('change', this.loadState, this);
 
       $('#function-box').on('hide.bs.modal', _.bind(this.functionsChanged, this));
+      $('#function-box').on('change', 'input:checkbox', _.bind(this.functionChecked, this));
 
       this.preload();
       this.loadState();
@@ -85,6 +86,7 @@
         municipalities: this.state.get('municipalities') || [],
         year: this.state.get('year'),
         amountType: this.state.get('amountType'),
+        functions: this.state.get('functions') || [],
       });
     },
 
@@ -318,6 +320,8 @@
             count = 0,
             groupSize = Math.ceil(cube.functions.length / 3);
 
+        $box.append($('<div class="checkbox all"><label><input type="checkbox" value="all">Summarise all government functions</label></div>'));
+
         _.each(groups, function(group, label) {
           // group into columns of up to 20 items
           if (!$section || count > groupSize) {
@@ -336,17 +340,20 @@
         });
       }
 
-      var selected = (this.filters.get('functions') || []).length;
+      var chosen = this.filters.get('functions');
       var text;
 
-      if (selected === 0) {
+      // ensure they correct ones are selected
+      $('#function-box input:checkbox').val(_.isEmpty(chosen) ? ["all"] : chosen);
+
+      if (chosen.length === 0) {
         text = "All government functions";
-      } else if (selected === 1) {
-        var code = this.filters.get('functions')[0];
-        text = _.find(cube.functions, function(func) { return func.code == code; }).label;
-      } else {
-        text = selected + " government functions";
+      } else if (chosen.length === 1) {
+        var code = chosen[0];
+        var func = _.find(cube.functions, function(func) { return func.code == code; });
+        if (func) text = func.label;
       }
+      if (!text) text = chosen.length + " government functions";
 
       this.$('.function-chooser').text(text + "...");
     },
@@ -411,11 +418,26 @@
     functionsChanged: function(e) {
       var values = [];
 
-      $('#function-box input:checked').each(function() {
+      $('#function-box input[value!=all]:checked').each(function() {
         values.unshift($(this).val());
       });
 
       this.filters.set('functions', values);
+    },
+
+    functionChecked: function(e) {
+      var $allBox = $('#function-box input[value=all]');
+
+      if ($(e.target).val() == "all") {
+        $('#function-box input[value!=all]').prop('checked', false);
+        $allBox.prop('disabled', true);
+
+      } else {
+        var chooseAll = $('#function-box input[value!=all]:checked').length === 0;
+        $allBox
+          .prop('checked', chooseAll)
+          .prop('disabled', chooseAll);
+      }
     },
   });
 
@@ -721,7 +743,7 @@
     },
 
     functionHeadings: function() {
-      var functions = this.filters.get('functions') || [];
+      var functions = this.filters.get('functions');
       functions = _.filter(cube.functions, function(f) { return _.contains(functions, f.code); });
       return _.sortBy(functions, 'label');
     },
