@@ -683,7 +683,7 @@
             for (var a = 0; a < cube.aggregates.length; a++) {
               var v = (cell ? cell[cube.aggregates[a]] : null);
               if (v === null) {
-                v = "-";
+                v = "·";
               } else {
                 v = self.format(v);
               }
