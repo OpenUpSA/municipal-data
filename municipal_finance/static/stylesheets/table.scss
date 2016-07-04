@@ -141,6 +141,10 @@ label {
     display: none;
   }
 
+  .functions {
+    display: none;
+  }
+
   .chosen-munis {
     margin-top: 5px;
     max-height: 250px;
@@ -155,7 +159,7 @@ label {
   .year-chooser {
     li {
       float: left;
-      width: 50%;
+      width: 33%;
     }
     label {
       margin-bottom: 2px;
@@ -212,18 +216,24 @@ label {
     }
   }
 
-  .values th {
-    font-weight: bold;
-    text-align: center;
-    border-bottom: 1px solid #ccc;
-    border-right: 5px solid white;
-  }
-
-  .values tr:first-child th {
-    background-color: #efefef;
-  }
-
   .values {
+    th {
+      font-weight: bold;
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+      border-right: 5px solid white;
+    }
+
+    tr:first-child th {
+      background-color: $nt-red;
+      color: white;
+      border-bottom-color: #7f1a1d;
+    }
+
+    tr:nth-child(2) th {
+      background-color: #efefef;
+    }
+
     td {
       text-align: right;
       padding-left: 10px;
@@ -233,6 +243,44 @@ label {
   tr.hover td,
   tr.toggled td {
     background-color: gold;
+  }
+}
+
+#function-box {
+  section {
+    float: left;
+    width: 33%;
+
+    h4:first-child {
+      margin-top: 0px;
+    }
+
+    h4 {
+      margin-bottom: 5px;
+    }
+
+    ul {
+      padding-left: 15px;
+
+      .checkbox {
+        margin: 0px;
+      }
+    }
+  }
+
+  .options {
+    overflow-y: scroll;
+    max-height: 455px;
+    padding-top: 15px;
+
+    .all {
+      margin: 0px 0px 15px;
+    }
+  }
+
+  .modal-body {
+    padding-top: 0px;
+    padding-bottom: 0px;
   }
 }
 

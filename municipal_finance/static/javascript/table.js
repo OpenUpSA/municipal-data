@@ -46,6 +46,11 @@
       cube.order = 'item.position_in_return_form:asc';
     }
   }
+  cube.hasFunctions = !!cube.model.dimensions.function;
+
+  // ensure the cube can handle events
+  _.extend(cube, Backbone.Events);
+
 
   /** The filters the user can choose
    */
@@ -63,8 +68,13 @@
       this.filters.on('change', this.render, this);
       this.filters.on('change', this.saveState, this);
 
+      cube.on('change', this.render, this);
+
       this.state = opts.state;
       this.state.on('change', this.loadState, this);
+
+      $('#function-box').on('hide.bs.modal', _.bind(this.functionsChanged, this));
+      $('#function-box').on('change', 'input:checkbox', _.bind(this.functionChecked, this));
 
       this.preload();
       this.loadState();
@@ -76,6 +86,7 @@
         municipalities: this.state.get('municipalities') || [],
         year: this.state.get('year'),
         amountType: this.state.get('amountType'),
+        functions: this.state.get('functions') || [],
       });
     },
 
@@ -85,10 +96,17 @@
         municipalities: this.filters.get('municipalities'),
         year: this.filters.get('year'),
         amountType: this.filters.get('amountType'),
+        functions: this.filters.get('functions'),
       });
     },
 
     preload: function() {
+      this.preloadMunis();
+      this.preloadAmountTypes();
+      this.preloadFunctions();
+    },
+
+    preloadMunis: function() {
       var self = this;
 
       // preload municipalities
@@ -116,6 +134,10 @@
         // force a change so we re-render
         self.filters.trigger('change');
       }).always(spinnerStop);
+    },
+
+    preloadAmountTypes: function() {
+      var self = this;
 
       // preload years and amount types
       var url = '/cubes/' + CUBE_NAME + '/aggregate?aggregates=_count&drilldown=financial_year_end.year';
@@ -156,6 +178,34 @@
       }).always(spinnerStop);
     },
 
+    preloadFunctions: function() {
+      if (!cube.hasFunctions) return;
+
+      var self = this;
+
+      // preload govt functions
+      spinnerStart();
+      $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/function?order=function.label', function(resp) {
+        cube.functions = _.map(resp.data, function(func) {
+          // change municipality.foo to foo
+          _.each(_.keys(func), function(key) {
+            if (key.startsWith("function.")) {
+              func[key.substring(9)] = func[key];
+              delete func[key];
+            }
+          });
+          return func;
+        });
+
+        cube.trigger('change');
+
+        // sanity check pre-loaded functions
+        self.filters.set('functions', _.select(self.filters.get('functions'), function(code) {
+          return _.any(cube.functions, function(func) { return func.code == code; });
+        }));
+      }).always(spinnerStop);
+    },
+
     render: function() {
       var $list = this.$('.chosen-munis').empty();
       var munis = this.filters.get('municipalities');
@@ -190,6 +240,7 @@
       });
 
       this.renderAmountTypes();
+      this.renderFunctions();
     },
 
     renderMunis: function() {
@@ -259,6 +310,54 @@
       }
     },
 
+    renderFunctions: function() {
+      if (_.isEmpty(cube.functions)) return;
+
+      if ($('#function-box li').length === 0) {
+        var $box = $('#function-box .options');
+        var groups = _.groupBy(cube.functions, 'category_label');
+        var $section,
+            count = 0,
+            groupSize = Math.ceil(cube.functions.length / 3);
+
+        $box.append($('<div class="checkbox all"><label><input type="checkbox" value="all">Summarise all government functions</label></div>'));
+
+        _.each(groups, function(group, label) {
+          // group into columns of up to 20 items
+          if (!$section || count > groupSize) {
+            $section = $('<section>').appendTo($box);
+            count = 0;
+          }
+          count += group.length;
+
+          $section.append($('<h4>').text(label));
+          var $ul = $('<ul>');
+          _.each(group, function(func) {
+            var $item = $('<li class="checkbox"><label><input type="checkbox" value="' + func.code + '">' + func.subcategory_label + '</label></li>');
+            $ul.append($item);
+          });
+          $section.append($ul);
+        });
+      }
+
+      var chosen = this.filters.get('functions');
+      var text;
+
+      // ensure they correct ones are selected
+      $('#function-box input:checkbox').val(_.isEmpty(chosen) ? ["all"] : chosen);
+
+      if (chosen.length === 0) {
+        text = "All government functions";
+      } else if (chosen.length === 1) {
+        var code = chosen[0];
+        var func = _.find(cube.functions, function(func) { return func.code == code; });
+        if (func) text = func.label;
+      }
+      if (!text) text = chosen.length + " government functions";
+
+      this.$('.function-chooser').text(text + "...");
+    },
+
     renderYears: function() {
       var $chooser = this.$('.year-chooser');
 
@@ -314,7 +413,32 @@
 
     amountTypeChanged: function(e) {
       this.filters.set('amountType', $(e.target).val());
-    }
+    },
+
+    functionsChanged: function(e) {
+      var values = [];
+
+      $('#function-box input[value!=all]:checked').each(function() {
+        values.unshift($(this).val());
+      });
+
+      this.filters.set('functions', values);
+    },
+
+    functionChecked: function(e) {
+      var $allBox = $('#function-box input[value=all]');
+
+      if ($(e.target).val() == "all") {
+        $('#function-box input[value!=all]').prop('checked', false);
+        $allBox.prop('disabled', true);
+
+      } else {
+        var chooseAll = $('#function-box input[value!=all]:checked').length === 0;
+        $allBox
+          .prop('checked', chooseAll)
+          .prop('disabled', chooseAll);
+      }
+    },
   });
 
 
@@ -343,6 +467,7 @@
 
       this.cells = opts.cells;
       this.cells.on('change', this.render, this);
+      cube.on('change', this.render, this);
 
       this.preload();
     },
@@ -353,9 +478,8 @@
       spinnerStart();
       $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/item?order=' + cube.order, function(data) {
         // we only care about items that have a label
-        self.rowHeadings = _.select(data.data, function(d) { return d['item.label']; });
-        self.renderRowHeadings();
-        self.render();
+        cube.itemHeadings = _.select(data.data, function(d) { return d['item.label']; });
+        cube.trigger('change');
       }).always(spinnerStop);
     },
 
@@ -376,13 +500,17 @@
       var parts = {
         aggregates: cube.aggregates,
         drilldown: cube.drilldown,
-        cut: ['financial_year_end.year:' + self.filters.get('year')],
+        cut: ['financial_year_end.year:' + this.filters.get('year')],
       };
-      if (self.filters.get('amountType')) {
+      if (this.filters.get('amountType')) {
         parts.cut.push('amount_type.code:' + this.filters.get('amountType'));
       }
       if (cube.model.dimensions.financial_period) {
         parts.cut.push('financial_period.period:' + this.filters.get('year'));
+      }
+      if (!_.isEmpty(this.filters.get('functions'))) {
+        parts.cut.push('function.code:"' + this.filters.get('functions').join('";"') + '"');
+        parts.drilldown = ['function.code'].concat(parts.drilldown);
       }
 
       // duplicate this, we're going to change it
@@ -434,24 +562,33 @@
     },
 
     render: function() {
-      if (this.rowHeadings && municipalities) {
-        this.renderColHeadings();
-        this.renderValues();
+      if (cube.itemHeadings) {
+        this.renderRowHeadings();
+
+        if (municipalities) {
+          this.renderColHeadings();
+          this.renderValues();
+        }
       }
+
       this.renderDownloadLinks();
     },
 
     renderRowHeadings: function() {
       // render row headings table
-      var table = this.$('.row-headings')[0];
+      var table = this.$('.row-headings').empty()[0];
+      var blanks = 1;
+      
+      if (cube.aggregates.length > 1) blanks++;
+      if (!_.isEmpty(this.filters.get('functions'))) blanks++;
 
-      for (var i = 0; i < (cube.aggregates.length > 1 ? 2 : 1); i++) {
+      for (var i = 0; i < blanks; i++) {
         var spacer = $('<th>').html('&nbsp;').addClass('spacer');
         table.insertRow().appendChild(spacer[0]);
       }
 
-      for (i = 0; i < this.rowHeadings.length; i++) {
-        var item = this.rowHeadings[i];
+      for (i = 0; i < (cube.itemHeadings || []).length; i++) {
+        var item = cube.itemHeadings[i];
         var tr = table.insertRow();
         var td;
 
@@ -467,6 +604,7 @@
 
     renderColHeadings: function() {
       var table = this.$('.values').empty()[0];
+      var functions = this.functionHeadings();
 
       // municipality headings
       var tr = table.insertRow();
@@ -475,22 +613,36 @@
         var muni = municipalities[munis[i]];
         var th = document.createElement('th');
         th.innerText = muni.name;
-        th.setAttribute('colspan', cube.aggregates.length);
+        th.setAttribute('colspan', cube.aggregates.length * Math.max(functions.length, 1));
         th.setAttribute('title', muni.demarcation_code);
         tr.appendChild(th);
+      }
+
+      // function headings
+      if (cube.hasFunctions && !_.isEmpty(functions)) {
+        tr = table.insertRow();
+
+        _.times(munis.length, function() {
+          _.each(functions, function(func) {
+            var th = document.createElement('th');
+            th.innerText = func.label;
+            th.setAttribute('colspan', cube.aggregates.length);
+            tr.appendChild(th);
+          });
+        });
       }
 
       // aggregate headings
       if (cube.aggregates.length > 1) {
         tr = table.insertRow();
 
-        for (i = 0; i < munis.length; i++) {
+        _.times(munis.length, function() {
           _.each(cube.model.measures, function(measure) {
             var th = document.createElement('th');
             th.innerText = measure.label;
             tr.appendChild(th);
           });
-        }
+        });
       }
     },
 
@@ -498,6 +650,8 @@
       var table = this.$('.values')[0];
       var cells = this.cells.get('items');
       var munis = this.filters.get('municipalities');
+      var functions = this.functionHeadings();
+
       // highlightable items as a set of codes
       var highlights = _.inject(this.state.get('items') || [], function(s, i) { s[i] = i; return s; }, {});
       // row indexes to highlight
@@ -512,8 +666,8 @@
 
       // values
       if (!_.isEmpty(cells)) {
-        for (var i = 0; i < this.rowHeadings.length; i++) {
-          var row = this.rowHeadings[i];
+        for (var i = 0; i < cube.itemHeadings.length; i++) {
+          var row = cube.itemHeadings[i];
           var tr = table.insertRow();
           $(tr).addClass('item-' + row['item.return_form_structure']);
 
@@ -587,6 +741,12 @@
       this.$('table.row-headings tr:eq(' + ix + '), table.values tr:eq(' + ix + ')')
         .removeClass('hover');
     },
+
+    functionHeadings: function() {
+      var functions = this.filters.get('functions');
+      functions = _.filter(cube.functions, function(f) { return _.contains(functions, f.code); });
+      return _.sortBy(functions, 'label');
+    },
   });
 
 
@@ -625,6 +785,7 @@
           year: state.year,
           municipalities: state.municipalities.join(','),
           amountType: state.amountType,
+          functions: state.functions,
         };
 
         // make the query string url
@@ -651,6 +812,7 @@
         // highlighted item codes
         items: (params.items || "").split(","),
         amountType: (params.amountType),
+        functions: (params.functions || "").split(","),
       });
     },
 
