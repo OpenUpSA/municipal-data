@@ -697,6 +697,12 @@ blockquote {
   margin-top: 5px;
 }
 
+.video-chooser .embed-responsive {
+  // XXX remove this when adding the videos
+  background-image: url(/static/img/video-placeholder.jpg);
+  background-position: center center;
+}
+
 #explainer-video .video-image {
   height: 150px;
 }
