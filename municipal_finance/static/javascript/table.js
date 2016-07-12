@@ -498,7 +498,8 @@
      * Update the data!
      */
     update: function() {
-      var self = this;
+      var self = this,
+          hasFunctions = !_.isEmpty(this.filters.get('functions'));
 
       if (this.filters.get('municipalities').length === 0) {
         this.cells.set({items: [], meta: {}});
@@ -550,10 +551,10 @@
         // copy this, we're going to change it
         params.drilldown = params.drilldown.slice();
 
-        // ensure the download has all attributes, except function
-        // which we'll deal with later
+        // ensure the download has all relevant attributes.
+        // we only include functions if we're already filtering on functions
         _.each(cube.model.dimensions, function(dim, dim_name) {
-          if (dim_name != 'function') {
+          if (dim_name != 'function' || hasFunctions) {
             _.each(dim.attributes, function(attr, attr_name) {
               params.drilldown.unshift(dim_name + '.' + attr_name);
             });
