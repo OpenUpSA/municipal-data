@@ -67,6 +67,7 @@
       this.filters = opts.filters;
       this.filters.on('change', this.render, this);
       this.filters.on('change', this.saveState, this);
+      this.filters.on('change:municipalities', this.updateCubeLinks, this);
 
       cube.on('change', this.render, this);
 
@@ -204,6 +205,16 @@
           return _.any(cube.functions, function(func) { return func.code == code; });
         }));
       }).always(spinnerStop);
+    },
+
+    updateCubeLinks: function() {
+      var munis = this.filters.get('municipalities').join(',');
+      if (munis) munis = '?municipalities=' + munis;
+
+      $('.cube-list a').each(function() {
+        var $this = $(this);
+        $this.attr('href', $this.attr('href').split('?')[0] + munis);
+      });
     },
 
     render: function() {

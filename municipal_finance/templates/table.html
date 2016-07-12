@@ -49,7 +49,7 @@
           Change dataset
           <span class="caret"></span>
         </a>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu cube-list">
           {% for cube in cubes.values|dictsort:"name" %}
           <li><a href="{% url 'table' cube.name %}">{{ cube.model.label }}</a></li>
           {% endfor %}
