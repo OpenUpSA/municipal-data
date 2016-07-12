@@ -658,10 +658,17 @@
       var toHighlight = [];
       var self = this;
 
-      // group by code then municipality
+      // group cells by item code then municipality
       cells = _.groupBy(cells, 'item.code');
       _.each(cells, function(items, code) {
-        cells[code] = _.indexBy(items, 'demarcation.code');
+        cells[code] = _.groupBy(items, 'demarcation.code');
+
+        // group by function?
+        if (functions.length > 0) {
+          _.each(cells[code], function(items, muni) {
+            cells[code][muni] = _.indexBy(items, 'function.code');
+          });
+        }
       });
 
       // values
@@ -674,21 +681,19 @@
           // highlight?
           if (highlights[row['item.code']]) toHighlight.push(table.rows.length-1);
 
+          // each muni
           for (var j = 0; j < munis.length; j++) {
             var muni = municipalities[munis[j]];
-            var cell = cells[row['item.code']];
+            var muni_data = cells[row['item.code']];
+            if (muni_data) muni_data = muni_data[muni.demarcation_code];
 
-            if (cell) cell = cell[muni.demarcation_code];
-
-            for (var a = 0; a < cube.aggregates.length; a++) {
-              var v = (cell ? cell[cube.aggregates[a]] : null);
-              if (v === null) {
-                v = "·";
-              } else {
-                v = self.format(v);
+            if (functions.length > 0) {
+              for (var f = 0; f < functions.length; f++) {
+                var data = muni_data ? muni_data[functions[f].code] : null;
+                this.renderMuniValues(muni, data, tr);
               }
-
-              tr.insertCell().innerText = v;
+            } else {
+              this.renderMuniValues(muni, muni_data && muni_data[0], tr);
             }
           }
         }
@@ -705,6 +710,19 @@
       if (self.firstRender && toHighlight.length > 0) {
         self.firstRender = false;
         this.$('.table-display').scrollTop(this.$('table.row-headings .toggled').position().top - 50);
+      }
+    },
+
+    renderMuniValues: function(muni, cell, tr) {
+      for (var a = 0; a < cube.aggregates.length; a++) {
+        var v = (cell ? cell[cube.aggregates[a]] : null);
+        if (v === null) {
+          v = "·";
+        } else {
+          v = this.format(v);
+        }
+
+        tr.insertCell().innerText = v;
       }
     },
 
