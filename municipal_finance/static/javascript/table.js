@@ -46,6 +46,7 @@
       cube.order = 'item.position_in_return_form:asc';
     }
   }
+  // do we have government functions?
   cube.hasFunctions = !!cube.model.dimensions.function;
 
   // ensure the cube can handle events
@@ -67,6 +68,7 @@
       this.filters = opts.filters;
       this.filters.on('change', this.render, this);
       this.filters.on('change', this.saveState, this);
+      this.filters.on('change:municipalities', this.updateCubeLinks, this);
 
       cube.on('change', this.render, this);
 
@@ -178,6 +180,7 @@
       }).always(spinnerStop);
     },
 
+    // government functions
     preloadFunctions: function() {
       if (!cube.hasFunctions) return;
 
@@ -204,6 +207,16 @@
           return _.any(cube.functions, function(func) { return func.code == code; });
         }));
       }).always(spinnerStop);
+    },
+
+    updateCubeLinks: function() {
+      var munis = this.filters.get('municipalities').join(',');
+      if (munis) munis = '?municipalities=' + munis;
+
+      $('.cube-list a').each(function() {
+        var $this = $(this);
+        $this.attr('href', $this.attr('href').split('?')[0] + munis);
+      });
     },
 
     render: function() {
@@ -487,7 +500,8 @@
      * Update the data!
      */
     update: function() {
-      var self = this;
+      var self = this,
+          hasFunctions = !_.isEmpty(this.filters.get('functions'));
 
       if (this.filters.get('municipalities').length === 0) {
         this.cells.set({items: [], meta: {}});
@@ -539,10 +553,10 @@
         // copy this, we're going to change it
         params.drilldown = params.drilldown.slice();
 
-        // ensure the download has all attributes, except function
-        // which we'll deal with later
+        // ensure the download has all relevant attributes.
+        // we only include government functions if we're already filtering by them
         _.each(cube.model.dimensions, function(dim, dim_name) {
-          if (dim_name != 'function') {
+          if (dim_name != 'function' || hasFunctions) {
             _.each(dim.attributes, function(attr, attr_name) {
               params.drilldown.unshift(dim_name + '.' + attr_name);
             });
@@ -658,10 +672,17 @@
       var toHighlight = [];
       var self = this;
 
-      // group by code then municipality
+      // group cells by item code then municipality
       cells = _.groupBy(cells, 'item.code');
       _.each(cells, function(items, code) {
-        cells[code] = _.indexBy(items, 'demarcation.code');
+        cells[code] = _.groupBy(items, 'demarcation.code');
+
+        // group by function?
+        if (functions.length > 0) {
+          _.each(cells[code], function(items, muni) {
+            cells[code][muni] = _.indexBy(items, 'function.code');
+          });
+        }
       });
 
       // values
@@ -674,21 +695,19 @@
           // highlight?
           if (highlights[row['item.code']]) toHighlight.push(table.rows.length-1);
 
+          // each muni
           for (var j = 0; j < munis.length; j++) {
             var muni = municipalities[munis[j]];
-            var cell = cells[row['item.code']];
+            var muni_data = cells[row['item.code']];
+            if (muni_data) muni_data = muni_data[muni.demarcation_code];
 
-            if (cell) cell = cell[muni.demarcation_code];
-
-            for (var a = 0; a < cube.aggregates.length; a++) {
-              var v = (cell ? cell[cube.aggregates[a]] : null);
-              if (v === null) {
-                v = "·";
-              } else {
-                v = self.format(v);
+            if (functions.length > 0) {
+              for (var f = 0; f < functions.length; f++) {
+                var data = muni_data ? muni_data[functions[f].code] : null;
+                this.renderMuniValues(muni, data, tr);
               }
-
-              tr.insertCell().innerText = v;
+            } else {
+              this.renderMuniValues(muni, muni_data && muni_data[0], tr);
             }
           }
         }
@@ -705,6 +724,19 @@
       if (self.firstRender && toHighlight.length > 0) {
         self.firstRender = false;
         this.$('.table-display').scrollTop(this.$('table.row-headings .toggled').position().top - 50);
+      }
+    },
+
+    renderMuniValues: function(muni, cell, tr) {
+      for (var a = 0; a < cube.aggregates.length; a++) {
+        var v = (cell ? cell[cube.aggregates[a]] : null);
+        if (v === null) {
+          v = "·";
+        } else {
+          v = this.format(v);
+        }
+
+        tr.insertCell().innerText = v;
       }
     },
 
