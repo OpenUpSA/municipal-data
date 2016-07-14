@@ -46,6 +46,7 @@
       cube.order = 'item.position_in_return_form:asc';
     }
   }
+  // do we have government functions?
   cube.hasFunctions = !!cube.model.dimensions.function;
 
   // ensure the cube can handle events
@@ -179,6 +180,7 @@
       }).always(spinnerStop);
     },
 
+    // government functions
     preloadFunctions: function() {
       if (!cube.hasFunctions) return;
 
@@ -552,7 +554,7 @@
         params.drilldown = params.drilldown.slice();
 
         // ensure the download has all relevant attributes.
-        // we only include functions if we're already filtering on functions
+        // we only include government functions if we're already filtering by them
         _.each(cube.model.dimensions, function(dim, dim_name) {
           if (dim_name != 'function' || hasFunctions) {
             _.each(dim.attributes, function(attr, attr_name) {
