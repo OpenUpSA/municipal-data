@@ -61,6 +61,9 @@
                       {% endif %}
                     {% endwith %}
                   </div>
+                  {% if forloop.counter == 1 %}
+                  <a href="#" class="btn btn-default send-email">Email municipality</a>
+                  {% endif %}
                 </div>
               </div>
               {% endif %}

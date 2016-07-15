@@ -66,6 +66,20 @@ $(document).ready(function(){
         var $toggle = $('a.show-more[href="#' + this.id + '"]');
         $toggle.find('.fa').removeClass('fa-minus').addClass('fa-plus');
       });
+
+    // setup 'email municipality' link, by choosing the first two secretary emails
+    var emails = $('#who-runs .contact-details a[href^="mailto:"]')
+      .slice(0, 2)
+      .map(function() { return this.href.split(':')[1]; });
+    emails = _.compact(_.uniq(emails));
+
+    var body = 'Browse Municipal Finance for ' + profileData.geography.name + ' at ' + window.location;
+
+    var url = ('mailto:' +
+      emails.join(',') +
+      '?cc=feedback@municipalmoney.gov.za&body=\n\n\n' +
+      encodeURIComponent(body));
+    $('a.send-email').attr('href', url);
   }
 });
 
