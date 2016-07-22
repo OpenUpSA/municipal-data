@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render_to_response
 from django.views.generic.base import TemplateView
 from django.http import Http404
 from django.core.urlresolvers import reverse
+from django.conf import settings
 from wkhtmltopdf.views import PDFResponse
 from wkhtmltopdf.utils import wkhtmltopdf
 
@@ -82,7 +83,7 @@ class GeographyPDFView(GeographyDetailView):
         # render as pdf
         url = '/profiles/%s-%s-%s?print=1' % (self.geo_level, self.geo_code, self.geo.slug)
         url = request.build_absolute_uri(url)
-        pdf = wkhtmltopdf(url, zoom=0.7)
+        pdf = wkhtmltopdf(url, zoom=0.7, username=settings.HTTP_AUTH_USER, password=settings.HTTP_AUTH_PASS)
         filename = '%s-%s-%s.pdf' % (self.geo_level, self.geo_code, self.geo.slug)
 
         return PDFResponse(pdf, filename=filename)
