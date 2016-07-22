@@ -54,7 +54,7 @@
 
   <section class="band-dark">
     <div class="container">
-      <h2>Explore a dateset</h2>
+      <h2>Explore a dataset</h2>
 
       {% for group in cubes %}
         <div class="dataset-buttons clearfix">
@@ -70,27 +70,28 @@
     </div>
   </section>
 
-  <section>
+  <section class="extras">
     <div class="container">
+      <h2>A quick introduction to <strong>Municipal Finance</strong></h2>
+
       <div class="row">
         <div class="col-md-6">
-          <h2>Build on the API</h2>
-
-          <p class="lead">All this data is available through a powerful but simple JSON API.</p>
-
-          <p>
-            <a href="/docs" class="btn btn-primary btn-lg">Read the API Docs</a>
-          </p>
+          {% include "_videos.html" %}
         </div>
+
         <div class="col-md-6">
-          <h2>Municipal Money Website</h2>
+          <h3>Municipal Money Website</h3>
 
-          <p class="lead">Browse municipal finance performance around the country.</p>
+          <p class="lead">Explore municipal financial performance around South Africa.</p>
+          <a href="{{ WAZIMAP.url }}" target="_blank" class="btn btn-primary btn-lg">Municipal Money</a>
 
-          <p>
-            <a href="{{ WAZIMAP.url }}" target="_blank" class="btn btn-primary btn-lg">Municipal Money</a>
-          </p>
+          <br>
+
+          <h3>Use the API</h3>
+          <p class="lead">All this data is available through a powerful but simple JSON API.</p>
+          <a href="/docs" class="btn btn-primary btn-lg">Read the API Docs</a>
         </div>
+
       </div>
     </div>
   </section>
@@ -101,24 +102,26 @@
     <div class="row">
       <div class="col-md-4">
         <ul class="list-unstyled">
+          <li>Terms of Use</li>
+          <li>Email us at <a href="mailto:feedback@municipalmoney.gov.za">feedback@municipalmoney.gov.za</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-4">
+        <ul class="list-unstyled">
           <li>Contribute on <a href="https://github.com/Code4SA/municipal-data">GitHub</a> <i class="fa fa-github"></i></li>
+          <li><a href="https://municipalmoney.gov.za/" target="_blank">Municipal Money Website</a></li>
         </ul>
       </div>
-      <div class="col-sm-4">
-        <ul class="list-unstyled">
-          {% comment %}
-          <li>
-            <a href="http://www.treasury.gov.za/" target="_blank"><img class="logo" src="{% static 'images/treasury-logo.jpg' %}"></a>
-          </li>
-          {% endcomment %}
-        </ul>
+    </div>
+
+    <h5>A project by <a href="http://www.treasury.gov.za/" target="_blank">National Treasury</a></h5>
+
+    <div class="row">
+      <div class="col-xs-6 col-sm-4">
+        <a href="http://www.treasury.gov.za/" target="_blank"><img class="logo" src="{% static 'images/treasury-logo.jpg' %}"></a>
       </div>
-      <div class="col-sm-4">
-        <ul class="list-unstyled">
-          <li>
-            <a href="http://www.code4sa.org/" target="_blank"><img class="logo" src="{% static 'images/code4sa-logo.png' %}"></a>
-          </li>
-        </ul>
+      <div class="col-xs-6 col-sm-4">
+        <a href="http://www.code4sa.org/" target="_blank"><img class="logo" src="{% static 'images/code4sa-logo.png' %}"></a>
       </div>
     </div>
   </section>

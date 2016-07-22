@@ -290,6 +290,7 @@ PIPELINE = {
             'source_filenames': (
                 'javascript/vendor/jquery-1.12.3.min.js',
                 'bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js',
+                'javascript/app.js',
             ),
             'output_filename': 'home.js',
         },
