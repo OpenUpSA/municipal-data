@@ -116,17 +116,6 @@
 
       {% javascript "scorecard" %}
 
-      <!-- local patched version of r2d3 handles percentage widths, HTML overlays -->
-      <!--[if lte IE 8]>
-        <script src="{{ STATIC_URL }}js/vendor/r2d3.js" charset="utf-8"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.d3.min.js"></script>
-      <![endif]-->
-
-      <!--[if lte IE 9]>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.1/jquery.xdomainrequest.min.js"></script>
-      <![endif]-->
-
       {% block body_javascript_extra %}{% endblock %}{% endblock body_javascript %}
       <div class="visible-print-inline">Page generated: {% now "Y-m-d H:i:s.u" %}</div>
   </body>
