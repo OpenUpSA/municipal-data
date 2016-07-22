@@ -62,42 +62,32 @@
         <section class="container footer-container">
           {% block footer_content %}
             <div class="row">
-            <div class="col-sm-4">
-              <ul class="list-unstyled">
-                <li>A project by <a href="http://www.treasury.gov.za/" target="_blank">National Treasury</a></li>
-                <li><a href="/about">About Municipal Money</a></li>
-                <li><a href="/locate">Find your municipality</a></li>
-              </ul>
+              <div class="col-sm-4">
+                <ul class="list-unstyled">
+                  <li><a href="/about">About Municipal Money</a></li>
+                  <li><a href="/locate">Find your municipality</a></li>
+                  <li>Terms of use</li>
+                </ul>
+              </div>
 
-              <br>
+              <div class="col-sm-4">
+                <ul class="list-unstyled">
+                  <li>Use the <a href="https://data.municipalmoney.org.za/" target="_blank">Municipal Money API</a></li>
+                  <li>Contribute on <a href="https://github.com/Code4SA/municipal-data">GitHub</a> <i class="fa fa-github"></i></li>
+                </ul>
+              </div>
+            </div>
 
-              <ul class="list-unstyled">
-                {% comment %}
-                <li>Terms of use</li>
-                {% endcomment %}
-              </ul>
+            <h5>A project by <a href="http://www.treasury.gov.za/" target="_blank">National Treasury</a></h5>
+
+            <div class="row">
+              <div class="col-xs-6 col-sm-4">
+                <a href="http://www.treasury.gov.za/" target="_blank"><img class="logo" src="{% static 'images/treasury-logo.jpg' %}"></a>
+              </div>
+              <div class="col-xs-6 col-sm-4">
+                <a href="http://www.code4sa.org/" target="_blank"><img class="logo" src="{% static 'images/code4sa-logo.png' %}"></a>
+              </div>
             </div>
-            <div class="col-sm-4">
-              <ul class="list-unstyled">
-                <li>Use the <a href="https://data.municipalmoney.org.za/" target="_blank">Municipal Money API</a></li>
-                <li>Contribute on <a href="https://github.com/Code4SA/municipal-data">GitHub</a> <i class="fa fa-github"></i></li>
-                {% comment %}
-                <li>
-                  <a href="http://www.treasury.gov.za/" target="_blank"><img class="logo" src="{% static 'images/treasury-logo.jpg' %}"></a>
-                </li>
-                {% endcomment %}
-              </ul>
-            </div>
-            <div class="col-sm-4">
-              <ul class="list-unstyled">
-                {% comment %}
-                <li>
-                  <a href="http://www.code4sa.org/" target="_blank"><img class="logo" src="{% static 'images/code4sa-logo.png' %}"></a>
-                </li>
-                {% endcomment %}
-              </ul>
-            </div>
-          </div>
           {% endblock footer_content %}
         </section>
       </footer>
