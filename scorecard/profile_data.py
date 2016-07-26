@@ -791,7 +791,7 @@ class IndicatorCalculator(object):
                 'results_structure': self.item_code_year_aggregate,
             },
             'wasteful_exp': {
-                'cube': 'badexp',
+                'cube': 'uifwexp',
                 'aggregate': 'amount.sum',
                 'cut': {
                     'item.code': ['irregular', 'fruitless', 'unauthorised'],
