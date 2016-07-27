@@ -75,7 +75,15 @@ Update the last-updated date in the model files for each cube in `models/*.json`
 
 ## Annual data
 
-Whenever 4th Quarter data becomes available, typically 2 quarters after that financial year end, also adjust the years used by `scorecard/profile_data.py` to include the latest financial year available.
+Whenever Audited Annual data becomes available (AUDA financial data and Audit Outcomes), adjust the years used by `scorecard/profile_data.py` to include the latest financial year available.
+
+Audit outcomes will be captured in the months following 1 December following the end of the financial year.
+
+## Quarterly data
+
+Currently, indicators using quarterly data automatically use the latest quarter available.
+
+Quarterly Section 71 submissions are available 2 months after the end of the quarter.
 
 ## Validating the data
 
