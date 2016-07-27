@@ -61,7 +61,7 @@ INSTALLED_APPS = (
 if DEBUG:
     SITE_ID = int(os.environ.get('SITE_ID', '2'))
 
-API_BASE = "https://data.municipalmoney.org.za"
+API_BASE = "https://municipaldata.treasury.gov.za"
 API_URL = os.environ.get('API_URL', API_BASE + '/api')
 
 # Wazimap
