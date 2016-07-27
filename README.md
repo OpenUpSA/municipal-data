@@ -79,6 +79,8 @@ Whenever Audited Annual data becomes available (AUDA financial data and Audit Ou
 
 Audit outcomes will be captured in the months following 1 December following the end of the financial year.
 
+Pre-audit figures are captured in the period 3 Aug to 30 Nov after the end of the financial year.
+
 ## Quarterly data
 
 Currently, indicators using quarterly data automatically use the latest quarter available.
