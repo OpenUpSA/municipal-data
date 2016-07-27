@@ -67,7 +67,7 @@ API_URL = os.environ.get('API_URL', API_BASE + '/api')
 # Wazimap
 from wazimap.settings import WAZIMAP
 WAZIMAP['name'] = 'Municipal Money'
-WAZIMAP['url'] = 'http://municipalmoney.org.za'
+WAZIMAP['url'] = 'https://municipalmoney.gov.za'
 WAZIMAP['comparative_levels'] = []
 WAZIMAP['country_code'] = 'ZA'
 WAZIMAP['geometry_data'] = {}
