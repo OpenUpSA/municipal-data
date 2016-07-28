@@ -9,15 +9,15 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-value">{% if latest.result == None %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
         <div class="indicator-description">Staff salaries and wages as a percentage of operating expenditure.</div>
         <table class="indicator-key">
           <tr>
-            <td class="key-symbol rating rating-good">good</td>
+            <td class="key-symbol">within norms</td>
             <td class="key-description">25% to 40%</td>
           </tr>
           <tr>
-            <td class="key-symbol rating rating-bad">bad</td>
+            <td class="key-symbol">outside norms</td>
             <td class="key-description">less than 25% or more than 40%</td>
           </tr>
         </table>
@@ -56,15 +56,15 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating">{% if latest.result == None %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-value">{% if latest.result == None %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
         <div class="indicator-description">Costs of contractor services as a percentage of operating expenditure.</div>
         <table class="indicator-key">
           <tr>
-            <td class="key-symbol rating rating-good">Within norms</td>
+            <td class="key-symbol">within norms</td>
             <td class="key-description">up to 5%</td>
           </tr>
           <tr>
-            <td class="key-symbol rating rating-bad">Outside Norms</td>
+            <td class="key-symbol">outside norms</td>
             <td class="key-description">more than 5%</td>
           </tr>
         </table>
