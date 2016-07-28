@@ -12,6 +12,7 @@ CACHE_SECS = 12 * 60 * 60
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='homepage.html'), name='homepage'),
     url(r'^about', TemplateView.as_view(template_name='about.html'), name='about'),
+    url(r'^faq', TemplateView.as_view(template_name='faq.html'), name='faq'),
     # e.g. /profiles/province-GT/
     url(
         regex   = '^profiles/(?P<geography_id>\w+-\w+)(-(?P<slug>[\w-]+))?/$',
