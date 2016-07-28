@@ -503,7 +503,8 @@
       var self = this,
           hasFunctions = !_.isEmpty(this.filters.get('functions'));
 
-      if (this.filters.get('municipalities').length === 0) {
+      if (this.filters.get('municipalities').length === 0
+          || this.filters.get('year') === null) {
         this.cells.set({items: [], meta: {}});
         return;
       }
