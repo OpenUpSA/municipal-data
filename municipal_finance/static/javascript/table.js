@@ -592,7 +592,7 @@
       // render row headings table
       var table = this.$('.row-headings').empty()[0];
       var blanks = 1;
-      
+
       if (cube.aggregates.length > 1) blanks++;
       if (!_.isEmpty(this.filters.get('functions'))) blanks++;
 
@@ -839,12 +839,12 @@
       }
 
       this.state.set({
-        municipalities: (params.municipalities || "").split(","),
+        municipalities: params.municipalities ? params.municipalities.split(",") : [],
         year: Number.parseInt(params.year) || null,
         // highlighted item codes
-        items: (params.items || "").split(","),
+        items: params.items ? params.items.split(","): [],
         amountType: (params.amountType),
-        functions: (params.functions || "").split(","),
+        functions: params.functions ? params.functions.split(",") : [],
       });
     },
 
