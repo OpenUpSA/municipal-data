@@ -34,32 +34,42 @@
                     {% endif %}
                   </ul>
                   <div class="person-contact-details">
-                    {% with details=official.secretary|default:official %}
-                      {% if details.name %}
-                      <a href="#contact-details-{{ forloop.counter }}" data-toggle="collapse" class="show-contact-details show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Contact Details</a>
-                      <div class="contact-details collapse" id="contact-details-{{ forloop.counter }}">
-                        {% if official.secretary and official.secretary.name %}
+                    <a href="#contact-details-{{ forloop.counter }}" data-toggle="collapse" class="show-contact-details show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Contact Details</a>
+
+                    <div class="contact-details collapse" id="contact-details-{{ forloop.counter }}">
+                      <ul class="fa-ul">
+                        {% if official.office_phone %}
+                        <li>
+                          <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ official.office_phone }}">{{ official.office_phone }}</a>
+                        </li>
+                        {% endif %}
+                        {% if official.email %}
+                        <li>
+                          <i class="fa fa-li fa-envelope" aria-hidden="true"></i> <a href="mailto:{{ official.email }}">{{ official.email }}</a>
+                        </li>
+                        {% endif %}
+                      </ul>
+
+                      {% if official.secretary %}
                         <div>
                           <h4>Secretary</h4>
-                          {{ official.secretary.title|default:'' }} {{ official.secretary.name }}
                         </div>
-                        {% endif %}
 
                         <ul class="fa-ul">
-                          {% if details.office_phone %}
-                          <li>
-                            <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ details.office_phone }}">{{ details.office_phone }}</a>
-                          </li>
+                          {% if official.secretary.name %}
+                          <li><i class="fa fa-li fa-user" aria-hidden="true"></i> {{ official.secretary.title|default:'' }} {{ official.secretary.name }}</li>
                           {% endif %}
-                          {% if details.email %}
-                          <li>
-                            <i class="fa fa-li fa-envelope" aria-hidden="true"></i> <a href="mailto:{{ details.email }}">{{ details.email }}</a>
-                          </li>
+
+                          {% if official.secretary.office_phone %}
+                          <li><i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ official.secretary.office_phone }}">{{ official.secretary.office_phone }}</a></li>
+                          {% endif %}
+
+                          {% if official.secretary.email %}
+                          <li><i class="fa fa-li fa-envelope" aria-hidden="true"></i> <a href="mailto:{{ official.secretary.email }}">{{ official.secretary.email }}</a></li>
                           {% endif %}
                         </ul>
-                      </div>
                       {% endif %}
-                    {% endwith %}
+                    </div>
                   </div>
                   {% if forloop.counter == 1 %}
                   <a href="#" class="btn btn-default send-email">Email municipality</a>
