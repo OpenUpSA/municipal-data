@@ -34,7 +34,7 @@ urlpatterns = [
     ),
     url(
         regex   = '^locate/$',
-        view    = cache_page(CACHE_SECS)(views.locate),
+        view    = cache_page(CACHE_SECS)(views.LocateView.as_view()),
         kwargs  = {},
         name    = 'locate',
     ),

@@ -29,7 +29,8 @@ function foundLocation(position) {
 }
 
 function noLocation() {
-    alert('Sorry, your browser was unable to determine your location.')
+    $('#locate h2').text("Sorry, your browser couldn't determine your location.");
+    $(spinner.el).hide();
 }
 
 if (navigator.geolocation && !lat && !lon) {
