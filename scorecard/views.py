@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render_to_response
+from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
 from django.http import Http404
 from django.core.urlresolvers import reverse
@@ -12,32 +12,38 @@ from wazimap.data.utils import LocationNotFound
 from scorecard.profiles import get_profile
 
 
-def locate(request):
-    lat = request.GET.get('lat', None)
-    lon = request.GET.get('lon', None)
-    nope = False
+class LocateView(TemplateView):
+    template_name = 'locate.html'
 
-    if lat and lon:
-        place = None
-        places = geo_data.get_locations_from_coords(latitude=lat, longitude=lon)
+    def get(self, request, *args, **kwargs):
+        self.lat = self.request.GET.get('lat', None)
+        self.lon = self.request.GET.get('lon', None)
+        self.nope = False
 
-        if places:
-            place = places[0]
+        if self.lat and self.lon:
+            place = None
+            places = geo_data.get_locations_from_coords(latitude=self.lat, longitude=self.lon)
 
-            # if multiple, prefer the metro/local municipality if available
-            if len(places) > 1:
-                places = [p for p in places if p.geo_level == 'municipality']
-                if places:
-                    place = places[0]
+            if places:
+                place = places[0]
 
-            return redirect(reverse('geography_detail', kwargs={'geography_id': place.geoid}))
-        nope = True
+                # if multiple, prefer the metro/local municipality if available
+                if len(places) > 1:
+                    places = [p for p in places if p.geo_level == 'municipality']
+                    if places:
+                        place = places[0]
 
-    return render_to_response('locate.html', {
-        'nope': nope,
-        'lat': lat,
-        'lon': lon,
-    })
+                return redirect(reverse('geography_detail', kwargs={'geography_id': place.geoid}))
+            self.nope = True
+
+        return super(LocateView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, *args, **kwargs):
+        return {
+            'nope': self.nope,
+            'lat': self.lat,
+            'lon': self.lon,
+        }
 
 
 class GeographyDetailView(TemplateView):
