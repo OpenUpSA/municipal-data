@@ -67,18 +67,20 @@ $(document).ready(function(){
         $toggle.find('.fa').removeClass('fa-minus').addClass('fa-plus');
       });
 
-    // setup 'email municipality' link, by choosing the first two secretary emails
-    var emails = $('#who-runs .contact-details a[href^="mailto:"]')
+    // setup 'email municipality' link, by choosing all the emails of the first two people
+    var emails = $('#who-runs .contact-details')
       .slice(0, 2)
+      .find('a[href^="mailto:"]')
       .map(function() { return this.href.split(':')[1]; });
     emails = _.compact(_.uniq(emails));
 
-    var body = 'Browse Municipal Finance for ' + profileData.geography.name + ' at ' + window.location;
+    var body = 'You can explore Municipal Finance for ' + profileData.geography.name + ' at ' + window.location;
 
     var url = ('mailto:' +
       emails.join(',') +
-      '?cc=feedback@municipalmoney.gov.za&body=\n\n\n' +
-      encodeURIComponent(body));
+      '?cc=feedback@municipalmoney.gov.za' +
+      '&subject=' + encodeURIComponent('Feedback via Municipal Money') +
+      '&body=\n\n\n' + encodeURIComponent(body));
     $('a.send-email').attr('href', url);
   }
 });
