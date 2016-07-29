@@ -1,0 +1,265 @@
+{% extends "_base.html" %}
+
+{% block head_title %}Frequently Asked Questions (FAQ){% endblock %}
+
+{% block content %}
+<div id="faq">
+  
+  <h1>Frequently Asked Questions (FAQ)</h1>
+
+  <div class="row">
+    <div class="col-md-8">
+
+      <div class="faq-item" id="what-is-municipal-money">
+        <div class="faq-question">
+          What is Municipal Money? <a href="#what-is-municipal-money" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            Municipal Money is a web-based tool designed to inform citizens on their local authority’s financial performance and allows comparisons between municipalities.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item" id="why-is-municipal-money-different">
+        <div class="faq-question">
+          Why is Municipal Money different or special? <a href="#why-is-municipal-money-different" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            The website is designed to present key municipal financial information to a general audience, who do not necessarily have any financial background or knowledge.
+          </p>
+          <p> 
+            Municipal Money contains user–friendly, reliable and comparable financial information for every single municipality in South Africa.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item" id="what-is-the-api">
+        <div class="faq-question">
+          What is the Municipal Money API? <a href="#what-is-the-api" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            The <a href="https://municipaldata.treasury.gov.za">Municipal Money API</a> contains the raw data used in the Municipal Money website application, and much more.   All municipalities are required to regularly submit their financial information to National Treasury, who in partnership with Code for South Africa is making it available to the public through the API, in a machine-friendly format.  
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item" id="who-is-behind-municipal-money">
+        <div class="faq-question">
+          Who is behind Municipal Money and the Municipal Money API? <a href="#who-is-behind-municipal-money" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            Municipal Money is brought to you by the National Treasury, which has collected extensive municipal financial data over several years and would like to share this information with the public in order to increase transparency, strengthen civic oversight and promote accountability.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item" id="using-the-data">
+        <div class="faq-question">
+          How can I use the data? <a href="#using-the-data" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            You may use the data freely and flexibly for both commercial and non-commercial purposes. 
+          </p>
+          <p>
+            You may download, copy, publish, distribute and transmit the data.  You may also adapt and extract the data.
+          </p>
+          <p> 
+            Your use of the data is subject to some basic <a href="/terms">Terms of Use</a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item" id="dos-and-donts">
+        <div class="faq-question">
+          Are there any dos and don’ts? <a href="#dos-and-donts" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            <strong>Yes.</strong> There are some basic rules for the use of the data - please see the <a href="/terms">Terms of Use</a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item" id="is-there-any-charge">
+        <div class="faq-question">
+          Is there any charge? <a href="#is-there-any-charge" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            <strong>No.</strong> The data is provided free of charge on this website.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item" id="data-collection">
+        <div class="faq-question">
+          How was the data collected? <a href="#data-collection" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            The data is provided at regular intervals by all the individual municipalities in South Africa to National Treasury and housed on their Local Government Database and Reporting System (LGDRS).
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item" id="data-formats">
+        <div class="faq-question">
+          What form is the data available in? <a href="#data-formats" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            The data on the API is available in an open format, is machine-readable, available in bulk and unprocessed.  You may download the data in either Excel or CSV format.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item" id="info-not-available">
+        <div class="faq-question">
+          What does it mean when something is listed as ‘Not Available’ or a bar is missing from the chart? <a href="#info-not-available" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            When something is listed as ‘Not Available’, one or more of the things needed to show the indicator for that date was missing from National Treasury's local government database. This usually happens when the relevant municipality has not submitted the data to the National Treasury in an acceptable form in time. It might have been submitted late and will be available in the next quarter. It might also be available directly from the municipality but without the vetting done by National Treasury before inclusion in their local government database.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item" id="limitations">
+        <div class="faq-question">
+          What are the potential limitations of the datasets and their interpretation? <a href="#limitations" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            Users should be aware that the data is submitted to National Treasury directly from the individual municipalities and while National Treasury endeavours to ensure that the datasets are complete and validated regularly, ultimately the quality of the data is primarily assured by the Chief Accounting Officer of the municipality.
+          </p>
+          <p>
+            National Treasury has developed standard indicators and norms based on the Section 71 submissions of municipalities, and these indicators and norms have been used as a basis to compare the financial performance of different municipalities on the Municipal Money website.  However, there are occasions when municipal financial performance cannot clearly be classified within these accepted norms and where deviations from the norms are not necessarily a negative reflection on the municipality’s financial performance.
+          </p>
+          <p>
+            For example, some metropolitan municipalities, with their large populations and substantive budgets, may opt to adopt different strategies of service delivery as compared with their counterparts.  This in turn, may involve more outsourcing, less capital expenditure and lower staff costs  - all of which, may then fall outside of the generally accepted norms and standards identified by National Treasury.
+          </p>
+          <p>
+            While we acknowledge these limitations, National Treasury believes that these comparisons are still useful and appropriate as they allow users to identify and explore the differences between municipalities – bringing them closer to understanding the sometimes subtle nuances between municipalities and between categories of municipalities.
+          </p>
+          <p>
+            To assist users in querying the results of a municipality’s financial indicators, Municipal Money provides a direct email link to the municipal management, where the Municipal Manager and Mayor may respond directly and provide clarification to users.
+          </p>
+          <p>
+            This level of interest and understanding will no doubt contribute to enhanced civic oversight, greater transparency and increased accountability.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item" id="personal-information">
+        <div class="faq-question">
+          Will personal information be at risk? <a href="#personal-information" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            <strong>No.</strong> The data will not identify or provide ways to identify individuals, unless that information is already published (for example, the names of municipal managers and mayors).
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item" id="commercial-rights">
+        <div class="faq-question">
+          What are the commercial rights of people have commercial ideas? <a href="#commercial-rights" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            You may use the data for commercial purposes, however you may not claim or imply that NT endorses your product, services, analysis or interpretation of the data.  NT will not make claims to any intellectual property arising from applications or analysis of the data.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item" id="mashups">
+        <div class="faq-question">
+          What is a mashup? <a href="#mashups" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            A mashup is a web page or application created by combining data or functionality from different sources to create a single new service.  This new service or functionality usually falls outside of envisaged use of the original applications.  Mashups also typically utilize visualisations – pictures that show the data in clear, imaginative ways and tell a story about the underlying information.  
+          </p>
+          <p>
+            For example, a mashup combining data sources such as electoral lists and a mapping tool could show where votes are being cast and for which political parties. This would be of interest to voters and political representatives.
+          </p>
+          <p>
+            We hope that the data from the Municipal Money API will be used in mashups with other data sources to create innovative, new, interesting and valuable applications for municipal financial data.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item" id="suggestions">
+        <div class="faq-question">
+          How can indicate what type of data I’d be interested in? <a href="#suggestions" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            You may suggest additional data sets to be uploaded provided it is in the legislative framework in which the National Treasury operates. To do so, please send a request to <a href="mailto:feedback@municipalmoney.gov.za">feedback@municipalmoney.gov.za</a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item" id="developers">
+        <div class="faq-question">
+          Is there a place for developers to discuss ideas, applications and using the data? <a href="#developers" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            We realise that you may want to ask us and each other questions and we’ll try and help as best we can.  We will be using our Facebook account as a point for discussion.
+          </p>
+          <p>
+            Should you come across any inconsistencies in the data or any problematic data that may need to be corrected, please do contact us at <a href="mailto:helpdesk@municipalmoney.gov.za">helpdesk@municipalmoney.gov.za</a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item" id="contact-us">
+        <div class="faq-question">
+          How can I make contact? <a href="#contact-us" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+            Should you come across any inconsistencies in the data or any problematic data on this website that may need to be corrected, please do let us know by contacting us at <a href="mailto:helpdesk@municipalmoney.gov.za">helpdesk@municipalmoney.gov.za</a>.
+          </p>
+          <p>
+            If you would like to provide feedback on your experience of using this website and the data contained therein, or if you would like to share with us how you have used the data - please contact us at: <a href="feedback@municipalmoney.gov.za">feedback@municipalmoney.gov.za</a>.
+          </p>
+          <p>
+            We will endeavour to respond to all queries and comments as soon as possible. 
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-4 hidden-sm">
+      <ul class="nav nav-pills nav-stacked" class="faq-menu">
+        <li role="presentation"><a href="#what-is-municipal-money">What is Municipal Money?</a></li>
+        <li role="presentation"><a href="#why-is-municipal-money-different">Why is Municipal Money different or special?</a></li>
+        <li role="presentation"><a href="#what-is-the-api">What is the Municipal Money API?</a></li>
+        <li role="presentation"><a href="#who-is-behind-municipal-money">Who is behind Municipal Money and the Municipal Money API?</a></li>
+        <li role="presentation"><a href="#using-the-data">How can I use the data?</a></li>
+        <li role="presentation"><a href="#dos-and-donts">Are there any dos and don’ts?</a></li>
+        <li role="presentation"><a href="#is-there-any-charge">Is there any charge?</a></li>
+        <li role="presentation"><a href="#data-collection">How was the data collected?</a></li>
+        <li role="presentation"><a href="#data-formats">What form is the data available in?</a></li>
+        <li role="presentation"><a href="#info-not-available">What does it mean when something is listed as ‘Not Available’ or a bar is missing from the chart?</a></li>
+        <li role="presentation"><a href="#limitations">What are the potential limitations of the datasets and their interpretation?</a></li>
+        <li role="presentation"><a href="#what-is-the-api">Will personal information be at risk?</a></li>
+        <li role="presentation"><a href="#commercial-rights">What are the commercial rights of people have commercial ideas?</a></li>
+        <li role="presentation"><a href="#suggestions">How can indicate what type of data I’d be interested in?</a></li>
+        <li role="presentation"><a href="#developers">Is there a place for developers to discuss ideas, applications and using the data?</a></li>
+        <li role="presentation"><a href="#contact-us">How can I make contact?</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
