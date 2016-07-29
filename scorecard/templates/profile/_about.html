@@ -19,6 +19,8 @@
               {% if muni_contact.street_address_3 %}{{ muni_contact.street_address_3 }}<br>{% endif %}
               {% if muni_contact.street_address_4 %}{{ muni_contact.street_address_4 }}{% endif %}
             </li>
+
+            <a href="#" class="btn btn-default send-email">Email municipality</a>
           </ul>
         </div>
         <div class="col-md-8">
@@ -71,13 +73,20 @@
                       {% endif %}
                     </div>
                   </div>
-                  {% if forloop.counter == 1 %}
-                  <a href="#" class="btn btn-default send-email">Email municipality</a>
-                  {% endif %}
                 </div>
               </div>
               {% endif %}
             {% endfor %}
+          </div>
+
+          <div class="row">
+            <div class="col-sm-10">
+              {% if mayoral_staff.updated_date %}
+              <p>Last updated: {{ mayoral_staff.updated_date }}</p>
+              {% endif %}
+
+              <p><strong>Note:</strong> Mayoral staff may have changed due to the 2016 Municipal Elections. We will provide updated information when we have it.</p>
+            </div>
           </div>
 
         </div>
@@ -93,11 +102,6 @@
           </div>
         </div>
 
-        <div class="col-sm-4 text-right">
-          {% if mayoral_staff.updated_date %}
-          Last updated: {{ mayoral_staff.updated_date }}
-          {% endif %}
-        </div>
       </div>
 
     </div>
