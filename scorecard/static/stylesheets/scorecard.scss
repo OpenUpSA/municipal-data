@@ -61,6 +61,7 @@ $input-border-focus: $brand-primary;
 $jumbotron-padding: 20px !default;
 $jumbotron-color: $white;
 $jumbotron-bg: $brand-secondary;
+
 //######
 
 // Import Bootstrap SCSS
@@ -109,6 +110,39 @@ blockquote {
     border-left: 0 !important;
   }
 }
+
+//== Panels
+.panel-warning {
+  border-color: $yellow !important;
+  .panel-heading {
+    background: $yellow !important;
+  }
+}
+
+
+.panel-success {
+  border-color: $nt-green !important;
+  .panel-heading {
+    background: $nt-green !important;
+  }
+}
+
+.panel-danger {
+  border-color: $nt-red !important;
+  .panel-heading {
+    background: $nt-red !important;
+  }
+}
+
+.panel-success, .panel-danger, .panel-warning {
+  .panel-heading {
+    color: $white !important;
+    h1, h2, h3, h4, h5 , h6 {
+      color: $white;
+    }
+  }
+}
+
 //== Columns
 //
 .column-full {
@@ -579,6 +613,25 @@ blockquote {
 
   .fa-ul {
     margin-left: 20px;
+  }
+}
+
+//= #faq
+.faq-item {
+  border: solid 1px $gray-lighter;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  .faq-question {
+    font-weight: bold;
+    font-size: 1.4em;
+    padding: 5px 10px;
+  }
+  .faq-anchor {
+    color: $gray-light;
+    font-size: 0.8em;
+  }
+  .faq-answer {
+    padding: 5px 10px;
   }
 }
 
