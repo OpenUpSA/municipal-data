@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% load staticfiles pipeline %}
+
+{% block head-css %}
+{% stylesheet "api-home" %}
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% javascript "api-home" %}
+{% endblock %}
+
+{% block content %}
+<header id="header">
+  <div class="container">
+    <h1><a href="/">Municipal Finance Data</a></h1>
+  </div>
+</header>
+
+{% block page-content %}
+{% endblock %}
+
+{% block footer %}
+<footer id="footer">
+  <section class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <ul class="list-unstyled">
+          <li><a href="/terms">Terms of Use</a></li>
+          <li>Email us at <a href="mailto:feedback@municipalmoney.gov.za">feedback@municipalmoney.gov.za</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-4">
+        <ul class="list-unstyled">
+          <li>Contribute on <a href="https://github.com/Code4SA/municipal-data">GitHub</a> <i class="fa fa-github"></i></li>
+          <li><a href="https://municipalmoney.gov.za/" target="_blank">Municipal Money Website</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <h5>A project by <a href="http://www.treasury.gov.za/" target="_blank">National Treasury</a></h5>
+
+    <div class="row">
+      <div class="col-xs-6 col-sm-4">
+        <a href="http://www.treasury.gov.za/" target="_blank"><img class="logo" src="{% static 'images/treasury-logo.png' %}"></a>
+      </div>
+      <div class="col-xs-6 col-sm-4">
+        <a href="http://www.code4sa.org/" target="_blank"><img class="logo" src="{% static 'images/code4sa-logo.png' %}"></a>
+      </div>
+    </div>
+  </section>
+</footer>
+{% endblock %}
+
+{% endblock %}
