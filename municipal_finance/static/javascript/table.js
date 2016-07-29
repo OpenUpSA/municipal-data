@@ -531,41 +531,39 @@
       // duplicate this, we're going to change it
       var cut = parts.cut;
       parts.cut = cut.slice();
-
       parts.cut.push('demarcation.code:"' + this.filters.get('municipalities').join('";"') + '"');
-
       // TODO: paginate
 
-      var url = self.makeUrl(parts);
-      console.log(url);
-
       spinnerStart();
-      $.get(url, function(data) {
+      $.get(self.makeUrl(parts), function(data) {
+        self.downloadUrl = self.makeDownloadUrl(parts, data.total_cell_count);
         self.cells.set('items', self.cells.get('items').concat(data.cells));
-
-        // establish download url
-        var params = _.clone(parts);
-        _.extend(params, {
-          page: 1,
-          pagesize: data.total_cell_count,
-          order: 'demarcation.code:asc,' + cube.order,
-        });
-
-        // copy this, we're going to change it
-        params.drilldown = params.drilldown.slice();
-
-        // ensure the download has all relevant attributes.
-        // we only include government functions if we're already filtering by them
-        _.each(cube.model.dimensions, function(dim, dim_name) {
-          if (dim_name != 'function' || hasFunctions) {
-            _.each(dim.attributes, function(attr, attr_name) {
-              params.drilldown.unshift(dim_name + '.' + attr_name);
-            });
-          }
-        });
-
-        self.downloadUrl = self.makeUrl(params);
       }).always(spinnerStop);
+    },
+
+    makeDownloadUrl: function(parts, pagesize) {
+      // establish download url
+      var params = _.clone(parts);
+      _.extend(params, {
+        page: 1,
+        pagesize: pagesize,
+        order: 'demarcation.code:asc,' + cube.order,
+      });
+
+      // copy this, we're going to change it
+      params.drilldown = params.drilldown.slice();
+
+      // ensure the download has all relevant attributes.
+      // we only include government functions if we're already filtering by them
+      _.each(cube.model.dimensions, function(dim, dim_name) {
+        if (dim_name != 'function' || hasFunctions) {
+          _.each(dim.attributes, function(attr, attr_name) {
+            params.drilldown.unshift(dim_name + '.' + attr_name);
+          });
+        }
+      });
+
+      return this.makeUrl(params);
     },
 
     makeUrl: function(parts) {
