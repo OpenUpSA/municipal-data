@@ -85,6 +85,7 @@ $(document).ready(function(){
   }
 });
 
+/*
 $(function() {
   $iframe = $('.video-chooser iframe');
 
@@ -108,6 +109,20 @@ $(function() {
       $iframe.attr('src', '');
     });
 });
+*/
+
+/* Open video links in video modal */
+$('a.video-link').on('click', function(e) {
+  e.preventDefault();
+  var videoURL = $(this).attr('href');
+  $('#video-modal iframe').attr('src', videoURL);
+  $('#video-modal').modal('show');
+});
+
+/* Stop video playback when video modal is closed */
+$('#video-modal').on('hidden.bs.modal', function (e) {
+  $('#video-modal iframe').attr('src', '');
+})
 
 $(function() {
   // track outbound links
