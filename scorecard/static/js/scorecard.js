@@ -85,6 +85,7 @@ $(document).ready(function(){
   }
 });
 
+/* handle multilingual video chooser */
 $(function() {
   $iframe = $('.video-chooser iframe');
 
@@ -101,12 +102,28 @@ $(function() {
   $('#video-modal')
     .on('show.bs.modal', function() {
       var $target = $('.video-chooser .video-choices .active a');
-      $iframe.attr('src', $target.attr('href') + '?autoplay=1');
+      $iframe.attr('src', $target.attr('href') + '?autoplay=1&showinfo=0');
       ga('send', 'event', 'play-video', $target.data('lang'));
     })
     .on('hide.bs.modal', function() {
       $iframe.attr('src', '');
     });
+});
+
+/* handle single language video modals */
+$(function() {
+  /* Open video links in video modal */
+  $('a.video-link').on('click', function(e) {
+    e.preventDefault();
+    var videoURL = $(this).attr('href') + '?autoplay=1&showinfo=0';
+    $('#video-popup iframe').attr('src', videoURL);
+    $('#video-popup').modal('show');
+  });
+
+  /* Stop video playback when video modal is closed */
+  $('#video-popup').on('hidden.bs.modal', function (e) {
+    $('#video-popup iframe').attr('src', '');
+  });
 });
 
 $(function() {

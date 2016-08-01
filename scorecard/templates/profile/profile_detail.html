@@ -95,14 +95,27 @@
   </div>
 
   <!-- Video Modal -->
-  <div class="modal fade" id="video-modal" tabindex="-1" role="dialog" aria-labelledby="VideoModal">
+  <div class="modal fade" id="video-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <a class="btn close" href="#" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></a>
-          <h4 class="modal-title">Municipal Finance in 5 Minutes</h4>
+          <h4 class="modal-title">A quick introduction to Municipal Finance</h4>
         </div>
         <div class="modal-body">{% include "_videos.html" %}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video Popup for explainer videos (one language only) -->
+  <div class="modal fade" id="video-popup" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe id="video-iframe" frameborder="0" allowfullscreen name="video-iframe" src=""></iframe>
+          </div>
+        </div>
       </div>
     </div>
   </div>
