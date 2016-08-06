@@ -500,8 +500,7 @@
      * Update the data!
      */
     update: function() {
-      var self = this,
-          hasFunctions = !_.isEmpty(this.filters.get('functions'));
+      var self = this;
 
       if (this.filters.get('municipalities').length === 0
           || this.filters.get('year') === null) {
@@ -543,7 +542,8 @@
 
     makeDownloadUrl: function(parts, pagesize) {
       // establish download url
-      var params = _.clone(parts);
+      var params = _.clone(parts),
+          hasFunctions = !_.isEmpty(this.filters.get('functions'));
       _.extend(params, {
         page: 1,
         pagesize: pagesize,
