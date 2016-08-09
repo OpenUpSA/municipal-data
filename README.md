@@ -105,8 +105,10 @@ You can use `municipal_finance/data_import/data_audit.py` to generate a CSV show
 - Compare Audited (AUDA) values to the [audited financial statements on the MFMA website](http://mfma.treasury.gov.za/Documents/05.%20Annual%20Financial%20Statements)
   - Use the _consolidated_ financial statements where available for municipalities with entities
   - You can compare some values in the Scorecard site and the rest in the Table View
+  - Make sure to check unauthorised, irregular, fruitless and wasteful expenditure
 - Compare in-year values to [Section 71 in-year reports](http://mfma.treasury.gov.za/Media_Releases/s71/Pages/default.aspx)
   - This isn't available in the Table View yet so use the API or the database
+    - e.g. `select l.label, l30_amount from aged_debtor_facts f, aged_debtor_items l where f.item_code = l.code and demarcation_code = 'CPT' and financial_year = 2016 and financial_period = 09 and amount_type_code = 'ACT';`
   - Compare the latest available month of a quarter to the quarter value in the report
 
 # License
