@@ -95,10 +95,12 @@ You can use `municipal_finance/data_import/data_audit.py` to generate a CSV show
 
 -  Contact details
   -  Check that the website link works
-  -  Compare some contacts to those in the [Budgets on the MFMA website](http://mfma.treasury.gov.za/Documents/03.%20Budget%20Documentation)
+  -  Check that contact details look ok
 -  Follow Audit report links on the Scorecard site and check that the link works, and that the opinion in the report matches what is shown on the page. For example, the heading "Basis for Qualified Opinion" seems to be around page 2 or 3 for a _Qualified_ opinion on the page. You can also find the [Audit Reports on the MFMA website](http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports)
 -  Compare Original Budget (ORGB) values to [Adopted Budgets on the MFMA website](http://mfma.treasury.gov.za/Documents/03.%20Budget%20Documentation)
   -  Grants - Not all of them appear in our conditional grant dataset - compare those that do e.g. _Local Government Financial Management Grant_
+    - e.g. with `select l.name, f.amount from conditional_grants_facts f, conditional_grants l where f.grant_code = l.code and demarcation_code = 'CPT' and amount_type_code = 'ORGB' and financial_year = 2015 and period_length = 'year' order by l.name;`
+    - If some values are close, e.g. 217,498,000 vs 217,548,000, the data is probably loaded correctly
   -  Operating Revenue and expenditure
 - Compare Audited (AUDA) values to the [audited financial statements on the MFMA website](http://mfma.treasury.gov.za/Documents/05.%20Annual%20Financial%20Statements)
   - Use the _consolidated_ financial statements where available for municipalities with entities
