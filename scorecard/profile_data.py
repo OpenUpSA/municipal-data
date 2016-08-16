@@ -499,9 +499,11 @@ class IndicatorCalculator(object):
         for (year, month) in sorted(results.keys(), reverse=True):
             quarter_idx = ((month - 1) / 3) + 1
             quarter_key = (year, quarter_idx)
+
+            monthcells = results[(year, month)]
             try:
-                monthcells = results[(year, month)]
                 # Rely on index out of range for missing values to skip month if one's missing
+                # Rely on KeyError for missing values to skip month if one's missing
                 receipts = monthcells['cflow']['3010'] + \
                            monthcells['cflow']['3020'] + \
                            monthcells['cflow']['3030'] + \
@@ -509,34 +511,34 @@ class IndicatorCalculator(object):
                            monthcells['cflow']['3050'] + \
                            monthcells['cflow']['3060'] + \
                            monthcells['cflow']['3070'] + \
-                           monthcells['cflow']['3150']
-                receivables = monthcells['incexp']['0200'] + \
-                              monthcells['incexp']['0300'] + \
-                              monthcells['incexp']['0400'] + \
-                              monthcells['incexp']['0700'] + \
-                              monthcells['incexp']['0800'] + \
-                              monthcells['incexp']['1000']
+                           monthcells['cflow']['3100']
+                billing = monthcells['incexp']['0200'] + \
+                          monthcells['incexp']['0300'] + \
+                          monthcells['incexp']['0400'] + \
+                          monthcells['incexp']['0700'] + \
+                          monthcells['incexp']['1000']
                 # Add a quarter the first time a month in the quarter is seen.
-                # Skip the remaining months in that quarter. Thus the latest
-                # month in the quarter is used.
                 if quarter_key not in quarters:
-                    result = percent(receipts, receivables)
                     q = {
                         'date': "%sq%s" % quarter_key,
                         'year': year,
                         'month': month,
                         'amount_type': 'ACT',
                         'quarter': quarter_idx,
-                        'receipts': receipts,
-                        'receivables': receivables,
-                        'result': result,
-                        'rating': 'good' if result >= 1 else 'bad',
+                        'receipts': [receipts],
+                        'billing': [billing],
+                        'result': None,
+                        'rating': None,
                     }
                     quarters[quarter_key] = q
                     if latest_quarter is None:
                         latest_quarter = q
-            except IndexError:
-                pass
+                else:
+                    quarters[quarter_key]['receipts'].append(receipts)
+                    quarters[quarter_key]['billing'].append(billing)
+            except KeyError, e:
+                logger.debug(e)
+
         # Enumerate the quarter keys we can expect to exist based on the latest
         # If latest is missing, there are none to show.
         if latest_quarter is not None:
@@ -545,12 +547,18 @@ class IndicatorCalculator(object):
                 keys.append((latest_quarter['year'], q))
             for q in xrange(4, 0, -1):
                 keys.append((latest_quarter['year']-1, q))
-            values = [quarters.get(k, {'year': k[0],
-                                       'date': "%sq%s" % k,
-                                       'quarter': k[1],
-                                       'result': None,
-                                       'rating': 'bad',
-            }) for k in keys][:5]
+            for k in keys[:5]:
+                q = quarters.get(k, {'year': k[0],
+                                     'date': "%sq%s" % k,
+                                     'quarter': k[1],
+                                     'result': None,
+                                     'rating': 'bad',
+                                     'receipts': None,
+                                     'billing': None,
+                })
+                if len(q['receipts']) == 3 and len(q['billing']) == 3:
+                    q['result'] = percent(sum(q['receipts']), sum(q['billing']))
+                values.append(q)
         return {
             'values': values,
             'ref': '',
@@ -825,7 +833,16 @@ class IndicatorCalculator(object):
                 'cube': 'cflow',
                 'aggregate': 'amount.sum',
                 'cut': {
-                    'item.code': ['3010', '3020', '3030', '3040', '3050', '3060', '3070', '3150'],
+                    'item.code': [
+                        '3010',
+                        '3020',
+                        '3030',
+                        '3040',
+                        '3050',
+                        '3060',
+                        '3070',
+                        '3100',
+                    ],
                     'amount_type.code': ['ACT'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['month'],
@@ -839,7 +856,7 @@ class IndicatorCalculator(object):
                 'cube': 'incexp',
                 'aggregate': 'amount.sum',
                 'cut': {
-                    'item.code': ['0200', '0300', '0400', '0700', '0800', '1000'],
+                    'item.code': ['0200', '0300', '0400', '0700', '1000'],
                     'amount_type.code': ['ACT'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['month'],
