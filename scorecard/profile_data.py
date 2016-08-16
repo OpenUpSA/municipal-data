@@ -504,6 +504,7 @@ class IndicatorCalculator(object):
             try:
                 # Rely on index out of range for missing values to skip month if one's missing
                 # Rely on KeyError for missing values to skip month if one's missing
+                 # property rates
                 receipts = monthcells['cflow']['3010'] + \
                            monthcells['cflow']['3020'] + \
                            monthcells['cflow']['3030'] + \
@@ -515,7 +516,6 @@ class IndicatorCalculator(object):
                 billing = monthcells['incexp']['0200'] + \
                           monthcells['incexp']['0300'] + \
                           monthcells['incexp']['0400'] + \
-                          monthcells['incexp']['0700'] + \
                           monthcells['incexp']['1000']
                 # Add a quarter the first time a month in the quarter is seen.
                 if quarter_key not in quarters:
