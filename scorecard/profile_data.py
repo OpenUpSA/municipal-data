@@ -478,6 +478,84 @@ class IndicatorCalculator(object):
             'ref': '',
         }
 
+    def current_debtors_collection_rate(self):
+        values = []
+        results = {}
+        year_month_key = lambda r: (r['financial_year_end.year'], r['financial_period.period'])
+        year_month_sorted = sorted(self.results['in_year_cflow'], key=year_month_key, reverse=True)
+        for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
+            results[(year, month)] = {'cflow': {}}
+            for cell in yearmonthgroup:
+                results[(year, month)]['cflow'][cell['item.code']] = cell['amount.sum']
+        year_month_sorted = sorted(self.results['in_year_incexp'], key=year_month_key, reverse=True)
+        for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
+            results[(year, month)]['incexp'] = {}
+            for cell in yearmonthgroup:
+                results[(year, month)]['incexp'][cell['item.code']] = cell['amount.sum']
+        quarters = {}
+        latest_quarter = None
+        # Loop over months that exist and use their values in quarters
+
+        for (year, month) in sorted(results.keys(), reverse=True):
+            quarter_idx = ((month - 1) / 3) + 1
+            quarter_key = (year, quarter_idx)
+            try:
+                monthcells = results[(year, month)]
+                # Rely on index out of range for missing values to skip month if one's missing
+                receipts = monthcells['cflow']['3010'] + \
+                           monthcells['cflow']['3020'] + \
+                           monthcells['cflow']['3030'] + \
+                           monthcells['cflow']['3040'] + \
+                           monthcells['cflow']['3050'] + \
+                           monthcells['cflow']['3060'] + \
+                           monthcells['cflow']['3070'] + \
+                           monthcells['cflow']['3150']
+                receivables = monthcells['incexp']['0200'] + \
+                              monthcells['incexp']['0300'] + \
+                              monthcells['incexp']['0400'] + \
+                              monthcells['incexp']['0700'] + \
+                              monthcells['incexp']['0800'] + \
+                              monthcells['incexp']['1000']
+                # Add a quarter the first time a month in the quarter is seen.
+                # Skip the remaining months in that quarter. Thus the latest
+                # month in the quarter is used.
+                if quarter_key not in quarters:
+                    result = percent(receipts, receivables)
+                    q = {
+                        'date': "%sq%s" % quarter_key,
+                        'year': year,
+                        'month': month,
+                        'amount_type': 'ACT',
+                        'quarter': quarter_idx,
+                        'receipts': receipts,
+                        'receivables': receivables,
+                        'result': result,
+                        'rating': 'good' if result >= 1 else 'bad',
+                    }
+                    quarters[quarter_key] = q
+                    if latest_quarter is None:
+                        latest_quarter = q
+            except IndexError:
+                pass
+        # Enumerate the quarter keys we can expect to exist based on the latest
+        # If latest is missing, there are none to show.
+        if latest_quarter is not None:
+            keys = []
+            for q in xrange(latest_quarter['quarter'], 0, -1):
+                keys.append((latest_quarter['year'], q))
+            for q in xrange(4, 0, -1):
+                keys.append((latest_quarter['year']-1, q))
+            values = [quarters.get(k, {'year': k[0],
+                                       'date': "%sq%s" % k,
+                                       'quarter': k[1],
+                                       'result': None,
+                                       'rating': 'bad',
+            }) for k in keys][:5]
+        return {
+            'values': values,
+            'ref': '',
+        }
+
     def expenditure_trends(self):
         values = {
             'staff': {'values': []},
@@ -734,6 +812,34 @@ class IndicatorCalculator(object):
                 'aggregate': 'amount.sum',
                 'cut': {
                     'item.code': ['2150', '1600', '1800', '2200'],
+                    'amount_type.code': ['ACT'],
+                    'demarcation.code': [self.geo_code],
+                    'period_length.length': ['month'],
+                    'financial_year_end.year': in_year_years,
+                },
+                'drilldown': YEAR_ITEM_DRILLDOWN + ['financial_period.period'],
+                'query_type': 'aggregate',
+                'results_structure': self.noop_structure,
+            },
+            'in_year_cflow': {
+                'cube': 'cflow',
+                'aggregate': 'amount.sum',
+                'cut': {
+                    'item.code': ['3010', '3020', '3030', '3040', '3050', '3060', '3070', '3150'],
+                    'amount_type.code': ['ACT'],
+                    'demarcation.code': [self.geo_code],
+                    'period_length.length': ['month'],
+                    'financial_year_end.year': in_year_years,
+                },
+                'drilldown': YEAR_ITEM_DRILLDOWN + ['financial_period.period'],
+                'query_type': 'aggregate',
+                'results_structure': self.noop_structure,
+            },
+            'in_year_incexp': {
+                'cube': 'incexp',
+                'aggregate': 'amount.sum',
+                'cut': {
+                    'item.code': ['0200', '0300', '0400', '0700', '0800', '1000'],
                     'amount_type.code': ['ACT'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['month'],
