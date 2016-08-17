@@ -518,6 +518,8 @@ class IndicatorCalculator(object):
                           monthcells['incexp']['0400'] + \
                           monthcells['incexp']['1000']
                 # Add a quarter the first time a month in the quarter is seen.
+                # Assume initially that it won't be complete and thus have no
+                # result and bad rating. This gets changed below if it's complete.
                 if quarter_key not in quarters:
                     q = {
                         'date': "%sq%s" % quarter_key,
@@ -528,7 +530,7 @@ class IndicatorCalculator(object):
                         'receipts': [receipts],
                         'billing': [billing],
                         'result': None,
-                        'rating': None,
+                        'rating': 'bad',
                     }
                     quarters[quarter_key] = q
                     if latest_quarter is None:
@@ -558,6 +560,7 @@ class IndicatorCalculator(object):
                 })
                 if len(q['receipts']) == 3 and len(q['billing']) == 3:
                     q['result'] = percent(sum(q['receipts']), sum(q['billing']))
+                    rating = 'good' if q['result'] >= 100 else 'bad'
                 values.append(q)
         return {
             'values': values,

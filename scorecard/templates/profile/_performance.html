@@ -516,22 +516,22 @@ commitments from monetary assets. The liquidity ratio is of the utmost importanc
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result }}{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
         <div class="indicator-description">The percentage of new revenue (generated within the financial year) that a municipality actually collects</div>
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
-            <td class="key-description">More than 1</td>
+            <td class="key-description">100% or more</td>
           </tr>
           <tr>
             <td class="key-symbol rating rating-bad">bad</td>
-            <td class="key-description">Less than 1</td>
+            <td class="key-description">Less than 100%</td>
           </tr>
         </table>
         <div class="show-calc"><a href="#current-debtors-collection-rate-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
       </div>
       <div class="col-sm-4">
-        <div class="chart-container" data-chart="column-current_debtors_collection_rate" data-unit="num"></div>
+        <div class="chart-container" data-chart="column-current_debtors_collection_rate" data-unit="percent"></div>
       </div>
       <div class="col-sm-4">
         <div class="panel panel-didyouknow">
