@@ -509,4 +509,52 @@ commitments from monetary assets. The liquidity ratio is of the utmost importanc
     </div>
     {% endwith %}
   </div>
+
+  <div class="indicator">
+    {% with indicators.current_debtors_collection_rate.values|first as latest %}
+    <h2>Current Debtors Collection Rate <span class="indicator-date">{{ latest.year|finyear }} Quarter {{ latest.quarter }}</span></h2>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-description">The percentage of new revenue (generated within the financial year) that a municipality actually collects</div>
+        <table class="indicator-key">
+          <tr>
+            <td class="key-symbol rating rating-good">good</td>
+            <td class="key-description">100% or more</td>
+          </tr>
+          <tr>
+            <td class="key-symbol rating rating-bad">bad</td>
+            <td class="key-description">Less than 100%</td>
+          </tr>
+        </table>
+        <div class="show-calc"><a href="#current-debtors-collection-rate-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Calculation</a></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="chart-container" data-chart="column-current_debtors_collection_rate" data-unit="percent"></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            <p>Municipalities don't manage to collect all of the money they earn through rates and service charges. This measure looks at the percentage of new revenue that a municipality collects.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calc collapse" id="current-debtors-collection-rate-calc">
+      <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.current_debtors_collection_rate.ref.url }}" target="_blank">{{ indicators.current_debtors_collection_rate.ref.title }}</a></div>
+
+      <h5>Formula:</h5>
+      <ul class="formula">
+        <li>= Collected Revenue / Billed Revenue</li>
+        <li>=
+          <a href="{% table_url "cflow" year=latest.year items="3010,3020,3030,3040,3050,3060,3070,3100" amountType="ACT" %}" target="_blank">Cash Flow item codes <i>3010, 3020, 3030, 3040, 3050, 3060, 3070, 3100</i>,  Monthly Actual</a>
+          /
+          <a href="{% table_url "incexp" year=latest.year items="0200,0300,0400,1000" amountType="ACT" %}" target="_blank">Income and Expenditure item code <i>0200, 0300, 0400, 1000</i>, Monthly Actual</a>
+      </ul>
+      <p><span class="h5">Note:</span> The quarterly summary looks at the state at the end of each quarter. If the monthly data is missing for the last month in the quarter, the previous month in that quarter. If all months are missing, that quarter is shown as blank.</p>
+    </div>
+    {% endwith %}
+  </div>
 </div>

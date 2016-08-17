@@ -478,6 +478,95 @@ class IndicatorCalculator(object):
             'ref': '',
         }
 
+    def current_debtors_collection_rate(self):
+        values = []
+        results = {}
+        year_month_key = lambda r: (r['financial_year_end.year'], r['financial_period.period'])
+        year_month_sorted = sorted(self.results['in_year_cflow'], key=year_month_key, reverse=True)
+        for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
+            results[(year, month)] = {'cflow': {}}
+            for cell in yearmonthgroup:
+                results[(year, month)]['cflow'][cell['item.code']] = cell['amount.sum']
+        year_month_sorted = sorted(self.results['in_year_incexp'], key=year_month_key, reverse=True)
+        for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
+            results[(year, month)]['incexp'] = {}
+            for cell in yearmonthgroup:
+                results[(year, month)]['incexp'][cell['item.code']] = cell['amount.sum']
+        quarters = {}
+        latest_quarter = None
+        # Loop over months that exist and use their values in quarters
+
+        for (year, month) in sorted(results.keys(), reverse=True):
+            quarter_idx = ((month - 1) / 3) + 1
+            quarter_key = (year, quarter_idx)
+
+            monthcells = results[(year, month)]
+            try:
+                # Rely on index out of range for missing values to skip month if one's missing
+                # Rely on KeyError for missing values to skip month if one's missing
+                 # property rates
+                receipts = monthcells['cflow']['3010'] + \
+                           monthcells['cflow']['3020'] + \
+                           monthcells['cflow']['3030'] + \
+                           monthcells['cflow']['3040'] + \
+                           monthcells['cflow']['3050'] + \
+                           monthcells['cflow']['3060'] + \
+                           monthcells['cflow']['3070'] + \
+                           monthcells['cflow']['3100']
+                billing = monthcells['incexp']['0200'] + \
+                          monthcells['incexp']['0300'] + \
+                          monthcells['incexp']['0400'] + \
+                          monthcells['incexp']['1000']
+                # Add a quarter the first time a month in the quarter is seen.
+                # Assume initially that it won't be complete and thus have no
+                # result and bad rating. This gets changed below if it's complete.
+                if quarter_key not in quarters:
+                    q = {
+                        'date': "%sq%s" % quarter_key,
+                        'year': year,
+                        'month': month,
+                        'amount_type': 'ACT',
+                        'quarter': quarter_idx,
+                        'receipts': [receipts],
+                        'billing': [billing],
+                        'result': None,
+                        'rating': 'bad',
+                    }
+                    quarters[quarter_key] = q
+                    if latest_quarter is None:
+                        latest_quarter = q
+                else:
+                    quarters[quarter_key]['receipts'].append(receipts)
+                    quarters[quarter_key]['billing'].append(billing)
+            except KeyError, e:
+                logger.debug(e)
+
+        # Enumerate the quarter keys we can expect to exist based on the latest
+        # If latest is missing, there are none to show.
+        if latest_quarter is not None:
+            keys = []
+            for q in xrange(latest_quarter['quarter'], 0, -1):
+                keys.append((latest_quarter['year'], q))
+            for q in xrange(4, 0, -1):
+                keys.append((latest_quarter['year']-1, q))
+            for k in keys[:5]:
+                q = quarters.get(k, {'year': k[0],
+                                     'date': "%sq%s" % k,
+                                     'quarter': k[1],
+                                     'result': None,
+                                     'rating': 'bad',
+                                     'receipts': None,
+                                     'billing': None,
+                })
+                if len(q['receipts']) == 3 and len(q['billing']) == 3:
+                    q['result'] = percent(sum(q['receipts']), sum(q['billing']))
+                    rating = 'good' if q['result'] >= 100 else 'bad'
+                values.append(q)
+        return {
+            'values': values,
+            'ref': '',
+        }
+
     def expenditure_trends(self):
         values = {
             'staff': {'values': []},
@@ -734,6 +823,43 @@ class IndicatorCalculator(object):
                 'aggregate': 'amount.sum',
                 'cut': {
                     'item.code': ['2150', '1600', '1800', '2200'],
+                    'amount_type.code': ['ACT'],
+                    'demarcation.code': [self.geo_code],
+                    'period_length.length': ['month'],
+                    'financial_year_end.year': in_year_years,
+                },
+                'drilldown': YEAR_ITEM_DRILLDOWN + ['financial_period.period'],
+                'query_type': 'aggregate',
+                'results_structure': self.noop_structure,
+            },
+            'in_year_cflow': {
+                'cube': 'cflow',
+                'aggregate': 'amount.sum',
+                'cut': {
+                    'item.code': [
+                        '3010',
+                        '3020',
+                        '3030',
+                        '3040',
+                        '3050',
+                        '3060',
+                        '3070',
+                        '3100',
+                    ],
+                    'amount_type.code': ['ACT'],
+                    'demarcation.code': [self.geo_code],
+                    'period_length.length': ['month'],
+                    'financial_year_end.year': in_year_years,
+                },
+                'drilldown': YEAR_ITEM_DRILLDOWN + ['financial_period.period'],
+                'query_type': 'aggregate',
+                'results_structure': self.noop_structure,
+            },
+            'in_year_incexp': {
+                'cube': 'incexp',
+                'aggregate': 'amount.sum',
+                'cut': {
+                    'item.code': ['0200', '0300', '0400', '1000'],
                     'amount_type.code': ['ACT'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['month'],
