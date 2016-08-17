@@ -859,7 +859,7 @@ class IndicatorCalculator(object):
                 'cube': 'incexp',
                 'aggregate': 'amount.sum',
                 'cut': {
-                    'item.code': ['0200', '0300', '0400', '0700', '1000'],
+                    'item.code': ['0200', '0300', '0400', '1000'],
                     'amount_type.code': ['ACT'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['month'],
