@@ -95,7 +95,7 @@ $(function() {
     $btn.closest('.nav').find('li').removeClass('active');
     $btn.closest('li').addClass('active');
 
-    $iframe.attr('src', this.href + "?autoplay=1");
+    $iframe.attr('src', this.href + "?autoplay=1&showinfo=0");
     ga('send', 'event', 'play-video', $btn.data('lang'));
   });
 
