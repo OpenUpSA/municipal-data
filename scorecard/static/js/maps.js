@@ -29,10 +29,10 @@ function MapItGeometryLoader() {
   };
 
   this.loadGeometryForLevel = function(level, success) {
-    var url = '/areas/' + MAPIT.level_codes[level] + '.geojson';
+    var url = '/areas/' + MAPIT.level_codes[level] + '.geojson?generation=1';
     var simplify = MAPIT.level_simplify[MAPIT.level_codes[level]];
     if (simplify) {
-      url = url + '?simplify_tolerance=' + simplify;
+      url = url + '&simplify_tolerance=' + simplify;
     }
 
     d3.json(this.mapit_url + url, function(error, geojson) {
