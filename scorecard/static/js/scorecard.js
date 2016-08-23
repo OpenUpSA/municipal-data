@@ -118,6 +118,12 @@ $(function() {
     var videoURL = $(this).attr('href') + '?autoplay=1&showinfo=0';
     $('#video-popup iframe').attr('src', videoURL);
     $('#video-popup').modal('show');
+
+    var indicator = $(this).closest('.indicator').children('h2').html();
+    // get rid of html at end of string
+    if (indicator.indexOf('<') > -1)
+      indicator = indicator.substring(0, indicator.indexOf('<')).trim();
+    ga('send', 'event', 'play-indicator-video', indicator);
   });
 
   /* Stop video playback when video modal is closed */
