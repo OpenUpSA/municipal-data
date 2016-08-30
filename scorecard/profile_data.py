@@ -506,7 +506,6 @@ class IndicatorCalculator(object):
                 # Rely on KeyError for missing values to skip month if one's missing
                  # property rates
                 receipts = monthcells['cflow']['3010'] + \
-                           monthcells['cflow']['3020'] + \
                            monthcells['cflow']['3030'] + \
                            monthcells['cflow']['3040'] + \
                            monthcells['cflow']['3050'] + \
@@ -514,9 +513,9 @@ class IndicatorCalculator(object):
                            monthcells['cflow']['3070'] + \
                            monthcells['cflow']['3100']
                 billing = monthcells['incexp']['0200'] + \
-                          monthcells['incexp']['0300'] + \
                           monthcells['incexp']['0400'] + \
-                          monthcells['incexp']['1000']
+                          monthcells['incexp']['1000'] - \
+                          monthcells['incexp']['2000']
                 # Add a quarter the first time a month in the quarter is seen.
                 # Assume initially that it won't be complete and thus have no
                 # result and bad rating. This gets changed below if it's complete.
@@ -838,7 +837,6 @@ class IndicatorCalculator(object):
                 'cut': {
                     'item.code': [
                         '3010',
-                        '3020',
                         '3030',
                         '3040',
                         '3050',
@@ -859,7 +857,7 @@ class IndicatorCalculator(object):
                 'cube': 'incexp',
                 'aggregate': 'amount.sum',
                 'cut': {
-                    'item.code': ['0200', '0300', '0400', '1000'],
+                    'item.code': ['0200', '0400', '1000', '2000'],
                     'amount_type.code': ['ACT'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['month'],
