@@ -557,7 +557,7 @@ class IndicatorCalculator(object):
                                      'receipts': None,
                                      'billing': None,
                 })
-                if len(q['receipts']) == 3 and len(q['billing']) == 3:
+                if q['receipts'] and q['billing'] and len(q['receipts']) == 3 and len(q['billing']) == 3:
                     q['result'] = percent(sum(q['receipts']), sum(q['billing']))
                     q['rating'] = 'good' if round(q['result']) >= 100 else 'bad'
                 values.append(q)
