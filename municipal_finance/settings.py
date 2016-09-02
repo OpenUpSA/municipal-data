@@ -46,7 +46,6 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.humanize',
-    'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pipeline',
@@ -100,8 +99,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'municipal_finance.urls'
 
 WSGI_APPLICATION = 'municipal_finance.wsgi.application'
-
-SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 
 # Database
