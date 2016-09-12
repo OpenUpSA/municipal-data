@@ -29,7 +29,8 @@ SET amount = i.amount
 FROM bsheet_2016q4 i
 WHERE f.demarcation_code = i.demarcation_code
 AND f.period_code = i.period_code
-and f.item_code != i.item_code;
+AND f.item_code = i.item_code
+AND f.amount != i.amount;
 
 \echo Insert new values...
 
