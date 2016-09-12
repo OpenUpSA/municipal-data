@@ -48,6 +48,7 @@ WHERE
         SELECT * FROM bsheet_facts f
         WHERE f.demarcation_code = i.demarcation_code
         AND f.period_code = i.period_code
+        AND f.item_code = i.item_code
     );
 
 \echo Decode period_code...
