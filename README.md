@@ -42,6 +42,12 @@ Data import is still a fairly manual process leveraging the DB and a few SQL scr
 
 *Remember to run `VACUUM ANALYSE` or REINDEX tables after significant changes to ensure stats are up to date to use indices properly.*
 
+# Upsert Log
+
+## 2016q4
+
+- Some of the files had amounts ending .00 so to check that simply rounding was ok, I ran `grep -v  '\.00' *|egrep  -v "(capital|cflow|grants|rm_)"` - the excluded files didn't have .00 endings.
+
 # License
 
 MIT License
