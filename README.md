@@ -112,6 +112,12 @@ You can use `municipal_finance/data_import/data_audit.py` to generate a CSV show
     - e.g. `select l.label, l30_amount from aged_debtor_facts f, aged_debtor_items l where f.item_code = l.code and demarcation_code = 'CPT' and financial_year = 2016 and financial_period = 09 and amount_type_code = 'ACT';`
   - Compare the latest available month of a quarter to the quarter value in the report
 
+# Upsert Log
+
+## 2016q4
+
+- Some of the files had amounts ending .00 so to check that simply rounding was ok, I ran `grep -v  '\.00' *|egrep  -v "(capital|cflow|grants|rm_)"` - the excluded files didn't have .00 endings.
+
 # License
 
 MIT License
