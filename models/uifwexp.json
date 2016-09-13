@@ -1,9 +1,9 @@
 {
-    "fact_table": "badexp_facts",
+    "fact_table": "uifwexp_facts",
     "label": "Unauthorised, Irregular, Fruitless and Wasteful Expenditure",
     "description": "Specific expenditure amounts from audited financial results, recorded in the notes to the annual financial statements.",
     "update_cycle": "year",
-    "last_updated": "2015",
+    "last_updated": "2016-06",
     "dimensions": {
         "demarcation": {
             "attributes": {
@@ -32,7 +32,7 @@
                     "column": "item_code",
                     "label": "Code",
                     "type": "string",
-                    "description": "Code used by treasury"
+                    "description": "'unauthorised', 'irregular' or 'fruitless' which stands for Fruitless and Wasteful"
                 },
                 "label": {
                     "column": "item_label",

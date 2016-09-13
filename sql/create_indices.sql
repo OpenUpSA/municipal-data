@@ -98,7 +98,7 @@ CREATE INDEX audit_opinion_facts_opinion_label_idx ON audit_opinion_facts (opini
 CREATE INDEX audit_opinion_facts_report_url_idx ON audit_opinion_facts (report_url);
 \echo dimension
 CREATE INDEX audit_opinion_facts_dimension_opinion_idx ON audit_opinion_facts (opinion_code, opinion_label, report_url);
-\echo cube=badexp
+\echo cube=uifwexp
 \echo dimension=demarcation
 \echo attributes
 CREATE INDEX scorecard_geography_geo_code_idx ON scorecard_geography (geo_code);
@@ -106,16 +106,16 @@ CREATE INDEX scorecard_geography_name_idx ON scorecard_geography (name);
 \echo dimension
 CREATE INDEX scorecard_geography_dimension_demarcation_idx ON scorecard_geography (geo_code, name);
 \echo join column
-CREATE INDEX badexp_facts_dimension_join_column_demarcation_idx ON badexp_facts (demarcation_code);
+CREATE INDEX uifwexp_facts_dimension_join_column_demarcation_idx ON uifwexp_facts (demarcation_code);
 \echo dimension=financial_year_end
 \echo attributes
-CREATE INDEX badexp_facts_financial_year_idx ON badexp_facts (financial_year);
+CREATE INDEX uifwexp_facts_financial_year_idx ON uifwexp_facts (financial_year);
 \echo dimension=item
 \echo attributes
-CREATE INDEX badexp_facts_item_code_idx ON badexp_facts (item_code);
-CREATE INDEX badexp_facts_item_label_idx ON badexp_facts (item_label);
+CREATE INDEX uifwexp_facts_item_code_idx ON uifwexp_facts (item_code);
+CREATE INDEX uifwexp_facts_item_label_idx ON uifwexp_facts (item_label);
 \echo dimension
-CREATE INDEX badexp_facts_dimension_item_idx ON badexp_facts (item_code, item_label);
+CREATE INDEX uifwexp_facts_dimension_item_idx ON uifwexp_facts (item_code, item_label);
 \echo cube=bsheet
 \echo dimension=amount_type
 \echo attributes
@@ -401,4 +401,3 @@ CREATE INDEX repmaint_items_position_ordered_idx ON repmaint_items (position_in_
 \echo dimension=period_length
 \echo attributes
 CREATE INDEX repmaint_facts_period_length_idx ON repmaint_facts (period_length);
-
