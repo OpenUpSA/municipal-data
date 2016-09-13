@@ -96,7 +96,14 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}R {{ latest.result|floatformat:"0" }}{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">
+          {% if latest.result == None %}
+          Not available
+          <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
+          {% else %}
+          R {{ latest.result|floatformat:"0" }}
+          {% endif %}
+        </div>
         <div class="indicator-description">Cash balance at the end of the financial year.</div>
         <table class="indicator-key">
           <tr>
@@ -143,7 +150,14 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result|month_days }}{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">
+          {% if latest.result == None %}
+          Not available
+          <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
+          {% else %}
+          {{ latest.result|month_days }}
+          {% endif %}
+        </div>
         <div class="indicator-description">Months of operating expenses can be paid for with the cash available.</div>
         <table class="indicator-key">
           <tr>
@@ -198,7 +212,8 @@
       <div class="col-sm-4">
         <div class="indicator-value rating rating-{{ latest.rating }}">
           {% if latest.result == None %}
-            Not available
+          Not available
+          <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
             {{ latest.result|absolute }}%
             {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
@@ -261,6 +276,7 @@
         <div class="indicator-value rating rating-{{ latest.rating }}">
           {% if latest.result == None %}
             Not available
+          <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
             {{ latest.result|absolute }}%
             {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
@@ -320,7 +336,14 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">
+          {% if latest.result == None %}
+          Not available
+          <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
+          {% else %}
+          {{ latest.result }}%
+          {% endif %}
+        </div>
 
         <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
         <table class="indicator-key">
@@ -372,7 +395,13 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">
+          {% if latest.result == None %}
+          Not available
+          <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
+          {% else %}{{ latest.result }}%
+          {% endif %}
+        </div>
         <div class="indicator-description">Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage of operating expenditure.</div>
         <table class="indicator-key">
           <tr>
@@ -421,7 +450,14 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result }}{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">
+          {% if latest.result == None %}
+          Not available
+          <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
+          {% else %}
+          {{ latest.result }}
+          {% endif %}
+        </div>
         <div class="indicator-description">The value of a municipality's short-term assets as a multiple of its short-term liabilities.</div>
         <table class="indicator-key">
           <tr>
@@ -474,7 +510,14 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result }}{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">
+          {% if latest.result == None %}
+          Not available
+          <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
+          {% else %}
+          {{ latest.result }}
+          {% endif %}
+        </div>
         <div class="indicator-description">The municipality's immediate ability to pay its current liabilities</div>
         <table class="indicator-key">
           <tr>
@@ -522,7 +565,14 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value rating rating-{{ latest.rating }}">{% if latest.result == None %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-value rating rating-{{ latest.rating }}">
+          {% if latest.result == None %}
+          Not available
+          <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
+          {% else %}
+          {{ latest.result }}%
+          {% endif %}
+        </div>
         <div class="indicator-description">The percentage of new revenue (generated within the financial year) that a municipality actually collects</div>
         <table class="indicator-key">
           <tr>

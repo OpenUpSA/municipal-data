@@ -9,7 +9,14 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value">{% if latest.result == None %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-value">
+          {% if latest.result == None %}
+          Not available
+          <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
+          {% else %}
+          {{ latest.result }}%
+          {% endif %}
+        </div>
         <div class="indicator-description">Staff salaries and wages as a percentage of operating expenditure.</div>
         <table class="indicator-key">
           <tr>
@@ -56,7 +63,14 @@
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="indicator-value">{% if latest.result == None %}Not available{% else %}{{ latest.result }}%{% endif %}</div>
+        <div class="indicator-value">
+          {% if latest.result == None %}
+          Not available
+          <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
+          {% else %}
+          {{ latest.result }}%
+          {% endif %}
+        </div>
         <div class="indicator-description">Costs of contractor services as a percentage of operating expenditure.</div>
         <table class="indicator-key">
           <tr>
