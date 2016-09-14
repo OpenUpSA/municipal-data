@@ -14,7 +14,7 @@
           <div class="col-sm-3">
             <table class="table table-bordered">
               <tr>
-                <td class="text{% if forloop.first %}-large{% endif %} text-center"><strong>
+                <td class="text-center"><strong>
                     {{ opinion.date|unlocalize }}
                     <i class="audit-rating audit-{{ opinion.rating }}" aria-hidden="true"></i>
                     {% if opinion.rating == "unqualified" %}
