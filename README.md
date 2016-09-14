@@ -44,7 +44,7 @@ Data import is still a fairly manual process leveraging the DB and a few SQL scr
 
 # Standard Operating Procedure
 
-This covers how to keep the data up to date. Each quarter, as new data is released, the following needs to be done to update the data served by the API and the Citizen Scorecard. It's best to do this on a test database first and verify the results before updating the production database.
+This covers how to keep the data up to date. Each quarter, as new data is released, the following needs to be done to update the data served by the API and the Citizen Scorecard. It's best to do this on a test database first and validate the results before updating the production database.
 
 ## Extract CSV datasets from Excel Spreadsheets
 
@@ -88,6 +88,8 @@ Currently, indicators using quarterly data automatically use the latest quarter 
 Quarterly Section 71 submissions are available 2 months after the end of the quarter.
 
 ## Validating the data
+
+The aim here is to ensure that the data is in the correct format, and that the import worked correctly, such that the correct values are shown to users of the site. That means the right number is returned, for a given line item, for a given period and municipality. The correct number is defined by what has been published on the MFMA website. Examples of the kind of errors this is trying to catch are different number formats, different line item codes or different data structures which aren't detected by the database constraints, but can be detected by manually comparing the numbers presented to published documents. Therefore this shouldn't be exhaustive - when some numbers in each dataset match expected values, we can infer that the data is imported correctly. Since distinctions aren't made between importing different municipalities, other municipalities should be imported equivalently.
 
 Do each of these for a sample of municipalities. Check some metros, some districts, and some locals. Try to find some doing well and some doing badly. Try to compare some with fairly complete data and some with missing data.
 
