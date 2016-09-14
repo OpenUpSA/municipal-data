@@ -33,7 +33,7 @@ def table_url(context, cube, year=None, muni=None, items=None, amountType=None):
 def finyear(year):
     if year:
         year = int(year)
-        return '%s - %s' % (year - 1, year)
+        return 'July %s - June %s' % (year - 1, year)
     return ''
 
 
