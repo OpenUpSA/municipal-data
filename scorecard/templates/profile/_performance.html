@@ -446,7 +446,7 @@
 
   <div class="indicator">
     {% with indicators.current_ratio.values|first as latest %}
-    <h2>Current Ratio <span class="indicator-date">{{ latest.year|finyear }} Quarter {{ latest.quarter }}</span></h2>
+    <h2>Current Ratio <span class="indicator-date">{{ latest.year|unlocalize }} Quarter {{ latest.quarter }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
@@ -506,7 +506,7 @@
 
   <div class="indicator">
     {% with indicators.liquidity_ratio.values|first as latest %}
-    <h2>Liquidity Ratio <span class="indicator-date">{{ latest.year|finyear }} Quarter {{ latest.quarter }}</span></h2>
+    <h2>Liquidity Ratio <span class="indicator-date">{{ latest.year|unlocalize }} Quarter {{ latest.quarter }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
@@ -561,7 +561,7 @@
 
   <div class="indicator">
     {% with indicators.current_debtors_collection_rate.values|first as latest %}
-    <h2>Current Debtors Collection Rate <span class="indicator-date">{{ latest.year|finyear }} Quarter {{ latest.quarter }}</span></h2>
+    <h2>Current Debtors Collection Rate <span class="indicator-date">{{ latest.year|unlocalize }} Quarter {{ latest.quarter }}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
