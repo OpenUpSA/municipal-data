@@ -234,6 +234,9 @@ var VerticalBarChart = function() {
     _.each(self.name.split("."), function(p) { data = data[p]; });
 
     self.data = data.values;
+    // earliest to latest
+    self.data.reverse();
+
     // establish format
     self.format = formats[self.container.data('unit') || "currency"];
     self.unit_name = self.container.data('unit-name');
@@ -246,7 +249,7 @@ var VerticalBarChart = function() {
 
     if ($('body').hasClass('print')) container_width = 300;
 
-    self.margin = {top: 20, right: 0, bottom: 20, left: 0};
+    self.margin = {top: 20, right: 0, bottom: 25, left: 0};
     self.width = container_width - self.margin.left - self.margin.right;
     self.height = container_height - self.margin.top - self.margin.bottom;
 
