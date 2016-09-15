@@ -50,8 +50,8 @@
         <div class="show-calc"><a href="#income-split-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show Source</a></div>
 
         <div class="calc collapse" id="income-split-calc">
+          <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.revenue_sources.ref.url }}" target="_blank">{{ indicators.revenue_sources.ref.title }}</a></div>
           <h5>Source:</h5>
-
           <ul class="formula">
             <li>
               <a href="{% table_url "incexp" year=indicators.revenue_sources.year amountType="AUDA" %}" target="_blank">Income & Expenditure</a> Audited Actual
