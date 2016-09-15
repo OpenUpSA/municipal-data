@@ -104,6 +104,10 @@ class IndicatorCalculator(object):
                 'title': 'Over and under spending reports to parliament',
                 'url': 'http://mfma.treasury.gov.za/Media_Releases/Reports%20to%20Parliament/Pages/default.aspx',
             },
+            'lges': {
+                'title': 'Local Government Equitable Share',
+                'url': 'http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx',
+            },
         }
 
     def fetch_data(self):
@@ -253,6 +257,7 @@ class IndicatorCalculator(object):
                 'items': [],
                 },
             'year': year,
+            'ref': self.references['lges'],
         }
         code_to_source = {
             '0200': 'local',
