@@ -108,6 +108,10 @@ class IndicatorCalculator(object):
                 'title': 'Local Government Equitable Share',
                 'url': 'http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx',
             },
+            'mbrr': {
+                'title': 'Municipal Budget and Reporting Regulations',
+                'url': 'http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx',
+            }
         }
 
     def fetch_data(self):
@@ -480,7 +484,7 @@ class IndicatorCalculator(object):
             }) for k in keys][:5]
         return {
             'values': values,
-            'ref': '',
+            'ref': self.references['mbrr'],
         }
 
     def current_debtors_collection_rate(self):
@@ -568,7 +572,7 @@ class IndicatorCalculator(object):
                 values.append(q)
         return {
             'values': values,
-            'ref': '',
+            'ref': self.references['mbrr'],
         }
 
     def expenditure_trends(self):
