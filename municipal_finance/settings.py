@@ -140,11 +140,6 @@ FORMAT_MODULE_PATH = 'municipal_finance.formats'
 CORS_ORIGIN_ALLOW_ALL = True
 
 
-# HTTP basic auth (temporary)
-HTTP_AUTH_USER = os.environ.get('HTTP_AUTH_USER')
-HTTP_AUTH_PASS = os.environ.get('HTTP_AUTH_PASS')
-
-
 # Templates
 TEMPLATE_DEBUG = DEBUG
 TEMPLATE_CONTEXT_PROCESSORS = (
