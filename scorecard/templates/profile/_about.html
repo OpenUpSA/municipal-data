@@ -32,47 +32,9 @@
                   <div class="person-role">{{ official.role }}</div>
                   <ul class="fa-ul person-name">
                     {% if official and official.name %}
-                    <li><i class="fa fa-li fa-user" aria-hidden="true"></i> - </li>
+                    <li><i class="fa fa-li fa-user" aria-hidden="true"></i><i><a href="#contact-update-note">not yet available*</a></i></li>
                     {% endif %}
                   </ul>
-                  <div class="person-contact-details">
-                    <a href="#contact-details-{{ forloop.counter }}" data-toggle="collapse" class="show-contact-details show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Contact Details</a>
-
-                    <div class="contact-details collapse" id="contact-details-{{ forloop.counter }}">
-                      <ul class="fa-ul">
-                        {% if official.office_phone %}
-                        <li>
-                          <i class="fa fa-li fa-phone" aria-hidden="true"></i> -
-                        </li>
-                        {% endif %}
-                        {% if official.email %}
-                        <li>
-                          <i class="fa fa-li fa-envelope" aria-hidden="true"></i> -
-                        </li>
-                        {% endif %}
-                      </ul>
-
-                      {% if official.secretary %}
-                        <div>
-                          <h4>Secretary</h4>
-                        </div>
-
-                        <ul class="fa-ul">
-                          {% if official.secretary.name %}
-                          <li><i class="fa fa-li fa-user" aria-hidden="true"></i> - </li>
-                          {% endif %}
-
-                          {% if official.secretary.office_phone %}
-                          <li><i class="fa fa-li fa-phone" aria-hidden="true"></i> - </li>
-                          {% endif %}
-
-                          {% if official.secretary.email %}
-                          <li><i class="fa fa-li fa-envelope" aria-hidden="true"></i> - </li>
-                          {% endif %}
-                        </ul>
-                      {% endif %}
-                    </div>
-                  </div>
                 </div>
               </div>
               {% elif forloop.counter < 5 %}
@@ -131,10 +93,10 @@
           <div class="row">
             <div class="col-sm-10">
               {% if mayoral_staff.updated_date %}
-              <p>Last updated: {{ mayoral_staff.updated_date }}</p>
+              <p>Contact Details last updated: {{ mayoral_staff.updated_date }}</p>
               {% endif %}
 
-              <p><strong>Note:</strong> Mayoral staff and contact details are updated quarterly. Due to the recent municipal elections, the political appointments are not yet available and will be updated in the next quarterly update in December 2016.</p>
+              <p><strong><a name="contact-update-note">*Note:</a></strong> Mayoral positions may have changed due to the 2016 Municipal Elections. An updated, complete set of information will be drawn from quarterly updates provided by municipalities. The next update is due in December 2016.</p>
             </div>
           </div>
 
