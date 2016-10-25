@@ -44,7 +44,7 @@ YEAR_ITEM_DRILLDOWN = [
 
 class MuniApiClient(object):
     def __init__(self):
-        self.API_URL = settings.API_URL + "/cubes/"
+        self.API_URL = settings.API_URL_INTERNAL + "/cubes/"
         self.session = FuturesSession(executor=EXECUTOR)
 
     def api_get(self, query):
