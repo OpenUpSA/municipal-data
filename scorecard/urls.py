@@ -43,7 +43,7 @@ urlpatterns = [
     url(
         regex='^robots.txt$',
         view=lambda r: HttpResponse(
-            "User-agent: *\nDisallow: /",
+            "User-agent: *\nAllow: /",
             content_type="text/plain"
         )
     ),
