@@ -88,6 +88,7 @@ WAZIMAP['geodata'] = 'scorecard.geo.GeoData'
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.gzip.GZipMiddleware',
+    'municipal_finance.middleware.RedirectsMiddleware',
     'municipal_finance.middleware.SiteMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',

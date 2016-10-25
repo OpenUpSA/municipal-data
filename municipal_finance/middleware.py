@@ -1,4 +1,5 @@
 from django.contrib.sites.shortcuts import get_current_site
+from django.http import HttpResponsePermanentRedirect
 
 from utils import jsonify
 
@@ -29,3 +30,11 @@ class SiteMiddleware(object):
             request.urlconf = 'scorecard.urls'
         else:
             request.urlconf = 'municipal_finance.urls'
+
+
+class RedirectsMiddleware(object):
+    """Always redirect www.host to host"""
+    def process_request(self, request):
+        host = request.get_host()
+        if host.startswith("www."):
+            return HttpResponsePermanentRedirect(host[4:])
