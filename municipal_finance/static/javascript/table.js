@@ -78,8 +78,8 @@
       $('#function-box').on('hide.bs.modal', _.bind(this.functionsChanged, this));
       $('#function-box').on('change', 'input:checkbox', _.bind(this.functionChecked, this));
 
-      this.preload();
       this.loadState();
+      this.preload();
     },
 
     loadState: function() {
@@ -141,43 +141,37 @@
     preloadAmountTypes: function() {
       var self = this;
 
-      // preload years and amount types
-      var url = '/cubes/' + CUBE_NAME + '/aggregate?aggregates=_count&drilldown=financial_year_end.year';
-      if (cube.hasAmountType) url += '|amount_type';
+      // TODO HACK
+      self.years = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009];
 
-      spinnerStart();
-      $.get(MUNI_DATA_API + url, function(data) {
-        self.years = _.uniq(_.pluck(data.cells, 'financial_year_end.year')).sort().reverse();
-        self.renderYears();
+      self.renderYears();
 
-        // sanity check pre-loaded year
-        var year = self.filters.get('year');
-        year = _.contains(self.years, year) ? year : self.years[0];
-        self.filters.set('year', year, {silent: true});
+      // sanity check pre-loaded year
+      var year = self.filters.get('year');
+      year = _.contains(self.years, year) ? year : self.years[0];
+      self.filters.set('year', year, {silent: true});
 
-        // amount types per year
-        self.amountTypes = {};
-        if (cube.hasAmountType) {
-          _.each(_.groupBy(data.cells, 'financial_year_end.year'), function(data, year) {
-            self.amountTypes[year] = _.sortBy(_.map(data, function(d) {
-                return {
-                  code: d['amount_type.code'],
-                  label: d['amount_type.label'],
-                };
-              }), 'label');
-          });
+      // amount types per year
+      // TODO HACK
+      var amountTypes = [{"code":"ACT","label":"Actual"},{"code":"ADJB","label":"Adjusted Budget"},{"code":"AUDA","label":"Audited Actual"},
+        {"code": "IBY1", "label": "Forecast 1 year ahead of budget year"},
+        {"code": "IBY2", "label": "Forecast 2 years ahead of budget year"},
+        {"code":"ORGB","label":"Original Budget"},{"code":"PAUD","label":"Pre-audit"}];
 
-          // sanity check pre-loaded amount type
-          var type = self.filters.get('amountType') || "AUDA";
-          if (!type || !_.any(self.amountTypes[year], function(at) { return at.code == type; })) {
-            type = self.amountTypes[year][0].code;
-          }
-          self.filters.set('amountType', type, {silent: true});
-        }
+      self.amountTypes = {};
+      _.each(self.years, function(year) {
+        self.amountTypes[year] = amountTypes;
+      });
 
-        $('.loading').hide();
-        self.filters.trigger('change');
-      }).always(spinnerStop);
+      // sanity check pre-loaded amount type
+      var type = self.filters.get('amountType') || "AUDA";
+      if (!type || !_.any(self.amountTypes[year], function(at) { return at.code == type; })) {
+        type = self.amountTypes[year][0].code;
+      }
+      self.filters.set('amountType', type, {silent: true});
+
+      $('.loading').hide();
+      self.filters.trigger('change');
     },
 
     // government functions
