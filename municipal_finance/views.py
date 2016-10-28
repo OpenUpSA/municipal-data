@@ -197,7 +197,7 @@ def table(request, cube_name):
             }
 
     cube = get_manager().get_cube(cube_name).model.to_dict()
-    return render(request, 'table_down.html', {
+    return render(request, 'table.html', {
         'cube_name': cube_name,
         'cube_model': cube,
         'cubes': cubes,
