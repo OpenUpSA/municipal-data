@@ -102,6 +102,8 @@ WSGI_APPLICATION = 'municipal_finance.wsgi.application'
 
 
 # Database
+os.environ['PGOPTIONS'] = '-c statement_timeout=10000'
+
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 import dj_database_url
 DATABASE_URL = os.environ.get('DATABASE_URL', 'postgres://municipal_finance:municipal_finance@localhost:5432/municipal_finance')

@@ -16,17 +16,18 @@ If data needed to calculate a value for a given date is missing, an
 object is returned for that year with the value being None,
 to indicate in the page that it is missing.
 """
-from concurrent.futures import ThreadPoolExecutor
-from requests_futures.sessions import FuturesSession
+
 from collections import defaultdict, OrderedDict
-import dateutil.parser
-from itertools import groupby
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
+from django.conf import settings
+from itertools import groupby
+from requests_futures.sessions import FuturesSession
+import dateutil.parser
 import logging
 import urllib
 
-from django.conf import settings
-
+from municipal_finance.cubes import APIOverloadedException
 from wazimap.data.utils import percent, ratio
 
 logger = logging.getLogger('municipal_finance')
@@ -128,6 +129,7 @@ class IndicatorCalculator(object):
             self.results[query_name] = self.response_to_results(response, query)
 
     def response_to_results(self, api_response, query):
+        self.raise_if_overloaded(api_response.result())
         api_response.result().raise_for_status()
         response_dict = api_response.result().json()
         if query['query_type'] == 'facts':
@@ -136,6 +138,12 @@ class IndicatorCalculator(object):
             return query['results_structure'](query, response_dict['cells'])
         elif query['query_type'] == 'model':
             return query['results_structure'](query, response_dict['model'])
+
+    def raise_if_overloaded(self, response):
+        DB_TIMEOUT_MSG = "(psycopg2.extensions.QueryCanceledError) canceling statement due to statement timeout\n"
+        if response.status_code == 500:
+            if response.json().get("message") == DB_TIMEOUT_MSG:
+                raise APIOverloadedException("API Overloaded")
 
     def cash_coverage(self):
         values = []
