@@ -44,9 +44,20 @@
   if (CUBE_NAME == 'audit_opinions') {
     cube.drilldown = ['demarcation.code', 'demarcation.label', 'opinion.label'];
     cube.columns = ['opinion.label'];
+    cube.rowHeadingMeta = {
+      code: 'financial_year_end.year',
+      label: null,
+    };
   }
 
   if (cube.hasItems) {
+    // the cell elements used for row headings
+    cube.rowHeadingMeta = {
+      code: 'item.code',
+      label: 'item.label',
+      class: 'item.return_form_structure',
+    };
+
     if (cube.model.dimensions.item.attributes.return_form_structure) cube.drilldown.push('item.return_form_structure');
     if (cube.model.dimensions.item.attributes.position_in_return_form) {
       cube.order = 'item.position_in_return_form:asc';
@@ -498,17 +509,21 @@
     },
 
     preload: function() {
-      if (!cube.hasItems) {
-        cube.itemHeadings = [{'item.code': undefined, 'item.label': 'foo'}];
-        return;
-      }
+      if (!cube.hasItems) return;
 
       var self = this;
 
       spinnerStart();
       $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/item?order=' + cube.order, function(data) {
         // we only care about items that have a label
-        cube.itemHeadings = _.select(data.data, function(d) { return d['item.label']; });
+        cube.rowHeadings = _.select(data.data, function(d) { return d[cube.rowHeadingMeta.label]; });
+        cube.rowHeadings = _.map(cube.rowHeadings, function(h) {
+          return {
+            code: h[cube.rowHeadingMeta.code],
+            label: h[cube.rowHeadingMeta.label],
+            class: h[cube.rowHeadingMeta.class],
+          };
+        });
         cube.trigger('change');
       }).always(spinnerStop);
     },
@@ -595,7 +610,12 @@
     },
 
     render: function() {
-      if (cube.itemHeadings || !cube.hasItems) {
+      if (!cube.hasItems) {
+        // use year labels as items
+        cube.rowHeadings = [{code: this.filters.get('year'), label: null}];
+      }
+
+      if (cube.rowHeadings || !cube.hasItems) {
         this.renderRowHeadings();
 
         if (municipalities) {
@@ -608,11 +628,6 @@
     },
 
     renderRowHeadings: function() {
-      if (!cube.hasItems) {
-        this.$('.row-headings').hide();
-        return;
-      }
-
       // render row headings table
       var table = this.$('.row-headings').empty()[0];
       var blanks = 1;
@@ -625,18 +640,20 @@
         table.insertRow().appendChild(spacer[0]);
       }
 
-      for (i = 0; i < (cube.itemHeadings || []).length; i++) {
-        var item = cube.itemHeadings[i];
+      for (i = 0; i < (cube.rowHeadings || []).length; i++) {
+        var heading = cube.rowHeadings[i];
         var tr = table.insertRow();
         var td;
 
-        $(tr).addClass('item-' + item['item.return_form_structure']);
+        $(tr).addClass('item-' + heading.class);
 
         td = tr.insertCell();
-        td.innerText = item['item.code'];
-        td = tr.insertCell();
-        td.innerText = item['item.label'];
-        td.setAttribute('title', item['item.label']);
+        td.innerText = heading.code;
+        if (heading.label) {
+          td = tr.insertCell();
+          td.innerText = heading.label;
+          td.setAttribute('title', heading.label);
+        }
       }
     },
 
@@ -697,7 +714,7 @@
       var self = this;
 
       // group cells by item code then municipality
-      cells = _.groupBy(cells, 'item.code');
+      cells = _.groupBy(cells, cube.rowHeadingMeta.code);
       _.each(cells, function(items, code) {
         cells[code] = _.groupBy(items, 'demarcation.code');
 
@@ -711,18 +728,18 @@
 
       // values
       if (!_.isEmpty(cells)) {
-        for (var i = 0; i < cube.itemHeadings.length; i++) {
-          var row = cube.itemHeadings[i];
+        for (var i = 0; i < cube.rowHeadings.length; i++) {
+          var heading = cube.rowHeadings[i];
           var tr = table.insertRow();
-          $(tr).addClass('item-' + row['item.return_form_structure']);
+          $(tr).addClass('item-' + heading.class);
 
           // highlight?
-          if (highlights[row['item.code']]) toHighlight.push(table.rows.length-1);
+          if (highlights[heading.code]) toHighlight.push(table.rows.length-1);
 
           // each muni
           for (var j = 0; j < munis.length; j++) {
             var muni = municipalities[munis[j]];
-            var muni_data = cells[row['item.code']];
+            var muni_data = cells[heading.code];
             if (muni_data) muni_data = muni_data[muni.demarcation_code];
 
             if (functions.length > 0) {
