@@ -114,3 +114,13 @@ class GeographyCompareView(TemplateView):
             raise Http404
 
         return page_context
+
+
+class SitemapView(TemplateView):
+    template_name = 'sitemap.txt'
+    content_type = 'text/plain'
+
+    def get_context_data(self):
+        return {
+            'geos': geo_data.geo_model.objects.all(),
+        }

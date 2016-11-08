@@ -1,0 +1,4 @@
+{% for geo in geos %}{{ WAZIMAP.url }}/profiles/{{ geo.geo_level }}-{{ geo.geo_code }}-{{ geo.slug }}/
+{% endfor %}
+{{ WAZIMAP.url }}/about
+{{ WAZIMAP.url }}/faq
