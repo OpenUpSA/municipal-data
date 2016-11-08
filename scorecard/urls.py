@@ -44,7 +44,8 @@ urlpatterns = [
     url(
         regex='^robots.txt$',
         view=lambda r: HttpResponse(
-            "User-agent: *\nAllow: /",
+            "User-agent: *\nAllow: /\n" +
+            "Sitemap: https://municipalmoney.gov.za/sitemap.txt",
             content_type="text/plain"
         )
     ),
