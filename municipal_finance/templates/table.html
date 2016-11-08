@@ -140,5 +140,5 @@ var CUBES = {{ cubes|jsonify|safe }};
 
 {% block js %}
 {% javascript "table" %}
-{{ super }}
+{{ block.super }}
 {% endblock %}
