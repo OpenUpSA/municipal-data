@@ -254,7 +254,7 @@ var VerticalBarChart = function() {
     self.height = container_height - self.margin.top - self.margin.bottom;
 
     self.x = d3.scale.ordinal()
-        .rangeRoundBands([0, self.width], 0.5);
+        .rangeRoundBands([0, self.width], 0.3, 0.1);
 
     self.y = d3.scale.linear()
         .range([self.height, 0]);
