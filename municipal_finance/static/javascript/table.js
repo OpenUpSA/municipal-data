@@ -31,19 +31,38 @@
   // global municipalities list
   var municipalities;
 
-  // cube settings
+  // default cube settings
   var cube = {
-    order: 'item.code:asc',
     drilldown: ['demarcation.code', 'demarcation.label', 'item.code', 'item.label'],
     model: CUBES[CUBE_NAME].model,
   };
-  cube.aggregates = _.map(cube.model.measures, function(m) { return m.ref + '.sum'; });
   cube.hasAmountType = !!cube.model.dimensions.amount_type;
+  cube.hasItems = !!cube.model.dimensions.item;
+  cube.columns = _.map(cube.model.measures, function(m) { return m.ref + '.sum'; });
 
-  if (cube.model.dimensions.item) {
+  // override defaults for specific cubes
+  if (CUBE_NAME == 'audit_opinions') {
+    cube.drilldown = ['demarcation.code', 'demarcation.label', 'opinion.label'];
+    cube.columns = ['opinion.label'];
+    cube.rowHeadingMeta = {
+      code: 'financial_year_end.year',
+      label: null,
+    };
+  }
+
+  if (cube.hasItems) {
+    // the cell elements used for row headings
+    cube.rowHeadingMeta = {
+      code: 'item.code',
+      label: 'item.label',
+      class: 'item.return_form_structure',
+    };
+
     if (cube.model.dimensions.item.attributes.return_form_structure) cube.drilldown.push('item.return_form_structure');
     if (cube.model.dimensions.item.attributes.position_in_return_form) {
       cube.order = 'item.position_in_return_form:asc';
+    } else {
+      cube.order = 'item.code:asc';
     }
   }
   // do we have government functions?
@@ -305,6 +324,11 @@
           chosen = this.filters.get('amountType'),
           year = this.filters.get('year');
 
+      if (!cube.hasAmountType) {
+        this.$('section.amount-type').hide();
+        return;
+      }
+
       if (!_.isEmpty(this.amountTypes)) {
         $chooser.closest('section').show();
         $chooser.empty();
@@ -318,6 +342,11 @@
     },
 
     renderFunctions: function() {
+      if (!cube.hasFunctions) {
+        this.$('section.function').hide();
+        return;
+      }
+
       if (_.isEmpty(cube.functions)) return;
 
       if ($('#function-box li').length === 0) {
@@ -480,12 +509,21 @@
     },
 
     preload: function() {
+      if (!cube.hasItems) return;
+
       var self = this;
 
       spinnerStart();
       $.get(MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/item?order=' + cube.order, function(data) {
         // we only care about items that have a label
-        cube.itemHeadings = _.select(data.data, function(d) { return d['item.label']; });
+        cube.rowHeadings = _.select(data.data, function(d) { return d[cube.rowHeadingMeta.label]; });
+        cube.rowHeadings = _.map(cube.rowHeadings, function(h) {
+          return {
+            code: h[cube.rowHeadingMeta.code],
+            label: h[cube.rowHeadingMeta.label],
+            class: h[cube.rowHeadingMeta.class],
+          };
+        });
         cube.trigger('change');
       }).always(spinnerStop);
     },
@@ -494,23 +532,24 @@
      * Update the data!
      */
     update: function() {
-      var self = this;
+      var self = this,
+          cells = [],
+          aggregating = !_.isEmpty(cube.model.measures);
 
-      if (this.filters.get('municipalities').length === 0
-          || this.filters.get('year') === null) {
+      if (this.filters.get('municipalities').length === 0 || this.filters.get('year') === null) {
         this.cells.set({items: [], meta: {}});
         return;
       }
 
-      var cells = [];
       this.cells.set('items', cells);
 
       var parts = {
-        aggregates: cube.aggregates,
         drilldown: cube.drilldown,
         cut: ['financial_year_end.year:' + this.filters.get('year')],
       };
-      if (this.filters.get('amountType')) {
+      
+      if (aggregating) parts.aggregates = cube.columns;
+      if (cube.hasAmountType && this.filters.get('amountType')) {
         parts.cut.push('amount_type.code:' + this.filters.get('amountType'));
       }
       if (cube.model.dimensions.financial_period) {
@@ -529,8 +568,8 @@
 
       spinnerStart();
       $.get(self.makeUrl(parts), function(data) {
-        self.downloadUrl = self.makeDownloadUrl(parts, data.total_cell_count);
-        self.cells.set('items', self.cells.get('items').concat(data.cells));
+        self.downloadUrl = self.makeDownloadUrl(parts, aggregating ? data.total_cell_count : data.total_fact_count);
+        self.cells.set('items', self.cells.get('items').concat(aggregating ? data.cells : data.data));
       }).always(spinnerStop);
     },
 
@@ -541,8 +580,10 @@
       _.extend(params, {
         page: 1,
         pagesize: pagesize,
-        order: 'demarcation.code:asc,' + cube.order,
+        order: 'demarcation.code:asc',
       });
+
+      if (cube.order) params.order += ',' + cube.order;
 
       // copy this, we're going to change it
       params.drilldown = params.drilldown.slice();
@@ -561,7 +602,7 @@
     },
 
     makeUrl: function(parts) {
-      var url = MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/aggregate?';
+      var url = MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/' + (parts.aggregates ? 'aggregate': 'facts') + '?';
       return url + _.map(parts, function(value, key) {
         if (_.isArray(value)) value = value.join('|');
         return key + '=' + encodeURIComponent(value);
@@ -569,7 +610,12 @@
     },
 
     render: function() {
-      if (cube.itemHeadings) {
+      if (!cube.hasItems) {
+        // use year labels as items
+        cube.rowHeadings = [{code: this.filters.get('year'), label: null}];
+      }
+
+      if (cube.rowHeadings || !cube.hasItems) {
         this.renderRowHeadings();
 
         if (municipalities) {
@@ -586,7 +632,7 @@
       var table = this.$('.row-headings').empty()[0];
       var blanks = 1;
 
-      if (cube.aggregates.length > 1) blanks++;
+      if (cube.columns.length > 1) blanks++;
       if (!_.isEmpty(this.filters.get('functions'))) blanks++;
 
       for (var i = 0; i < blanks; i++) {
@@ -594,18 +640,20 @@
         table.insertRow().appendChild(spacer[0]);
       }
 
-      for (i = 0; i < (cube.itemHeadings || []).length; i++) {
-        var item = cube.itemHeadings[i];
+      for (i = 0; i < (cube.rowHeadings || []).length; i++) {
+        var heading = cube.rowHeadings[i];
         var tr = table.insertRow();
         var td;
 
-        $(tr).addClass('item-' + item['item.return_form_structure']);
+        $(tr).addClass('item-' + heading.class);
 
         td = tr.insertCell();
-        td.innerText = item['item.code'];
-        td = tr.insertCell();
-        td.innerText = item['item.label'];
-        td.setAttribute('title', item['item.label']);
+        td.innerText = heading.code;
+        if (heading.label) {
+          td = tr.insertCell();
+          td.innerText = heading.label;
+          td.setAttribute('title', heading.label);
+        }
       }
     },
 
@@ -620,7 +668,7 @@
         var muni = municipalities[munis[i]];
         var th = document.createElement('th');
         th.innerText = muni.name;
-        th.setAttribute('colspan', cube.aggregates.length * Math.max(functions.length, 1));
+        th.setAttribute('colspan', cube.columns.length * Math.max(functions.length, 1));
         th.setAttribute('title', muni.demarcation_code);
         tr.appendChild(th);
       }
@@ -633,14 +681,14 @@
           _.each(functions, function(func) {
             var th = document.createElement('th');
             th.innerText = func.label;
-            th.setAttribute('colspan', cube.aggregates.length);
+            th.setAttribute('colspan', cube.columns.length);
             tr.appendChild(th);
           });
         });
       }
 
-      // aggregate headings
-      if (cube.aggregates.length > 1) {
+      // column (aggregate) headings
+      if (cube.columns.length > 1) {
         tr = table.insertRow();
 
         _.times(munis.length, function() {
@@ -666,7 +714,7 @@
       var self = this;
 
       // group cells by item code then municipality
-      cells = _.groupBy(cells, 'item.code');
+      cells = _.groupBy(cells, cube.rowHeadingMeta.code);
       _.each(cells, function(items, code) {
         cells[code] = _.groupBy(items, 'demarcation.code');
 
@@ -680,18 +728,18 @@
 
       // values
       if (!_.isEmpty(cells)) {
-        for (var i = 0; i < cube.itemHeadings.length; i++) {
-          var row = cube.itemHeadings[i];
+        for (var i = 0; i < cube.rowHeadings.length; i++) {
+          var heading = cube.rowHeadings[i];
           var tr = table.insertRow();
-          $(tr).addClass('item-' + row['item.return_form_structure']);
+          $(tr).addClass('item-' + heading.class);
 
           // highlight?
-          if (highlights[row['item.code']]) toHighlight.push(table.rows.length-1);
+          if (highlights[heading.code]) toHighlight.push(table.rows.length-1);
 
           // each muni
           for (var j = 0; j < munis.length; j++) {
             var muni = municipalities[munis[j]];
-            var muni_data = cells[row['item.code']];
+            var muni_data = cells[heading.code];
             if (muni_data) muni_data = muni_data[muni.demarcation_code];
 
             if (functions.length > 0) {
@@ -721,11 +769,11 @@
     },
 
     renderMuniValues: function(muni, cell, tr) {
-      for (var a = 0; a < cube.aggregates.length; a++) {
-        var v = (cell ? cell[cube.aggregates[a]] : null);
+      for (var a = 0; a < cube.columns.length; a++) {
+        var v = (cell ? cell[cube.columns[a]] : null);
         if (v === null) {
           v = "·";
-        } else {
+        } else if (_.isNumber(v)) {
           v = this.format(v);
         }
 
