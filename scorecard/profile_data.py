@@ -129,6 +129,7 @@ class IndicatorCalculator(object):
 
     def response_to_results(self, api_response, query):
         self.raise_if_overloaded(api_response.result())
+        self.raise_if_paged(api_response.result())
         api_response.result().raise_for_status()
         response_dict = api_response.result().json()
         if query['query_type'] == 'facts':
@@ -143,6 +144,13 @@ class IndicatorCalculator(object):
         if response.status_code == 500:
             if response.json().get("message") == DB_TIMEOUT_MSG:
                 raise APIOverloadedException("API Overloaded")
+
+    def raise_if_paged(self, response):
+        body = response.json()
+        if body.get("total_cell_count") == body.get("page_size") \
+           and body.get("total_cell_count") is not None:
+            url = response.url
+            raise Exception("Page is full: should check next page for %s " % url)
 
     def cash_coverage(self):
         values = []
