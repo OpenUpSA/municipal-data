@@ -190,16 +190,6 @@ PYSCSS_LOAD_PATHS = [
 
 PIPELINE = {
     'STYLESHEETS': {
-        'babbage': {
-            'source_filenames': (
-                'bower_components/fontawesome/css/font-awesome.css',
-                'bower_components/babbage.ui/dist/deps.css',
-                'bower_components/babbage.ui/dist/babbage.ui.css',
-                'bower_components/babbage.ui/dist/embed.css',
-                'stylesheets/explore.scss',
-            ),
-            'output_filename': 'babbage.css',
-        },
         'docs': {
             'source_filenames': (
                 'bower_components/fontawesome/css/font-awesome.css',
@@ -243,26 +233,6 @@ PIPELINE = {
                 'javascript/app.js',
             ),
             'output_filename': 'app.js',
-        },
-        'babbage': {
-            'source_filenames': (
-                'javascript/vendor/jquery-1.12.3.min.js',
-                'bower_components/babbage.ui/dist/deps.js',
-                'bower_components/babbage.ui/dist/templates.js',
-                'bower_components/babbage.ui/src/util.js',
-                'bower_components/babbage.ui/src/app.js',
-                'bower_components/babbage.ui/src/api.js',
-                'bower_components/babbage.ui/src/babbage.js',
-                'bower_components/babbage.ui/src/crosstab.js',
-                'bower_components/babbage.ui/src/facts.js',
-                'bower_components/babbage.ui/src/treemap.js',
-                'bower_components/babbage.ui/src/sankey.js',
-                'bower_components/babbage.ui/src/chart.js',
-                'bower_components/babbage.ui/src/panel.js',
-                'bower_components/babbage.ui/src/pager.js',
-                'bower_components/babbage.ui/src/workspace.js',
-            ),
-            'output_filename': 'babbage.js',
         },
         'docs': {
             'source_filenames': (
