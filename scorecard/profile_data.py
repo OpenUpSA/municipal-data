@@ -26,8 +26,7 @@ import dateutil.parser
 import logging
 import urllib
 
-from municipal_finance.cubes import APIOverloadedException
-from wazimap.data.utils import percent, ratio
+from utils import percent, ratio
 
 logger = logging.getLogger('municipal_finance')
 
@@ -40,6 +39,10 @@ YEAR_ITEM_DRILLDOWN = [
     'item.code',
     'financial_year_end.year',
 ]
+
+
+class APIOverloadedException(BaseException):
+    pass
 
 
 class MuniApiClient(object):

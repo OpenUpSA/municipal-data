@@ -41,9 +41,6 @@ class PreloadingJSONCubeManager(JSONCubeManager):
         return self._models[name]
 
 
-class APIOverloadedException(BaseException):
-    pass
-
 _cube_manager = None
 
 
