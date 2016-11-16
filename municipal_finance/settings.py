@@ -203,6 +203,7 @@ PIPELINE = {
         'docs': {
             'source_filenames': (
                 'bower_components/fontawesome/css/font-awesome.css',
+                'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss',
                 'slate/stylesheets/screen.css',
                 'stylesheets/docs.scss',
             ),
@@ -276,6 +277,10 @@ PIPELINE = {
                 'slate/javascripts/app/_lang.js',
                 'slate/javascripts/app/_search.js',
                 'slate/javascripts/app/_toc.js',
+                'bower_components/underscore/underscore-min.js',
+                'bower_components/backbone/backbone-min.js',
+                'javascript/vendor/js.cookie.js',
+                'bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js',
                 'javascript/docs.js',
             ),
             'output_filename': 'docs.js',
