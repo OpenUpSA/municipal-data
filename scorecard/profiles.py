@@ -1,5 +1,6 @@
 from wazimap.data.tables import get_datatable
 from wazimap.geo import geo_data
+from django.conf import settings
 
 
 from profile_data import IndicatorCalculator
@@ -15,7 +16,7 @@ def get_profile(geo_code, geo_level, profile_name=None):
     if geo.square_kms:
         population_density = total_pop / geo.square_kms
 
-    indicator_calc = IndicatorCalculator(geo_code)
+    indicator_calc = IndicatorCalculator(settings.API_URL_INTERNAL, geo_code)
     indicator_calc.fetch_data()
 
     indicators = {}

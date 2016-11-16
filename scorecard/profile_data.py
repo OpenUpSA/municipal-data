@@ -20,7 +20,6 @@ to indicate in the page that it is missing.
 from collections import defaultdict, OrderedDict
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
-from django.conf import settings
 from itertools import groupby
 from requests_futures.sessions import FuturesSession
 import dateutil.parser
@@ -44,8 +43,8 @@ YEAR_ITEM_DRILLDOWN = [
 
 
 class MuniApiClient(object):
-    def __init__(self):
-        self.API_URL = settings.API_URL_INTERNAL + "/cubes/"
+    def __init__(self, api_url):
+        self.API_URL = api_url + "/cubes/"
         self.session = FuturesSession(executor=EXECUTOR)
 
     def api_get(self, query):
@@ -86,11 +85,11 @@ class MuniApiClient(object):
 
 
 class IndicatorCalculator(object):
-    def __init__(self, geo_code, years=YEARS, client=None):
+    def __init__(self, api_url, geo_code, years=YEARS, client=None):
         self.years = list(years)
         self.geo_code = str(geo_code)
         self.budget_year = self.years[0] + 1
-        self.client = client or MuniApiClient()
+        self.client = client or MuniApiClient(api_url)
 
         self.references = {
             'solgf': {
