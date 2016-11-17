@@ -29,7 +29,6 @@ class AgedCreditorFacts(models.Model):
     amount_type_code = models.TextField()
 
     class Meta:
-        managed = False
         db_table = 'aged_creditor_facts'
 
 
@@ -41,7 +40,6 @@ class AgedCreditorItems(models.Model):
     composition = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'aged_creditor_items'
 
 
@@ -67,7 +65,6 @@ class AgedDebtorFacts(models.Model):
     amount_type_code = models.TextField()
 
     class Meta:
-        managed = False
         db_table = 'aged_debtor_facts'
         unique_together = (('demarcation_code', 'period_code', 'customer_group_code', 'item_code'),)
 
@@ -80,7 +77,6 @@ class AgedDebtorItems(models.Model):
     composition = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'aged_debtor_items'
 
 
@@ -89,7 +85,6 @@ class AmountType(models.Model):
     label = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'amount_type'
 
 
@@ -101,7 +96,6 @@ class AuditOpinionFacts(models.Model):
     report_url = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'audit_opinion_facts'
 
 
@@ -112,7 +106,6 @@ class AuditOpinions(models.Model):
     opinion_label = models.TextField()
 
     class Meta:
-        managed = False
         db_table = 'audit_opinions'
         unique_together = (('demarcation_code', 'financial_year'),)
 
@@ -128,7 +121,6 @@ class BsheetFacts(models.Model):
     amount_type_code = models.TextField()
 
     class Meta:
-        managed = False
         db_table = 'bsheet_facts'
         unique_together = (('demarcation_code', 'period_code', 'item_code'),)
 
@@ -141,7 +133,6 @@ class BsheetItems(models.Model):
     composition = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'bsheet_items'
 
 
@@ -161,7 +152,6 @@ class CapitalFacts(models.Model):
     amount_type_code = models.TextField()
 
     class Meta:
-        managed = False
         db_table = 'capital_facts'
         unique_together = (('demarcation_code', 'period_code', 'function_code', 'item_code'),)
 
@@ -174,7 +164,6 @@ class CapitalItems(models.Model):
     composition = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'capital_items'
 
 
@@ -189,7 +178,6 @@ class CflowFacts(models.Model):
     financial_period = models.IntegerField()
 
     class Meta:
-        managed = False
         db_table = 'cflow_facts'
         unique_together = (('demarcation_code', 'period_code', 'item_code'),)
 
@@ -202,7 +190,6 @@ class CflowItems(models.Model):
     composition = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'cflow_items'
 
 
@@ -211,7 +198,6 @@ class ConditionalGrants(models.Model):
     name = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'conditional_grants'
 
 
@@ -226,7 +212,6 @@ class ConditionalGrantsFacts(models.Model):
     financial_period = models.IntegerField()
 
     class Meta:
-        managed = False
         db_table = 'conditional_grants_facts'
         unique_together = (('demarcation_code', 'period_code', 'grant_code'),)
 
@@ -238,7 +223,6 @@ class GovernmentFunctions(models.Model):
     subcategory_label = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'government_functions'
 
 
@@ -254,7 +238,6 @@ class IncexpFacts(models.Model):
     amount_type_code = models.TextField()
 
     class Meta:
-        managed = False
         db_table = 'incexp_facts'
         unique_together = (('demarcation_code', 'period_code', 'function_code', 'item_code'),)
 
@@ -267,7 +250,6 @@ class IncexpItems(models.Model):
     composition = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'incexp_items'
 
 
@@ -281,7 +263,6 @@ class MunicipalityStaffContacts(models.Model):
     email_address = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'municipality_staff_contacts'
 
 
@@ -296,7 +277,6 @@ class RepmaintFacts(models.Model):
     amount_type_code = models.TextField()
 
     class Meta:
-        managed = False
         db_table = 'repmaint_facts'
         unique_together = (('demarcation_code', 'period_code', 'item_code'),)
 
@@ -309,7 +289,6 @@ class RepmaintItems(models.Model):
     composition = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'repmaint_items'
 
 
@@ -325,6 +304,7 @@ class ScorecardGeography(models.Model):
     province_name = models.CharField(max_length=100)
     province_code = models.CharField(max_length=5)
     category = models.CharField(max_length=2)
+    development_category = models.TextField(null=True)
     postal_address_1 = models.TextField(blank=True, null=True)
     postal_address_2 = models.TextField(blank=True, null=True)
     postal_address_3 = models.TextField(blank=True, null=True)
@@ -337,7 +317,6 @@ class ScorecardGeography(models.Model):
     street_address_3 = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'scorecard_geography'
         unique_together = (('geo_level', 'geo_code'),)
 
@@ -350,6 +329,5 @@ class UifwexpFacts(models.Model):
     amount = models.BigIntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'uifwexp_facts'
         unique_together = (('demarcation_code', 'financial_year', 'item_code'),)
