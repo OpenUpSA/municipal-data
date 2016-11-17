@@ -3,6 +3,8 @@ sys.path.append('.')
 
 from scorecard.profile_data import IndicatorCalculator, MuniApiClient
 import argparse
+import copy
+import csv
 import json
 
 API_URL = 'https://municipaldata.treasury.gov.za/api'
@@ -11,6 +13,7 @@ def main():
 
     parser = argparse.ArgumentParser(description='Tool to dump the materialised views of the municipal finance data used on the Municipal Money website.')
     parser.add_argument('--api-url', help='API URL to use. Default: ' + API_URL)
+    parser.add_argument('--write-csv', help='Write indicator values to dedicated CSV files in the current working directory', action='store_true')
 
     args = parser.parse_args()
     if args.api_url:
@@ -25,7 +28,27 @@ def main():
         profile = get_muni_profile(api_client, muni.get('municipality.demarcation_code'))
         muni.update(profile)
 
-    print(json.dumps(munis))
+    if args.write_csv:
+        write_csvs(munis)
+    else:
+        print(json.dumps(munis))
+
+
+def write_csvs(munis):
+    indicators = munis[0]['indicators'].keys()
+    for indicator in indicators:
+        if munis[0]['indicators'][indicator].get('values'):
+            example_value = munis[0]['indicators'][indicator]['values'][0]
+            fieldnames = ['demarcation_code'] + example_value.keys()
+            with open(indicator + '.csv', 'w') as file:
+                writer = csv.DictWriter(file, fieldnames)
+                writer.writeheader()
+
+                for muni in munis:
+                    values = copy.copy(muni['indicators'][indicator]['values'])
+                    for value in values:
+                        value['demarcation_code'] = muni['municipality.demarcation_code']
+                        writer.writerow(value)
 
 
 def get_muni_profile(client, demarcation_code):
