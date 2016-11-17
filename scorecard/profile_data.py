@@ -63,10 +63,12 @@ class MuniApiClient(object):
         elif query['query_type'] == 'facts':
             url = self.API_URL + query['cube'] + '/facts'
             params = {
-                'cut': self.format_cut_param(query['cut']),
                 'fields': ','.join(field for field in query['fields']),
                 'page': 0
             }
+            if query.get('cut'):
+                params['cut'] = self.format_cut_param(query.get('cut'))
+
         elif query['query_type'] == 'model':
             url = self.API_URL + query['cube'] + '/model'
             params = {}
