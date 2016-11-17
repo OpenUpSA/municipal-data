@@ -67,22 +67,6 @@ def docs(request):
 
 
 @xframe_options_exempt
-def explore(request, cube_name):
-    cubes = []
-    for name in get_manager().list_cubes():
-        cubes.append({
-            'model': get_manager().get_cube(name).model.to_dict(),
-            'name': name,
-        })
-    cube = get_manager().get_cube(cube_name).model.to_dict()
-    return render(request, 'explore.html', {
-        'cube_name': cube_name,
-        'cube_model': cube,
-        'cubes': cubes,
-    })
-
-
-@xframe_options_exempt
 def embed(request, cube_name):
     return render(request, 'embed.html')
 
