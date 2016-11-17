@@ -63,6 +63,7 @@ def get_munis(api_client):
                                  'fields': [
                                      'municipality.demarcation_code',
                                      'municipality.name',
+                                     'municipality.development_category',
                                  ],
                                  'value_label': '',
     })
