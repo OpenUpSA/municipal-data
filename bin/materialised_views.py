@@ -39,7 +39,7 @@ def write_csvs(munis):
     for indicator in indicators:
         if munis[0]['indicators'][indicator].get('values'):
             example_value = munis[0]['indicators'][indicator]['values'][0]
-            fieldnames = ['demarcation_code'] + example_value.keys()
+            fieldnames = ['demarcation_code', 'development_category'] + example_value.keys()
             with open(indicator + '.csv', 'w') as file:
                 writer = csv.DictWriter(file, fieldnames)
                 writer.writeheader()
@@ -48,6 +48,7 @@ def write_csvs(munis):
                     values = copy.copy(muni['indicators'][indicator]['values'])
                     for value in values:
                         value['demarcation_code'] = muni['municipality.demarcation_code']
+                        value['development_category'] = muni['municipality.development_category']
                         writer.writerow(value)
 
 
