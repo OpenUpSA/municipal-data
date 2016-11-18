@@ -156,8 +156,8 @@
 
     <h2 id="pagination">Pagination</h2>
 
-    <p>Some API responses are paginated. By default, a maximum of 10 000 items are returned per page. The response includes information on the page size,
-    current page, and total number of results to assist with pagination.</p>
+    <p>Pagination is important to make sure the client and server handle a mangeable amount of data at a time. The result of a query may be broken up into multiple pages. By default, a maximum of 10 000 items are returned per page. The response includes information on the page size,
+    current page, and total number of results to assist with pagination. If the page size is smaller than the <code>total_fact_count</code> or <code>total_cell_count</code> of a given query (depending on the kind of query), you might want to request the remaining pages and collect the results client-side.</p>
 
     <pre>
 {
@@ -542,6 +542,20 @@ GET /api/cubes/incexp/aggregate
         <td>Determines whether output is in <code>json</code> or <code>csv</code> format. </td>
       </tr>
     </table>
+
+    <h1 id="best-practises">Best Practises</h1>
+
+    <p>For the best possible experience using the API, follow these best practises:</p>
+
+    <ul>
+      <li>Use <a href="#pagination">pagination</a> to get all the requested data</li>
+      <li>Request only the fields you need to minimise the data clients need to download</li>
+      <li>Look for an explanation message in error responses. If the response doesn't help you to resolve the issue, <a href="#getting-help">get in touch with us</a></li>
+    </ul>
+
+    <h1 id="getting-help">Getting Help</h1>
+
+    <p>You can get help with the API at <a href="mailto:helpdesk@municipalmoney.gov.za">helpdesk@municipalmoney.gov.za</a></p>
 
   </div>
 </div>
