@@ -84,6 +84,21 @@ def status(request):
 
 
 @xframe_options_exempt
+def api_root(request):
+    """
+    List available endpoints.
+    """
+    endpoints = [
+        request.build_absolute_uri() + '/cubes',
+    ]
+    return jsonify({
+        'endpoints': endpoints,
+        'documentation': 'https://municipaldata.treasury.gov.za/docs',
+    })
+
+
+
+@xframe_options_exempt
 def cubes(request):
     """ Get a listing of all publicly available cubes. """
     cubes = []
@@ -93,10 +108,29 @@ def cubes(request):
             'name': name,
             'label': cube.model.spec['label'],
             'description': cube.model.spec['description'],
+            'uri': request.build_absolute_uri() + '/' + name,
         })
     return jsonify({
         'status': 'ok',
         'data': cubes
+    })
+
+
+@xframe_options_exempt
+def cube_root(request, cube_name):
+    """
+    List available endpoints.
+    """
+    uri = request.build_absolute_uri()
+    endpoints = [
+        uri + '/model',
+        uri + '/members',
+        uri + '/facts',
+        uri + '/aggregate',
+    ]
+    return jsonify({
+        'endpoints': endpoints,
+        'documentation': 'https://municipaldata.treasury.gov.za/docs',
     })
 
 
@@ -151,6 +185,18 @@ def facts(request, cube_name):
     elif format in DUMP_FORMATS:
         return serialize(format, cube_name + '_facts', result['fields'], result['data'])
 
+
+@xframe_options_exempt
+def members_root(request, cube_name):
+    cube = get_manager().get_cube(cube_name)
+    (model,) = cube.model.to_dict(),
+    members = model['dimensions'].keys()
+    uri = request.build_absolute_uri()
+    endpoints = [uri + '/' + member for member in members]
+    return jsonify({
+        'endpoints': endpoints,
+        'documentation': 'https://municipaldata.treasury.gov.za/docs',
+    })
 
 @xframe_options_exempt
 def members(request, cube_name, member_ref):
