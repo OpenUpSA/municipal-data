@@ -49,4 +49,13 @@ urlpatterns = [
             content_type="text/plain"
         )
     ),
+    url(
+        regex='^api/?$',
+        view=lambda r: HttpResponse(
+            "The API is at https://municipaldata.treasury.gov.za/api\n" +
+            "The API Documentation is at https://municipaldata.treasury.gov.za/docs\n",
+            content_type="text/plain",
+            status=404
+        )
+    ),
 ]
