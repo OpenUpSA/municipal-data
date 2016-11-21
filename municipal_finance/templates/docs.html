@@ -245,7 +245,7 @@
     <h2 id="list-cubes">List Cubes</h2>
 
     <p>
-      <code>GET /cubes</code>
+      <code>GET <a target="_blank" href="https://municipaldata.treasury.gov.za/api/cubes">https://municipaldata.treasury.gov.za/api/cubes</a></code>
     </p>
 
     <pre id="get-cubes">(loading...)</pre>
@@ -255,7 +255,10 @@
     <h2 id="model">Get a Cube's Model</h2>
 
     <p>
-      <code>GET /cubes/&lt;name&gt;/model</code>
+      <code>GET https://municipaldata.treasury.gov.za/api/cubes/&lt;name&gt;/model</code>
+    </p>
+    <p>
+      <code>GET <a target="_blank" href="https://municipaldata.treasury.gov.za/api/cubes/incexp/model">https://municipaldata.treasury.gov.za/api/cubes/incexp/model</a></code>
     </p>
     <pre>
 GET /cubes/incexp/model
@@ -358,7 +361,8 @@ GET /cubes/incexp/facts?pagesize=2
   ]
 }
     </pre>
-    <p><code>GET /cubes/&lt;name&gt;/facts</code></p>
+    <p><code>GET https://municipaldata.treasury.gov.za/api/cubes/&lt;name&gt;/facts</code></p>
+    <p><code>GET <a target="_blank" href="https://municipaldata.treasury.gov.za/api/cubes/incexp/facts?pagesize=5">https://municipaldata.treasury.gov.za/api/cubes/incexp/facts?pagesize=5</a></code></p>
 
     <p>Get individual entries from a cube in a non-aggregated form.</p>
 
@@ -426,7 +430,10 @@ GET /cubes/incexp/members/demarcation?pagesize=3
 }
     </pre>
 
-    <p><code>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</code></p>
+    <p><code>GET https://municipaldata.treasury.gov.za/api/cubes/&lt;name&gt;/members/&lt;member_name&gt;</code></p>
+    <p><code>GET <a target="_blank" href="https://municipaldata.treasury.gov.za/api/cubes/incexp/members/demarcation">https://municipaldata.treasury.gov.za/api/cubes/incexp/members/demarcation</a></code></p>
+    <p><code>GET <a target="_blank" href="https://municipaldata.treasury.gov.za/api/cubes/incexp/members/demarcation.label">https://municipaldata.treasury.gov.za/api/cubes/incexp/members/demarcation.label</a></code></p>
+    <p><code>GET <a target="_blank" href="https://municipaldata.treasury.gov.za/api/cubes/incexp/members/demarcation?cut=financial_year_end.year:2016">https://municipaldata.treasury.gov.za/api/cubes/incexp/members/demarcation?cut=financial_year_end.year:2016</a></code></p>
 
     <p>Get distinct values for a given member (dimension) of a cube. For example, all the suppliers in a procurement dataset.</p>
 
@@ -505,7 +512,9 @@ GET /api/cubes/incexp/aggregate
 }
     </pre>
 
-    <p><code>GET /cubes/&lt;name&gt;/aggregate</code></p>
+    <p><code>GET https://municipaldata.treasury.gov.za/api/cubes/&lt;name&gt;/aggregate</code></p>
+    <p><code>GET <a target="_blank" href='https://municipaldata.treasury.gov.za/api/cubes/incexp/aggregate?drilldown=demarcation.code|demarcation.label|item.code|item.label|item.return_form_structure&cut=financial_year_end.year:2015|amount_type.code:AUDA|financial_period.period:2015|demarcation.code:"TSH"&aggregates=amount.sum'>https://municipaldata.treasury.gov.za/api/cubes/incexp/aggregate?drilldown=demarcation.code|demarcation.label|item.code|item.label|item.return_form_structure&cut=financial_year_end.year:2015|amount_type.code:AUDA|financial_period.period:2015|demarcation.code:"TSH"&aggregates=amount.sum</a></code></p>
+    <p><code>GET <a target="_blank" href='https://municipaldata.treasury.gov.za/api/cubes/incexp/aggregate?drilldown=demarcation.code|demarcation.label|item.code|item.label|function.code|function.label|item.return_form_structure&cut=financial_year_end.year:2015|amount_type.code:AUDA|financial_period.period:2015|demarcation.code:"TSH"|item.code:"2800";"5200"&aggregates=amount.sum'>https://municipaldata.treasury.gov.za/api/cubes/incexp/aggregate?drilldown=demarcation.code|demarcation.label|item.code|item.label|function.code|function.label|item.return_form_structure&cut=financial_year_end.year:2015|amount_type.code:AUDA|financial_period.period:2015|demarcation.code:"TSH"|item.code:"2800";"5200"&aggregates=amount.sum</a></code></p>
 
     <p>Returns aggregate views of the facts in a cube.</p>
 
