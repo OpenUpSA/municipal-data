@@ -436,7 +436,7 @@ blockquote {
     display: inline-block;
     color: $white;
     font-size: 22px;
-    font-weight: 900;
+    font-weight: bold;
     margin-right: 5px;
     opacity: 0;
     transition: all 1s ease;
@@ -445,7 +445,7 @@ blockquote {
   .page-nav-info .muni-population {
     display: inline-block;
     font-size: $font-size-h6;
-    font-weight: 700;
+    font-weight: bold;
     text-transform: uppercase;
     color: rgba(0,0,0,0.5);
     opacity: 0;
@@ -456,7 +456,7 @@ blockquote {
     height: 69px;
     color: rgba(255,255,255,0.5);
     font-size: 12px;
-    font-weight: 900;
+    font-weight: bold;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -661,7 +661,7 @@ blockquote {
   .video-description {
     background-color: $white;
     padding: 5px;
-    font-weight: 700;
+    font-weight: bold;
     text-align: left;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -759,7 +759,7 @@ blockquote {
   margin-bottom: 15px;
   .person-role {
     font-size: 12px;
-    font-weight: 900;
+    font-weight: bold;
     text-transform: uppercase;
     color: $brand-secondary;
   }
@@ -860,6 +860,7 @@ blockquote {
   font-size: 12px;
   font-weight: bold;
   .icon {
+    font-size: 10px;
     margin-right: 2px;
   }
   a {
@@ -973,12 +974,12 @@ blockquote {
   }
   table.indicator-key {
     width: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px 0px 10px -5px;
     border: 1px solid $gray-lighter;
+    font-size: 13px;
 
     td, th {
-      padding: 3px 5px;
+      padding: 1px 5px;
     }
   }
   .key-symbol {
@@ -1311,6 +1312,7 @@ blockquote {
 // Charts
 
 .chart-container {
+  margin-top: 40px;
   font-size: 12px;
 
   rect.chart-bar,
@@ -1348,6 +1350,7 @@ blockquote {
   }
 
   @media (max-width: 767px) {
+    margin-top: 0px;
     margin-bottom: 20px;
   }
 }
