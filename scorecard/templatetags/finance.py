@@ -16,32 +16,32 @@ register = template.Library()
 # about the same as similar municipalities in Western Cape: R123 123 123
 # about half of the figure for similar municipalities nationally: R456 456 456
 RELATIVE_PHRASE_MAP = {
-    206: ["more than double", "the figure for"],
-    195: ["about double", "the figure for"],
-    180: ["nearly double", "the figure for"],
-    161: ["more than 1.5 times", "the figure for"],
-    145: ["about 1.5 times", "the figure for"],
-    135: ["about 1.4 times", "the figure for"],
-    128: ["about 1.3 times", "the figure for"],
+    206: ["more than double", "the {0} for"],
+    195: ["about double", "the {0} for"],
+    180: ["nearly double", "the {0} for"],
+    161: ["more than 1.5 times", "the {0} for"],
+    145: ["about 1.5 times", "the {0} for"],
+    135: ["about 1.4 times", "the {0} for"],
+    128: ["about 1.3 times", "the {0} for"],
     122: ["about 25 percent higher", "than"],
     115: ["about 20 percent higher", "than"],
     107: ["about 10 percent higher", "than"],
     103: ["a little higher", "than"],
     98: ["about the same as", ""],
     94: ["a little less", "than"],
-    86: ["about 90 percent", "of the figure for"],
-    78: ["about 80 percent", "of the figure for"],
-    72: ["about three-quarters", "of the figure for"],
-    64: ["about two-thirds", "of the figure for"],
-    56: ["about three-fifths", "of the figure for"],
-    45: ["about half", "of the figure for"],
-    37: ["about two-fifths", "of the figure for"],
-    30: ["about one-third", "of the figure for"],
-    23: ["about one-quarter", "of the figure for"],
-    17: ["about one-fifth", "of the figure for"],
-    13: ["less than a fifth", "of the figure for"],
-    8: ["about 10 percent", "of the figure for"],
-    0: ["less than 10 percent", "of the figure for"],
+    86: ["about 90 percent", "of the {0} for"],
+    78: ["about 80 percent", "of the {0} for"],
+    72: ["about three-quarters", "of the {0} for"],
+    64: ["about two-thirds", "of the {0} for"],
+    56: ["about three-fifths", "of the {0} for"],
+    45: ["about half", "of the {0} for"],
+    37: ["about two-fifths", "of the {0} for"],
+    30: ["about one-third", "of the {0} for"],
+    23: ["about one-quarter", "of the {0} for"],
+    17: ["about one-fifth", "of the {0} for"],
+    13: ["less than a fifth", "of the {0} for"],
+    8: ["about 10 percent", "of the {0} for"],
+    0: ["less than 10 percent", "of the {0} for"],
 }
 RELATIVE_PHRASE_THRESHOLDS = sorted([k for k, v in RELATIVE_PHRASE_MAP.iteritems()])
 
@@ -135,7 +135,7 @@ def formatvalue(n, typ):
 
 
 @register.inclusion_tag('profile/_comparative_list.html', takes_context=True)
-def render_comparatives(context, indicator_name, result, result_type=None):
+def render_comparatives(context, indicator_name, result, result_type=None, noun='figure'):
     # about the same as similar municipalities in Western Cape: R123 123 123
     # about half of the figure for similar municipalities nationally: R456 456 456
     # about two thirds of similar municipalities nationally [in Gauteng] have a positive cash balance
@@ -143,6 +143,7 @@ def render_comparatives(context, indicator_name, result, result_type=None):
     geo = context['geography']
     medians = context['medians']
     indicator = context['indicators'][indicator_name]
+    indicator['noun'] = noun
     date = str(result['date'])
 
     # XXX
@@ -189,7 +190,7 @@ def render_comparatives(context, indicator_name, result, result_type=None):
 
 
 @register.filter
-def comparison_relative_words(value):
+def comparison_relative_words(value, noun):
     """ Express +value+, which is a value from [0, 1.0],
     as relative comparison between two places.
 
@@ -206,7 +207,7 @@ def comparison_relative_words(value):
     phrase_key = max(k for k in RELATIVE_PHRASE_THRESHOLDS if k <= index)
 
     phrase_bits = RELATIVE_PHRASE_MAP[phrase_key]
-    phrase = "<strong>%s</strong> %s" % (phrase_bits[0], phrase_bits[1])
+    phrase = "<strong>%s</strong> %s" % (phrase_bits[0], phrase_bits[1].format(noun))
     return mark_safe(phrase)
 
 
