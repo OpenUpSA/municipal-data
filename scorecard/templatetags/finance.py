@@ -130,33 +130,42 @@ def formatvalue(n, typ):
     return n
 
 
-@register.inclusion_tag('profile/_comparative_list.html')
-def render_comparatives(indicator, noun_phrase):
+@register.inclusion_tag('profile/_comparative_list.html', takes_context=True)
+def render_comparatives(context, indicator_name, result, result_type):
     # about the same as similar municipalities in Western Cape: R123 123 123
     # about half of the figure for similar municipalities nationally: R456 456 456
     # about two thirds of similar municipalities nationally [in Gauteng] have a positive cash balance
     # no similar municipalities nationally [in Mpumalanga] have a positive cash balance
-    indicator['noun_phrase'] = noun_phrase
-    indicator['result_type'] = 'R'
+    geo = context['geography']
+    medians = context['medians']
+    indicator = context['indicators'][indicator_name]
+    date = result['date']
+
+    # XXX
+    # medians = context['medians']
+    medians = {
+        'cash_at_year_end': {
+            'province': {'dev_cat': {2015: 1000}},
+            'national': {'dev_cat': {2015: 50000000}},
+        }
+    }
 
     item_context = {
         'indicator': indicator,
         'comparisons': [
             {
                 'type': 'relative',
-                'place': 'similar municipalities in Western Cape',
-                # XXX
-                'value': '123123123',
-                # XXX
-                'result': 0.73,
+                'place': 'similar municipalities in ' + geo.province_name,
+                'value': medians[indicator_name]['province']['dev_cat'][date],
+                'value_type': result_type,
+                'result': result['result'] / medians[indicator_name]['province']['dev_cat'][date],
             },
             {
                 'type': 'relative',
                 'place': 'similar municipalities nationally',
-                # XXX
-                'value': '123123123',
-                # XXX
-                'result': 0.55,
+                'value': medians[indicator_name]['national']['dev_cat'][date],
+                'value_type': result_type,
+                'result': result['result'] / medians[indicator_name]['national']['dev_cat'][date],
             },
             # {
             #     'type': 'norm',
