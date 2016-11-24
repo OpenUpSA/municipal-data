@@ -101,7 +101,7 @@
           Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
-          R {{ latest.result|floatformat:"0" }}
+            {{ latest.result|formatvalue:"R" }}
           {% endif %}
         </div>
         <div class="indicator-description">Cash balance at the end of the financial year.</div>
@@ -158,7 +158,7 @@
           Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
-          {{ latest.result|month_days }}
+            {{ latest.result|formatvalue:"months" }}
           {% endif %}
         </div>
         <div class="indicator-description">Months of operating expenses can be paid for with the cash available.</div>
@@ -218,7 +218,7 @@
           Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
-            {{ latest.result|absolute }}%
+            {{ latest.result|absolute|formatvalue:"p" }}
             {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
           {% endif %}
         </div>
@@ -281,7 +281,7 @@
             Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
-            {{ latest.result|absolute }}%
+            {{ latest.result|absolute|formatvalue:"p" }}
             {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
           {% endif %}
         </div>
@@ -345,7 +345,7 @@
           Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
-          {{ latest.result }}%
+            {{ latest.result|formatvalue:"p" }}
           {% endif %}
         </div>
 
@@ -403,7 +403,8 @@
           {% if latest.result == None %}
           Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
-          {% else %}{{ latest.result }}%
+          {% else %}
+            {{ latest.result|formatvalue:"p" }}
           {% endif %}
         </div>
         <div class="indicator-description">Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage of operating expenditure.</div>
@@ -459,7 +460,7 @@
           Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
-          {{ latest.result }}
+            {{ latest.result|formatvalue:"ratio" }}
           {% endif %}
         </div>
         <div class="indicator-description">The value of a municipality's short-term assets as a multiple of its short-term liabilities.</div>
@@ -519,7 +520,7 @@
           Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
-          {{ latest.result }}
+            {{ latest.result|formatvalue:"ratio" }}
           {% endif %}
         </div>
         <div class="indicator-description">The municipality's immediate ability to pay its current liabilities</div>
@@ -575,7 +576,7 @@
           Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
-          {{ latest.result }}%
+            {{ latest.result|formatvalue:"p" }}
           {% endif %}
         </div>
         <div class="indicator-description">The percentage of new revenue (generated within the financial year) that a municipality actually collects</div>

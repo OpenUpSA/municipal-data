@@ -3,6 +3,7 @@ import urllib
 from django import template
 from django.conf import settings
 from django.utils.safestring import mark_safe
+from django.template.defaultfilters import floatformat
 
 
 register = template.Library()
@@ -112,6 +113,23 @@ def month_days(n):
         return "%.2g months" % n
 
 
+@register.filter
+def formatvalue(n, typ):
+    if typ == 'currency' or typ == 'R':
+        return 'R ' + floatformat(n, "0")
+
+    if typ == 'months':
+        return month_days(n)
+
+    if typ == 'p' or typ == 'percent' or typ == '%':
+        return str(n) + '%'
+
+    if typ == 'ratio':
+        return n
+
+    return n
+
+
 @register.inclusion_tag('profile/_comparative_list.html')
 def render_comparatives(indicator, noun_phrase):
     # about the same as similar municipalities in Western Cape: R123 123 123
@@ -119,6 +137,7 @@ def render_comparatives(indicator, noun_phrase):
     # about two thirds of similar municipalities nationally [in Gauteng] have a positive cash balance
     # no similar municipalities nationally [in Mpumalanga] have a positive cash balance
     indicator['noun_phrase'] = noun_phrase
+    indicator['result_type'] = 'R'
 
     item_context = {
         'indicator': indicator,
@@ -135,16 +154,16 @@ def render_comparatives(indicator, noun_phrase):
                 'value': '123123123',
                 'result': 0.55,
             },
-            {
-                'type': 'norm',
-                'place': 'similar municipalities in Western Cape',
-                'result': 0.55,
-            },
-            {
-                'type': 'norm',
-                'place': 'similar municipalities nationally',
-                'result': 0.55,
-            },
+            # {
+            #     'type': 'norm',
+            #     'place': 'similar municipalities in Western Cape',
+            #     'result': 0.55,
+            # },
+            # {
+            #     'type': 'norm',
+            #     'place': 'similar municipalities nationally',
+            #     'result': 0.55,
+            # },
         ],
     }
     return item_context
