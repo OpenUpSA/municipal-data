@@ -105,6 +105,9 @@
           {% endif %}
         </div>
         <div class="indicator-description">Cash balance at the end of the financial year.</div>
+
+        {% render_comparatives indicators.cash_at_year_end %}
+
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
