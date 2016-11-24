@@ -8,7 +8,7 @@ import argparse
 import json
 from indicators import get_munis
 from collections import defaultdict
-from pprint import pprint
+from itertools import groupby
 
 API_URL = 'https://municipaldata.treasury.gov.za/api'
 INDICATORS = [
@@ -46,27 +46,29 @@ def main():
 
         muni.update(indicators)
 
+    nat_sets = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+    nat_medians = defaultdict(lambda: defaultdict(dict))
 
-    sets = defaultdict(lambda: defaultdict(list))
-    medians = defaultdict(dict)
-
-    # collect indicator year sets
+    # collect national-indicator-development_category-year sets
+    dev_cat_key = lambda muni: muni['municipality.development_category']
+    dev_cat_sorted = sorted(munis, key=dev_cat_key)
     for indicator in INDICATORS:
-        for muni in munis:
-            for period in muni[indicator]['values']:
-                if period['result'] is not None:
-                    sets[indicator][period['date']].append(period['result'])
+        for dev_cat, dev_cat_group in groupby(dev_cat_sorted, dev_cat_key):
+            for muni in dev_cat_group:
+                for period in muni[indicator]['values']:
+                    if period['result'] is not None:
+                        nat_sets[indicator][dev_cat][period['date']].append(period['result'])
 
-    # calculate indicator-year medians
-    for indicator in sets.keys():
-        for year in sets[indicator].keys():
-            medians[indicator][year] = median(sets[indicator][year])
+    # calculate national-indicator-development_category-year medians
+    for indicator in nat_sets.keys():
+        for dev_cat in nat_sets[indicator].keys():
+            for year in nat_sets[indicator][dev_cat].keys():
+                nat_medians[indicator][dev_cat][year] = median(nat_sets[indicator][dev_cat][year])
 
-    # write indicator-year medians
-    for indicator in medians.keys():
-        filename = "scorecard/static/indicators/distribution/median/indicator/%s.json" % indicator
-        with open(filename, 'wb') as f:
-            json.dump(medians[indicator], f, sort_keys=True, indent=4, separators=(',', ': '))
+    # write medians
+    filename = "scorecard/static/indicators/distribution/median.json"
+    with open(filename, 'wb') as f:
+        json.dump(nat_medians, f, sort_keys=True, indent=4, separators=(',', ': '))
 
 
 
