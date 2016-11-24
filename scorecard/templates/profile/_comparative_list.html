@@ -7,7 +7,7 @@
       {% if comp.type == 'relative' %}
         {{ comp.result|comparison_relative_words }} {{ comp.place }}: {{ comp.value }} (TODO: format amount correctly)
       {% elif comp.type == 'norm' %}
-        {{ comp.result|comparison_percentage_words }} {{ comp.place }} have {{ indicator.noun_phrase }}
+        {{ comp.result|comparison_percentage_words }} {{ comp.place }} have {{ indicator.noun_phrase }}.
       {% endif %}
     </li>
   {% endfor %}

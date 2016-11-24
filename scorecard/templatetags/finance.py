@@ -113,11 +113,12 @@ def month_days(n):
 
 
 @register.inclusion_tag('profile/_comparative_list.html')
-def render_comparatives(indicator):
+def render_comparatives(indicator, noun_phrase):
     # about the same as similar municipalities in Western Cape: R123 123 123
     # about half of the figure for similar municipalities nationally: R456 456 456
     # about two thirds of similar municipalities nationally [in Gauteng] have a positive cash balance
     # no similar municipalities nationally [in Mpumalanga] have a positive cash balance
+    indicator['noun_phrase'] = noun_phrase
 
     item_context = {
         'indicator': indicator,
