@@ -7,6 +7,8 @@ from django.conf import settings
 from django.utils.safestring import mark_safe
 from django.template.defaultfilters import floatformat
 
+from scorecard.utils import ratio
+
 
 register = template.Library()
 
@@ -141,15 +143,15 @@ def render_comparatives(context, indicator_name, result, result_type=None):
     geo = context['geography']
     medians = context['medians']
     indicator = context['indicators'][indicator_name]
-    date = result['date']
+    date = str(result['date'])
 
     # XXX
-    # medians = context['medians']
+    actual_medians = context.get('medians')
     import random
     def faker():
         return {
             'province': {'dev_cat': defaultdict(lambda: random.randint(100, 100000))},
-            'national': {'dev_cat': defaultdict(lambda: random.randint(100, 100000))},
+            'national': actual_medians[indicator_name]['national'],
         }
     from collections import defaultdict
     medians = defaultdict(faker)
@@ -162,14 +164,14 @@ def render_comparatives(context, indicator_name, result, result_type=None):
                 'place': 'similar municipalities in ' + geo.province_name,
                 'value': medians[indicator_name]['province']['dev_cat'][date],
                 'value_type': result_type,
-                'result': result['result'] / medians[indicator_name]['province']['dev_cat'][date],
+                'result': ratio(result['result'], medians[indicator_name]['province']['dev_cat'][date]),
             },
             {
                 'type': 'relative',
                 'place': 'similar municipalities nationally',
                 'value': medians[indicator_name]['national']['dev_cat'][date],
                 'value_type': result_type,
-                'result': result['result'] / medians[indicator_name]['national']['dev_cat'][date],
+                'result': ratio(result['result'], medians[indicator_name]['national']['dev_cat'][date]),
             },
             # {
             #     'type': 'norm',
