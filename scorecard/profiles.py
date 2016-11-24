@@ -14,8 +14,6 @@ INDICATORS = [
     'liquidity_ratio',
     'op_budget_diff',
     'rep_maint_perc_ppe',
-    'revenue_breakdown',
-    'revenue_sources',
     'wasteful_exp',
 ]
 
@@ -35,10 +33,9 @@ def get_profile(geo_code, geo_level, profile_name=None):
 
     medians = {}
     for indicator in INDICATORS:
-        if indicator == 'cap_budget_diff':
-            filename = "indicators/distribution/median/indicator/%s.json" % indicator
-            with staticfiles_storage.open(filename) as f:
-                medians[indicator] = json.load(f)
+        filename = "indicators/distribution/median/indicator/%s.json" % indicator
+        with staticfiles_storage.open(filename) as f:
+            medians[indicator] = json.load(f)
 
     indicator_calc = IndicatorCalculator(settings.API_URL_INTERNAL, geo_code)
     indicator_calc.fetch_data()

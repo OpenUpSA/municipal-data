@@ -5,10 +5,10 @@ import numpy as np
 
 from scorecard.profile_data import MuniApiClient
 import argparse
-import copy
-import csv
 import json
 from indicators import get_munis
+from collections import defaultdict
+from pprint import pprint
 
 API_URL = 'https://municipaldata.treasury.gov.za/api'
 INDICATORS = [
@@ -20,8 +20,6 @@ INDICATORS = [
     'liquidity_ratio',
     'op_budget_diff',
     'rep_maint_perc_ppe',
-    'revenue_breakdown',
-    'revenue_sources',
     'wasteful_exp'
 ]
 
@@ -47,7 +45,42 @@ def main():
             indicators = json.load(f)
 
         muni.update(indicators)
-    print(munis)
+
+
+    sets = defaultdict(lambda: defaultdict(list))
+    medians = defaultdict(dict)
+
+    # collect indicator year sets
+    for indicator in INDICATORS:
+        for muni in munis:
+            for period in muni[indicator]['values']:
+                if period['result'] is not None:
+                    sets[indicator][period['date']].append(period['result'])
+
+    # calculate indicator-year medians
+    for indicator in sets.keys():
+        for year in sets[indicator].keys():
+            medians[indicator][year] = median(sets[indicator][year])
+
+    # write indicator-year medians
+    for indicator in medians.keys():
+        filename = "scorecard/static/indicators/distribution/median/indicator/%s.json" % indicator
+        with open(filename, 'wb') as f:
+            json.dump(medians[indicator], f, sort_keys=True, indent=4, separators=(',', ': '))
+
+
+
+def median(items):
+    sorted_items = sorted(items)
+    count = len(sorted_items)
+    if count % 2 == 1:
+        # middle item of odd set is floor of half of count
+        return sorted_items[count/2]
+    else:
+        # middle item of even set is mean of middle two items
+        return (sorted_items[(count-1)/2] + sorted_items[(count+1)/2])/2.0
+
+
 
 
 
