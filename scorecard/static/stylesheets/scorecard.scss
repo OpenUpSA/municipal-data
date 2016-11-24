@@ -1043,6 +1043,24 @@ blockquote {
     font-family: "icomoon";
     content: "\e99e";
   }
+
+  ul.indicator-comparatives {
+    list-style: none;
+    padding-left: 0px;
+    color: #777;
+    font-size: 13px;
+
+    & > li {
+      margin-bottom: 7px;
+      &:first-letter {
+        text-transform: uppercase;
+      }
+
+      strong {
+        color: #666;
+      }
+    }
+  }
 }
 
 // income split
