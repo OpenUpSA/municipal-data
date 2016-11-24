@@ -19,22 +19,7 @@ def get_profile(geo_code, geo_level, profile_name=None):
     indicator_calc = IndicatorCalculator(settings.API_URL_INTERNAL, geo_code)
     indicator_calc.fetch_data()
 
-    indicators = {}
-
-    indicators['cash_at_year_end'] = indicator_calc.cash_at_year_end()
-    indicators['cash_coverage'] = indicator_calc.cash_coverage()
-    indicators['op_budget_diff'] = indicator_calc.op_budget_diff()
-    indicators['cap_budget_diff'] = indicator_calc.cap_budget_diff()
-    indicators['current_ratio'] = indicator_calc.current_ratio()
-    indicators['liquidity_ratio'] = indicator_calc.liquidity_ratio()
-    indicators['current_debtors_collection_rate'] = indicator_calc.current_debtors_collection_rate()
-    indicators['rep_maint_perc_ppe'] = indicator_calc.rep_maint_perc_ppe()
-    indicators['wasteful_exp'] = indicator_calc.wasteful_exp_perc_exp()
-    indicators['expenditure_trends'] = indicator_calc.expenditure_trends()
-    indicators['revenue_sources'] = indicator_calc.revenue_sources()
-    indicators['revenue_breakdown'] = indicator_calc.revenue_breakdown()
-    indicators['expenditure_trends'] = indicator_calc.expenditure_trends()
-    indicators['expenditure_functional_breakdown'] = indicator_calc.expenditure_functional_breakdown()
+    indicators = indicator_calc.get_indicators()
 
     return {
         'total_population': total_pop,

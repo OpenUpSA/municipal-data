@@ -119,6 +119,25 @@ class IndicatorCalculator(object):
             }
         }
 
+    def get_indicators(self):
+        indicators = {}
+
+        indicators['cash_at_year_end'] = self.cash_at_year_end()
+        indicators['cash_coverage'] = self.cash_coverage()
+        indicators['op_budget_diff'] = self.op_budget_diff()
+        indicators['cap_budget_diff'] = self.cap_budget_diff()
+        indicators['current_ratio'] = self.current_ratio()
+        indicators['liquidity_ratio'] = self.liquidity_ratio()
+        indicators['current_debtors_collection_rate'] = self.current_debtors_collection_rate()
+        indicators['rep_maint_perc_ppe'] = self.rep_maint_perc_ppe()
+        indicators['wasteful_exp'] = self.wasteful_exp_perc_exp()
+        indicators['expenditure_trends'] = self.expenditure_trends()
+        indicators['revenue_sources'] = self.revenue_sources()
+        indicators['revenue_breakdown'] = self.revenue_breakdown()
+        indicators['expenditure_trends'] = self.expenditure_trends()
+        indicators['expenditure_functional_breakdown'] = self.expenditure_functional_breakdown()
+        return indicators
+
     def fetch_data(self):
         self.queries = self.get_queries()
         self.results = defaultdict(dict)
