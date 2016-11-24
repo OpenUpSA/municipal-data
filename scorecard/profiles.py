@@ -1,9 +1,9 @@
 from wazimap.data.tables import get_datatable
 from wazimap.geo import geo_data
 from django.conf import settings
-
-
+from django.contrib.staticfiles.storage import staticfiles_storage
 from profile_data import IndicatorCalculator
+import json
 
 
 def get_profile(geo_code, geo_level, profile_name=None):
@@ -16,10 +16,12 @@ def get_profile(geo_code, geo_level, profile_name=None):
     if geo.square_kms:
         population_density = total_pop / geo.square_kms
 
+    filename = "indicators/municipality/%s.json" % geo_code
+    with staticfiles_storage.open(filename) as f:
+        indicators = json.load(f)
+
     indicator_calc = IndicatorCalculator(settings.API_URL_INTERNAL, geo_code)
     indicator_calc.fetch_data()
-
-    indicators = indicator_calc.get_indicators()
 
     return {
         'total_population': total_pop,
