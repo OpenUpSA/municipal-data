@@ -105,9 +105,7 @@
           {% endif %}
         </div>
         <div class="indicator-description">Cash balance at the end of the financial year.</div>
-
         {% render_comparatives "cash_at_year_end" latest "R" %}
-
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
@@ -162,6 +160,7 @@
           {% endif %}
         </div>
         <div class="indicator-description">Months of operating expenses can be paid for with the cash available.</div>
+        {% render_comparatives "cash_coverage" latest "months" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
@@ -223,6 +222,7 @@
           {% endif %}
         </div>
         <div class="indicator-description">Difference between budgeted operating expenditure and what was actually spent.</div>
+        {% render_comparatives "op_budget_diff" latest "%" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
@@ -286,7 +286,7 @@
           {% endif %}
         </div>
         <div class="indicator-description">Difference between budgeted capital expenditure and what was actually spent.</div>
-        <div>median is {{ medians.cap_budget_diff.2015 }}</div>
+        {% render_comparatives "cap_budget_diff" latest "%" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
@@ -350,6 +350,7 @@
         </div>
 
         <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
+        {% render_comparatives "rep_maint_perc_ppe" latest "%" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
@@ -408,6 +409,7 @@
           {% endif %}
         </div>
         <div class="indicator-description">Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage of operating expenditure.</div>
+        {% render_comparatives "wasteful_exp" latest "%" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
@@ -464,6 +466,7 @@
           {% endif %}
         </div>
         <div class="indicator-description">The value of a municipality's short-term assets as a multiple of its short-term liabilities.</div>
+        {% render_comparatives "current_ratio" latest "ratio" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
@@ -524,6 +527,7 @@
           {% endif %}
         </div>
         <div class="indicator-description">The municipality's immediate ability to pay its current liabilities</div>
+        {% render_comparatives "current_ratio" latest "ratio" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
@@ -580,6 +584,7 @@
           {% endif %}
         </div>
         <div class="indicator-description">The percentage of new revenue (generated within the financial year) that a municipality actually collects</div>
+        {% render_comparatives "current_debtors_collection_rate" latest "%" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>

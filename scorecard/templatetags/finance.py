@@ -133,7 +133,7 @@ def formatvalue(n, typ):
 
 
 @register.inclusion_tag('profile/_comparative_list.html', takes_context=True)
-def render_comparatives(context, indicator_name, result, result_type):
+def render_comparatives(context, indicator_name, result, result_type=None):
     # about the same as similar municipalities in Western Cape: R123 123 123
     # about half of the figure for similar municipalities nationally: R456 456 456
     # about two thirds of similar municipalities nationally [in Gauteng] have a positive cash balance
@@ -145,12 +145,14 @@ def render_comparatives(context, indicator_name, result, result_type):
 
     # XXX
     # medians = context['medians']
-    medians = {
-        'cash_at_year_end': {
-            'province': {'dev_cat': {2015: 1000}},
-            'national': {'dev_cat': {2015: 50000000}},
+    import random
+    def faker():
+        return {
+            'province': {'dev_cat': defaultdict(lambda: random.randint(100, 100000))},
+            'national': {'dev_cat': defaultdict(lambda: random.randint(100, 100000))},
         }
-    }
+    from collections import defaultdict
+    medians = defaultdict(faker)
 
     item_context = {
         'indicator': indicator,
@@ -196,7 +198,7 @@ def comparison_relative_words(value):
     "about half" would be 45 to 55.
     """
     # make sure we have an int for comparison
-    index = round(float(value) * 100)
+    index = abs(round(float(value) * 100))
 
     # get highest boundary that's less than the index value we've been passed
     phrase_key = max(k for k in RELATIVE_PHRASE_THRESHOLDS if k <= index)
