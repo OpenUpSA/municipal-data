@@ -20,6 +20,9 @@ def main():
         api_url = args.api_url
     else:
         api_url = API_URL
+
+    write_static = not args.write_csv
+
     api_client = MuniApiClient(api_url)
 
     munis = get_munis(api_client)
@@ -29,12 +32,14 @@ def main():
         indicator_calc = IndicatorCalculator(api_client.API_URL, demarcation_code, client=api_client)
         indicator_calc.fetch_data()
         indicators = indicator_calc.get_indicators()
+        if write_static:
+            filename = "scorecard/static/indicators/municipality/%s.json" % demarcation_code
+            with open(filename, 'wb') as f:
+                json.dump(indicators, f, sort_keys=True, indent=4, separators=(',', ': '))
         muni.update(indicators)
 
     if args.write_csv:
         write_csvs(munis)
-    else:
-        print(json.dumps(munis))
 
 
 def write_csvs(munis):
