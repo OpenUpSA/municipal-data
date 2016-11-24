@@ -116,7 +116,7 @@ def month_days(n):
 @register.filter
 def formatvalue(n, typ):
     if typ == 'currency' or typ == 'R':
-        return 'R ' + floatformat(n, "0")
+        return u"R\u00A0" + floatformat(n, "0")
 
     if typ == 'months':
         return month_days(n)
