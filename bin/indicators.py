@@ -67,6 +67,7 @@ def get_munis(api_client):
                                      'municipality.demarcation_code',
                                      'municipality.name',
                                      'municipality.development_category',
+                                     'municipality.province_code',
                                  ],
                                  'value_label': '',
     })

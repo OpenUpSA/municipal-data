@@ -14,6 +14,7 @@ class Geography(GeographyBase):
     province_name = models.CharField(max_length=100, null=False)
     province_code = models.CharField(max_length=5, null=False)
     category = models.CharField(max_length=2, null=False)
+    development_category = models.TextField(null=True)
 
     @property
     def category_name(self):

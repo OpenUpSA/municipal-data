@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from profile_data import IndicatorCalculator
 import json
+from collections import defaultdict
 
 INDICATORS = [
     'cap_budget_diff',
@@ -16,6 +17,7 @@ INDICATORS = [
     'rep_maint_perc_ppe',
     'wasteful_exp',
 ]
+
 
 def get_profile(geo_code, geo_level, profile_name=None):
     # Census data
@@ -31,11 +33,12 @@ def get_profile(geo_code, geo_level, profile_name=None):
     with staticfiles_storage.open(filename) as f:
         indicators = json.load(f)
 
-    medians = {}
-    for indicator in INDICATORS:
-        filename = "indicators/distribution/median/indicator/%s.json" % indicator
-        with staticfiles_storage.open(filename) as f:
-            medians[indicator] = json.load(f)
+    filename = "indicators/distribution/median.json"
+    with staticfiles_storage.open(filename) as f:
+        all_medians = json.load(f)
+    medians = defaultdict(lambda: defaultdict(dict))
+    for indicator in all_medians:
+        medians[indicator]['national']['dev_cat'] = all_medians[indicator][geo.development_category]
 
     indicator_calc = IndicatorCalculator(settings.API_URL_INTERNAL, geo_code)
     indicator_calc.fetch_data()
