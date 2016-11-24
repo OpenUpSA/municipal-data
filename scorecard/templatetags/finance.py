@@ -145,13 +145,17 @@ def render_comparatives(indicator, noun_phrase):
             {
                 'type': 'relative',
                 'place': 'similar municipalities in Western Cape',
+                # XXX
                 'value': '123123123',
+                # XXX
                 'result': 0.73,
             },
             {
                 'type': 'relative',
                 'place': 'similar municipalities nationally',
+                # XXX
                 'value': '123123123',
+                # XXX
                 'result': 0.55,
             },
             # {
