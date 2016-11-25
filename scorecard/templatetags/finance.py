@@ -159,20 +159,21 @@ def render_comparatives(context, indicator_name, result, result_type=None, noun=
 
     item_context = {
         'indicator': indicator,
+        'latest': result,
         'comparisons': [
             {
                 'type': 'relative',
                 'place': 'similar municipalities in ' + geo.province_name,
                 'value': medians[indicator_name]['province']['dev_cat'][date],
                 'value_type': result_type,
-                'result': ratio(result['result'], medians[indicator_name]['province']['dev_cat'][date]),
+                'comparison': comparison_relative_words(result['result'], medians[indicator_name]['province']['dev_cat'][date], noun),
             },
             {
                 'type': 'relative',
                 'place': 'similar municipalities nationally',
                 'value': medians[indicator_name]['national']['dev_cat'][date],
                 'value_type': result_type,
-                'result': ratio(result['result'], medians[indicator_name]['national']['dev_cat'][date]),
+                'comparison': comparison_relative_words(result['result'], medians[indicator_name]['national']['dev_cat'][date], noun),
             },
             # {
             #     'type': 'norm',
@@ -190,9 +191,8 @@ def render_comparatives(context, indicator_name, result, result_type=None, noun=
 
 
 @register.filter
-def comparison_relative_words(value, noun):
-    """ Express +value+, which is a value from [0, 1.0],
-    as relative comparison between two places.
+def comparison_relative_words(a, b, noun):
+    """ Express the ratio +a/b+ as relative comparison between two places.
 
     The RELATIVE_PHRASE_MAP defines the comparative phrases; the dict keys
     are the lower boundary of the range of values that result in that phrase.
@@ -200,13 +200,18 @@ def comparison_relative_words(value, noun):
     For example, the effective range of index values that return the phrase
     "about half" would be 45 to 55.
     """
-    # make sure we have an int for comparison
-    index = abs(round(float(value) * 100))
+    if b == 0:
+        # a/b == infinity
+        phrase_bits = ["more than", "the {0} for"]
+    else:
+        # make sure we have an int for comparison
+        index = abs(round(float(a / b) * 100))
 
-    # get highest boundary that's less than the index value we've been passed
-    phrase_key = max(k for k in RELATIVE_PHRASE_THRESHOLDS if k <= index)
+        # get highest boundary that's less than the index value we've been passed
+        phrase_key = max(k for k in RELATIVE_PHRASE_THRESHOLDS if k <= index)
 
-    phrase_bits = RELATIVE_PHRASE_MAP[phrase_key]
+        phrase_bits = RELATIVE_PHRASE_MAP[phrase_key]
+
     phrase = "<strong>%s</strong> %s" % (phrase_bits[0], phrase_bits[1].format(noun))
     return mark_safe(phrase)
 
