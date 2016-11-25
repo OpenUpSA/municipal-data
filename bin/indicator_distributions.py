@@ -59,16 +59,43 @@ def main():
                     if period['result'] is not None:
                         nat_sets[indicator][dev_cat][period['date']].append(period['result'])
 
-    # calculate national-indicator-development_category-year medians
+    # calculate provincial-indicator-development_category-year medians
     for indicator in nat_sets.keys():
         for dev_cat in nat_sets[indicator].keys():
             for year in nat_sets[indicator][dev_cat].keys():
                 nat_medians[indicator][dev_cat][year] = median(nat_sets[indicator][dev_cat][year])
 
+    prov_dev_cat_sets = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(list))))
+    prov_dev_cat_medians = defaultdict(lambda: defaultdict(lambda: defaultdict(dict)))
+
+    # collect provincial-indicator-development_category-year sets
+    dev_cat_key = lambda muni: muni['municipality.development_category']
+    dev_cat_sorted = sorted(munis, key=dev_cat_key)
+    prov_key = lambda muni: muni['municipality.province_code']
+    for indicator in INDICATORS:
+        for dev_cat, dev_cat_group in groupby(dev_cat_sorted, dev_cat_key):
+            prov_sorted = sorted(dev_cat_group, key=prov_key)
+            for prov_code, prov_dev_cat_group in groupby(prov_sorted, prov_key):
+                for muni in prov_dev_cat_group:
+                    for period in muni[indicator]['values']:
+                        if period['result'] is not None:
+                            prov_dev_cat_sets[indicator][prov_code][dev_cat][period['date']].append(period['result'])
+
+    # calculate national-indicator-development_category-year medians
+    for indicator in prov_dev_cat_sets.keys():
+        for prov_code in prov_dev_cat_sets[indicator].keys():
+            for dev_cat in prov_dev_cat_sets[indicator][prov_code].keys():
+                for year in prov_dev_cat_sets[indicator][prov_code][dev_cat].keys():
+                    prov_dev_cat_medians[indicator][prov_code][dev_cat][year] = median(prov_dev_cat_sets[indicator][prov_code][dev_cat][year])
+
     # write medians
     filename = "scorecard/static/indicators/distribution/median.json"
+    medians = {
+        'provincial': prov_dev_cat_medians,
+        'national': nat_medians,
+    }
     with open(filename, 'wb') as f:
-        json.dump(nat_medians, f, sort_keys=True, indent=4, separators=(',', ': '))
+        json.dump(medians, f, sort_keys=True, indent=4, separators=(',', ': '))
 
 
 
