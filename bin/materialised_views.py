@@ -1,11 +1,11 @@
 import sys
 sys.path.append('.')
 
+from collections import defaultdict
+from itertools import groupby
 from scorecard.profile_data import IndicatorCalculator, MuniApiClient
 import argparse
 import json
-from collections import defaultdict
-from itertools import groupby
 
 API_URL = 'https://municipaldata.treasury.gov.za/api'
 INDICATORS = [
