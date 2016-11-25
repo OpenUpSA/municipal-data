@@ -1400,6 +1400,23 @@ blockquote {
   border: 1px solid $gray-dark;
   border-radius: 5px;
   pointer-events: none;
+  max-width: 300px;
+
+  ul.comparatives {
+    list-style: none;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    padding-left: 0px;
+    color: #777;
+    font-size: 13px;
+
+    & > li {
+      margin-top: 5px;
+      strong {
+        color: #666;
+      }
+    }
+  }
 }
 
 /* head to head comparisons */
