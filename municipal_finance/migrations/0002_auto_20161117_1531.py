@@ -338,36 +338,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='ScorecardGeography',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('geo_level', models.CharField(max_length=15)),
-                ('geo_code', models.CharField(max_length=10)),
-                ('name', models.CharField(max_length=100)),
-                ('long_name', models.CharField(blank=True, max_length=100, null=True)),
-                ('year', models.IntegerField(blank=True, null=True)),
-                ('square_kms', models.FloatField(blank=True, null=True)),
-                ('parent_level', models.CharField(blank=True, max_length=15, null=True)),
-                ('parent_code', models.CharField(blank=True, max_length=10, null=True)),
-                ('province_name', models.CharField(max_length=100)),
-                ('province_code', models.CharField(max_length=5)),
-                ('category', models.CharField(max_length=2)),
-                ('postal_address_1', models.TextField(blank=True, null=True)),
-                ('postal_address_2', models.TextField(blank=True, null=True)),
-                ('postal_address_3', models.TextField(blank=True, null=True)),
-                ('street_address_1', models.TextField(blank=True, null=True)),
-                ('street_address_2', models.TextField(blank=True, null=True)),
-                ('street_address_4', models.TextField(blank=True, null=True)),
-                ('phone_number', models.TextField(blank=True, null=True)),
-                ('fax_number', models.TextField(blank=True, null=True)),
-                ('url', models.TextField(blank=True, null=True)),
-                ('street_address_3', models.TextField(blank=True, null=True)),
-            ],
-            options={
-                'db_table': 'scorecard_geography',
-            },
-        ),
-        migrations.CreateModel(
             name='UifwexpFacts',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -384,10 +354,6 @@ class Migration(migrations.Migration):
         migrations.AlterUniqueTogether(
             name='uifwexpfacts',
             unique_together=set([('demarcation_code', 'financial_year', 'item_code')]),
-        ),
-        migrations.AlterUniqueTogether(
-            name='scorecardgeography',
-            unique_together=set([('geo_level', 'geo_code')]),
         ),
         migrations.AlterUniqueTogether(
             name='repmaintfacts',

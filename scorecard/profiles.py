@@ -85,8 +85,8 @@ def get_profile(geo_code, geo_level, profile_name=None):
         all_medians = json.load(f)
     medians = defaultdict(lambda: defaultdict(dict))
     for indicator in INDICATORS:
-        medians[indicator]['national']['dev_cat'] = all_medians['national'][indicator][geo.development_category]
-        medians[indicator]['provincial']['dev_cat'] = all_medians['provincial'][indicator][geo.province_code][geo.development_category]
+        medians[indicator]['national']['dev_cat'] = all_medians['national'][indicator][geo.miif_category]
+        medians[indicator]['provincial']['dev_cat'] = all_medians['provincial'][indicator][geo.province_code][geo.miif_category]
 
     build_comparisons(geo, indicators, medians)
 

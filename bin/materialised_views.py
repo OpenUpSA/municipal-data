@@ -110,8 +110,8 @@ def calc_national_sets(munis):
     nat_sets = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
     nat_medians = defaultdict(lambda: defaultdict(dict))
 
-    # collect national-indicator-development_category-year sets
-    dev_cat_key = lambda muni: muni['municipality.development_category']
+    # collect set of indicator values for each MIIF category and year
+    dev_cat_key = lambda muni: muni['municipality.miif_category']
     dev_cat_sorted = sorted(munis, key=dev_cat_key)
     for indicator in INDICATORS:
         for dev_cat, dev_cat_group in groupby(dev_cat_sorted, dev_cat_key):
@@ -120,7 +120,7 @@ def calc_national_sets(munis):
                     if period['result'] is not None:
                         nat_sets[indicator][dev_cat][period['date']].append(period['result'])
 
-    # calculate provincial-indicator-development_category-year medians
+    # calculate national median per MIIF category and year for each indicator
     for indicator in nat_sets.keys():
         for dev_cat in nat_sets[indicator].keys():
             for year in nat_sets[indicator][dev_cat].keys():
@@ -132,8 +132,8 @@ def calc_provincial_medians(munis):
     prov_sets = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(list))))
     prov_medians = defaultdict(lambda: defaultdict(lambda: defaultdict(dict)))
 
-    # collect provincial-indicator-development_category-year sets
-    dev_cat_key = lambda muni: muni['municipality.development_category']
+    # collect set of indicator values for each province, MIIF category and year
+    dev_cat_key = lambda muni: muni['municipality.miif_category']
     dev_cat_sorted = sorted(munis, key=dev_cat_key)
     prov_key = lambda muni: muni['municipality.province_code']
     for indicator in INDICATORS:
@@ -145,7 +145,7 @@ def calc_provincial_medians(munis):
                         if period['result'] is not None:
                             prov_sets[indicator][prov_code][dev_cat][period['date']].append(period['result'])
 
-    # calculate national-indicator-development_category-year medians
+    # calculate provincial median per province, MIIF category and year for each indicator
     for indicator in prov_sets.keys():
         for prov_code in prov_sets[indicator].keys():
             for dev_cat in prov_sets[indicator][prov_code].keys():
@@ -171,7 +171,7 @@ def get_munis(api_client):
                                  'fields': [
                                      'municipality.demarcation_code',
                                      'municipality.name',
-                                     'municipality.development_category',
+                                     'municipality.miif_category',
                                      'municipality.province_code',
                                  ],
                                  'value_label': '',

@@ -292,35 +292,6 @@ class RepmaintItems(models.Model):
         db_table = 'repmaint_items'
 
 
-class ScorecardGeography(models.Model):
-    geo_level = models.CharField(max_length=15)
-    geo_code = models.CharField(max_length=10)
-    name = models.CharField(max_length=100)
-    long_name = models.CharField(max_length=100, blank=True, null=True)
-    year = models.IntegerField(blank=True, null=True)
-    square_kms = models.FloatField(blank=True, null=True)
-    parent_level = models.CharField(max_length=15, blank=True, null=True)
-    parent_code = models.CharField(max_length=10, blank=True, null=True)
-    province_name = models.CharField(max_length=100)
-    province_code = models.CharField(max_length=5)
-    category = models.CharField(max_length=2)
-    development_category = models.TextField(null=True)
-    postal_address_1 = models.TextField(blank=True, null=True)
-    postal_address_2 = models.TextField(blank=True, null=True)
-    postal_address_3 = models.TextField(blank=True, null=True)
-    street_address_1 = models.TextField(blank=True, null=True)
-    street_address_2 = models.TextField(blank=True, null=True)
-    street_address_4 = models.TextField(blank=True, null=True)
-    phone_number = models.TextField(blank=True, null=True)
-    fax_number = models.TextField(blank=True, null=True)
-    url = models.TextField(blank=True, null=True)
-    street_address_3 = models.TextField(blank=True, null=True)
-
-    class Meta:
-        db_table = 'scorecard_geography'
-        unique_together = (('geo_level', 'geo_code'),)
-
-
 class UifwexpFacts(models.Model):
     demarcation_code = models.TextField(blank=True, null=True)
     financial_year = models.IntegerField(blank=True, null=True)
