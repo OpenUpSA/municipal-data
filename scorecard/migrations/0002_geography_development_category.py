@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='geography',
-            name='development_category',
+            name='miif_category',
             field=models.TextField(null=True),
         ),
     ]
