@@ -67,9 +67,15 @@ var tooltip = d3.select("body").append("div")
 function showTooltip(html) {
   tooltip
     .style("opacity", 1)
-    .html(html)
-    .style("left", (d3.event.pageX - 20) + "px")
-    .style("top", (d3.event.pageY - 50) + "px");
+    .html(html);
+  moveTooltip();
+}
+
+function moveTooltip() {
+  var height = tooltip.node().getBoundingClientRect().height;
+  tooltip
+    .style("left", (d3.event.pageX) + "px")
+    .style("top", (d3.event.pageY - 20 - height) + "px");
 }
 
 function hideTooltip() {
@@ -188,6 +194,7 @@ var HorizontalGroupedBarChart = function() {
         .on("mouseover", function(d) {
           showTooltip(self.formatTooltip(d));
         })
+        .on("mousemove", moveTooltip)
         .on("mouseout", hideTooltip);
 
     var legend = self.svg.selectAll(".legend")
@@ -313,8 +320,9 @@ var VerticalBarChart = function() {
           return "chart-column " + d.rating;
         })
         .on("mouseover", function(d) {
-          showTooltip(self.formatTooltip(d, comparisons[d.date]));
+          showTooltip(self.formatTooltip(d, comparisons && comparisons[d.date]));
         })
+        .on("mousemove", moveTooltip)
         .on("mouseout", hideTooltip);
 
     // Add the labels
