@@ -5,6 +5,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from profile_data import IndicatorCalculator
 import json
 from collections import defaultdict
+import os
 
 from scorecard.utils import comparison_relative_words
 
@@ -70,12 +71,16 @@ def get_profile(geo_code, geo_level, profile_name=None):
     if geo.square_kms:
         population_density = total_pop / geo.square_kms
 
-    filename = "indicators/municipality/%s.json" % geo_code
-    with staticfiles_storage.open(filename) as f:
+    filename = os.path.join(
+        settings.MATERIALISED_VIEWS_BASE,
+        "indicators/municipality/%s.json" % geo_code)
+    with open(filename) as f:
         indicators = json.load(f)
 
-    filename = "indicators/distribution/median.json"
-    with staticfiles_storage.open(filename) as f:
+    filename = os.path.join(
+        settings.MATERIALISED_VIEWS_BASE,
+        "indicators/distribution/median.json")
+    with open(filename) as f:
         all_medians = json.load(f)
     medians = defaultdict(lambda: defaultdict(dict))
     for indicator in INDICATORS:

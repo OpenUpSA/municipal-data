@@ -9,7 +9,6 @@ import json
 from indicators import get_munis
 from collections import defaultdict
 from itertools import groupby
-from pprint import pprint
 
 API_URL = 'https://municipaldata.treasury.gov.za/api'
 INDICATORS = [
@@ -42,7 +41,7 @@ def main():
 
     for muni in munis:
         demarcation_code = muni.get('municipality.demarcation_code')
-        filename = "scorecard/static/indicators/municipality/%s.json" % demarcation_code
+        filename = "scorecard/materialised/indicators/municipality/%s.json" % demarcation_code
         with open(filename, 'rd') as f:
             indicators = json.load(f)
 
@@ -98,7 +97,7 @@ def main():
         print(json.dumps(prov_dev_cat_sets, sort_keys=True, indent=4, separators=(',', ': ')))
 
     # write medians
-    filename = "scorecard/static/indicators/distribution/median.json"
+    filename = "scorecard/materialised/indicators/distribution/median.json"
     medians = {
         'provincial': prov_dev_cat_medians,
         'national': nat_medians,

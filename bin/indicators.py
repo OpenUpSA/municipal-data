@@ -33,7 +33,7 @@ def main():
         indicator_calc.fetch_data()
         indicators = indicator_calc.get_indicators()
         if write_static:
-            filename = "scorecard/static/indicators/municipality/%s.json" % demarcation_code
+            filename = "scorecard/materialised/indicators/municipality/%s.json" % demarcation_code
             with open(filename, 'wb') as f:
                 json.dump(indicators, f, sort_keys=True, indent=4, separators=(',', ': '))
         muni.update(indicators)
