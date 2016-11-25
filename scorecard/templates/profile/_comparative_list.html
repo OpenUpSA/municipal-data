@@ -1,6 +1,7 @@
 {% load finance %}
 
 {# to be called via `render_comparatives` inclusion tag #}
+{% if comparisons %}
 <ul class="indicator-comparatives">
   {% for comp in comparisons %}
     <li>
@@ -10,3 +11,4 @@
     </li>
   {% endfor %}
 </ul>
+{% endif %}

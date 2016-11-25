@@ -22,6 +22,7 @@ INDICATORS = [
 
 
 def build_comparisons(geo, indicators, medians):
+    # TODO: move the indicator metadata into the indicator calculator object itself
     build_comparison(geo, indicators, medians, "cash_at_year_end", "R", "cash balance")
     build_comparison(geo, indicators, medians, "cash_coverage", "months", "coverage")
     build_comparison(geo, indicators, medians, "op_budget_diff", "%", "underspending or overspending")
@@ -34,24 +35,28 @@ def build_comparisons(geo, indicators, medians):
 
 
 def build_comparison(geo, indicators, medians, indicator_name, result_type=None, noun='figure'):
-    latest = indicators[indicator_name]['values'][0]
-    date = str(latest['date'])
+    values = indicators[indicator_name]['values']
+    if not values:
+        comparisons = []
+    else:
+        latest = values[0]
+        date = str(latest['date'])
 
-    comparisons = [{
-        # provincial median
-        'type': 'relative',
-        'place': 'similar municipalities in ' + geo.province_name,
-        'value': medians[indicator_name]['provincial']['dev_cat'].get(date, 0),
-        'value_type': result_type,
-        'comparison': comparison_relative_words(latest['result'] or 0, medians[indicator_name]['provincial']['dev_cat'].get(date, 0), noun),
-    }, {
-        # national median
-        'type': 'relative',
-        'place': 'similar municipalities nationally',
-        'value': medians[indicator_name]['national']['dev_cat'].get(date, 0),
-        'value_type': result_type,
-        'comparison': comparison_relative_words(latest['result'], medians[indicator_name]['national']['dev_cat'].get(date, 0), noun),
-    }]
+        comparisons = [{
+            # provincial median
+            'type': 'relative',
+            'place': 'similar municipalities in ' + geo.province_name,
+            'value': medians[indicator_name]['provincial']['dev_cat'].get(date, 0),
+            'value_type': result_type,
+            'comparison': comparison_relative_words(latest['result'] or 0, medians[indicator_name]['provincial']['dev_cat'].get(date, 0), noun),
+        }, {
+            # national median
+            'type': 'relative',
+            'place': 'similar municipalities nationally',
+            'value': medians[indicator_name]['national']['dev_cat'].get(date, 0),
+            'value_type': result_type,
+            'comparison': comparison_relative_words(latest['result'], medians[indicator_name]['national']['dev_cat'].get(date, 0), noun),
+        }]
 
     indicators[indicator_name]['comparisons'] = comparisons
 
