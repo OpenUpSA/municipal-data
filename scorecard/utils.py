@@ -80,8 +80,12 @@ def comparison_relative_words(a, b, noun):
     "about half" would be 45 to 55.
     """
     if b == 0:
-        # a/b == infinity
-        phrase_bits = ["more than", "the {0} for"]
+        # 0 == 0
+        if a == 0:
+            phrase_bits = ["the same as", "the {0} for"]
+        else:
+            # something > 0
+            phrase_bits = ["more than", "the {0} for"]
     else:
         # make sure we have an int for comparison
         index = abs(round(float(a / b) * 100))

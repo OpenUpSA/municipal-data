@@ -77,9 +77,10 @@ def formatvalue(n, typ):
 @register.inclusion_tag('profile/_comparative_list.html', takes_context=True)
 def render_comparatives(context, indicator_name):
     indicator = context['indicators'][indicator_name]
+    values = [v for v in indicator['values'] if v['result'] is not None]
 
-    if indicator['values']:
-        date = str(indicator['values'][0]['date'])
+    if values:
+        date = str(values[0]['date'])
         comparisons = indicator['comparisons'].get(date)
     else:
         comparisons = None

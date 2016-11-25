@@ -37,9 +37,11 @@ def build_comparison(geo, indicators, medians, indicator_name, result_type=None,
     comparisons = {}
 
     for entry in indicators[indicator_name]['values']:
-        val = entry['result'] or 0
-        date = str(entry['date'])
+        val = entry['result']
+        if val is None:
+            continue
 
+        date = str(entry['date'])
         comparisons[date] = [{
             # provincial median
             'type': 'relative',
