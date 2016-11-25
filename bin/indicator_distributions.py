@@ -9,6 +9,7 @@ import json
 from indicators import get_munis
 from collections import defaultdict
 from itertools import groupby
+from pprint import pprint
 
 API_URL = 'https://municipaldata.treasury.gov.za/api'
 INDICATORS = [
@@ -27,6 +28,7 @@ INDICATORS = [
 def main():
     parser = argparse.ArgumentParser(description='Tool to dump the materialised views of the municipal finance data used on the Municipal Money website.')
     parser.add_argument('--api-url', help='API URL to use. Default: ' + API_URL)
+    parser.add_argument('--print-sets', action='store_true', help='Print the distribution sets')
 
     args = parser.parse_args()
     if args.api_url:
@@ -87,6 +89,13 @@ def main():
             for dev_cat in prov_dev_cat_sets[indicator][prov_code].keys():
                 for year in prov_dev_cat_sets[indicator][prov_code][dev_cat].keys():
                     prov_dev_cat_medians[indicator][prov_code][dev_cat][year] = median(prov_dev_cat_sets[indicator][prov_code][dev_cat][year])
+
+    if args.print_sets:
+        print("Indicator value sets by MIIF category nationally")
+        print(json.dumps(nat_sets, sort_keys=True, indent=4, separators=(',', ': ')))
+        print
+        print("Indicator value sets by MIIF category and province")
+        print(json.dumps(prov_dev_cat_sets, sort_keys=True, indent=4, separators=(',', ': ')))
 
     # write medians
     filename = "scorecard/static/indicators/distribution/median.json"
