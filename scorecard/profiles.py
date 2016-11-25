@@ -35,27 +35,26 @@ def build_comparisons(geo, indicators, medians):
 
 
 def build_comparison(geo, indicators, medians, indicator_name, result_type=None, noun='figure'):
-    values = indicators[indicator_name]['values']
-    if not values:
-        comparisons = []
-    else:
-        latest = values[0]
-        date = str(latest['date'])
+    comparisons = {}
 
-        comparisons = [{
+    for entry in indicators[indicator_name]['values']:
+        val = entry['result'] or 0
+        date = str(entry['date'])
+
+        comparisons[date] = [{
             # provincial median
             'type': 'relative',
             'place': 'similar municipalities in ' + geo.province_name,
             'value': medians[indicator_name]['provincial']['dev_cat'].get(date, 0),
             'value_type': result_type,
-            'comparison': comparison_relative_words(latest['result'] or 0, medians[indicator_name]['provincial']['dev_cat'].get(date, 0), noun),
+            'comparison': comparison_relative_words(val, medians[indicator_name]['provincial']['dev_cat'].get(date, 0), noun),
         }, {
             # national median
             'type': 'relative',
             'place': 'similar municipalities nationally',
             'value': medians[indicator_name]['national']['dev_cat'].get(date, 0),
             'value_type': result_type,
-            'comparison': comparison_relative_words(latest['result'], medians[indicator_name]['national']['dev_cat'].get(date, 0), noun),
+            'comparison': comparison_relative_words(val, medians[indicator_name]['national']['dev_cat'].get(date, 0), noun),
         }]
 
     indicators[indicator_name]['comparisons'] = comparisons
