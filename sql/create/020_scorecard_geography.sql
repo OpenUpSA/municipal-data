@@ -77,7 +77,7 @@ CREATE TABLE scorecard_geography (
     fax_number text,
     url text,
     street_address_3 text,
-    development_category text,
+    miif_category text,
     CONSTRAINT scorecard_geography_unique_geo_code UNIQUE (geo_code)
 );
 ALTER TABLE scorecard_geography
@@ -114,7 +114,7 @@ ALTER TABLE ONLY scorecard_geography ALTER COLUMN id SET DEFAULT nextval('scorec
 -- Data for Name: scorecard_geography; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY scorecard_geography (id, geo_level, geo_code, name, long_name, year, square_kms, parent_level, parent_code, province_name, province_code, category, postal_address_1, postal_address_2, postal_address_3, street_address_1, street_address_2, street_address_4, phone_number, fax_number, url, street_address_3, development_category) FROM stdin;
+COPY scorecard_geography (id, geo_level, geo_code, name, long_name, year, square_kms, parent_level, parent_code, province_name, province_code, category, postal_address_1, postal_address_2, postal_address_3, street_address_1, street_address_2, street_address_4, phone_number, fax_number, url, street_address_3, miif_category) FROM stdin;
 166	municipality	MAN	Mangaung	Mangaung, Free State	2011	6283.98999999999978	province	FS	Free State	FS	A	P O BOX 3704	BLOEMFONTEIN	9300	Bram Fischer Building	Cnr Nelson Mandela And Markgraaf Street	9301	051 405 8911	051 405 8108	http://www.mangaung.co.za	Bloemfontein	A
 167	municipality	EKU	Ekurhuleni	Ekurhuleni, Gauteng	2011	1975.25999999999999	province	GT	Gauteng	GT	A	P/BAG X1069	GERMISTON	1400	Head Office	Cnr Cross And Rose Street	1401	011 999 0863	011 820 4311	http://www.ekurhuleni.gov.za	Germiston	A
 170	municipality	JHB	City of Johannesburg	City of Johannesburg, Gauteng	2011	1644.98000000000002	province	GT	Gauteng	GT	A	PO BOX 1049	JOHANNESBURG	2000	Metro Centre	158 Civic Boulevard Street	2000	011 358 3041	011 358 3140	http://www.joburg.org.za	Braamfontein	A
