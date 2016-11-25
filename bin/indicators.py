@@ -32,10 +32,16 @@ def main():
         indicator_calc = IndicatorCalculator(api_client.API_URL, demarcation_code, client=api_client)
         indicator_calc.fetch_data()
         indicators = indicator_calc.get_indicators()
+        profile = {
+            'mayoral_staff': indicator_calc.mayoral_staff(),
+            'muni_contact': indicator_calc.muni_contact(),
+            'audit_opinions': indicator_calc.audit_opinions(),
+            'indicators': indicators,
+        }
         if write_static:
-            filename = "scorecard/materialised/indicators/municipality/%s.json" % demarcation_code
+            filename = "scorecard/materialised/profiles/%s.json" % demarcation_code
             with open(filename, 'wb') as f:
-                json.dump(indicators, f, sort_keys=True, indent=4, separators=(',', ': '))
+                json.dump(profile, f, sort_keys=True, indent=4, separators=(',', ': '))
         muni.update(indicators)
 
     if args.write_csv:

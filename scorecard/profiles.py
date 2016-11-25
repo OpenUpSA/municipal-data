@@ -1,10 +1,8 @@
+from collections import defaultdict
+from django.conf import settings
 from wazimap.data.tables import get_datatable
 from wazimap.geo import geo_data
-from django.conf import settings
-from django.contrib.staticfiles.storage import staticfiles_storage
-from profile_data import IndicatorCalculator
 import json
-from collections import defaultdict
 import os
 
 from scorecard.utils import comparison_relative_words
@@ -73,9 +71,10 @@ def get_profile(geo_code, geo_level, profile_name=None):
 
     filename = os.path.join(
         settings.MATERIALISED_VIEWS_BASE,
-        "indicators/municipality/%s.json" % geo_code)
+        "profiles/%s.json" % geo_code)
     with open(filename) as f:
-        indicators = json.load(f)
+        profile = json.load(f)
+    indicators = profile['indicators']
 
     filename = os.path.join(
         settings.MATERIALISED_VIEWS_BASE,
@@ -87,17 +86,11 @@ def get_profile(geo_code, geo_level, profile_name=None):
         medians[indicator]['national']['dev_cat'] = all_medians['national'][indicator][geo.development_category]
         medians[indicator]['provincial']['dev_cat'] = all_medians['provincial'][indicator][geo.province_code][geo.development_category]
 
-    indicator_calc = IndicatorCalculator(settings.API_URL_INTERNAL, geo_code)
-    indicator_calc.fetch_data()
-
     build_comparisons(geo, indicators, medians)
 
-    return {
+    profile.update({
         'total_population': total_pop,
         'population_density': population_density,
-        'mayoral_staff': indicator_calc.mayoral_staff(),
-        'muni_contact': indicator_calc.muni_contact(),
-        'audit_opinions': indicator_calc.audit_opinions(),
-        'indicators': indicators,
         'medians': medians,
-    }
+    })
+    return profile

@@ -41,9 +41,10 @@ def main():
 
     for muni in munis:
         demarcation_code = muni.get('municipality.demarcation_code')
-        filename = "scorecard/materialised/indicators/municipality/%s.json" % demarcation_code
+        filename = "scorecard/materialised/profiles/%s.json" % demarcation_code
         with open(filename, 'rd') as f:
-            indicators = json.load(f)
+            profile = json.load(f)
+        indicators = profile['indicators']
 
         muni.update(indicators)
 
