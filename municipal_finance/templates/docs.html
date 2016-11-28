@@ -9,11 +9,6 @@
 {% stylesheet "docs" %}
 {% endblock %}
 
-{% block js %}
-{{ block.super }}
-{% javascript "docs" %}
-{% endblock %}
-
 {% block content %}
 
 <a href="#" id="nav-button">
@@ -41,13 +36,17 @@
   <div class="content">
     <h1 id="intro">Municipal Money API Documentation</h1>
     <aside class="info">
-      Usage of this data is subject to the <b>Terms of Use</b> (To be confirmed)
+      Usage of this data is subject to the <b><a href="/terms">Terms of Use</a></b>
     </aside>
 
     <p>The Municipal Money API publishes the financial information of South African municipalities in a machine-friendly format.</p>
 
     <p>All municipalities must regularly submit financial information to <a href="http://www.treasury.gov.za/">National Treasury</a> who, in partnership with
-    <a href="http://code4sa.org">Code for South Africa</a>, make it available to the public through this API.</p>
+      <a href="http://code4sa.org">Code for South Africa</a>, make it available to the public through this API.</p>
+
+    <aside class="info">
+      The API endpoint is at <a href="https://municipaldata.treasury.gov.za/api">https://municipaldata.treasury.gov.za/api</a>
+    </aside>
 
     <h2 id="what-data">What data is available</h2>
 
@@ -161,8 +160,8 @@
 
     <h2 id="pagination">Pagination</h2>
 
-    <p>Some API responses are paginated. By default, a maximum of 10 000 items are returned per page. The response includes information on the page size,
-    current page, and total number of results to assist with pagination.</p>
+    <p>Pagination is important to make sure the client and server handle a mangeable amount of data at a time. The result of a query may be broken up into multiple pages. By default, a maximum of 10 000 items are returned per page. The response includes information on the page size,
+    current page, and total number of results to assist with pagination. If the page size is smaller than the <code>total_fact_count</code> or <code>total_cell_count</code> of a given query (depending on the kind of query), you might want to request the remaining pages and collect the results client-side.</p>
 
     <pre>
 {
@@ -246,7 +245,7 @@
     <h2 id="list-cubes">List Cubes</h2>
 
     <p>
-      <code>GET /cubes</code>
+      <code>GET <a target="_blank" href="https://municipaldata.treasury.gov.za/api/cubes">https://municipaldata.treasury.gov.za/api/cubes</a></code>
     </p>
 
     <pre id="get-cubes">(loading...)</pre>
@@ -256,7 +255,10 @@
     <h2 id="model">Get a Cube's Model</h2>
 
     <p>
-      <code>GET /cubes/&lt;name&gt;/model</code>
+      <code>GET https://municipaldata.treasury.gov.za/api/cubes/&lt;name&gt;/model</code>
+    </p>
+    <p>
+      <code>GET <a target="_blank" href="https://municipaldata.treasury.gov.za/api/cubes/incexp/model">https://municipaldata.treasury.gov.za/api/cubes/incexp/model</a></code>
     </p>
     <pre>
 GET /cubes/incexp/model
@@ -359,7 +361,8 @@ GET /cubes/incexp/facts?pagesize=2
   ]
 }
     </pre>
-    <p><code>GET /cubes/&lt;name&gt;/facts</code></p>
+    <p><code>GET https://municipaldata.treasury.gov.za/api/cubes/&lt;name&gt;/facts</code></p>
+    <p><code>GET <a target="_blank" href="https://municipaldata.treasury.gov.za/api/cubes/incexp/facts?pagesize=5">https://municipaldata.treasury.gov.za/api/cubes/incexp/facts?pagesize=5</a></code></p>
 
     <p>Get individual entries from a cube in a non-aggregated form.</p>
 
@@ -427,7 +430,10 @@ GET /cubes/incexp/members/demarcation?pagesize=3
 }
     </pre>
 
-    <p><code>GET /cubes/&lt;name&gt;/members/&lt;member_name&gt;</code></p>
+    <p><code>GET https://municipaldata.treasury.gov.za/api/cubes/&lt;name&gt;/members/&lt;member_name&gt;</code></p>
+    <p><code>GET <a target="_blank" href="https://municipaldata.treasury.gov.za/api/cubes/incexp/members/demarcation">https://municipaldata.treasury.gov.za/api/cubes/incexp/members/demarcation</a></code></p>
+    <p><code>GET <a target="_blank" href="https://municipaldata.treasury.gov.za/api/cubes/incexp/members/demarcation.label">https://municipaldata.treasury.gov.za/api/cubes/incexp/members/demarcation.label</a></code></p>
+    <p><code>GET <a target="_blank" href="https://municipaldata.treasury.gov.za/api/cubes/incexp/members/demarcation?cut=financial_year_end.year:2016">https://municipaldata.treasury.gov.za/api/cubes/incexp/members/demarcation?cut=financial_year_end.year:2016</a></code></p>
 
     <p>Get distinct values for a given member (dimension) of a cube. For example, all the suppliers in a procurement dataset.</p>
 
@@ -506,7 +512,9 @@ GET /api/cubes/incexp/aggregate
 }
     </pre>
 
-    <p><code>GET /cubes/&lt;name&gt;/aggregate</code></p>
+    <p><code>GET https://municipaldata.treasury.gov.za/api/cubes/&lt;name&gt;/aggregate</code></p>
+    <p><code>GET <a target="_blank" href='https://municipaldata.treasury.gov.za/api/cubes/incexp/aggregate?drilldown=demarcation.code|demarcation.label|item.code|item.label|item.return_form_structure&cut=financial_year_end.year:2015|amount_type.code:AUDA|financial_period.period:2015|demarcation.code:"TSH"&aggregates=amount.sum'>https://municipaldata.treasury.gov.za/api/cubes/incexp/aggregate?drilldown=demarcation.code|demarcation.label|item.code|item.label|item.return_form_structure&cut=financial_year_end.year:2015|amount_type.code:AUDA|financial_period.period:2015|demarcation.code:"TSH"&aggregates=amount.sum</a></code></p>
+    <p><code>GET <a target="_blank" href='https://municipaldata.treasury.gov.za/api/cubes/incexp/aggregate?drilldown=demarcation.code|demarcation.label|item.code|item.label|function.code|function.label|item.return_form_structure&cut=financial_year_end.year:2015|amount_type.code:AUDA|financial_period.period:2015|demarcation.code:"TSH"|item.code:"2800";"5200"&aggregates=amount.sum'>https://municipaldata.treasury.gov.za/api/cubes/incexp/aggregate?drilldown=demarcation.code|demarcation.label|item.code|item.label|function.code|function.label|item.return_form_structure&cut=financial_year_end.year:2015|amount_type.code:AUDA|financial_period.period:2015|demarcation.code:"TSH"|item.code:"2800";"5200"&aggregates=amount.sum</a></code></p>
 
     <p>Returns aggregate views of the facts in a cube.</p>
 
@@ -548,9 +556,30 @@ GET /api/cubes/incexp/aggregate
       </tr>
     </table>
 
+    <h1 id="best-practises">Best Practises</h1>
+
+    <p>For the best possible experience using the API, follow these best practises:</p>
+
+    <ul>
+      <li>Use <a href="#pagination">pagination</a> to get all the requested data</li>
+      <li>Request only the fields you need to minimise the data clients need to download</li>
+      <li>Look for an explanation message in error responses. If the response doesn't help you to resolve the issue, <a href="#getting-help">get in touch with us</a></li>
+    </ul>
+
+    <h1 id="getting-help">Getting Help</h1>
+
+    <p>You can get help with the API at <a href="mailto:helpdesk@municipalmoney.gov.za">helpdesk@municipalmoney.gov.za</a></p>
+
   </div>
 </div>
 
 <a href="https://github.com/Code4SA/municipal-data"><img style="z-index: 20; position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
 
+{% include '_terms_modal.html' %}
+
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% javascript "docs" %}
 {% endblock %}

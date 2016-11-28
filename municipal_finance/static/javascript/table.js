@@ -547,7 +547,7 @@
         drilldown: cube.drilldown,
         cut: ['financial_year_end.year:' + this.filters.get('year')],
       };
-      
+
       if (aggregating) parts.aggregates = cube.columns;
       if (cube.hasAmountType && this.filters.get('amountType')) {
         parts.cut.push('amount_type.code:' + this.filters.get('amountType'));
@@ -788,7 +788,7 @@
         this.$('.downloads button').attr('disabled', false);
 
         // setup urls
-        this.$('.downloads .dropdown-menu a').attr('href', function() {
+        this.$('.downloads .dropdown-menu a.download').attr('href', function() {
           return self.downloadUrl + '&format=' + $(this).data('format');
         });
 

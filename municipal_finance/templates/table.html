@@ -37,8 +37,9 @@
             <i class="fa fa-download"></i> Download <span class="caret"></span>
           </button>
           <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="downloadBtn">
-            <li><a href="#" data-format="xlsx" target="_blank">Excel (.xlsx)</a></li>
-            <li><a href="#" data-format="csv" target="_blank">CSV (.csv)</a></li>
+            <li><a href="#" data-format="xlsx" target="_blank" class="download">Excel (.xlsx)</a></li>
+            <li><a href="#" data-format="csv" target="_blank" class="download">CSV (.csv)</a></li>
+            <li><a href="https://municipaldata.treasury.gov.za/docs" target="_blank">API Documentation</a></li>
           </ul>
         </div>
       </aside>
@@ -62,7 +63,7 @@
     <aside class="table-controls">
       <header>
         {{ cube_model.description }}
-        <a href="/docs#cube-{{ cube_name }}" target="_blank">Read more →</a>
+        <a href="/docs#cube-{{ cube_name }}" target="_blank">Read more&nbsp;→</a>
         {% if cube_model.return_forms %}
         <br>
         Return forms: <a href="http://mfma.treasury.gov.za/Return_Forms/Pages/default.aspx" target="_blank">{{ cube_model.return_forms|join:", " }}</a>
