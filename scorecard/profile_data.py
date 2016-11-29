@@ -136,6 +136,13 @@ class IndicatorCalculator(object):
         indicators['revenue_breakdown'] = self.revenue_breakdown()
         indicators['revenue_sources'] = self.revenue_sources()
         indicators['wasteful_exp'] = self.wasteful_exp_perc_exp()
+
+        norms = {
+            'cash_at_year_end': ['x>0'],
+            'cash_coverage': ['x>3', '3>=x>1', 'x<=1'],
+            'op_budget_diff': ['abs(x)<=5', '', ''],
+        }
+
         return indicators
 
     def fetch_data(self):

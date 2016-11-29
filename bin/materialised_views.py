@@ -38,6 +38,10 @@ def main():
         '--calc-medians',
         action='store_true',
         help='Calculate medians from stored profiles and store.')
+    command_group.add_argument(
+        '--calc-rating-counts',
+        action='store_true',
+        help='Calculate the number of items with each rating from stored profiles and store.')
     parser.add_argument(
         '--print-sets',
         action='store_true',
@@ -52,6 +56,8 @@ def main():
         generate_profiles(api_url)
     elif args.calc_medians:
         calculate_medians(args, api_url)
+    elif args.calc_rating_counts:
+        calculate_rating_counts(args, api_url)
 
 
 def generate_profiles(api_url):
@@ -88,7 +94,7 @@ def calculate_medians(args, api_url):
 
         muni.update(indicators)
 
-    nat_sets, nat_medians = calc_national_sets(munis)
+    nat_sets, nat_medians = calc_national_medians(munis)
     prov_sets, prov_medians = calc_provincial_medians(munis)
 
     if args.print_sets:
@@ -108,7 +114,7 @@ def calculate_medians(args, api_url):
         json.dump(medians, f, sort_keys=True, indent=4, separators=(',', ': '))
 
 
-def calc_national_sets(munis):
+def calc_national_medians(munis):
     nat_sets = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
     nat_medians = defaultdict(lambda: defaultdict(dict))
 
@@ -165,6 +171,59 @@ def median(items):
     else:
         # middle item of even set is mean of middle two items
         return (sorted_items[(count-1)/2] + sorted_items[(count+1)/2])/2.0
+
+
+def calculate_rating_counts(args, api_url):
+    api_client = MuniApiClient(api_url)
+    munis = get_munis(api_client)
+
+    for muni in munis:
+        demarcation_code = muni.get('municipality.demarcation_code')
+        filename = "scorecard/materialised/profiles/%s.json" % demarcation_code
+        with open(filename, 'rd') as f:
+            profile = json.load(f)
+        indicators = profile['indicators']
+
+        muni.update(indicators)
+
+    nat_sets = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+    nat_group_counts = defaultdict(lambda: defaultdict(lambda: defaultdict(dict)))
+
+    # collect set of indicator values for each MIIF category and year
+    dev_cat_key = lambda muni: muni['municipality.miif_category']
+    dev_cat_sorted = sorted(munis, key=dev_cat_key)
+    for indicator in MEDIAN_INDICATORS:
+        for dev_cat, dev_cat_group in groupby(dev_cat_sorted, dev_cat_key):
+            for muni in dev_cat_group:
+                for period in muni[indicator]['values']:
+                    if period['result'] is not None:
+                        nat_sets[indicator][dev_cat][period['date']].append(period)
+
+    # calculate national median per MIIF category and year for each indicator
+    rating_key = lambda period: period['rating']
+    for indicator in nat_sets.keys():
+        for dev_cat in nat_sets[indicator].keys():
+            for year in nat_sets[indicator][dev_cat].keys():
+                rating_sorted = sorted(nat_sets[indicator][dev_cat][year], key=rating_key)
+                for rating, rating_group in groupby(rating_sorted, rating_key):
+                    nat_group_counts[indicator][dev_cat][year][rating] = len(list(rating_group))
+
+    if args.print_sets:
+        print("Indicator value sets by MIIF category nationally")
+        print(json.dumps(nat_sets, sort_keys=True, indent=4, separators=(',', ': ')))
+        print
+    #   print("Indicator value sets by MIIF category and province")
+    #   print(json.dumps(prov_sets, sort_keys=True, indent=4, separators=(',', ': ')))
+
+    # write medians
+    filename = "scorecard/materialised/indicators/distribution/rating_counts.json"
+    rating_counts = {
+    #    'provincial': prov_medians,
+        'national': nat_group_counts,
+    }
+    with open(filename, 'wb') as f:
+        json.dump(rating_counts, f, sort_keys=True, indent=4, separators=(',', ': '))
+
 
 
 def get_munis(api_client):
