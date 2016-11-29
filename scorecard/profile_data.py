@@ -128,7 +128,8 @@ class IndicatorCalculator(object):
         indicators['current_debtors_collection_rate'] = self.current_debtors_collection_rate()
         indicators['current_ratio'] = self.current_ratio()
         indicators['expenditure_functional_breakdown'] = self.expenditure_functional_breakdown()
-        indicators['expenditure_trends'] = self.expenditure_trends()
+        indicators['expenditure_trends_contracting'] = self.expenditure_trends_contracting()
+        indicators['expenditure_trends_staff'] = self.expenditure_trends_staff()
         indicators['liquidity_ratio'] = self.liquidity_ratio()
         indicators['op_budget_diff'] = self.op_budget_diff()
         indicators['rep_maint_perc_ppe'] = self.rep_maint_perc_ppe()
@@ -613,11 +614,30 @@ class IndicatorCalculator(object):
             'ref': self.references['mbrr'],
         }
 
-    def expenditure_trends(self):
-        values = {
-            'staff': {'values': []},
-            'contracting': {'values': []},
-        }
+    def expenditure_trends_contracting(self):
+        values = []
+
+        for year in self.years:
+            try:
+                total = self.results['expenditure_breakdown']['4600'][year]
+            except KeyError:
+                total = None
+
+            try:
+                contracting = percent(self.results['expenditure_breakdown']['4200'][year], total)
+            except KeyError:
+                contracting = None
+
+            values.append({
+                'date': year,
+                'result': contracting,
+                'rating': '',
+            })
+
+        return {'values': values}
+
+    def expenditure_trends_staff(self):
+        values = []
 
         for year in self.years:
             try:
@@ -632,24 +652,13 @@ class IndicatorCalculator(object):
             except KeyError:
                 staff = None
 
-            values['staff']['values'].append({
+            values.append({
                 'date': year,
                 'result': staff,
                 'rating': '',
             })
 
-            try:
-                contracting = percent(self.results['expenditure_breakdown']['4200'][year], total)
-            except KeyError:
-                contracting = None
-
-            values['contracting']['values'].append({
-                'date': year,
-                'result': contracting,
-                'rating': '',
-            })
-
-        return values
+        return {'values': values}
 
     def expenditure_functional_breakdown(self):
         GAPD_categories = {

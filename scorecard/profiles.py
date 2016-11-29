@@ -13,6 +13,8 @@ INDICATORS = [
     'cash_coverage',
     'current_debtors_collection_rate',
     'current_ratio',
+    'expenditure_trends_contracting',
+    'expenditure_trends_staff',
     'liquidity_ratio',
     'op_budget_diff',
     'rep_maint_perc_ppe',

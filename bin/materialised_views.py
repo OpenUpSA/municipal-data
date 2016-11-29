@@ -8,16 +8,18 @@ import argparse
 import json
 
 API_URL = 'https://municipaldata.treasury.gov.za/api'
-INDICATORS = [
+MEDIAN_INDICATORS = [
     'cap_budget_diff',
     'cash_at_year_end',
     'cash_coverage',
     'current_debtors_collection_rate',
     'current_ratio',
+    'expenditure_trends_contracting',
+    'expenditure_trends_staff',
     'liquidity_ratio',
     'op_budget_diff',
     'rep_maint_perc_ppe',
-    'wasteful_exp'
+    'wasteful_exp',
 ]
 
 
@@ -113,7 +115,7 @@ def calc_national_sets(munis):
     # collect set of indicator values for each MIIF category and year
     dev_cat_key = lambda muni: muni['municipality.miif_category']
     dev_cat_sorted = sorted(munis, key=dev_cat_key)
-    for indicator in INDICATORS:
+    for indicator in MEDIAN_INDICATORS:
         for dev_cat, dev_cat_group in groupby(dev_cat_sorted, dev_cat_key):
             for muni in dev_cat_group:
                 for period in muni[indicator]['values']:
@@ -136,7 +138,7 @@ def calc_provincial_medians(munis):
     dev_cat_key = lambda muni: muni['municipality.miif_category']
     dev_cat_sorted = sorted(munis, key=dev_cat_key)
     prov_key = lambda muni: muni['municipality.province_code']
-    for indicator in INDICATORS:
+    for indicator in MEDIAN_INDICATORS:
         for dev_cat, dev_cat_group in groupby(dev_cat_sorted, dev_cat_key):
             prov_sorted = sorted(dev_cat_group, key=prov_key)
             for prov_code, prov_group in groupby(prov_sorted, prov_key):
