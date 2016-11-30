@@ -1,3 +1,23 @@
+"""
+A script to build a set files of materialised views of the data presented
+in municipality profiles on the Municipal Money website.
+
+Municipality-specific profile data is stored in municipality-specific files
+since producing them takes a lot of time with many queries against the API.
+By storing municipality-specific data separately from comparisons to other
+municipalities based on this data (e.g. medians, number of similar
+municipalities in norm bounds) allows quick iteration on the latter without
+recalculating muni-specifics from the API each time.
+
+By storing this data to file instead of database, version control helps to
+understand what changed as code is changed and avoid unintended changes to
+calculations. It also allows deploying template and data changes synchronously
+and avoids data/code structure mismatch that could occur if the data is in
+a database and not upgraded during deployment - potentially leading to downtime.
+
+By keeping this script separate from the Municipal Money website django app,
+this data can be recalculated without more-complex environment setup.
+"""
 import sys
 sys.path.append('.')
 
