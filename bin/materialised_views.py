@@ -3,7 +3,7 @@ sys.path.append('.')
 
 from collections import defaultdict
 from itertools import groupby
-from scorecard.profile_data import IndicatorCalculator, MuniApiClient
+from scorecard.profile_data import APIData, MuniApiClient, get_indicators
 import argparse
 import json
 
@@ -66,13 +66,13 @@ def generate_profiles(api_url):
 
     for muni in munis:
         demarcation_code = muni.get('municipality.demarcation_code')
-        indicator_calc = IndicatorCalculator(api_client.API_URL, demarcation_code, client=api_client)
-        indicator_calc.fetch_data()
-        indicators = indicator_calc.get_indicators()
+        api_data = APIData(api_client.API_URL, demarcation_code, client=api_client)
+        api_data.fetch_data()
+        indicators = get_indicators(api_data)
         profile = {
-            'mayoral_staff': indicator_calc.mayoral_staff(),
-            'muni_contact': indicator_calc.muni_contact(),
-            'audit_opinions': indicator_calc.audit_opinions(),
+            'mayoral_staff': api_data.mayoral_staff(),
+            'muni_contact': api_data.muni_contact(),
+            'audit_opinions': api_data.audit_opinions(),
             'indicators': indicators,
         }
 

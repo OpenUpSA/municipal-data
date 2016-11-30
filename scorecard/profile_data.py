@@ -89,7 +89,7 @@ class MuniApiClient(object):
         return '|'.join('{!s}:{!s}'.format(pair[0], pair[1]) for pair in keypairs)
 
 
-class IndicatorCalculator(object):
+class APIData(object):
     def __init__(self, api_url, geo_code, years=YEARS, client=None):
         self.years = list(years)
         self.geo_code = str(geo_code)
@@ -118,35 +118,6 @@ class IndicatorCalculator(object):
                 'url': 'http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx',
             }
         }
-
-    def get_indicators(self):
-        indicators = {}
-
-        indicators['cap_budget_diff'] = self.cap_budget_diff()
-        indicators['cash_at_year_end'] = self.cash_at_year_end()
-        indicators['cash_coverage'] = self.cash_coverage()
-        indicators['current_debtors_collection_rate'] = self.current_debtors_collection_rate()
-        indicators['current_ratio'] = self.current_ratio()
-        indicators['expenditure_functional_breakdown'] = self.expenditure_functional_breakdown()
-        indicators['expenditure_trends_contracting'] = self.expenditure_trends_contracting()
-        indicators['expenditure_trends_staff'] = self.expenditure_trends_staff()
-        indicators['liquidity_ratio'] = self.liquidity_ratio()
-        indicators['op_budget_diff'] = self.op_budget_diff()
-        indicators['rep_maint_perc_ppe'] = self.rep_maint_perc_ppe()
-        indicators['revenue_breakdown'] = self.revenue_breakdown()
-        indicators['revenue_sources'] = self.revenue_sources()
-        indicators['wasteful_exp'] = self.wasteful_exp_perc_exp()
-
-        norms = {
-            'cash_at_year_end': {'good': 'x>0', 'bad': 'x<=0'},
-            'cash_coverage': {'good': 'x>3', 'ave': '3>=x>1', 'bad': 'x<=1'},
-            'op_budget_diff': {'good': 'abs(x)<=5', 'ave': '5<abs(x)<=15', 'bad': 'abs(x)>15'},
-            'cap_budget_diff': {'good': 'abs(x)<=5', 'ave': '5<abs(x)<=15', 'bad': 'abs(x)>15'},
-            'rep_maint_perc_ppe': {'good': 'abs(x)>=8', 'bad': 'abs(x)<8'},
-            'wasteful_exp': {'good': 'x=0', 'bad': 'x!=0'},
-        }
-
-        return indicators
 
     def fetch_data(self):
         self.queries = self.get_queries()
@@ -1196,3 +1167,32 @@ class IndicatorCalculator(object):
                 'results_structure': self.noop_structure,
             },
         }
+
+def get_indicators(api_data):
+    indicators = {}
+
+    indicators['cap_budget_diff'] = api_data.cap_budget_diff()
+    indicators['cash_at_year_end'] = api_data.cash_at_year_end()
+    indicators['cash_coverage'] = api_data.cash_coverage()
+    indicators['current_debtors_collection_rate'] = api_data.current_debtors_collection_rate()
+    indicators['current_ratio'] = api_data.current_ratio()
+    indicators['expenditure_functional_breakdown'] = api_data.expenditure_functional_breakdown()
+    indicators['expenditure_trends_contracting'] = api_data.expenditure_trends_contracting()
+    indicators['expenditure_trends_staff'] = api_data.expenditure_trends_staff()
+    indicators['liquidity_ratio'] = api_data.liquidity_ratio()
+    indicators['op_budget_diff'] = api_data.op_budget_diff()
+    indicators['rep_maint_perc_ppe'] = api_data.rep_maint_perc_ppe()
+    indicators['revenue_breakdown'] = api_data.revenue_breakdown()
+    indicators['revenue_sources'] = api_data.revenue_sources()
+    indicators['wasteful_exp'] = api_data.wasteful_exp_perc_exp()
+
+    norms = {
+        'cash_at_year_end': {'good': 'x>0', 'bad': 'x<=0'},
+        'cash_coverage': {'good': 'x>3', 'ave': '3>=x>1', 'bad': 'x<=1'},
+        'op_budget_diff': {'good': 'abs(x)<=5', 'ave': '5<abs(x)<=15', 'bad': 'abs(x)>15'},
+        'cap_budget_diff': {'good': 'abs(x)<=5', 'ave': '5<abs(x)<=15', 'bad': 'abs(x)>15'},
+        'rep_maint_perc_ppe': {'good': 'abs(x)>=8', 'bad': 'abs(x)<8'},
+        'wasteful_exp': {'good': 'x=0', 'bad': 'x!=0'},
+    }
+
+    return indicators
