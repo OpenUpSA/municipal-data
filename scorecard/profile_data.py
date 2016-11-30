@@ -22,6 +22,7 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from itertools import groupby
 from requests_futures.sessions import FuturesSession
+from abc import ABCMeta
 import dateutil.parser
 import logging
 import urllib
@@ -620,7 +621,11 @@ def get_indicators(api_data):
     return indicators
 
 
-class CashCoverage:
+class IndicatorCalculator:
+    __metaclass__ = ABCMeta
+
+
+class CashCoverage(IndicatorCalculator):
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -646,7 +651,7 @@ class CashCoverage:
         }
 
 
-class OperatingBudgetDifference:
+class OperatingBudgetDifference(IndicatorCalculator):
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -681,7 +686,7 @@ class OperatingBudgetDifference:
         }
 
 
-class CapitalBudgetDifference:
+class CapitalBudgetDifference(IndicatorCalculator):
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -716,7 +721,7 @@ class CapitalBudgetDifference:
         }
 
 
-class RepairsMaintenance:
+class RepairsMaintenance(IndicatorCalculator):
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -744,7 +749,7 @@ class RepairsMaintenance:
         }
 
 
-class RevenueSources:
+class RevenueSources(IndicatorCalculator):
     @classmethod
     def get_muni_specifics(cls, api_data):
         year = api_data.years[0]
@@ -807,7 +812,7 @@ class RevenueSources:
         return results
 
 
-class RevenueBreakdown:
+class RevenueBreakdown(IndicatorCalculator):
     @classmethod
     def get_muni_specifics(cls, api_data):
         groups = [
@@ -864,7 +869,7 @@ class RevenueBreakdown:
         return {'values': values}
 
 
-class CurrentRatio:
+class CurrentRatio(IndicatorCalculator):
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -927,7 +932,7 @@ class CurrentRatio:
         }
 
 
-class LiquidityRatio:
+class LiquidityRatio(IndicatorCalculator):
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -994,7 +999,7 @@ class LiquidityRatio:
         }
 
 
-class CurrentDebtorsCollectionRate:
+class CurrentDebtorsCollectionRate(IndicatorCalculator):
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -1085,7 +1090,7 @@ class CurrentDebtorsCollectionRate:
         }
 
 
-class ExpenditureTrendsContracting:
+class ExpenditureTrendsContracting(IndicatorCalculator):
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -1110,7 +1115,7 @@ class ExpenditureTrendsContracting:
         return {'values': values}
 
 
-class ExpenditureTrendsStaff:
+class ExpenditureTrendsStaff(IndicatorCalculator):
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -1137,7 +1142,7 @@ class ExpenditureTrendsStaff:
         return {'values': values}
 
 
-class ExpenditureFunctionalBreakdown:
+class ExpenditureFunctionalBreakdown(IndicatorCalculator):
     @classmethod
     def get_muni_specifics(cls, api_data):
         GAPD_categories = {
@@ -1184,7 +1189,7 @@ class ExpenditureFunctionalBreakdown:
         return {'values': grouped_results}
 
 
-class CashAtYearEnd:
+class CashAtYearEnd(IndicatorCalculator):
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -1208,7 +1213,7 @@ class CashAtYearEnd:
         }
 
 
-class FruitlWastefIrregUnauth:
+class FruitlWastefIrregUnauth(IndicatorCalculator):
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
