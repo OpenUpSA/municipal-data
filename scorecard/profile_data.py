@@ -138,9 +138,12 @@ class IndicatorCalculator(object):
         indicators['wasteful_exp'] = self.wasteful_exp_perc_exp()
 
         norms = {
-            'cash_at_year_end': ['x>0'],
-            'cash_coverage': ['x>3', '3>=x>1', 'x<=1'],
-            'op_budget_diff': ['abs(x)<=5', '', ''],
+            'cash_at_year_end': {'good': 'x>0', 'bad': 'x<=0'},
+            'cash_coverage': {'good': 'x>3', 'ave': '3>=x>1', 'bad': 'x<=1'},
+            'op_budget_diff': {'good': 'abs(x)<=5', 'ave': '5<abs(x)<=15', 'bad': 'abs(x)>15'},
+            'cap_budget_diff': {'good': 'abs(x)<=5', 'ave': '5<abs(x)<=15', 'bad': 'abs(x)>15'},
+            'rep_maint_perc_ppe': {'good': 'abs(x)>=8', 'bad': 'abs(x)<8'},
+            'wasteful_exp': {'good': 'x=0', 'bad': 'x!=0'},
         }
 
         return indicators
