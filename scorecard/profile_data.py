@@ -22,7 +22,6 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from itertools import groupby
 from requests_futures.sessions import FuturesSession
-from abc import ABCMeta
 import dateutil.parser
 import logging
 import urllib
@@ -591,23 +590,30 @@ class APIData(object):
         }
 
 
+def get_indicator_calculators():
+    return [
+        CashCoverage,
+        OperatingBudgetDifference,
+        CapitalBudgetDifference,
+        RepairsMaintenance,
+        RevenueSources,
+        RevenueBreakdown,
+        CurrentRatio,
+        LiquidityRatio,
+        CurrentDebtorsCollectionRate,
+        ExpenditureFunctionalBreakdown,
+        ExpenditureTrendsContracting,
+        ExpenditureTrendsStaff,
+        CashAtYearEnd,
+        FruitlWastefIrregUnauth,
+    ]
+
+
 def get_indicators(api_data):
     indicators = {}
 
-    indicators['cap_budget_diff'] = CapitalBudgetDifference.get_muni_specifics(api_data)
-    indicators['cash_at_year_end'] = CashAtYearEnd.get_muni_specifics(api_data)
-    indicators['cash_coverage'] = CashCoverage.get_muni_specifics(api_data)
-    indicators['current_debtors_collection_rate'] = CurrentDebtorsCollectionRate.get_muni_specifics(api_data)
-    indicators['current_ratio'] = CurrentRatio.get_muni_specifics(api_data)
-    indicators['expenditure_functional_breakdown'] = ExpenditureFunctionalBreakdown.get_muni_specifics(api_data)
-    indicators['expenditure_trends_contracting'] = ExpenditureTrendsContracting.get_muni_specifics(api_data)
-    indicators['expenditure_trends_staff'] = ExpenditureTrendsStaff.get_muni_specifics(api_data)
-    indicators['liquidity_ratio'] = LiquidityRatio.get_muni_specifics(api_data)
-    indicators['op_budget_diff'] = OperatingBudgetDifference.get_muni_specifics(api_data)
-    indicators['rep_maint_perc_ppe'] = RepairsMaintenance.get_muni_specifics(api_data)
-    indicators['revenue_breakdown'] = RevenueBreakdown.get_muni_specifics(api_data)
-    indicators['revenue_sources'] = RevenueSources.get_muni_specifics(api_data)
-    indicators['wasteful_exp'] = FruitlWastefIrregUnauth.get_muni_specifics(api_data)
+    for indicator_calc in get_indicator_calculators():
+        indicators[indicator_calc.key] = indicator_calc.get_muni_specifics(api_data)
 
     norms = {
         'cash_at_year_end': {'good': 'x>0', 'bad': 'x<=0'},
@@ -622,10 +628,14 @@ def get_indicators(api_data):
 
 
 class IndicatorCalculator:
-    __metaclass__ = ABCMeta
+    pass
 
 
 class CashCoverage(IndicatorCalculator):
+    key = 'cash_coverage'
+    result_type = 'months'
+    noun = 'coverage'
+
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -652,6 +662,10 @@ class CashCoverage(IndicatorCalculator):
 
 
 class OperatingBudgetDifference(IndicatorCalculator):
+    key = 'op_budget_diff'
+    result_type = '%'
+    noun = 'underspending or overspending'
+
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -687,6 +701,10 @@ class OperatingBudgetDifference(IndicatorCalculator):
 
 
 class CapitalBudgetDifference(IndicatorCalculator):
+    key = 'cap_budget_diff'
+    result_type = '%'
+    noun = 'underspending or overspending'
+
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -722,6 +740,10 @@ class CapitalBudgetDifference(IndicatorCalculator):
 
 
 class RepairsMaintenance(IndicatorCalculator):
+    key = 'rep_maint_perc_ppe'
+    result_type = '%'
+    noun = 'spending'
+
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -750,6 +772,8 @@ class RepairsMaintenance(IndicatorCalculator):
 
 
 class RevenueSources(IndicatorCalculator):
+    key = 'revenue_sources'
+
     @classmethod
     def get_muni_specifics(cls, api_data):
         year = api_data.years[0]
@@ -813,6 +837,8 @@ class RevenueSources(IndicatorCalculator):
 
 
 class RevenueBreakdown(IndicatorCalculator):
+    key = 'revenue_breakdown'
+
     @classmethod
     def get_muni_specifics(cls, api_data):
         groups = [
@@ -870,6 +896,10 @@ class RevenueBreakdown(IndicatorCalculator):
 
 
 class CurrentRatio(IndicatorCalculator):
+    key = 'current_ratio'
+    result_type = 'ratio'
+    noun = 'ratio'
+
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -933,6 +963,10 @@ class CurrentRatio(IndicatorCalculator):
 
 
 class LiquidityRatio(IndicatorCalculator):
+    key = 'liquidity_ratio'
+    result_type = 'ratio'
+    noun = 'ratio'
+
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -1000,6 +1034,10 @@ class LiquidityRatio(IndicatorCalculator):
 
 
 class CurrentDebtorsCollectionRate(IndicatorCalculator):
+    key = 'current_debtors_collection_rate'
+    result_type = '%'
+    noun = 'rate'
+
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -1091,6 +1129,10 @@ class CurrentDebtorsCollectionRate(IndicatorCalculator):
 
 
 class ExpenditureTrendsContracting(IndicatorCalculator):
+    key = 'expenditure_trends_contracting'
+    result_type = '%'
+    noun = 'expenditure'
+
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -1116,6 +1158,10 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
 
 
 class ExpenditureTrendsStaff(IndicatorCalculator):
+    key = 'expenditure_trends_staff'
+    result_type = '%'
+    noun = 'expenditure'
+
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -1143,6 +1189,8 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
 
 
 class ExpenditureFunctionalBreakdown(IndicatorCalculator):
+    key = 'expenditure_functional_breakdown'
+
     @classmethod
     def get_muni_specifics(cls, api_data):
         GAPD_categories = {
@@ -1190,6 +1238,10 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
 
 
 class CashAtYearEnd(IndicatorCalculator):
+    key = 'cash_at_year_end'
+    result_type = 'R'
+    noun = 'cash balance'
+
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
@@ -1213,7 +1265,12 @@ class CashAtYearEnd(IndicatorCalculator):
         }
 
 
+
 class FruitlWastefIrregUnauth(IndicatorCalculator):
+    key = 'wasteful_exp'
+    result_type = '%'
+    noun = 'expenditure'
+
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = []
