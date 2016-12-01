@@ -590,8 +590,8 @@ class APIData(object):
         }
 
 
-def get_indicator_calculators():
-    return [
+def get_indicator_calculators(has_comparisons=None):
+    calculators = [
         CashCoverage,
         OperatingBudgetDifference,
         CapitalBudgetDifference,
@@ -607,13 +607,17 @@ def get_indicator_calculators():
         CashAtYearEnd,
         FruitlWastefIrregUnauth,
     ]
+    if has_comparisons is None:
+        return calculators
+    else:
+        return [calc for calc in calculators if calc.has_comparisons == has_comparisons]
 
 
 def get_indicators(api_data):
     indicators = {}
 
     for indicator_calc in get_indicator_calculators():
-        indicators[indicator_calc.key] = indicator_calc.get_muni_specifics(api_data)
+        indicators[indicator_calc.indicator_name] = indicator_calc.get_muni_specifics(api_data)
 
     norms = {
         'cash_at_year_end': {'good': 'x>0', 'bad': 'x<=0'},
@@ -632,9 +636,10 @@ class IndicatorCalculator:
 
 
 class CashCoverage(IndicatorCalculator):
-    key = 'cash_coverage'
+    indicator_name = 'cash_coverage'
     result_type = 'months'
     noun = 'coverage'
+    has_comparisons = True
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -662,9 +667,10 @@ class CashCoverage(IndicatorCalculator):
 
 
 class OperatingBudgetDifference(IndicatorCalculator):
-    key = 'op_budget_diff'
+    indicator_name = 'op_budget_diff'
     result_type = '%'
     noun = 'underspending or overspending'
+    has_comparisons = True
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -701,9 +707,10 @@ class OperatingBudgetDifference(IndicatorCalculator):
 
 
 class CapitalBudgetDifference(IndicatorCalculator):
-    key = 'cap_budget_diff'
+    indicator_name = 'cap_budget_diff'
     result_type = '%'
     noun = 'underspending or overspending'
+    has_comparisons = True
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -740,9 +747,10 @@ class CapitalBudgetDifference(IndicatorCalculator):
 
 
 class RepairsMaintenance(IndicatorCalculator):
-    key = 'rep_maint_perc_ppe'
+    indicator_name = 'rep_maint_perc_ppe'
     result_type = '%'
     noun = 'spending'
+    has_comparisons = True
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -772,7 +780,8 @@ class RepairsMaintenance(IndicatorCalculator):
 
 
 class RevenueSources(IndicatorCalculator):
-    key = 'revenue_sources'
+    indicator_name = 'revenue_sources'
+    has_comparisons = False
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -837,7 +846,8 @@ class RevenueSources(IndicatorCalculator):
 
 
 class RevenueBreakdown(IndicatorCalculator):
-    key = 'revenue_breakdown'
+    indicator_name = 'revenue_breakdown'
+    has_comparisons = False
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -896,9 +906,10 @@ class RevenueBreakdown(IndicatorCalculator):
 
 
 class CurrentRatio(IndicatorCalculator):
-    key = 'current_ratio'
+    indicator_name = 'current_ratio'
     result_type = 'ratio'
     noun = 'ratio'
+    has_comparisons = True
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -963,9 +974,10 @@ class CurrentRatio(IndicatorCalculator):
 
 
 class LiquidityRatio(IndicatorCalculator):
-    key = 'liquidity_ratio'
+    indicator_name = 'liquidity_ratio'
     result_type = 'ratio'
     noun = 'ratio'
+    has_comparisons = True
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -1034,9 +1046,10 @@ class LiquidityRatio(IndicatorCalculator):
 
 
 class CurrentDebtorsCollectionRate(IndicatorCalculator):
-    key = 'current_debtors_collection_rate'
+    indicator_name = 'current_debtors_collection_rate'
     result_type = '%'
     noun = 'rate'
+    has_comparisons = True
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -1129,9 +1142,10 @@ class CurrentDebtorsCollectionRate(IndicatorCalculator):
 
 
 class ExpenditureTrendsContracting(IndicatorCalculator):
-    key = 'expenditure_trends_contracting'
+    indicator_name = 'expenditure_trends_contracting'
     result_type = '%'
     noun = 'expenditure'
+    has_comparisons = True
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -1158,9 +1172,10 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
 
 
 class ExpenditureTrendsStaff(IndicatorCalculator):
-    key = 'expenditure_trends_staff'
+    indicator_name = 'expenditure_trends_staff'
     result_type = '%'
     noun = 'expenditure'
+    has_comparisons = True
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -1189,7 +1204,8 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
 
 
 class ExpenditureFunctionalBreakdown(IndicatorCalculator):
-    key = 'expenditure_functional_breakdown'
+    indicator_name = 'expenditure_functional_breakdown'
+    has_comparisons = False
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -1238,9 +1254,10 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
 
 
 class CashAtYearEnd(IndicatorCalculator):
-    key = 'cash_at_year_end'
+    indicator_name = 'cash_at_year_end'
     result_type = 'R'
     noun = 'cash balance'
+    has_comparisons = True
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -1265,11 +1282,11 @@ class CashAtYearEnd(IndicatorCalculator):
         }
 
 
-
 class FruitlWastefIrregUnauth(IndicatorCalculator):
-    key = 'wasteful_exp'
+    indicator_name = 'wasteful_exp'
     result_type = '%'
     noun = 'expenditure'
+    has_comparisons = True
 
     @classmethod
     def get_muni_specifics(cls, api_data):
