@@ -1,4 +1,5 @@
 {% extends "_base.html" %}
+{% load staticfiles %}
 
 {% block head_title %}Frequently Asked Questions (FAQ){% endblock %}
 
@@ -167,7 +168,7 @@ While most of the financial data provided to National Treasury  by the municipal
           When we calculate an indicator comparison for similar municipalities, we use the <a href="https://en.wikipedia.org/wiki/Median" target="_blank">median value</a>
           of the municipalities in the same MIIF category.
           </p><p>
-          For more information, see page iii of the report <a href="">State Municipal Capacity Assessment 2010/2011 National Trends in Municipal Capacity</a> by the Municipal Demarcation Board.
+          For more information, see page iii of the report <a href="{% static 'state_of_municipal_capacity_assessment_2010_11_national_trends_report.pdf' %}">State Municipal Capacity Assessment 2010/2011 National Trends in Municipal Capacity</a> by the Municipal Demarcation Board.
           </p>
           <table class="table">
             <tr>
