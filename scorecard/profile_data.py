@@ -89,7 +89,7 @@ class MuniApiClient(object):
         return '|'.join('{!s}:{!s}'.format(pair[0], pair[1]) for pair in keypairs)
 
 
-class IndicatorCalculator(object):
+class APIData(object):
     def __init__(self, api_url, geo_code, years=YEARS, client=None):
         self.years = list(years)
         self.geo_code = str(geo_code)
@@ -118,25 +118,6 @@ class IndicatorCalculator(object):
                 'url': 'http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx',
             }
         }
-
-    def get_indicators(self):
-        indicators = {}
-
-        indicators['cap_budget_diff'] = self.cap_budget_diff()
-        indicators['cash_at_year_end'] = self.cash_at_year_end()
-        indicators['cash_coverage'] = self.cash_coverage()
-        indicators['current_debtors_collection_rate'] = self.current_debtors_collection_rate()
-        indicators['current_ratio'] = self.current_ratio()
-        indicators['expenditure_functional_breakdown'] = self.expenditure_functional_breakdown()
-        indicators['expenditure_trends_contracting'] = self.expenditure_trends_contracting()
-        indicators['expenditure_trends_staff'] = self.expenditure_trends_staff()
-        indicators['liquidity_ratio'] = self.liquidity_ratio()
-        indicators['op_budget_diff'] = self.op_budget_diff()
-        indicators['rep_maint_perc_ppe'] = self.rep_maint_perc_ppe()
-        indicators['revenue_breakdown'] = self.revenue_breakdown()
-        indicators['revenue_sources'] = self.revenue_sources()
-        indicators['wasteful_exp'] = self.wasteful_exp_perc_exp()
-        return indicators
 
     def fetch_data(self):
         self.queries = self.get_queries()
@@ -175,585 +156,6 @@ class IndicatorCalculator(object):
            and body.get("total_cell_count") is not None:
             url = response.url
             raise Exception("Page is full: should check next page for %s " % url)
-
-    def cash_coverage(self):
-        values = []
-        for year in self.years:
-            try:
-                cash = self.results['cash_flow']['4200'][year]
-                monthly_expenses = self.results['op_exp_actual']['4600'][year] / 12
-                result = max(ratio(cash, monthly_expenses, 1), 0)
-                if result > 3:
-                    rating = 'good'
-                elif result <= 1:
-                    rating = 'bad'
-                else:
-                    rating = 'ave'
-            except KeyError:
-                result = None
-                rating = None
-            values.append({'date': year, 'result': result, 'rating': rating})
-
-        return {
-            'values': values,
-            'ref': self.references['solgf'],
-        }
-
-    def op_budget_diff(self):
-        values = []
-        for year in self.years:
-            try:
-                op_ex_budget = self.results['op_exp_budget']['4600'][year]
-                op_ex_actual = self.results['op_exp_actual']['4600'][year]
-                result = percent((op_ex_actual - op_ex_budget), op_ex_budget, 1)
-                overunder = 'under' if result < 0 else 'over'
-                if abs(result) <= 5:
-                    rating = 'good'
-                elif abs(result) <= 15:
-                    rating = 'ave'
-                elif abs(result) > 15:
-                    rating = 'bad'
-                else:
-                    rating = None
-            except KeyError:
-                result = None
-                rating = None
-                overunder = None
-            values.append({
-                'date': year,
-                'result': result,
-                'overunder': overunder,
-                'rating': rating
-            })
-
-        return {
-            'values': values,
-            'ref': self.references['overunder'],
-        }
-
-    def cap_budget_diff(self):
-        values = []
-        for year in self.years:
-            try:
-                cap_ex_budget = self.results['cap_exp_budget']['4100'][year]
-                cap_ex_actual = self.results['cap_exp_actual']['4100'][year]
-                result = percent((cap_ex_actual - cap_ex_budget), cap_ex_budget)
-                overunder = 'under' if result < 0 else 'over'
-                if abs(result) <= 5:
-                    rating = 'good'
-                elif abs(result) <= 15:
-                    rating = 'ave'
-                elif abs(result) > 15:
-                    rating = 'bad'
-                else:
-                    rating = None
-            except KeyError:
-                result = None
-                rating = None
-                overunder = None
-            values.append({
-                'date': year,
-                'result': result,
-                'overunder': overunder,
-                'rating': rating
-            })
-
-        return {
-            'values': values,
-            'ref': self.references['overunder'],
-        }
-
-    def rep_maint_perc_ppe(self):
-        values = []
-        for year in self.years:
-            try:
-                rep_maint = self.results['rep_maint']['4100'][year]
-                ppe = self.results['ppe']['1300'][year]
-                invest_prop = self.results['invest_prop']['1401'][year]
-                result = percent(rep_maint, (ppe + invest_prop))
-                if abs(result) >= 8:
-                    rating = 'good'
-                elif abs(result) < 8:
-                    rating = 'bad'
-                else:
-                    rating = None
-            except KeyError:
-                result = None
-                rating = None
-
-            values.append({'date': year, 'result': result, 'rating': rating})
-
-        return {
-            'values': values,
-            'ref': self.references['circular71'],
-        }
-
-    def revenue_sources(self):
-        year = self.years[0]
-        results = {
-            'local': {
-                'amount': 0,
-                'items': [],
-                },
-            'government': {
-                'amount': 0,
-                'items': [],
-                },
-            'year': year,
-            'ref': self.references['lges'],
-        }
-        code_to_source = {
-            '0200': 'local',
-            '0300': 'local',
-            '0400': 'local',
-            '0700': 'local',
-            '0800': 'local',
-            '1000': 'local',
-            '1100': 'local',
-            '1300': 'local',
-            '1400': 'local',
-            '1500': 'local',
-            '1600': 'government',
-            '1610': 'government',
-            '1700': 'local',
-            '1800': 'local',
-        }
-        total = None
-        for item in self.results['revenue_breakdown']:
-            if item['financial_year_end.year'] != year:
-                continue
-            if item['amount_type.code'] != 'AUDA':
-                continue
-            if item['item.code'] == '1900':
-                total = item['amount.sum']
-                continue
-            amount = item['amount.sum']
-            results[code_to_source[item['item.code']]]['amount'] += amount
-            results[code_to_source[item['item.code']]]['items'].append(item)
-        if total is None:
-            results['government']['percent'] = None
-            results['government']['value'] = None
-            results['local']['percent'] = None
-            results['local']['value'] = None
-            results['rating'] = 'bad'
-        else:
-            results['government']['percent'] = percent(results['government']['amount'], total)
-            local_pct = percent(results['local']['amount'], total)
-            results['local']['percent'] = local_pct
-            if local_pct >= 75:
-                results['rating'] = 'good'
-            elif local_pct >= 50:
-                results['rating'] = 'ave'
-            else:
-                results['rating'] = 'bad'
-        return results
-
-    def revenue_breakdown(self):
-        groups = [
-            ('Property rates', ['0200', '0300']),
-            ('Service Charges', ['0400']),
-            ('Rental income', ['0700']),
-            ('Interest and investments', ['0800', '1000', '1100']),
-            ('Fines', ['1300']),
-            ('Licenses and Permits', ['1400']),
-            ('Agency services', ['1500']),
-            ('Government Transfers for Operating Expenses', ['1600']),
-            ('Government Transfers for Capital Expenses', ['1610']),
-            ('Other', ['1700', '1800']),
-        ]
-        results = {}
-        # Structure as {'2015': {'1900': {'AUDA': ..., 'ORGB': ...}, '0200': ...}, '2016': ...}
-        for item in self.results['revenue_breakdown']:
-            if item['financial_year_end.year'] not in results:
-                results[item['financial_year_end.year']] = {}
-            if item['item.code'] not in results[item['financial_year_end.year']]:
-                results[item['financial_year_end.year']][item['item.code']] = {}
-            results[item['financial_year_end.year']][item['item.code']][item['amount_type.code']] \
-                = item
-        values = []
-        for year in self.years + [self.budget_year]:
-            if year == self.budget_year:
-                year_name = "%s budget" % year
-                amount_type = 'ORGB'
-            else:
-                year_name = year
-                amount_type = 'AUDA'
-            try:
-                total = results[year]['1900'][amount_type]['amount.sum']
-                for (label, codes) in groups:
-                    amount = 0
-                    for code in codes:
-                        amount += results[year][code][amount_type]['amount.sum']
-                    values.append({
-                        'item': label,
-                        'amount': amount,
-                        'percent': percent(amount, total) if amount else 0,
-                        'date': year_name,
-                        'amount_type': amount_type,
-                    })
-            except KeyError:
-                values.append({
-                    'item': None,
-                    'amount': None,
-                    'percent': None,
-                    'date': year_name,
-                    'amount_type': amount_type,
-                })
-
-        return {'values': values}
-
-    def current_ratio(self):
-        values = []
-        results = self.results['in_year_bsheet']
-        year_month_key = lambda r: (r['financial_year_end.year'], r['financial_period.period'])
-        year_month_sorted = sorted(results, key=year_month_key, reverse=True)
-        quarters = {}
-        latest_quarter = None
-        # Loop over months that exist and use their values in quarters
-        for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
-            monthitems = list(yearmonthgroup)
-            quarter_idx = ((month - 1) / 3) + 1
-            quarter_key = (year, quarter_idx)
-            try:
-                # Rely on index out of range for missing values to skip month if one's missing
-                assets = [m['amount.sum'] for m in monthitems
-                          if m['item.code'] == '2150'
-                          and m['financial_period.period'] == month][0]
-                liabilities = [m['amount.sum'] for m in monthitems
-                               if m['item.code'] == '1600'
-                               and m['financial_period.period'] == month][0]
-                # Add a quarter the first time a month in the quarter is seen.
-                # Skip the remaining months in that quarter. Thus the latest
-                # month in the quarter is used.
-                if quarter_key not in quarters:
-                    result = ratio(assets, liabilities)
-                    q = {
-                        'date': "%sq%s" % quarter_key,
-                        'year': year,
-                        'month': month,
-                        'amount_type': 'ACT',
-                        'quarter': quarter_idx,
-                        'assets': assets,
-                        'liabilities': liabilities,
-                        'result': result,
-                        'rating': 'good' if result >= 1.5 else 'ave' if result >= 1 else 'bad',
-                    }
-                    quarters[quarter_key] = q
-                    if latest_quarter is None:
-                        latest_quarter = q
-            except IndexError:
-                pass
-        # Enumerate the quarter keys we can expect to exist based on the latest
-        # If latest is missing, there are none to show.
-        if latest_quarter is not None:
-            keys = []
-            for q in xrange(latest_quarter['quarter'], 0, -1):
-                keys.append((latest_quarter['year'], q))
-            for q in xrange(4, 0, -1):
-                keys.append((latest_quarter['year']-1, q))
-            values = [quarters.get(k, {'year': k[0],
-                                       'date': "%sq%s" % k,
-                                       'quarter': k[1],
-                                       'result': None,
-                                       'rating': 'bad',
-            }) for k in keys][:5]
-        return {
-            'values': values,
-            'ref': self.references['circular71'],
-        }
-
-    def liquidity_ratio(self):
-        values = []
-        results = self.results['in_year_bsheet']
-        year_month_key = lambda r: (r['financial_year_end.year'], r['financial_period.period'])
-        year_month_sorted = sorted(results, key=year_month_key, reverse=True)
-        quarters = {}
-        latest_quarter = None
-        # Loop over months that exist and use their values in quarters
-        for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
-            monthitems = list(yearmonthgroup)
-            quarter_idx = ((month - 1) / 3) + 1
-            quarter_key = (year, quarter_idx)
-            try:
-                # Rely on index out of range for missing values to skip month if one's missing
-                cash = [m['amount.sum'] for m in monthitems
-                          if m['item.code'] == '1800'
-                          and m['financial_period.period'] == month][0]
-                call_investment_deposits = [m['amount.sum'] for m in monthitems
-                                            if m['item.code'] == '2200'
-                                            and m['financial_period.period'] == month][0]
-                liabilities = [m['amount.sum'] for m in monthitems
-                               if m['item.code'] == '1600'
-                               and m['financial_period.period'] == month][0]
-                # Add a quarter the first time a month in the quarter is seen.
-                # Skip the remaining months in that quarter. Thus the latest
-                # month in the quarter is used.
-                if quarter_key not in quarters:
-                    result = ratio(cash + call_investment_deposits, liabilities)
-                    q = {
-                        'date': "%sq%s" % quarter_key,
-                        'year': year,
-                        'month': month,
-                        'amount_type': 'ACT',
-                        'quarter': quarter_idx,
-                        'cash': cash,
-                        'call_investment_deposits': call_investment_deposits,
-                        'liabilities': liabilities,
-                        'result': result,
-                        'rating': 'good' if result >= 1 else 'bad',
-                    }
-                    quarters[quarter_key] = q
-                    if latest_quarter is None:
-                        latest_quarter = q
-            except IndexError:
-                pass
-        # Enumerate the quarter keys we can expect to exist based on the latest
-        # If latest is missing, there are none to show.
-        if latest_quarter is not None:
-            keys = []
-            for q in xrange(latest_quarter['quarter'], 0, -1):
-                keys.append((latest_quarter['year'], q))
-            for q in xrange(4, 0, -1):
-                keys.append((latest_quarter['year']-1, q))
-            values = [quarters.get(k, {'year': k[0],
-                                       'date': "%sq%s" % k,
-                                       'quarter': k[1],
-                                       'result': None,
-                                       'rating': 'bad',
-            }) for k in keys][:5]
-        return {
-            'values': values,
-            'ref': self.references['mbrr'],
-        }
-
-    def current_debtors_collection_rate(self):
-        values = []
-        results = {}
-        year_month_key = lambda r: (r['financial_year_end.year'], r['financial_period.period'])
-        year_month_sorted = sorted(self.results['in_year_cflow'], key=year_month_key, reverse=True)
-        for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
-            results[(year, month)] = {'cflow': {}}
-            for cell in yearmonthgroup:
-                results[(year, month)]['cflow'][cell['item.code']] = cell['amount.sum']
-        year_month_sorted = sorted(self.results['in_year_incexp'], key=year_month_key, reverse=True)
-        for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
-            results[(year, month)]['incexp'] = {}
-            for cell in yearmonthgroup:
-                results[(year, month)]['incexp'][cell['item.code']] = cell['amount.sum']
-        quarters = {}
-        latest_quarter = None
-        # Loop over months that exist and use their values in quarters
-
-        for (year, month) in sorted(results.keys(), reverse=True):
-            quarter_idx = ((month - 1) / 3) + 1
-            quarter_key = (year, quarter_idx)
-
-            monthcells = results[(year, month)]
-            try:
-                # Rely on index out of range for missing values to skip month if one's missing
-                # Rely on KeyError for missing values to skip month if one's missing
-                 # property rates
-                receipts = monthcells['cflow']['3010'] + \
-                           monthcells['cflow']['3030'] + \
-                           monthcells['cflow']['3040'] + \
-                           monthcells['cflow']['3050'] + \
-                           monthcells['cflow']['3060'] + \
-                           monthcells['cflow']['3070'] + \
-                           monthcells['cflow']['3100']
-                billing = monthcells['incexp']['0200'] + \
-                          monthcells['incexp']['0400'] + \
-                          monthcells['incexp']['1000'] - \
-                          monthcells['incexp']['2000']
-                # Add a quarter the first time a month in the quarter is seen.
-                # Assume initially that it won't be complete and thus have no
-                # result and bad rating. This gets changed below if it's complete.
-                if quarter_key not in quarters:
-                    q = {
-                        'date': "%sq%s" % quarter_key,
-                        'year': year,
-                        'month': month,
-                        'amount_type': 'ACT',
-                        'quarter': quarter_idx,
-                        'receipts': [receipts],
-                        'billing': [billing],
-                        'result': None,
-                        'rating': 'bad',
-                    }
-                    quarters[quarter_key] = q
-                    if latest_quarter is None:
-                        latest_quarter = q
-                else:
-                    quarters[quarter_key]['receipts'].append(receipts)
-                    quarters[quarter_key]['billing'].append(billing)
-            except KeyError, e:
-                logger.debug(e)
-
-        # Enumerate the quarter keys we can expect to exist based on the latest
-        # If latest is missing, there are none to show.
-        if latest_quarter is not None:
-            keys = []
-            for q in xrange(latest_quarter['quarter'], 0, -1):
-                keys.append((latest_quarter['year'], q))
-            for q in xrange(4, 0, -1):
-                keys.append((latest_quarter['year']-1, q))
-            for k in keys[:5]:
-                q = quarters.get(k, {'year': k[0],
-                                     'date': "%sq%s" % k,
-                                     'quarter': k[1],
-                                     'result': None,
-                                     'rating': 'bad',
-                                     'receipts': None,
-                                     'billing': None,
-                })
-                if q['receipts'] and q['billing'] and len(q['receipts']) == 3 and len(q['billing']) == 3:
-                    q['result'] = percent(sum(q['receipts']), sum(q['billing']))
-                    q['rating'] = 'good' if round(q['result']) >= 95 else 'bad'
-                values.append(q)
-        return {
-            'values': values,
-            'ref': self.references['mbrr'],
-        }
-
-    def expenditure_trends_contracting(self):
-        values = []
-
-        for year in self.years:
-            try:
-                total = self.results['expenditure_breakdown']['4600'][year]
-            except KeyError:
-                total = None
-
-            try:
-                contracting = percent(self.results['expenditure_breakdown']['4200'][year], total)
-            except KeyError:
-                contracting = None
-
-            values.append({
-                'date': year,
-                'result': contracting,
-                'rating': '',
-            })
-
-        return {'values': values}
-
-    def expenditure_trends_staff(self):
-        values = []
-
-        for year in self.years:
-            try:
-                total = self.results['expenditure_breakdown']['4600'][year]
-            except KeyError:
-                total = None
-
-            try:
-                staff = percent(self.results['expenditure_breakdown']['3000'][year] +
-                                self.results['expenditure_breakdown']['3100'][year],
-                                total)
-            except KeyError:
-                staff = None
-
-            values.append({
-                'date': year,
-                'result': staff,
-                'rating': '',
-            })
-
-        return {'values': values}
-
-    def expenditure_functional_breakdown(self):
-        GAPD_categories = {
-            'Budget & Treasury Office',
-            'Executive & Council',
-            'Planning and Development',
-            'Corporate Services',
-        }
-        GAPD_label = 'Governance, Administration, Planning and Development'
-
-        results = self.results['expenditure_functional_breakdown']
-        grouped_results = []
-
-        for year, yeargroup in groupby(results, lambda r: r['financial_year_end.year']):
-            try:
-                # Skip an entire year if total is missing, suggesting the year is missing
-                total = self.results['expenditure_breakdown']['4600'][year]
-                GAPD_total = 0.0
-                year_name = year if year != self.budget_year else ("%s budget" % year)
-
-                for result in yeargroup:
-                    # only do budget for budget year, use AUDA for others
-                    if self.check_budget_actual(year, result['amount_type.code']):
-                        if result['function.category_label'] in GAPD_categories:
-                            GAPD_total += (result['amount.sum'])
-                        else:
-                            grouped_results.append({
-                                'amount': result['amount.sum'],
-                                'percent': percent(result['amount.sum'], total),
-                                'item': result['function.category_label'],
-                                'date': year_name,
-                            })
-
-                grouped_results.append({
-                    'amount': GAPD_total,
-                    'percent': percent(GAPD_total, total),
-                    'item': GAPD_label,
-                    'date': year_name,
-                })
-            except KeyError:
-                continue
-
-        grouped_results = sorted(grouped_results, key=lambda r: (r['date'], r['item']))
-        return {'values': grouped_results}
-
-    def cash_at_year_end(self):
-        values = []
-        for year in self.years:
-            try:
-                result = self.results['cash_flow']['4200'][year]
-
-                if result > 0:
-                    rating = 'good'
-                elif result <= 0:
-                    rating = 'bad'
-                else:
-                    rating = None
-
-                values.append({'date': year, 'result': result, 'rating': rating})
-            except KeyError:
-                values.append({'date': year, 'result': None, 'rating': 'bad'})
-        return {
-            'values': values,
-            'ref': self.references['solgf'],
-        }
-
-    def wasteful_exp_perc_exp(self):
-        values = []
-        aggregate = {}
-        for item, results in self.results['wasteful_exp'].iteritems():
-            for year, amount in results.iteritems():
-                if year in aggregate:
-                    aggregate[year] += amount
-                else:
-                    aggregate[year] = amount
-
-        for year in self.years:
-            try:
-                op_ex_actual = self.results['op_exp_actual']['4600'][year]
-                result = percent(aggregate[year], op_ex_actual)
-                rating = None
-                if result == 0:
-                    rating = 'good'
-                else:
-                    rating = 'bad'
-            except KeyError:
-                result = None
-                rating = None
-
-            values.append({'date': year, 'result': result, 'rating': rating})
-
-        return {
-            'values': values,
-            'ref': self.references['circular71'],
-        }
 
     def mayoral_staff(self):
         roles = [
@@ -1185,4 +587,734 @@ class IndicatorCalculator(object):
                 'query_type': 'facts',
                 'results_structure': self.noop_structure,
             },
+        }
+
+
+def get_indicator_calculators(has_comparisons=None):
+    calculators = [
+        CashCoverage,
+        OperatingBudgetDifference,
+        CapitalBudgetDifference,
+        RepairsMaintenance,
+        RevenueSources,
+        RevenueBreakdown,
+        CurrentRatio,
+        LiquidityRatio,
+        CurrentDebtorsCollectionRate,
+        ExpenditureFunctionalBreakdown,
+        ExpenditureTrendsContracting,
+        ExpenditureTrendsStaff,
+        CashAtYearEnd,
+        FruitlWastefIrregUnauth,
+    ]
+    if has_comparisons is None:
+        return calculators
+    else:
+        return [calc for calc in calculators if calc.has_comparisons == has_comparisons]
+
+
+def get_indicators(api_data):
+    indicators = {}
+
+    for indicator_calc in get_indicator_calculators():
+        indicators[indicator_calc.indicator_name] = indicator_calc.get_muni_specifics(api_data)
+
+    norms = {
+        'cash_at_year_end': {'good': 'x>0', 'bad': 'x<=0'},
+        'cash_coverage': {'good': 'x>3', 'ave': '3>=x>1', 'bad': 'x<=1'},
+        'op_budget_diff': {'good': 'abs(x)<=5', 'ave': '5<abs(x)<=15', 'bad': 'abs(x)>15'},
+        'cap_budget_diff': {'good': 'abs(x)<=5', 'ave': '5<abs(x)<=15', 'bad': 'abs(x)>15'},
+        'rep_maint_perc_ppe': {'good': 'abs(x)>=8', 'bad': 'abs(x)<8'},
+        'wasteful_exp': {'good': 'x=0', 'bad': 'x!=0'},
+    }
+
+    return indicators
+
+
+class IndicatorCalculator:
+    pass
+
+
+class CashCoverage(IndicatorCalculator):
+    indicator_name = 'cash_coverage'
+    result_type = 'months'
+    noun = 'coverage'
+    has_comparisons = True
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        values = []
+        for year in api_data.years:
+            try:
+                cash = api_data.results['cash_flow']['4200'][year]
+                monthly_expenses = api_data.results['op_exp_actual']['4600'][year] / 12
+                result = max(ratio(cash, monthly_expenses, 1), 0)
+                if result > 3:
+                    rating = 'good'
+                elif result <= 1:
+                    rating = 'bad'
+                else:
+                    rating = 'ave'
+            except KeyError:
+                result = None
+                rating = None
+            values.append({'date': year, 'result': result, 'rating': rating})
+
+        return {
+            'values': values,
+            'ref': api_data.references['solgf'],
+        }
+
+
+class OperatingBudgetDifference(IndicatorCalculator):
+    indicator_name = 'op_budget_diff'
+    result_type = '%'
+    noun = 'underspending or overspending'
+    has_comparisons = True
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        values = []
+        for year in api_data.years:
+            try:
+                op_ex_budget = api_data.results['op_exp_budget']['4600'][year]
+                op_ex_actual = api_data.results['op_exp_actual']['4600'][year]
+                result = percent((op_ex_actual - op_ex_budget), op_ex_budget, 1)
+                overunder = 'under' if result < 0 else 'over'
+                if abs(result) <= 5:
+                    rating = 'good'
+                elif abs(result) <= 15:
+                    rating = 'ave'
+                elif abs(result) > 15:
+                    rating = 'bad'
+                else:
+                    rating = None
+            except KeyError:
+                result = None
+                rating = None
+                overunder = None
+            values.append({
+                'date': year,
+                'result': result,
+                'overunder': overunder,
+                'rating': rating
+            })
+
+        return {
+            'values': values,
+            'ref': api_data.references['overunder'],
+        }
+
+
+class CapitalBudgetDifference(IndicatorCalculator):
+    indicator_name = 'cap_budget_diff'
+    result_type = '%'
+    noun = 'underspending or overspending'
+    has_comparisons = True
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        values = []
+        for year in api_data.years:
+            try:
+                cap_ex_budget = api_data.results['cap_exp_budget']['4100'][year]
+                cap_ex_actual = api_data.results['cap_exp_actual']['4100'][year]
+                result = percent((cap_ex_actual - cap_ex_budget), cap_ex_budget)
+                overunder = 'under' if result < 0 else 'over'
+                if abs(result) <= 5:
+                    rating = 'good'
+                elif abs(result) <= 15:
+                    rating = 'ave'
+                elif abs(result) > 15:
+                    rating = 'bad'
+                else:
+                    rating = None
+            except KeyError:
+                result = None
+                rating = None
+                overunder = None
+            values.append({
+                'date': year,
+                'result': result,
+                'overunder': overunder,
+                'rating': rating
+            })
+
+        return {
+            'values': values,
+            'ref': api_data.references['overunder'],
+        }
+
+
+class RepairsMaintenance(IndicatorCalculator):
+    indicator_name = 'rep_maint_perc_ppe'
+    result_type = '%'
+    noun = 'spending'
+    has_comparisons = True
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        values = []
+        for year in api_data.years:
+            try:
+                rep_maint = api_data.results['rep_maint']['4100'][year]
+                ppe = api_data.results['ppe']['1300'][year]
+                invest_prop = api_data.results['invest_prop']['1401'][year]
+                result = percent(rep_maint, (ppe + invest_prop))
+                if abs(result) >= 8:
+                    rating = 'good'
+                elif abs(result) < 8:
+                    rating = 'bad'
+                else:
+                    rating = None
+            except KeyError:
+                result = None
+                rating = None
+
+            values.append({'date': year, 'result': result, 'rating': rating})
+
+        return {
+            'values': values,
+            'ref': api_data.references['circular71'],
+        }
+
+
+class RevenueSources(IndicatorCalculator):
+    indicator_name = 'revenue_sources'
+    has_comparisons = False
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        year = api_data.years[0]
+        results = {
+            'local': {
+                'amount': 0,
+                'items': [],
+                },
+            'government': {
+                'amount': 0,
+                'items': [],
+                },
+            'year': year,
+            'ref': api_data.references['lges'],
+        }
+        code_to_source = {
+            '0200': 'local',
+            '0300': 'local',
+            '0400': 'local',
+            '0700': 'local',
+            '0800': 'local',
+            '1000': 'local',
+            '1100': 'local',
+            '1300': 'local',
+            '1400': 'local',
+            '1500': 'local',
+            '1600': 'government',
+            '1610': 'government',
+            '1700': 'local',
+            '1800': 'local',
+        }
+        total = None
+        for item in api_data.results['revenue_breakdown']:
+            if item['financial_year_end.year'] != year:
+                continue
+            if item['amount_type.code'] != 'AUDA':
+                continue
+            if item['item.code'] == '1900':
+                total = item['amount.sum']
+                continue
+            amount = item['amount.sum']
+            results[code_to_source[item['item.code']]]['amount'] += amount
+            results[code_to_source[item['item.code']]]['items'].append(item)
+        if total is None:
+            results['government']['percent'] = None
+            results['government']['value'] = None
+            results['local']['percent'] = None
+            results['local']['value'] = None
+            results['rating'] = 'bad'
+        else:
+            results['government']['percent'] = percent(results['government']['amount'], total)
+            local_pct = percent(results['local']['amount'], total)
+            results['local']['percent'] = local_pct
+            if local_pct >= 75:
+                results['rating'] = 'good'
+            elif local_pct >= 50:
+                results['rating'] = 'ave'
+            else:
+                results['rating'] = 'bad'
+        return results
+
+
+class RevenueBreakdown(IndicatorCalculator):
+    indicator_name = 'revenue_breakdown'
+    has_comparisons = False
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        groups = [
+            ('Property rates', ['0200', '0300']),
+            ('Service Charges', ['0400']),
+            ('Rental income', ['0700']),
+            ('Interest and investments', ['0800', '1000', '1100']),
+            ('Fines', ['1300']),
+            ('Licenses and Permits', ['1400']),
+            ('Agency services', ['1500']),
+            ('Government Transfers for Operating Expenses', ['1600']),
+            ('Government Transfers for Capital Expenses', ['1610']),
+            ('Other', ['1700', '1800']),
+        ]
+        results = {}
+        # Structure as {'2015': {'1900': {'AUDA': ..., 'ORGB': ...}, '0200': ...}, '2016': ...}
+        for item in api_data.results['revenue_breakdown']:
+            if item['financial_year_end.year'] not in results:
+                results[item['financial_year_end.year']] = {}
+            if item['item.code'] not in results[item['financial_year_end.year']]:
+                results[item['financial_year_end.year']][item['item.code']] = {}
+            results[item['financial_year_end.year']][item['item.code']][item['amount_type.code']] \
+                = item
+        values = []
+        for year in api_data.years + [api_data.budget_year]:
+            if year == api_data.budget_year:
+                year_name = "%s budget" % year
+                amount_type = 'ORGB'
+            else:
+                year_name = year
+                amount_type = 'AUDA'
+            try:
+                total = results[year]['1900'][amount_type]['amount.sum']
+                for (label, codes) in groups:
+                    amount = 0
+                    for code in codes:
+                        amount += results[year][code][amount_type]['amount.sum']
+                    values.append({
+                        'item': label,
+                        'amount': amount,
+                        'percent': percent(amount, total) if amount else 0,
+                        'date': year_name,
+                        'amount_type': amount_type,
+                    })
+            except KeyError:
+                values.append({
+                    'item': None,
+                    'amount': None,
+                    'percent': None,
+                    'date': year_name,
+                    'amount_type': amount_type,
+                })
+
+        return {'values': values}
+
+
+class CurrentRatio(IndicatorCalculator):
+    indicator_name = 'current_ratio'
+    result_type = 'ratio'
+    noun = 'ratio'
+    has_comparisons = True
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        values = []
+        results = api_data.results['in_year_bsheet']
+        year_month_key = lambda r: (r['financial_year_end.year'], r['financial_period.period'])
+        year_month_sorted = sorted(results, key=year_month_key, reverse=True)
+        quarters = {}
+        latest_quarter = None
+        # Loop over months that exist and use their values in quarters
+        for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
+            monthitems = list(yearmonthgroup)
+            quarter_idx = ((month - 1) / 3) + 1
+            quarter_key = (year, quarter_idx)
+            try:
+                # Rely on index out of range for missing values to skip month if one's missing
+                assets = [m['amount.sum'] for m in monthitems
+                          if m['item.code'] == '2150'
+                          and m['financial_period.period'] == month][0]
+                liabilities = [m['amount.sum'] for m in monthitems
+                               if m['item.code'] == '1600'
+                               and m['financial_period.period'] == month][0]
+                # Add a quarter the first time a month in the quarter is seen.
+                # Skip the remaining months in that quarter. Thus the latest
+                # month in the quarter is used.
+                if quarter_key not in quarters:
+                    result = ratio(assets, liabilities)
+                    q = {
+                        'date': "%sq%s" % quarter_key,
+                        'year': year,
+                        'month': month,
+                        'amount_type': 'ACT',
+                        'quarter': quarter_idx,
+                        'assets': assets,
+                        'liabilities': liabilities,
+                        'result': result,
+                        'rating': 'good' if result >= 1.5 else 'ave' if result >= 1 else 'bad',
+                    }
+                    quarters[quarter_key] = q
+                    if latest_quarter is None:
+                        latest_quarter = q
+            except IndexError:
+                pass
+        # Enumerate the quarter keys we can expect to exist based on the latest
+        # If latest is missing, there are none to show.
+        if latest_quarter is not None:
+            keys = []
+            for q in xrange(latest_quarter['quarter'], 0, -1):
+                keys.append((latest_quarter['year'], q))
+            for q in xrange(4, 0, -1):
+                keys.append((latest_quarter['year']-1, q))
+            values = [quarters.get(k, {'year': k[0],
+                                       'date': "%sq%s" % k,
+                                       'quarter': k[1],
+                                       'result': None,
+                                       'rating': 'bad',
+            }) for k in keys][:5]
+        return {
+            'values': values,
+            'ref': api_data.references['circular71'],
+        }
+
+
+class LiquidityRatio(IndicatorCalculator):
+    indicator_name = 'liquidity_ratio'
+    result_type = 'ratio'
+    noun = 'ratio'
+    has_comparisons = True
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        values = []
+        results = api_data.results['in_year_bsheet']
+        year_month_key = lambda r: (r['financial_year_end.year'], r['financial_period.period'])
+        year_month_sorted = sorted(results, key=year_month_key, reverse=True)
+        quarters = {}
+        latest_quarter = None
+        # Loop over months that exist and use their values in quarters
+        for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
+            monthitems = list(yearmonthgroup)
+            quarter_idx = ((month - 1) / 3) + 1
+            quarter_key = (year, quarter_idx)
+            try:
+                # Rely on index out of range for missing values to skip month if one's missing
+                cash = [m['amount.sum'] for m in monthitems
+                          if m['item.code'] == '1800'
+                          and m['financial_period.period'] == month][0]
+                call_investment_deposits = [m['amount.sum'] for m in monthitems
+                                            if m['item.code'] == '2200'
+                                            and m['financial_period.period'] == month][0]
+                liabilities = [m['amount.sum'] for m in monthitems
+                               if m['item.code'] == '1600'
+                               and m['financial_period.period'] == month][0]
+                # Add a quarter the first time a month in the quarter is seen.
+                # Skip the remaining months in that quarter. Thus the latest
+                # month in the quarter is used.
+                if quarter_key not in quarters:
+                    result = ratio(cash + call_investment_deposits, liabilities)
+                    q = {
+                        'date': "%sq%s" % quarter_key,
+                        'year': year,
+                        'month': month,
+                        'amount_type': 'ACT',
+                        'quarter': quarter_idx,
+                        'cash': cash,
+                        'call_investment_deposits': call_investment_deposits,
+                        'liabilities': liabilities,
+                        'result': result,
+                        'rating': 'good' if result >= 1 else 'bad',
+                    }
+                    quarters[quarter_key] = q
+                    if latest_quarter is None:
+                        latest_quarter = q
+            except IndexError:
+                pass
+        # Enumerate the quarter keys we can expect to exist based on the latest
+        # If latest is missing, there are none to show.
+        if latest_quarter is not None:
+            keys = []
+            for q in xrange(latest_quarter['quarter'], 0, -1):
+                keys.append((latest_quarter['year'], q))
+            for q in xrange(4, 0, -1):
+                keys.append((latest_quarter['year']-1, q))
+            values = [quarters.get(k, {'year': k[0],
+                                       'date': "%sq%s" % k,
+                                       'quarter': k[1],
+                                       'result': None,
+                                       'rating': 'bad',
+            }) for k in keys][:5]
+        return {
+            'values': values,
+            'ref': api_data.references['mbrr'],
+        }
+
+
+class CurrentDebtorsCollectionRate(IndicatorCalculator):
+    indicator_name = 'current_debtors_collection_rate'
+    result_type = '%'
+    noun = 'rate'
+    has_comparisons = True
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        values = []
+        results = {}
+        year_month_key = lambda r: (r['financial_year_end.year'], r['financial_period.period'])
+        year_month_sorted = sorted(api_data.results['in_year_cflow'], key=year_month_key, reverse=True)
+        for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
+            results[(year, month)] = {'cflow': {}}
+            for cell in yearmonthgroup:
+                results[(year, month)]['cflow'][cell['item.code']] = cell['amount.sum']
+        year_month_sorted = sorted(api_data.results['in_year_incexp'], key=year_month_key, reverse=True)
+        for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
+            results[(year, month)]['incexp'] = {}
+            for cell in yearmonthgroup:
+                results[(year, month)]['incexp'][cell['item.code']] = cell['amount.sum']
+        quarters = {}
+        latest_quarter = None
+        # Loop over months that exist and use their values in quarters
+
+        for (year, month) in sorted(results.keys(), reverse=True):
+            quarter_idx = ((month - 1) / 3) + 1
+            quarter_key = (year, quarter_idx)
+
+            monthcells = results[(year, month)]
+            try:
+                # Rely on index out of range for missing values to skip month if one's missing
+                # Rely on KeyError for missing values to skip month if one's missing
+                 # property rates
+                receipts = monthcells['cflow']['3010'] + \
+                           monthcells['cflow']['3030'] + \
+                           monthcells['cflow']['3040'] + \
+                           monthcells['cflow']['3050'] + \
+                           monthcells['cflow']['3060'] + \
+                           monthcells['cflow']['3070'] + \
+                           monthcells['cflow']['3100']
+                billing = monthcells['incexp']['0200'] + \
+                          monthcells['incexp']['0400'] + \
+                          monthcells['incexp']['1000'] - \
+                          monthcells['incexp']['2000']
+                # Add a quarter the first time a month in the quarter is seen.
+                # Assume initially that it won't be complete and thus have no
+                # result and bad rating. This gets changed below if it's complete.
+                if quarter_key not in quarters:
+                    q = {
+                        'date': "%sq%s" % quarter_key,
+                        'year': year,
+                        'month': month,
+                        'amount_type': 'ACT',
+                        'quarter': quarter_idx,
+                        'receipts': [receipts],
+                        'billing': [billing],
+                        'result': None,
+                        'rating': 'bad',
+                    }
+                    quarters[quarter_key] = q
+                    if latest_quarter is None:
+                        latest_quarter = q
+                else:
+                    quarters[quarter_key]['receipts'].append(receipts)
+                    quarters[quarter_key]['billing'].append(billing)
+            except KeyError, e:
+                logger.debug(e)
+
+        # Enumerate the quarter keys we can expect to exist based on the latest
+        # If latest is missing, there are none to show.
+        if latest_quarter is not None:
+            keys = []
+            for q in xrange(latest_quarter['quarter'], 0, -1):
+                keys.append((latest_quarter['year'], q))
+            for q in xrange(4, 0, -1):
+                keys.append((latest_quarter['year']-1, q))
+            for k in keys[:5]:
+                q = quarters.get(k, {'year': k[0],
+                                     'date': "%sq%s" % k,
+                                     'quarter': k[1],
+                                     'result': None,
+                                     'rating': 'bad',
+                                     'receipts': None,
+                                     'billing': None,
+                })
+                if q['receipts'] and q['billing'] and len(q['receipts']) == 3 and len(q['billing']) == 3:
+                    q['result'] = percent(sum(q['receipts']), sum(q['billing']))
+                    q['rating'] = 'good' if round(q['result']) >= 95 else 'bad'
+                values.append(q)
+        return {
+            'values': values,
+            'ref': api_data.references['mbrr'],
+        }
+
+
+class ExpenditureTrendsContracting(IndicatorCalculator):
+    indicator_name = 'expenditure_trends_contracting'
+    result_type = '%'
+    noun = 'expenditure'
+    has_comparisons = True
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        values = []
+
+        for year in api_data.years:
+            try:
+                total = api_data.results['expenditure_breakdown']['4600'][year]
+            except KeyError:
+                total = None
+
+            try:
+                contracting = percent(api_data.results['expenditure_breakdown']['4200'][year], total)
+            except KeyError:
+                contracting = None
+
+            values.append({
+                'date': year,
+                'result': contracting,
+                'rating': '',
+            })
+
+        return {'values': values}
+
+
+class ExpenditureTrendsStaff(IndicatorCalculator):
+    indicator_name = 'expenditure_trends_staff'
+    result_type = '%'
+    noun = 'expenditure'
+    has_comparisons = True
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        values = []
+
+        for year in api_data.years:
+            try:
+                total = api_data.results['expenditure_breakdown']['4600'][year]
+            except KeyError:
+                total = None
+
+            try:
+                staff = percent(api_data.results['expenditure_breakdown']['3000'][year] +
+                                api_data.results['expenditure_breakdown']['3100'][year],
+                                total)
+            except KeyError:
+                staff = None
+
+            values.append({
+                'date': year,
+                'result': staff,
+                'rating': '',
+            })
+
+        return {'values': values}
+
+
+class ExpenditureFunctionalBreakdown(IndicatorCalculator):
+    indicator_name = 'expenditure_functional_breakdown'
+    has_comparisons = False
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        GAPD_categories = {
+            'Budget & Treasury Office',
+            'Executive & Council',
+            'Planning and Development',
+            'Corporate Services',
+        }
+        GAPD_label = 'Governance, Administration, Planning and Development'
+
+        results = api_data.results['expenditure_functional_breakdown']
+        grouped_results = []
+
+        for year, yeargroup in groupby(results, lambda r: r['financial_year_end.year']):
+            try:
+                # Skip an entire year if total is missing, suggesting the year is missing
+                total = api_data.results['expenditure_breakdown']['4600'][year]
+                GAPD_total = 0.0
+                year_name = year if year != api_data.budget_year else ("%s budget" % year)
+
+                for result in yeargroup:
+                    # only do budget for budget year, use AUDA for others
+                    if api_data.check_budget_actual(year, result['amount_type.code']):
+                        if result['function.category_label'] in GAPD_categories:
+                            GAPD_total += (result['amount.sum'])
+                        else:
+                            grouped_results.append({
+                                'amount': result['amount.sum'],
+                                'percent': percent(result['amount.sum'], total),
+                                'item': result['function.category_label'],
+                                'date': year_name,
+                            })
+
+                grouped_results.append({
+                    'amount': GAPD_total,
+                    'percent': percent(GAPD_total, total),
+                    'item': GAPD_label,
+                    'date': year_name,
+                })
+            except KeyError:
+                continue
+
+        grouped_results = sorted(grouped_results, key=lambda r: (r['date'], r['item']))
+        return {'values': grouped_results}
+
+
+class CashAtYearEnd(IndicatorCalculator):
+    indicator_name = 'cash_at_year_end'
+    result_type = 'R'
+    noun = 'cash balance'
+    has_comparisons = True
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        values = []
+        for year in api_data.years:
+            try:
+                result = api_data.results['cash_flow']['4200'][year]
+
+                if result > 0:
+                    rating = 'good'
+                elif result <= 0:
+                    rating = 'bad'
+                else:
+                    rating = None
+
+                values.append({'date': year, 'result': result, 'rating': rating})
+            except KeyError:
+                values.append({'date': year, 'result': None, 'rating': 'bad'})
+        return {
+            'values': values,
+            'ref': api_data.references['solgf'],
+        }
+
+
+class FruitlWastefIrregUnauth(IndicatorCalculator):
+    indicator_name = 'wasteful_exp'
+    result_type = '%'
+    noun = 'expenditure'
+    has_comparisons = True
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        values = []
+        aggregate = {}
+        for item, results in api_data.results['wasteful_exp'].iteritems():
+            for year, amount in results.iteritems():
+                if year in aggregate:
+                    aggregate[year] += amount
+                else:
+                    aggregate[year] = amount
+
+        for year in api_data.years:
+            try:
+                op_ex_actual = api_data.results['op_exp_actual']['4600'][year]
+                result = percent(aggregate[year], op_ex_actual)
+                rating = None
+                if result == 0:
+                    rating = 'good'
+                else:
+                    rating = 'bad'
+            except KeyError:
+                result = None
+                rating = None
+
+            values.append({'date': year, 'result': result, 'rating': rating})
+
+        return {
+            'values': values,
+            'ref': api_data.references['circular71'],
         }
