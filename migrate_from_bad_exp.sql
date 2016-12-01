@@ -1,8 +1,0 @@
-alter table badexp_facts rename to uifwexp_facts;
-alter index badexp_facts_pkey rename to uifwexp_facts_pkey;
-alter index badexp_facts_unique_demarcation_financial_year_item rename to uifwexp_facts_unique_demarcation_financial_year_item;
-alter index badexp_facts_dimension_item_idx rename to uifwexp_facts_dimension_item_idx;
-alter index badexp_facts_dimension_join_column_demarcation_idx rename to uifwexp_facts_dimension_join_column_demarcation_idx;
-alter index badexp_facts_financial_year_idx rename to uifwexp_facts_financial_year_idx;
-alter index badexp_facts_item_code_idx rename to uifwexp_facts_item_code_idx;
-alter index badexp_facts_item_label_idx rename to uifwexp_facts_item_label_idx;

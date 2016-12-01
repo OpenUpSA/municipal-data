@@ -64,12 +64,18 @@ var tooltip = d3.select("body").append("div")
   .attr("class", "chart-tooltip")
   .style("opacity", 0);
 
-function showTooltip(cat, value) {
+function showTooltip(html) {
   tooltip
     .style("opacity", 1)
-    .html("<b>" + cat + ":</b> " + value)
-    .style("left", (d3.event.pageX - 20) + "px")
-    .style("top", (d3.event.pageY - 50) + "px");
+    .html(html);
+  moveTooltip();
+}
+
+function moveTooltip() {
+  var height = tooltip.node().getBoundingClientRect().height;
+  tooltip
+    .style("left", (d3.event.pageX) + "px")
+    .style("top", (d3.event.pageY - 20 - height) + "px");
 }
 
 function hideTooltip() {
@@ -186,8 +192,9 @@ var HorizontalGroupedBarChart = function() {
         .attr("width", function(d) { return self.x(d.percent); })
         .style("fill", function (d) { return self.color(d.date); })
         .on("mouseover", function(d) {
-          showTooltip(d.date, formats.percent(d.percent) + "<br>" + formats.currency(d.amount));
+          showTooltip(self.formatTooltip(d));
         })
+        .on("mousemove", moveTooltip)
         .on("mouseout", hideTooltip);
 
     var legend = self.svg.selectAll(".legend")
@@ -209,6 +216,10 @@ var HorizontalGroupedBarChart = function() {
         .style("text-anchor", "end")
         .text(function(d) { return d; });
 
+  };
+
+  self.formatTooltip = function(d) {
+    return "<b>" + d.date + ":</b> " + formats.percent(d.percent) + "<br>" + formats.currency(d.amount);
   };
 };
 
@@ -233,9 +244,9 @@ var VerticalBarChart = function() {
     var data = profileData.indicators;
     _.each(self.name.split("."), function(p) { data = data[p]; });
 
-    self.data = data.values;
+    self.data = data;
     // earliest to latest
-    self.data.reverse();
+    self.data.values.reverse();
 
     // establish format
     self.format = formats[self.container.data('unit') || "currency"];
@@ -267,7 +278,8 @@ var VerticalBarChart = function() {
   };
 
   self.drawChart = function() {
-    var data = self.data;
+    var data = self.data.values,
+        comparisons = self.data.comparisons;
 
     self.container.empty();
     self.setDimensions();
@@ -308,8 +320,9 @@ var VerticalBarChart = function() {
           return "chart-column " + d.rating;
         })
         .on("mouseover", function(d) {
-          showTooltip(d.date, self.format(d.result, self.unit_name));
+          showTooltip(self.formatTooltip(d, comparisons && comparisons[d.date]));
         })
+        .on("mousemove", moveTooltip)
         .on("mouseout", hideTooltip);
 
     // Add the labels
@@ -321,6 +334,19 @@ var VerticalBarChart = function() {
         .attr("x", function(d) { return self.x(d.date) + self.x.rangeBand()/2; })
         .attr("y", function(d) { return self.y(Math.max(d.result, 0)) - 5; })
         .text(function(d) { return formats.terse(d.result, self.format); });
+  };
+
+  self.formatTooltip = function(d, comparisons) {
+    var t = "<b>" + d.date + ":</b> " + self.format(d.result, self.unit_name);
+
+    if (comparisons && comparisons.length > 0) {
+      t += '<ul class="comparatives">';
+      t += _.map(comparisons, function(cmp) {
+        return '<li>' + cmp.comparison + ' ' + cmp.place + ': ' + self.format(cmp.value, self.unit_name) + '</li>';
+      }).join(' ');
+    }
+
+    return t;
   };
 };
 

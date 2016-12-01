@@ -73,6 +73,12 @@ These files work as follows:
 
 Update the last-updated date in the model files for each cube in `models/*.json`
 
+Update the materialised view data using `bin/materialised_views.py`:
+
+1. Run with --profiles-from-api to update the muni-specific profile data
+2. Run with --calc-medians and --calc-rating-counts to update comparison data based on profile changes.
+3. Check what changed using `git diff` and commit commit if changes look right.
+
 ## Annual data
 
 Whenever Audited Annual data becomes available (AUDA financial data and Audit Outcomes), adjust the years used by `scorecard/profile_data.py` to include the latest financial year available.

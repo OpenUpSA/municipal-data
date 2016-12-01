@@ -1,7 +1,5 @@
 from django.contrib.sites.shortcuts import get_current_site
-from django.http import HttpResponse
 from django.http import HttpResponsePermanentRedirect
-from cubes import APIOverloadedException
 
 from utils import jsonify
 

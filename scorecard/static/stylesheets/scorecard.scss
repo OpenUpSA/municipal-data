@@ -1044,6 +1044,24 @@ blockquote {
     font-family: "icomoon";
     content: "\e99e";
   }
+
+  ul.indicator-comparatives {
+    list-style: none;
+    padding-left: 0px;
+    color: #777;
+    font-size: 13px;
+
+    & > li {
+      margin-bottom: 7px;
+      &:first-letter {
+        text-transform: uppercase;
+      }
+
+      strong {
+        color: #666;
+      }
+    }
+  }
 }
 
 // income split
@@ -1385,6 +1403,19 @@ blockquote {
   border: 1px solid $gray-dark;
   border-radius: 5px;
   pointer-events: none;
+  max-width: 300px;
+
+  ul.comparatives {
+    list-style: none;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    padding-left: 0px;
+    font-size: 13px;
+
+    & > li {
+      margin-top: 5px;
+    }
+  }
 }
 
 /* head to head comparisons */

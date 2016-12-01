@@ -1,8 +1,10 @@
+from __future__ import division
+
 import urllib
 
 from django import template
 from django.conf import settings
-
+from django.template.defaultfilters import floatformat
 
 register = template.Library()
 
@@ -53,3 +55,36 @@ def month_days(n):
         return "%d days" % (n * 30)
     else:
         return "%.2g months" % n
+
+
+@register.filter
+def formatvalue(n, typ):
+    if typ == 'currency' or typ == 'R':
+        return u"R\u00A0" + floatformat(n, "0")
+
+    if typ == 'months':
+        return month_days(n)
+
+    if typ == 'p' or typ == 'percent' or typ == '%':
+        return str(n) + '%'
+
+    if typ == 'ratio':
+        return n
+
+    return n
+
+
+@register.inclusion_tag('profile/_comparative_list.html', takes_context=True)
+def render_comparatives(context, indicator_name):
+    indicator = context['indicators'][indicator_name]
+    values = [v for v in indicator['values'] if v['result'] is not None]
+
+    if values:
+        date = str(values[0]['date'])
+        comparisons = indicator['comparisons'].get(date)
+    else:
+        comparisons = None
+
+    return {
+        'comparisons': comparisons,
+    }

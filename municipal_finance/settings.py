@@ -178,6 +178,7 @@ STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
     "pipeline.finders.PipelineFinder",
 )
+MATERIALISED_VIEWS_BASE = os.path.join(BASE_DIR, 'scorecard/materialised/')
 
 PYSCSS_LOAD_PATHS = [
     os.path.join(BASE_DIR, 'municipal_finance', 'static'),

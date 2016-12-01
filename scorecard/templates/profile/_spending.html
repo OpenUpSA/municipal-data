@@ -4,7 +4,7 @@
   <h1><i class="fa fa-credit-card"></i> Spending <span class="subtitle">- How money is spent</span></h1>
 
   <div class="indicator">
-    {% with indicators.expenditure_trends.staff.values|first as latest %}
+    {% with indicators.expenditure_trends_staff.values|first as latest %}
     <h2>Staff Wages and Salaries <span class="indicator-date">{{ latest.date|finyear }}</span></h2>
 
     <div class="row">
@@ -31,7 +31,7 @@
         <div class="show-calc"><a href="#staff-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show calculation</a></div>
       </div>
       <div class="col-sm-4">
-        <div class="chart-container" data-chart="column-expenditure_trends.staff" data-unit="percent"></div>
+        <div class="chart-container" data-chart="column-expenditure_trends_staff" data-unit="percent"></div>
       </div>
       <div class="col-sm-4">
         <div class="panel panel-didyouknow">
@@ -58,7 +58,7 @@
   </div>
 
   <div class="indicator">
-    {% with indicators.expenditure_trends.contracting.values|first as latest %}
+    {% with indicators.expenditure_trends_contracting.values|first as latest %}
     <h2>Contractor Services <span class="indicator-date">{{ latest.date|finyear }}</span></h2>
 
     <div class="row">
@@ -85,7 +85,7 @@
         <div class="show-calc"><a href="#contracting-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show calculation</a></div>
       </div>
       <div class="col-sm-4">
-        <div class="chart-container" data-chart="column-expenditure_trends.contracting" data-unit="percent"></div>
+        <div class="chart-container" data-chart="column-expenditure_trends_contracting" data-unit="percent"></div>
       </div>
       <div class="col-sm-4">
         <div class="panel panel-didyouknow">

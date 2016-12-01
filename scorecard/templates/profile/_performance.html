@@ -101,10 +101,11 @@
           Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
-          R {{ latest.result|floatformat:"0" }}
+            {{ latest.result|formatvalue:"R" }}
           {% endif %}
         </div>
         <div class="indicator-description">Cash balance at the end of the financial year.</div>
+        {% render_comparatives "cash_at_year_end" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
@@ -155,22 +156,23 @@
           Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
-          {{ latest.result|month_days }}
+            {{ latest.result|formatvalue:"months" }}
           {% endif %}
         </div>
         <div class="indicator-description">Months of operating expenses can be paid for with the cash available.</div>
+        {% render_comparatives "cash_coverage" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
-            <td class="key-description">more than 3 months</td>
+            <td class="key-description">More than 3 months</td>
           </tr>
           <tr>
             <td class="key-symbol rating rating-ave">average</td>
-            <td class="key-description">between 1 and 3 months</td>
+            <td class="key-description">Between 1 and 3 months</td>
           </tr>
           <tr>
             <td class="key-symbol rating rating-bad">bad</td>
-            <td class="key-description">less than 1 month</td>
+            <td class="key-description">Less than 1 month</td>
           </tr>
         </table>
         <div class="show-calc"><a href="#cash-coverage-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show calculation</a></div>
@@ -215,23 +217,24 @@
           Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
-            {{ latest.result|absolute }}%
+            {{ latest.result|absolute|formatvalue:"p" }}
             {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
           {% endif %}
         </div>
         <div class="indicator-description">Difference between budgeted operating expenditure and what was actually spent.</div>
+        {% render_comparatives "op_budget_diff" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
-            <td class="key-description">up to 5%</td>
+            <td class="key-description">Up to 5%</td>
           </tr>
           <tr>
             <td class="key-symbol rating rating-ave">average</td>
-            <td class="key-description">between 5% and 15%</td>
+            <td class="key-description">Between 5% and 15%</td>
           </tr>
           <tr>
             <td class="key-symbol rating rating-bad">bad</td>
-            <td class="key-description">more than 15%</td>
+            <td class="key-description">More than 15%</td>
           </tr>
         </table>
         <div class="show-calc"><a href="#op-budget-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show calculation</a></div>
@@ -278,23 +281,24 @@
             Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
-            {{ latest.result|absolute }}%
+            {{ latest.result|absolute|formatvalue:"p" }}
             {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
           {% endif %}
         </div>
         <div class="indicator-description">Difference between budgeted capital expenditure and what was actually spent.</div>
+        {% render_comparatives "cap_budget_diff" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
-            <td class="key-description">up to 5%</td>
+            <td class="key-description">Up to 5%</td>
           </tr>
           <tr>
             <td class="key-symbol rating rating-ave">average</td>
-            <td class="key-description">between 5% and 15%</td>
+            <td class="key-description">Between 5% and 15%</td>
           </tr>
           <tr>
             <td class="key-symbol rating rating-bad">bad</td>
-            <td class="key-description">more than 15%</td>
+            <td class="key-description">More than 15%</td>
           </tr>
         </table>
         <div class="show-calc"><a href="#cap-budget-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show calculation</a></div>
@@ -341,19 +345,20 @@
           Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
-          {{ latest.result }}%
+            {{ latest.result|formatvalue:"p" }}
           {% endif %}
         </div>
 
         <div class="indicator-description">Spending on Repairs and Maintenance as a percentage of Property, Plant and Equipment.</div>
+        {% render_comparatives "rep_maint_perc_ppe" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
-            <td class="key-description">more than 8%</td>
+            <td class="key-description">More than 8%</td>
           </tr>
           <tr>
             <td class="key-symbol rating rating-bad">bad</td>
-            <td class="key-description">less than 8%</td>
+            <td class="key-description">Less than 8%</td>
           </tr>
         </table>
         <div class="show-calc"><a href="#rep-maint-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show calculation</a></div>
@@ -399,10 +404,12 @@
           {% if latest.result == None %}
           Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
-          {% else %}{{ latest.result }}%
+          {% else %}
+            {{ latest.result|formatvalue:"p" }}
           {% endif %}
         </div>
         <div class="indicator-description">Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage of operating expenditure.</div>
+        {% render_comparatives "wasteful_exp" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
@@ -410,7 +417,7 @@
           </tr>
           <tr>
             <td class="key-symbol rating rating-bad">bad</td>
-            <td class="key-description">more than 0%</td>
+            <td class="key-description">More than 0%</td>
           </tr>
         </table>
         <div class="show-calc"><a href="#fruitless-exp-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show calculation</a></div>
@@ -455,10 +462,11 @@
           Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
-          {{ latest.result }}
+            {{ latest.result|formatvalue:"ratio" }}
           {% endif %}
         </div>
         <div class="indicator-description">The value of a municipality's short-term assets as a multiple of its short-term liabilities.</div>
+        {% render_comparatives "current_ratio" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
@@ -515,10 +523,11 @@
           Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
-          {{ latest.result }}
+            {{ latest.result|formatvalue:"ratio" }}
           {% endif %}
         </div>
         <div class="indicator-description">The municipality's immediate ability to pay its current liabilities</div>
+        {% render_comparatives "liquidity_ratio" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
@@ -571,10 +580,11 @@
           Not available
           <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
           {% else %}
-          {{ latest.result }}%
+            {{ latest.result|formatvalue:"p" }}
           {% endif %}
         </div>
         <div class="indicator-description">The percentage of new revenue (generated within the financial year) that a municipality actually collects</div>
+        {% render_comparatives "current_debtors_collection_rate" %}
         <table class="indicator-key">
           <tr>
             <td class="key-symbol rating rating-good">good</td>
