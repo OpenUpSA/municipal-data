@@ -57,9 +57,12 @@ class MuniApiClient(object):
                 'aggregates': query['aggregate'],
                 'cut': self.format_cut_param(query['cut']),
                 'drilldown': '|'.join(query['drilldown']),
-                'order': 'financial_year_end.year:desc',
                 'page': 0,
             }
+            if query.get('order'):
+                params['order'] = query.get('order')
+            else:
+                params['order'] = 'financial_year_end.year:desc,item.code:asc'
         elif query['query_type'] == 'facts':
             url = self.API_URL + query['cube'] + '/facts'
             params = {
@@ -68,6 +71,8 @@ class MuniApiClient(object):
             }
             if query.get('cut'):
                 params['cut'] = self.format_cut_param(query.get('cut'))
+            if query.get('order'):
+                params['order'] = query.get('order')
 
         elif query['query_type'] == 'model':
             url = self.API_URL + query['cube'] + '/model'
@@ -513,6 +518,7 @@ class APIData(object):
                 ],
                 'query_type': 'aggregate',
                 'results_structure': self.noop_structure,
+                'order': 'financial_year_end.year:desc,function.category_label:asc',
             },
             'expenditure_trends': {
                 'cube': 'incexp',
@@ -543,6 +549,7 @@ class APIData(object):
                 'value_label': '',
                 'query_type': 'facts',
                 'results_structure': self.noop_structure,
+                'order': 'role',
             },
             'officials_date': {
                 'cube': 'officials',
@@ -586,6 +593,7 @@ class APIData(object):
                 'value_label': 'opinion.label',
                 'query_type': 'facts',
                 'results_structure': self.noop_structure,
+                'order': 'financial_year_end.year:desc',
             },
         }
 
