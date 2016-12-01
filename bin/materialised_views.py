@@ -1,26 +1,33 @@
+"""
+A script to build a set files of materialised views of the data presented
+in municipality profiles on the Municipal Money website.
+
+Municipality-specific profile data is stored in municipality-specific files
+since producing them takes a lot of time with many queries against the API.
+By storing municipality-specific data separately from comparisons to other
+municipalities based on this data (e.g. medians, number of similar
+municipalities in norm bounds) allows quick iteration on the latter without
+recalculating muni-specifics from the API each time.
+
+By storing this data to file instead of database, version control helps to
+understand what changed as code is changed and avoid unintended changes to
+calculations. It also allows deploying template and data changes synchronously
+and avoids data/code structure mismatch that could occur if the data is in
+a database and not upgraded during deployment - potentially leading to downtime.
+
+By keeping this script separate from the Municipal Money website django app,
+this data can be recalculated without more-complex environment setup.
+"""
 import sys
 sys.path.append('.')
 
 from collections import defaultdict
 from itertools import groupby
-from scorecard.profile_data import IndicatorCalculator, MuniApiClient
+from scorecard.profile_data import APIData, MuniApiClient, get_indicators, get_indicator_calculators
 import argparse
 import json
 
 API_URL = 'https://municipaldata.treasury.gov.za/api'
-MEDIAN_INDICATORS = [
-    'cap_budget_diff',
-    'cash_at_year_end',
-    'cash_coverage',
-    'current_debtors_collection_rate',
-    'current_ratio',
-    'expenditure_trends_contracting',
-    'expenditure_trends_staff',
-    'liquidity_ratio',
-    'op_budget_diff',
-    'rep_maint_perc_ppe',
-    'wasteful_exp',
-]
 
 
 def main():
@@ -66,13 +73,13 @@ def generate_profiles(api_url):
 
     for muni in munis:
         demarcation_code = muni.get('municipality.demarcation_code')
-        indicator_calc = IndicatorCalculator(api_client.API_URL, demarcation_code, client=api_client)
-        indicator_calc.fetch_data()
-        indicators = indicator_calc.get_indicators()
+        api_data = APIData(api_client.API_URL, demarcation_code, client=api_client)
+        api_data.fetch_data()
+        indicators = get_indicators(api_data)
         profile = {
-            'mayoral_staff': indicator_calc.mayoral_staff(),
-            'muni_contact': indicator_calc.muni_contact(),
-            'audit_opinions': indicator_calc.audit_opinions(),
+            'mayoral_staff': api_data.mayoral_staff(),
+            'muni_contact': api_data.muni_contact(),
+            'audit_opinions': api_data.audit_opinions(),
             'indicators': indicators,
         }
 
@@ -115,50 +122,29 @@ def calculate_medians(args, api_url):
 
 
 def calc_national_medians(munis):
-    nat_sets = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+    nat_sets = get_national_miif_sets(munis)
     nat_medians = defaultdict(lambda: defaultdict(dict))
 
-    # collect set of indicator values for each MIIF category and year
-    dev_cat_key = lambda muni: muni['municipality.miif_category']
-    dev_cat_sorted = sorted(munis, key=dev_cat_key)
-    for indicator in MEDIAN_INDICATORS:
-        for dev_cat, dev_cat_group in groupby(dev_cat_sorted, dev_cat_key):
-            for muni in dev_cat_group:
-                for period in muni[indicator]['values']:
-                    if period['result'] is not None:
-                        nat_sets[indicator][dev_cat][period['date']].append(period['result'])
-
     # calculate national median per MIIF category and year for each indicator
-    for indicator in nat_sets.keys():
-        for dev_cat in nat_sets[indicator].keys():
-            for year in nat_sets[indicator][dev_cat].keys():
-                nat_medians[indicator][dev_cat][year] = median(nat_sets[indicator][dev_cat][year])
+    for name in nat_sets.keys():
+        for dev_cat in nat_sets[name].keys():
+            for year in nat_sets[name][dev_cat].keys():
+                results = [period['result'] for period in nat_sets[name][dev_cat][year]]
+                nat_medians[name][dev_cat][year] = median(results)
     return nat_sets, nat_medians
 
 
 def calc_provincial_medians(munis):
-    prov_sets = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(list))))
+    prov_sets = get_provincial_miif_sets(munis)
     prov_medians = defaultdict(lambda: defaultdict(lambda: defaultdict(dict)))
 
-    # collect set of indicator values for each province, MIIF category and year
-    dev_cat_key = lambda muni: muni['municipality.miif_category']
-    dev_cat_sorted = sorted(munis, key=dev_cat_key)
-    prov_key = lambda muni: muni['municipality.province_code']
-    for indicator in MEDIAN_INDICATORS:
-        for dev_cat, dev_cat_group in groupby(dev_cat_sorted, dev_cat_key):
-            prov_sorted = sorted(dev_cat_group, key=prov_key)
-            for prov_code, prov_group in groupby(prov_sorted, prov_key):
-                for muni in prov_group:
-                    for period in muni[indicator]['values']:
-                        if period['result'] is not None:
-                            prov_sets[indicator][prov_code][dev_cat][period['date']].append(period['result'])
-
     # calculate provincial median per province, MIIF category and year for each indicator
-    for indicator in prov_sets.keys():
-        for prov_code in prov_sets[indicator].keys():
-            for dev_cat in prov_sets[indicator][prov_code].keys():
-                for year in prov_sets[indicator][prov_code][dev_cat].keys():
-                    prov_medians[indicator][prov_code][dev_cat][year] = median(prov_sets[indicator][prov_code][dev_cat][year])
+    for name in prov_sets.keys():
+        for prov_code in prov_sets[name].keys():
+            for dev_cat in prov_sets[name][prov_code].keys():
+                for year in prov_sets[name][prov_code][dev_cat].keys():
+                    results = [period['result'] for period in prov_sets[name][prov_code][dev_cat][year]]
+                    prov_medians[name][prov_code][dev_cat][year] = median(results)
     return prov_sets, prov_medians
 
 
@@ -186,56 +172,124 @@ def calculate_rating_counts(args, api_url):
 
         muni.update(indicators)
 
-    nat_sets = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
-    nat_group_counts = defaultdict(lambda: defaultdict(lambda: defaultdict(dict)))
-
-    # collect set of indicator values for each MIIF category and year
-    dev_cat_key = lambda muni: muni['municipality.miif_category']
-    dev_cat_sorted = sorted(munis, key=dev_cat_key)
-    for indicator in MEDIAN_INDICATORS:
-        for dev_cat, dev_cat_group in groupby(dev_cat_sorted, dev_cat_key):
-            for muni in dev_cat_group:
-                for period in muni[indicator]['values']:
-                    if period['result'] is not None:
-                        nat_sets[indicator][dev_cat][period['date']].append(period)
-
-    # calculate national median per MIIF category and year for each indicator
-    rating_key = lambda period: period['rating']
-    for indicator in nat_sets.keys():
-        for dev_cat in nat_sets[indicator].keys():
-            for year in nat_sets[indicator][dev_cat].keys():
-                rating_sorted = sorted(nat_sets[indicator][dev_cat][year], key=rating_key)
-                for rating, rating_group in groupby(rating_sorted, rating_key):
-                    nat_group_counts[indicator][dev_cat][year][rating] = len(list(rating_group))
+    nat_sets, nat_rating_counts = calc_national_rating_counts(munis)
+    prov_sets, prov_rating_counts = calc_provincial_rating_counts(munis)
 
     if args.print_sets:
         print("Indicator value sets by MIIF category nationally")
         print(json.dumps(nat_sets, sort_keys=True, indent=4, separators=(',', ': ')))
         print
-    #   print("Indicator value sets by MIIF category and province")
-    #   print(json.dumps(prov_sets, sort_keys=True, indent=4, separators=(',', ': ')))
+        print("Indicator value sets by MIIF category and province")
+        print(json.dumps(prov_sets, sort_keys=True, indent=4, separators=(',', ': ')))
 
-    # write medians
+    # write rating counts
     filename = "scorecard/materialised/indicators/distribution/rating_counts.json"
     rating_counts = {
-    #    'provincial': prov_medians,
-        'national': nat_group_counts,
+        'provincial': prov_rating_counts,
+        'national': nat_rating_counts,
     }
     with open(filename, 'wb') as f:
         json.dump(rating_counts, f, sort_keys=True, indent=4, separators=(',', ': '))
 
 
+def calc_national_rating_counts(munis):
+    """
+    Calculate the number of munis with each norm rating per MIIF category
+    and year for each indicator
+    """
+    nat_sets = get_national_miif_sets(munis)
+    nat_rating_counts = defaultdict(lambda: defaultdict(lambda: defaultdict(dict)))
+    rating_key = lambda period: period['rating']
+    for name in nat_sets.keys():
+        for dev_cat in nat_sets[name].keys():
+            for year in nat_sets[name][dev_cat].keys():
+                rating_sorted = sorted(nat_sets[name][dev_cat][year], key=rating_key)
+                for rating, rating_group in groupby(rating_sorted, rating_key):
+                    nat_rating_counts[name][dev_cat][year][rating] = len(list(rating_group))
+    return nat_sets, nat_rating_counts
+
+
+def calc_provincial_rating_counts(munis):
+    """
+    Calculate the number of munis with each norm rating per province,
+    MIIF category and year for each indicator
+    """
+    prov_sets = get_provincial_miif_sets(munis)
+    prov_rating_counts = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(dict))))
+    rating_key = lambda period: period['rating']
+    for name in prov_sets.keys():
+        for prov_code in prov_sets[name].keys():
+            for dev_cat in prov_sets[name][prov_code].keys():
+                for year in prov_sets[name][prov_code][dev_cat].keys():
+                    rating_sorted = sorted(prov_sets[name][prov_code][dev_cat][year], key=rating_key)
+                    for rating, rating_group in groupby(rating_sorted, rating_key):
+                        prov_rating_counts[name][prov_code][dev_cat][year][rating] = len(list(rating_group))
+    return prov_sets, prov_rating_counts
+
+
+def get_national_miif_sets(munis):
+    """
+    collect set of indicator values for each MIIF category and year
+    returns dict of the form {
+      'cash_coverage': {
+        'B1': {
+          '2015': [{'result': ...}]
+        }
+      }
+    }
+    """
+    nat_sets = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+    dev_cat_key = lambda muni: muni['municipality.miif_category']
+    dev_cat_sorted = sorted(munis, key=dev_cat_key)
+    for calculator in get_indicator_calculators(has_comparisons=True):
+        name = calculator.indicator_name
+        for dev_cat, dev_cat_group in groupby(dev_cat_sorted, dev_cat_key):
+            for muni in dev_cat_group:
+                for period in muni[name]['values']:
+                    if period['result'] is not None:
+                        nat_sets[name][dev_cat][period['date']].append(period)
+    return nat_sets
+
+
+def get_provincial_miif_sets(munis):
+    """
+    collect set of indicator values for each province, MIIF category and year
+    returns dict of the form {
+      'cash_coverage': {
+        'FS': {
+          'B1': {
+            '2015': [{'result': ...}]
+          }
+        }
+      }
+    }
+    """
+    prov_sets = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(list))))
+    dev_cat_key = lambda muni: muni['municipality.miif_category']
+    dev_cat_sorted = sorted(munis, key=dev_cat_key)
+    prov_key = lambda muni: muni['municipality.province_code']
+    for calculator in get_indicator_calculators(has_comparisons=True):
+        name = calculator.indicator_name
+        for dev_cat, dev_cat_group in groupby(dev_cat_sorted, dev_cat_key):
+            prov_sorted = sorted(dev_cat_group, key=prov_key)
+            for prov_code, prov_group in groupby(prov_sorted, prov_key):
+                for muni in prov_group:
+                    for period in muni[name]['values']:
+                        if period['result'] is not None:
+                            prov_sets[name][prov_code][dev_cat][period['date']].append(period)
+    return prov_sets
+
 
 def get_munis(api_client):
     query = api_client.api_get({'query_type': 'facts',
-                                 'cube': 'municipalities',
-                                 'fields': [
-                                     'municipality.demarcation_code',
-                                     'municipality.name',
-                                     'municipality.miif_category',
-                                     'municipality.province_code',
-                                 ],
-                                 'value_label': '',
+                                'cube': 'municipalities',
+                                'fields': [
+                                    'municipality.demarcation_code',
+                                    'municipality.name',
+                                    'municipality.miif_category',
+                                    'municipality.province_code',
+                                ],
+                                'value_label': '',
     })
     result = query.result()
     result.raise_for_status()
