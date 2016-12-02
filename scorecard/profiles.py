@@ -51,14 +51,14 @@ def build_comparison(geo, indicators, medians, rating_counts, calculator):
         comparisons[date] = [{
             # provincial median
             'type': 'relative',
-            'place': 'similar municipalities in ' + geo.province_name,
+            'place': 'in ' + geo.province_name,
             'value': medians[calculator.indicator_name]['provincial']['dev_cat'].get(date, 0),
             'value_type': calculator.result_type,
             'comparison': comparison_relative_words(val, medians[calculator.indicator_name]['provincial']['dev_cat'].get(date, 0), calculator.noun),
         }, {
             # national median
             'type': 'relative',
-            'place': 'similar municipalities nationally',
+            'place': 'nationally',
             'value': medians[calculator.indicator_name]['national']['dev_cat'].get(date, 0),
             'value_type': calculator.result_type,
             'comparison': comparison_relative_words(val, medians[calculator.indicator_name]['national']['dev_cat'].get(date, 0), calculator.noun),
