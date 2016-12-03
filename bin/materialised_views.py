@@ -126,11 +126,12 @@ def calc_national_medians(munis):
     nat_medians = defaultdict(lambda: defaultdict(dict))
 
     # calculate national median per MIIF category and year for each indicator
-    for name in nat_sets.keys():
+    for calculator in get_indicator_calculators(has_comparisons=True):
+        name = calculator.indicator_name
         for dev_cat in nat_sets[name].keys():
             for year in nat_sets[name][dev_cat].keys():
                 results = [period['result'] for period in nat_sets[name][dev_cat][year]]
-                nat_medians[name][dev_cat][year] = median(results)
+                nat_medians[name][dev_cat][year] = calculator.median(results)
     return nat_sets, nat_medians
 
 
@@ -139,24 +140,14 @@ def calc_provincial_medians(munis):
     prov_medians = defaultdict(lambda: defaultdict(lambda: defaultdict(dict)))
 
     # calculate provincial median per province, MIIF category and year for each indicator
-    for name in prov_sets.keys():
+    for calculator in get_indicator_calculators(has_comparisons=True):
+        name = calculator.indicator_name
         for prov_code in prov_sets[name].keys():
             for dev_cat in prov_sets[name][prov_code].keys():
                 for year in prov_sets[name][prov_code][dev_cat].keys():
                     results = [period['result'] for period in prov_sets[name][prov_code][dev_cat][year]]
-                    prov_medians[name][prov_code][dev_cat][year] = median(results)
+                    prov_medians[name][prov_code][dev_cat][year] = calculator.median(results)
     return prov_sets, prov_medians
-
-
-def median(items):
-    sorted_items = sorted(items)
-    count = len(sorted_items)
-    if count % 2 == 1:
-        # middle item of odd set is floor of half of count
-        return sorted_items[count/2]
-    else:
-        # middle item of even set is mean of middle two items
-        return (sorted_items[(count-1)/2] + sorted_items[(count+1)/2])/2.0
 
 
 def calculate_rating_counts(args, api_url):

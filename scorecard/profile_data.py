@@ -639,6 +639,21 @@ def get_indicators(api_data):
     return indicators
 
 
+def abs_median(items):
+    return median([abs(x) for x in items])
+
+
+def median(items):
+    sorted_items = sorted(items)
+    count = len(sorted_items)
+    if count % 2 == 1:
+        # middle item of odd set is floor of half of count
+        return sorted_items[count/2]
+    else:
+        # middle item of even set is mean of middle two items
+        return (sorted_items[(count-1)/2] + sorted_items[(count+1)/2])/2.0
+
+
 class IndicatorCalculator:
     pass
 
@@ -648,6 +663,7 @@ class CashCoverage(IndicatorCalculator):
     result_type = 'months'
     noun = 'coverage'
     has_comparisons = True
+    median = staticmethod(median)
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -679,6 +695,7 @@ class OperatingBudgetDifference(IndicatorCalculator):
     result_type = '%'
     noun = 'underspending or overspending'
     has_comparisons = True
+    median = staticmethod(abs_median)
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -719,6 +736,7 @@ class CapitalBudgetDifference(IndicatorCalculator):
     result_type = '%'
     noun = 'underspending or overspending'
     has_comparisons = True
+    median = staticmethod(abs_median)
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -759,6 +777,7 @@ class RepairsMaintenance(IndicatorCalculator):
     result_type = '%'
     noun = 'spending'
     has_comparisons = True
+    median = staticmethod(median)
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -918,6 +937,7 @@ class CurrentRatio(IndicatorCalculator):
     result_type = 'ratio'
     noun = 'ratio'
     has_comparisons = True
+    median = staticmethod(median)
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -986,6 +1006,7 @@ class LiquidityRatio(IndicatorCalculator):
     result_type = 'ratio'
     noun = 'ratio'
     has_comparisons = True
+    median = staticmethod(median)
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -1058,6 +1079,7 @@ class CurrentDebtorsCollectionRate(IndicatorCalculator):
     result_type = '%'
     noun = 'rate'
     has_comparisons = True
+    median = staticmethod(median)
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -1154,6 +1176,7 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
     result_type = '%'
     noun = 'expenditure'
     has_comparisons = True
+    median = staticmethod(median)
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -1184,6 +1207,7 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
     result_type = '%'
     noun = 'expenditure'
     has_comparisons = True
+    median = staticmethod(median)
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -1266,6 +1290,7 @@ class CashAtYearEnd(IndicatorCalculator):
     result_type = 'R'
     noun = 'cash balance'
     has_comparisons = True
+    median = staticmethod(median)
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -1295,6 +1320,7 @@ class FruitlWastefIrregUnauth(IndicatorCalculator):
     result_type = '%'
     noun = 'expenditure'
     has_comparisons = True
+    median = staticmethod(median)
 
     @classmethod
     def get_muni_specifics(cls, api_data):
