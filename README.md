@@ -83,7 +83,7 @@ Update the materialised view data using `bin/materialised_views.py`:
 
 Whenever Audited Annual data becomes available (AUDA financial data and Audit Outcomes), adjust the years used by `scorecard/profile_data.py` to include the latest financial year available.
 
-Audit outcomes will be captured in the months following 1 December following the end of the financial year.
+Audit outcomes will be captured in the months following 1 December following the end of the financial year. Audited figures can start being submitted by municipalities to Treasury from this point. That means new audited annual figures can appear from Q2. 
 
 Pre-audit figures are captured in the period 3 Aug to 30 Nov after the end of the financial year.
 
