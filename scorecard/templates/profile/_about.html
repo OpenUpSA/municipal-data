@@ -105,6 +105,13 @@
 
       <div class="row">
         <div class="col-sm-8">
+          {% if demarcation.disestablished %}
+          Disestablished on {{ demarcation.disestablished_date }} into {{ demarcation.disestablished_to | join:", " }}
+          {% endif %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8">
           <div class="compare-place-picker hidden-sm hidden-xs">
             <h5>Compare this municipality with another:</h5>
             <div class="input">
