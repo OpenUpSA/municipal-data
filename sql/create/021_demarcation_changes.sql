@@ -16,6 +16,14 @@ SET row_security = off;
 
 SET search_path = public, pg_catalog;
 
+DROP INDEX IF EXISTS public.municipal_finance_demarcationchanges_old_code_7489d7b5_uniq;
+DROP INDEX IF EXISTS public.municipal_finance_demarcationchanges_old_code_7489d7b5_like;
+DROP INDEX IF EXISTS public.municipal_finance_demarcationchanges_new_code_dfff7054_uniq;
+DROP INDEX IF EXISTS public.municipal_finance_demarcationchanges_new_code_dfff7054_like;
+DROP INDEX IF EXISTS public.municipal_finance_demarcation_old_code_transition_da0b222f_uniq;
+DROP INDEX IF EXISTS public.municipal_finance_demarcation_old_code_transition_da0b222f_like;
+DROP INDEX IF EXISTS public.municipal_finance_demarcation_new_code_transition_7f77453f_uniq;
+DROP INDEX IF EXISTS public.municipal_finance_demarcation_new_code_transition_7f77453f_like;
 ALTER TABLE IF EXISTS ONLY public.municipal_finance_demarcationchanges DROP CONSTRAINT IF EXISTS municipal_finance_demarcationchanges_pkey;
 ALTER TABLE IF EXISTS public.municipal_finance_demarcationchanges ALTER COLUMN id DROP DEFAULT;
 DROP SEQUENCE IF EXISTS public.municipal_finance_demarcationchanges_id_seq;
@@ -129,6 +137,62 @@ SELECT pg_catalog.setval('municipal_finance_demarcationchanges_id_seq', 42, true
 
 ALTER TABLE ONLY municipal_finance_demarcationchanges
     ADD CONSTRAINT municipal_finance_demarcationchanges_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: municipal_finance_demarcation_new_code_transition_7f77453f_like; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX municipal_finance_demarcation_new_code_transition_7f77453f_like ON municipal_finance_demarcationchanges USING btree (new_code_transition text_pattern_ops);
+
+
+--
+-- Name: municipal_finance_demarcation_new_code_transition_7f77453f_uniq; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX municipal_finance_demarcation_new_code_transition_7f77453f_uniq ON municipal_finance_demarcationchanges USING btree (new_code_transition);
+
+
+--
+-- Name: municipal_finance_demarcation_old_code_transition_da0b222f_like; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX municipal_finance_demarcation_old_code_transition_da0b222f_like ON municipal_finance_demarcationchanges USING btree (old_code_transition text_pattern_ops);
+
+
+--
+-- Name: municipal_finance_demarcation_old_code_transition_da0b222f_uniq; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX municipal_finance_demarcation_old_code_transition_da0b222f_uniq ON municipal_finance_demarcationchanges USING btree (old_code_transition);
+
+
+--
+-- Name: municipal_finance_demarcationchanges_new_code_dfff7054_like; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX municipal_finance_demarcationchanges_new_code_dfff7054_like ON municipal_finance_demarcationchanges USING btree (new_code text_pattern_ops);
+
+
+--
+-- Name: municipal_finance_demarcationchanges_new_code_dfff7054_uniq; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX municipal_finance_demarcationchanges_new_code_dfff7054_uniq ON municipal_finance_demarcationchanges USING btree (new_code);
+
+
+--
+-- Name: municipal_finance_demarcationchanges_old_code_7489d7b5_like; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX municipal_finance_demarcationchanges_old_code_7489d7b5_like ON municipal_finance_demarcationchanges USING btree (old_code text_pattern_ops);
+
+
+--
+-- Name: municipal_finance_demarcationchanges_old_code_7489d7b5_uniq; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX municipal_finance_demarcationchanges_old_code_7489d7b5_uniq ON municipal_finance_demarcationchanges USING btree (old_code);
 
 
 --
