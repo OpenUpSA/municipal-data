@@ -1348,8 +1348,8 @@ class Demarcation(object):
     def __init__(self, api_data):
         self.is_disestablished = False
         # Watch out: groupby's iterator is finicky about seeing things twice.
-        # E.g. If you just through the tuples into a list you only see one item
-        # in the group
+        # E.g. If you just turn the tuples iterator into a list you only see one
+        # item in the group
         for date, group in groupby(api_data.results['disestablished'], lambda x: x['date.date']):
             if self.is_disestablished:
                 # If this is the second iteration
