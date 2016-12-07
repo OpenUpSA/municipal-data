@@ -79,7 +79,7 @@ class GeographyDetailView(TemplateView):
 
         profile['demarcation']['disestablished_to_geos'] = [
             geo_data.geo_model.objects.filter(geo_code=code).first().as_dict()
-            for code in ['CPT', 'TSH', 'BUF']] #profile['demarcation'].get('disestablished_to', []]]
+            for code in profile['demarcation'].get('disestablished_to', [])]
 
         # is this a head-to-head view?
         if 'head2head' in self.request.GET:
