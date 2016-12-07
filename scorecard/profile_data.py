@@ -1347,6 +1347,8 @@ class Demarcation(object):
 
     def __init__(self, api_data):
         self.is_disestablished = False
+        self.is_established = False
+
         # Watch out: groupby's iterator is finicky about seeing things twice.
         # E.g. If you just turn the tuples iterator into a list you only see one
         # item in the group
@@ -1360,11 +1362,20 @@ class Demarcation(object):
                 self.disestablished_to = [x['new_demarcation.code'] for x in group]
 
     def as_dict(self):
+        info = {}
+
         if self.is_disestablished:
-            return {
+            info.update({
                 'disestablished': True,
                 'disestablished_date': self.disestablished_date,
                 'disestablished_to': self.disestablished_to,
-            }
-        else:
-            return {}
+            })
+
+        if self.is_established:
+            info.update({
+                'established': True,
+                'established_date': self.established_date,
+                'established_from': self.established_from,
+            })
+
+        return info

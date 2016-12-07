@@ -149,6 +149,10 @@
     {% with indicators.cash_coverage.values|first as latest %}
     <h2>Cash Coverage <span class="indicator-date">{{ latest.date|finyear }}</span></h2>
 
+    {% if True %}
+    {% include 'profile/_demarcation_indicator_notice.html' %}
+    {% else %}
+
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-value rating rating-{{ latest.rating }}">
@@ -203,6 +207,7 @@
         <li>If Cash available at year end is negative, we say Cash Coverage is zero months.</li>
       </ul>
     </div>
+    {% endif %}
     {% endwith %}
   </div>
 
