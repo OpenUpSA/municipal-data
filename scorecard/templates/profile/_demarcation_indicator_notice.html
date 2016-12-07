@@ -1,9 +1,10 @@
-{% load dates %}
+{% load dates finance %}
 
 {% if demarcation.established %}
   <div class="demarcation-notice established">
-    {{ geography.name }} was established on {{ demarcation.established_date|as_date|date:"j F Y" }}
-    through the amalgamation of
+    {{ geography.name }} was established on {{ demarcation.established_date|as_date|date:"j F Y" }}.
+    Annual financial performance indicators will only be available after the end of the {{ demarcation.established_date|as_date|finyear }} financial year.
+    Until then, you can explore the historical performance of
     {% for g in demarcation.established_from_geos %}{% if forloop.last and not forloop.first %} and {% elif not forloop.first and not forloop.last %}, {% endif %}<a href="/profiles/{{ g.full_geoid }}-{{ g.short_name|slugify }}/">{{ g.short_name }}</a>{% endfor %}.
   </div>
 {% endif %}
