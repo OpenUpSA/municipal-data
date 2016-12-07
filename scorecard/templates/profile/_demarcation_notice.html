@@ -1,0 +1,11 @@
+{% load dates %}
+
+{% if demarcation.disestablished %}
+  <div class="demarcation-notice disestablished">
+    <div class="container">
+      {{ geography.name }} was disestablished on {{ demarcation.disestablished_date|as_date|date:"j F Y" }}
+      and amalgamated into
+      {% for g in demarcation.disestablished_to_geos %}{% if forloop.last and not forloop.first %} and {% elif not forloop.first and not forloop.last %}, {% endif %}<a href="/profiles/{{ g.full_geoid }}-{{ g.short_name|slugify }}/">{{ g.short_name }}</a>{% endfor %}.
+    </div>
+  </div>
+{% endif %}
