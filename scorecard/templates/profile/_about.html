@@ -1,4 +1,16 @@
+{% load dates %}
+
 <div id="about">
+  {% if demarcation.disestablished %}
+    <div class="demarcation-notice disestablished">
+      <div class="container">
+        {{ geography.name }} was disestablished on {{ demarcation.disestablished_date|as_date|date:"j F Y" }}
+        and amalgamated into
+        {% for g in demarcation.disestablished_to_geos %}{% if forloop.last and not forloop.first %} and {% elif not forloop.first and not forloop.last %}, {% endif %}<a href="/profiles/{{ g.geoid }}-{{ g.name|slugify }}/">{{ g.short_name }}</a>{% endfor %}.
+      </div>
+    </div>
+  {% endif %}
+
   <div class="container">
     <div class="sub-section" id="who-runs">
       <div class="row">
@@ -103,13 +115,6 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-sm-8">
-          {% if demarcation.disestablished %}
-          Disestablished on {{ demarcation.disestablished_date }} into {{ demarcation.disestablished_to | join:", " }}
-          {% endif %}
-        </div>
-      </div>
       <div class="row">
         <div class="col-sm-8">
           <div class="compare-place-picker hidden-sm hidden-xs">
