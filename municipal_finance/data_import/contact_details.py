@@ -10,27 +10,26 @@ import xlrd
 from urlparse import urlparse, ParseResult
 
 expected_headings = [
-    'Cat \nCode',
-    'Locat\nCode',
-    'Location \nDescription',
+    'Location Description',
+    'Locat Code',
     'CAP',
-    'Postal \nAddress 1',
-    'Postal \nAddress 2',
-    'Postal \nAddress 3',
-    'Street \nAddress 1',
-    'Street \nAddress 2',
-    'Street \nAddress 3',
-    'Street \nAddress 4',
-    'Phone \nNumber',
-    'Fax \nNumber',
-    'NT \nFile No',
-    'E-mail \nAddress',
+    'Postal Address 1',
+    'Postal Address 2',
+    'Postal Address 3',
+    'Street Address 1',
+    'Street Address 2',
+    'Street Address 3',
+    'Street Address 4',
+    'Phone Number',
+    'Fax Number',
+    'NT File No',
+    'E-mail Address',
     '',
     'Title',
     'Name',
-    'Office\nPhone \nNumber',
-    'Cell \nNumber',
-    'Fax \nNumber',
+    'Phone Number',
+    'Cell Number',
+    'Fax Number',
     'EMAILADD',
 ]
 
@@ -91,21 +90,21 @@ def convert_persons(sheet, person_csv_name):
         ]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
-        for rowx in xrange(2, sheet.nrows):
-            if str(sheet.cell(rowx, 0).value) not in ['A', 'B', 'C']:
+        for rowx in xrange(1, sheet.nrows):
+            if str(sheet.cell(rowx, 2).value) not in ['H', 'L', 'M']:
                 continue
-            role = sheet.cell(rowx, 15).value
+            role = sheet.cell(rowx, 14).value
             check_role(role)
             if role not in output_roles:
                 continue
             item = {
                 'demarcation_code': sheet.cell(rowx, 1).value,
                 'role': role,
-                'title': sheet.cell(rowx, 16).value,
-                'name': sheet.cell(rowx, 17).value,
-                'office_number': sheet.cell(rowx, 18).value,
-                'fax_number': sheet.cell(rowx, 20).value,
-                'email_address': sheet.cell(rowx, 21).value,
+                'title': sheet.cell(rowx, 15).value,
+                'name': clean(sheet.cell(rowx, 16)),
+                'office_number': sheet.cell(rowx, 17).value,
+                'fax_number': sheet.cell(rowx, 19).value,
+                'email_address': sheet.cell(rowx, 20).value,
             }
             writer.writerow(item)
 
@@ -113,6 +112,7 @@ def convert_persons(sheet, person_csv_name):
 def convert_muni(sheet, person_csv_name):
     with open(person_csv_name, 'w') as f:
         fieldnames = [
+            'muni_name',
             'demarcation_code',
             'postal_address_1',
             'postal_address_2',
@@ -128,8 +128,8 @@ def convert_muni(sheet, person_csv_name):
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         muni = None
-        for rowx in xrange(2, sheet.nrows):
-            if str(sheet.cell(rowx, 0).value) not in ['A', 'B', 'C']:
+        for rowx in xrange(1, sheet.nrows):
+            if str(sheet.cell(rowx, 2).value) not in ['H', 'L', 'M']:
                 continue
 
             # Do each muni only once
@@ -139,31 +139,43 @@ def convert_muni(sheet, person_csv_name):
                 muni = sheet.cell(rowx, 1).value
 
             item = {
+                'muni_name': sheet.cell(rowx, 0).value,
                 'demarcation_code': muni,
-                'postal_address_1': clean(sheet.cell(rowx, 4).value),
-                'postal_address_2': clean(sheet.cell(rowx, 5).value),
-                'postal_address_3': clean(sheet.cell(rowx, 6).value),
-                'street_address_1': clean(sheet.cell(rowx, 7).value),
-                'street_address_2': clean(sheet.cell(rowx, 8).value),
-                'street_address_3': clean(sheet.cell(rowx, 9).value),
-                'street_address_4': clean(sheet.cell(rowx, 10).value),
-                'phone_number': clean(sheet.cell(rowx, 11).value),
-                'fax_number': clean(sheet.cell(rowx, 12).value),
-                'url': clean_url(sheet.cell(rowx, 14).value),
+                'postal_address_1': clean(sheet.cell(rowx, 3)),
+                'postal_address_2': clean_address(sheet.cell(rowx, 4)),
+                'postal_address_3': clean_address(sheet.cell(rowx, 5)),
+                'street_address_1': clean(sheet.cell(rowx, 6)),
+                'street_address_2': clean_address(sheet.cell(rowx, 7)),
+                'street_address_3': clean_address(sheet.cell(rowx, 8)),
+                'street_address_4': clean_address(sheet.cell(rowx, 9)),
+                'phone_number': clean(sheet.cell(rowx, 10)),
+                'fax_number': clean(sheet.cell(rowx, 11)),
+                'url': clean_url(sheet.cell(rowx, 13).value),
             }
             writer.writerow(item)
 
 
 def check_columns(sheet):
     for colx in xrange(0, sheet.ncols):
-        heading = str(sheet.cell(1, colx).value).strip()
+        heading = str(sheet.cell(0, colx).value).strip()
         if heading != expected_headings[colx]:
-            raise Exception("Unexpected heading %r != %r"
+            raise Exception("Unexpected heading %r != %r <- expected"
                             % (heading, expected_headings[colx]))
 
 
 def clean(dirty):
-    return filter(lambda c: c in printable, dirty)
+    if dirty.ctype == 2:
+        return str(int(dirty.value))
+    else:
+        return filter(lambda c: c in printable, dirty.value)
+
+
+def clean_address(dirty):
+    """zero-pad if it looks like 4-digit post codes"""
+    if dirty.ctype == 2:
+        return format(int(dirty.value), '04')
+    else:
+        return filter(lambda c: c in printable, dirty.value)
 
 
 def clean_url(url):
