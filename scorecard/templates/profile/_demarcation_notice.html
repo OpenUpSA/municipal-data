@@ -10,7 +10,7 @@
   </div>
 {% endif %}
 
-{% if demarcation.established %}
+{% if demarcation.established_after_last_audit or demarcation.established_within_audit_years %}
   <div class="demarcation-notice established">
     <div class="container">
       {{ geography.name }} was established on {{ demarcation.established_date|as_date|date:"j F Y" }}

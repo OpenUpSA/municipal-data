@@ -1,6 +1,6 @@
 {% load dates finance %}
 
-{% if demarcation.established %}
+{% if demarcation.established_after_last_audit %}
   <div class="demarcation-notice established">
     {{ geography.name }} was established on {{ demarcation.established_date|as_date|date:"j F Y" }}.
     Annual financial performance indicators will only be available after the end of the {{ demarcation.established_date|as_date|finyear }} financial year.

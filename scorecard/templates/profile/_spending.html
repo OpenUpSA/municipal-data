@@ -7,7 +7,7 @@
     {% with indicators.expenditure_trends_staff.values|first as latest %}
     <h2>Staff Wages and Salaries <span class="indicator-date">{{ latest.date|finyear }}</span></h2>
 
-    {% if demarcation.established %}
+    {% if demarcation.established_after_last_audit %}
     {% include 'profile/_demarcation_indicator_notice.html' %}
     {% else %}
 
@@ -67,7 +67,7 @@
     {% with indicators.expenditure_trends_contracting.values|first as latest %}
     <h2>Contractor Services <span class="indicator-date">{{ latest.date|finyear }}</span></h2>
 
-    {% if demarcation.established %}
+    {% if demarcation.established_after_last_audit %}
     {% include 'profile/_demarcation_indicator_notice.html' %}
     {% else %}
 
@@ -125,6 +125,9 @@
 
   <div class="indicator">
     <h2>What is Money Spent On?</h2>
+    {% if demarcation.established_after_last_audit %}
+    {% include 'profile/_demarcation_indicator_notice.html' %}
+    {% else %}
 
     <div class="row">
       <div class="col-sm-8">
@@ -151,5 +154,6 @@
         </li>
       </ul>
     </div>
+    {% endif %}
   </div>
 </div>
