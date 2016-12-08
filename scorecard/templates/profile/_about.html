@@ -27,18 +27,7 @@
         <div class="col-md-8">
           <div class="row">
             {% for official in mayoral_staff.officials %}
-              {% if forloop.counter == 1 or forloop.counter == 3 %}
-              <div class="col-sm-3">
-                <div class="person-info">
-                  <div class="person-role">{{ official.role }}</div>
-                  <ul class="fa-ul person-name">
-                    {% if official and official.name %}
-                    <li><i class="fa fa-li fa-user" aria-hidden="true"></i><i><a href="#contact-update-note">not yet available*</a></i></li>
-                    {% endif %}
-                  </ul>
-                </div>
-              </div>
-              {% elif forloop.counter < 5 %}
+              {% if forloop.counter < 5 %}
               <div class="col-sm-3">
                 <div class="person-info">
                   <div class="person-role">{{ official.role }}</div>
@@ -96,8 +85,6 @@
               {% if mayoral_staff.updated_date %}
               <p>Contact Details last updated: {{ mayoral_staff.updated_date }}</p>
               {% endif %}
-
-              <p><strong><a name="contact-update-note">*Note:</a></strong> Mayoral positions may have changed due to the 2016 Municipal Elections. An updated, complete set of information will be drawn from quarterly updates provided by municipalities. The next update is due in December 2016.</p>
             </div>
           </div>
 
