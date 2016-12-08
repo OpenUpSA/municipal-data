@@ -23,7 +23,13 @@ sys.path.append('.')
 
 from collections import defaultdict
 from itertools import groupby
-from scorecard.profile_data import APIData, MuniApiClient, get_indicators, get_indicator_calculators
+from scorecard.profile_data import (
+    APIData,
+    MuniApiClient,
+    Demarcation,
+    get_indicators,
+    get_indicator_calculators,
+)
 import argparse
 import json
 
@@ -53,6 +59,11 @@ def main():
         '--print-sets',
         action='store_true',
         help='Print the distribution sets')
+    parser.add_argument(
+        '--skip',
+        nargs='?',
+        default=0,
+        help='The number of municipalities to skip')
     args = parser.parse_args()
     if args.api_url:
         api_url = args.api_url
@@ -60,18 +71,17 @@ def main():
         api_url = API_URL
 
     if args.profiles_from_api:
-        generate_profiles(api_url)
+        generate_profiles(args, api_url)
     elif args.calc_medians:
         calculate_medians(args, api_url)
     elif args.calc_rating_counts:
         calculate_rating_counts(args, api_url)
 
 
-def generate_profiles(api_url):
+def generate_profiles(args, api_url):
     api_client = MuniApiClient(api_url)
     munis = get_munis(api_client)
-
-    for muni in munis:
+    for muni in munis[int(args.skip):]:
         demarcation_code = muni.get('municipality.demarcation_code')
         api_data = APIData(api_client.API_URL, demarcation_code, client=api_client)
         api_data.fetch_data()
@@ -81,6 +91,7 @@ def generate_profiles(api_url):
             'muni_contact': api_data.muni_contact(),
             'audit_opinions': api_data.audit_opinions(),
             'indicators': indicators,
+            'demarcation': Demarcation(api_data).as_dict(),
         }
 
         filename = "scorecard/materialised/profiles/%s.json" % demarcation_code

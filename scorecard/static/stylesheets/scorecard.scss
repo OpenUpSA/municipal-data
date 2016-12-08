@@ -422,12 +422,11 @@ blockquote {
 .page-nav-container {
   width: 100%;
   background-color: $brand-secondary;
-  max-height: 100px;
   line-height: 1;
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
   .page-nav-info {
     max-height: 0;
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
   }
   .page-nav-info .muni-name, .page-nav-info .muni-population {
     padding-top: 5px;
@@ -439,7 +438,7 @@ blockquote {
     font-weight: bold;
     margin-right: 5px;
     opacity: 0;
-    transition: all 1s ease;
+    transition: all 0.3s ease;
     transition-delay: 0.3s;
   }
   .page-nav-info .muni-population {
@@ -498,7 +497,14 @@ blockquote {
 
 .page-nav-wrapper {
   transition: all 0.5s ease;
-  height: 90px;
+  margin-bottom: 20px;
+
+  .demarcation-notice {
+    opacity: 0;
+    display: none;
+    padding: 7px 0px;
+    transition: opacity 0.5s ease;
+  }
 }
 
 .page-nav-wrapper.expanded {
@@ -506,7 +512,9 @@ blockquote {
   .page-nav-info {
     max-height: 50px;
   }
-  .page-nav-info .muni-name, .page-nav-info .muni-population {
+  .page-nav-info .muni-name, .page-nav-info .muni-population,
+  .demarcation-notice {
+    display: block;
     opacity: 1;
   }
   .
@@ -614,6 +622,17 @@ blockquote {
   .fa-ul {
     margin-left: 20px;
   }
+
+  .demarcation-notice {
+    margin-top: -10px;
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+}
+
+.demarcation-notice.disestablished,
+.demarcation-notice.established {
+  background: #fdcd58;
 }
 
 //= #faq
@@ -1071,6 +1090,11 @@ blockquote {
         border-bottom: none;
       }
     }
+  }
+
+  .demarcation-notice.disestablished,
+  .demarcation-notice.established {
+    background: transparent;
   }
 }
 

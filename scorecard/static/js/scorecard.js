@@ -48,7 +48,7 @@ $(document).ready(function(){
 
       if ($target.length) {
         $('html, body').stop().animate({
-            'scrollTop': $target.offset().top-15
+            'scrollTop': $target.offset().top - 30
         }, 300, 'swing', function() {
           window.location.hash = target;
         });

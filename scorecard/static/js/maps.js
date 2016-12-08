@@ -29,7 +29,7 @@ function MapItGeometryLoader() {
   };
 
   this.loadGeometryForLevel = function(level, success) {
-    var url = '/areas/' + MAPIT.level_codes[level] + '.geojson?generation=1';
+    var url = '/areas/' + MAPIT.level_codes[level] + '.geojson?generation=2';
     var simplify = MAPIT.level_simplify[MAPIT.level_codes[level]];
     if (simplify) {
       url = url + '&simplify_tolerance=' + simplify;

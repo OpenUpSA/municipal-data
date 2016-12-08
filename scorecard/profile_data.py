@@ -595,6 +595,21 @@ class APIData(object):
                 'results_structure': self.noop_structure,
                 'order': 'financial_year_end.year:desc',
             },
+            'disestablished': {
+                'cube': 'demarcation_changes',
+                'cut': {
+                    'old_demarcation.code': [self.geo_code],
+                    'old_code_transition.code': ['disestablished'],
+                },
+                'fields': [
+                    'new_demarcation.code',
+                    'date.date'
+                ],
+                'value_label': '',
+                'query_type': 'facts',
+                'results_structure': self.noop_structure,
+                'order': 'date.date:asc',
+            },
         }
 
 
@@ -1326,3 +1341,41 @@ class FruitlWastefIrregUnauth(IndicatorCalculator):
             'values': values,
             'ref': api_data.references['circular71'],
         }
+
+
+class Demarcation(object):
+
+    def __init__(self, api_data):
+        self.is_disestablished = False
+        self.is_established = False
+
+        # Watch out: groupby's iterator is finicky about seeing things twice.
+        # E.g. If you just turn the tuples iterator into a list you only see one
+        # item in the group
+        for date, group in groupby(api_data.results['disestablished'], lambda x: x['date.date']):
+            if self.is_disestablished:
+                # If this is the second iteration
+                raise Exception("Muni disestablished more than once")
+            else:
+                self.is_disestablished = True
+                self.disestablished_date = date
+                self.disestablished_to = [x['new_demarcation.code'] for x in group]
+
+    def as_dict(self):
+        info = {}
+
+        if self.is_disestablished:
+            info.update({
+                'disestablished': True,
+                'disestablished_date': self.disestablished_date,
+                'disestablished_to': self.disestablished_to,
+            })
+
+        if self.is_established:
+            info.update({
+                'established': True,
+                'established_date': self.established_date,
+                'established_from': self.established_from,
+            })
+
+        return info
