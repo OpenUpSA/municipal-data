@@ -41,6 +41,8 @@ def build_comparisons(geo, indicators, medians, rating_counts):
 
 def build_comparison(geo, indicators, medians, rating_counts, calculator):
     comparisons = {}
+    ratings = rating_counts[calculator.indicator_name]
+    medians = medians[calculator.indicator_name]
 
     for entry in indicators[calculator.indicator_name]['values']:
         val = entry['result']
@@ -48,21 +50,24 @@ def build_comparison(geo, indicators, medians, rating_counts, calculator):
             continue
 
         date = str(entry['date'])
-        comparisons[date] = [{
-            # provincial median
-            'type': 'relative',
-            'place': 'in ' + geo.province_name,
-            'value': medians[calculator.indicator_name]['provincial']['dev_cat'].get(date, 0),
-            'value_type': calculator.result_type,
-            'comparison': comparison_relative_words(val, medians[calculator.indicator_name]['provincial']['dev_cat'].get(date, 0), calculator.noun),
-        }, {
-            # national median
-            'type': 'relative',
-            'place': 'nationally',
-            'value': medians[calculator.indicator_name]['national']['dev_cat'].get(date, 0),
-            'value_type': calculator.result_type,
-            'comparison': comparison_relative_words(val, medians[calculator.indicator_name]['national']['dev_cat'].get(date, 0), calculator.noun),
-        }]
+        comparisons[date] = []
+
+        # provincial and national medians
+        for group, place in [['provincial', 'in ' + geo.province_name], ['national', 'nationally']]:
+            median = medians[group]['dev_cat'].get(date, 0)
+
+            # how many comparable places are there, including this one?
+            comparable_places = sum(v for k, v in ratings[group]['dev_cat'].get(date, {}).iteritems() if k)
+
+            # only do this if we have at least one other place to compare with
+            if comparable_places > 1:
+                comparisons[date].append({
+                    'type': 'relative',
+                    'place': 'similar municipalities ' + place,
+                    'value': median,
+                    'value_type': calculator.result_type,
+                    'comparison': comparison_relative_words(val, median, calculator.noun),
+                })
 
     indicators[calculator.indicator_name]['comparisons'] = comparisons
 

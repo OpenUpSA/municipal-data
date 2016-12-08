@@ -73,11 +73,17 @@ These files work as follows:
 
 Update the last-updated date in the model files for each cube in `models/*.json`
 
+Update the materialised view data using `bin/materialised_views.py`:
+
+1. Run with --profiles-from-api to update the muni-specific profile data
+2. Run with --calc-medians and --calc-rating-counts to update comparison data based on profile changes.
+3. Check what changed using `git diff` and commit commit if changes look right.
+
 ## Annual data
 
 Whenever Audited Annual data becomes available (AUDA financial data and Audit Outcomes), adjust the years used by `scorecard/profile_data.py` to include the latest financial year available.
 
-Audit outcomes will be captured in the months following 1 December following the end of the financial year.
+Audit outcomes will be captured in the months following 1 December following the end of the financial year. Audited figures can start being submitted by municipalities to Treasury from this point. That means new audited annual figures can appear from Q2. 
 
 Pre-audit figures are captured in the period 3 Aug to 30 Nov after the end of the financial year.
 
