@@ -92,7 +92,6 @@ MIDDLEWARE_CLASSES = (
     'municipal_finance.middleware.SiteMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'municipal_finance.middleware.ApiErrorHandler',
 )
 
