@@ -1,0 +1,74 @@
+{
+    "fact_table": "municipal_finance_demarcationchanges",
+    "label": "Demarcation Changes",
+    "description": "Changes to municipality demarcation where at least one municipality was disestablished or newly-established",
+    "update_cycle": "quarter",
+    "last_updated": "2016-12",
+    "dimensions": {
+        "old_demarcation": {
+            "attributes": {
+                "code": {
+                    "column": "old_code",
+                    "label": "Demarcation Code",
+                    "type": "string",
+                    "description": "Municipality code assigned by the Municipal Demarcation Board"
+                }
+            },
+            "key_attribute": "code",
+            "description": "Old municipality demarcation details",
+            "label": "Old demarcation"
+        },
+        "new_demarcation": {
+            "attributes": {
+                "code": {
+                    "column": "new_code",
+                    "label": "Demarcation Code",
+                    "type": "string",
+                    "description": "Municipality code assigned by the Municipal Demarcation Board"
+                }
+            },
+            "key_attribute": "code",
+            "description": "New municipality demarcation details",
+            "label": "New demarcation"
+        },
+        "old_code_transition": {
+            "attributes": {
+                "code": {
+                    "column": "old_code_transition",
+                    "label": "Old Demarcation Transition Code",
+                    "type": "string",
+                    "description": "The change that occurred to the old municipality for this particular demarcation change."
+                }
+            },
+            "key_attribute": "code",
+            "description": "Old municipality demarcation details",
+            "label": "Old demarcation"
+        },
+        "new_code_transition": {
+            "attributes": {
+                "code": {
+                    "column": "new_code_transition",
+                    "label": "New Demarcation Transition Code",
+                    "type": "string",
+                    "description": "The change that occurred to the new municipality for this particular demarcation change."
+                }
+            },
+            "key_attribute": "code",
+            "description": "",
+            "label": ""
+        },
+        "date": {
+            "attributes": {
+                "date": {
+                    "column": "date",
+                    "label": "Date",
+                    "type": "date",
+                    "description": ""
+                }
+            },
+            "key_attribute": "date",
+            "description": "The date the change took place",
+            "label": "Date"
+        }
+    }
+}
