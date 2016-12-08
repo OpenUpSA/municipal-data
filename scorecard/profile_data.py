@@ -280,7 +280,7 @@ class APIData(object):
 
     def get_queries(self):
         today = datetime.now()
-        in_year_years = [today.year, today.year-1, today.year-2]
+        in_year_years = [today.year+1, today.year, today.year-1, today.year-2]
         return {
             # monthly values for in-year calculations from bsheet
             'in_year_bsheet': {
