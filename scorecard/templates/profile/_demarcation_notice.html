@@ -9,3 +9,13 @@
     </div>
   </div>
 {% endif %}
+
+{% if demarcation.established_after_last_audit or demarcation.established_within_audit_years %}
+  <div class="demarcation-notice established">
+    <div class="container">
+      {{ geography.name }} was established on {{ demarcation.established_date|as_date|date:"j F Y" }}
+      through the amalgamation of
+      {% for g in demarcation.established_from_geos %}{% if forloop.last and not forloop.first %} and {% elif not forloop.first and not forloop.last %}, {% endif %}<a href="/profiles/{{ g.full_geoid }}-{{ g.short_name|slugify }}/">{{ g.short_name }}</a>{% endfor %}.
+    </div>
+  </div>
+{% endif %}

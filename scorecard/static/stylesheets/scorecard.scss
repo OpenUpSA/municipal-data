@@ -422,7 +422,6 @@ blockquote {
 .page-nav-container {
   width: 100%;
   background-color: $brand-secondary;
-  max-height: 100px;
   line-height: 1;
   transition: all 0.3s ease;
   .page-nav-info {
@@ -498,10 +497,11 @@ blockquote {
 
 .page-nav-wrapper {
   transition: all 0.5s ease;
-  height: 90px;
+  margin-bottom: 20px;
 
   .demarcation-notice {
     opacity: 0;
+    display: none;
     padding: 7px 0px;
     transition: opacity 0.5s ease;
   }
@@ -514,6 +514,7 @@ blockquote {
   }
   .page-nav-info .muni-name, .page-nav-info .muni-population,
   .demarcation-notice {
+    display: block;
     opacity: 1;
   }
   .
@@ -629,7 +630,8 @@ blockquote {
   }
 }
 
-.demarcation-notice.disestablished {
+.demarcation-notice.disestablished,
+.demarcation-notice.established {
   background: #fdcd58;
 }
 
@@ -1078,6 +1080,11 @@ blockquote {
         color: #666;
       }
     }
+  }
+
+  .demarcation-notice.disestablished,
+  .demarcation-notice.established {
+    background: transparent;
   }
 }
 

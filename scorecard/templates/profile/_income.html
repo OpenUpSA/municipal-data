@@ -9,6 +9,9 @@
         <h2 class="text-center">Where does {{ geography.name }} get its money from?</h2>
       </div>
     </div>
+    {% if demarcation.established_after_last_audit %}
+    {% include 'profile/_demarcation_indicator_notice.html' %}
+    {% else %}
 
     <div class="row">
       <div class="col-md-8">
@@ -71,11 +74,15 @@
         </div>
 
       </div>
+      {% endif %}
     </div>
   </div>
   <div class="income-split indicator">
     <h2>Where money comes from</h2>
 
+    {% if demarcation.established_after_last_audit %}
+    {% include 'profile/_demarcation_indicator_notice.html' %}
+    {% else %}
     <div class="row">
       <div class="col-sm-8">
 
@@ -102,5 +109,6 @@
         </li>
       </ul>
     </div>
+    {% endif %}
   </div>
 </div>
