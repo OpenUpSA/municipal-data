@@ -2,7 +2,7 @@ BEGIN;
 
 \echo Create import table...
 
-CREATE TEMPORARY TABLE incexp_2016q4
+CREATE TEMPORARY TABLE incexp_upsert
 (
         demarcation_code TEXT,
         period_code TEXT,
@@ -13,7 +13,7 @@ CREATE TEMPORARY TABLE incexp_2016q4
 
 \echo Read data...
 
-\copy incexp_2016q4 (demarcation_code, period_code, function_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2016q4/Section 71 Q4 published data/incexp_2016q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy incexp_upsert (demarcation_code, period_code, function_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2017q1/Section 71 Q1 2016-17/incexp_2017q1_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \echo Drop not null constraints...
 
@@ -27,7 +27,7 @@ alter table incexp_facts
 
 UPDATE incexp_facts f
 SET amount = i.amount
-FROM incexp_2016q4 i
+FROM incexp_upsert i
 WHERE f.demarcation_code = i.demarcation_code
 AND f.period_code = i.period_code
 AND f.function_code = i.function_code
@@ -45,7 +45,7 @@ INSERT INTO incexp_facts
     amount
 )
 SELECT demarcation_code, period_code, function_code, item_code, amount
-FROM incexp_2016q4 i
+FROM incexp_upsert i
 WHERE
     NOT EXISTS (
         SELECT * FROM incexp_facts f

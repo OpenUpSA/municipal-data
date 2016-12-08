@@ -2,7 +2,7 @@ BEGIN;
 
 \echo Create import table...
 
-CREATE TEMPORARY TABLE aged_debtor_2016q4
+CREATE TEMPORARY TABLE aged_debtor_upsert
 (
         demarcation_code TEXT,
         period_code TEXT,
@@ -23,7 +23,7 @@ CREATE TEMPORARY TABLE aged_debtor_2016q4
 
 \echo Read data...
 
-\copy aged_debtor_2016q4 (demarcation_code, period_code, customer_group_code, item_code, bad_amount, badi_amount, g1_amount, l1_amount, l120_amount, l150_amount, l180_amount, l30_amount, l60_amount, l90_amount, total_amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2016q4/Section 71 Q4 published data/debt_2016q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy aged_debtor_upsert (demarcation_code, period_code, customer_group_code, item_code, bad_amount, badi_amount, g1_amount, l1_amount, l120_amount, l150_amount, l180_amount, l30_amount, l60_amount, l90_amount, total_amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2017q1/Section 71 Q1 2016-17/debt_2017q1_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \echo Drop not null constraints...
 
@@ -47,7 +47,7 @@ SET bad_amount = i.bad_amount,
     l60_amount = i.l60_amount,
     l90_amount = i.l90_amount,
     total_amount = i.total_amount
-FROM aged_debtor_2016q4 i
+FROM aged_debtor_upsert i
 WHERE f.demarcation_code = i.demarcation_code
 AND f.period_code = i.period_code
 AND f.customer_group_code = i.customer_group_code
@@ -85,7 +85,7 @@ INSERT INTO aged_debtor_facts
     total_amount
 )
 SELECT demarcation_code, period_code, customer_group_code, item_code, bad_amount, badi_amount, g1_amount, l1_amount, l120_amount, l150_amount, l180_amount, l30_amount, l60_amount, l90_amount, total_amount
-FROM aged_debtor_2016q4 i
+FROM aged_debtor_upsert i
 WHERE
     NOT EXISTS (
         SELECT * FROM aged_debtor_facts f

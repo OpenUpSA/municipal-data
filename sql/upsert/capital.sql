@@ -2,7 +2,7 @@ BEGIN;
 
 \echo Create import table...
 
-CREATE TEMPORARY TABLE capital_2016q4
+CREATE TEMPORARY TABLE capital_upsert
 (
         demarcation_code TEXT,
         period_code TEXT,
@@ -17,7 +17,7 @@ CREATE TEMPORARY TABLE capital_2016q4
 
 \echo Read data...
 
-\copy capital_2016q4 (demarcation_code, period_code, function_code, item_code, new_assets, renewal_of_existing, total_assets, repairs_maintenance, asset_register_summary) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2016q4/Section 71 Q4 published data/capital_2016q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy capital_upsert (demarcation_code, period_code, function_code, item_code, new_assets, renewal_of_existing, total_assets, repairs_maintenance, asset_register_summary) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2017q1/Section 71 Q1 2016-17/capital_2017q1_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \echo Drop not null constraints...
 
@@ -35,7 +35,7 @@ SET new_assets = i.new_assets,
     total_assets = i.total_assets,
     repairs_maintenance = i.repairs_maintenance,
     asset_register_summary = i.asset_register_summary
-FROM capital_2016q4 i
+FROM capital_upsert i
 WHERE f.demarcation_code = i.demarcation_code
 AND f.period_code = i.period_code
 AND f.function_code = i.function_code
@@ -62,7 +62,7 @@ INSERT INTO capital_facts
     asset_register_summary
 )
 SELECT demarcation_code, period_code, function_code, item_code, new_assets, renewal_of_existing, total_assets, repairs_maintenance, asset_register_summary
-FROM capital_2016q4 i
+FROM capital_upsert i
 WHERE
     NOT EXISTS (
         SELECT * FROM capital_facts f

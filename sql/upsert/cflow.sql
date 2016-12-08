@@ -2,7 +2,7 @@ BEGIN;
 
 \echo Create import table...
 
-CREATE TEMPORARY TABLE cflow_2016q4
+CREATE TEMPORARY TABLE cflow_upsert
 (
         demarcation_code TEXT,
         period_code TEXT,
@@ -12,7 +12,7 @@ CREATE TEMPORARY TABLE cflow_2016q4
 
 \echo Read data...
 
-\copy cflow_2016q4 (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2016q4/Section 71 Q4 published data/cflow_2016q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy cflow_upsert (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2017q1/Section 71 Q1 2016-17/cflow_2017q1_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \echo Drop not null constraints...
 
@@ -26,7 +26,7 @@ alter table cflow_facts
 
 UPDATE cflow_facts f
 SET amount = i.amount
-FROM cflow_2016q4 i
+FROM cflow_upsert i
 WHERE f.demarcation_code = i.demarcation_code
 AND f.period_code = i.period_code
 AND f.item_code = i.item_code
@@ -42,7 +42,7 @@ INSERT INTO cflow_facts
     amount
 )
 SELECT demarcation_code, period_code, item_code, amount
-FROM cflow_2016q4 i
+FROM cflow_upsert i
 WHERE
     NOT EXISTS (
         SELECT * FROM cflow_facts f

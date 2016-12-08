@@ -2,7 +2,7 @@ BEGIN;
 
 \echo Create import table...
 
-CREATE TEMPORARY TABLE conditional_grants_2016q4
+CREATE TEMPORARY TABLE conditional_grants_upsert
 (
         demarcation_code TEXT,
         period_code TEXT,
@@ -12,7 +12,7 @@ CREATE TEMPORARY TABLE conditional_grants_2016q4
 
 \echo Read data...
 
-\copy conditional_grants_2016q4 (demarcation_code, period_code, grant_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2016q4/Section 71 Q4 published data/grants_2016q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy conditional_grants_upsert (demarcation_code, period_code, grant_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2017q1/Section 71 Q1 2016-17/grants_2017q1_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \echo Drop not null constraints...
 
@@ -26,7 +26,7 @@ alter table conditional_grants_facts
 
 UPDATE conditional_grants_facts f
 SET amount = i.amount
-FROM conditional_grants_2016q4 i
+FROM conditional_grants_upsert i
 WHERE f.demarcation_code = i.demarcation_code
 AND f.period_code = i.period_code
 AND f.grant_code = i.grant_code
@@ -42,7 +42,7 @@ INSERT INTO conditional_grants_facts
     amount
 )
 SELECT demarcation_code, period_code, grant_code, amount
-FROM conditional_grants_2016q4 i
+FROM conditional_grants_upsert i
 WHERE
     NOT EXISTS (
         SELECT * FROM conditional_grants_facts f
