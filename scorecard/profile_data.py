@@ -33,7 +33,10 @@ logger = logging.getLogger('municipal_finance')
 EXECUTOR = ThreadPoolExecutor(max_workers=10)
 
 # The years for which we need results. Must be in desceneding order.
-YEARS = [2015, 2014, 2013, 2012]
+LAST_AUDIT_YEAR = 2015
+LAST_AUDIT_QUARTER = '2015q4'
+YEARS = list(xrange(LAST_AUDIT_YEAR-3, LAST_AUDIT_YEAR+1))
+YEARS.reverse()
 
 YEAR_ITEM_DRILLDOWN = [
     'item.code',
@@ -610,6 +613,21 @@ class APIData(object):
                 'results_structure': self.noop_structure,
                 'order': 'date.date:asc',
             },
+            'established': {
+                'cube': 'demarcation_changes',
+                'cut': {
+                    'new_demarcation.code': [self.geo_code],
+                    'new_code_transition.code': ['established'],
+                },
+                'fields': [
+                    'old_demarcation.code',
+                    'date.date'
+                ],
+                'value_label': '',
+                'query_type': 'facts',
+                'results_structure': self.noop_structure,
+                'order': 'date.date:asc',
+            },
         }
 
 
@@ -945,8 +963,7 @@ class CurrentRatio(IndicatorCalculator):
         # Loop over months that exist and use their values in quarters
         for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
             monthitems = list(yearmonthgroup)
-            quarter_idx = ((month - 1) / 3) + 1
-            quarter_key = (year, quarter_idx)
+            quarter_key = quarter_tuple(year, month)
             try:
                 # Rely on index out of range for missing values to skip month if one's missing
                 assets = [m['amount.sum'] for m in monthitems
@@ -961,11 +978,11 @@ class CurrentRatio(IndicatorCalculator):
                 if quarter_key not in quarters:
                     result = ratio(assets, liabilities)
                     q = {
-                        'date': "%sq%s" % quarter_key,
+                        'date': quarter_string(year, month),
                         'year': year,
                         'month': month,
                         'amount_type': 'ACT',
-                        'quarter': quarter_idx,
+                        'quarter': quarter_idx(month),
                         'assets': assets,
                         'liabilities': liabilities,
                         'result': result,
@@ -1013,8 +1030,7 @@ class LiquidityRatio(IndicatorCalculator):
         # Loop over months that exist and use their values in quarters
         for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
             monthitems = list(yearmonthgroup)
-            quarter_idx = ((month - 1) / 3) + 1
-            quarter_key = (year, quarter_idx)
+            quarter_key = quarter_tuple(year, month)
             try:
                 # Rely on index out of range for missing values to skip month if one's missing
                 cash = [m['amount.sum'] for m in monthitems
@@ -1032,11 +1048,11 @@ class LiquidityRatio(IndicatorCalculator):
                 if quarter_key not in quarters:
                     result = ratio(cash + call_investment_deposits, liabilities)
                     q = {
-                        'date': "%sq%s" % quarter_key,
+                        'date': quarter_string(year, month),
                         'year': year,
                         'month': month,
                         'amount_type': 'ACT',
-                        'quarter': quarter_idx,
+                        'quarter': quarter_idx(month),
                         'cash': cash,
                         'call_investment_deposits': call_investment_deposits,
                         'liabilities': liabilities,
@@ -1094,8 +1110,7 @@ class CurrentDebtorsCollectionRate(IndicatorCalculator):
         # Loop over months that exist and use their values in quarters
 
         for (year, month) in sorted(results.keys(), reverse=True):
-            quarter_idx = ((month - 1) / 3) + 1
-            quarter_key = (year, quarter_idx)
+            quarter_key = quarter_tuple(year, month)
 
             monthcells = results[(year, month)]
             try:
@@ -1118,11 +1133,11 @@ class CurrentDebtorsCollectionRate(IndicatorCalculator):
                 # result and bad rating. This gets changed below if it's complete.
                 if quarter_key not in quarters:
                     q = {
-                        'date': "%sq%s" % quarter_key,
+                        'date': quarter_string(year, month),
                         'year': year,
                         'month': month,
                         'amount_type': 'ACT',
-                        'quarter': quarter_idx,
+                        'quarter': quarter_idx(month),
                         'receipts': [receipts],
                         'billing': [billing],
                         'result': None,
@@ -1346,36 +1361,60 @@ class FruitlWastefIrregUnauth(IndicatorCalculator):
 class Demarcation(object):
 
     def __init__(self, api_data):
-        self.is_disestablished = False
-        self.is_established = False
-
+        self.disestablished = False
+        self.established_after_last_audit = False
+        self.established_within_audit_years = False
         # Watch out: groupby's iterator is finicky about seeing things twice.
         # E.g. If you just turn the tuples iterator into a list you only see one
         # item in the group
         for date, group in groupby(api_data.results['disestablished'], lambda x: x['date.date']):
-            if self.is_disestablished:
+            if self.disestablished:
                 # If this is the second iteration
                 raise Exception("Muni disestablished more than once")
             else:
-                self.is_disestablished = True
+                self.disestablished = True
                 self.disestablished_date = date
                 self.disestablished_to = [x['new_demarcation.code'] for x in group]
+        for date, group in groupby(api_data.results['established'], lambda x: x['date.date']):
+            if self.established_after_last_audit:
+                # If this is the second iteration
+                raise Exception("Muni established more than once")
+            else:
+                datetime = dateutil.parser.parse(date)
+                quarter = quarter_string(datetime.year, datetime.month)
+                if quarter > LAST_AUDIT_QUARTER:
+                    self.established_after_last_audit = True
+                if datetime.year in api_data.years:
+                    self.established_within_audit_years = True
+                self.established_date = date
+                self.established_from = [x['old_demarcation.code'] for x in group]
+
 
     def as_dict(self):
-        info = {}
-
-        if self.is_disestablished:
-            info.update({
+        demarcation_dict = {}
+        if self.disestablished:
+            demarcation_dict.update({
                 'disestablished': True,
                 'disestablished_date': self.disestablished_date,
                 'disestablished_to': self.disestablished_to,
             })
-
-        if self.is_established:
-            info.update({
-                'established': True,
+        if self.established_after_last_audit or self.established_within_audit_years:
+            demarcation_dict.update({
+                'established_after_last_audit': self.established_after_last_audit,
+                'established_within_audit_years': self.established_within_audit_years,
                 'established_date': self.established_date,
                 'established_from': self.established_from,
             })
+        return demarcation_dict
 
-        return info
+
+def quarter_idx(month):
+    return ((month - 1) / 3) + 1
+
+
+def quarter_tuple(year, month):
+    return (year, quarter_idx(month))
+
+
+def quarter_string(year, month):
+    return "%sq%s" % quarter_tuple(year, month)
