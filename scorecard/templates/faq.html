@@ -1,4 +1,5 @@
 {% extends "_base.html" %}
+{% load staticfiles %}
 
 {% block head_title %}Frequently Asked Questions (FAQ){% endblock %}
 
@@ -155,6 +156,60 @@ While most of the financial data provided to National Treasury  by the municipal
         </div>
       </div>
 
+      <div class="faq-item" id="similar-munis">
+        <div class="faq-question">
+          What is meant by 'similar municipalities'? <a href="#similar-munis" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-answer">
+          <p>
+          There are three categories of municipalities in South Africa:
+          </p>
+          <ul>
+            <li>Category A: Metropolitan Municipalities</li>
+            <li>Category B: Local Municipalities</li>
+            <li>Category C: District Municipalities</li>
+          </ul>
+          <p>
+          Within these categories, there may be significantly different circumstances between municipalities across the country.  Hence, a further set of subcategories have been developed for analytical and statistical purposes.  These subcategories have been widely-used in assessments and previous policy initiatives by the Department of Cooperative Governance (DCOG), National Treasury, the Municipal Demarcation Board and others.
+          </p>
+          <p>
+          For examples of how the subcategories are used, please see:
+          </p>
+          <ul>
+            <li><a href="{% static 'state_of_municipal_capacity_assessment_2010_11_national_trends_report.pdf' %}" target="_blank">State Municipal Capacity Assessment 2010/2011 National Trends in Municipal Capacity</a> by the Municipal Demarcation Board, p.3</li>
+            <li><a href="http://www.dbsa.org/EN/About-Us/Publications/Documents/The%20Municipal%20Infrastructure%20Investment%20Framework%20(MIIF%207)%20for%20South%20Africa.pdf" target="_blank">The Municipal Infrastructure and Investment Framework (MIFF 7) for South Africa. Round 7 (2009-2010): A capital investment perspective</a> by the the Department of Cooperative Governance (DCOG) and the Development Bank Southern Africa, p.10</li>
+            <li><a href="http://www.treasury.gov.za/publications/igfr/2011/lg/15.%20Rural%20services%202011%20LGBER%20-%20Final%20-%209%20Sept%202011.pdf" target="_blank">Delivering municipal services in rural areas</a> by National Treasury of South Africa, p.3</li>
+          </ul>
+          <p>
+          When referring to <i>similar municipalities</i>, we are then referring to municipalities in the same subcategory as per the table below.
+          </p><p>
+          When we calculate an indicator comparison for similar municipalities, we use the <a href="https://en.wikipedia.org/wiki/Median" target="_blank">median value</a>
+          of the municipalities in the same MIIF category.
+          </p>
+          <table class="table">
+            <tr>
+              <th>Subcategory</th>
+              <th>Description</th>
+            </tr><tr>
+              <td>A</td><td>Metropolitan municipalities (metros)</td>
+            </tr><tr>
+              <td>B1</td><td>Secondary cities, local municipalities with the largest budgets</td>
+            </tr><tr>
+              <td>B2</td><td>Local municipalities with a large town as core</td>
+            </tr><tr>
+              <td>B3</td><td>Local municipalities with small towns, with relatively small population and significant proportion of urban population but with no large town as core</td>
+            </tr><tr>
+              <td>B4</td><td>Local municipalities which are mainly rural with communal tenure and with, at most, one or two small towns in their area</td>
+            </tr><tr>
+              <td>C1</td><td>District municipalities which are not water services authorities</td>
+            </tr><tr>
+              <td>C2</td><td>District municipalities which are water services authorities</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
       <div class="faq-item" id="limitations">
         <div class="faq-question">
           What are the potential limitations of the datasets and their interpretation? <a href="#limitations" class="faq-anchor"><i class="fa fa-paragraph" aria-hidden="true"></i></a>
@@ -278,6 +333,7 @@ While most of the financial data provided to National Treasury  by the municipal
         <li role="presentation"><a href="#data-collection">How was the data collected?</a></li>
         <li role="presentation"><a href="#data-formats">What form is the data available in?</a></li>
         <li role="presentation"><a href="#info-not-available">What does it mean when something is listed as ‘Not Available’ or a bar is missing from the chart?</a></li>
+        <li role="presentation"><a href="#similar-munis">What is meant by 'similar municipalities'?</a></li>
         <li role="presentation"><a href="#limitations">What are the potential limitations of the datasets and their interpretation?</a></li>
         <li role="presentation"><a href="#what-is-the-api">Will personal information be at risk?</a></li>
         <li role="presentation"><a href="#commercial-rights">What are the commercial rights of people have commercial ideas?</a></li>

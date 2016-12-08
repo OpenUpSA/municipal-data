@@ -1061,6 +1061,16 @@ blockquote {
         color: #666;
       }
     }
+
+    a.faq-link {
+      color: inherit;
+      border-bottom: 1px dashed;
+      cursor: help;
+
+      &:hover {
+        border-bottom: none;
+      }
+    }
   }
 }
 
