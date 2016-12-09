@@ -6,19 +6,31 @@
         <div class="col-md-4">
           <ul class="fa-ul">
             <li>
-              <i class="fa fa-li fa-phone" aria-hidden="true"></i> <a href="tel:{{ muni_contact.phone_number }}">{{ muni_contact.phone_number }}</a>
+              <i class="fa fa-li fa-phone" aria-hidden="true"></i>
+              {% if muni_contact.phone_number %}
+              <a href="tel:{{ muni_contact.phone_number }}">{{ muni_contact.phone_number }}</a>
+              {% else %}
+              Not Available
+              {% endif %}
             </li>
-            {% if muni_contact.url %}
             <li>
-              <i class="fa fa-li fa-globe" aria-hidden="true"></i> <a href="{{ muni_contact.url|lower }}" target="_blank">{{ muni_contact.url|lower }}</a>
+              <i class="fa fa-li fa-globe" aria-hidden="true"></i>
+              {% if muni_contact.url %}
+              <a href="{{ muni_contact.url|lower }}" target="_blank">{{ muni_contact.url|lower }}</a>
+              {% else %}
+              Not Available
+              {% endif %}
             </li>
-            {% endif %}
             <li>
               <i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
-              {% if muni_contact.street_address_1 %}{{ muni_contact.street_address_1 }}<br>{% endif %}
-              {% if muni_contact.street_address_2 %}{{ muni_contact.street_address_2 }}<br>{% endif %}
-              {% if muni_contact.street_address_3 %}{{ muni_contact.street_address_3 }}<br>{% endif %}
-              {% if muni_contact.street_address_4 %}{{ muni_contact.street_address_4 }}{% endif %}
+              {% if muni_contact.street_address_1 or muni_contact.street_address_3 or muni_contact.street_address_3 %}
+                {% if muni_contact.street_address_1 %}{{ muni_contact.street_address_1 }}<br>{% endif %}
+                {% if muni_contact.street_address_2 %}{{ muni_contact.street_address_2 }}<br>{% endif %}
+                {% if muni_contact.street_address_3 %}{{ muni_contact.street_address_3 }}<br>{% endif %}
+                {% if muni_contact.street_address_4 %}{{ muni_contact.street_address_4 }}{% endif %}
+              {% else %}
+              Not Available
+              {% endif %}
             </li>
 
             <a href="#" class="btn btn-default send-email">Email municipality</a>
@@ -37,7 +49,10 @@
                     {% endif %}
                   </ul>
                   <div class="person-contact-details">
-                    <a href="#contact-details-{{ forloop.counter }}" data-toggle="collapse" class="show-contact-details show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Contact Details</a>
+                    <a href="#contact-details-{{ forloop.counter }}" data-toggle="collapse" class="show-contact-details show-more">
+                      <span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                      Contact Details
+                    </a>
 
                     <div class="contact-details collapse" id="contact-details-{{ forloop.counter }}">
                       <ul class="fa-ul">
