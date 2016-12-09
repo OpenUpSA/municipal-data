@@ -73,6 +73,8 @@
       </ul>
 
     </div>
+
+    {% include 'profile/_demarcation_notice.html' %}
   </div>
 </nav>
 {% endblock %}
@@ -137,7 +139,7 @@
 
   var profileData = {{ profile_data|jsonify|safe }}
   var maps = new Maps();
-  maps.drawMapsForProfile(profileData.geography);
+  maps.drawMapsForProfile(profileData.geography, profileData.demarcation);
 
 </script>
 

@@ -1,6 +1,7 @@
 from __future__ import division
 
 import urllib
+import datetime
 
 from django import template
 from django.conf import settings
@@ -33,6 +34,12 @@ def table_url(context, cube, year=None, muni=None, items=None, amountType=None):
 
 @register.filter
 def finyear(year):
+    if isinstance(year, datetime.datetime):
+        date = year
+        year = date.year
+        if date.month >= 6:
+            year -= 1
+
     if year:
         year = int(year)
         return 'July %s - June %s' % (year - 1, year)
