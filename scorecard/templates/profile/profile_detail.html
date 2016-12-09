@@ -34,7 +34,11 @@
       </header>
       <div class="stat stat-primary">
         <span class="name">Population</span>
+        {% if total_population %}
         <span class="value">{{ total_population|floatformat:"0" }}</span>
+        {% else %}
+        <span class="">Not Available</span>
+        {% endif %}
       </div>
       {% if geography.square_kms %}
       <div class="stat stat-secondary">
