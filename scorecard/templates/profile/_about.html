@@ -2,7 +2,8 @@
   {% include 'profile/_demarcation_notice.html' %}
   <div class="container">
     <div class="sub-section" id="who-runs">
-      <div class="row">
+      {% if not demarcation.disestablished %}
+      <div class="row"><!-- contact details -->
         <div class="col-md-4">
           <ul class="fa-ul">
             <li>
@@ -117,8 +118,8 @@
           </div>
 
         </div>
-      </div>
-
+      </div><!-- contact details -->
+      {% endif %}
       <div class="row">
         <div class="col-sm-8">
           <div class="compare-place-picker hidden-sm hidden-xs">
