@@ -34,10 +34,10 @@ $(document).ready(function(){
     });
 
     //Change active tab when scrolling using Bootstrap scrollspy.js
-    $('body').scrollspy({ 
+    $('body').scrollspy({
       target: '.page-nav-container',
       offset: 100
-    });    
+    });
 
     //Easy scrolling (a link to #section will scroll to #section)
     $('.nav a[href^="#"]').on('click',function (e) {
@@ -48,7 +48,7 @@ $(document).ready(function(){
 
       if ($target.length) {
         $('html, body').stop().animate({
-            'scrollTop': $target.offset().top-15
+            'scrollTop': $target.offset().top - 30
         }, 300, 'swing', function() {
           window.location.hash = target;
         });
@@ -74,14 +74,18 @@ $(document).ready(function(){
       .map(function() { return this.href.split(':')[1]; });
     emails = _.compact(_.uniq(emails));
 
-    var body = 'You can explore Municipal Finance for ' + profileData.geography.name + ' at ' + window.location;
+    if (emails.length > 0) {
+      var body = 'You can explore Municipal Finance for ' + profileData.geography.name + ' at ' + window.location;
 
-    var url = ('mailto:' +
-      emails.join(',') +
-      '?cc=feedback@municipalmoney.gov.za' +
-      '&subject=' + encodeURIComponent('Feedback via Municipal Money') +
-      '&body=\n\n\n' + encodeURIComponent(body));
-    $('a.send-email').attr('href', url);
+      var url = ('mailto:' +
+        emails.join(',') +
+        '?cc=feedback@municipalmoney.gov.za' +
+        '&subject=' + encodeURIComponent('Feedback via Municipal Money') +
+                 '&body=\n\n\n' + encodeURIComponent(body));
+      $('a.send-email').attr('href', url);
+    } else {
+      $('a.send-email').addClass('disabled');
+    }
   }
 });
 

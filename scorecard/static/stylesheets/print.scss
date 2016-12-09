@@ -36,7 +36,7 @@ input,
 .btn,
 .video-link,
 a.show-more {
-  display: none;
+  display: none !important;
 }
 
 #cover-profile {
@@ -59,4 +59,8 @@ a[href]:after {
 
 .visible-print-inline {
   display: inline !important;
+}
+
+.demarcation-notice {
+  font-weight: bold;
 }

@@ -7,6 +7,10 @@
     {% with indicators.expenditure_trends_staff.values|first as latest %}
     <h2>Staff Wages and Salaries <span class="indicator-date">{{ latest.date|finyear }}</span></h2>
 
+    {% if demarcation.established_after_last_audit %}
+    {% include 'profile/_demarcation_indicator_notice.html' %}
+    {% else %}
+
     <div class="row">
       <div class="col-sm-4">
         <div class="indicator-value">
@@ -55,12 +59,17 @@
           <a href="{% table_url "incexp" year=latest.date items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
       </ul>
     </div>
+    {% endif %}
     {% endwith %}
   </div>
 
   <div class="indicator">
     {% with indicators.expenditure_trends_contracting.values|first as latest %}
     <h2>Contractor Services <span class="indicator-date">{{ latest.date|finyear }}</span></h2>
+
+    {% if demarcation.established_after_last_audit %}
+    {% include 'profile/_demarcation_indicator_notice.html' %}
+    {% else %}
 
     <div class="row">
       <div class="col-sm-4">
@@ -110,11 +119,15 @@
           <a href="{% table_url "incexp" year=latest.date items=4600 amountType="AUDA" %}" target="_blank">Income & Expenditure item code 4600, Audited Actual</a>
       </ul>
     </div>
+    {% endif %}
     {% endwith %}
   </div>
 
   <div class="indicator">
     <h2>What is Money Spent On?</h2>
+    {% if demarcation.established_after_last_audit %}
+    {% include 'profile/_demarcation_indicator_notice.html' %}
+    {% else %}
 
     <div class="row">
       <div class="col-sm-8">
@@ -141,5 +154,6 @@
         </li>
       </ul>
     </div>
+    {% endif %}
   </div>
 </div>

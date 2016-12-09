@@ -56,7 +56,7 @@ var geocodeEngine = function(query, sync, cb) {
     function found(datums) {
         // now lookup places for these coords
         if (datums.length > 0) {
-            var url = 'https://mapit.code4sa.org/point/4326/' + datums[0].lng + ',' + datums[0].lat + '.json';
+            var url = 'https://mapit.code4sa.org/point/4326/' + datums[0].lng + ',' + datums[0].lat + '.json?generation=2';
 
             $.getJSON(url, function(response) {
                 // munis and districts

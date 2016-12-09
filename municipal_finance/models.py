@@ -8,6 +8,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from scorecard.models import Geography
 
 
 class AgedCreditorFacts(models.Model):
@@ -302,3 +303,11 @@ class UifwexpFacts(models.Model):
     class Meta:
         db_table = 'uifwexp_facts'
         unique_together = (('demarcation_code', 'financial_year', 'item_code'),)
+
+
+class DemarcationChanges(models.Model):
+    date = models.DateField(blank=False, null=False)
+    old_code = models.TextField(blank=False, null=False, db_index=True)
+    new_code = models.TextField(blank=False, null=False, db_index=True)
+    old_code_transition = models.TextField(blank=False, null=False, db_index=True)
+    new_code_transition = models.TextField(blank=False, null=False, db_index=True)

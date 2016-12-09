@@ -29,7 +29,7 @@ function MapItGeometryLoader() {
   };
 
   this.loadGeometryForLevel = function(level, success) {
-    var url = '/areas/' + MAPIT.level_codes[level] + '.geojson?generation=1';
+    var url = '/areas/' + MAPIT.level_codes[level] + '.geojson?generation=2';
     var simplify = MAPIT.level_simplify[MAPIT.level_codes[level]];
     if (simplify) {
       url = url + '&simplify_tolerance=' + simplify;
@@ -43,10 +43,10 @@ function MapItGeometryLoader() {
     });
   };
 
-  this.loadGeometryForGeo = function(geo_level, geo_code, success) {
+  this.loadGeometryForGeo = function(geo_level, geo_code, generation, success) {
     var mapit_type = MAPIT.level_codes[geo_level];
     var mapit_simplify = MAPIT.level_simplify[mapit_type];
-    var url = "/area/MDB:" + geo_code + "/feature.geojson?generation=1&simplify_tolerance=" + mapit_simplify +
+    var url = "/area/MDB:" + geo_code + "/feature.geojson?generation=" + generation + "&simplify_tolerance=" + mapit_simplify +
       "&type=" + mapit_type;
 
     d3.json(this.mapit_url + url, function(error, feature) {
@@ -86,13 +86,23 @@ var Maps = function() {
     "fillOpacity": 0.7,
   };
 
-  this.drawMapsForProfile = function(geo) {
+  this.drawMapsForProfile = function(geo, demarcation) {
     this.geo = geo;
     this.createMap();
     this.addImagery();
 
+    // for 2011 munis, we load generation 1 maps, otherwise we load 2016 (generation 2) maps
+    var generation = 2;
+    if (demarcation.disestablished) {
+      generation = 1;
+      this.featureGeoStyle.fillColor = "#fdcd58";
+      this.featureGeoStyle.fillOpacity = 0.7;
+      this.featureGeoStyle.color = "#fdcd58";
+      this.featureGeoStyle.opacity = 1.0;
+    }
+
     // draw this geometry
-    GeometryLoader.loadGeometryForGeo(this.geo.geo_level, this.geo.geo_code, function(feature) {
+    GeometryLoader.loadGeometryForGeo(this.geo.geo_level, this.geo.geo_code, generation, function(feature) {
       self.drawFocusFeature(feature);
     });
 
