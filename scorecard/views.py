@@ -85,6 +85,15 @@ class GeographyDetailView(TemplateView):
             geo_data.geo_model.objects.filter(geo_code=code).first().as_dict()
             for code in profile['demarcation'].get('established_from', [])]
 
+        for date in profile['demarcation']['land_gained']:
+            for change in date['changes']:
+                change['geo'] = geo_data.geo_model.objects.filter(
+                    geo_code=change['demarcation_code']).first().as_dict()
+        for date in profile['demarcation']['land_lost']:
+            for change in date['changes']:
+                change['geo'] = geo_data.geo_model.objects.filter(
+                    geo_code=change['demarcation_code']).first().as_dict()
+
         # is this a head-to-head view?
         if 'head2head' in self.request.GET:
             page_context['head2head'] = 'head2head'

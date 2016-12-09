@@ -19,3 +19,24 @@
     </div>
   </div>
 {% endif %}
+
+
+{% if demarcation.land_gained or demarcation.land_lost%}
+  <div class="demarcation-notice established">
+    <div class="container">
+      {% for d in demarcation.land_gained %}
+      Part of
+      {% for c in d.changes %}{% if forloop.last and not forloop.first %} and {% elif not forloop.first and not forloop.last %}, {% endif %}<a href="/profiles/{{ c.geo.full_geoid }}-{{ c.geo.short_name|slugify }}/">{{ c.geo.short_name }}</a>{% endfor %}
+      became part of {{ geography.name }}
+      on {{ d.date|as_date|date:"j F Y" }}.
+      {% endfor %}
+
+      {% for d in demarcation.land_lost %}
+      Part of {{ geography.name }}
+      became part of
+      {% for c in d.changes %}{% if forloop.last and not forloop.first %} and {% elif not forloop.first and not forloop.last %}, {% endif %}<a href="/profiles/{{ c.geo.full_geoid }}-{{ c.geo.short_name|slugify }}/">{{ c.geo.short_name }}</a>{% endfor %}
+      on {{ d.date|as_date|date:"j F Y" }}.
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
