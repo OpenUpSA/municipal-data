@@ -44,10 +44,9 @@
               <div class="col-sm-3">
                 <div class="person-info">
                   <div class="person-role">{{ official.role }}</div>
+                  {% if official and official.name %}
                   <ul class="fa-ul person-name">
-                    {% if official and official.name %}
                     <li><i class="fa fa-li fa-user" aria-hidden="true"></i> {{ official.title|default:'' }} {{ official.name }}</li>
-                    {% endif %}
                   </ul>
                   <div class="person-contact-details">
                     <a href="#contact-details-{{ forloop.counter }}" data-toggle="collapse" class="show-contact-details show-more">
@@ -90,6 +89,9 @@
                       {% endif %}
                     </div>
                   </div>
+                  {% else %}
+                  Not Available
+                  {% endif %}
                 </div>
               </div>
               {% endif %}
