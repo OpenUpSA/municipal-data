@@ -1,6 +1,18 @@
 (function(exports) {
   "use strict";
 
+  // error reporting
+  if ('addEventListener' in window) {
+    window.addEventListener('error', function(e) {
+      if (typeof ga === 'function') {
+        ga('send', 'exception', {
+          'exDescription': e.message + ' @ ' + e.filename + ': ' + e.lineno,
+          'exFatal': true,
+        });
+      }
+    });
+  }
+
   // polyfill for String.startsWith()
   if (!String.prototype.startsWith) {
     String.prototype.startsWith = function(searchString, position) {
