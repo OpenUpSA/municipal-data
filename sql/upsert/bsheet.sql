@@ -2,7 +2,7 @@ BEGIN;
 
 \echo Create import table...
 
-CREATE TEMPORARY TABLE bsheet_2016q4
+CREATE TEMPORARY TABLE bsheet_upsert
 (
         demarcation_code TEXT,
         period_code TEXT,
@@ -12,7 +12,7 @@ CREATE TEMPORARY TABLE bsheet_2016q4
 
 \echo Read data...
 
-\copy bsheet_2016q4 (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2016q4/Section 71 Q4 published data/bsheet_2016q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy bsheet_upsert (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2016q4/bsheet_2016q4_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \echo Drop not null constraints...
 
@@ -22,17 +22,15 @@ alter table bsheet_facts
       alter column period_length drop not null,
       alter column financial_period drop not null;
 
-\echo Update changed values...
+\echo Delete demarcation_code-period_code pairs that are in the update
 
-UPDATE bsheet_facts f
-SET amount = i.amount
-FROM bsheet_2016q4 i
-WHERE f.demarcation_code = i.demarcation_code
-AND f.period_code = i.period_code
-AND f.item_code = i.item_code
-AND f.amount != i.amount;
+DELETE FROM bsheet_facts f WHERE EXISTS (
+        SELECT 1 FROM bsheet_upsert i
+        WHERE f.demarcation_code = i.demarcation_code
+        AND f.period_code = i.period_code
+    );
 
-\echo Insert new values...
+\echo Insert new and updated values...
 
 INSERT INTO bsheet_facts
 (
@@ -42,14 +40,7 @@ INSERT INTO bsheet_facts
     amount
 )
 SELECT demarcation_code, period_code, item_code, amount
-FROM bsheet_2016q4 i
-WHERE
-    NOT EXISTS (
-        SELECT * FROM bsheet_facts f
-        WHERE f.demarcation_code = i.demarcation_code
-        AND f.period_code = i.period_code
-        AND f.item_code = i.item_code
-    );
+FROM bsheet_upsert i;
 
 \echo Decode period_code...
 
