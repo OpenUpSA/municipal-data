@@ -437,7 +437,7 @@
     },
 
     yearChanged: function(e) {
-      var year = Number.parseInt(this.$('input[name=year]:checked').val());
+      var year = parseInt(this.$('input[name=year]:checked').val());
       this.filters.set('year', year);
 
       // sanity check amount type
@@ -881,7 +881,7 @@
 
       this.state.set({
         municipalities: params.municipalities ? params.municipalities.split(",") : [],
-        year: Number.parseInt(params.year) || null,
+        year: parseInt(params.year) || null,
         // highlighted item codes
         items: params.items ? params.items.split(","): [],
         amountType: (params.amountType),
