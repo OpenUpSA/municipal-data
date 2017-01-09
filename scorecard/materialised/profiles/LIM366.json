@@ -4,30 +4,33 @@
             {
                 "date": 2015,
                 "rating": "unqualified_emphasis_of_matter",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2014-15/02.%20Local%20municipalities/LIM366%20Bela%20Bela/LIM366%20Bela%20Bela%20Audit%20report%202014-15.pdf",
+                "report_url": "http://mfma.treasury.gov.za//Documents/07.%20Audit%20Reports/2014-15/02.%20Local%20municipalities/LIM366%20Bela%20Bela/LIM366%20Bela%20Bela%20Audit%20report%202014-15.pdf",
                 "result": "Unqualified - Emphasis of Matter items"
             },
             {
                 "date": 2014,
                 "rating": "unqualified_emphasis_of_matter",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/LIM366%20Bela%20Bela/LIM366%20Bela%20Bela%20Audit%20report%202013-14.pdf",
+                "report_url": "http://mfma.treasury.gov.za//Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/LIM366%20Bela%20Bela/LIM366%20Bela%20Bela%20Audit%20report%202013-14.pdf",
                 "result": "Unqualified - Emphasis of Matter items"
             },
             {
                 "date": 2013,
                 "rating": "qualified",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2012-13/02.%20Local%20Municipalities/LIM366%20Bela%20Bela/LIM366%20Bela%20Bela%20Audit%20report%202012-13.pdf",
+                "report_url": "http://mfma.treasury.gov.za//Documents/07.%20Audit%20Reports/2012-13/02.%20Local%20Municipalities/LIM366%20Bela%20Bela/LIM366%20Bela%20Bela%20Audit%20report%202012-13.pdf",
                 "result": "Qualified"
             },
             {
                 "date": 2012,
                 "rating": "adverse",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2011-12/02.%20Local%20municipalities/LIM366%20Bela%20Bela/LIM366%20Bela%20Bela%20Audit%20report%202011-12.pdf",
+                "report_url": "http://mfma.treasury.gov.za//Documents/07.%20Audit%20Reports/2011-12/02.%20Local%20municipalities/LIM366%20Bela%20Bela/LIM366%20Bela%20Bela%20Audit%20report%202011-12.pdf",
                 "result": "Adverse opinion"
             }
         ]
     },
-    "demarcation": {},
+    "demarcation": {
+        "land_gained": [],
+        "land_lost": []
+    },
     "indicators": {
         "cap_budget_diff": {
             "ref": {
@@ -37,9 +40,9 @@
             "values": [
                 {
                     "date": 2015,
-                    "overunder": "over",
+                    "overunder": "under",
                     "rating": "bad",
-                    "result": 30.59
+                    "result": -18.09
                 },
                 {
                     "date": 2014,
@@ -75,7 +78,7 @@
                 {
                     "date": 2014,
                     "rating": "good",
-                    "result": 30652568.0
+                    "result": 30652570.0
                 },
                 {
                     "date": 2013,
@@ -123,25 +126,6 @@
                 "url": "http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx"
             },
             "values": [
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        17231880.0,
-                        15822775.0,
-                        18947533.0
-                    ],
-                    "date": "2017q1",
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "good",
-                    "receipts": [
-                        17231880.0,
-                        15822774.0,
-                        18947533.0
-                    ],
-                    "result": 100.0,
-                    "year": 2017
-                },
                 {
                     "amount_type": "ACT",
                     "billing": [
@@ -215,6 +199,15 @@
                     ],
                     "result": 86.76,
                     "year": 2016
+                },
+                {
+                    "billing": null,
+                    "date": "2015q4",
+                    "quarter": 4,
+                    "rating": "bad",
+                    "receipts": null,
+                    "result": null,
+                    "year": 2015
                 }
             ]
         },
@@ -224,17 +217,6 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
-                {
-                    "amount_type": "ACT",
-                    "assets": 80457351.0,
-                    "date": "2017q1",
-                    "liabilities": 243428447.0,
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "bad",
-                    "result": 0.33,
-                    "year": 2017
-                },
                 {
                     "amount_type": "ACT",
                     "assets": 49484728.0,
@@ -278,6 +260,17 @@
                     "rating": "bad",
                     "result": 0.33,
                     "year": 2016
+                },
+                {
+                    "amount_type": "ACT",
+                    "assets": 49462441.0,
+                    "date": "2015q4",
+                    "liabilities": 123425528.0,
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "result": 0.4,
+                    "year": 2015
                 }
             ]
         },
@@ -428,7 +421,7 @@
                     "percent": 7.58
                 },
                 {
-                    "amount": 9109266.0,
+                    "amount": 9109265.0,
                     "date": 2015,
                     "item": "Community & Social Services",
                     "percent": 2.75
@@ -440,7 +433,7 @@
                     "percent": 23.61
                 },
                 {
-                    "amount": 187318090.0,
+                    "amount": 187318088.0,
                     "date": 2015,
                     "item": "Governance, Administration, Planning and Development",
                     "percent": 56.62
@@ -554,7 +547,7 @@
                 {
                     "date": 2015,
                     "rating": "",
-                    "result": 26.57
+                    "result": 27.18
                 },
                 {
                     "date": 2014,
@@ -579,18 +572,6 @@
                 "url": "http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx"
             },
             "values": [
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 0.0,
-                    "cash": 49607976.0,
-                    "date": "2017q1",
-                    "liabilities": 243428447.0,
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "bad",
-                    "result": 0.2,
-                    "year": 2017
-                },
                 {
                     "amount_type": "ACT",
                     "call_investment_deposits": 0.0,
@@ -638,6 +619,18 @@
                     "rating": "bad",
                     "result": 0.12,
                     "year": 2016
+                },
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 0.0,
+                    "cash": 12656363.0,
+                    "date": "2015q4",
+                    "liabilities": 123425528.0,
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "result": 0.1,
+                    "year": 2015
                 }
             ]
         },
@@ -682,12 +675,12 @@
                 {
                     "date": 2015,
                     "rating": "bad",
-                    "result": 1.8
+                    "result": 0.0
                 },
                 {
                     "date": 2014,
                     "rating": "bad",
-                    "result": 1.58
+                    "result": 1.11
                 },
                 {
                     "date": 2013,
@@ -708,42 +701,42 @@
                     "amount_type": "AUDA",
                     "date": 2015,
                     "item": "Property rates",
-                    "percent": 18.71
+                    "percent": 19.65
                 },
                 {
                     "amount": 114337480.0,
                     "amount_type": "AUDA",
                     "date": 2015,
                     "item": "Service Charges",
-                    "percent": 39.44
+                    "percent": 41.44
                 },
                 {
                     "amount": 1113795.0,
                     "amount_type": "AUDA",
                     "date": 2015,
                     "item": "Rental income",
-                    "percent": 0.38
+                    "percent": 0.4
                 },
                 {
                     "amount": 8317352.0,
                     "amount_type": "AUDA",
                     "date": 2015,
                     "item": "Interest and investments",
-                    "percent": 2.87
+                    "percent": 3.01
                 },
                 {
                     "amount": 4450800.0,
                     "amount_type": "AUDA",
                     "date": 2015,
                     "item": "Fines",
-                    "percent": 1.54
+                    "percent": 1.61
                 },
                 {
                     "amount": 2741698.0,
                     "amount_type": "AUDA",
                     "date": 2015,
                     "item": "Licenses and Permits",
-                    "percent": 0.95
+                    "percent": 0.99
                 },
                 {
                     "amount": 0.0,
@@ -753,25 +746,25 @@
                     "percent": 0
                 },
                 {
-                    "amount": 59666460.0,
+                    "amount": 59429997.0,
                     "amount_type": "AUDA",
                     "date": 2015,
                     "item": "Government Transfers for Operating Expenses",
-                    "percent": 20.58
+                    "percent": 21.54
                 },
                 {
                     "amount": 24700872.0,
                     "amount_type": "AUDA",
                     "date": 2015,
                     "item": "Government Transfers for Capital Expenses",
-                    "percent": 8.52
+                    "percent": 8.95
                 },
                 {
-                    "amount": 25715385.0,
+                    "amount": 6622557.0,
                     "amount_type": "AUDA",
                     "date": 2015,
                     "item": "Other",
-                    "percent": 8.87
+                    "percent": 2.4
                 },
                 {
                     "amount": 53068691.0,
@@ -1057,10 +1050,10 @@
         },
         "revenue_sources": {
             "government": {
-                "amount": 84367332.0,
+                "amount": 84130869.0,
                 "items": [
                     {
-                        "amount.sum": 59666460.0,
+                        "amount.sum": 59429997.0,
                         "amount_type.code": "AUDA",
                         "financial_year_end.year": 2015,
                         "item.code": "1600",
@@ -1074,10 +1067,10 @@
                         "item.label": "Transfers Recognised - Capital"
                     }
                 ],
-                "percent": 29.1
+                "percent": 30.49
             },
             "local": {
-                "amount": 210905241.0,
+                "amount": 191812413.0,
                 "items": [
                     {
                         "amount.sum": 54228731.0,
@@ -1150,7 +1143,7 @@
                         "item.label": "Agency Services"
                     },
                     {
-                        "amount.sum": 25715385.0,
+                        "amount.sum": 6622557.0,
                         "amount_type.code": "AUDA",
                         "financial_year_end.year": 2015,
                         "item.code": "1700",
@@ -1164,7 +1157,7 @@
                         "item.label": "Gain On Disposal Of Property, Plant & Equipment"
                     }
                 ],
-                "percent": 72.75
+                "percent": 69.51
             },
             "rating": "ave",
             "ref": {

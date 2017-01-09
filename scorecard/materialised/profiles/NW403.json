@@ -10,7 +10,7 @@
             {
                 "date": 2014,
                 "rating": "qualified",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/NW403%20City%20of%20Matlosana/NW403%20City%20of%20Matlosana%20Audit%20report%202013-14.pdf",
+                "report_url": "http://mfma.treasury.gov.za//Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/NW403%20City%20of%20Matlosana/NW403%20City%20of%20Matlosana%20Audit%20report%202013-14.pdf",
                 "result": "Qualified"
             },
             {
@@ -22,12 +22,15 @@
             {
                 "date": 2012,
                 "rating": "disclaimer",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2011-12/02.%20Local%20municipalities/NW403%20City%20of%20Matlosana/NW403%20City%20of%20Matlosana%20Audit%20report%202011-12.pdf",
+                "report_url": "http://mfma.treasury.gov.za//Documents/07.%20Audit%20Reports/2011-12/02.%20Local%20municipalities/NW403%20City%20of%20Matlosana/NW403%20City%20of%20Matlosana%20Audit%20report%202011-12.pdf",
                 "result": "Disclaimer of opinion"
             }
         ]
     },
-    "demarcation": {},
+    "demarcation": {
+        "land_gained": [],
+        "land_lost": []
+    },
     "indicators": {
         "cap_budget_diff": {
             "ref": {
@@ -126,25 +129,6 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
-                        163384191.0,
-                        170725078.0,
-                        187684871.0
-                    ],
-                    "date": "2017q1",
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "bad",
-                    "receipts": [
-                        111254366.0,
-                        113978950.0,
-                        93800647.0
-                    ],
-                    "result": 61.14,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
                         127889518.0,
                         145762745.0,
                         139698350.0
@@ -217,6 +201,25 @@
                     ],
                     "result": 50.71,
                     "year": 2016
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        95692763.0,
+                        229908019.0,
+                        121133289.0
+                    ],
+                    "date": "2015q4",
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "receipts": [
+                        90522832.0,
+                        95069762.0,
+                        93688000.0
+                    ],
+                    "result": 62.52,
+                    "year": 2015
                 }
             ]
         },
@@ -226,17 +229,6 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
-                {
-                    "amount_type": "ACT",
-                    "assets": 385078121.0,
-                    "date": "2017q1",
-                    "liabilities": 919742644.0,
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "bad",
-                    "result": 0.42,
-                    "year": 2017
-                },
                 {
                     "amount_type": "ACT",
                     "assets": 176096089.0,
@@ -280,6 +272,17 @@
                     "rating": "bad",
                     "result": 0.38,
                     "year": 2016
+                },
+                {
+                    "amount_type": "ACT",
+                    "assets": 123650129.0,
+                    "date": "2015q4",
+                    "liabilities": 736301576.0,
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "result": 0.17,
+                    "year": 2015
                 }
             ]
         },
@@ -703,18 +706,6 @@
             "values": [
                 {
                     "amount_type": "ACT",
-                    "call_investment_deposits": 59217887.0,
-                    "cash": 140687814.0,
-                    "date": "2017q1",
-                    "liabilities": 919742644.0,
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "bad",
-                    "result": 0.22,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
                     "call_investment_deposits": 103338744.0,
                     "cash": 24542189.0,
                     "date": "2016q4",
@@ -760,6 +751,18 @@
                     "rating": "bad",
                     "result": 0.22,
                     "year": 2016
+                },
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 36581471.0,
+                    "cash": -28578132.0,
+                    "date": "2015q4",
+                    "liabilities": 736301576.0,
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "result": 0.01,
+                    "year": 2015
                 }
             ]
         },

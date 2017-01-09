@@ -4,30 +4,33 @@
             {
                 "date": 2015,
                 "rating": "disclaimer",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2014-15/02.%20Local%20municipalities/MP314%20Emakhazeni/MP314%20Emakhazeni%20Audit%20report%202014-15Audit%20report.pdf",
+                "report_url": "http://mfma.treasury.gov.za//Documents/07.%20Audit%20Reports/2014-15/02.%20Local%20municipalities/MP314%20Emakhazeni/MP314%20Emakhazeni%20Audit%20report%202014-15Audit%20report.pdf",
                 "result": "Disclaimer of opinion"
             },
             {
                 "date": 2014,
                 "rating": "disclaimer",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/MP314%20Emakhazeni/MP314%20Emakhazeni%20Audit%20report%202013-14.pdf",
+                "report_url": "http://mfma.treasury.gov.za//Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/MP314%20Emakhazeni/MP314%20Emakhazeni%20Audit%20report%202013-14.pdf",
                 "result": "Disclaimer of opinion"
             },
             {
                 "date": 2013,
                 "rating": "qualified",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2012-13/02.%20Local%20Municipalities/MP314%20Emakhazeni/MP314%20Emakhazeni%20Audit%20Report%202012-13.pdf",
+                "report_url": "http://mfma.treasury.gov.za//Documents/07.%20Audit%20Reports/2012-13/02.%20Local%20Municipalities/MP314%20Emakhazeni/MP314%20Emakhazeni%20Audit%20Report%202012-13.pdf",
                 "result": "Qualified"
             },
             {
                 "date": 2012,
                 "rating": "qualified",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2011-12/02.%20Local%20municipalities/MP314%20eMakhazeni/MP314%20Emakhazeni%20Audit%20Report%202011-12.pdf",
+                "report_url": "http://mfma.treasury.gov.za//Documents/07.%20Audit%20Reports/2011-12/02.%20Local%20municipalities/MP314%20eMakhazeni/MP314%20Emakhazeni%20Audit%20Report%202011-12.pdf",
                 "result": "Qualified"
             }
         ]
     },
-    "demarcation": {},
+    "demarcation": {
+        "land_gained": [],
+        "land_lost": []
+    },
     "indicators": {
         "cap_budget_diff": {
             "ref": {
@@ -126,25 +129,6 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
-                        12611490.0,
-                        12997531.0,
-                        11078220.0
-                    ],
-                    "date": "2017q1",
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "good",
-                    "receipts": [
-                        12608955.0,
-                        12997531.0,
-                        11078140.0
-                    ],
-                    "result": 99.99,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
                         7019520.0,
                         10176536.0,
                         5586462.0
@@ -217,6 +201,25 @@
                     ],
                     "result": 100.0,
                     "year": 2016
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        10033011.0,
+                        11772795.0,
+                        8387270.0
+                    ],
+                    "date": "2015q4",
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "good",
+                    "receipts": [
+                        9930018.0,
+                        11875789.0,
+                        8387268.0
+                    ],
+                    "result": 100.0,
+                    "year": 2015
                 }
             ]
         },
@@ -226,17 +229,6 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
-                {
-                    "amount_type": "ACT",
-                    "assets": 70845804.0,
-                    "date": "2017q1",
-                    "liabilities": 121793961.0,
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "bad",
-                    "result": 0.58,
-                    "year": 2017
-                },
                 {
                     "amount_type": "ACT",
                     "assets": 119902532.0,
@@ -280,6 +272,17 @@
                     "rating": "ave",
                     "result": 1.04,
                     "year": 2016
+                },
+                {
+                    "amount_type": "ACT",
+                    "assets": 116825557.0,
+                    "date": "2015q4",
+                    "liabilities": 98277845.0,
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "ave",
+                    "result": 1.19,
+                    "year": 2015
                 }
             ]
         },
@@ -673,18 +676,6 @@
             "values": [
                 {
                     "amount_type": "ACT",
-                    "call_investment_deposits": 15761554.0,
-                    "cash": 13922.0,
-                    "date": "2017q1",
-                    "liabilities": 121793961.0,
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "bad",
-                    "result": 0.13,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
                     "call_investment_deposits": 8938453.0,
                     "cash": 13976.0,
                     "date": "2016q4",
@@ -730,6 +721,18 @@
                     "rating": "bad",
                     "result": 0.11,
                     "year": 2016
+                },
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 5719848.0,
+                    "cash": 13979.0,
+                    "date": "2015q4",
+                    "liabilities": 98277845.0,
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "result": 0.06,
+                    "year": 2015
                 }
             ]
         },

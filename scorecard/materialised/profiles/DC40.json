@@ -27,7 +27,10 @@
             }
         ]
     },
-    "demarcation": {},
+    "demarcation": {
+        "land_gained": [],
+        "land_lost": []
+    },
     "indicators": {
         "cap_budget_diff": {
             "ref": {
@@ -130,25 +133,6 @@
                         0.0,
                         0.0
                     ],
-                    "date": "2017q1",
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "bad",
-                    "receipts": [
-                        0.0,
-                        0.0,
-                        0.0
-                    ],
-                    "result": 0,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        0.0,
-                        0.0,
-                        0.0
-                    ],
                     "date": "2016q4",
                     "month": 12,
                     "quarter": 4,
@@ -217,6 +201,25 @@
                     ],
                     "result": 0,
                     "year": 2016
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "date": "2015q4",
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "receipts": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "result": 0,
+                    "year": 2015
                 }
             ]
         },
@@ -226,17 +229,6 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
-                {
-                    "amount_type": "ACT",
-                    "assets": 20490615.0,
-                    "date": "2017q1",
-                    "liabilities": 8913288.0,
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "good",
-                    "result": 2.3,
-                    "year": 2017
-                },
                 {
                     "amount_type": "ACT",
                     "assets": 13787054.0,
@@ -280,6 +272,17 @@
                     "rating": "good",
                     "result": 164.49,
                     "year": 2016
+                },
+                {
+                    "amount_type": "ACT",
+                    "assets": 13687054.0,
+                    "date": "2015q4",
+                    "liabilities": 455037.0,
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "good",
+                    "result": 30.08,
+                    "year": 2015
                 }
             ]
         },
@@ -433,18 +436,6 @@
             "values": [
                 {
                     "amount_type": "ACT",
-                    "call_investment_deposits": 15000000.0,
-                    "cash": 5423483.0,
-                    "date": "2017q1",
-                    "liabilities": 8913288.0,
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "good",
-                    "result": 2.29,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
                     "call_investment_deposits": 0.0,
                     "cash": 13785199.0,
                     "date": "2016q4",
@@ -490,6 +481,18 @@
                     "rating": "good",
                     "result": 164.42,
                     "year": 2016
+                },
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 0.0,
+                    "cash": 13685199.0,
+                    "date": "2015q4",
+                    "liabilities": 455037.0,
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "good",
+                    "result": 30.07,
+                    "year": 2015
                 }
             ]
         },

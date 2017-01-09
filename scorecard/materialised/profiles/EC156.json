@@ -10,7 +10,7 @@
             {
                 "date": 2014,
                 "rating": "adverse",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/EC156%20Mhlontlo/EC156%20Mhlontlo%20Audit%20report%202013-14.pdf",
+                "report_url": "http://mfma.treasury.gov.za//Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/EC156%20Mhlontlo/EC156%20Mhlontlo%20Audit%20report%202013-14.pdf",
                 "result": "Adverse opinion"
             },
             {
@@ -22,12 +22,15 @@
             {
                 "date": 2012,
                 "rating": "qualified",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2011-12/02.%20Local%20municipalities/EC156%20Mhlontlo/EC156%20Mhlontlo%20Audit%20report%202011-12.pdf",
+                "report_url": "http://mfma.treasury.gov.za//Documents/07.%20Audit%20Reports/2011-12/02.%20Local%20municipalities/EC156%20Mhlontlo/EC156%20Mhlontlo%20Audit%20report%202011-12.pdf",
                 "result": "Qualified"
             }
         ]
     },
-    "demarcation": {},
+    "demarcation": {
+        "land_gained": [],
+        "land_lost": []
+    },
     "indicators": {
         "cap_budget_diff": {
             "ref": {
@@ -126,25 +129,6 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
-                        106844.0,
-                        100277.0,
-                        31913482.0
-                    ],
-                    "date": "2017q1",
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "bad",
-                    "receipts": [
-                        118882.0,
-                        66379.0,
-                        69186.0
-                    ],
-                    "result": 0.79,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
                         0.0,
                         0.0,
                         0.0
@@ -217,6 +201,23 @@
                     ],
                     "result": 5.03,
                     "year": 2016
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        0.0,
+                        47793.0
+                    ],
+                    "date": "2015q4",
+                    "month": 11,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "receipts": [
+                        67305.0,
+                        37800.0
+                    ],
+                    "result": null,
+                    "year": 2015
                 }
             ]
         },
@@ -226,17 +227,6 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
-                {
-                    "amount_type": "ACT",
-                    "assets": 128478004.0,
-                    "date": "2017q1",
-                    "liabilities": 31518009.0,
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "good",
-                    "result": 4.08,
-                    "year": 2017
-                },
                 {
                     "amount_type": "ACT",
                     "assets": 52778695.0,
@@ -280,6 +270,17 @@
                     "rating": "good",
                     "result": 1.92,
                     "year": 2016
+                },
+                {
+                    "amount_type": "ACT",
+                    "assets": 52476266.0,
+                    "date": "2015q4",
+                    "liabilities": 29022693.0,
+                    "month": 11,
+                    "quarter": 4,
+                    "rating": "good",
+                    "result": 1.81,
+                    "year": 2015
                 }
             ]
         },
@@ -475,18 +476,6 @@
             "values": [
                 {
                     "amount_type": "ACT",
-                    "call_investment_deposits": 61838122.0,
-                    "cash": 62894.0,
-                    "date": "2017q1",
-                    "liabilities": 31518009.0,
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "good",
-                    "result": 1.96,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
                     "call_investment_deposits": 22567053.0,
                     "cash": 3358398.0,
                     "date": "2016q4",
@@ -532,6 +521,18 @@
                     "rating": "good",
                     "result": 1.35,
                     "year": 2016
+                },
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 0.0,
+                    "cash": 35193160.0,
+                    "date": "2015q4",
+                    "liabilities": 29022693.0,
+                    "month": 11,
+                    "quarter": 4,
+                    "rating": "good",
+                    "result": 1.21,
+                    "year": 2015
                 }
             ]
         },

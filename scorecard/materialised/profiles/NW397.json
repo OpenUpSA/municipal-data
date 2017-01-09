@@ -4,13 +4,13 @@
             {
                 "date": 2015,
                 "rating": "qualified",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2014-15/02.%20Local%20municipalities/NW397%20Kagisano-Molopo/NW397%20Kagisano-Molopo%20Audit%20report%202014-15.pdf",
+                "report_url": "http://mfma.treasury.gov.za//Documents/07.%20Audit%20Reports/2014-15/02.%20Local%20municipalities/NW397%20Kagisano-Molopo/NW397%20Kagisano-Molopo%20Audit%20report%202014-15.pdf",
                 "result": "Qualified"
             },
             {
                 "date": 2014,
                 "rating": "qualified",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/NW397%20Kagisano-Molopo/NW397%20Kagisano-Molopo%20Audit%20report%202013-14.pdf",
+                "report_url": "http://mfma.treasury.gov.za//Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/NW397%20Kagisano-Molopo/NW397%20Kagisano-Molopo%20Audit%20report%202013-14.pdf",
                 "result": "Qualified"
             },
             {
@@ -27,7 +27,10 @@
             }
         ]
     },
-    "demarcation": {},
+    "demarcation": {
+        "land_gained": [],
+        "land_lost": []
+    },
     "indicators": {
         "cap_budget_diff": {
             "ref": {
@@ -126,25 +129,6 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
-                        46718.0,
-                        2501739.0,
-                        16479531.0
-                    ],
-                    "date": "2017q1",
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "bad",
-                    "receipts": [
-                        46718.0,
-                        2501739.0,
-                        10132179.0
-                    ],
-                    "result": 66.64,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
                         27880.0,
                         28336.0,
                         24957.0
@@ -217,6 +201,25 @@
                     ],
                     "result": 222.51,
                     "year": 2016
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "date": "2015q4",
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "receipts": [
+                        12836.0,
+                        12307.0,
+                        11448.0
+                    ],
+                    "result": 0,
+                    "year": 2015
                 }
             ]
         },
@@ -465,11 +468,11 @@
                     "percent": 74.04
                 },
                 {
-                    "amount": 0.0,
+                    "amount": 19547000.0,
                     "amount_type": "AUDA",
                     "date": 2015,
                     "item": "Government Transfers for Capital Expenses",
-                    "percent": 0
+                    "percent": 15.5
                 },
                 {
                     "amount": 946692.0,
@@ -535,11 +538,11 @@
                     "percent": 69.45
                 },
                 {
-                    "amount": 0.0,
+                    "amount": 28346000.0,
                     "amount_type": "AUDA",
                     "date": 2014,
                     "item": "Government Transfers for Capital Expenses",
-                    "percent": 0
+                    "percent": 22.93
                 },
                 {
                     "amount": 161239.0,
@@ -762,7 +765,7 @@
         },
         "revenue_sources": {
             "government": {
-                "amount": 93383968.0,
+                "amount": 112930968.0,
                 "items": [
                     {
                         "amount.sum": 93383968.0,
@@ -772,14 +775,14 @@
                         "item.label": "Transfers Recognised - Operating"
                     },
                     {
-                        "amount.sum": 0.0,
+                        "amount.sum": 19547000.0,
                         "amount_type.code": "AUDA",
                         "financial_year_end.year": 2015,
                         "item.code": "1610",
                         "item.label": "Transfers Recognised - Capital"
                     }
                 ],
-                "percent": 74.04
+                "percent": 89.54
             },
             "local": {
                 "amount": 13190649.0,
