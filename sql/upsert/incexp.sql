@@ -17,7 +17,7 @@ CREATE INDEX incexp_upsert_period_code on incexp_upsert (period_code);
 
 \echo Read data...
 
-\copy incexp_upsert (demarcation_code, period_code, function_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2016q4/incexp_2016q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy incexp_upsert (demarcation_code, period_code, function_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2017q1/incexp_2017q1_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \echo Delete demarcation_code-period_code pairs that are in the update
 
