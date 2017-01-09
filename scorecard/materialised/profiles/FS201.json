@@ -129,6 +129,25 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
+                        41835314.0,
+                        39306118.0,
+                        45898531.0
+                    ],
+                    "date": "2017q1",
+                    "month": 3,
+                    "quarter": 1,
+                    "rating": "bad",
+                    "receipts": [
+                        33441518.0,
+                        30646673.0,
+                        29328945.0
+                    ],
+                    "result": 73.53,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
                         35221995.0,
                         35168652.0,
                         35513288.0
@@ -201,25 +220,6 @@
                     ],
                     "result": 86.03,
                     "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        31559849.0,
-                        35908835.0,
-                        33440190.0
-                    ],
-                    "date": "2015q4",
-                    "month": 12,
-                    "quarter": 4,
-                    "rating": "bad",
-                    "receipts": [
-                        32063366.0,
-                        34833994.0,
-                        21866720.0
-                    ],
-                    "result": 87.96,
-                    "year": 2015
                 }
             ]
         },
@@ -357,10 +357,10 @@
                     "percent": 0.14
                 },
                 {
-                    "amount": 6795963.0,
+                    "amount": 17764929.0,
                     "date": 2014,
                     "item": "Community & Social Services",
-                    "percent": 1.08
+                    "percent": 2.81
                 },
                 {
                     "amount": 175070557.0,
@@ -375,10 +375,10 @@
                     "percent": 65.46
                 },
                 {
-                    "amount": 12188074.0,
+                    "amount": 1219108.0,
                     "date": 2014,
                     "item": "Waste Management",
-                    "percent": 1.93
+                    "percent": 0.19
                 },
                 {
                     "amount": 2577062.0,
@@ -624,12 +624,12 @@
                 {
                     "date": 2015,
                     "rating": "bad",
-                    "result": 2.23
+                    "result": 2.2
                 },
                 {
                     "date": 2014,
                     "rating": "bad",
-                    "result": 0.0
+                    "result": 1.63
                 },
                 {
                     "date": 2013,
@@ -653,7 +653,7 @@
                     "percent": 6.95
                 },
                 {
-                    "amount": 344127232.0,
+                    "amount": 344128233.0,
                     "amount_type": "AUDA",
                     "date": 2015,
                     "item": "Service Charges",
@@ -695,25 +695,25 @@
                     "percent": 0
                 },
                 {
-                    "amount": 171743184.0,
+                    "amount": 169604095.0,
                     "amount_type": "AUDA",
                     "date": 2015,
                     "item": "Government Transfers for Operating Expenses",
-                    "percent": 25.89
+                    "percent": 25.57
                 },
                 {
-                    "amount": 68605205.0,
+                    "amount": 0.0,
                     "amount_type": "AUDA",
                     "date": 2015,
                     "item": "Government Transfers for Capital Expenses",
-                    "percent": 10.34
+                    "percent": 0
                 },
                 {
-                    "amount": 12076597.0,
+                    "amount": 82819890.0,
                     "amount_type": "AUDA",
                     "date": 2015,
                     "item": "Other",
-                    "percent": 1.82
+                    "percent": 12.49
                 },
                 {
                     "amount": 40692821.0,
@@ -772,18 +772,18 @@
                     "percent": 25.91
                 },
                 {
-                    "amount": 96179747.0,
+                    "amount": 0.0,
                     "amount_type": "AUDA",
                     "date": 2014,
                     "item": "Government Transfers for Capital Expenses",
-                    "percent": 14.97
+                    "percent": 0
                 },
                 {
-                    "amount": 15787794.0,
+                    "amount": 111967541.0,
                     "amount_type": "AUDA",
                     "date": 2014,
                     "item": "Other",
-                    "percent": 2.46
+                    "percent": 17.43
                 },
                 {
                     "amount": 42025820.0,
@@ -999,27 +999,27 @@
         },
         "revenue_sources": {
             "government": {
-                "amount": 240348389.0,
+                "amount": 169604095.0,
                 "items": [
                     {
-                        "amount.sum": 171743184.0,
+                        "amount.sum": 169604095.0,
                         "amount_type.code": "AUDA",
                         "financial_year_end.year": 2015,
                         "item.code": "1600",
                         "item.label": "Transfers Recognised - Operating"
                     },
                     {
-                        "amount.sum": 68605205.0,
+                        "amount.sum": 0.0,
                         "amount_type.code": "AUDA",
                         "financial_year_end.year": 2015,
                         "item.code": "1610",
                         "item.label": "Transfers Recognised - Capital"
                     }
                 ],
-                "percent": 36.24
+                "percent": 25.57
             },
             "local": {
-                "amount": 422913233.0,
+                "amount": 493657527.0,
                 "items": [
                     {
                         "amount.sum": 46124567.0,
@@ -1036,7 +1036,7 @@
                         "item.label": "Property Rates - Penalties And Collection Charges"
                     },
                     {
-                        "amount.sum": 344127232.0,
+                        "amount.sum": 344128233.0,
                         "amount_type.code": "AUDA",
                         "financial_year_end.year": 2015,
                         "item.code": "0400",
@@ -1092,7 +1092,7 @@
                         "item.label": "Agency Services"
                     },
                     {
-                        "amount.sum": 12076597.0,
+                        "amount.sum": 82819890.0,
                         "amount_type.code": "AUDA",
                         "financial_year_end.year": 2015,
                         "item.code": "1700",
@@ -1106,7 +1106,7 @@
                         "item.label": "Gain On Disposal Of Property, Plant & Equipment"
                     }
                 ],
-                "percent": 63.76
+                "percent": 74.43
             },
             "rating": "ave",
             "ref": {
