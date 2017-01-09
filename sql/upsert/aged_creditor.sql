@@ -20,7 +20,7 @@ CREATE TEMPORARY TABLE aged_creditor_upsert
 
 \echo Read data...
 
-\copy aged_creditor_upsert (demarcation_code, period_code, item_code, g1_amount, l1_amount, l120_amount, l150_amount, l180_amount, l30_amount, l60_amount, l90_amount, total_amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2017q1/Section 71 Q1 2016-17/cred_2017q1_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy aged_creditor_upsert (demarcation_code, period_code, item_code, g1_amount, l1_amount, l120_amount, l150_amount, l180_amount, l30_amount, l60_amount, l90_amount, total_amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2016q4/cred_2016q4_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \echo Drop not null constraints...
 
@@ -30,31 +30,13 @@ alter table aged_creditor_facts
       alter column period_length drop not null,
       alter column financial_period drop not null;
 
-\echo Update changed values...
+\echo Delete demarcation_code-period_code pairs that are in the update
 
-UPDATE aged_creditor_facts f
-SET g1_amount = i.g1_amount,
-    l1_amount = i.l1_amount,
-    l120_amount = i.l120_amount,
-    l150_amount = i.l150_amount,
-    l180_amount = i.l180_amount,
-    l30_amount = i.l30_amount,
-    l60_amount = i.l60_amount,
-    l90_amount = i.l90_amount,
-    total_amount = i.total_amount
-FROM aged_creditor_upsert i
-WHERE f.demarcation_code = i.demarcation_code
-AND f.period_code = i.period_code
-AND f.item_code = i.item_code
-AND (f.g1_amount != i.g1_amount or
-     f.l1_amount != i.l1_amount or
-     f.l120_amount != i.l120_amount or
-     f.l150_amount != i.l150_amount or
-     f.l180_amount != i.l180_amount or
-     f.l30_amount != i.l30_amount or
-     f.l60_amount != i.l60_amount or
-     f.l90_amount != i.l90_amount or
-     f.total_amount != i.total_amount);
+DELETE FROM aged_creditor_facts f WHERE EXISTS (
+        SELECT 1 FROM aged_creditor_upsert i
+        WHERE f.demarcation_code = i.demarcation_code
+        AND f.period_code = i.period_code
+    );
 
 \echo Insert new values...
 
@@ -73,15 +55,8 @@ INSERT INTO aged_creditor_facts
     l90_amount,
     total_amount
 )
-SELECT demarcation_code, period_code, item_code, g1_amount, l1_amount, l120_amount, l150_amount, l180_amount, l30_amount, l60_amount, l90_amount, total_amount
-FROM aged_creditor_upsert i
-WHERE
-    NOT EXISTS (
-        SELECT * FROM aged_creditor_facts f
-        WHERE f.demarcation_code = i.demarcation_code
-        AND f.period_code = i.period_code
-        AND f.item_code = i.item_code
-    );
+SELECT demarcation_code, period_code, lpad(item_code, 4, '0'), g1_amount, l1_amount, l120_amount, l150_amount, l180_amount, l30_amount, l60_amount, l90_amount, total_amount
+FROM aged_creditor_upsert i;
 
 \echo Decode period_code...
 

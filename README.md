@@ -67,9 +67,11 @@ These files work as follows:
 
 1. Create a temporary table
 2. Import the CSV file to the temporary table
-3. Decode the `period_code` column into dedicated columns (Some Financial datasets only)
-4. Update values  in the fact table that already exist
-5. Insert new rows to the fact table
+4. Delete all rows for which a matching demarcation code and period code occurs in the update dataset
+  - e.g. if BUF 2016AUDA is in the update, all BUF 2016AUDA rows will be deleted from the update dataset. That means line items that were removed from the Treasury Local Government Database and aren't in quarterly update datasets will also be removed from the Municipal Data database.
+  - if a demarcation code and period code is already in the database and not in the update dataset, it will remain in the Municipal Data database.
+5. Insert all rows of the update dataset to the fact table
+  -
 
 Update the last-updated date in the model files for each cube in `models/*.json`
 

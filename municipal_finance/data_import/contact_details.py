@@ -112,7 +112,6 @@ def convert_persons(sheet, person_csv_name):
 def convert_muni(sheet, person_csv_name):
     with open(person_csv_name, 'w') as f:
         fieldnames = [
-            'muni_name',
             'demarcation_code',
             'postal_address_1',
             'postal_address_2',
@@ -139,7 +138,6 @@ def convert_muni(sheet, person_csv_name):
                 muni = sheet.cell(rowx, 1).value
 
             item = {
-                'muni_name': sheet.cell(rowx, 0).value,
                 'demarcation_code': muni,
                 'postal_address_1': clean(sheet.cell(rowx, 3)),
                 'postal_address_2': clean_address(sheet.cell(rowx, 4)),

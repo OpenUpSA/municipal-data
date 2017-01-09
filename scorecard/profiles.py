@@ -63,7 +63,7 @@ def build_comparison(geo, indicators, medians, rating_counts, calculator):
             if comparable_places > 1:
                 comparisons[date].append({
                     'type': 'relative',
-                    'place': 'similar municipalities ' + place,
+                    'place': place,
                     'value': median,
                     'value_type': calculator.result_type,
                     'comparison': comparison_relative_words(val, median, calculator.noun),
