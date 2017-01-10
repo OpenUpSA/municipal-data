@@ -20,7 +20,7 @@ CREATE TEMPORARY TABLE aged_creditor_upsert
 
 \echo Read data...
 
-\copy aged_creditor_upsert (demarcation_code, period_code, item_code, g1_amount, l1_amount, l120_amount, l150_amount, l180_amount, l30_amount, l60_amount, l90_amount, total_amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2016q4/cred_2016q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy aged_creditor_upsert (demarcation_code, period_code, item_code, g1_amount, l1_amount, l120_amount, l150_amount, l180_amount, l30_amount, l60_amount, l90_amount, total_amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2017q1/cred_2017q1_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \echo Drop not null constraints...
 

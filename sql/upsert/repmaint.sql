@@ -14,7 +14,7 @@ CREATE TEMPORARY TABLE repmaint_upsert
 
 \echo Read data...
 
-\copy repmaint_upsert (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2016q4/rm_2016q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy repmaint_upsert (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2017q1/rm_2017q1_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \echo Delete demarcation_code-period_code pairs that are in the update
 

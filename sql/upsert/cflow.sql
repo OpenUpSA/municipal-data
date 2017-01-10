@@ -14,7 +14,7 @@ CREATE TEMPORARY TABLE cflow_upsert
 
 \echo Read data...
 
-\copy cflow_upsert (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2016q4/cflow_2016q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy cflow_upsert (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2017q1/cflow_2017q1_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \echo Delete demarcation_code-period_code pairs that are in the update
 
@@ -56,6 +56,5 @@ SELECT demarcation_code,
             else cast(left(period_code, 4) as int)
        end
 FROM cflow_upsert i;
-
 
 COMMIT;
