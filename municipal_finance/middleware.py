@@ -37,4 +37,4 @@ class RedirectsMiddleware(object):
     def process_request(self, request):
         host = request.get_host()
         if host.startswith("www."):
-            return HttpResponsePermanentRedirect(host[4:])
+            return HttpResponsePermanentRedirect("https://%s/" % host[4:])

@@ -342,7 +342,7 @@ var VerticalBarChart = function() {
     if (comparisons && comparisons.length > 0) {
       t += '<ul class="comparatives">';
       t += _.map(comparisons, function(cmp) {
-        return '<li>' + cmp.comparison + ' ' + cmp.place + ': ' + self.format(cmp.value, self.unit_name) + '</li>';
+        return '<li>' + cmp.comparison + ' similar municipalities ' + cmp.place + ': ' + self.format(cmp.value, self.unit_name) + '</li>';
       }).join(' ');
     }
 

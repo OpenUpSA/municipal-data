@@ -129,6 +129,25 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
+                        5347061.0,
+                        4485083.0,
+                        25963407.0
+                    ],
+                    "date": "2017q1",
+                    "month": 3,
+                    "quarter": 1,
+                    "rating": "bad",
+                    "receipts": [
+                        7776573.0,
+                        4964779.0,
+                        12307864.0
+                    ],
+                    "result": 69.98,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
                         3089593.0,
                         4645557.0,
                         3734212.0
@@ -201,25 +220,6 @@
                     ],
                     "result": 107.45,
                     "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        3865786.0,
-                        6214090.0,
-                        4291633.0
-                    ],
-                    "date": "2015q4",
-                    "month": 12,
-                    "quarter": 4,
-                    "rating": "good",
-                    "receipts": [
-                        4565487.0,
-                        6654835.0,
-                        5364979.0
-                    ],
-                    "result": 115.4,
-                    "year": 2015
                 }
             ]
         },
@@ -229,6 +229,17 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "assets": 33407767.0,
+                    "date": "2017q1",
+                    "liabilities": 74058417.0,
+                    "month": 3,
+                    "quarter": 1,
+                    "rating": "bad",
+                    "result": 0.45,
+                    "year": 2017
+                },
                 {
                     "amount_type": "ACT",
                     "assets": 57333899.0,
@@ -272,17 +283,6 @@
                     "rating": "bad",
                     "result": 0.62,
                     "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "assets": 62613655.0,
-                    "date": "2015q4",
-                    "liabilities": 129562370.0,
-                    "month": 12,
-                    "quarter": 4,
-                    "rating": "bad",
-                    "result": 0.48,
-                    "year": 2015
                 }
             ]
         },
@@ -544,6 +544,18 @@
             "values": [
                 {
                     "amount_type": "ACT",
+                    "call_investment_deposits": 12088949.0,
+                    "cash": 0.0,
+                    "date": "2017q1",
+                    "liabilities": 74058417.0,
+                    "month": 3,
+                    "quarter": 1,
+                    "rating": "bad",
+                    "result": 0.16,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
                     "call_investment_deposits": 7699270.0,
                     "cash": 0.0,
                     "date": "2016q4",
@@ -589,18 +601,6 @@
                     "rating": "bad",
                     "result": 0.19,
                     "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 11247672.0,
-                    "cash": 8679274.0,
-                    "date": "2015q4",
-                    "liabilities": 129562370.0,
-                    "month": 12,
-                    "quarter": 4,
-                    "rating": "bad",
-                    "result": 0.15,
-                    "year": 2015
                 }
             ]
         },
@@ -1169,40 +1169,56 @@
         "officials": [
             {
                 "email": "mayor@kannaland.gov.za",
-                "fax_number": "028 551 1766",
-                "name": "Jeffrey Donson",
+                "fax_number": "083 256 0874",
+                "name": "M Barry (Magdelina)",
                 "office_phone": "028 551 1023",
                 "role": "Mayor/Executive Mayor",
+                "secretary": {
+                    "email": "executive.mayor@kannaland.gov.za",
+                    "fax_number": null,
+                    "name": "Magdelena Barry",
+                    "office_phone": null,
+                    "role": "Secretary of Mayor/Executive Mayor",
+                    "title": null
+                },
                 "title": "Mr"
             },
             {
-                "email": "morne@kannaland.gov.za",
-                "fax_number": "086 613 3759",
-                "name": "Morne Hoogbaard",
+                "email": "mm@kannaland.gov.za",
+                "fax_number": "028 551 1766",
+                "name": "R Stevens (Acting)",
                 "office_phone": "028 551 1023",
                 "role": "Municipal Manager",
                 "secretary": {
                     "email": "wilmie@kannaland.gov.za",
                     "fax_number": "028 551 1766",
-                    "name": "Wilmie Viljoen",
+                    "name": "W Viljoen (Wilmie)",
                     "office_phone": "028 551 1023",
                     "role": "Secretary of Municipal Manager",
-                    "title": "Ms"
+                    "title": "Mr"
                 },
                 "title": "Mr"
             },
             {
-                "email": "antonie@kannaland.gov.za",
+                "email": "phillipus@kannaland.gov.za",
                 "fax_number": "028 551 1766",
-                "name": "Phili Antonie",
-                "office_phone": "028 551 1023",
+                "name": "Phillipus Antonie",
+                "office_phone": "028 561 1081",
                 "role": "Deputy Mayor/Executive Mayor",
+                "secretary": {
+                    "email": "phillipus@kannaland.gov.za",
+                    "fax_number": null,
+                    "name": "Phillipus Antonie",
+                    "office_phone": "028 561 1081",
+                    "role": "Secretary of Deputy Mayor/Executive Mayor",
+                    "title": "Mr"
+                },
                 "title": "Mr"
             },
             {
-                "email": "nigel.delo@kannaland.gov.za",
+                "email": "cfo@kannaland.gov.za",
                 "fax_number": "028 551 1766",
-                "name": "Nigel Delo",
+                "name": "PW Erasmus",
                 "office_phone": "028 551 1023",
                 "role": "Chief Financial Officer",
                 "secretary": {
@@ -1211,12 +1227,12 @@
                     "name": "Ley-Ann Harker",
                     "office_phone": "028 551 1023",
                     "role": "Secretary of Financial Manager",
-                    "title": "Mr"
+                    "title": null
                 },
                 "title": "Mr"
             }
         ],
-        "updated_date": "March 2016"
+        "updated_date": "January 2017"
     },
     "muni_contact": {
         "phone_number": "028 551 1023",

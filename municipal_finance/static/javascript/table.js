@@ -1,6 +1,26 @@
 (function(exports) {
   "use strict";
 
+  // error reporting
+  if ('addEventListener' in window) {
+    window.addEventListener('error', function(e) {
+      if (typeof ga === 'function') {
+        ga('send', 'exception', {
+          'exDescription': e.message + ' @ ' + e.filename + ': ' + e.lineno,
+          'exFatal': true,
+        });
+      }
+    });
+  }
+
+  // polyfill for String.startsWith()
+  if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function(searchString, position) {
+      position = position || 0;
+      return this.substr(position, searchString.length) === searchString;
+    };
+  }
+
   // progress indicators
   var spinning = 0;
   function spinnerStart() {
@@ -437,7 +457,7 @@
     },
 
     yearChanged: function(e) {
-      var year = Number.parseInt(this.$('input[name=year]:checked').val());
+      var year = parseInt(this.$('input[name=year]:checked').val());
       this.filters.set('year', year);
 
       // sanity check amount type
@@ -881,7 +901,7 @@
 
       this.state.set({
         municipalities: params.municipalities ? params.municipalities.split(",") : [],
-        year: Number.parseInt(params.year) || null,
+        year: parseInt(params.year) || null,
         // highlighted item codes
         items: params.items ? params.items.split(","): [],
         amountType: (params.amountType),

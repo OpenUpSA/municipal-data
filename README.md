@@ -67,9 +67,11 @@ These files work as follows:
 
 1. Create a temporary table
 2. Import the CSV file to the temporary table
-3. Decode the `period_code` column into dedicated columns (Some Financial datasets only)
-4. Update values  in the fact table that already exist
-5. Insert new rows to the fact table
+4. Delete all rows for which a matching demarcation code and period code occurs in the update dataset
+  - e.g. if BUF 2016AUDA is in the update, all BUF 2016AUDA rows will be deleted from the update dataset. That means line items that were removed from the Treasury Local Government Database and aren't in quarterly update datasets will also be removed from the Municipal Data database.
+  - if a demarcation code and period code is already in the database and not in the update dataset, it will remain in the Municipal Data database.
+5. Insert all rows of the update dataset to the fact table
+  -
 
 Update the last-updated date in the model files for each cube in `models/*.json`
 
@@ -83,7 +85,7 @@ Update the materialised view data using `bin/materialised_views.py`:
 
 Whenever Audited Annual data becomes available (AUDA financial data and Audit Outcomes), adjust the years used by `scorecard/profile_data.py` to include the latest financial year available.
 
-Audit outcomes will be captured in the months following 1 December following the end of the financial year. Audited figures can start being submitted by municipalities to Treasury from this point. That means new audited annual figures can appear from Q2. 
+Audit outcomes will be captured in the months following 1 December following the end of the financial year. Audited figures can start being submitted by municipalities to Treasury from this point. That means new audited annual figures can appear from Q2.
 
 Pre-audit figures are captured in the period 3 Aug to 30 Nov after the end of the financial year.
 
@@ -95,11 +97,36 @@ Quarterly Section 71 submissions are available 2 months after the end of the qua
 
 ## Validating the data
 
-The aim here is to ensure that the data is in the correct format, and that the import worked correctly, such that the correct values are shown to users of the site. That means the right number is returned, for a given line item, for a given period and municipality. The correct number is defined by what has been published on the MFMA website. Examples of the kind of errors this is trying to catch are different number formats, different line item codes or different data structures which aren't detected by the database constraints, but can be detected by manually comparing the numbers presented to published documents. Therefore this shouldn't be exhaustive - when some numbers in each dataset match expected values, we can infer that the data is imported correctly. Since distinctions aren't made between importing different municipalities, other municipalities should be imported equivalently.
+The aim here is to ensure that the data is in the correct format, and that the import worked correctly, such that the correct values are shown to users of the site. That means the right number is returned, for a given line item, for a given period and municipality. The correct number is defined by what has been provided in the snapshot from Treasury. This can be sanity-checked by comparing to what's published on the MFMA website. Examples of the kind of errors this is trying to catch are:
 
-Do each of these for a sample of municipalities. Check some metros, some districts, and some locals. Try to find some doing well and some doing badly. Try to compare some with fairly complete data and some with missing data.
+- different number formats
+- different line item codes
+- different data structures which aren't detected by the database constraints, but can be detected by manually comparing the numbers presented to published documents
 
-You can use `municipal_finance/data_import/data_audit.py` to generate a CSV showing which data is available for which munis. With this you can find munis lacking specific datasets.
+This shouldn't be exhaustive - when some numbers in each dataset match expected values, we can infer that the data is imported correctly. The strategy is to identify a few changes between subsequent snapshots, and check that they are reflected in the API. Since distinctions aren't made between importing different municipalities, other municipalities should be imported equivalently.
+
+Check that the column order in the snapshots match those in the _"upsert"_ scripts.
+
+Quickly get an idea of what was updated in the datasets: compare this snapshot to the previous for each dataset:
+
+e.g. with the command `diff <(sort ../../2016q4/Section\ 71\ Q4\ published\ data/bsheet_2016q4_acrmun.csv) <(sort bsheet_2017q1_acrmun.csv)|less`
+Search for `<` to find a row that was removed, paging past the period codes that fell out of the update window to some lines where one value was swapped for another. This example shows a value that was swapped from one item code to another, and a second change where a number changed by R1. Check that this change is correctly reflected in the API using the API itself or the table view where possible.
+```
+3951c1901
+< "DC12","2015AUDA","1400",128859696.00
+---
+> "DC12","2015AUDA","1400",1000.00
+3958c1908
+< "DC12","2015AUDA","1500",1000.00
+---
+> "DC12","2015AUDA","1500",128859696.00
+3960c1910
+< "DC12","2015AUDA","1650",4952698143.00
+---
+> "DC12","2015AUDA","1650",4952698144.00
+```
+
+Do each of these cursory tests for a small sample of municipalities to sanity-check. Focus on things you know have changed.
 
 -  Contact details
   -  Check that the website link works
