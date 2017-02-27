@@ -11,7 +11,7 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def table_url(context, cube, year=None, muni=None, items=None, amountType=None):
+def table_url(context, cube, year=None, month=None, muni=None, items=None, amountType=None):
     if not muni:
         muni = context['geography'].geo_code
 
@@ -20,6 +20,8 @@ def table_url(context, cube, year=None, muni=None, items=None, amountType=None):
     }
     if year:
         params["year"] = year
+    if month:
+        params["month"] = month
     if items:
         params["items"] = items
     if amountType:
