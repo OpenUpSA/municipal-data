@@ -58,6 +58,7 @@
   };
   cube.hasAmountType = !!cube.model.dimensions.amount_type;
   cube.hasItems = !!cube.model.dimensions.item;
+  cube.hasMonths = !!cube.model.dimensions.period_length && CUBE_NAME != "incexp";
   cube.columns = _.map(cube.model.measures, function(m) { return m.ref + '.sum'; });
 
   // override defaults for specific cubes
@@ -100,6 +101,7 @@
       'click .del': 'muniRemoved',
       'click input[name=year]': 'yearChanged',
       'change select.amount-type-chooser': 'amountTypeChanged',
+      'change select.month-chooser': 'monthChanged',
       'click #clear-munis': 'clearMunis',
     },
 
@@ -126,6 +128,7 @@
       this.filters.set({
         municipalities: this.state.get('municipalities') || [],
         year: this.state.get('year'),
+        month: this.state.get('month'),
         amountType: this.state.get('amountType'),
         functions: this.state.get('functions') || [],
       });
@@ -136,6 +139,7 @@
       this.state.set({
         municipalities: this.filters.get('municipalities'),
         year: this.filters.get('year'),
+        month: this.filters.get('month'),
         amountType: this.filters.get('amountType'),
         functions: this.filters.get('functions'),
       });
@@ -189,6 +193,12 @@
       var year = self.filters.get('year');
       year = _.contains(self.years, year) ? year : self.years[0];
       self.filters.set('year', year, {silent: true});
+
+      // sanity check pre-loaded month
+      var month = self.filters.get('month');
+      month = parseInt(month);
+      if (isNaN(month) || month < 1 || month > 12) month = "";
+      self.filters.set('month', month, {silent: true});
 
       // amount types per year
       // TODO HACK
@@ -284,6 +294,12 @@
       this.$('.year-chooser input[name=year]').prop('checked', function() {
         return $(this).val() == year;
       });
+
+      // ensure month is checked
+      if (cube.hasMonths) {
+        var month = (this.filters.get('month') || "").toString();
+        this.$('.month-chooser').val(month);
+      }
 
       this.renderAmountTypes();
       this.renderFunctions();
@@ -421,6 +437,10 @@
         var year = this.years[i];
         $chooser.append($('<li><label><input type="radio" name="year" value="' + year + '"> ' + year + '</label></li>'));
       }
+
+      if (cube.hasMonths) {
+        $(".table-controls .month").show();
+      }
     },
 
     muniSelected: function(e) {
@@ -469,6 +489,10 @@
 
     amountTypeChanged: function(e) {
       this.filters.set('amountType', $(e.target).val());
+    },
+
+    monthChanged: function(e) {
+      this.filters.set('month', $(e.target).val());
     },
 
     functionsChanged: function(e) {
@@ -573,7 +597,11 @@
         parts.cut.push('amount_type.code:' + this.filters.get('amountType'));
       }
       if (cube.model.dimensions.financial_period) {
-        parts.cut.push('financial_period.period:' + this.filters.get('year'));
+        if (cube.hasMonths && this.filters.get('month')) {
+          parts.cut.push('financial_period.period:' + this.filters.get('month'));
+        } else {
+          parts.cut.push('financial_period.period:' + this.filters.get('year'));
+        }
       }
       if (!_.isEmpty(this.filters.get('functions'))) {
         parts.cut.push('function.code:"' + this.filters.get('functions').join('";"') + '"');
@@ -876,6 +904,7 @@
         var state = this.state.toJSON();
         var url = {
           year: state.year,
+          month: state.month,
           municipalities: state.municipalities.join(','),
           amountType: state.amountType,
           functions: state.functions,
@@ -902,6 +931,7 @@
       this.state.set({
         municipalities: params.municipalities ? params.municipalities.split(",") : [],
         year: parseInt(params.year) || null,
+        month: parseInt(params.month) || null,
         // highlighted item codes
         items: params.items ? params.items.split(","): [],
         amountType: (params.amountType),
