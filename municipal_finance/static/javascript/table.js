@@ -297,8 +297,7 @@
 
       // ensure month is checked
       if (cube.hasMonths) {
-        var month = (this.filters.get('month') || "").toString();
-        this.$('.month-chooser').val(month);
+        this.$('.month-chooser').val(this.filters.get('month'));
       }
 
       this.renderAmountTypes();
