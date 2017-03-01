@@ -61,16 +61,19 @@ SELECT demarcation_code,
        asset_register_summary,
        cast(left(period_code, 4) as int),
        case when substr(period_code, 5) in ('IBY1', 'IBY2', 'ADJB', 'ORGB', 'AUDA', 'PAUD')
-           then substr(period_code, 5)
-           else 'ACT'
+               then substr(period_code, 5)
+           when period_code ~ '^\d{4}M\d{2}$'
+               then 'ACT'
        end,
-       case when substr(period_code, 5, 3) not similar to 'M\d{2}'
-            then 'year'
-            else 'month'
+       case when period_code ~ '^\d{4}M\d{2}$'
+                then 'month'
+            when period_code ~ '^\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD)$'
+                then 'year'
        end,
-       case when substr(period_code, 5, 3) similar to 'M\d{2}'
-            then cast(right(period_code, 2) as int)
-            else cast(left(period_code, 4) as int)
+       case when period_code ~ '^\d{4}M\d{2}$'
+                then cast(right(period_code, 2) as int)
+            when period_code ~ '^\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD)$'
+                then cast(left(period_code, 4) as int)
        end
 FROM capital_upsert i
 WHERE char_length(function_code) = 4 AND char_length(item_code) = 4;
