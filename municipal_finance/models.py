@@ -75,7 +75,18 @@ class AgedDebtorFacts(models.Model):
 
     class Meta:
         db_table = 'aged_debtor_facts'
-        unique_together = (('demarcation_code', 'period_code', 'customer_group_code', 'item_code'),)
+        unique_together = (
+            ('demarcation_code', 'period_code', 'customer_group_code', 'item_code'),
+            (
+                'amount_type_code',
+                'customer_group_code',
+                'demarcation_code',
+                'financial_period',
+                'financial_year',
+                'item_code',
+                'period_length',
+            ),
+        )
 
 
 class AgedDebtorItems(models.Model):
@@ -131,7 +142,17 @@ class BsheetFacts(models.Model):
 
     class Meta:
         db_table = 'bsheet_facts'
-        unique_together = (('demarcation_code', 'period_code', 'item_code'),)
+        unique_together = (
+            ('demarcation_code', 'period_code', 'item_code'),
+            (
+                'amount_type_code',
+                'demarcation_code',
+                'financial_period',
+                'financial_year',
+                'item_code',
+                'period_length',
+            ),
+        )
 
 
 class BsheetItems(models.Model):
@@ -162,7 +183,18 @@ class CapitalFacts(models.Model):
 
     class Meta:
         db_table = 'capital_facts'
-        unique_together = (('demarcation_code', 'period_code', 'function_code', 'item_code'),)
+        unique_together = (
+            ('demarcation_code', 'period_code', 'function_code', 'item_code'),
+            (
+                'amount_type_code',
+                'demarcation_code',
+                'financial_period',
+                'financial_year',
+                'function_code',
+                'item_code',
+                'period_length',
+            ),
+        )
 
 
 class CapitalItems(models.Model):
@@ -188,7 +220,17 @@ class CflowFacts(models.Model):
 
     class Meta:
         db_table = 'cflow_facts'
-        unique_together = (('demarcation_code', 'period_code', 'item_code'),)
+        unique_together = (
+            ('demarcation_code', 'period_code', 'item_code'),
+        #    (
+        #        'amount_type_code',
+        #        'demarcation_code',
+        #        'financial_period',
+        #        'financial_year',
+        #        'item_code',
+        #        'period_length',
+        #    ),
+        )
 
 
 class CflowItems(models.Model):
@@ -222,7 +264,17 @@ class ConditionalGrantsFacts(models.Model):
 
     class Meta:
         db_table = 'conditional_grants_facts'
-        unique_together = (('demarcation_code', 'period_code', 'grant_code'),)
+        unique_together = (
+            ('demarcation_code', 'period_code', 'grant_code'),
+            #(
+            #    'amount_type_code',
+            #    'demarcation_code',
+            #    'financial_period',
+            #    'financial_year',
+            #    'grant_code',
+            #    'period_length',
+            #),
+        )
 
 
 class GovernmentFunctions(models.Model):
@@ -248,7 +300,18 @@ class IncexpFacts(models.Model):
 
     class Meta:
         db_table = 'incexp_facts'
-        unique_together = (('demarcation_code', 'period_code', 'function_code', 'item_code'),)
+        unique_together = (
+            ('demarcation_code', 'period_code', 'function_code', 'item_code'),
+            (
+                'amount_type_code',
+                'demarcation_code',
+                'financial_period',
+                'financial_year',
+                'function_code',
+                'item_code',
+                'period_length',
+            ),
+        )
 
 
 class IncexpItems(models.Model):
@@ -287,7 +350,17 @@ class RepmaintFacts(models.Model):
 
     class Meta:
         db_table = 'repmaint_facts'
-        unique_together = (('demarcation_code', 'period_code', 'item_code'),)
+        unique_together = (
+            ('demarcation_code', 'period_code', 'item_code'),
+            (
+                'amount_type_code',
+                'demarcation_code',
+                'financial_period',
+                'financial_year',
+                'item_code',
+                'period_length',
+            ),
+        )
 
 
 class RepmaintItems(models.Model):
