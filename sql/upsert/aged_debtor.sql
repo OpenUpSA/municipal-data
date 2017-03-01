@@ -25,14 +25,6 @@ CREATE TEMPORARY TABLE aged_debtor_upsert
 
 \copy aged_debtor_upsert (demarcation_code, period_code, customer_group_code, item_code, bad_amount, badi_amount, g1_amount, l1_amount, l120_amount, l150_amount, l180_amount, l30_amount, l60_amount, l90_amount, total_amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2017q1/debt_2017q1_acrmun.csv' DELIMITER ',' CSV HEADER;
 
-\echo Drop not null constraints...
-
-alter table aged_debtor_facts
-      alter column financial_year drop not null,
-      alter column amount_type_code drop not null,
-      alter column period_length drop not null,
-      alter column financial_period drop not null;
-
 \echo Delete demarcation_code-period_code pairs that are in the update
 
 DELETE FROM aged_debtor_facts f WHERE EXISTS (
@@ -60,28 +52,44 @@ INSERT INTO aged_debtor_facts
     l30_amount,
     l60_amount,
     l90_amount,
-    total_amount
+    total_amount,
+    financial_year,
+    amount_type_code,
+    period_length,
+    financial_period
 )
-SELECT demarcation_code, period_code, customer_group_code, item_code, bad_amount, badi_amount, g1_amount, l1_amount, l120_amount, l150_amount, l180_amount, l30_amount, l60_amount, l90_amount, total_amount
+SELECT demarcation_code,
+       period_code,
+       customer_group_code,
+       item_code,
+       bad_amount,
+       badi_amount,
+       g1_amount,
+       l1_amount,
+       l120_amount,
+       l150_amount,
+       l180_amount,
+       l30_amount,
+       l60_amount,
+       l90_amount,
+       total_amount,
+       cast(left(period_code, 4) as int),
+       case when substr(period_code, 5) in ('IBY1', 'IBY2', 'ADJB', 'ORGB', 'AUDA', 'PAUD')
+               then substr(period_code, 5)
+           when period_code ~ '\d{4}M\d{2}'
+               then 'ACT'
+       end,
+       case when period_code ~ '\d{4}M\d{2}'
+                then 'month'
+            when period_code ~ '\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD)'
+                then 'year'
+       end,
+       case when period_code ~ '\d{4}M\d{2}'
+                then cast(right(period_code, 2) as int)
+            when period_code ~ '\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD)'
+                then cast(left(period_code, 4) as int)
+       end
 FROM aged_debtor_upsert i
 WHERE i.item_code NOT IN (' Inc', ' Ren');
-
-\echo Decode period_code...
-
-update aged_debtor_facts set financial_year = cast(left(period_code, 4) as int) where financial_year is null;
-update aged_debtor_facts set amount_type_code = substr(period_code, 5) where substr(period_code, 5) in ('IBY1', 'IBY2', 'ADJB', 'ORGB', 'AUDA', 'PAUD') and amount_type_code is null;
-update aged_debtor_facts set amount_type_code = 'ACT' where substr(period_code, 5) not in ('IBY1', 'IBY2', 'ADJB', 'ORGB', 'AUDA', 'PAUD') and amount_type_code is null;
-update aged_debtor_facts set period_length = 'year' where substr(period_code, 5, 3) not similar to 'M\d{2}' and period_length is null;
-update aged_debtor_facts set period_length = 'month' where substr(period_code, 5, 3) similar to 'M\d{2}' and period_length is null;
-update aged_debtor_facts set financial_period = cast(right(period_code, 2) as int) where period_length = 'month' and financial_period is null;
-update aged_debtor_facts set financial_period = cast(left(period_code, 4) as int) where period_length = 'year' and financial_period is null;
-
-\echo Add back not null constraints...
-
-alter table aged_debtor_facts
-      alter column financial_year set not null,
-      alter column amount_type_code set not null,
-      alter column period_length set not null,
-      alter column financial_period set not null;
 
 COMMIT;
