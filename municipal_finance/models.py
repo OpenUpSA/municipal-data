@@ -222,14 +222,14 @@ class CflowFacts(models.Model):
         db_table = 'cflow_facts'
         unique_together = (
             ('demarcation_code', 'period_code', 'item_code'),
-        #    (
-        #        'amount_type_code',
-        #        'demarcation_code',
-        #        'financial_period',
-        #        'financial_year',
-        #        'item_code',
-        #        'period_length',
-        #    ),
+            (
+                'amount_type_code',
+                'demarcation_code',
+                'financial_period',
+                'financial_year',
+                'item_code',
+                'period_length',
+            ),
         )
 
 
@@ -266,14 +266,14 @@ class ConditionalGrantsFacts(models.Model):
         db_table = 'conditional_grants_facts'
         unique_together = (
             ('demarcation_code', 'period_code', 'grant_code'),
-            #(
-            #    'amount_type_code',
-            #    'demarcation_code',
-            #    'financial_period',
-            #    'financial_year',
-            #    'grant_code',
-            #    'period_length',
-            #),
+            (
+                'amount_type_code',
+                'demarcation_code',
+                'financial_period',
+                'financial_year',
+                'grant_code',
+                'period_length',
+            ),
         )
 
 
