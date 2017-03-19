@@ -3,13 +3,13 @@
         "values": []
     },
     "demarcation": {
-        "established_after_last_audit": true,
+        "established_after_last_audit": false,
         "established_date": "2016-08-03",
         "established_from": [
             "MP322",
             "MP323"
         ],
-        "established_within_audit_years": false,
+        "established_within_audit_years": true,
         "land_gained": [],
         "land_lost": []
     },
@@ -20,6 +20,12 @@
                 "url": "http://mfma.treasury.gov.za/Media_Releases/Reports%20to%20Parliament/Pages/default.aspx"
             },
             "values": [
+                {
+                    "date": 2016,
+                    "overunder": null,
+                    "rating": null,
+                    "result": null
+                },
                 {
                     "date": 2015,
                     "overunder": null,
@@ -34,12 +40,6 @@
                 },
                 {
                     "date": 2013,
-                    "overunder": null,
-                    "rating": null,
-                    "result": null
-                },
-                {
-                    "date": 2012,
                     "overunder": null,
                     "rating": null,
                     "result": null
@@ -53,6 +53,11 @@
             },
             "values": [
                 {
+                    "date": 2016,
+                    "rating": "bad",
+                    "result": null
+                },
+                {
                     "date": 2015,
                     "rating": "bad",
                     "result": null
@@ -64,11 +69,6 @@
                 },
                 {
                     "date": 2013,
-                    "rating": "bad",
-                    "result": null
-                },
-                {
-                    "date": 2012,
                     "rating": "bad",
                     "result": null
                 }
@@ -81,6 +81,11 @@
             },
             "values": [
                 {
+                    "date": 2016,
+                    "rating": null,
+                    "result": null
+                },
+                {
                     "date": 2015,
                     "rating": null,
                     "result": null
@@ -94,11 +99,6 @@
                     "date": 2013,
                     "rating": null,
                     "result": null
-                },
-                {
-                    "date": 2012,
-                    "rating": null,
-                    "result": null
                 }
             ]
         },
@@ -108,6 +108,23 @@
                 "url": "http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        123886375.0,
+                        99101852.0
+                    ],
+                    "date": "2017q2",
+                    "month": 6,
+                    "quarter": 2,
+                    "rating": "bad",
+                    "receipts": [
+                        93139047.0,
+                        109684176.0
+                    ],
+                    "result": null,
+                    "year": 2017
+                },
                 {
                     "amount_type": "ACT",
                     "billing": [
@@ -151,15 +168,6 @@
                     "receipts": null,
                     "result": null,
                     "year": 2016
-                },
-                {
-                    "billing": null,
-                    "date": "2016q1",
-                    "quarter": 1,
-                    "rating": "bad",
-                    "receipts": null,
-                    "result": null,
-                    "year": 2016
                 }
             ]
         },
@@ -169,6 +177,17 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "assets": 261304534.0,
+                    "date": "2017q2",
+                    "liabilities": 974754030.0,
+                    "month": 6,
+                    "quarter": 2,
+                    "rating": "bad",
+                    "result": 0.27,
+                    "year": 2017
+                },
                 {
                     "amount_type": "ACT",
                     "assets": 261304534.0,
@@ -200,21 +219,98 @@
                     "rating": "bad",
                     "result": null,
                     "year": 2016
-                },
-                {
-                    "date": "2016q1",
-                    "quarter": 1,
-                    "rating": "bad",
-                    "result": null,
-                    "year": 2016
                 }
             ]
         },
         "expenditure_functional_breakdown": {
-            "values": []
+            "values": [
+                {
+                    "amount": 59000779.0,
+                    "date": "2017 budget",
+                    "item": "Community & Social Services",
+                    "percent": 2.21
+                },
+                {
+                    "amount": 713873248.0,
+                    "date": "2017 budget",
+                    "item": "Electricity ",
+                    "percent": 26.68
+                },
+                {
+                    "amount": 2995900.0,
+                    "date": "2017 budget",
+                    "item": "Environmental Protection",
+                    "percent": 0.11
+                },
+                {
+                    "amount": 677392386.0,
+                    "date": "2017 budget",
+                    "item": "Governance, Administration, Planning and Development",
+                    "percent": 25.32
+                },
+                {
+                    "amount": 11341677.0,
+                    "date": "2017 budget",
+                    "item": "Health",
+                    "percent": 0.42
+                },
+                {
+                    "amount": 17866615.0,
+                    "date": "2017 budget",
+                    "item": "Housing",
+                    "percent": 0.67
+                },
+                {
+                    "amount": 5035435.0,
+                    "date": "2017 budget",
+                    "item": "Other",
+                    "percent": 0.19
+                },
+                {
+                    "amount": 119870549.0,
+                    "date": "2017 budget",
+                    "item": "Public Safety",
+                    "percent": 4.48
+                },
+                {
+                    "amount": 450153834.0,
+                    "date": "2017 budget",
+                    "item": "Road Transport",
+                    "percent": 16.82
+                },
+                {
+                    "amount": 138834108.0,
+                    "date": "2017 budget",
+                    "item": "Sport And Recreation",
+                    "percent": 5.19
+                },
+                {
+                    "amount": 183682467.0,
+                    "date": "2017 budget",
+                    "item": "Waste Management",
+                    "percent": 6.87
+                },
+                {
+                    "amount": 34001250.0,
+                    "date": "2017 budget",
+                    "item": "Waste Water Management",
+                    "percent": 1.27
+                },
+                {
+                    "amount": 261546574.0,
+                    "date": "2017 budget",
+                    "item": "Water",
+                    "percent": 9.78
+                }
+            ]
         },
         "expenditure_trends_contracting": {
             "values": [
+                {
+                    "date": 2016,
+                    "rating": "",
+                    "result": null
+                },
                 {
                     "date": 2015,
                     "rating": "",
@@ -227,11 +323,6 @@
                 },
                 {
                     "date": 2013,
-                    "rating": "",
-                    "result": null
-                },
-                {
-                    "date": 2012,
                     "rating": "",
                     "result": null
                 }
@@ -240,6 +331,11 @@
         "expenditure_trends_staff": {
             "values": [
                 {
+                    "date": 2016,
+                    "rating": "",
+                    "result": null
+                },
+                {
                     "date": 2015,
                     "rating": "",
                     "result": null
@@ -251,11 +347,6 @@
                 },
                 {
                     "date": 2013,
-                    "rating": "",
-                    "result": null
-                },
-                {
-                    "date": 2012,
                     "rating": "",
                     "result": null
                 }
@@ -267,6 +358,18 @@
                 "url": "http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 0.0,
+                    "cash": 14647997.0,
+                    "date": "2017q2",
+                    "liabilities": 974754030.0,
+                    "month": 6,
+                    "quarter": 2,
+                    "rating": "bad",
+                    "result": 0.02,
+                    "year": 2017
+                },
                 {
                     "amount_type": "ACT",
                     "call_investment_deposits": 0.0,
@@ -299,13 +402,6 @@
                     "rating": "bad",
                     "result": null,
                     "year": 2016
-                },
-                {
-                    "date": "2016q1",
-                    "quarter": 1,
-                    "rating": "bad",
-                    "result": null,
-                    "year": 2016
                 }
             ]
         },
@@ -315,6 +411,12 @@
                 "url": "http://mfma.treasury.gov.za/Media_Releases/Reports%20to%20Parliament/Pages/default.aspx"
             },
             "values": [
+                {
+                    "date": 2016,
+                    "overunder": null,
+                    "rating": null,
+                    "result": null
+                },
                 {
                     "date": 2015,
                     "overunder": null,
@@ -329,12 +431,6 @@
                 },
                 {
                     "date": 2013,
-                    "overunder": null,
-                    "rating": null,
-                    "result": null
-                },
-                {
-                    "date": 2012,
                     "overunder": null,
                     "rating": null,
                     "result": null
@@ -348,6 +444,11 @@
             },
             "values": [
                 {
+                    "date": 2016,
+                    "rating": null,
+                    "result": null
+                },
+                {
                     "date": 2015,
                     "rating": null,
                     "result": null
@@ -359,11 +460,6 @@
                 },
                 {
                     "date": 2013,
-                    "rating": null,
-                    "result": null
-                },
-                {
-                    "date": 2012,
                     "rating": null,
                     "result": null
                 }
@@ -374,6 +470,13 @@
                 {
                     "amount": null,
                     "amount_type": "AUDA",
+                    "date": 2016,
+                    "item": null,
+                    "percent": null
+                },
+                {
+                    "amount": null,
+                    "amount_type": "AUDA",
                     "date": 2015,
                     "item": null,
                     "percent": null
@@ -393,18 +496,74 @@
                     "percent": null
                 },
                 {
-                    "amount": null,
-                    "amount_type": "AUDA",
-                    "date": 2012,
-                    "item": null,
-                    "percent": null
+                    "amount": 614916071.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Property rates",
+                    "percent": 18.12
                 },
                 {
-                    "amount": null,
+                    "amount": 1145386657.0,
                     "amount_type": "ORGB",
-                    "date": "2016 budget",
-                    "item": null,
-                    "percent": null
+                    "date": "2017 budget",
+                    "item": "Service Charges",
+                    "percent": 33.75
+                },
+                {
+                    "amount": 28854686.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Rental income",
+                    "percent": 0.85
+                },
+                {
+                    "amount": 23425448.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Interest and investments",
+                    "percent": 0.69
+                },
+                {
+                    "amount": 32739654.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Fines",
+                    "percent": 0.96
+                },
+                {
+                    "amount": 4733750.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Licenses and Permits",
+                    "percent": 0.14
+                },
+                {
+                    "amount": 172796547.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Agency services",
+                    "percent": 5.09
+                },
+                {
+                    "amount": 707414817.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Government Transfers for Operating Expenses",
+                    "percent": 20.84
+                },
+                {
+                    "amount": 581284915.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Government Transfers for Capital Expenses",
+                    "percent": 17.13
+                },
+                {
+                    "amount": 82271137.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Other",
+                    "percent": 2.42
                 }
             ]
         },
@@ -426,7 +585,7 @@
                 "title": "Local Government Equitable Share",
                 "url": "http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx"
             },
-            "year": 2015
+            "year": 2016
         },
         "wasteful_exp": {
             "ref": {
@@ -434,6 +593,11 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "date": 2016,
+                    "rating": null,
+                    "result": null
+                },
                 {
                     "date": 2015,
                     "rating": null,
@@ -448,11 +612,6 @@
                     "date": 2013,
                     "rating": null,
                     "result": null
-                },
-                {
-                    "date": 2012,
-                    "rating": null,
-                    "result": null
                 }
             ]
         }
@@ -460,20 +619,36 @@
     "mayoral_staff": {
         "officials": [
             {
-                "email": null,
-                "fax_number": null,
-                "name": null,
-                "office_phone": null,
+                "email": "sibusiso.mathonsi@mbombela.gov.za",
+                "fax_number": "013 759 2253",
+                "name": "Sibusiso Mathonsi",
+                "office_phone": "013 759 2003",
                 "role": "Mayor/Executive Mayor",
-                "title": null
+                "secretary": {
+                    "email": "zephaniah.mthombeni@mombela.gov.za",
+                    "fax_number": "013 759 2253",
+                    "name": "Zephania Mthombeni",
+                    "office_phone": "013 759 2006",
+                    "role": "Secretary of Mayor/Executive Mayor",
+                    "title": "Mr"
+                },
+                "title": "Mr"
             },
             {
-                "email": null,
-                "fax_number": null,
-                "name": null,
-                "office_phone": null,
+                "email": "noko.seanego@mbombela.gov.za",
+                "fax_number": "013 759 2252",
+                "name": "Noko Seanego",
+                "office_phone": "013 759 2041",
                 "role": "Municipal Manager",
-                "title": null
+                "secretary": {
+                    "email": "nompumelelo.khumalo@mbombela.gov.za",
+                    "fax_number": "013 759 9055",
+                    "name": "Nompumelelo Khumalo",
+                    "office_phone": "013 759 2041",
+                    "role": "Secretary of Municipal Manager",
+                    "title": "Ms"
+                },
+                "title": "Mr"
             },
             {
                 "email": null,
@@ -484,22 +659,30 @@
                 "title": null
             },
             {
-                "email": null,
-                "fax_number": null,
-                "name": null,
-                "office_phone": null,
+                "email": "oupa.mokoena@mbombela.gov.za",
+                "fax_number": "013 759 9055",
+                "name": "Oupa Mokoena",
+                "office_phone": "013 759 9060",
                 "role": "Chief Financial Officer",
-                "title": null
+                "secretary": {
+                    "email": "karlinan@mbombela.gov.za",
+                    "fax_number": "013 759 9055",
+                    "name": "Karlina Ngomane",
+                    "office_phone": "013 759 2005",
+                    "role": "Secretary of Financial Manager",
+                    "title": "Ms"
+                },
+                "title": "Mr"
             }
         ],
         "updated_date": "January 2017"
     },
     "muni_contact": {
-        "phone_number": null,
-        "street_address_1": null,
-        "street_address_2": null,
-        "street_address_3": null,
-        "street_address_4": null,
-        "url": null
+        "phone_number": "013 759 9111",
+        "street_address_1": "Civic Centre",
+        "street_address_2": "1 Nel Street",
+        "street_address_3": "Mbombela",
+        "street_address_4": "1200",
+        "url": "http://www.mbombela.gov.za"
     }
 }

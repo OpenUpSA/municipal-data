@@ -3,13 +3,13 @@
         "values": []
     },
     "demarcation": {
-        "established_after_last_audit": true,
+        "established_after_last_audit": false,
         "established_date": "2016-08-03",
         "established_from": [
             "KZN232",
             "KZN233"
         ],
-        "established_within_audit_years": false,
+        "established_within_audit_years": true,
         "land_gained": [],
         "land_lost": []
     },
@@ -20,6 +20,12 @@
                 "url": "http://mfma.treasury.gov.za/Media_Releases/Reports%20to%20Parliament/Pages/default.aspx"
             },
             "values": [
+                {
+                    "date": 2016,
+                    "overunder": null,
+                    "rating": null,
+                    "result": null
+                },
                 {
                     "date": 2015,
                     "overunder": null,
@@ -34,12 +40,6 @@
                 },
                 {
                     "date": 2013,
-                    "overunder": null,
-                    "rating": null,
-                    "result": null
-                },
-                {
-                    "date": 2012,
                     "overunder": null,
                     "rating": null,
                     "result": null
@@ -53,6 +53,11 @@
             },
             "values": [
                 {
+                    "date": 2016,
+                    "rating": "bad",
+                    "result": null
+                },
+                {
                     "date": 2015,
                     "rating": "bad",
                     "result": null
@@ -64,11 +69,6 @@
                 },
                 {
                     "date": 2013,
-                    "rating": "bad",
-                    "result": null
-                },
-                {
-                    "date": 2012,
                     "rating": "bad",
                     "result": null
                 }
@@ -81,6 +81,11 @@
             },
             "values": [
                 {
+                    "date": 2016,
+                    "rating": null,
+                    "result": null
+                },
+                {
                     "date": 2015,
                     "rating": null,
                     "result": null
@@ -92,11 +97,6 @@
                 },
                 {
                     "date": 2013,
-                    "rating": null,
-                    "result": null
-                },
-                {
-                    "date": 2012,
                     "rating": null,
                     "result": null
                 }
@@ -111,20 +111,39 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
-                        44358790.0,
-                        49455765.0,
+                        34452659.0,
+                        35892703.0,
+                        35892703.0
+                    ],
+                    "date": "2017q2",
+                    "month": 6,
+                    "quarter": 2,
+                    "rating": "good",
+                    "receipts": [
+                        33423213.0,
+                        33458991.0,
+                        35892703.0
+                    ],
+                    "result": 96.74,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        44676156.0,
+                        49773131.0,
                         63575965.0
                     ],
                     "date": "2017q1",
                     "month": 3,
                     "quarter": 1,
-                    "rating": "bad",
+                    "rating": "good",
                     "receipts": [
-                        44358790.0,
-                        49420225.0,
-                        23304187.0
+                        44676156.0,
+                        49737591.0,
+                        61910694.0
                     ],
-                    "result": 74.39,
+                    "result": 98.92,
                     "year": 2017
                 },
                 {
@@ -149,15 +168,6 @@
                     "billing": null,
                     "date": "2016q2",
                     "quarter": 2,
-                    "rating": "bad",
-                    "receipts": null,
-                    "result": null,
-                    "year": 2016
-                },
-                {
-                    "billing": null,
-                    "date": "2016q1",
-                    "quarter": 1,
                     "rating": "bad",
                     "receipts": null,
                     "result": null,
@@ -173,13 +183,24 @@
             "values": [
                 {
                     "amount_type": "ACT",
-                    "assets": 2895640583.0,
+                    "assets": 2770015874.0,
+                    "date": "2017q2",
+                    "liabilities": 2594803375.0,
+                    "month": 6,
+                    "quarter": 2,
+                    "rating": "ave",
+                    "result": 1.07,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "assets": 2758088606.0,
                     "date": "2017q1",
-                    "liabilities": 2472271366.0,
+                    "liabilities": 2614415424.0,
                     "month": 3,
                     "quarter": 1,
                     "rating": "ave",
-                    "result": 1.17,
+                    "result": 1.05,
                     "year": 2017
                 },
                 {
@@ -202,21 +223,80 @@
                     "rating": "bad",
                     "result": null,
                     "year": 2016
-                },
-                {
-                    "date": "2016q1",
-                    "quarter": 1,
-                    "rating": "bad",
-                    "result": null,
-                    "year": 2016
                 }
             ]
         },
         "expenditure_functional_breakdown": {
-            "values": []
+            "values": [
+                {
+                    "amount": 16360000.0,
+                    "date": "2017 budget",
+                    "item": "Community & Social Services",
+                    "percent": 2.23
+                },
+                {
+                    "amount": 257957000.0,
+                    "date": "2017 budget",
+                    "item": "Electricity ",
+                    "percent": 35.09
+                },
+                {
+                    "amount": 32246000.0,
+                    "date": "2017 budget",
+                    "item": "Environmental Protection",
+                    "percent": 4.39
+                },
+                {
+                    "amount": 237579950.0,
+                    "date": "2017 budget",
+                    "item": "Governance, Administration, Planning and Development",
+                    "percent": 32.32
+                },
+                {
+                    "amount": 11929000.0,
+                    "date": "2017 budget",
+                    "item": "Health",
+                    "percent": 1.62
+                },
+                {
+                    "amount": 12328000.0,
+                    "date": "2017 budget",
+                    "item": "Housing",
+                    "percent": 1.68
+                },
+                {
+                    "amount": 5541000.0,
+                    "date": "2017 budget",
+                    "item": "Other",
+                    "percent": 0.75
+                },
+                {
+                    "amount": 33389000.0,
+                    "date": "2017 budget",
+                    "item": "Public Safety",
+                    "percent": 4.54
+                },
+                {
+                    "amount": 97101000.0,
+                    "date": "2017 budget",
+                    "item": "Road Transport",
+                    "percent": 13.21
+                },
+                {
+                    "amount": 30729000.0,
+                    "date": "2017 budget",
+                    "item": "Waste Management",
+                    "percent": 4.18
+                }
+            ]
         },
         "expenditure_trends_contracting": {
             "values": [
+                {
+                    "date": 2016,
+                    "rating": "",
+                    "result": null
+                },
                 {
                     "date": 2015,
                     "rating": "",
@@ -229,11 +309,6 @@
                 },
                 {
                     "date": 2013,
-                    "rating": "",
-                    "result": null
-                },
-                {
-                    "date": 2012,
                     "rating": "",
                     "result": null
                 }
@@ -242,6 +317,11 @@
         "expenditure_trends_staff": {
             "values": [
                 {
+                    "date": 2016,
+                    "rating": "",
+                    "result": null
+                },
+                {
                     "date": 2015,
                     "rating": "",
                     "result": null
@@ -253,11 +333,6 @@
                 },
                 {
                     "date": 2013,
-                    "rating": "",
-                    "result": null
-                },
-                {
-                    "date": 2012,
                     "rating": "",
                     "result": null
                 }
@@ -272,13 +347,25 @@
                 {
                     "amount_type": "ACT",
                     "call_investment_deposits": 0.0,
-                    "cash": 2628370126.0,
+                    "cash": 2714347442.0,
+                    "date": "2017q2",
+                    "liabilities": 2594803375.0,
+                    "month": 6,
+                    "quarter": 2,
+                    "rating": "good",
+                    "result": 1.05,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 0.0,
+                    "cash": 2634675630.0,
                     "date": "2017q1",
-                    "liabilities": 2472271366.0,
+                    "liabilities": 2614415424.0,
                     "month": 3,
                     "quarter": 1,
                     "rating": "good",
-                    "result": 1.06,
+                    "result": 1.01,
                     "year": 2017
                 },
                 {
@@ -301,13 +388,6 @@
                     "rating": "bad",
                     "result": null,
                     "year": 2016
-                },
-                {
-                    "date": "2016q1",
-                    "quarter": 1,
-                    "rating": "bad",
-                    "result": null,
-                    "year": 2016
                 }
             ]
         },
@@ -317,6 +397,12 @@
                 "url": "http://mfma.treasury.gov.za/Media_Releases/Reports%20to%20Parliament/Pages/default.aspx"
             },
             "values": [
+                {
+                    "date": 2016,
+                    "overunder": null,
+                    "rating": null,
+                    "result": null
+                },
                 {
                     "date": 2015,
                     "overunder": null,
@@ -331,12 +417,6 @@
                 },
                 {
                     "date": 2013,
-                    "overunder": null,
-                    "rating": null,
-                    "result": null
-                },
-                {
-                    "date": 2012,
                     "overunder": null,
                     "rating": null,
                     "result": null
@@ -350,6 +430,11 @@
             },
             "values": [
                 {
+                    "date": 2016,
+                    "rating": null,
+                    "result": null
+                },
+                {
                     "date": 2015,
                     "rating": null,
                     "result": null
@@ -361,11 +446,6 @@
                 },
                 {
                     "date": 2013,
-                    "rating": null,
-                    "result": null
-                },
-                {
-                    "date": 2012,
                     "rating": null,
                     "result": null
                 }
@@ -376,6 +456,13 @@
                 {
                     "amount": null,
                     "amount_type": "AUDA",
+                    "date": 2016,
+                    "item": null,
+                    "percent": null
+                },
+                {
+                    "amount": null,
+                    "amount_type": "AUDA",
                     "date": 2015,
                     "item": null,
                     "percent": null
@@ -395,18 +482,74 @@
                     "percent": null
                 },
                 {
-                    "amount": null,
-                    "amount_type": "AUDA",
-                    "date": 2012,
-                    "item": null,
-                    "percent": null
+                    "amount": 150748517.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Property rates",
+                    "percent": 17.85
                 },
                 {
-                    "amount": null,
+                    "amount": 319559939.0,
                     "amount_type": "ORGB",
-                    "date": "2016 budget",
-                    "item": null,
-                    "percent": null
+                    "date": "2017 budget",
+                    "item": "Service Charges",
+                    "percent": 37.84
+                },
+                {
+                    "amount": 683641.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Rental income",
+                    "percent": 0.08
+                },
+                {
+                    "amount": 16650000.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Interest and investments",
+                    "percent": 1.97
+                },
+                {
+                    "amount": 10619322.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Fines",
+                    "percent": 1.26
+                },
+                {
+                    "amount": 6952719.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Licenses and Permits",
+                    "percent": 0.82
+                },
+                {
+                    "amount": 0.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Agency services",
+                    "percent": 0
+                },
+                {
+                    "amount": 208460000.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Government Transfers for Operating Expenses",
+                    "percent": 24.68
+                },
+                {
+                    "amount": 120352734.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Government Transfers for Capital Expenses",
+                    "percent": 14.25
+                },
+                {
+                    "amount": 10562309.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Other",
+                    "percent": 1.25
                 }
             ]
         },
@@ -428,7 +571,7 @@
                 "title": "Local Government Equitable Share",
                 "url": "http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx"
             },
-            "year": 2015
+            "year": 2016
         },
         "wasteful_exp": {
             "ref": {
@@ -436,6 +579,11 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "date": 2016,
+                    "rating": null,
+                    "result": null
+                },
                 {
                     "date": 2015,
                     "rating": null,
@@ -448,11 +596,6 @@
                 },
                 {
                     "date": 2013,
-                    "rating": null,
-                    "result": null
-                },
-                {
-                    "date": 2012,
                     "rating": null,
                     "result": null
                 }
