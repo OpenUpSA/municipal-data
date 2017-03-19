@@ -52,6 +52,7 @@ Extract CSV datasets from Excel Spreadsheets using the following scripts in `mun
 
 - audit_opinions.py
 - contact_details.py
+  - Contacts - Reporting > General Information - Municipalities Individuals
 - uifw_expenditure.py
 
 ## Scrape the MFMA website for the Audit Report URLs into a CSV file
