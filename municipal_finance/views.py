@@ -89,13 +89,12 @@ def api_root(request):
     List available endpoints.
     """
     endpoints = [
-        request.build_absolute_uri() + '/cubes',
+        request.build_absolute_uri('/api/cubes'),
     ]
     return jsonify({
         'endpoints': endpoints,
         'documentation': 'https://municipaldata.treasury.gov.za/docs',
     })
-
 
 
 @xframe_options_exempt
