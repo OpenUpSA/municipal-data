@@ -46,6 +46,26 @@ Data import is still a fairly manual process leveraging the DB and a few SQL scr
 
 This covers how to keep the data up to date. Each quarter, as new data is released, the following needs to be done to update the data served by the API and the Citizen Scorecard. It's best to do this on a test database first and validate the results before updating the production database.
 
+ - Quarter 1
+   - Contacts
+   - Latest monthly actuals
+   - Corrections all over
+ - Quarter 2
+   - Contacts
+   - Latest monthly actuals
+   - Corrections all over
+   - **Audited Annual data from last financial year**
+ - Quarter 3
+   - Contacts
+   - Latest monthly actuals
+   - Corrections all over
+   - **Audit outcomes for last financial year**
+   - **Unauthorised, Irregular, and Fruitless and Wasteful expenditure from financial year before last**
+ - Quarter 4
+   - Contacts
+   - Latest monthly actuals
+   - Corrections all over
+
 ## Extract CSV datasets from Excel Spreadsheets
 
 Extract CSV datasets from Excel Spreadsheets using the following scripts in `municipal_finance/data_import/`
