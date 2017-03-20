@@ -23,6 +23,20 @@ dokku config:set municipal-finance DJANGO_DEBUG=False \
                                    DATABASE_URL=postgres://municipal_finance:...@postgresq....amazonaws.com/municipal_finance
 ```
 
+## Running dabatase migrations in production
+
+When it makes sense to deploy first, then run migrations, it's best to do so in a linux `screen` or whatever remote shell you prefer to avoid losing your connection while it's running.
+
+```
+ssh ubuntu@municipalmoney.gov.za
+dokku run municipal-finance bash
+PRELOAD_CUBES=false python manage.py migrate
+```
+If your migrations take more than 30s and you're not affecting masses of users during popular hours, you can extend the transaction timeout like so
+```
+DB_STMT_TIMEOUT=30000000 PRELOAD_CUBES=false python manage.py migrate
+```
+
 # Initial Data Import
 
 Data import is still a fairly manual process leveraging the DB and a few SQL scripts to do the hard work. This is usually done against a local DB, sanity checked with a locally-running instance of the API and some tools built on it, and if everything looks ok, dumped table-by-table with something like `pg_dump "postgres://municipal_finance@localhost/municipal_finance" --table=audit_opinions -O -c --if-exists > audit_opinions.sql` and then loaded into the production database.
