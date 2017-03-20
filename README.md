@@ -115,6 +115,7 @@ Update the materialised view data using `bin/materialised_views.py`:
 1. Run with --profiles-from-api to update the muni-specific profile data
 2. Run with --calc-medians and --calc-rating-counts to update comparison data based on profile changes.
 3. Check what changed using `git diff` and commit commit if changes look right.
+4. Run `bin/test-pages.sh` and ensure that all pages return "200 OK"
 
 ## Annual data
 
