@@ -106,7 +106,7 @@ These files work as follows:
   - e.g. if BUF 2016AUDA is in the update, all BUF 2016AUDA rows will be deleted from the update dataset. That means line items that were removed from the Treasury Local Government Database and aren't in quarterly update datasets will also be removed from the Municipal Data database.
   - if a demarcation code and period code is already in the database and not in the update dataset, it will remain in the Municipal Data database.
 5. Insert all rows of the update dataset to the fact table
-  -
+  - `period_code` is decoded into `financial_period`, `financial_year`, `amount_type` on the fly. Unexpected values result in SQL errors, aborting the transaction.
 
 Update the last-updated date in the model files for each cube in `models/*.json`
 
