@@ -1427,7 +1427,8 @@ class Demarcation(object):
                 raise Exception("Muni established more than once")
             else:
                 datetime = dateutil.parser.parse(date)
-                quarter = quarter_string(datetime.year, datetime.month)
+                year, month = calendar_to_financial(datetime.year, datetime.month)
+                quarter = quarter_string(year, month)
                 if quarter > LAST_AUDIT_QUARTER:
                     self.established_after_last_audit = True
                 if datetime.year in api_data.years:
@@ -1468,6 +1469,20 @@ class Demarcation(object):
                 'established_from': self.established_from,
             })
         return demarcation_dict
+
+
+def calendar_to_financial(year, month):
+    """
+    2016 8 -> 2017 2
+    2016 6 -> 2016 12
+    2016 3 -> 2016 9
+    """
+    if month > 6:
+        year += 1
+    month = (month + 6) % 12
+    if month == 0:
+        month = 12
+    return year, month
 
 
 def quarter_idx(month):
