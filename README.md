@@ -60,12 +60,33 @@ Data import is still a fairly manual process leveraging the DB and a few SQL scr
 
 This covers how to keep the data up to date. Each quarter, as new data is released, the following needs to be done to update the data served by the API and the Citizen Scorecard. It's best to do this on a test database first and validate the results before updating the production database.
 
+ - Quarter 1
+   - Contacts
+   - Latest monthly actuals
+   - Corrections all over
+ - Quarter 2
+   - Contacts
+   - Latest monthly actuals
+   - Corrections all over
+   - **Audited Annual data from last financial year**
+ - Quarter 3
+   - Contacts
+   - Latest monthly actuals
+   - Corrections all over
+   - **Audit outcomes for last financial year**
+   - **Unauthorised, Irregular, and Fruitless and Wasteful expenditure from financial year before last**
+ - Quarter 4
+   - Contacts
+   - Latest monthly actuals
+   - Corrections all over
+
 ## Extract CSV datasets from Excel Spreadsheets
 
 Extract CSV datasets from Excel Spreadsheets using the following scripts in `municipal_finance/data_import/`
 
 - audit_opinions.py
 - contact_details.py
+  - Contacts - Reporting > General Information - Municipalities Individuals
 - uifw_expenditure.py
 
 ## Scrape the MFMA website for the Audit Report URLs into a CSV file
@@ -85,7 +106,7 @@ These files work as follows:
   - e.g. if BUF 2016AUDA is in the update, all BUF 2016AUDA rows will be deleted from the update dataset. That means line items that were removed from the Treasury Local Government Database and aren't in quarterly update datasets will also be removed from the Municipal Data database.
   - if a demarcation code and period code is already in the database and not in the update dataset, it will remain in the Municipal Data database.
 5. Insert all rows of the update dataset to the fact table
-  -
+  - `period_code` is decoded into `financial_period`, `financial_year`, `amount_type` on the fly. Unexpected values result in SQL errors, aborting the transaction.
 
 Update the last-updated date in the model files for each cube in `models/*.json`
 
@@ -94,6 +115,7 @@ Update the materialised view data using `bin/materialised_views.py`:
 1. Run with --profiles-from-api to update the muni-specific profile data
 2. Run with --calc-medians and --calc-rating-counts to update comparison data based on profile changes.
 3. Check what changed using `git diff` and commit commit if changes look right.
+4. Run `bin/test-pages.sh` and ensure that all pages return "200 OK"
 
 ## Annual data
 

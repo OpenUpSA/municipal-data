@@ -33,10 +33,20 @@ logger = logging.getLogger('municipal_finance')
 EXECUTOR = ThreadPoolExecutor(max_workers=10)
 
 # The years for which we need results. Must be in desceneding order.
-LAST_AUDIT_YEAR = 2015
-LAST_AUDIT_QUARTER = '2015q4'
+LAST_AUDIT_YEAR = 2016
+LAST_AUDIT_QUARTER = '2016q4'
 YEARS = list(xrange(LAST_AUDIT_YEAR-3, LAST_AUDIT_YEAR+1))
 YEARS.reverse()
+
+LAST_OPINION_YEAR = 2015
+AUDIT_OPINION_YEARS = list(xrange(LAST_OPINION_YEAR-3, LAST_OPINION_YEAR+1))
+AUDIT_OPINION_YEARS.reverse()
+
+# we'll actually only have data up to the year before this but use four
+# for consistency on the page.
+LAST_UIFW_YEAR = 2015
+UIFW_YEARS = list(xrange(LAST_UIFW_YEAR-3, LAST_UIFW_YEAR+1))
+UIFW_YEARS.reverse()
 
 YEAR_ITEM_DRILLDOWN = [
     'item.code',
@@ -100,6 +110,7 @@ class MuniApiClient(object):
 class APIData(object):
     def __init__(self, api_url, geo_code, years=YEARS, client=None):
         self.years = list(years)
+        self.uifw_years = list(UIFW_YEARS)
         self.geo_code = str(geo_code)
         self.budget_year = self.years[0] + 1
         self.client = client or MuniApiClient(api_url)
@@ -450,7 +461,7 @@ class APIData(object):
                 'cut': {
                     'item.code': ['irregular', 'fruitless', 'unauthorised'],
                     'demarcation.code': [self.geo_code],
-                    'financial_year_end.year': self.years,
+                    'financial_year_end.year': self.uifw_years,
                 },
                 'drilldown': YEAR_ITEM_DRILLDOWN,
                 'query_type': 'aggregate',
@@ -585,7 +596,7 @@ class APIData(object):
                 'cube': 'audit_opinions',
                 'cut': {
                     'demarcation.code': [self.geo_code],
-                    'financial_year_end.year': self.years[:4],
+                    'financial_year_end.year': AUDIT_OPINION_YEARS[:4],
                 },
                 'fields': [
                     'opinion.code',
@@ -1369,7 +1380,7 @@ class FruitlWastefIrregUnauth(IndicatorCalculator):
                 else:
                     aggregate[year] = amount
 
-        for year in api_data.years:
+        for year in api_data.uifw_years:
             try:
                 op_ex_actual = api_data.results['op_exp_actual']['4600'][year]
                 result = percent(aggregate[year], op_ex_actual)
@@ -1416,7 +1427,8 @@ class Demarcation(object):
                 raise Exception("Muni established more than once")
             else:
                 datetime = dateutil.parser.parse(date)
-                quarter = quarter_string(datetime.year, datetime.month)
+                year, month = calendar_to_financial(datetime.year, datetime.month)
+                quarter = quarter_string(year, month)
                 if quarter > LAST_AUDIT_QUARTER:
                     self.established_after_last_audit = True
                 if datetime.year in api_data.years:
@@ -1457,6 +1469,20 @@ class Demarcation(object):
                 'established_from': self.established_from,
             })
         return demarcation_dict
+
+
+def calendar_to_financial(year, month):
+    """
+    2016 8 -> 2017 2
+    2016 6 -> 2016 12
+    2016 3 -> 2016 9
+    """
+    if month > 6:
+        year += 1
+    month = (month + 6) % 12
+    if month == 0:
+        month = 12
+    return year, month
 
 
 def quarter_idx(month):

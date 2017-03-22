@@ -21,7 +21,7 @@ CREATE INDEX capital_upsert_period_code on capital_upsert (period_code);
 
 \echo Read data...
 
-\copy capital_upsert (demarcation_code, period_code, function_code, item_code, new_assets, renewal_of_existing, total_assets, repairs_maintenance, asset_register_summary) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2017q1/capital_2017q1_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy capital_upsert (demarcation_code, period_code, function_code, item_code, new_assets, renewal_of_existing, total_assets, repairs_maintenance, asset_register_summary) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2017q2/capital_2017q2_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \echo Delete demarcation_code-period_code pairs that are in the update
 

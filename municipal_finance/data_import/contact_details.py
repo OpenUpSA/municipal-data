@@ -7,7 +7,7 @@ import string
 import sys
 import traceback
 import xlrd
-from urlparse import urlparse, ParseResult
+from urlparse import urlparse
 
 expected_headings = [
     'Location Description',
@@ -78,7 +78,7 @@ def convert(workbook_name, muni_csv_name, person_csv_name):
 
 
 def convert_persons(sheet, person_csv_name):
-    with open(person_csv_name, 'w') as f:
+    with open(person_csv_name, 'wb') as f:
         fieldnames = [
             'demarcation_code',
             'role',
@@ -98,13 +98,13 @@ def convert_persons(sheet, person_csv_name):
             if role not in output_roles:
                 continue
             item = {
-                'demarcation_code': sheet.cell(rowx, 1).value,
-                'role': role,
-                'title': sheet.cell(rowx, 15).value,
-                'name': clean(sheet.cell(rowx, 16)),
-                'office_number': sheet.cell(rowx, 17).value,
-                'fax_number': sheet.cell(rowx, 19).value,
-                'email_address': sheet.cell(rowx, 20).value,
+                'demarcation_code': sheet.cell(rowx, 1).value.encode('utf-8'),
+                'role': role.encode('utf-8'),
+                'title': sheet.cell(rowx, 15).value.encode('utf-8'),
+                'name': clean(sheet.cell(rowx, 16)).encode('utf-8'),
+                'office_number': sheet.cell(rowx, 17).value.encode('utf-8'),
+                'fax_number': sheet.cell(rowx, 19).value.encode('utf-8'),
+                'email_address': sheet.cell(rowx, 20).value.encode('utf-8'),
             }
             writer.writerow(item)
 
