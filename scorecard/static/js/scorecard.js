@@ -78,7 +78,7 @@ $(document).ready(function(){
       var body = 'You can explore Municipal Finance for ' + profileData.geography.name + ' at ' + window.location;
 
       var url = ('mailto:' +
-        emails.join(',') +
+        emails.join(';') +
         '?cc=feedback@municipalmoney.gov.za' +
         '&subject=' + encodeURIComponent('Feedback via Municipal Money') +
                  '&body=\n\n\n' + encodeURIComponent(body));
