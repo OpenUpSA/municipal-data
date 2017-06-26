@@ -1,0 +1,29 @@
+version: "2"
+
+services:
+  dev:
+      build: .
+      command: python manage.py runserver 0.0.0.0:8000
+      volumes:
+        - ".:/app"
+      environment:
+        DATABASE_URL: 'postgres://municipal_finance@172.17.0.1/municipal_finance'
+        BABBAGE_TEST_DB: 'postgres://municipal_finance@172.17.0.1/babbage'
+        SITE_ID: '3'
+        PRELOAD_CUBES: 'true'
+      working_dir: /app
+#      stdin_open: true
+#      tty: true
+  web:
+      build: .
+      command: python manage.py runserver 0.0.0.0:8000
+      volumes:
+        - ".:/app"
+      environment:
+        DATABASE_URL: 'postgres://municipal_finance@172.17.0.1/municipal_finance'
+        BABBAGE_TEST_DB: 'postgres://municipal_finance@172.17.0.1/babbage'
+        SITE_ID: '2'
+        API_URL: http://dev/8000
+      working_dir: /app
+#      stdin_open: true
+#      tty: true
