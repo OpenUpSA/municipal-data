@@ -23,20 +23,17 @@ RUN apt-get update -y && \
     apt-get update -y && \
     apt-get install -y  libgdal-dev=1.11* \
                         python-pip \
-                        python-virtualenv \
                         git \
                         python-gdal \
                         libgdal1-dev \
                         libncurses5-dev \
                         python-psycopg2 \
                         python-dev && \
-    virtualenv venv && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     ln -snf /bin/bash /bin/sh
 
-RUN source venv/bin/activate && \
-    export CPLUS_INCLUDE_PATH=/usr/include/gdal && \
+RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal && \
     export export C_INCLUDE_PATH=/usr/include/gdal && \
     pip install -r /requirements.txt
 
