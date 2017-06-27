@@ -11,6 +11,7 @@ import re
 import requests
 import sys
 import traceback
+import logging
 
 root = 'http://mfma.treasury.gov.za'
 fieldnames = ['demarcation_code', 'year', 'url']
@@ -58,7 +59,7 @@ class Main(object):
     def expand_dir(self, dir, params):
         params['SortField'] = 'LinkFilename'
         params['SortDir'] = 'Asc'
-        # print("\nDir: %s %r" % (dir, params))
+        print("\nDir: %s %r" % (dir, params))
         try:
             r = requests.get(root + dir, params=params)
             r.raise_for_status()
@@ -70,8 +71,8 @@ class Main(object):
             next_arrow = soup.find(alt='Next')
             if next_arrow:
                 # print
-                # print("  Current dir=%s" % dir)
-                # print("  Last child_path=%s" % child_path)
+                print("  Current dir=%s" % dir)
+                print("  Last child_path=%s" % child_path)
                 last_name = child_path.replace(dir + '/', '')
                 # print(last_name)
                 # print

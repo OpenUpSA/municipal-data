@@ -27,20 +27,20 @@ def convert(sheet, csv_file):
         fieldnames = ['demarcation_code', 'year', 'opinion_code', 'opinion_label']
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
-        for rowx in xrange(7, sheet.nrows):
-            if str(sheet.cell(rowx, 0).value) not in ['A', 'B', 'C']:
+        for rowx in xrange(10, sheet.nrows):
+            if sheet.cell(rowx, 0).value == 'TOTAL':
                 continue
-            for colx in xrange(4, sheet.ncols):
-                if sheet.cell(2, colx).value != '':
+            for colx in xrange(3, sheet.ncols):
+                if sheet.cell(3, colx).value != '':
                     # new year
-                    current_year = sheet.cell(2, colx).value
+                    current_year = int(sheet.cell(3, colx).value)
                     item = {
                         'year': current_year,
                         'demarcation_code': sheet.cell(rowx, 1).value
                     }
                 val = sheet.cell(rowx, colx).value
                 if val != '':
-                    item['opinion_label'] = sheet.cell(4, colx).value
+                    item['opinion_label'] = sheet.cell(5, colx).value
                     item['opinion_code'] = label_to_code[item['opinion_label']]
                     writer.writerow(item)
 

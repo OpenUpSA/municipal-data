@@ -1,11 +1,10 @@
 """
 python muni_contacts.py 'Municipal contact detail - 28 April 2016.xlsx' 'muni.csv' 'persons.csv'
+python -m pdb muni_contacts.py 'Municipal contact detail - 28 April 2016.xlsx' 'muni.csv' 'persons.csv'
 """
 import csv
-import pdb
 import string
 import sys
-import traceback
 import xlrd
 from urlparse import urlparse
 
@@ -25,12 +24,14 @@ expected_headings = [
     'NT File No',
     'E-mail Address',
     '',
+    'ID Number',
     'Title',
     'Name',
-    'Phone Number',
+    'Office Phone Number',
     'Cell Number',
     'Fax Number',
     'EMAILADD',
+    'POSITION',
 ]
 
 expected_roles = [
@@ -72,9 +73,13 @@ printable = set(string.printable)
 def convert(workbook_name, muni_csv_name, person_csv_name):
     book = xlrd.open_workbook(workbook_name)
     sheet = book.sheet_by_index(0)
-    check_columns(sheet)
+    check_columns(get_headings(sheet))
     convert_persons(sheet, person_csv_name)
     convert_muni(sheet, muni_csv_name)
+
+
+def col(heading):
+    return expected_headings.index(heading)
 
 
 def convert_persons(sheet, person_csv_name):
@@ -91,20 +96,21 @@ def convert_persons(sheet, person_csv_name):
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         for rowx in xrange(1, sheet.nrows):
-            if str(sheet.cell(rowx, 2).value) not in ['H', 'L', 'M']:
+            if str(sheet.cell(rowx, col("CAP")).value) not in ['H', 'L', 'M']:
                 continue
-            role = sheet.cell(rowx, 14).value
+            role = sheet.cell(rowx, col("")).value
             check_role(role)
             if role not in output_roles:
                 continue
             item = {
-                'demarcation_code': sheet.cell(rowx, 1).value.encode('utf-8'),
+                'demarcation_code': sheet.cell(rowx, col("Locat Code")).value.encode('utf-8'),
                 'role': role.encode('utf-8'),
-                'title': sheet.cell(rowx, 15).value.encode('utf-8'),
-                'name': clean(sheet.cell(rowx, 16)).encode('utf-8'),
-                'office_number': sheet.cell(rowx, 17).value.encode('utf-8'),
-                'fax_number': sheet.cell(rowx, 19).value.encode('utf-8'),
-                'email_address': sheet.cell(rowx, 20).value.encode('utf-8'),
+                'title': sheet.cell(rowx, col("Title")).value.encode('utf-8'),
+                'name': clean(sheet.cell(rowx, col("Name"))).encode('utf-8'),
+                'office_number': sheet.cell(rowx, col("Office Phone Number")).value.encode('utf-8'),
+                # Hack because Fax Number occurs twice
+                'fax_number': sheet.cell(rowx, col("Cell Number")+1).value.encode('utf-8'),
+                'email_address': sheet.cell(rowx, col("EMAILADD")).value.encode('utf-8'),
             }
             writer.writerow(item)
 
@@ -128,34 +134,46 @@ def convert_muni(sheet, person_csv_name):
         writer.writeheader()
         muni = None
         for rowx in xrange(1, sheet.nrows):
-            if str(sheet.cell(rowx, 2).value) not in ['H', 'L', 'M']:
+            if str(sheet.cell(rowx, col("CAP")).value) not in ['H', 'L', 'M']:
                 continue
 
             # Do each muni only once
-            if sheet.cell(rowx, 1).value == muni:
+            if sheet.cell(rowx, col("Locat Code")).value == muni:
                 continue
             else:
-                muni = sheet.cell(rowx, 1).value
+                muni = sheet.cell(rowx, col("Locat Code")).value
 
             item = {
                 'demarcation_code': muni,
-                'postal_address_1': clean(sheet.cell(rowx, 3)),
-                'postal_address_2': clean_address(sheet.cell(rowx, 4)),
-                'postal_address_3': clean_address(sheet.cell(rowx, 5)),
-                'street_address_1': clean(sheet.cell(rowx, 6)),
-                'street_address_2': clean_address(sheet.cell(rowx, 7)),
-                'street_address_3': clean_address(sheet.cell(rowx, 8)),
-                'street_address_4': clean_address(sheet.cell(rowx, 9)),
-                'phone_number': clean(sheet.cell(rowx, 10)),
-                'fax_number': clean(sheet.cell(rowx, 11)),
-                'url': clean_url(sheet.cell(rowx, 13).value),
+                'postal_address_1': clean(sheet.cell(rowx, col("Postal Address 1"))),
+                'postal_address_2': clean_address(sheet.cell(rowx, col("Postal Address 2"))),
+                'postal_address_3': clean_address(sheet.cell(rowx, col("Postal Address 3"))),
+                'street_address_1': clean(sheet.cell(rowx, col("Street Address 1"))),
+                'street_address_2': clean_address(sheet.cell(rowx, col("Street Address 2"))),
+                'street_address_3': clean_address(sheet.cell(rowx, col("Street Address 3"))),
+                'street_address_4': clean_address(sheet.cell(rowx, col("Street Address 4"))),
+                'phone_number': clean(sheet.cell(rowx, col("Phone Number"))),
+                'fax_number': clean(sheet.cell(rowx, col("Fax Number"))),
+                'url': clean_url(sheet.cell(rowx, col("E-mail Address")).value),
             }
             writer.writerow(item)
 
 
-def check_columns(sheet):
+def get_headings(sheet):
+    headings = []
     for colx in xrange(0, sheet.ncols):
-        heading = str(sheet.cell(0, colx).value).strip()
+        heading = " ".join([
+            str(sheet.cell(2, colx).value).strip(),
+            str(sheet.cell(3, colx).value).strip(),
+            str(sheet.cell(4, colx).value).strip(),
+        ])
+        headings.append(heading.strip())
+    return headings
+
+
+def check_columns(headings):
+    for colx in xrange(0, len(headings)):
+        heading = headings[colx]
         if heading != expected_headings[colx]:
             raise Exception("Unexpected heading %r != %r <- expected"
                             % (heading, expected_headings[colx]))
@@ -193,12 +211,8 @@ def check_role(role):
 
 def main():
     [workbook_name, muni_csv_name, person_csv_name] = sys.argv[1:]
-    try:
-        convert(workbook_name, muni_csv_name, person_csv_name)
-    except:
-        type, value, tb = sys.exc_info()
-        traceback.print_exc()
-        pdb.post_mortem(tb)
+    convert(workbook_name, muni_csv_name, person_csv_name)
+
 
 if __name__ == "__main__":
     main()
