@@ -6,6 +6,7 @@ services:
       command: python manage.py runserver 0.0.0.0:8000
       volumes:
         - ".:/app"
+        - "../datasets:/data"
       environment:
         DATABASE_URL: 'postgres://municipal_finance@172.17.0.1/municipal_finance'
         BABBAGE_TEST_DB: 'postgres://municipal_finance@172.17.0.1/babbage'
@@ -19,6 +20,7 @@ services:
       command: python manage.py runserver 0.0.0.0:8000
       volumes:
         - ".:/app"
+        - "../datasets:/data"
       environment:
         DATABASE_URL: 'postgres://municipal_finance@172.17.0.1/municipal_finance'
         BABBAGE_TEST_DB: 'postgres://municipal_finance@172.17.0.1/babbage'
