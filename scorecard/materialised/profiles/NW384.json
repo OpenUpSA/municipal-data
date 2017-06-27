@@ -2,6 +2,12 @@
     "audit_opinions": {
         "values": [
             {
+                "date": 2016,
+                "rating": "qualified",
+                "report_url": null,
+                "result": "Qualified"
+            },
+            {
                 "date": 2015,
                 "rating": "disclaimer",
                 "report_url": null,
@@ -17,12 +23,6 @@
                 "date": 2013,
                 "rating": "disclaimer",
                 "report_url": null,
-                "result": "Disclaimer of opinion"
-            },
-            {
-                "date": 2012,
-                "rating": "disclaimer",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2011-12/02.%20Local%20municipalities/NW384%20Ditsobotla/NW384%20Ditsobotla%20Audit%20report%202011-12.pdf",
                 "result": "Disclaimer of opinion"
             }
         ]
@@ -129,18 +129,37 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
+                        17648520.0,
+                        24154227.0
+                    ],
+                    "date": "2017q3",
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "receipts": [
+                        14863024.0,
+                        29403308.0
+                    ],
+                    "result": null,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        29099200.0,
                         26760053.0,
                         41601338.0
                     ],
                     "date": "2017q2",
-                    "month": 5,
+                    "month": 6,
                     "quarter": 2,
                     "rating": "bad",
                     "receipts": [
+                        14206086.0,
                         16839041.0,
                         18136148.0
                     ],
-                    "result": null,
+                    "result": 50.46,
                     "year": 2017
                 },
                 {
@@ -198,25 +217,6 @@
                         15778513.0
                     ],
                     "result": 88.42,
-                    "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        15831378.0,
-                        18505634.0,
-                        15795180.0
-                    ],
-                    "date": "2016q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "receipts": [
-                        11381878.0,
-                        12354319.0,
-                        4028075.0
-                    ],
-                    "result": 55.38,
                     "year": 2016
                 }
             ]

@@ -2,6 +2,12 @@
     "audit_opinions": {
         "values": [
             {
+                "date": 2016,
+                "rating": "outstanding",
+                "report_url": null,
+                "result": "Outstanding"
+            },
+            {
                 "date": 2015,
                 "rating": "disclaimer",
                 "report_url": null,
@@ -18,12 +24,6 @@
                 "rating": "qualified",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2012-13/02.%20Local%20Municipalities/LIM367%20Mogalakwena/LIM367%20Mogalakwena%20Audit%20report%202012-13.pdf",
                 "result": "Qualified"
-            },
-            {
-                "date": 2012,
-                "rating": "unqualified_emphasis_of_matter",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2011-12/02.%20Local%20municipalities/LIM367%20Mogalakwena/LIM367%20Mogalakwena%20Audit%20Report%202011-12.pdf",
-                "result": "Unqualified - Emphasis of Matter items"
             }
         ]
     },
@@ -129,18 +129,35 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
+                        29594987.0
+                    ],
+                    "date": "2017q3",
+                    "month": 7,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "receipts": [
+                        29594987.0
+                    ],
+                    "result": null,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
                         32513473.0,
+                        31762725.0,
                         31152356.0
                     ],
                     "date": "2017q2",
                     "month": 6,
                     "quarter": 2,
-                    "rating": "bad",
+                    "rating": "good",
                     "receipts": [
                         32513473.0,
+                        31762724.0,
                         31152356.0
                     ],
-                    "result": null,
+                    "result": 100.0,
                     "year": 2017
                 },
                 {
@@ -179,25 +196,6 @@
                     "receipts": null,
                     "result": null,
                     "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        2656053.0,
-                        35727237.0,
-                        31644065.0
-                    ],
-                    "date": "2016q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "receipts": [
-                        2656053.0,
-                        35727237.0,
-                        31644065.0
-                    ],
-                    "result": 100.0,
-                    "year": 2016
                 }
             ]
         },
@@ -207,6 +205,17 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "assets": 646813457.0,
+                    "date": "2017q3",
+                    "liabilities": 482609274.0,
+                    "month": 7,
+                    "quarter": 3,
+                    "rating": "ave",
+                    "result": 1.34,
+                    "year": 2017
+                },
                 {
                     "amount_type": "ACT",
                     "assets": 647679048.0,
@@ -249,17 +258,6 @@
                     "quarter": 3,
                     "rating": "ave",
                     "result": 1.48,
-                    "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "assets": 723288025.0,
-                    "date": "2016q2",
-                    "liabilities": 445912890.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "result": 1.62,
                     "year": 2016
                 }
             ]
@@ -636,6 +634,18 @@
             "values": [
                 {
                     "amount_type": "ACT",
+                    "call_investment_deposits": 370302357.0,
+                    "cash": 10874574.0,
+                    "date": "2017q3",
+                    "liabilities": 482609274.0,
+                    "month": 7,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "result": 0.79,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
                     "call_investment_deposits": 314899939.0,
                     "cash": 62778842.0,
                     "date": "2017q2",
@@ -680,18 +690,6 @@
                     "quarter": 3,
                     "rating": "bad",
                     "result": 0.97,
-                    "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 501138272.0,
-                    "cash": 18019567.0,
-                    "date": "2016q2",
-                    "liabilities": 445912890.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "result": 1.16,
                     "year": 2016
                 }
             ]

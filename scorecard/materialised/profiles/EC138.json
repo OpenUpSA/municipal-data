@@ -2,6 +2,12 @@
     "audit_opinions": {
         "values": [
             {
+                "date": 2016,
+                "rating": "unqualified_emphasis_of_matter",
+                "report_url": null,
+                "result": "Unqualified - Emphasis of Matter items"
+            },
+            {
                 "date": 2015,
                 "rating": "unqualified_emphasis_of_matter",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2014-15/02.%20Local%20municipalities/EC138%20Sakhisizwe/EC138%20Sakhisizwe%20Audit%20report%202014-15.pdf",
@@ -17,12 +23,6 @@
                 "date": 2013,
                 "rating": "qualified",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2012-13/02.%20Local%20Municipalities/EC138%20Sakhisizwe/EC138%20Sakhisizwe%20Audit%20Report%202012-13.pdf",
-                "result": "Qualified"
-            },
-            {
-                "date": 2012,
-                "rating": "qualified",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2011-12/02.%20Local%20municipalities/EC138%20Sakhisizwe/EC138%20Sakhisizwe%20Audit%20Report%202011-12.pdf",
                 "result": "Qualified"
             }
         ]
@@ -129,13 +129,34 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
+                        1479465.0,
+                        1406465.0,
+                        1539696.0
+                    ],
+                    "date": "2017q3",
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "receipts": [
+                        1319390.0,
+                        1232875.0,
+                        1313725.0
+                    ],
+                    "result": 87.35,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        1513942.0,
                         1556661.0
                     ],
                     "date": "2017q2",
-                    "month": 5,
+                    "month": 6,
                     "quarter": 2,
                     "rating": "bad",
                     "receipts": [
+                        939856.0,
                         1075731.0
                     ],
                     "result": null,
@@ -193,25 +214,6 @@
                     ],
                     "result": 100.0,
                     "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        1616566.0,
-                        1645473.0,
-                        1744726.0
-                    ],
-                    "date": "2016q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "receipts": [
-                        1616566.0,
-                        1685485.0,
-                        1744726.0
-                    ],
-                    "result": 100.8,
-                    "year": 2016
                 }
             ]
         },
@@ -223,13 +225,24 @@
             "values": [
                 {
                     "amount_type": "ACT",
-                    "assets": 14256541.0,
+                    "assets": 28810623.0,
+                    "date": "2017q3",
+                    "liabilities": 17440337.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "good",
+                    "result": 1.65,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "assets": 27802481.0,
                     "date": "2017q2",
-                    "liabilities": 12394440.0,
-                    "month": 5,
+                    "liabilities": 18823611.0,
+                    "month": 6,
                     "quarter": 2,
                     "rating": "ave",
-                    "result": 1.15,
+                    "result": 1.48,
                     "year": 2017
                 },
                 {
@@ -263,17 +276,6 @@
                     "quarter": 3,
                     "rating": "good",
                     "result": 2.33,
-                    "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "assets": 61220513.0,
-                    "date": "2016q2",
-                    "liabilities": 22523062.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "result": 2.72,
                     "year": 2016
                 }
             ]
@@ -554,14 +556,26 @@
             "values": [
                 {
                     "amount_type": "ACT",
-                    "call_investment_deposits": 2915774.0,
-                    "cash": 795603.0,
+                    "call_investment_deposits": 15141597.0,
+                    "cash": 1023631.0,
+                    "date": "2017q3",
+                    "liabilities": 17440337.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "result": 0.93,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 14795851.0,
+                    "cash": 1201727.0,
                     "date": "2017q2",
-                    "liabilities": 12394440.0,
-                    "month": 5,
+                    "liabilities": 18823611.0,
+                    "month": 6,
                     "quarter": 2,
                     "rating": "bad",
-                    "result": 0.3,
+                    "result": 0.85,
                     "year": 2017
                 },
                 {
@@ -598,18 +612,6 @@
                     "quarter": 3,
                     "rating": "bad",
                     "result": 0.02,
-                    "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 0.0,
-                    "cash": 938518.0,
-                    "date": "2016q2",
-                    "liabilities": 22523062.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "result": 0.04,
                     "year": 2016
                 }
             ]

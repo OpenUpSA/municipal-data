@@ -2,6 +2,12 @@
     "audit_opinions": {
         "values": [
             {
+                "date": 2016,
+                "rating": "unqualified",
+                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2015-16/02.%20Local%20municipalities/EC155%20Nyandeni/EC155%20Nyandeni%20Audit%20Report%202015-16.pdf",
+                "result": "Unqualified - No findings"
+            },
+            {
                 "date": 2015,
                 "rating": "unqualified_emphasis_of_matter",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2014-15/02.%20Local%20municipalities/EC155%20Nyandeni/EC155%20Nyandeni%20Audit%20Report%202014-15.pdf",
@@ -18,12 +24,6 @@
                 "rating": "unqualified_emphasis_of_matter",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2012-13/02.%20Local%20Municipalities/EC155%20Nyandeni/EC155%20Nyandeni%20Audit%20report%202012-13.pdf",
                 "result": "Unqualified - Emphasis of Matter items"
-            },
-            {
-                "date": 2012,
-                "rating": "qualified",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2011-12/02.%20Local%20municipalities/EC155%20Nyandeni/EC155%20Nyandeni%20Audit%20Report%202011-12.pdf",
-                "result": "Qualified"
             }
         ]
     },
@@ -130,6 +130,25 @@
                     "amount_type": "ACT",
                     "billing": [
                         0.0,
+                        244365.0,
+                        170878.0
+                    ],
+                    "date": "2017q3",
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "good",
+                    "receipts": [
+                        97543.0,
+                        2104680.0,
+                        67332.0
+                    ],
+                    "result": 546.56,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        0.0,
                         153189.0,
                         152593.0
                     ],
@@ -186,7 +205,7 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
-                        16867.0,
+                        0.0,
                         16867.0,
                         17767.0
                     ],
@@ -199,26 +218,7 @@
                         281512.0,
                         132813.0
                     ],
-                    "result": 1151.93,
-                    "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        16867.0,
-                        16867.0,
-                        17005.0
-                    ],
-                    "date": "2016q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "receipts": [
-                        245841.0,
-                        1506399.0,
-                        224120.0
-                    ],
-                    "result": 3895.15,
+                    "result": 1712.93,
                     "year": 2016
                 }
             ]
@@ -229,6 +229,17 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "assets": 212945969.0,
+                    "date": "2017q3",
+                    "liabilities": 32991876.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "good",
+                    "result": 6.45,
+                    "year": 2017
+                },
                 {
                     "amount_type": "ACT",
                     "assets": 216582352.0,
@@ -271,17 +282,6 @@
                     "quarter": 3,
                     "rating": "good",
                     "result": 2.05,
-                    "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "assets": 207684312.0,
-                    "date": "2016q2",
-                    "liabilities": 78491095.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "result": 2.65,
                     "year": 2016
                 }
             ]
@@ -526,6 +526,18 @@
             "values": [
                 {
                     "amount_type": "ACT",
+                    "call_investment_deposits": 98129542.0,
+                    "cash": 83457245.0,
+                    "date": "2017q3",
+                    "liabilities": 32991876.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "good",
+                    "result": 5.5,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
                     "call_investment_deposits": 100026202.0,
                     "cash": 87989393.0,
                     "date": "2017q2",
@@ -570,18 +582,6 @@
                     "quarter": 3,
                     "rating": "good",
                     "result": 1.67,
-                    "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 93686113.0,
-                    "cash": 79064553.0,
-                    "date": "2016q2",
-                    "liabilities": 78491095.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "result": 2.2,
                     "year": 2016
                 }
             ]
@@ -1150,28 +1150,36 @@
     "mayoral_staff": {
         "officials": [
             {
-                "email": "sokhanyilet@nyandenilm.gov.za",
+                "email": "mesuli@ymail.com",
                 "fax_number": "047 555 0293",
-                "name": "Tokozile Sokanyile",
-                "office_phone": "047 555 0291",
+                "name": "Mesuli Ngqondwana",
+                "office_phone": "047 555 0271",
                 "role": "Mayor/Executive Mayor",
-                "title": "Ms"
+                "secretary": {
+                    "email": "mjolib@nyandenilm.gov.za",
+                    "fax_number": "047 555 0293",
+                    "name": "Babalwa Mjoli",
+                    "office_phone": "047 555 5017",
+                    "role": "Secretary of Mayor/Executive Mayor",
+                    "title": "Ms"
+                },
+                "title": "Mr"
             },
             {
-                "email": "zideg@nyandenilm.gov.za",
-                "fax_number": "047 555 0073",
-                "name": "Godfrey Mandlenkosi Zide",
+                "email": "nomandelan@nyandenilm.gov.za",
+                "fax_number": "047 555 093",
+                "name": "Nomalungelo Nomandela",
                 "office_phone": "047 555 0161",
                 "role": "Municipal Manager",
                 "secretary": {
                     "email": "gqetywan@nyandenilm.gov.za",
-                    "fax_number": "047 555 0073",
+                    "fax_number": "047 555 0273",
                     "name": "Noluthando Gqetywa",
-                    "office_phone": "047 555 5071",
+                    "office_phone": "047 555 5016",
                     "role": "Secretary of Municipal Manager",
-                    "title": null
+                    "title": "Ms"
                 },
-                "title": null
+                "title": "Ms"
             },
             {
                 "email": null,
@@ -1183,19 +1191,19 @@
             },
             {
                 "email": "benxab@nyandenilm.gov.za",
-                "fax_number": null,
+                "fax_number": "047 555 0202",
                 "name": "Bongani Benxa",
-                "office_phone": null,
+                "office_phone": "047 555 5000",
                 "role": "Chief Financial Officer",
                 "secretary": {
                     "email": "gobingcas@nyandenilm.gov.za",
                     "fax_number": "047 555 0202",
                     "name": "Siphokazi Gobingca",
-                    "office_phone": "047 555 5035",
+                    "office_phone": "047 555 5000",
                     "role": "Secretary of Financial Manager",
-                    "title": null
+                    "title": "Ms"
                 },
-                "title": null
+                "title": "Mr"
             }
         ],
         "updated_date": "March 2017"
@@ -1203,7 +1211,7 @@
     "muni_contact": {
         "phone_number": "047 555 5000",
         "street_address_1": "Municipal House",
-        "street_address_2": "89 B Nomandela Street",
+        "street_address_2": "89 B Nomandela Drive",
         "street_address_3": "Libode",
         "street_address_4": "5160",
         "url": "http://www.nyandenilm.gov.za"
