@@ -13,8 +13,7 @@
 
 
 
-#FROM ubuntu:trusty
-FROM gdal-testy
+FROM ubuntu:trusty
 
 ADD requirements.txt /requirements.txt
 
