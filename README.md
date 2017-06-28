@@ -85,8 +85,16 @@ This covers how to keep the data up to date. Each quarter, as new data is releas
 Extract CSV datasets from Excel Spreadsheets using the following scripts in `municipal_finance/data_import/`
 
 - audit_opinions.py
+  - Budget Document Tracking - Reporting > List Audit Opinion
+  - Location Level: Municipality
+  - Sort Options: By Municipality
 - contact_details.py
-  - Contacts - Reporting > General Information - Municipalities Individuals
+  - Contacts
+    - Reporting > General Information - Municipalities Individuals
+    - Choose Municipal level
+    - Choose relevant roles
+    - Choose Excel 2000 report format
+    - Download report, open in excel, save as xlsx (the website gives HTML in .xls)
 - uifw_expenditure.py
 
 ## Scrape the MFMA website for the Audit Report URLs into a CSV file

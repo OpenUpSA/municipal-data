@@ -2,6 +2,12 @@
     "audit_opinions": {
         "values": [
             {
+                "date": 2016,
+                "rating": "qualified",
+                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2015-16/02.%20Local%20municipalities/NW382%20Tswaing/NW382%20Tswaing%20Audit%20report%202015-16.pdf",
+                "result": "Qualified"
+            },
+            {
                 "date": 2015,
                 "rating": "disclaimer",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2014-15/02.%20Local%20municipalities/NW382%20Tswaing/NW382%20Tswaing%20Audit%20report%202014-15.pdf",
@@ -17,12 +23,6 @@
                 "date": 2013,
                 "rating": "disclaimer",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2012-13/02.%20Local%20Municipalities/NW382%20Tswaing/NW382%20Tswaing%20Audit%20report%202012-13.pdf",
-                "result": "Disclaimer of opinion"
-            },
-            {
-                "date": 2012,
-                "rating": "disclaimer",
-                "report_url": null,
                 "result": "Disclaimer of opinion"
             }
         ]
@@ -129,18 +129,37 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
+                        6121405.0,
+                        3919772.0
+                    ],
+                    "date": "2017q3",
+                    "month": 8,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "receipts": [
+                        3135021.0,
+                        2778139.0
+                    ],
+                    "result": null,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        7345549.0,
                         4620094.0,
                         5831084.0
                     ],
                     "date": "2017q2",
-                    "month": 5,
+                    "month": 6,
                     "quarter": 2,
                     "rating": "bad",
                     "receipts": [
+                        2979923.0,
                         2112074.0,
                         3201492.0
                     ],
-                    "result": null,
+                    "result": 46.6,
                     "year": 2017
                 },
                 {
@@ -198,25 +217,6 @@
                         3004605.0
                     ],
                     "result": 63.4,
-                    "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        5778563.0,
-                        5743927.0,
-                        6364080.0
-                    ],
-                    "date": "2016q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "receipts": [
-                        1869821.0,
-                        4354891.0,
-                        1968153.0
-                    ],
-                    "result": 45.8,
                     "year": 2016
                 }
             ]
@@ -954,7 +954,7 @@
                 "title": "Ms"
             }
         ],
-        "updated_date": "March 2017"
+        "updated_date": "June 2017"
     },
     "muni_contact": {
         "phone_number": "053 948 0900",

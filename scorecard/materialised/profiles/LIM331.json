@@ -2,6 +2,12 @@
     "audit_opinions": {
         "values": [
             {
+                "date": 2016,
+                "rating": "outstanding",
+                "report_url": null,
+                "result": "Outstanding"
+            },
+            {
                 "date": 2015,
                 "rating": "qualified",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2014-15/02.%20Local%20municipalities/LIM331%20Greater%20Giyane/LIM331%20Greater%20Giyane%20Audit%20report%202014-15.pdf",
@@ -18,12 +24,6 @@
                 "rating": "adverse",
                 "report_url": null,
                 "result": "Adverse opinion"
-            },
-            {
-                "date": 2012,
-                "rating": "disclaimer",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2011-12/02.%20Local%20municipalities/LIM331%20Greater%20Giyani/LIM331%20Greater%20Giyani%20Audit%20Report%202011-12.pdf",
-                "result": "Disclaimer of opinion"
             }
         ]
     },
@@ -129,6 +129,25 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
+                        4019342.0,
+                        2982836.0,
+                        3012535.0
+                    ],
+                    "date": "2017q3",
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "receipts": [
+                        262254.0,
+                        1055853.0,
+                        978475.0
+                    ],
+                    "result": 22.93,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
                         3009150.0,
                         2837304.0,
                         3002505.0
@@ -201,25 +220,6 @@
                     ],
                     "result": 49.79,
                     "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        4546547.0,
-                        4491912.0,
-                        4500315.0
-                    ],
-                    "date": "2016q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "receipts": [
-                        953408.0,
-                        961958.0,
-                        2167418.0
-                    ],
-                    "result": 30.16,
-                    "year": 2016
                 }
             ]
         },
@@ -229,6 +229,17 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "assets": 312182304.0,
+                    "date": "2017q3",
+                    "liabilities": 157049879.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "good",
+                    "result": 1.99,
+                    "year": 2017
+                },
                 {
                     "amount_type": "ACT",
                     "assets": 261003363.0,
@@ -271,17 +282,6 @@
                     "quarter": 3,
                     "rating": "ave",
                     "result": 1.12,
-                    "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "assets": 290247703.0,
-                    "date": "2016q2",
-                    "liabilities": 189318878.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "result": 1.53,
                     "year": 2016
                 }
             ]
@@ -575,6 +575,18 @@
                 {
                     "amount_type": "ACT",
                     "call_investment_deposits": 0.0,
+                    "cash": 238268327.0,
+                    "date": "2017q3",
+                    "liabilities": 157049879.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "good",
+                    "result": 1.52,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 0.0,
                     "cash": 197714531.0,
                     "date": "2017q2",
                     "liabilities": 122883631.0,
@@ -618,18 +630,6 @@
                     "quarter": 3,
                     "rating": "good",
                     "result": 1.03,
-                    "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 0.0,
-                    "cash": 224987362.0,
-                    "date": "2016q2",
-                    "liabilities": 189318878.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "result": 1.19,
                     "year": 2016
                 }
             ]
@@ -1093,7 +1093,7 @@
                 "title": "Mr"
             }
         ],
-        "updated_date": "March 2017"
+        "updated_date": "June 2017"
     },
     "muni_contact": {
         "phone_number": "015 811 5500",

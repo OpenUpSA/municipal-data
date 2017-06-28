@@ -2,9 +2,15 @@
     "audit_opinions": {
         "values": [
             {
+                "date": 2016,
+                "rating": "qualified",
+                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2015-16/03.%20District%20municipalities/DC44%20Alfred%20Nzo/DC44%20Alfred%20Nzo%20Audit%20report%202015-16.pdf",
+                "result": "Qualified"
+            },
+            {
                 "date": 2015,
                 "rating": "qualified",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2014-15/03.%20District%20municipalities/DC44%20Alfred%20Nzo",
+                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2014-15/03.%20District%20municipalities/DC44%20Alfred%20Nzo/DC44%20Alfred%20Nzo%20Consolidated%20Audit%20report%202014-15.pdf",
                 "result": "Qualified"
             },
             {
@@ -17,12 +23,6 @@
                 "date": 2013,
                 "rating": "disclaimer",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2012-13/03.%20District%20municipalities/DC44%20Alfred%20Nzo/DC44%20Alfred%20Nzo%20Audit%20Report%202012-13.pdf",
-                "result": "Disclaimer of opinion"
-            },
-            {
-                "date": 2012,
-                "rating": "disclaimer",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2011-12/03.%20District%20municipalities/DC44%20Alfred%20Nzo/DC44%20Alfred%20Nzo%20Audit%20report%202011-12.pdf",
                 "result": "Disclaimer of opinion"
             }
         ]
@@ -129,6 +129,25 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
+                        61639.0,
+                        2120289.0,
+                        2551825.0
+                    ],
+                    "date": "2017q3",
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "receipts": [
+                        61639.0,
+                        -2120289.0,
+                        2328197.0
+                    ],
+                    "result": 5.69,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
                         1828668.0,
                         1827053.0,
                         1136109.0
@@ -201,25 +220,6 @@
                     ],
                     "result": 90.23,
                     "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        2529554.0,
-                        2963724.0,
-                        36536.0
-                    ],
-                    "date": "2016q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "receipts": [
-                        2529554.0,
-                        2963724.0,
-                        36536.0
-                    ],
-                    "result": 100.0,
-                    "year": 2016
                 }
             ]
         },
@@ -229,6 +229,17 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "assets": 269930871.0,
+                    "date": "2017q3",
+                    "liabilities": 108318817.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "good",
+                    "result": 2.49,
+                    "year": 2017
+                },
                 {
                     "amount_type": "ACT",
                     "assets": 192020330.0,
@@ -269,17 +280,6 @@
                     "liabilities": 124567585.0,
                     "month": 9,
                     "quarter": 3,
-                    "rating": "bad",
-                    "result": 0.69,
-                    "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "assets": 86102959.0,
-                    "date": "2016q2",
-                    "liabilities": 124567585.0,
-                    "month": 6,
-                    "quarter": 2,
                     "rating": "bad",
                     "result": 0.69,
                     "year": 2016
@@ -468,6 +468,18 @@
                     "amount_type": "ACT",
                     "call_investment_deposits": 40849953.0,
                     "cash": 106570932.0,
+                    "date": "2017q3",
+                    "liabilities": 108318817.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "good",
+                    "result": 1.36,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 40849953.0,
+                    "cash": 106570932.0,
                     "date": "2017q2",
                     "liabilities": 214744457.0,
                     "month": 6,
@@ -508,18 +520,6 @@
                     "liabilities": 124567585.0,
                     "month": 9,
                     "quarter": 3,
-                    "rating": "bad",
-                    "result": 0.81,
-                    "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 50725166.0,
-                    "cash": 49756534.0,
-                    "date": "2016q2",
-                    "liabilities": 124567585.0,
-                    "month": 6,
-                    "quarter": 2,
                     "rating": "bad",
                     "result": 0.81,
                     "year": 2016
@@ -1154,7 +1154,7 @@
                 "title": "Mr"
             }
         ],
-        "updated_date": "March 2017"
+        "updated_date": "June 2017"
     },
     "muni_contact": {
         "phone_number": "039 254 0320",
