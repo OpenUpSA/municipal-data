@@ -149,7 +149,11 @@ The aim here is to ensure that the data is in the correct format, and that the i
 
 This shouldn't be exhaustive - when some numbers in each dataset match expected values, we can infer that the data is imported correctly. The strategy is to identify a few changes between subsequent snapshots, and check that they are reflected in the API. Since distinctions aren't made between importing different municipalities, other municipalities should be imported equivalently.
 
-Check that the column order in the snapshots match those in the _"upsert"_ scripts.
+Check that the column order in the snapshots match those in the _"upsert"_ scripts. e.g.:
+
+```shell
+head -1 2017q2/*
+```
 
 Quickly get an idea of what was updated in the datasets: compare this snapshot to the previous for each dataset:
 

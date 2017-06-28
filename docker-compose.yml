@@ -1,31 +1,43 @@
 version: "2"
 
 services:
-  dev:
-      build: .
-      command: python manage.py runserver 0.0.0.0:8000
-      volumes:
-        - ".:/app"
-        - "../datasets:/data"
-      environment:
-        DATABASE_URL: 'postgres://municipal_finance@172.17.0.1/municipal_finance'
-        BABBAGE_TEST_DB: 'postgres://municipal_finance@172.17.0.1/babbage'
-        SITE_ID: '3'
-        PRELOAD_CUBES: 'true'
-      working_dir: /app
-#      stdin_open: true
-#      tty: true
-  web:
-      build: .
-      command: python manage.py runserver 0.0.0.0:8000
-      volumes:
-        - ".:/app"
-        - "../datasets:/data"
-      environment:
-        DATABASE_URL: 'postgres://municipal_finance@172.17.0.1/municipal_finance'
-        BABBAGE_TEST_DB: 'postgres://municipal_finance@172.17.0.1/babbage'
-        SITE_ID: '2'
-        API_URL: http://dev/8000
-      working_dir: /app
-#      stdin_open: true
-#      tty: true
+  portal:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ".:/app"
+      - "../datasets:/data"
+    environment:
+      DATABASE_URL: 'postgres://municipal_finance@172.17.0.1/municipal_finance'
+      BABBAGE_TEST_DB: 'postgres://municipal_finance@172.17.0.1/babbage'
+      SITE_ID: '3'
+      PRELOAD_CUBES: 'true'
+      API_URL: http://172.23.0.3:8000/api
+    working_dir: /app
+    networks:
+      app_net:
+        ipv4_address: 172.23.0.3
+
+  scorecard:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ".:/app"
+      - "../datasets:/data"
+    environment:
+      DATABASE_URL: 'postgres://municipal_finance@172.17.0.1/municipal_finance'
+      BABBAGE_TEST_DB: 'postgres://municipal_finance@172.17.0.1/babbage'
+      SITE_ID: '2'
+    working_dir: /app
+    networks:
+      app_net:
+        ipv4_address: 172.23.0.2
+
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      -
+        subnet: 172.23.0.0/24
