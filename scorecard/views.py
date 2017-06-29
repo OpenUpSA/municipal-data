@@ -67,7 +67,7 @@ class GeographyDetailView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         page_context = {}
 
-        profile = get_profile(self.geo_code, self.geo_level)
+        profile = get_profile(self.geo)
         page_context.update(profile)
 
         profile['geography'] = self.geo.as_dict()

@@ -2,7 +2,7 @@ import logging
 
 from django.db import models
 from django.conf import settings
-from wazimap.models import GeographyBase
+from django.utils.text import slugify
 import requests
 
 log = logging.getLogger(__name__)
@@ -19,27 +19,101 @@ class LocationNotFound(Exception):
     pass
 
 
-class Geography(GeographyBase):
+class Geography(models.Model):
+    #: The level for this geography (eg. `country`) which, together with
+    #: `geo_code`, makes up the unique geo id.
+    geo_level = models.CharField(max_length=15, null=False)
+    #: The code for this geography which must be unique for this level.
+    #: Together with `geo_level`, this makes up the unique geo id.
+    geo_code = models.CharField(max_length=10, null=False)
+
+    #: Name of this geography.
+    name = models.CharField(max_length=100, null=False, db_index=True)
+    #: Long name of this geography, giving it context (such as a city or province)
+    #: If this is null, it is computed based on the place's ancestors.
+    long_name = models.CharField(max_length=100, null=True, db_index=True)
+
+    #: Area in square kilometers. Optional.
+    square_kms = models.FloatField(null=True)
+
+    # hierarchy
+    #: The level of this geography's parent, or `None` if this is the root
+    #: geography that has no parent.
+    parent_level = models.CharField(max_length=15, null=True)
+    #: The code of this geography's parent, or `None` if this is the root
+    #: geography that has no parent.
+    parent_code = models.CharField(max_length=10, null=True)
+
     province_name = models.CharField(max_length=100, null=False)
     province_code = models.CharField(max_length=5, null=False)
     category = models.CharField(max_length=2, null=False)
     miif_category = models.TextField(null=True)
 
+    class Meta:
+        unique_together = ('geo_level', 'geo_code')
+
     @property
     def category_name(self):
         return CATEGORIES[self.category] + ' municipality'
 
+    @property
+    def geoid(self):
+        return '-'.join([self.geo_level, self.geo_code])
+
+    @property
+    def slug(self):
+        return slugify(self.name)
+
+    @property
+    def parent_geoid(self):
+        if self.parent_level and self.parent_code:
+            return '%s-%s' % (self.parent_level, self.parent_code)
+        return None
+
+    @property
+    def parent(self):
+        """ The parent of this geograhy, or `None` if this is the root of
+        the hierarchy.
+        """
+        if not hasattr(self, '_parent'):
+            if self.parent_level and self.parent_code:
+                self._parent = self.__class__.objects.filter(geo_level=self.parent_level, geo_code=self.parent_code).first()
+            else:
+                self._parent = None
+
+        return self._parent
+
+    def ancestors(self):
+        """ A list of the ancestors of this geography, all the way up to the root.
+        This is an empty list if this geography is the root of the hierarchy.
+        """
+        ancestors = []
+        g = self.parent
+        while g:
+            ancestors.append(g)
+            g = g.parent
+        return ancestors
+
     def as_dict(self):
-        d = super(Geography, self).as_dict()
-        d.update({
+        return {
+            'full_geoid': self.geoid,
+            'full_name': self.long_name,
+            'name': self.long_name,
+            'short_name': self.name,
+            'geo_level': self.geo_level,
+            'geo_code': self.geo_code,
+            'parent_geoid': self.parent_geoid,
+            'square_kms': self.square_kms,
             'province_name': self.province_name,
             'province_code': self.province_code,
             'category': self.category,
             'category_name': self.category_name,
             'miif_category': self.miif_category,
             'slug': self.slug,
-        })
-        return d
+        }
+
+    def __unicode__(self):
+        return self.full_name
 
     @classmethod
     def find(cls, geo_code, geo_level):

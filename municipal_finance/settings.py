@@ -91,7 +91,6 @@ WAZIMAP['levels'] = {
 WAZIMAP['profile_builder'] = 'scorecard.profiles.get_profile'
 WAZIMAP['ga_tracking_id'] = SCORECARD_GOOGLE_ANALYTICS_ID
 WAZIMAP['twitter'] = ''
-WAZIMAP['geodata'] = 'scorecard.geo.GeoData'
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.gzip.GZipMiddleware',
