@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import wazimap.models
 
 
 class Migration(migrations.Migration):
@@ -33,7 +32,7 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model, wazimap.models.GeoMixin),
+            bases=(models.Model,),
         ),
         migrations.AlterUniqueTogether(
             name='geography',
