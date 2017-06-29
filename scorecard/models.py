@@ -48,6 +48,7 @@ class Geography(models.Model):
     province_code = models.CharField(max_length=5, null=False)
     category = models.CharField(max_length=2, null=False)
     miif_category = models.TextField(null=True)
+    population = models.IntegerField(null=True)
 
     class Meta:
         unique_together = ('geo_level', 'geo_code')
