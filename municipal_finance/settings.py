@@ -197,8 +197,8 @@ PIPELINE = {
         },
         'scorecard': {
             'source_filenames': (
-                'css/vendor/leaflet-0.6.4.css',
-                'css/vendor/leaflet.label.css',
+                'stylesheets/vendor/leaflet-0.6.4.css',
+                'stylesheets/vendor/leaflet.label.css',
                 'bower_components/fontawesome/css/font-awesome.css',
                 'stylesheets/icomoon.css',
                 'stylesheets/scorecard.scss',

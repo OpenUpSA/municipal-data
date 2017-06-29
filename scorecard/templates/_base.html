@@ -14,7 +14,7 @@
     {% stylesheet "scorecard" %}
     <link href="{% static 'stylesheets/print.css' %}" rel="stylesheet" type="text/css" {% if not request.GET.print %}media="print"{% endif %} />
     <!--[if lte IE 8]>
-        <link rel="stylesheet" href="{% static 'css/vendor/leaflet-0.6.4.ie.css' %}" />
+        <link rel="stylesheet" href="{% static 'stylesheets/vendor/leaflet-0.6.4.ie.css' %}" />
     <![endif]-->
     {% block head_css_extra %}{% endblock %}
     {% endblock head_css %}
