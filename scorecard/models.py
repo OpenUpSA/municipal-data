@@ -137,7 +137,7 @@ class Geography(models.Model):
             try:
                 geo = cls.find(feature['codes']['MDB'], feature['type_name'].lower())
 
-                if geo.geo_level not in ['municipality', 'district']:
+                if geo.geo_level in ['municipality', 'district']:
                     geos.append(geo)
             except LocationNotFound as e:
                 log.warn("Couldn't find geo that Mapit gave us: %s" % feature, exc_info=e)
