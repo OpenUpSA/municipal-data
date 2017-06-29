@@ -1,7 +1,6 @@
 from collections import defaultdict
 from django.conf import settings
 from profile_data import get_indicator_calculators
-from wazimap.data.tables import get_datatable
 import json
 import os
 
@@ -9,13 +8,9 @@ from scorecard.utils import comparison_relative_words
 
 
 def get_profile(geo):
-    # Census data
-    table = get_datatable('population_2011')
-    _, total_pop = table.get_stat_data(geo.geo_level, geo.geo_code, percent=False)
-
     population_density = None
     if geo.square_kms:
-        population_density = total_pop / geo.square_kms
+        population_density = geo.population / geo.square_kms
 
     profile = get_precalculated_profile(geo.geo_code)
     indicators = profile['indicators']
@@ -24,7 +19,7 @@ def get_profile(geo):
     build_comparisons(geo, indicators, medians, rating_counts)
 
     profile.update({
-        'total_population': total_pop,
+        'total_population': geo.population,
         'population_density': population_density,
         'medians': medians,
         'rating_counts': rating_counts,

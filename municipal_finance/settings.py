@@ -40,8 +40,6 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = (
     'municipal_finance',
     'scorecard',
-    'wazimap.apps.WazimapConfig',
-    'census',
 
     'django.contrib.sites',
     'django.contrib.contenttypes',
@@ -68,29 +66,6 @@ MAPIT = {
     'url': 'https://mapit.code4sa.org',
     'generation': '2',
 }
-
-# Wazimap
-from wazimap.settings import WAZIMAP
-WAZIMAP['name'] = 'Municipal Money'
-WAZIMAP['url'] = 'https://municipalmoney.gov.za'
-WAZIMAP['comparative_levels'] = []
-WAZIMAP['country_code'] = 'ZA'
-WAZIMAP['geometry_data'] = {}
-# TODO: district
-WAZIMAP['levels'] = {
-    'country': {
-        'children': ['district'],
-    },
-    'district': {
-        'children': ['municipality'],
-    },
-    'municipality': {
-        'plural': 'municipalities',
-    },
-}
-WAZIMAP['profile_builder'] = 'scorecard.profiles.get_profile'
-WAZIMAP['ga_tracking_id'] = SCORECARD_GOOGLE_ANALYTICS_ID
-WAZIMAP['twitter'] = ''
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.gzip.GZipMiddleware',
@@ -159,7 +134,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
-    "wazimap.context_processors.wazimap_settings",
     "municipal_finance.context_processors.google_analytics",
     "municipal_finance.context_processors.api_details",
 )
@@ -341,12 +315,6 @@ LOGGING = {
     },
     'loggers': {
         'municipal_finance': {
-            'level': 'DEBUG' if DEBUG else 'INFO',
-        },
-        'wazimap': {
-            'level': 'DEBUG' if DEBUG else 'INFO',
-        },
-        'census': {
             'level': 'DEBUG' if DEBUG else 'INFO',
         },
         'sqlalchemy.engine': {
