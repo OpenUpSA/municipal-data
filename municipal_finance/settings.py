@@ -64,6 +64,11 @@ API_BASE = "https://municipaldata.treasury.gov.za"
 API_URL = os.environ.get('API_URL', API_BASE + '/api')
 API_URL_INTERNAL = os.environ.get('API_URL_INTERNAL', API_URL)
 
+MAPIT = {
+    'url': 'https://mapit.code4sa.org',
+    'generation': '2',
+}
+
 # Wazimap
 from wazimap.settings import WAZIMAP
 WAZIMAP['name'] = 'Municipal Money'
