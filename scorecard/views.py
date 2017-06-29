@@ -2,14 +2,11 @@ from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
 from django.http import Http404
 from django.core.urlresolvers import reverse
-from django.conf import settings
 from wkhtmltopdf.views import PDFResponse
 from wkhtmltopdf.utils import wkhtmltopdf
 
-from wazimap.geo import geo_data
-from wazimap.data.utils import LocationNotFound
-
 from scorecard.profiles import get_profile
+from scorecard.models import Geography, LocationNotFound
 
 
 class LocateView(TemplateView):
@@ -22,7 +19,7 @@ class LocateView(TemplateView):
 
         if self.lat and self.lon:
             place = None
-            places = geo_data.get_locations_from_coords(latitude=self.lat, longitude=self.lon)
+            places = Geography.get_locations_from_coords(latitude=self.lat, longitude=self.lon)
 
             if places:
                 place = places[0]
@@ -54,7 +51,7 @@ class GeographyDetailView(TemplateView):
 
         try:
             self.geo_level, self.geo_code = self.geo_id.split('-', 1)
-            self.geo = geo_data.get_geography(self.geo_code, self.geo_level)
+            self.geo = Geography.find(self.geo_code, self.geo_level)
         except (ValueError, LocationNotFound):
             raise Http404
 
@@ -78,20 +75,20 @@ class GeographyDetailView(TemplateView):
         page_context['geography'] = self.geo
 
         profile['demarcation']['disestablished_to_geos'] = [
-            geo_data.geo_model.objects.filter(geo_code=code).first().as_dict()
+            Geography.objects.filter(geo_code=code).first().as_dict()
             for code in profile['demarcation'].get('disestablished_to', [])]
 
         profile['demarcation']['established_from_geos'] = [
-            geo_data.geo_model.objects.filter(geo_code=code).first().as_dict()
+            Geography.objects.filter(geo_code=code).first().as_dict()
             for code in profile['demarcation'].get('established_from', [])]
 
         for date in profile['demarcation']['land_gained']:
             for change in date['changes']:
-                change['geo'] = geo_data.geo_model.objects.filter(
+                change['geo'] = Geography.objects.filter(
                     geo_code=change['demarcation_code']).first().as_dict()
         for date in profile['demarcation']['land_lost']:
             for change in date['changes']:
-                change['geo'] = geo_data.geo_model.objects.filter(
+                change['geo'] = Geography.objects.filter(
                     geo_code=change['demarcation_code']).first().as_dict()
 
         # is this a head-to-head view?
@@ -123,10 +120,10 @@ class GeographyCompareView(TemplateView):
 
         try:
             level, code = geo_id1.split('-', 1)
-            page_context['geo1'] = geo_data.get_geography(code, level)
+            page_context['geo1'] = Geography.find(code, level)
 
             level, code = geo_id2.split('-', 1)
-            page_context['geo2'] = geo_data.get_geography(code, level)
+            page_context['geo2'] = Geography.find(code, level)
         except (ValueError, LocationNotFound):
             raise Http404
 
@@ -139,5 +136,5 @@ class SitemapView(TemplateView):
 
     def get_context_data(self):
         return {
-            'geos': geo_data.geo_model.objects.all(),
+            'geos': Geography.objects.all(),
         }
