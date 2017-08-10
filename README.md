@@ -96,6 +96,7 @@ Extract CSV datasets from Excel Spreadsheets using the following scripts in `mun
     - Choose Excel 2000 report format
     - Download report, open in excel, save as xlsx (the website gives HTML in .xls)
 - uifw_expenditure.py
+  - input files like [01. Irregular Expenditures - Master 04 December 2014](http://mfma.treasury.gov.za/Media_Releases/mbi/2014/Documents/G.%20Additional%20information)
 
 ## Scrape the MFMA website for the Audit Report URLs into a CSV file
 
