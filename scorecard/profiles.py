@@ -9,7 +9,7 @@ from scorecard.utils import comparison_relative_words
 
 def get_profile(geo):
     population_density = None
-    if geo.square_kms:
+    if geo.square_kms and geo.population:
         population_density = geo.population / geo.square_kms
 
     profile = get_precalculated_profile(geo.geo_code)
