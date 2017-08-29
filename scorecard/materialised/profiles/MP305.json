@@ -40,21 +40,21 @@
             "values": [
                 {
                     "date": 2016,
-                    "overunder": null,
-                    "rating": null,
-                    "result": null
+                    "overunder": "under",
+                    "rating": "ave",
+                    "result": -6.23
                 },
                 {
                     "date": 2015,
                     "overunder": "under",
                     "rating": "bad",
-                    "result": -62.43
+                    "result": -58.7
                 },
                 {
                     "date": 2014,
                     "overunder": "under",
                     "rating": "bad",
-                    "result": -55.36
+                    "result": -59.11
                 },
                 {
                     "date": 2013,
@@ -72,18 +72,18 @@
             "values": [
                 {
                     "date": 2016,
-                    "rating": "bad",
-                    "result": null
+                    "rating": "good",
+                    "result": 3754557.0
                 },
                 {
                     "date": 2015,
-                    "rating": "bad",
-                    "result": -33930030.0
+                    "rating": "good",
+                    "result": 33703603.0
                 },
                 {
                     "date": 2014,
-                    "rating": "bad",
-                    "result": -25469000.0
+                    "rating": "good",
+                    "result": 31943756.0
                 },
                 {
                     "date": 2013,
@@ -106,12 +106,12 @@
                 {
                     "date": 2015,
                     "rating": "bad",
-                    "result": 0
+                    "result": 0.8
                 },
                 {
                     "date": 2014,
                     "rating": "bad",
-                    "result": 0
+                    "result": 0.6
                 },
                 {
                     "date": 2013,
@@ -129,6 +129,25 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
+                        38167047.0,
+                        32472153.0,
+                        38073261.0
+                    ],
+                    "date": "2017q4",
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "good",
+                    "receipts": [
+                        38394968.0,
+                        40668612.0,
+                        34531704.0
+                    ],
+                    "result": 104.49,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
                         40911127.0,
                         29354248.0,
                         39752632.0
@@ -136,13 +155,13 @@
                     "date": "2017q3",
                     "month": 9,
                     "quarter": 3,
-                    "rating": "bad",
+                    "rating": "good",
                     "receipts": [
-                        19518111.0,
-                        24755534.0,
-                        37705993.0
+                        39036222.0,
+                        49511068.0,
+                        75411986.0
                     ],
-                    "result": 74.51,
+                    "result": 149.03,
                     "year": 2017
                 },
                 {
@@ -156,8 +175,8 @@
                     "quarter": 2,
                     "rating": "bad",
                     "receipts": [
-                        28917419.0,
-                        28398780.0
+                        57834838.0,
+                        56797560.0
                     ],
                     "result": null,
                     "year": 2017
@@ -172,13 +191,13 @@
                     "date": "2017q1",
                     "month": 3,
                     "quarter": 1,
-                    "rating": "bad",
+                    "rating": "good",
                     "receipts": [
-                        29112611.0,
-                        21838682.0,
-                        20082905.0
+                        58225222.0,
+                        43677364.0,
+                        40165810.0
                     ],
-                    "result": 63.68,
+                    "result": 127.36,
                     "year": 2017
                 },
                 {
@@ -195,23 +214,6 @@
                     ],
                     "result": null,
                     "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        34697848.0,
-                        26584546.0
-                    ],
-                    "date": "2016q3",
-                    "month": 8,
-                    "quarter": 3,
-                    "rating": "bad",
-                    "receipts": [
-                        19677264.0,
-                        19264621.0
-                    ],
-                    "result": null,
-                    "year": 2016
                 }
             ]
         },
@@ -220,7 +222,47 @@
                 "title": "Circular 71",
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
-            "values": []
+            "values": [
+                {
+                    "amount_type": "ACT",
+                    "assets": 260433695.0,
+                    "date": "2017q4",
+                    "liabilities": 776573702.0,
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "result": 0.34,
+                    "year": 2017
+                },
+                {
+                    "date": "2017q3",
+                    "quarter": 3,
+                    "rating": "bad",
+                    "result": null,
+                    "year": 2017
+                },
+                {
+                    "date": "2017q2",
+                    "quarter": 2,
+                    "rating": "bad",
+                    "result": null,
+                    "year": 2017
+                },
+                {
+                    "date": "2017q1",
+                    "quarter": 1,
+                    "rating": "bad",
+                    "result": null,
+                    "year": 2017
+                },
+                {
+                    "date": "2016q4",
+                    "quarter": 4,
+                    "rating": "bad",
+                    "result": null,
+                    "year": 2016
+                }
+            ]
         },
         "expenditure_functional_breakdown": {
             "values": [
@@ -543,7 +585,48 @@
                 "title": "Municipal Budget and Reporting Regulations",
                 "url": "http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx"
             },
-            "values": []
+            "values": [
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 0.0,
+                    "cash": 9459.0,
+                    "date": "2017q4",
+                    "liabilities": 776573702.0,
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "result": 0.0,
+                    "year": 2017
+                },
+                {
+                    "date": "2017q3",
+                    "quarter": 3,
+                    "rating": "bad",
+                    "result": null,
+                    "year": 2017
+                },
+                {
+                    "date": "2017q2",
+                    "quarter": 2,
+                    "rating": "bad",
+                    "result": null,
+                    "year": 2017
+                },
+                {
+                    "date": "2017q1",
+                    "quarter": 1,
+                    "rating": "bad",
+                    "result": null,
+                    "year": 2017
+                },
+                {
+                    "date": "2016q4",
+                    "quarter": 4,
+                    "rating": "bad",
+                    "result": null,
+                    "year": 2016
+                }
+            ]
         },
         "op_budget_diff": {
             "ref": {
@@ -585,8 +668,8 @@
             "values": [
                 {
                     "date": 2016,
-                    "rating": null,
-                    "result": null
+                    "rating": "bad",
+                    "result": 0.0
                 },
                 {
                     "date": 2015,
@@ -596,7 +679,7 @@
                 {
                     "date": 2014,
                     "rating": "bad",
-                    "result": 0.96
+                    "result": 0.0
                 },
                 {
                     "date": 2013,
@@ -964,9 +1047,9 @@
                 "title": "Mr"
             },
             {
-                "email": "ltshabalala@lekwalm.gov.za",
+                "email": "gntshangase@lekwalm.gov.za",
                 "fax_number": "017 712 6808",
-                "name": "Linda Tshabalala",
+                "name": "G P Mhlongo-Ntshangase",
                 "office_phone": "017 712 9613",
                 "role": "Municipal Manager",
                 "secretary": {
@@ -977,7 +1060,7 @@
                     "role": "Secretary of Municipal Manager",
                     "title": "Ms"
                 },
-                "title": "Mr"
+                "title": "Ms"
             },
             {
                 "email": null,
@@ -1004,7 +1087,7 @@
                 "title": "Mr"
             }
         ],
-        "updated_date": "June 2017"
+        "updated_date": "September 2017"
     },
     "muni_contact": {
         "phone_number": "017 712 9600",

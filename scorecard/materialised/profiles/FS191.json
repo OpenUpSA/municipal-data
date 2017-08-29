@@ -40,15 +40,15 @@
             "values": [
                 {
                     "date": 2016,
-                    "overunder": null,
-                    "rating": null,
-                    "result": null
+                    "overunder": "over",
+                    "rating": "bad",
+                    "result": 29.43
                 },
                 {
                     "date": 2015,
                     "overunder": "over",
                     "rating": "bad",
-                    "result": 16.4
+                    "result": 135.18
                 },
                 {
                     "date": 2014,
@@ -78,7 +78,7 @@
                 {
                     "date": 2015,
                     "rating": "good",
-                    "result": 3702107.0
+                    "result": 3702108.0
                 },
                 {
                     "date": 2014,
@@ -129,6 +129,25 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
+                        20541441.0,
+                        22867504.0,
+                        22148740.0
+                    ],
+                    "date": "2017q4",
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "receipts": [
+                        24079674.0,
+                        20612452.0,
+                        15845226.0
+                    ],
+                    "result": 92.34,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
                         21517826.0,
                         19649688.0,
                         19167481.0
@@ -136,13 +155,13 @@
                     "date": "2017q3",
                     "month": 9,
                     "quarter": 3,
-                    "rating": "bad",
+                    "rating": "good",
                     "receipts": [
-                        11041079.0,
-                        10032517.0,
-                        7841181.0
+                        22082158.0,
+                        20065034.0,
+                        15682362.0
                     ],
-                    "result": 47.92,
+                    "result": 95.85,
                     "year": 2017
                 },
                 {
@@ -155,13 +174,13 @@
                     "date": "2017q2",
                     "month": 6,
                     "quarter": 2,
-                    "rating": "bad",
+                    "rating": "good",
                     "receipts": [
-                        8553624.0,
-                        12182168.0,
-                        11801452.0
+                        17107248.0,
+                        24364336.0,
+                        23602904.0
                     ],
-                    "result": 58.96,
+                    "result": 117.92,
                     "year": 2017
                 },
                 {
@@ -176,11 +195,11 @@
                     "quarter": 1,
                     "rating": "bad",
                     "receipts": [
-                        9308338.0,
-                        9025566.0,
-                        6322997.0
+                        18616676.0,
+                        18051132.0,
+                        12645994.0
                     ],
-                    "result": 38.0,
+                    "result": 75.99,
                     "year": 2017
                 },
                 {
@@ -201,25 +220,6 @@
                     ],
                     "result": 42.95,
                     "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        20204462.0,
-                        18217662.0,
-                        20547409.0
-                    ],
-                    "date": "2016q3",
-                    "month": 9,
-                    "quarter": 3,
-                    "rating": "bad",
-                    "receipts": [
-                        3749371.0,
-                        9478637.0,
-                        8714046.0
-                    ],
-                    "result": 37.21,
-                    "year": 2016
                 }
             ]
         },
@@ -229,6 +229,17 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "assets": 370524338.0,
+                    "date": "2017q4",
+                    "liabilities": 57955531.0,
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "good",
+                    "result": 6.39,
+                    "year": 2017
+                },
                 {
                     "amount_type": "ACT",
                     "assets": 410594414.0,
@@ -271,17 +282,6 @@
                     "quarter": 4,
                     "rating": "good",
                     "result": 8.85,
-                    "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "assets": 373334681.0,
-                    "date": "2016q3",
-                    "liabilities": 17756294.0,
-                    "month": 9,
-                    "quarter": 3,
-                    "rating": "good",
-                    "result": 21.03,
                     "year": 2016
                 }
             ]
@@ -412,19 +412,19 @@
                     "amount": 7391856.0,
                     "date": 2015,
                     "item": "Community & Social Services",
-                    "percent": 1.2
+                    "percent": 1.32
                 },
                 {
                     "amount": 85372499.0,
                     "date": 2015,
                     "item": "Electricity ",
-                    "percent": 13.84
+                    "percent": 15.24
                 },
                 {
-                    "amount": 119770427.0,
+                    "amount": 140423725.0,
                     "date": 2015,
                     "item": "Governance, Administration, Planning and Development",
-                    "percent": 19.42
+                    "percent": 25.06
                 },
                 {
                     "amount": 23400.0,
@@ -436,43 +436,43 @@
                     "amount": 20651735.0,
                     "date": 2015,
                     "item": "Housing",
-                    "percent": 3.35
+                    "percent": 3.69
                 },
                 {
                     "amount": 16548636.0,
                     "date": 2015,
                     "item": "Public Safety",
-                    "percent": 2.68
+                    "percent": 2.95
                 },
                 {
-                    "amount": 277408477.0,
+                    "amount": 200357741.0,
                     "date": 2015,
                     "item": "Road Transport",
-                    "percent": 44.99
+                    "percent": 35.76
                 },
                 {
                     "amount": 8221265.0,
                     "date": 2015,
                     "item": "Sport And Recreation",
-                    "percent": 1.33
+                    "percent": 1.47
                 },
                 {
                     "amount": 36126511.0,
                     "date": 2015,
                     "item": "Waste Management",
-                    "percent": 5.86
+                    "percent": 6.45
                 },
                 {
                     "amount": 6087441.0,
                     "date": 2015,
                     "item": "Waste Water Management",
-                    "percent": 0.99
+                    "percent": 1.09
                 },
                 {
                     "amount": 39060938.0,
                     "date": 2015,
                     "item": "Water",
-                    "percent": 6.33
+                    "percent": 6.97
                 },
                 {
                     "amount": 8999436.0,
@@ -606,7 +606,7 @@
                 {
                     "date": 2015,
                     "rating": "",
-                    "result": 1.23
+                    "result": 5.04
                 },
                 {
                     "date": 2014,
@@ -630,7 +630,7 @@
                 {
                     "date": 2015,
                     "rating": "",
-                    "result": 24.98
+                    "result": 27.49
                 },
                 {
                     "date": 2014,
@@ -650,6 +650,18 @@
                 "url": "http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 0.0,
+                    "cash": 2097027.0,
+                    "date": "2017q4",
+                    "liabilities": 57955531.0,
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "result": 0.04,
+                    "year": 2017
+                },
                 {
                     "amount_type": "ACT",
                     "call_investment_deposits": 0.0,
@@ -697,18 +709,6 @@
                     "rating": "bad",
                     "result": 0.11,
                     "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 0.0,
-                    "cash": 55454088.0,
-                    "date": "2016q3",
-                    "liabilities": 17756294.0,
-                    "month": 9,
-                    "quarter": 3,
-                    "rating": "good",
-                    "result": 3.12,
-                    "year": 2016
                 }
             ]
         },
@@ -728,7 +728,7 @@
                     "date": 2015,
                     "overunder": "over",
                     "rating": "bad",
-                    "result": 61.3
+                    "result": 46.6
                 },
                 {
                     "date": 2014,
@@ -752,13 +752,13 @@
             "values": [
                 {
                     "date": 2016,
-                    "rating": null,
-                    "result": null
+                    "rating": "bad",
+                    "result": 0.0
                 },
                 {
                     "date": 2015,
                     "rating": "bad",
-                    "result": 0.61
+                    "result": 0.0
                 },
                 {
                     "date": 2014,
@@ -1332,7 +1332,7 @@
                 "title": "Mr"
             }
         ],
-        "updated_date": "June 2017"
+        "updated_date": "September 2017"
     },
     "muni_contact": {
         "phone_number": "051 933 9300",

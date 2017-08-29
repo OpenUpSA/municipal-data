@@ -12,7 +12,7 @@ CREATE TEMPORARY TABLE conditional_grants_upsert
 
 \echo Read data...
 
-\copy conditional_grants_upsert (demarcation_code, period_code, grant_code, amount) FROM '/home/jdb/proj/code4sa/municipal_finance/datasets/2017q3-not-audited/grants_2017q3_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy conditional_grants_upsert (demarcation_code, period_code, grant_code, amount) FROM '/home/jdb/proj/code4sa/municipalmoney/data/Section 71 Q4 2016-17/grants_2017q4_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \echo Delete demarcation_code-period_code pairs that are in the update
 
