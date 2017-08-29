@@ -12,7 +12,7 @@ import re
 def convert(sheet, csv_file):
     book = xlrd.open_workbook(sheet)
     sheet = book.sheet_by_index(0)
-    year = re.sub(r'\d\d/', '', sheet.cell(3, 3).value)
+    year = re.sub(r'\d\d/', '', sheet.cell(4, 4).value)
 
     labels = [
         'Unauthorised Expenditure',
@@ -37,7 +37,7 @@ def convert(sheet, csv_file):
             for idx, label in enumerate(labels):
                 item = {
                     'year': year,
-                    'demarcation_code': sheet.cell(rowx, 2).value
+                    'demarcation_code': sheet.cell(rowx, 1).value
                 }
                 try:
                     item['amount'] = int(round(sheet.cell(rowx, 4+idx*2).value) * 1000)
