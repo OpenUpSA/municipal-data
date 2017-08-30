@@ -199,6 +199,7 @@ PIPELINE = {
             'source_filenames': (
                 'stylesheets/vendor/leaflet-0.6.4.css',
                 'stylesheets/vendor/leaflet.label.css',
+                'stylesheets/vendor/c3.css',
                 'bower_components/fontawesome/css/font-awesome.css',
                 'stylesheets/icomoon.css',
                 'stylesheets/scorecard.scss',
@@ -261,6 +262,7 @@ PIPELINE = {
                 'bower_components/d3/d3.min.js',
                 'bower_components/underscore/underscore-min.js',
                 'js/vendor/d3-format.min.js',
+                'js/vendor/c3.js',
                 'js/vendor/bootstrap-3.3.2/affix.js',
                 'js/vendor/bootstrap-3.3.2/scrollspy.js',
                 'js/vendor/bootstrap-3.3.2/transition.js',
