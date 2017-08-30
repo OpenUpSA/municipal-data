@@ -350,6 +350,82 @@ var VerticalBarChart = function() {
   };
 };
 
+var SimpleBarChart = function() {
+    var self = this;
+
+    self.discover = function() {
+        $('.simple-barchart').each(function() {
+             var chart = new SimpleBarChart();
+             chart.init(this);
+             $(window).on('resize', _.debounce(chart.drawChart, 300));
+        });
+    };
+
+    self.init = function(container) {
+        self.container = $(container);
+        indicator = self.container.data("indicator");
+        self.data = profileData.indicators[indicator];
+        self.drawChart();
+    };
+
+    self.drawChart = function() {
+
+        var chart = c3.generate({
+            bindto: self.container[0],
+            data: {
+                json: self.data,
+                keys: {
+                    x : "label",
+                    value : ["value"]
+                },
+                type: "bar",
+            },
+            axis: {
+                x : { type : "category" }
+            },
+            bar: {
+                width: {
+                    ratio: 0.8
+                }
+            }
+        })
+    }
+}
+
+var SimpleLineChart = function() {
+    var self = this;
+
+    self.discover = function() {
+        $('.simple-linechart').each(function() {
+             var chart = new SimpleLineChart();
+             chart.init(this);
+             $(window).on('resize', _.debounce(chart.drawChart, 300));
+        });
+    };
+
+    self.init = function(container) {
+        self.container = $(container);
+        indicator = self.container.data("indicator");
+        self.data = profileData.indicators[indicator];
+        self.drawChart();
+    };
+
+    self.drawChart = function() {
+
+        var chart = c3.generate({
+            bindto: self.container[0],
+            data: {
+                json: self.data,
+                keys: {
+                    x : "label",
+                    value : ["value"]
+                },
+                type: "line",
+            },
+        })
+    }
+}
+
 var IncomeSplitPieChart = function() {
   var self = this;
 
@@ -421,4 +497,7 @@ $(function() {
   new VerticalBarChart().discover();
   new HorizontalGroupedBarChart().discover();
   new IncomeSplitPieChart().discover();
+  new SimpleBarChart().discover();
+  new SimpleLineChart().discover();
+
 });

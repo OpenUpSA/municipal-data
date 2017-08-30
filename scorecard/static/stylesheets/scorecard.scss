@@ -11,8 +11,8 @@ $gray-dark: #666;
 $gray: #aaa;
 $gray-light: #bbb;
 $gray-lighter: #eee;
-$nt-red: #ab2328;
-$nt-green: #009053;
+$nt-red: rgb(224,199,105);
+$nt-green: rgb(239,125,0);
 $nt-cream-dark: #d8bb83;
 $red: #ed1c24;
 $green: #00a651;
@@ -453,7 +453,7 @@ blockquote {
   }
   #page-nav a {
     height: 69px;
-    color: rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.75);
     font-size: 12px;
     font-weight: bold;
     text-align: center;
@@ -1495,4 +1495,14 @@ blockquote {
 
 .btn.send-email {
   margin-top: 10px;
+}
+
+/* TODO - move this to its own file */
+
+.simple-barchart .c3-bar {
+    fill: $brand-secondary !important;
+}
+
+.simple-barchart {
+    width: 400px;
 }
