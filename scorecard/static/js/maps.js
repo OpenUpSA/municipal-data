@@ -64,7 +64,7 @@ var Maps = function() {
   this.mapit_url = GeometryLoader.mapit_url;
 
   this.featureGeoStyle = {
-    "fillColor": "#66c2a5",
+    "fillColor": "rgb(239,125,0)",
     "color": "#777",
     "weight": 2,
     "opacity": 0.3,
@@ -82,7 +82,7 @@ var Maps = function() {
   };
 
   this.hoverStyle = {
-    "fillColor": "#66c2a5",
+    "fillColor": "rgb(239,125,0)",
     "fillOpacity": 0.7,
   };
 
