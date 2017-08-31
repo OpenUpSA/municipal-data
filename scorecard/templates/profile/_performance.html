@@ -544,6 +544,10 @@
     </div>
     {% endwith %}
   </div>
+  {% render_dummy "non_current_liabilities" %}
+  {% render_dummy "current_liabilities" %}
+  {% render_dummy "total_income" %}
+  {% render_dummy "total_expenditure" %}
 
   <div class="indicator">
     {% with indicators.liquidity_ratio.values|first as latest %}

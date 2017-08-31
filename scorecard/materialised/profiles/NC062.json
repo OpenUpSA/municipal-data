@@ -149,6 +149,288 @@
         ]
     }, 
     "indicators": {
+        "lighting_by_electricity": [
+            {
+                "value": 12798.49, 
+                "label": 2013
+            }, 
+            {
+                "value": 13017.25, 
+                "label": 2014
+            }, 
+            {
+                "value": 13239.76, 
+                "label": 2015
+            }, 
+            {
+                "value": 13466.07, 
+                "label": 2016
+            }
+        ], 
+        "unemployment": [
+            {
+                "value": 3464.63, 
+                "label": 2013
+            }, 
+            {
+                "value": 3319.03, 
+                "label": 2014
+            }, 
+            {
+                "value": 3179.54, 
+                "label": 2015
+            }, 
+            {
+                "value": 3045.92, 
+                "label": 2016
+            }
+        ], 
+        "cash_coverage": {
+            "values": [
+                {
+                    "date": 2016, 
+                    "rating": "bad", 
+                    "result": 0.9
+                }, 
+                {
+                    "date": 2015, 
+                    "rating": "ave", 
+                    "result": 1.4
+                }, 
+                {
+                    "date": 2014, 
+                    "rating": "bad", 
+                    "result": 0.8
+                }, 
+                {
+                    "date": 2013, 
+                    "rating": null, 
+                    "result": null
+                }
+            ], 
+            "ref": {
+                "url": "http://mfma.treasury.gov.za/Media_Releases/The%20state%20of%20local%20government%20finances/Pages/default.aspx", 
+                "title": "State of Local Government Finances"
+            }
+        }, 
+        "lighting_by_paraffin": [
+            {
+                "value": 55.54, 
+                "label": 2013
+            }, 
+            {
+                "value": 50.38, 
+                "label": 2014
+            }, 
+            {
+                "value": 45.71, 
+                "label": 2015
+            }, 
+            {
+                "value": 41.47, 
+                "label": 2016
+            }
+        ], 
+        "wasteful_exp": {
+            "values": [
+                {
+                    "date": 2015, 
+                    "rating": null, 
+                    "result": null
+                }, 
+                {
+                    "date": 2014, 
+                    "rating": "bad", 
+                    "result": 60.95
+                }, 
+                {
+                    "date": 2013, 
+                    "rating": "bad", 
+                    "result": 71.54
+                }, 
+                {
+                    "date": 2012, 
+                    "rating": null, 
+                    "result": null
+                }
+            ], 
+            "ref": {
+                "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx", 
+                "title": "Circular 71"
+            }
+        }, 
+        "revenue_sources": {
+            "year": 2016, 
+            "rating": "ave", 
+            "ref": {
+                "url": "http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx", 
+                "title": "Local Government Equitable Share"
+            }, 
+            "local": {
+                "items": [
+                    {
+                        "amount.sum": 34187763.0, 
+                        "item.label": "Property Rates", 
+                        "amount_type.code": "AUDA", 
+                        "financial_year_end.year": 2016, 
+                        "item.code": "0200"
+                    }, 
+                    {
+                        "amount.sum": 0.0, 
+                        "item.label": "Property Rates - Penalties And Collection Charges", 
+                        "amount_type.code": "AUDA", 
+                        "financial_year_end.year": 2016, 
+                        "item.code": "0300"
+                    }, 
+                    {
+                        "amount.sum": 113539694.0, 
+                        "item.label": "Service Charges", 
+                        "amount_type.code": "AUDA", 
+                        "financial_year_end.year": 2016, 
+                        "item.code": "0400"
+                    }, 
+                    {
+                        "amount.sum": 1830578.0, 
+                        "item.label": "Rent Of Facilities And Equipment", 
+                        "amount_type.code": "AUDA", 
+                        "financial_year_end.year": 2016, 
+                        "item.code": "0700"
+                    }, 
+                    {
+                        "amount.sum": 1784635.0, 
+                        "item.label": "Interest Earned - External Investments", 
+                        "amount_type.code": "AUDA", 
+                        "financial_year_end.year": 2016, 
+                        "item.code": "0800"
+                    }, 
+                    {
+                        "amount.sum": 5323208.0, 
+                        "item.label": "Interest Earned - Outstanding Debtors", 
+                        "amount_type.code": "AUDA", 
+                        "financial_year_end.year": 2016, 
+                        "item.code": "1000"
+                    }, 
+                    {
+                        "amount.sum": 0.0, 
+                        "item.label": "Dividends Received", 
+                        "amount_type.code": "AUDA", 
+                        "financial_year_end.year": 2016, 
+                        "item.code": "1100"
+                    }, 
+                    {
+                        "amount.sum": 446427.0, 
+                        "item.label": "Fines", 
+                        "amount_type.code": "AUDA", 
+                        "financial_year_end.year": 2016, 
+                        "item.code": "1300"
+                    }, 
+                    {
+                        "amount.sum": 1260854.0, 
+                        "item.label": "Licenses and Permits", 
+                        "amount_type.code": "AUDA", 
+                        "financial_year_end.year": 2016, 
+                        "item.code": "1400"
+                    }, 
+                    {
+                        "amount.sum": 1307101.0, 
+                        "item.label": "Agency Services", 
+                        "amount_type.code": "AUDA", 
+                        "financial_year_end.year": 2016, 
+                        "item.code": "1500"
+                    }, 
+                    {
+                        "amount.sum": 4223707.0, 
+                        "item.label": "Other Revenue", 
+                        "amount_type.code": "AUDA", 
+                        "financial_year_end.year": 2016, 
+                        "item.code": "1700"
+                    }, 
+                    {
+                        "amount.sum": 122952.0, 
+                        "item.label": "Gain On Disposal Of Property, Plant & Equipment", 
+                        "amount_type.code": "AUDA", 
+                        "financial_year_end.year": 2016, 
+                        "item.code": "1800"
+                    }
+                ], 
+                "amount": 164026919.0, 
+                "percent": 71.65
+            }, 
+            "government": {
+                "items": [
+                    {
+                        "amount.sum": 49558510.0, 
+                        "item.label": "Transfers Recognised - Operating", 
+                        "amount_type.code": "AUDA", 
+                        "financial_year_end.year": 2016, 
+                        "item.code": "1600"
+                    }, 
+                    {
+                        "amount.sum": 15339401.0, 
+                        "item.label": "Transfers Recognised - Capital", 
+                        "amount_type.code": "AUDA", 
+                        "financial_year_end.year": 2016, 
+                        "item.code": "1610"
+                    }
+                ], 
+                "amount": 64897911.0, 
+                "percent": 28.35
+            }
+        }, 
+        "unemployment_by_race": [
+            {
+                "value": 3464.63, 
+                "label": 2013
+            }, 
+            {
+                "value": 3319.03, 
+                "label": 2014
+            }, 
+            {
+                "value": 3179.54, 
+                "label": 2015
+            }, 
+            {
+                "value": 3045.92, 
+                "label": 2016
+            }
+        ], 
+        "non_current_liabilities": [
+            {
+                "value": 30087.0, 
+                "label": 2013
+            }, 
+            {
+                "value": 38832.0, 
+                "label": 2014
+            }, 
+            {
+                "value": 40647.0, 
+                "label": 2015
+            }, 
+            {
+                "value": 44062.98, 
+                "label": 2016
+            }
+        ], 
+        "income": [
+            {
+                "value": 97096.0, 
+                "label": 2013
+            }, 
+            {
+                "value": 106767.0, 
+                "label": 2014
+            }, 
+            {
+                "value": 118753.0, 
+                "label": 2015
+            }, 
+            {
+                "value": 125129.42, 
+                "label": 2016
+            }
+        ], 
         "expenditure_functional_breakdown": {
             "values": [
                 {
@@ -471,6 +753,24 @@
                 }
             ]
         }, 
+        "current_liabilities": [
+            {
+                "value": 111968.0, 
+                "label": 2013
+            }, 
+            {
+                "value": 155990.0, 
+                "label": 2014
+            }, 
+            {
+                "value": 191464.0, 
+                "label": 2015
+            }, 
+            {
+                "value": 227833.39, 
+                "label": 2016
+            }
+        ], 
         "revenue_breakdown": {
             "values": [
                 {
@@ -825,97 +1125,29 @@
                 }
             ]
         }, 
-        "unemployment": [
-            {
-                "value": 3464.63, 
-                "label": 2013
-            }, 
-            {
-                "value": 3319.03, 
-                "label": 2014
-            }, 
-            {
-                "value": 3179.54, 
-                "label": 2015
-            }, 
-            {
-                "value": 3045.92, 
-                "label": 2016
-            }
-        ], 
-        "wasteful_exp": {
-            "values": [
-                {
-                    "date": 2015, 
-                    "rating": null, 
-                    "result": null
-                }, 
-                {
-                    "date": 2014, 
-                    "rating": "bad", 
-                    "result": 60.95
-                }, 
-                {
-                    "date": 2013, 
-                    "rating": "bad", 
-                    "result": 71.54
-                }, 
-                {
-                    "date": 2012, 
-                    "rating": null, 
-                    "result": null
-                }
-            ], 
-            "ref": {
-                "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx", 
-                "title": "Circular 71"
-            }
-        }, 
-        "lighting_by_paraffin": [
-            {
-                "value": 55.54, 
-                "label": 2013
-            }, 
-            {
-                "value": 50.38, 
-                "label": 2014
-            }, 
-            {
-                "value": 45.71, 
-                "label": 2015
-            }, 
-            {
-                "value": 41.47, 
-                "label": 2016
-            }
-        ], 
-        "cash_at_year_end": {
+        "expenditure_trends_contracting": {
             "values": [
                 {
                     "date": 2016, 
-                    "rating": "good", 
-                    "result": 18995440.0
+                    "rating": "", 
+                    "result": 0.58
                 }, 
                 {
                     "date": 2015, 
-                    "rating": "good", 
-                    "result": 30020459.0
+                    "rating": "", 
+                    "result": 0.41
                 }, 
                 {
                     "date": 2014, 
-                    "rating": "good", 
-                    "result": 19223904.0
+                    "rating": "", 
+                    "result": 0.7
                 }, 
                 {
                     "date": 2013, 
-                    "rating": "bad", 
-                    "result": null
+                    "rating": "", 
+                    "result": 0.31
                 }
-            ], 
-            "ref": {
-                "url": "http://mfma.treasury.gov.za/Media_Releases/The%20state%20of%20local%20government%20finances/Pages/default.aspx", 
-                "title": "State of Local Government Finances"
-            }
+            ]
         }, 
         "employed_by_race": [
             {
@@ -1106,38 +1338,6 @@
                 "title": "Municipal Budget and Reporting Regulations"
             }
         }, 
-        "cap_budget_diff": {
-            "values": [
-                {
-                    "date": 2016, 
-                    "rating": "ave", 
-                    "overunder": "under", 
-                    "result": -9.47
-                }, 
-                {
-                    "date": 2015, 
-                    "rating": "bad", 
-                    "overunder": "under", 
-                    "result": -52.75
-                }, 
-                {
-                    "date": 2014, 
-                    "rating": null, 
-                    "overunder": null, 
-                    "result": null
-                }, 
-                {
-                    "date": 2013, 
-                    "rating": "bad", 
-                    "overunder": "under", 
-                    "result": -65.2
-                }
-            ], 
-            "ref": {
-                "url": "http://mfma.treasury.gov.za/Media_Releases/Reports%20to%20Parliament/Pages/default.aspx", 
-                "title": "Over and under spending reports to parliament"
-            }
-        }, 
         "rep_maint_perc_ppe": {
             "values": [
                 {
@@ -1165,58 +1365,6 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx", 
                 "title": "Circular 71"
             }
-        }, 
-        "cash_coverage": {
-            "values": [
-                {
-                    "date": 2016, 
-                    "rating": "bad", 
-                    "result": 0.9
-                }, 
-                {
-                    "date": 2015, 
-                    "rating": "ave", 
-                    "result": 1.4
-                }, 
-                {
-                    "date": 2014, 
-                    "rating": "bad", 
-                    "result": 0.8
-                }, 
-                {
-                    "date": 2013, 
-                    "rating": null, 
-                    "result": null
-                }
-            ], 
-            "ref": {
-                "url": "http://mfma.treasury.gov.za/Media_Releases/The%20state%20of%20local%20government%20finances/Pages/default.aspx", 
-                "title": "State of Local Government Finances"
-            }
-        }, 
-        "expenditure_trends_contracting": {
-            "values": [
-                {
-                    "date": 2016, 
-                    "rating": "", 
-                    "result": 0.58
-                }, 
-                {
-                    "date": 2015, 
-                    "rating": "", 
-                    "result": 0.41
-                }, 
-                {
-                    "date": 2014, 
-                    "rating": "", 
-                    "result": 0.7
-                }, 
-                {
-                    "date": 2013, 
-                    "rating": "", 
-                    "result": 0.31
-                }
-            ]
         }, 
         "current_ratio": {
             "values": [
@@ -1281,140 +1429,100 @@
                 "title": "Circular 71"
             }
         }, 
-        "unemployment_by_race": [
+        "total_expenditure": [
             {
-                "value": 3464.63, 
+                "value": 97096.0, 
                 "label": 2013
             }, 
             {
-                "value": 3319.03, 
+                "value": 106767.0, 
                 "label": 2014
             }, 
             {
-                "value": 3179.54, 
+                "value": 118753.0, 
                 "label": 2015
             }, 
             {
-                "value": 3045.92, 
+                "value": 125129.42, 
                 "label": 2016
             }
         ], 
-        "revenue_sources": {
-            "year": 2016, 
-            "rating": "ave", 
+        "total_income": [
+            {
+                "value": 97096.0, 
+                "label": 2013
+            }, 
+            {
+                "value": 106767.0, 
+                "label": 2014
+            }, 
+            {
+                "value": 118753.0, 
+                "label": 2015
+            }, 
+            {
+                "value": 125129.42, 
+                "label": 2016
+            }
+        ], 
+        "cap_budget_diff": {
+            "values": [
+                {
+                    "date": 2016, 
+                    "rating": "ave", 
+                    "overunder": "under", 
+                    "result": -9.47
+                }, 
+                {
+                    "date": 2015, 
+                    "rating": "bad", 
+                    "overunder": "under", 
+                    "result": -52.75
+                }, 
+                {
+                    "date": 2014, 
+                    "rating": null, 
+                    "overunder": null, 
+                    "result": null
+                }, 
+                {
+                    "date": 2013, 
+                    "rating": "bad", 
+                    "overunder": "under", 
+                    "result": -65.2
+                }
+            ], 
             "ref": {
-                "url": "http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx", 
-                "title": "Local Government Equitable Share"
-            }, 
-            "local": {
-                "items": [
-                    {
-                        "amount.sum": 34187763.0, 
-                        "item.label": "Property Rates", 
-                        "amount_type.code": "AUDA", 
-                        "financial_year_end.year": 2016, 
-                        "item.code": "0200"
-                    }, 
-                    {
-                        "amount.sum": 0.0, 
-                        "item.label": "Property Rates - Penalties And Collection Charges", 
-                        "amount_type.code": "AUDA", 
-                        "financial_year_end.year": 2016, 
-                        "item.code": "0300"
-                    }, 
-                    {
-                        "amount.sum": 113539694.0, 
-                        "item.label": "Service Charges", 
-                        "amount_type.code": "AUDA", 
-                        "financial_year_end.year": 2016, 
-                        "item.code": "0400"
-                    }, 
-                    {
-                        "amount.sum": 1830578.0, 
-                        "item.label": "Rent Of Facilities And Equipment", 
-                        "amount_type.code": "AUDA", 
-                        "financial_year_end.year": 2016, 
-                        "item.code": "0700"
-                    }, 
-                    {
-                        "amount.sum": 1784635.0, 
-                        "item.label": "Interest Earned - External Investments", 
-                        "amount_type.code": "AUDA", 
-                        "financial_year_end.year": 2016, 
-                        "item.code": "0800"
-                    }, 
-                    {
-                        "amount.sum": 5323208.0, 
-                        "item.label": "Interest Earned - Outstanding Debtors", 
-                        "amount_type.code": "AUDA", 
-                        "financial_year_end.year": 2016, 
-                        "item.code": "1000"
-                    }, 
-                    {
-                        "amount.sum": 0.0, 
-                        "item.label": "Dividends Received", 
-                        "amount_type.code": "AUDA", 
-                        "financial_year_end.year": 2016, 
-                        "item.code": "1100"
-                    }, 
-                    {
-                        "amount.sum": 446427.0, 
-                        "item.label": "Fines", 
-                        "amount_type.code": "AUDA", 
-                        "financial_year_end.year": 2016, 
-                        "item.code": "1300"
-                    }, 
-                    {
-                        "amount.sum": 1260854.0, 
-                        "item.label": "Licenses and Permits", 
-                        "amount_type.code": "AUDA", 
-                        "financial_year_end.year": 2016, 
-                        "item.code": "1400"
-                    }, 
-                    {
-                        "amount.sum": 1307101.0, 
-                        "item.label": "Agency Services", 
-                        "amount_type.code": "AUDA", 
-                        "financial_year_end.year": 2016, 
-                        "item.code": "1500"
-                    }, 
-                    {
-                        "amount.sum": 4223707.0, 
-                        "item.label": "Other Revenue", 
-                        "amount_type.code": "AUDA", 
-                        "financial_year_end.year": 2016, 
-                        "item.code": "1700"
-                    }, 
-                    {
-                        "amount.sum": 122952.0, 
-                        "item.label": "Gain On Disposal Of Property, Plant & Equipment", 
-                        "amount_type.code": "AUDA", 
-                        "financial_year_end.year": 2016, 
-                        "item.code": "1800"
-                    }
-                ], 
-                "amount": 164026919.0, 
-                "percent": 71.65
-            }, 
-            "government": {
-                "items": [
-                    {
-                        "amount.sum": 49558510.0, 
-                        "item.label": "Transfers Recognised - Operating", 
-                        "amount_type.code": "AUDA", 
-                        "financial_year_end.year": 2016, 
-                        "item.code": "1600"
-                    }, 
-                    {
-                        "amount.sum": 15339401.0, 
-                        "item.label": "Transfers Recognised - Capital", 
-                        "amount_type.code": "AUDA", 
-                        "financial_year_end.year": 2016, 
-                        "item.code": "1610"
-                    }
-                ], 
-                "amount": 64897911.0, 
-                "percent": 28.35
+                "url": "http://mfma.treasury.gov.za/Media_Releases/Reports%20to%20Parliament/Pages/default.aspx", 
+                "title": "Over and under spending reports to parliament"
+            }
+        }, 
+        "cash_at_year_end": {
+            "values": [
+                {
+                    "date": 2016, 
+                    "rating": "good", 
+                    "result": 18995440.0
+                }, 
+                {
+                    "date": 2015, 
+                    "rating": "good", 
+                    "result": 30020459.0
+                }, 
+                {
+                    "date": 2014, 
+                    "rating": "good", 
+                    "result": 19223904.0
+                }, 
+                {
+                    "date": 2013, 
+                    "rating": "bad", 
+                    "result": null
+                }
+            ], 
+            "ref": {
+                "url": "http://mfma.treasury.gov.za/Media_Releases/The%20state%20of%20local%20government%20finances/Pages/default.aspx", 
+                "title": "State of Local Government Finances"
             }
         }, 
         "op_budget_diff": {
@@ -1472,24 +1580,6 @@
                     "result": 32.54
                 }
             ]
-        }, 
-        "lighting_by_electricity": [
-            {
-                "value": 12798.49, 
-                "label": 2013
-            }, 
-            {
-                "value": 13017.25, 
-                "label": 2014
-            }, 
-            {
-                "value": 13239.76, 
-                "label": 2015
-            }, 
-            {
-                "value": 13466.07, 
-                "label": 2016
-            }
-        ]
+        }
     }
 }

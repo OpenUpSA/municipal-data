@@ -1,5 +1,5 @@
   <div class="indicator">
-    <h2 class="sub-heading">{{ heading }} <span class="indicator-date">2016</span></h2>
+    <h2 class="sub-heading">{{ heading }} <span class="indicator-date">{% if period %}{{ period }} {% else %} 2016 {% endif %}</span></h2>
 
     <div class="row">
       <div class="col-sm-4">
@@ -22,14 +22,13 @@
                         10% lower for Coloureds : 38% <em></em>
                     </li>
                     <li>
-                        5% lower for Coloureds : 52% <em></em>
+                        5% lower for Indians/Asians : 52% <em></em>
                     </li>
                     <li>
                         15% higher for Whites : 54% <em></em>
                     </li>
                     {% endif %}
                 </ul>
-                (these figures are for demo purposes only)
             </div>
       </div>
 
@@ -50,4 +49,5 @@
     <div class="calc collapse" id="cash-calc">
       <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.cash_at_year_end.ref.url }}" target="_blank">{{ indicators.cash_at_year_end.ref.title }}</a></div>
     </div>
+            <em class="source">SOURCE: Municipal Barometer</em>
   </div>
