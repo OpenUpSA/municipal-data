@@ -370,6 +370,12 @@ var SimpleBarChart = function() {
 
     self.drawChart = function() {
 
+        var container_height = 400;
+        var container_width = self.container.width();
+        self.margin = {top: 20, right: 0, bottom: 25, left: 0};
+        self.width = container_width - self.margin.left - self.margin.right;
+        self.height = container_height - self.margin.top - self.margin.bottom;
+
         var chart = c3.generate({
             bindto: self.container[0],
             data: {
@@ -382,6 +388,10 @@ var SimpleBarChart = function() {
             },
             axis: {
                 x : { type : "category" }
+            },
+            size: {
+                width: self.width,
+                height: self.height    
             },
             bar: {
                 width: {

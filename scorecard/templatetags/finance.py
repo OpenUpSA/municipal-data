@@ -97,3 +97,38 @@ def render_comparatives(context, indicator_name):
     return {
         'comparisons': comparisons,
     }
+
+dummy_lookup = {
+    "employment_by_race" : {
+        "heading" : "Employment by race",
+        "description" : "Employment figures in 2016 for 15 to 64-year-olds.",
+        "comparative" : "employment rate",
+        "indicator" : "employed_by_race",
+    },
+    "unemployment_by_race" : {
+        "heading" : "Unemployment by race",
+        "description" : "Unemployment figures in 2016 for 15 to 64-year-olds.",
+        "comparative" : "unemployment rate",
+        "indicator" : "unemployment_by_race",
+    },
+    "lighting_by_electricity" : {
+        "heading" : "Lighting using electricity",
+        "description" : "The number of households that use electricity for lighting.",
+        "comparative" : "number of households using electricity",
+        "indicator" : "lighting_by_electricity",
+	"indicator_comparatives" : "&nbsp;",
+        "comparison_description" : 'Since 2013, the number of households with electricity has increased by 43%, more than 1.5 times the national average',
+    },
+    "lighting_by_paraffin" : {
+        "heading" : "Lighting using paraffin",
+        "description" : "The number of households that use paraffin for lighting.",
+        "comparative" : "number of households using paraffin",
+        "indicator" : "lighting_by_paraffin",
+	"indicator_comparatives" : "&nbsp;",
+        "comparison_description" : 'Since 2013, the number of households using paraffin has decreased by 10%, about 90% of the national average',
+    },
+}
+
+@register.inclusion_tag('profile/dummy.html', takes_context=True)
+def render_dummy(context, indicator_name):
+    return dummy_lookup[indicator_name]

@@ -1,0 +1,53 @@
+  <div class="indicator">
+    <h2 class="sub-heading">{{ heading }} <span class="indicator-date">2016</span></h2>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="indicator-description">{{ description }}</div>
+            <div>
+                {% if comparison_description %}
+                    {{ comparison_description|safe }}
+                {% else %}
+                    Compared with <a href="/faq#similar-munis" target="_blank" class="faq-link" title="">similar municipalities</a> in {{ geography.province_name }}, the {{ comparative }} is:
+                {% endif %}
+                <br/><br/>
+                <ul class="indicator-comparatives">
+                    {% if indicator_comparatives %}
+                    {{ indicator_comparatives|safe }}
+                    {% else %}
+                    <li>
+                        20% higher for Africans : 45% <em></em>
+                    </li>
+                    <li>
+                        10% lower for Coloureds : 38% <em></em>
+                    </li>
+                    <li>
+                        5% lower for Coloureds : 52% <em></em>
+                    </li>
+                    <li>
+                        15% higher for Whites : 54% <em></em>
+                    </li>
+                    {% endif %}
+                </ul>
+                (these figures are for demo purposes only)
+            </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="simple-barchart" data-indicator="{{ indicator }}"></div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="panel panel-didyouknow">
+          <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+          <div class="panel-body">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <a href="https://www.youtube.com/embed/akoO5Uhm1wQ" class="video-link"><i class="fa fa-play fa-fw" aria-hidden="true"></i>Play video</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calc collapse" id="cash-calc">
+      <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.cash_at_year_end.ref.url }}" target="_blank">{{ indicators.cash_at_year_end.ref.title }}</a></div>
+    </div>
+  </div>
