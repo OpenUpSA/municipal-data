@@ -12,6 +12,16 @@ make municipal finance information available to the public. It is made up of a c
 5. install data from somewhere :)
 6. run it: ``python manage.py runserver``
 
+Note when doing a high request rate locally e.g. during updates, it seems that the above command doesn't release resources quickly enough so use the following for the API server instead
+
+```bash
+export DJANGO_SETTINGS_MODULE=municipal_finance.settings
+export API_URL=http://localhost:8001/api  # only needed if using the table view against local API
+export PRELOAD_CUBES=true
+export SITE_ID=3
+gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:application -t 600 --log-file -
+```
+
 # Production
 
 ```
@@ -210,6 +220,9 @@ Do each of these cursory tests for a small sample of municipalities to sanity-ch
 
 - Some of the files had amounts ending .00 so to check that simply rounding was ok, I ran `grep -v  '\.00' *|egrep  -v "(capital|cflow|grants|rm_)"` - the excluded files didn't have .00 endings.
 
+## 2017q4
+
+- cflow monthly amounts doubled from previous snapshots where they occurred. It turned out this was due to an issue in the query used to generate the snapshot and a new cflow snapshot was supplied.
 # License
 
 MIT License
