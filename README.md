@@ -12,6 +12,16 @@ make municipal finance information available to the public. It is made up of a c
 5. install data from somewhere :)
 6. run it: ``python manage.py runserver``
 
+Note when doing a high request rate locally e.g. during updates, it seems that the above command doesn't release resources quickly enough so use the following for the API server instead
+
+```bash
+export DJANGO_SETTINGS_MODULE=municipal_finance.settings
+export API_URL=http://localhost:8001/api  # only needed if using the table view against local API
+export PRELOAD_CUBES=true
+export SITE_ID=3
+gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:application -t 600 --log-file -
+```
+
 # Production
 
 ```
@@ -81,19 +91,27 @@ This covers how to keep the data up to date. Each quarter, as new data is releas
 
 ## Extract CSV datasets from Excel Spreadsheets
 
+Install some additional dependencies:
+- `source env/bin/activate`
+- `pip install bs4` - bs4 is used to scrape audit report URLs
+- `pip install csvkit` - optional - convenient tools for inspecting and querying CSVs
+
 Extract CSV datasets from Excel Spreadsheets using the following scripts in `municipal_finance/data_import/`
 
 - audit_opinions.py
   - Budget Document Tracking - Reporting > List Audit Opinion
   - Location Level: Municipality
+  - Financial Year End(s): Control+Click the four years up to and including the last audit result available
   - Sort Options: By Municipality
+  - Choose Excel 2000 report format
+  - Process Request: The downloaded file has .xls extension but is html - open in libreoffice or excel and save explicitly as .xls again.
 - contact_details.py
-  - Contacts
-    - Reporting > General Information - Municipalities Individuals
-    - Choose Municipal level
-    - Choose relevant roles
-    - Choose Excel 2000 report format
-    - Download report, open in excel, save as xlsx (the website gives HTML in .xls)
+  - Contacts - Reporting > General Information - Municipalities Individuals
+  - Choose Municipal level
+  - Choose relevant roles
+  - Choose Excel 2000 report format
+  - Download report, open in excel, save as xlsx (the website gives HTML in .xls)
+  - Process Request: The downloaded file has .xls extension but is html - open in libreoffice or excel and save explicitly as .xls again.
 - uifw_expenditure.py
   - input files like [01. Irregular Expenditures - Master 04 December 2014](http://mfma.treasury.gov.za/Media_Releases/mbi/2014/Documents/G.%20Additional%20information)
 
@@ -186,7 +204,7 @@ Do each of these cursory tests for a small sample of municipalities to sanity-ch
     - If some values are close, e.g. 217,498,000 vs 217,548,000, the data is probably loaded correctly
   -  Operating Revenue and expenditure
 - Compare Audited (AUDA) values to the [audited financial statements on the MFMA website](http://mfma.treasury.gov.za/Documents/05.%20Annual%20Financial%20Statements)
-  - Use the _consolidated_ financial statements where available for municipalities with entities
+  - Use the _consolidated_ financial statements where available for municipalities with multiple entities
   - You can compare some values in the Scorecard site and the rest in the Table View
   - Debtor (under Consumer Receivables) and Creditor age analysis can be found in the AFS
   - Make sure to check unauthorised, irregular, fruitless and wasteful expenditure
@@ -201,6 +219,9 @@ Do each of these cursory tests for a small sample of municipalities to sanity-ch
 
 - Some of the files had amounts ending .00 so to check that simply rounding was ok, I ran `grep -v  '\.00' *|egrep  -v "(capital|cflow|grants|rm_)"` - the excluded files didn't have .00 endings.
 
+## 2017q4
+
+- cflow monthly amounts doubled from previous snapshots where they occurred. It turned out this was due to an issue in the query used to generate the snapshot and a new cflow snapshot was supplied.
 # License
 
 MIT License

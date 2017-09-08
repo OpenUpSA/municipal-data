@@ -3,7 +3,7 @@
     "label": "Municipalities",
     "description": "General information about the municipality including its geographic location and contact details provided to the National Treasury",
     "update_cycle": "quarter",
-    "last_updated": "2017-06",
+    "last_updated": "2017-09",
     "dimensions": {
         "municipality": {
             "label": "Municipality",
@@ -107,6 +107,11 @@
         "area": {
             "label": "Area (Square Kilometers)",
             "column": "square_kms",
+            "type": "integer"
+        },
+        "area": {
+            "label": "Population",
+            "column": "population",
             "type": "integer"
         }
     }

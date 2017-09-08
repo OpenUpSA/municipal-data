@@ -10,19 +10,19 @@
             {
                 "date": 2015,
                 "rating": "unqualified",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2014-15/01.%20Metros/EKU%20Ekurhuleni/EKU%20Ekurhuleni%20Metro%20Audit%20report%202014-15.pdf",
+                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2014-15/01.%20Metros/EKU%20Ekurhuleni",
                 "result": "Unqualified - No findings"
             },
             {
                 "date": 2014,
                 "rating": "unqualified",
-                "report_url": "http://mfma.treasury.gov.za//Documents/07.%20Audit%20Reports/2013-14/01.%20Metros/EKU%20Ekurhuleni%20Metro/EKU%20Ekurhuleni%20Metro%20Consolidated%20audit%20report%202013-14.PDF",
+                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2013-14/01.%20Metros/EKU%20Ekurhuleni%20Metro/EKU%20Ekurhuleni%20Metro%20Consolidated%20audit%20report%202013-14.PDF",
                 "result": "Unqualified - No findings"
             },
             {
                 "date": 2013,
                 "rating": "unqualified_emphasis_of_matter",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2012-13/01.%20Metros/EKU%20Ekurhuleni%20Metro/EKU%20Ekurhuleni%20Metro%20Consolidated%20Audit%20Report%202012-13.pdf",
+                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2012-13/01.%20Metros/EKU%20Ekurhuleni%20Metro",
                 "result": "Unqualified - Emphasis of Matter items"
             }
         ]
@@ -40,9 +40,9 @@
             "values": [
                 {
                     "date": 2016,
-                    "overunder": null,
-                    "rating": null,
-                    "result": null
+                    "overunder": "under",
+                    "rating": "ave",
+                    "result": -11.9
                 },
                 {
                     "date": 2015,
@@ -72,8 +72,8 @@
             "values": [
                 {
                     "date": 2016,
-                    "rating": "bad",
-                    "result": null
+                    "rating": "good",
+                    "result": 7972586235.0
                 },
                 {
                     "date": 2015,
@@ -100,8 +100,8 @@
             "values": [
                 {
                     "date": 2016,
-                    "rating": null,
-                    "result": null
+                    "rating": "good",
+                    "result": 3.5
                 },
                 {
                     "date": 2015,
@@ -126,6 +126,25 @@
                 "url": "http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        2198194452.0,
+                        2016479885.0,
+                        2004660968.0
+                    ],
+                    "date": "2017q4",
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "receipts": [
+                        -1725472852.0,
+                        1885401133.0,
+                        1871782458.0
+                    ],
+                    "result": 32.67,
+                    "year": 2017
+                },
                 {
                     "amount_type": "ACT",
                     "billing": [
@@ -201,25 +220,6 @@
                     ],
                     "result": 40.4,
                     "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        1942368732.0,
-                        1840264492.0,
-                        1659881930.0
-                    ],
-                    "date": "2016q3",
-                    "month": 9,
-                    "quarter": 3,
-                    "rating": "bad",
-                    "receipts": [
-                        1608006542.0,
-                        1745758550.0,
-                        1367568828.0
-                    ],
-                    "result": 86.75,
-                    "year": 2016
                 }
             ]
         },
@@ -229,6 +229,17 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "assets": 14242542754.0,
+                    "date": "2017q4",
+                    "liabilities": 10528876605.0,
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "ave",
+                    "result": 1.35,
+                    "year": 2017
+                },
                 {
                     "amount_type": "ACT",
                     "assets": 19101035608.0,
@@ -271,17 +282,6 @@
                     "quarter": 4,
                     "rating": "good",
                     "result": 1.75,
-                    "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "assets": 19667690472.0,
-                    "date": "2016q3",
-                    "liabilities": 10182855140.0,
-                    "month": 9,
-                    "quarter": 3,
-                    "rating": "good",
-                    "result": 1.93,
                     "year": 2016
                 }
             ]
@@ -737,6 +737,18 @@
                 {
                     "amount_type": "ACT",
                     "call_investment_deposits": 147020659.0,
+                    "cash": 4223661660.0,
+                    "date": "2017q4",
+                    "liabilities": 10528876605.0,
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "result": 0.42,
+                    "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 147020659.0,
                     "cash": 9828985689.0,
                     "date": "2017q3",
                     "liabilities": 10266183911.0,
@@ -781,18 +793,6 @@
                     "rating": "bad",
                     "result": 0.53,
                     "year": 2016
-                },
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 115978314.0,
-                    "cash": 9685818259.0,
-                    "date": "2016q3",
-                    "liabilities": 10182855140.0,
-                    "month": 9,
-                    "quarter": 3,
-                    "rating": "bad",
-                    "result": 0.96,
-                    "year": 2016
                 }
             ]
         },
@@ -836,8 +836,8 @@
             "values": [
                 {
                     "date": 2016,
-                    "rating": null,
-                    "result": null
+                    "rating": "bad",
+                    "result": 3.45
                 },
                 {
                     "date": 2015,
@@ -1335,24 +1335,24 @@
             },
             "values": [
                 {
-                    "date": 2015,
+                    "date": 2016,
                     "rating": null,
                     "result": null
                 },
                 {
+                    "date": 2015,
+                    "rating": "bad",
+                    "result": 0.35
+                },
+                {
                     "date": 2014,
                     "rating": "bad",
-                    "result": 3.4
+                    "result": 1.06
                 },
                 {
                     "date": 2013,
                     "rating": "bad",
                     "result": 0.77
-                },
-                {
-                    "date": 2012,
-                    "rating": null,
-                    "result": null
                 }
             ]
         }
@@ -1360,15 +1360,15 @@
     "mayoral_staff": {
         "officials": [
             {
-                "email": "mayor@ekurhuleni.gov.za",
+                "email": "Mayor@ekurhuleni.gov.za",
                 "fax_number": "011 999 1564",
                 "name": "Mzwandile Masina",
                 "office_phone": "011 999 0481",
                 "role": "Mayor/Executive Mayor",
                 "secretary": {
-                    "email": "gertrude.mshumpela@ekurhuleni.gov.za",
-                    "fax_number": "011 999 1564",
-                    "name": "Khosi Mkefa",
+                    "email": "Nkosazana.Mkefa@ekurhuleni.gov.za",
+                    "fax_number": "086 210 8982",
+                    "name": "Nkosazana Mkefa",
                     "office_phone": "011 999 0156",
                     "role": "Secretary of Mayor/Executive Mayor",
                     "title": "Ms"
@@ -1376,16 +1376,16 @@
                 "title": "Cllr"
             },
             {
-                "email": "imogen.mashazi@ekurhuleni.gov.za",
-                "fax_number": "011 999 1811",
+                "email": "Imogen.Mashazi@ekurhuleni.gov.za",
+                "fax_number": "086 624 7307",
                 "name": "Imogen Mashazi",
-                "office_phone": "011 999 0481",
+                "office_phone": "011 999 0761",
                 "role": "Municipal Manager",
                 "secretary": {
-                    "email": "anneke.doubell@ekurhuleni.gov.za",
-                    "fax_number": "011 999 1811",
-                    "name": "A Doubell (Anneke)",
-                    "office_phone": "011 999 3015",
+                    "email": "Linda.Naicker@ekurhuleni.gov.za",
+                    "fax_number": "086 624 7307",
+                    "name": "Linda Naicker",
+                    "office_phone": "011 999 0760",
                     "role": "Secretary of Municipal Manager",
                     "title": "Ms"
                 },
@@ -1398,7 +1398,7 @@
                 "office_phone": null,
                 "role": "Deputy Mayor/Executive Mayor",
                 "secretary": {
-                    "email": "gertrude.mshumpela@ekurhuleni.gov.za",
+                    "email": "Gertrude.Mshumpela@ekurhuleni.gov.za",
                     "fax_number": "011 999 1564",
                     "name": "Gertrude Mshumpela",
                     "office_phone": "011 999 0156",
@@ -1408,23 +1408,23 @@
                 "title": null
             },
             {
-                "email": "ramasela.ganda@ekurhuleni.gov.za",
+                "email": "Gugu.Malaza@ekurhuleni.gov.za",
                 "fax_number": "011 999 7202",
-                "name": "Ramasela Ganda",
+                "name": "Gugu Malaza",
                 "office_phone": "011 999 6514",
                 "role": "Chief Financial Officer",
                 "secretary": {
-                    "email": "jean.vdMerwe@ekurhuleni.gov.za",
+                    "email": "Dineo.Motake@ekurhuleni.gov.za",
                     "fax_number": "011 999 7202",
-                    "name": "Jean van der Merwe",
-                    "office_phone": "011 999 6511",
+                    "name": "Dineo Motake",
+                    "office_phone": "011 999 400",
                     "role": "Secretary of Financial Manager",
-                    "title": "Mrs"
+                    "title": "Ms"
                 },
-                "title": "Mrs"
+                "title": "Ms"
             }
         ],
-        "updated_date": "June 2017"
+        "updated_date": "September 2017"
     },
     "muni_contact": {
         "phone_number": "011 999 0863",

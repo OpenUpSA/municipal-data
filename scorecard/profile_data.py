@@ -21,7 +21,9 @@ from collections import defaultdict, OrderedDict
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from itertools import groupby
+from requests.adapters import HTTPAdapter
 from requests_futures.sessions import FuturesSession
+from requests.packages.urllib3.util.retry import Retry
 import dateutil.parser
 import logging
 import urllib
@@ -44,7 +46,7 @@ AUDIT_OPINION_YEARS.reverse()
 
 # we'll actually only have data up to the year before this but use four
 # for consistency on the page.
-LAST_UIFW_YEAR = 2015
+LAST_UIFW_YEAR = 2016
 UIFW_YEARS = list(xrange(LAST_UIFW_YEAR-3, LAST_UIFW_YEAR+1))
 UIFW_YEARS.reverse()
 
@@ -62,6 +64,8 @@ class MuniApiClient(object):
     def __init__(self, api_url):
         self.API_URL = api_url + "/cubes/"
         self.session = FuturesSession(executor=EXECUTOR)
+        retries = Retry(total=5, backoff_factor=1, status_forcelist=[500])
+        self.session.mount('http://', HTTPAdapter(max_retries=retries))
 
     def api_get(self, query):
         if query['query_type'] == 'aggregate':
