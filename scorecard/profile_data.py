@@ -46,7 +46,7 @@ AUDIT_OPINION_YEARS.reverse()
 
 # we'll actually only have data up to the year before this but use four
 # for consistency on the page.
-LAST_UIFW_YEAR = 2015
+LAST_UIFW_YEAR = 2016
 UIFW_YEARS = list(xrange(LAST_UIFW_YEAR-3, LAST_UIFW_YEAR+1))
 UIFW_YEARS.reverse()
 

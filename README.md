@@ -205,7 +205,7 @@ Do each of these cursory tests for a small sample of municipalities to sanity-ch
     - If some values are close, e.g. 217,498,000 vs 217,548,000, the data is probably loaded correctly
   -  Operating Revenue and expenditure
 - Compare Audited (AUDA) values to the [audited financial statements on the MFMA website](http://mfma.treasury.gov.za/Documents/05.%20Annual%20Financial%20Statements)
-  - Use the _consolidated_ financial statements where available for municipalities with entities
+  - Use the _consolidated_ financial statements where available for municipalities with multiple entities
   - You can compare some values in the Scorecard site and the rest in the Table View
   - Debtor (under Consumer Receivables) and Creditor age analysis can be found in the AFS
   - Make sure to check unauthorised, irregular, fruitless and wasteful expenditure
