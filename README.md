@@ -153,7 +153,7 @@ Pre-audit figures are captured in the period 3 Aug to 30 Nov after the end of th
 
 ## Quarterly data
 
-Currently, indicators using quarterly data automatically use the latest quarter available.
+Indicators using quarterly data automatically use the latest quarter available.
 
 Quarterly Section 71 submissions are available 2 months after the end of the quarter.
 
@@ -209,7 +209,7 @@ Do each of these cursory tests for a small sample of municipalities to sanity-ch
   - Debtor (under Consumer Receivables) and Creditor age analysis can be found in the AFS
   - Make sure to check unauthorised, irregular, fruitless and wasteful expenditure
 - Compare in-year values to [Section 71 in-year reports](http://mfma.treasury.gov.za/Media_Releases/s71/Pages/default.aspx)
-  - This isn't available in the Table View yet so use the API or the database
+  - Use the API or the database for datasets not available in the Table View:
     - e.g. `select l.label, l30_amount from aged_debtor_facts f, aged_debtor_items l where f.item_code = l.code and demarcation_code = 'CPT' and financial_year = 2016 and financial_period = 09 and amount_type_code = 'ACT';`
   - Compare the latest available month of a quarter to the quarter value in the report
 
@@ -222,6 +222,11 @@ Do each of these cursory tests for a small sample of municipalities to sanity-ch
 ## 2017q4
 
 - cflow monthly amounts doubled from previous snapshots where they occurred. It turned out this was due to an issue in the query used to generate the snapshot and a new cflow snapshot was supplied.
+
+## 2018q1
+
+- capital and creditor age had unexpected codes for one KZN muni. Marina said we should filter them out.
+
 # License
 
 MIT License
