@@ -5,12 +5,31 @@ make municipal finance information available to the public. It is made up of a c
 
 # Local development
 
-1. clone this repo
-2. install dependencies: ``pip install -r requirements.txt``
-3. create a postgresql user with password ``municipal_finance``: ``createuser municipal_finance -W``
-4. create a database: ``createdb municipal_finance -O municipal_finance``
-5. install data from somewhere :)
-6. run it: ``python manage.py runserver``
+1. Clone this repo
+2. Create a python virtual environment. ```virtualenv <env_name>```
+3. Activate virtual environment ``` source <env_name>/bin/activate```
+4. Install dependencies.
+
+   Some python packages require system packages.
+   * psycopg2 requires libpq-dev (postgresql development files).
+   * shapely requires libgeos-dev (Geometry engine development files).
+   * gnureadline requires libncurses5-dev (ncurses development files).
+   * multiple packages require python development files (python-dev).
+   
+   After these packages have being installed the python packages can then be installed. ```pip install -r requiments.txt```
+5. Install postgresql and create a user and a database.
+
+   ``createuser municipal_finance -W``
+   
+   * -W will prompt to create a password for the user.
+   
+   ``createdb municipal_finance -O municipal_finance``
+   
+   * -O will give ownership of the database to the municipal_finance user. 
+
+6. install data from somewhere :)
+
+7. run it: ``python manage.py runserver``
 
 Note when doing a high request rate locally e.g. during updates, it seems that the above command doesn't release resources quickly enough so use the following for the API server instead
 
