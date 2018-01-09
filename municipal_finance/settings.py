@@ -40,7 +40,6 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = (
     'municipal_finance',
     'scorecard',
-
     'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.humanize',
@@ -67,14 +66,25 @@ MAPIT = {
     'generation': '2',
 }
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
     'django.middleware.gzip.GZipMiddleware',
     'municipal_finance.middleware.RedirectsMiddleware',
     'municipal_finance.middleware.SiteMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'municipal_finance.middleware.ApiErrorHandler',
-)
+]
+
+# This was the old style prior to 1.10
+# MIDDLEWARE_CLASSES = (
+#     'django.middleware.gzip.GZipMiddleware',
+#     'municipal_finance.middleware.RedirectsMiddleware',
+#     'municipal_finance.middleware.SiteMiddleware',
+#     'corsheaders.middleware.CorsMiddleware',
+#     'django.middleware.common.CommonMiddleware',
+#     'municipal_finance.middleware.ApiErrorHandler',
+# )
 
 ROOT_URLCONF = 'municipal_finance.urls'
 
@@ -125,18 +135,41 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 
 # Templates
-TEMPLATE_DEBUG = DEBUG
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.tz",
-    "django.core.context_processors.request",
-    "django.contrib.messages.context_processors.messages",
-    "municipal_finance.context_processors.google_analytics",
-    "municipal_finance.context_processors.api_details",
-)
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'debug': DEBUG,
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.template.context_processors.request',
+                "django.contrib.messages.context_processors.messages",
+                "municipal_finance.context_processors.google_analytics",
+                "municipal_finance.context_processors.api_details",
+            ]
+        }
+    },
+]
+
+# TEMPLATE_DEBUG = DEBUG
+# TEMPLATE_CONTEXT_PROCESSORS = (
+#     "django.core.context_processors.debug",
+#     "django.core.context_processors.i18n",
+#     "django.core.context_processors.media",
+#     "django.core.context_processors.static",
+#     "django.core.context_processors.tz",
+#     "django.core.context_processors.request",
+#     "django.contrib.messages.context_processors.messages",
+#     "municipal_finance.context_processors.google_analytics",
+#     "municipal_finance.context_processors.api_details",
+# )
 
 
 # Static files (CSS, JavaScript, Images)
