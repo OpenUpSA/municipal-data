@@ -76,15 +76,6 @@ MIDDLEWARE = [
     'municipal_finance.middleware.ApiErrorHandler',
 ]
 
-# This was the old style prior to 1.10
-# MIDDLEWARE_CLASSES = (
-#     'django.middleware.gzip.GZipMiddleware',
-#     'municipal_finance.middleware.RedirectsMiddleware',
-#     'municipal_finance.middleware.SiteMiddleware',
-#     'corsheaders.middleware.CorsMiddleware',
-#     'django.middleware.common.CommonMiddleware',
-#     'municipal_finance.middleware.ApiErrorHandler',
-# )
 
 ROOT_URLCONF = 'municipal_finance.urls'
 
@@ -157,20 +148,6 @@ TEMPLATES = [
         }
     },
 ]
-
-# TEMPLATE_DEBUG = DEBUG
-# TEMPLATE_CONTEXT_PROCESSORS = (
-#     "django.core.context_processors.debug",
-#     "django.core.context_processors.i18n",
-#     "django.core.context_processors.media",
-#     "django.core.context_processors.static",
-#     "django.core.context_processors.tz",
-#     "django.core.context_processors.request",
-#     "django.contrib.messages.context_processors.messages",
-#     "municipal_finance.context_processors.google_analytics",
-#     "municipal_finance.context_processors.api_details",
-# )
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
