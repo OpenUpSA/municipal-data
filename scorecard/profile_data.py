@@ -50,6 +50,10 @@ LAST_UIFW_YEAR = 2016
 UIFW_YEARS = list(xrange(LAST_UIFW_YEAR-3, LAST_UIFW_YEAR+1))
 UIFW_YEARS.reverse()
 
+LAST_IN_YEAR_YEAR = 2017
+IN_YEAR_YEARS = [LAST_IN_YEAR_YEAR+1, LAST_IN_YEAR_YEAR, LAST_IN_YEAR_YEAR-1, LAST_IN_YEAR_YEAR-2]
+
+
 YEAR_ITEM_DRILLDOWN = [
     'item.code',
     'financial_year_end.year',
@@ -294,8 +298,6 @@ class APIData(object):
         return response
 
     def get_queries(self):
-        today = datetime.now()
-        in_year_years = [today.year+1, today.year, today.year-1, today.year-2]
         return {
             # monthly values for in-year calculations from bsheet
             'in_year_bsheet': {
@@ -306,7 +308,7 @@ class APIData(object):
                     'amount_type.code': ['ACT'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['month'],
-                    'financial_year_end.year': in_year_years,
+                    'financial_year_end.year': IN_YEAR_YEARS,
                 },
                 'drilldown': YEAR_ITEM_DRILLDOWN + ['financial_period.period'],
                 'query_type': 'aggregate',
@@ -328,7 +330,7 @@ class APIData(object):
                     'amount_type.code': ['ACT'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['month'],
-                    'financial_year_end.year': in_year_years,
+                    'financial_year_end.year': IN_YEAR_YEARS,
                 },
                 'drilldown': YEAR_ITEM_DRILLDOWN + ['financial_period.period'],
                 'query_type': 'aggregate',
@@ -342,7 +344,7 @@ class APIData(object):
                     'amount_type.code': ['ACT'],
                     'demarcation.code': [self.geo_code],
                     'period_length.length': ['month'],
-                    'financial_year_end.year': in_year_years,
+                    'financial_year_end.year': IN_YEAR_YEARS,
                 },
                 'drilldown': YEAR_ITEM_DRILLDOWN + ['financial_period.period'],
                 'query_type': 'aggregate',
