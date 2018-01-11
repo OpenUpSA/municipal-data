@@ -28,7 +28,7 @@ import dateutil.parser
 import logging
 import urllib
 
-from utils import percent, ratio
+from .utils import percent, ratio
 
 logger = logging.getLogger('municipal_finance')
 
@@ -37,17 +37,17 @@ EXECUTOR = ThreadPoolExecutor(max_workers=10)
 # The years for which we need results. Must be in desceneding order.
 LAST_AUDIT_YEAR = 2016
 LAST_AUDIT_QUARTER = '2016q4'
-YEARS = list(xrange(LAST_AUDIT_YEAR-3, LAST_AUDIT_YEAR+1))
+YEARS = list(range(LAST_AUDIT_YEAR-3, LAST_AUDIT_YEAR+1))
 YEARS.reverse()
 
 LAST_OPINION_YEAR = 2016
-AUDIT_OPINION_YEARS = list(xrange(LAST_OPINION_YEAR-3, LAST_OPINION_YEAR+1))
+AUDIT_OPINION_YEARS = list(range(LAST_OPINION_YEAR-3, LAST_OPINION_YEAR+1))
 AUDIT_OPINION_YEARS.reverse()
 
 # we'll actually only have data up to the year before this but use four
 # for consistency on the page.
 LAST_UIFW_YEAR = 2016
-UIFW_YEARS = list(xrange(LAST_UIFW_YEAR-3, LAST_UIFW_YEAR+1))
+UIFW_YEARS = list(range(LAST_UIFW_YEAR-3, LAST_UIFW_YEAR+1))
 UIFW_YEARS.reverse()
 
 LAST_IN_YEAR_YEAR = 2017
@@ -104,7 +104,7 @@ class MuniApiClient(object):
 
     def format_cut_param(self, cuts):
         keypairs = []
-        for key, vals in cuts.iteritems():
+        for key, vals in cuts.items():
             vals_as_strings = []
             for val in vals:
                 if type(val) == str:
@@ -153,7 +153,7 @@ class APIData(object):
         # api_get returns a future, so fire off a bunch of
         # requests and then only start collecting them later
         responses = []
-        for query_name, query in self.queries.iteritems():
+        for query_name, query in self.queries.items():
             responses.append((query_name, query, self.client.api_get(query)))
 
         for (query_name, query, response) in responses:
@@ -1046,9 +1046,9 @@ class CurrentRatio(IndicatorCalculator):
         # If latest is missing, there are none to show.
         if latest_quarter is not None:
             keys = []
-            for q in xrange(latest_quarter['quarter'], 0, -1):
+            for q in range(latest_quarter['quarter'], 0, -1):
                 keys.append((latest_quarter['year'], q))
-            for q in xrange(4, 0, -1):
+            for q in range(4, 0, -1):
                 keys.append((latest_quarter['year']-1, q))
             values = [quarters.get(k, {'year': k[0],
                                        'date': "%sq%s" % k,
@@ -1117,9 +1117,9 @@ class LiquidityRatio(IndicatorCalculator):
         # If latest is missing, there are none to show.
         if latest_quarter is not None:
             keys = []
-            for q in xrange(latest_quarter['quarter'], 0, -1):
+            for q in range(latest_quarter['quarter'], 0, -1):
                 keys.append((latest_quarter['year'], q))
-            for q in xrange(4, 0, -1):
+            for q in range(4, 0, -1):
                 keys.append((latest_quarter['year']-1, q))
             values = [quarters.get(k, {'year': k[0],
                                        'date': "%sq%s" % k,
@@ -1198,16 +1198,16 @@ class CurrentDebtorsCollectionRate(IndicatorCalculator):
                 else:
                     quarters[quarter_key]['receipts'].append(receipts)
                     quarters[quarter_key]['billing'].append(billing)
-            except KeyError, e:
+            except KeyError as e:
                 logger.debug(e)
 
         # Enumerate the quarter keys we can expect to exist based on the latest
         # If latest is missing, there are none to show.
         if latest_quarter is not None:
             keys = []
-            for q in xrange(latest_quarter['quarter'], 0, -1):
+            for q in range(latest_quarter['quarter'], 0, -1):
                 keys.append((latest_quarter['year'], q))
-            for q in xrange(4, 0, -1):
+            for q in range(4, 0, -1):
                 keys.append((latest_quarter['year']-1, q))
             for k in keys[:5]:
                 q = quarters.get(k, {'year': k[0],
@@ -1379,8 +1379,8 @@ class FruitlWastefIrregUnauth(IndicatorCalculator):
     def get_muni_specifics(cls, api_data):
         values = []
         aggregate = {}
-        for item, results in api_data.results['wasteful_exp'].iteritems():
-            for year, amount in results.iteritems():
+        for item, results in api_data.results['wasteful_exp'].items():
+            for year, amount in results.items():
                 if year in aggregate:
                     aggregate[year] += amount
                 else:

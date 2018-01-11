@@ -1,6 +1,7 @@
 from collections import defaultdict
 from django.conf import settings
-from profile_data import get_indicator_calculators
+from .profile_data import get_indicator_calculators
+
 import json
 import os
 
@@ -50,7 +51,7 @@ def build_comparison(geo, indicators, medians, rating_counts, calculator):
             median = medians[group]['dev_cat'].get(date, 0)
 
             # how many comparable places are there, including this one?
-            comparable_places = sum(v for k, v in ratings[group]['dev_cat'].get(date, {}).iteritems() if k)
+            comparable_places = sum(v for k, v in ratings[group]['dev_cat'].get(date, {}).items() if k)
 
             # only do this if we have at least one other place to compare with
             if comparable_places > 1:
