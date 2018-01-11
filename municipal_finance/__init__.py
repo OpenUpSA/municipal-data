@@ -1,6 +1,7 @@
 from django.apps import AppConfig
-import settings
-from cubes import get_manager
+from django.conf import settings
+from .cubes import get_manager
+
 
 default_app_config = 'municipal_finance.Config'
 

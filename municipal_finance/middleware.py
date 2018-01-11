@@ -1,7 +1,7 @@
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponsePermanentRedirect
 
-from utils import jsonify
+from .utils import jsonify
 
 import logging
 
