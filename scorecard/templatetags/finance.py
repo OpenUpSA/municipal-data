@@ -27,11 +27,13 @@ def table_url(context, cube, year=None, month=None, muni=None, items=None, amoun
     if amountType:
         params["amountType"] = amountType
 
-    for k, v in params.iteritems():
+    for k, v in params.items():
         if isinstance(v, list):
             params[k] = ",".join(v)
 
-    return settings.API_BASE + "/table/" + cube + "/?" + urllib.urlencode(params)
+    return settings.API_BASE + "/table/" + cube + "/?" + urllib\
+                   .parse\
+                   .urlencode(params)
 
 
 @register.filter
