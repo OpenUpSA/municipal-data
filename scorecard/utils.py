@@ -30,7 +30,7 @@ RELATIVE_PHRASE_MAP = {
     8: ["about 10 percent", "of the {0} for"],
     0: ["less than 10 percent", "of the {0} for"],
 }
-RELATIVE_PHRASE_THRESHOLDS = sorted([k for k, v in RELATIVE_PHRASE_MAP.iteritems()])
+RELATIVE_PHRASE_THRESHOLDS = sorted([k for k, v in RELATIVE_PHRASE_MAP.items()])
 
 
 # about two thirds of similar municipalities nationally [in Gauteng] have a positive cash balance
@@ -53,7 +53,7 @@ PERCENTAGE_PHRASE_MAP = {
     1: ["less than 10 percent", "of"],
     0: ["no", ""],
 }
-PERCENTAGE_PHRASE_THRESHOLDS = sorted([k for k, v in PERCENTAGE_PHRASE_MAP.iteritems()])
+PERCENTAGE_PHRASE_THRESHOLDS = sorted([k for k, v in PERCENTAGE_PHRASE_MAP.items()])
 
 
 def percent(num, denom, places=2):
