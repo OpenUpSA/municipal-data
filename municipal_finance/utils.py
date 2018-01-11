@@ -4,9 +4,9 @@ from decimal import Decimal
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import StreamingHttpResponse, Http404, HttpResponse
 from django.http import JsonResponse
+from io import StringIO
 
 import xlsxwriter
-import StringIO
 import unicodecsv as csv
 
 
