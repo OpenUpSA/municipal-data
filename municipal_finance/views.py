@@ -1,8 +1,9 @@
 from django.http import Http404
 from django.shortcuts import render
-from cubes import get_manager
 
-from utils import jsonify, serialize
+from .cubes import get_manager
+from .utils import jsonify, serialize
+
 
 from django.views.decorators.clickjacking import xframe_options_exempt
 
@@ -33,7 +34,7 @@ def index(request):
     cubes = sorted(cubes, key=lambda p: p[1]['label'])
 
     # group into rows of four
-    cubes = [cubes[i:i + 4] for i in xrange(0, len(cubes), 4)]
+    cubes = [cubes[i:i + 4] for i in range(0, len(cubes), 4)]
     return render(request, 'index.html', {
         'cubes': cubes,
         'cube_count': len(cube_names),
