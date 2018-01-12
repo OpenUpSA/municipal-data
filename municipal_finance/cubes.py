@@ -22,8 +22,8 @@ class PreloadingJSONCubeManager(JSONCubeManager):
             # Do some query that hits all tables in the cube but cut on
             # something that probably doesn't exist to minimize the rows
             # counted for the result
-            for dname, dimension in self._models[name]['dimensions'].iteritems():
-                for aname, attribute in dimension['attributes'].iteritems():
+            for dname, dimension in self._models[name]['dimensions'].items():
+                for aname, attribute in dimension['attributes'].items():
                     if attribute['type'] == 'string':
                         someref = "%s.%s" % (dname, aname)
             self._cubes[name].facts(page_size=1, cuts=someref + ':dummy')
