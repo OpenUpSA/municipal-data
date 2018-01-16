@@ -970,7 +970,7 @@ class RevenueBreakdown(IndicatorCalculator):
                 year_name = "%s budget" % year
                 amount_type = 'ORGB'
             else:
-                year_name = year
+                year_name = "%d" % year
                 amount_type = 'AUDA'
             try:
                 total = results[year]['1900'][amount_type]['amount.sum']
@@ -1314,7 +1314,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                 # Skip an entire year if total is missing, suggesting the year is missing
                 total = api_data.results['expenditure_breakdown']['4600'][year]
                 GAPD_total = 0.0
-                year_name = year if year != api_data.budget_year else ("%s budget" % year)
+                year_name = "%d" % year if year != api_data.budget_year else ("%s budget" % year)
 
                 for result in yeargroup:
                     # only do budget for budget year, use AUDA for others
