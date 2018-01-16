@@ -95,7 +95,7 @@ def generate_profiles(args, api_url):
         }
 
         filename = "scorecard/materialised/profiles/%s.json" % demarcation_code
-        with open(filename, 'wb') as f:
+        with open(filename, 'w', encoding="utf8") as f:
             json.dump(profile, f, sort_keys=True, indent=4, separators=(',', ': '))
 
 
@@ -128,7 +128,7 @@ def calculate_medians(args, api_url):
         'provincial': prov_medians,
         'national': nat_medians,
     }
-    with open(filename, 'wb') as f:
+    with open(filename, 'w', encoding="utf8") as f:
         json.dump(medians, f, sort_keys=True, indent=4, separators=(',', ': '))
 
 
@@ -199,7 +199,7 @@ def calculate_rating_counts(args, api_url):
         'provincial': prov_rating_counts,
         'national': nat_rating_counts,
     }
-    with open(filename, 'wb') as f:
+    with open(filename, 'w', encoding="utf8") as f:
         json.dump(rating_counts, f, sort_keys=True, indent=4, separators=(',', ': '))
 
 
