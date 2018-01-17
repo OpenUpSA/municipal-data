@@ -88,7 +88,7 @@ def comparison_relative_words(a, b, noun):
             phrase_bits = ["more than", "the {0} for"]
     else:
         # make sure we have an int for comparison
-        index = abs(round(float(a / b) * 100))
+        index = abs(round((a / b) * 100))
 
         # get highest boundary that's less than the index value we've been passed
         phrase_key = max(k for k in RELATIVE_PHRASE_THRESHOLDS if k <= index)
