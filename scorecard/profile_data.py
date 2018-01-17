@@ -1119,7 +1119,7 @@ class LiquidityRatio(IndicatorCalculator):
         # If latest is missing, there are none to show.
         if latest_quarter is not None:
             keys = []
-            for q in range(int(latest_quarter['quarter']), 0, -1):
+            for q in range((latest_quarter['quarter']), 0, -1):
                 keys.append((latest_quarter['year'], q))
             for q in range(4, 0, -1):
                 keys.append((latest_quarter['year']-1, q))
@@ -1494,7 +1494,7 @@ def calendar_to_financial(year, month):
 
 
 def quarter_idx(month):
-    return ((month - 1) / 3) + 1
+    return ((month - 1) // 3) + 1
 
 
 def quarter_tuple(year, month):
