@@ -2,7 +2,7 @@ from django.http import Http404
 from django.shortcuts import render
 
 from .cubes import get_manager
-from .utils import jsonify, serialize
+from .utils import jsonify, serialize, check_page_size
 
 
 from django.views.decorators.clickjacking import xframe_options_exempt
@@ -150,7 +150,7 @@ def aggregate(request, cube_name):
     """ Perform an aggregation request. """
     cube = get_cube(cube_name)
     format = get_format(request)
-    page_size = int(request.GET.get('pagesize'))
+    page_size = check_page_size(request.GET.get('pagesize'))
     page_max = page_size if format in DUMP_FORMATS else 20000
     result = cube.aggregate(aggregates=request.GET.get('aggregates'),
                             drilldowns=request.GET.get('drilldown'),
@@ -173,7 +173,7 @@ def facts(request, cube_name):
     materialized dataset. """
     cube = get_cube(cube_name)
     format = get_format(request)
-    page_size = int(request.GET.get('pagesize'))
+    page_size = check_page_size(request.GET.get('pagesize'))
     page_max = page_size if format in DUMP_FORMATS else 10000
     result = cube.facts(fields=request.GET.get('fields'),
                         cuts=request.GET.get('cut'),
@@ -206,11 +206,12 @@ def members(request, cube_name, member_ref):
     given attribute. """
     cube = get_cube(cube_name)
     format = get_format(request)
+    page_size = check_page_size(request.GET.get('pagesize'))
     result = cube.members(member_ref,
                           cuts=request.GET.get('cut'),
                           order=request.GET.get('order'),
                           page=request.GET.get('page'),
-                          page_size=int(request.GET.get('pagesize')))
+                          page_size=page_size)
     if format == 'json':
         result['status'] = 'ok'
         return jsonify(result)

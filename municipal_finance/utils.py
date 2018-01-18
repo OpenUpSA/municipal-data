@@ -79,3 +79,10 @@ def serialize(format, name_base, fields, rows):
     filename = name_base + '_' + datetime.now().isoformat() + '.%s' % format
     response['Content-Disposition'] = 'attachment; filename="' + filename + '"'
     return response
+
+
+def check_page_size(page_size):
+    if page_size:
+        return int(page_size)
+    else:
+        return page_size
