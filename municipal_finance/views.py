@@ -150,13 +150,14 @@ def aggregate(request, cube_name):
     """ Perform an aggregation request. """
     cube = get_cube(cube_name)
     format = get_format(request)
-    page_max = request.GET.get('pagesize') if format in DUMP_FORMATS else 20000
+    page_size = int(request.GET.get('pagesize'))
+    page_max = page_size if format in DUMP_FORMATS else 20000
     result = cube.aggregate(aggregates=request.GET.get('aggregates'),
                             drilldowns=request.GET.get('drilldown'),
                             cuts=request.GET.get('cut'),
                             order=request.GET.get('order'),
                             page=request.GET.get('page'),
-                            page_size=request.GET.get('pagesize'),
+                            page_size=page_size,
                             page_max=page_max)
     if format == 'json':
         result['status'] = 'ok'
@@ -172,12 +173,13 @@ def facts(request, cube_name):
     materialized dataset. """
     cube = get_cube(cube_name)
     format = get_format(request)
-    page_max = request.GET.get('pagesize') if format in DUMP_FORMATS else 10000
+    page_size = int(request.GET.get('pagesize'))
+    page_max = page_size if format in DUMP_FORMATS else 10000
     result = cube.facts(fields=request.GET.get('fields'),
                         cuts=request.GET.get('cut'),
                         order=request.GET.get('order'),
                         page=request.GET.get('page'),
-                        page_size=request.GET.get('pagesize'),
+                        page_size=page_size,
                         page_max=page_max)
     if format == 'json':
         result['status'] = 'ok'
@@ -208,7 +210,7 @@ def members(request, cube_name, member_ref):
                           cuts=request.GET.get('cut'),
                           order=request.GET.get('order'),
                           page=request.GET.get('page'),
-                          page_size=request.GET.get('pagesize'))
+                          page_size=int(request.GET.get('pagesize')))
     if format == 'json':
         result['status'] = 'ok'
         return jsonify(result)
