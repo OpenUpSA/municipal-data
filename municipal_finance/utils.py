@@ -82,7 +82,4 @@ def serialize(format, name_base, fields, rows):
 
 
 def check_page_size(page_size):
-    if page_size:
-        return int(page_size)
-    else:
-        return page_size
+    return page_size or 10000
