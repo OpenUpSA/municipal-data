@@ -4,7 +4,7 @@ from decimal import Decimal
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import StreamingHttpResponse, Http404, HttpResponse
 from django.http import JsonResponse
-from io import StringIO
+from io import BytesIO
 
 import xlsxwriter
 import unicodecsv as csv
@@ -50,7 +50,7 @@ def csvify(fields, rows):
 
 
 def xlsxify(fields, rows):
-    output = StringIO.StringIO()
+    output = BytesIO()
     wb = xlsxwriter.Workbook(output)
     ws = wb.add_worksheet('data')
 
