@@ -158,7 +158,7 @@ def aggregate(request, cube_name):
                             order=request.GET.get('order'),
                             page=request.GET.get('page'),
                             page_size=page_size,
-                            page_max=int(page_max))
+                            page_max=page_max)
     if format == 'json':
         result['status'] = 'ok'
         return jsonify(result)
@@ -180,7 +180,7 @@ def facts(request, cube_name):
                         order=request.GET.get('order'),
                         page=request.GET.get('page'),
                         page_size=page_size,
-                        page_max=int(page_max))
+                        page_max=page_max)
     if format == 'json':
         result['status'] = 'ok'
         return jsonify(result)
