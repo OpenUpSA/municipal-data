@@ -15,17 +15,17 @@ make municipal finance information available to the public. It is made up of a c
    * shapely requires libgeos-dev (Geometry engine development files).
    * gnureadline requires libncurses5-dev (ncurses development files).
    * multiple packages require python development files (python-dev).
-   
+
    After these packages have being installed the python packages can then be installed. ```pip install -r requiments.txt```
 5. Install postgresql and create a user and a database.
 
    ``createuser municipal_finance -W``
-   
+
    * -W will prompt to create a password for the user.
-   
+
    ``createdb municipal_finance -O municipal_finance``
-   
-   * -O will give ownership of the database to the municipal_finance user. 
+
+   * -O will give ownership of the database to the municipal_finance user.
 
 6. install data from somewhere :)
 
@@ -108,12 +108,23 @@ This covers how to keep the data up to date. Each quarter, as new data is releas
    - Latest monthly actuals
    - Corrections all over
 
-## Extract CSV datasets from Excel Spreadsheets
+## Prepare the update environment
 
-Install some additional dependencies:
-- `source env/bin/activate`
-- `pip install bs4` - bs4 is used to scrape audit report URLs
-- `pip install csvkit` - optional - convenient tools for inspecting and querying CSVs
+1. Start an RDS instance from the latest snapshot, or from a new snapshot if changes might have been made since the last automatic snapshot
+2. Start an EC2 dokku instance from the latest dokku AMI in the same availability zone as the RDS instance
+3. Install the update dependencies
+  - `sudo apt-get update`
+  - `sudo apt-get install postgresql-client python3-pip python3.4-venv libpq-dev python-dev bs4 csvkit libgeos-dev libffi-dev libssl-dev libxml2-dev libxslt1-dev libncurses5-sdev `
+4. Set up the Municipal Data repository
+  - `git clone https://github.com/OpenUpSA/municipal-data.git`
+  - `cd municipal-data`
+  - `python3 -m venv env`
+  - `source env/bin/activate`
+  - `pip install -r requirements.txt`
+
+
+
+## Extract CSV datasets from Excel Spreadsheets
 
 Extract CSV datasets from Excel Spreadsheets using the following scripts in `municipal_finance/data_import/`
 
