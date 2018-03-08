@@ -35,8 +35,8 @@ logger = logging.getLogger('municipal_finance')
 EXECUTOR = ThreadPoolExecutor(max_workers=10)
 
 # The years for which we need results. Must be in desceneding order.
-LAST_AUDIT_YEAR = 2016
-LAST_AUDIT_QUARTER = '2016q4'
+LAST_AUDIT_YEAR = 2017
+LAST_AUDIT_QUARTER = '2017q4'
 YEARS = list(range(LAST_AUDIT_YEAR-3, LAST_AUDIT_YEAR+1))
 YEARS.reverse()
 
