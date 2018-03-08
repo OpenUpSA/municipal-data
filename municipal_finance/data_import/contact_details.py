@@ -6,7 +6,7 @@ import csv
 import string
 import sys
 import xlrd
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 expected_headings = [
     'Location Description',
@@ -83,7 +83,7 @@ def col(heading):
 
 
 def convert_persons(sheet, person_csv_name):
-    with open(person_csv_name, 'wb') as f:
+    with open(person_csv_name, 'w') as f:
         fieldnames = [
             'demarcation_code',
             'role',
@@ -95,7 +95,7 @@ def convert_persons(sheet, person_csv_name):
         ]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
-        for rowx in xrange(1, sheet.nrows):
+        for rowx in range(1, sheet.nrows):
             if str(sheet.cell(rowx, col("CAP")).value) not in ['H', 'L', 'M']:
                 continue
             role = sheet.cell(rowx, col("")).value
@@ -103,14 +103,14 @@ def convert_persons(sheet, person_csv_name):
             if role not in output_roles:
                 continue
             item = {
-                'demarcation_code': sheet.cell(rowx, col("Locat Code")).value.encode('utf-8'),
-                'role': role.encode('utf-8'),
-                'title': sheet.cell(rowx, col("Title")).value.encode('utf-8'),
-                'name': clean(sheet.cell(rowx, col("Name"))).encode('utf-8'),
-                'office_number': sheet.cell(rowx, col("Office Phone Number")).value.encode('utf-8'),
+                'demarcation_code': sheet.cell(rowx, col("Locat Code")).value,
+                'role': role,
+                'title': sheet.cell(rowx, col("Title")).value,
+                'name': clean(sheet.cell(rowx, col("Name"))),
+                'office_number': sheet.cell(rowx, col("Office Phone Number")).value,
                 # Hack because Fax Number occurs twice
-                'fax_number': sheet.cell(rowx, col("Cell Number")+1).value.encode('utf-8'),
-                'email_address': sheet.cell(rowx, col("EMAILADD")).value.encode('utf-8'),
+                'fax_number': sheet.cell(rowx, col("Cell Number")+1).value,
+                'email_address': sheet.cell(rowx, col("EMAILADD")).value,
             }
             writer.writerow(item)
 
@@ -133,7 +133,7 @@ def convert_muni(sheet, person_csv_name):
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         muni = None
-        for rowx in xrange(1, sheet.nrows):
+        for rowx in range(1, sheet.nrows):
             if str(sheet.cell(rowx, col("CAP")).value) not in ['H', 'L', 'M']:
                 continue
 
@@ -161,7 +161,7 @@ def convert_muni(sheet, person_csv_name):
 
 def get_headings(sheet):
     headings = []
-    for colx in xrange(0, sheet.ncols):
+    for colx in range(0, sheet.ncols):
         heading = " ".join([
             str(sheet.cell(2, colx).value).strip(),
             str(sheet.cell(3, colx).value).strip(),
@@ -172,7 +172,7 @@ def get_headings(sheet):
 
 
 def check_columns(headings):
-    for colx in xrange(0, len(headings)):
+    for colx in range(0, len(headings)):
         heading = headings[colx]
         if heading != expected_headings[colx]:
             raise Exception("Unexpected heading %r != %r <- expected"
@@ -183,7 +183,7 @@ def clean(dirty):
     if dirty.ctype == 2:
         return str(int(dirty.value))
     else:
-        return filter(lambda c: c in printable, dirty.value)
+        return ''.join(filter(lambda c: c in printable, dirty.value))
 
 
 def clean_address(dirty):
@@ -191,7 +191,7 @@ def clean_address(dirty):
     if dirty.ctype == 2:
         return format(int(dirty.value), '04')
     else:
-        return filter(lambda c: c in printable, dirty.value)
+        return ''.join(filter(lambda c: c in printable, dirty.value))
 
 
 def clean_url(url):
