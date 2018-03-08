@@ -106,7 +106,7 @@ def calculate_medians(args, api_url):
     for muni in munis:
         demarcation_code = muni.get('municipality.demarcation_code')
         filename = "scorecard/materialised/profiles/%s.json" % demarcation_code
-        with open(filename, 'r') as f:
+        with open(filename, 'rd') as f:
             profile = json.load(f)
         indicators = profile['indicators']
 
@@ -164,10 +164,10 @@ def median(items):
     count = len(sorted_items)
     if count % 2 == 1:
         # middle item of odd set is floor of half of count
-        return sorted_items[count//2]
+        return sorted_items[count/2]
     else:
         # middle item of even set is mean of middle two items
-        return (sorted_items[(count-1)//2] + sorted_items[(count+1)//2])/2.0
+        return (sorted_items[(count-1)/2] + sorted_items[(count+1)/2])/2.0
 
 
 def calculate_rating_counts(args, api_url):
@@ -177,7 +177,7 @@ def calculate_rating_counts(args, api_url):
     for muni in munis:
         demarcation_code = muni.get('municipality.demarcation_code')
         filename = "scorecard/materialised/profiles/%s.json" % demarcation_code
-        with open(filename, 'r') as f:
+        with open(filename, 'rd') as f:
             profile = json.load(f)
         indicators = profile['indicators']
 

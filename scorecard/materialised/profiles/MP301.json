@@ -39,12 +39,6 @@
             },
             "values": [
                 {
-                    "date": 2017,
-                    "overunder": null,
-                    "rating": null,
-                    "result": null
-                },
-                {
                     "date": 2016,
                     "overunder": null,
                     "rating": null,
@@ -61,6 +55,12 @@
                     "overunder": "over",
                     "rating": "bad",
                     "result": 27.09
+                },
+                {
+                    "date": 2013,
+                    "overunder": "over",
+                    "rating": "bad",
+                    "result": 95141.13
                 }
             ]
         },
@@ -70,11 +70,6 @@
                 "url": "http://mfma.treasury.gov.za/Media_Releases/The%20state%20of%20local%20government%20finances/Pages/default.aspx"
             },
             "values": [
-                {
-                    "date": 2017,
-                    "rating": "bad",
-                    "result": null
-                },
                 {
                     "date": 2016,
                     "rating": "bad",
@@ -89,6 +84,11 @@
                     "date": 2014,
                     "rating": "good",
                     "result": 18634520.0
+                },
+                {
+                    "date": 2013,
+                    "rating": "good",
+                    "result": 1195124.0
                 }
             ]
         },
@@ -98,11 +98,6 @@
                 "url": "http://mfma.treasury.gov.za/Media_Releases/The%20state%20of%20local%20government%20finances/Pages/default.aspx"
             },
             "values": [
-                {
-                    "date": 2017,
-                    "rating": null,
-                    "result": null
-                },
                 {
                     "date": 2016,
                     "rating": "bad",
@@ -117,6 +112,11 @@
                     "date": 2014,
                     "rating": "bad",
                     "result": 0.6
+                },
+                {
+                    "date": 2013,
+                    "rating": "bad",
+                    "result": 0.0
                 }
             ]
         },
@@ -126,25 +126,6 @@
                 "url": "http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx"
             },
             "values": [
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        7804507.0,
-                        14131101.0,
-                        10591278.0
-                    ],
-                    "date": "2018q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "receipts": [
-                        2610463.0,
-                        6020656.0,
-                        5948433.0
-                    ],
-                    "result": 44.82,
-                    "year": 2018
-                },
                 {
                     "amount_type": "ACT",
                     "billing": [
@@ -214,6 +195,23 @@
                     ],
                     "result": 16.11,
                     "year": 2017
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        5717375.0,
+                        1396234.0
+                    ],
+                    "date": "2017q1",
+                    "month": 3,
+                    "quarter": 1,
+                    "rating": "bad",
+                    "receipts": [
+                        4709711.0,
+                        1290077.0
+                    ],
+                    "result": null,
+                    "year": 2017
                 }
             ]
         },
@@ -223,17 +221,6 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
-                {
-                    "amount_type": "ACT",
-                    "assets": 435210710.0,
-                    "date": "2018q2",
-                    "liabilities": -298916350.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "result": -1.46,
-                    "year": 2018
-                },
                 {
                     "amount_type": "ACT",
                     "assets": 134779487.0,
@@ -265,260 +252,316 @@
                     "rating": "bad",
                     "result": null,
                     "year": 2017
+                },
+                {
+                    "date": "2017q1",
+                    "quarter": 1,
+                    "rating": "bad",
+                    "result": null,
+                    "year": 2017
                 }
             ]
         },
         "expenditure_functional_breakdown": {
             "values": [
                 {
+                    "amount": 7163134.0,
+                    "date": 2013,
+                    "item": "Community & Social Services",
+                    "percent": 1.83
+                },
+                {
+                    "amount": 42199005.0,
+                    "date": 2013,
+                    "item": "Electricity ",
+                    "percent": 10.79
+                },
+                {
+                    "amount": 221286808.0,
+                    "date": 2013,
+                    "item": "Governance, Administration, Planning and Development",
+                    "percent": 56.59
+                },
+                {
+                    "amount": 41298822.0,
+                    "date": 2013,
+                    "item": "Other",
+                    "percent": 10.56
+                },
+                {
+                    "amount": 27215640.0,
+                    "date": 2013,
+                    "item": "Public Safety",
+                    "percent": 6.96
+                },
+                {
+                    "amount": 4759918.0,
+                    "date": 2013,
+                    "item": "Sport And Recreation",
+                    "percent": 1.22
+                },
+                {
+                    "amount": 4484888.0,
+                    "date": 2013,
+                    "item": "Waste Management",
+                    "percent": 1.15
+                },
+                {
+                    "amount": 0.0,
+                    "date": 2013,
+                    "item": "Waste Water Management",
+                    "percent": 0.0
+                },
+                {
+                    "amount": 42636792.0,
+                    "date": 2013,
+                    "item": "Water",
+                    "percent": 10.9
+                },
+                {
                     "amount": 6867920.0,
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Community & Social Services",
                     "percent": 1.92
                 },
                 {
                     "amount": 53195281.0,
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Electricity ",
                     "percent": 14.9
                 },
                 {
                     "amount": 190373453.0,
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Governance, Administration, Planning and Development",
                     "percent": 53.33
                 },
                 {
                     "amount": 11105781.0,
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Other",
                     "percent": 3.11
                 },
                 {
                     "amount": 28619617.0,
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Public Safety",
                     "percent": 8.02
                 },
                 {
                     "amount": 12606771.0,
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Road Transport",
                     "percent": 3.53
                 },
                 {
                     "amount": 4789997.0,
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Sport And Recreation",
                     "percent": 1.34
                 },
                 {
                     "amount": 3919477.0,
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Waste Management",
                     "percent": 1.1
                 },
                 {
                     "amount": 2655249.0,
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Waste Water Management",
                     "percent": 0.74
                 },
                 {
                     "amount": 42856834.0,
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Water",
                     "percent": 12.01
                 },
                 {
                     "amount": 7012903.0,
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Community & Social Services",
                     "percent": 1.78
                 },
                 {
                     "amount": 80448459.0,
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Electricity ",
                     "percent": 20.45
                 },
                 {
                     "amount": 188932035.0,
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Governance, Administration, Planning and Development",
                     "percent": 48.03
                 },
                 {
                     "amount": 20334996.0,
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Other",
                     "percent": 5.17
                 },
                 {
                     "amount": 34484959.0,
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Public Safety",
                     "percent": 8.77
                 },
                 {
                     "amount": 4215851.0,
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Road Transport",
                     "percent": 1.07
                 },
                 {
                     "amount": 4976442.0,
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Sport And Recreation",
                     "percent": 1.27
                 },
                 {
                     "amount": 4310765.0,
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Waste Management",
                     "percent": 1.1
                 },
                 {
                     "amount": 4215851.0,
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Waste Water Management",
                     "percent": 1.07
                 },
                 {
                     "amount": 44392755.0,
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Water",
                     "percent": 11.29
                 },
                 {
                     "amount": 7770736.0,
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Community & Social Services",
                     "percent": 1.92
                 },
                 {
                     "amount": 59137287.0,
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Electricity ",
                     "percent": 14.6
                 },
                 {
                     "amount": 158026316.0,
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Governance, Administration, Planning and Development",
                     "percent": 39.01
                 },
                 {
                     "amount": 76162783.0,
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Other",
                     "percent": 18.8
                 },
                 {
                     "amount": 38693960.0,
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Public Safety",
                     "percent": 9.55
                 },
                 {
                     "amount": 11718669.0,
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Road Transport",
                     "percent": 2.89
                 },
                 {
                     "amount": 4828240.0,
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Sport And Recreation",
                     "percent": 1.19
                 },
                 {
                     "amount": 3810245.0,
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Waste Management",
                     "percent": 0.94
                 },
                 {
                     "amount": 2018468.0,
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Waste Water Management",
                     "percent": 0.5
                 },
                 {
                     "amount": 42896253.0,
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Water",
                     "percent": 10.59
                 },
                 {
-                    "amount": 14015657.0,
-                    "date": "2018 budget",
+                    "amount": 7833828.0,
+                    "date": "2017 budget",
                     "item": "Community & Social Services",
-                    "percent": 3.45
+                    "percent": 2.05
                 },
                 {
-                    "amount": 85622561.0,
-                    "date": "2018 budget",
+                    "amount": 83799924.0,
+                    "date": "2017 budget",
                     "item": "Electricity ",
-                    "percent": 21.09
+                    "percent": 21.94
                 },
                 {
-                    "amount": 179262163.0,
-                    "date": "2018 budget",
+                    "amount": 163958687.0,
+                    "date": "2017 budget",
                     "item": "Governance, Administration, Planning and Development",
-                    "percent": 44.15
+                    "percent": 42.93
                 },
                 {
-                    "amount": 8778150.0,
-                    "date": "2018 budget",
+                    "amount": 7628462.0,
+                    "date": "2017 budget",
                     "item": "Other",
-                    "percent": 2.16
+                    "percent": 2.0
                 },
                 {
-                    "amount": 37092752.0,
-                    "date": "2018 budget",
+                    "amount": 39724288.0,
+                    "date": "2017 budget",
                     "item": "Public Safety",
-                    "percent": 9.14
+                    "percent": 10.4
                 },
                 {
-                    "amount": 10899132.0,
-                    "date": "2018 budget",
+                    "amount": 13279430.0,
+                    "date": "2017 budget",
                     "item": "Road Transport",
-                    "percent": 2.68
+                    "percent": 3.48
                 },
                 {
-                    "amount": 5114911.0,
-                    "date": "2018 budget",
+                    "amount": 5018679.0,
+                    "date": "2017 budget",
                     "item": "Sport And Recreation",
-                    "percent": 1.26
+                    "percent": 1.31
                 },
                 {
-                    "amount": 9914076.0,
-                    "date": "2018 budget",
+                    "amount": 8903641.0,
+                    "date": "2017 budget",
                     "item": "Waste Management",
-                    "percent": 2.44
+                    "percent": 2.33
                 },
                 {
-                    "amount": 5623824.0,
-                    "date": "2018 budget",
+                    "amount": 5833119.0,
+                    "date": "2017 budget",
                     "item": "Waste Water Management",
-                    "percent": 1.39
+                    "percent": 1.53
                 },
                 {
-                    "amount": 49725131.0,
-                    "date": "2018 budget",
+                    "amount": 45948114.0,
+                    "date": "2017 budget",
                     "item": "Water",
-                    "percent": 12.25
+                    "percent": 12.03
                 }
             ]
         },
         "expenditure_trends_contracting": {
             "values": [
-                {
-                    "date": 2017,
-                    "rating": "",
-                    "result": null
-                },
                 {
                     "date": 2016,
                     "rating": "",
@@ -533,16 +576,16 @@
                     "date": 2014,
                     "rating": "",
                     "result": 11.33
+                },
+                {
+                    "date": 2013,
+                    "rating": "",
+                    "result": 6.97
                 }
             ]
         },
         "expenditure_trends_staff": {
             "values": [
-                {
-                    "date": 2017,
-                    "rating": "",
-                    "result": null
-                },
                 {
                     "date": 2016,
                     "rating": "",
@@ -557,6 +600,11 @@
                     "date": 2014,
                     "rating": "",
                     "result": 29.67
+                },
+                {
+                    "date": 2013,
+                    "rating": "",
+                    "result": 24.55
                 }
             ]
         },
@@ -566,18 +614,6 @@
                 "url": "http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx"
             },
             "values": [
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 0.0,
-                    "cash": 286622715.0,
-                    "date": "2018q2",
-                    "liabilities": -298916350.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "result": -0.96,
-                    "year": 2018
-                },
                 {
                     "amount_type": "ACT",
                     "call_investment_deposits": 21800000.0,
@@ -610,6 +646,13 @@
                     "rating": "bad",
                     "result": null,
                     "year": 2017
+                },
+                {
+                    "date": "2017q1",
+                    "quarter": 1,
+                    "rating": "bad",
+                    "result": null,
+                    "year": 2017
                 }
             ]
         },
@@ -619,12 +662,6 @@
                 "url": "http://mfma.treasury.gov.za/Media_Releases/Reports%20to%20Parliament/Pages/default.aspx"
             },
             "values": [
-                {
-                    "date": 2017,
-                    "overunder": null,
-                    "rating": null,
-                    "result": null
-                },
                 {
                     "date": 2016,
                     "overunder": "over",
@@ -642,6 +679,12 @@
                     "overunder": "over",
                     "rating": "good",
                     "result": 0.3
+                },
+                {
+                    "date": 2013,
+                    "overunder": "over",
+                    "rating": "bad",
+                    "result": 66.7
                 }
             ]
         },
@@ -651,11 +694,6 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
-                {
-                    "date": 2017,
-                    "rating": null,
-                    "result": null
-                },
                 {
                     "date": 2016,
                     "rating": "bad",
@@ -670,319 +708,485 @@
                     "date": 2014,
                     "rating": "bad",
                     "result": 1.45
+                },
+                {
+                    "date": 2013,
+                    "rating": "bad",
+                    "result": 3.26
                 }
             ]
         },
         "revenue_breakdown": {
             "values": [
                 {
-                    "amount": null,
-                    "amount_type": "AUDA",
-                    "date": "2017",
-                    "item": null,
-                    "percent": null
-                },
-                {
                     "amount": 54586759.0,
                     "amount_type": "AUDA",
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Property rates",
                     "percent": 11.25
                 },
                 {
                     "amount": 35144258.0,
                     "amount_type": "AUDA",
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Service Charges",
                     "percent": 7.24
                 },
                 {
                     "amount": 2642970.0,
                     "amount_type": "AUDA",
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Rental income",
                     "percent": 0.54
                 },
                 {
                     "amount": 26728826.0,
                     "amount_type": "AUDA",
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Interest and investments",
                     "percent": 5.51
                 },
                 {
                     "amount": 5213955.0,
                     "amount_type": "AUDA",
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Fines",
                     "percent": 1.07
                 },
                 {
                     "amount": 0.0,
                     "amount_type": "AUDA",
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Licenses and Permits",
                     "percent": 0
                 },
                 {
                     "amount": 1944052.0,
                     "amount_type": "AUDA",
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Agency services",
                     "percent": 0.4
                 },
                 {
                     "amount": 354448836.0,
                     "amount_type": "AUDA",
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Government Transfers for Operating Expenses",
                     "percent": 73.04
                 },
                 {
                     "amount": 0.0,
                     "amount_type": "AUDA",
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Government Transfers for Capital Expenses",
                     "percent": 0
                 },
                 {
                     "amount": 4583648.0,
                     "amount_type": "AUDA",
-                    "date": "2016",
+                    "date": 2016,
                     "item": "Other",
                     "percent": 0.94
                 },
                 {
                     "amount": 37305202.0,
                     "amount_type": "AUDA",
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Property rates",
                     "percent": 8.29
                 },
                 {
                     "amount": 33933950.0,
                     "amount_type": "AUDA",
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Service Charges",
                     "percent": 7.54
                 },
                 {
                     "amount": 820797.0,
                     "amount_type": "AUDA",
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Rental income",
                     "percent": 0.18
                 },
                 {
                     "amount": 21691432.0,
                     "amount_type": "AUDA",
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Interest and investments",
                     "percent": 4.82
                 },
                 {
                     "amount": 1937741.0,
                     "amount_type": "AUDA",
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Fines",
                     "percent": 0.43
                 },
                 {
                     "amount": 0.0,
                     "amount_type": "AUDA",
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Licenses and Permits",
                     "percent": 0
                 },
                 {
                     "amount": 2336519.0,
                     "amount_type": "AUDA",
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Agency services",
                     "percent": 0.52
                 },
                 {
                     "amount": 350292058.0,
                     "amount_type": "AUDA",
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Government Transfers for Operating Expenses",
                     "percent": 77.83
                 },
                 {
                     "amount": 0.0,
                     "amount_type": "AUDA",
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Government Transfers for Capital Expenses",
                     "percent": 0
                 },
                 {
                     "amount": 1733331.0,
                     "amount_type": "AUDA",
-                    "date": "2015",
+                    "date": 2015,
                     "item": "Other",
                     "percent": 0.39
                 },
                 {
                     "amount": 29131077.0,
                     "amount_type": "AUDA",
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Property rates",
                     "percent": 7.43
                 },
                 {
                     "amount": 30706540.0,
                     "amount_type": "AUDA",
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Service Charges",
                     "percent": 7.84
                 },
                 {
                     "amount": 784644.0,
                     "amount_type": "AUDA",
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Rental income",
                     "percent": 0.2
                 },
                 {
                     "amount": 19494670.0,
                     "amount_type": "AUDA",
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Interest and investments",
                     "percent": 4.97
                 },
                 {
                     "amount": 495161.0,
                     "amount_type": "AUDA",
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Fines",
                     "percent": 0.13
                 },
                 {
                     "amount": 2307245.0,
                     "amount_type": "AUDA",
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Licenses and Permits",
                     "percent": 0.59
                 },
                 {
                     "amount": 0.0,
                     "amount_type": "AUDA",
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Agency services",
                     "percent": 0
                 },
                 {
                     "amount": 307171270.0,
                     "amount_type": "AUDA",
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Government Transfers for Operating Expenses",
                     "percent": 78.38
                 },
                 {
                     "amount": 0.0,
                     "amount_type": "AUDA",
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Government Transfers for Capital Expenses",
                     "percent": 0
                 },
                 {
                     "amount": 1805691.0,
                     "amount_type": "AUDA",
-                    "date": "2014",
+                    "date": 2014,
                     "item": "Other",
                     "percent": 0.46
                 },
                 {
-                    "amount": 84730977.0,
-                    "amount_type": "ORGB",
-                    "date": "2018 budget",
+                    "amount": 31158134.0,
+                    "amount_type": "AUDA",
+                    "date": 2013,
                     "item": "Property rates",
-                    "percent": 19.94
+                    "percent": 8.63
                 },
                 {
-                    "amount": 51912846.0,
-                    "amount_type": "ORGB",
-                    "date": "2018 budget",
+                    "amount": 29442567.0,
+                    "amount_type": "AUDA",
+                    "date": 2013,
                     "item": "Service Charges",
-                    "percent": 12.21
+                    "percent": 8.15
                 },
                 {
-                    "amount": 1977018.0,
-                    "amount_type": "ORGB",
-                    "date": "2018 budget",
+                    "amount": 427476.0,
+                    "amount_type": "AUDA",
+                    "date": 2013,
                     "item": "Rental income",
-                    "percent": 0.47
+                    "percent": 0.12
                 },
                 {
-                    "amount": 17934642.0,
-                    "amount_type": "ORGB",
-                    "date": "2018 budget",
+                    "amount": 17823456.0,
+                    "amount_type": "AUDA",
+                    "date": 2013,
                     "item": "Interest and investments",
-                    "percent": 4.22
+                    "percent": 4.93
                 },
                 {
-                    "amount": 3080221.0,
-                    "amount_type": "ORGB",
-                    "date": "2018 budget",
+                    "amount": 194214.0,
+                    "amount_type": "AUDA",
+                    "date": 2013,
                     "item": "Fines",
-                    "percent": 0.72
+                    "percent": 0.05
+                },
+                {
+                    "amount": 1863030.0,
+                    "amount_type": "AUDA",
+                    "date": 2013,
+                    "item": "Licenses and Permits",
+                    "percent": 0.52
+                },
+                {
+                    "amount": 0.0,
+                    "amount_type": "AUDA",
+                    "date": 2013,
+                    "item": "Agency services",
+                    "percent": 0
+                },
+                {
+                    "amount": 268343473.0,
+                    "amount_type": "AUDA",
+                    "date": 2013,
+                    "item": "Government Transfers for Operating Expenses",
+                    "percent": 74.28
+                },
+                {
+                    "amount": 0.0,
+                    "amount_type": "AUDA",
+                    "date": 2013,
+                    "item": "Government Transfers for Capital Expenses",
+                    "percent": 0
+                },
+                {
+                    "amount": 11989838.0,
+                    "amount_type": "AUDA",
+                    "date": 2013,
+                    "item": "Other",
+                    "percent": 3.32
+                },
+                {
+                    "amount": 51151308.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Property rates",
+                    "percent": 13.72
+                },
+                {
+                    "amount": 47313748.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Service Charges",
+                    "percent": 12.69
+                },
+                {
+                    "amount": 1960286.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Rental income",
+                    "percent": 0.53
+                },
+                {
+                    "amount": 22362642.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Interest and investments",
+                    "percent": 6.0
+                },
+                {
+                    "amount": 1937741.0,
+                    "amount_type": "ORGB",
+                    "date": "2017 budget",
+                    "item": "Fines",
+                    "percent": 0.52
                 },
                 {
                     "amount": 0.0,
                     "amount_type": "ORGB",
-                    "date": "2018 budget",
+                    "date": "2017 budget",
                     "item": "Licenses and Permits",
                     "percent": 0
                 },
                 {
                     "amount": 0.0,
                     "amount_type": "ORGB",
-                    "date": "2018 budget",
+                    "date": "2017 budget",
                     "item": "Agency services",
                     "percent": 0
                 },
                 {
-                    "amount": 262208800.0,
+                    "amount": 244184850.0,
                     "amount_type": "ORGB",
-                    "date": "2018 budget",
+                    "date": "2017 budget",
                     "item": "Government Transfers for Operating Expenses",
-                    "percent": 61.69
+                    "percent": 65.51
                 },
                 {
                     "amount": 0.0,
                     "amount_type": "ORGB",
-                    "date": "2018 budget",
+                    "date": "2017 budget",
                     "item": "Government Transfers for Capital Expenses",
                     "percent": 0
                 },
                 {
-                    "amount": 3190501.0,
+                    "amount": 3823485.0,
                     "amount_type": "ORGB",
-                    "date": "2018 budget",
+                    "date": "2017 budget",
                     "item": "Other",
-                    "percent": 0.75
+                    "percent": 1.03
                 }
             ]
         },
         "revenue_sources": {
             "government": {
-                "amount": 0,
-                "items": [],
-                "percent": null,
-                "value": null
+                "amount": 354448836.0,
+                "items": [
+                    {
+                        "amount.sum": 354448836.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2016,
+                        "item.code": "1600",
+                        "item.label": "Transfers Recognised - Operating"
+                    },
+                    {
+                        "amount.sum": 0.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2016,
+                        "item.code": "1610",
+                        "item.label": "Transfers Recognised - Capital"
+                    }
+                ],
+                "percent": 73.04
             },
             "local": {
-                "amount": 0,
-                "items": [],
-                "percent": null,
-                "value": null
+                "amount": 130844468.0,
+                "items": [
+                    {
+                        "amount.sum": 54586759.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2016,
+                        "item.code": "0200",
+                        "item.label": "Property Rates"
+                    },
+                    {
+                        "amount.sum": 0.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2016,
+                        "item.code": "0300",
+                        "item.label": "Property Rates - Penalties And Collection Charges"
+                    },
+                    {
+                        "amount.sum": 35144258.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2016,
+                        "item.code": "0400",
+                        "item.label": "Service Charges"
+                    },
+                    {
+                        "amount.sum": 2642970.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2016,
+                        "item.code": "0700",
+                        "item.label": "Rent Of Facilities And Equipment"
+                    },
+                    {
+                        "amount.sum": 2244682.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2016,
+                        "item.code": "0800",
+                        "item.label": "Interest Earned - External Investments"
+                    },
+                    {
+                        "amount.sum": 24484144.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2016,
+                        "item.code": "1000",
+                        "item.label": "Interest Earned - Outstanding Debtors"
+                    },
+                    {
+                        "amount.sum": 0.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2016,
+                        "item.code": "1100",
+                        "item.label": "Dividends Received"
+                    },
+                    {
+                        "amount.sum": 5213955.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2016,
+                        "item.code": "1300",
+                        "item.label": "Fines"
+                    },
+                    {
+                        "amount.sum": 0.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2016,
+                        "item.code": "1400",
+                        "item.label": "Licenses and Permits"
+                    },
+                    {
+                        "amount.sum": 1944052.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2016,
+                        "item.code": "1500",
+                        "item.label": "Agency Services"
+                    },
+                    {
+                        "amount.sum": 4583648.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2016,
+                        "item.code": "1700",
+                        "item.label": "Other Revenue"
+                    },
+                    {
+                        "amount.sum": 0.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2016,
+                        "item.code": "1800",
+                        "item.label": "Gain On Disposal Of Property, Plant & Equipment"
+                    }
+                ],
+                "percent": 26.96
             },
             "rating": "bad",
             "ref": {
                 "title": "Local Government Equitable Share",
                 "url": "http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx"
             },
-            "year": 2017
+            "year": 2016
         },
         "wasteful_exp": {
             "ref": {
@@ -1007,8 +1211,8 @@
                 },
                 {
                     "date": 2013,
-                    "rating": null,
-                    "result": null
+                    "rating": "bad",
+                    "result": 62.98
                 }
             ]
         }
@@ -1064,7 +1268,7 @@
                 "title": "Mr"
             }
         ],
-        "updated_date": "March 2018"
+        "updated_date": "December 2017"
     },
     "muni_contact": {
         "phone_number": "017 843 4000",
