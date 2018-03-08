@@ -15,17 +15,17 @@ make municipal finance information available to the public. It is made up of a c
    * shapely requires libgeos-dev (Geometry engine development files).
    * gnureadline requires libncurses5-dev (ncurses development files).
    * multiple packages require python development files (python-dev).
-
+   
    After these packages have being installed the python packages can then be installed. ```pip install -r requiments.txt```
 5. Install postgresql and create a user and a database.
 
    ``createuser municipal_finance -W``
-
+   
    * -W will prompt to create a password for the user.
-
+   
    ``createdb municipal_finance -O municipal_finance``
-
-   * -O will give ownership of the database to the municipal_finance user.
+   
+   * -O will give ownership of the database to the municipal_finance user. 
 
 6. install data from somewhere :)
 
@@ -142,7 +142,6 @@ Using `municipal_finance/data_import/audit_reports.py`
 
 1. Update the paths in the per-cube files in `sql/upsert/`
 2. Execute the files
-  - This takes about 30 minutes for incexp, a bit less for capital, and the rest are much quicker.
 
 These files work as follows:
 
@@ -159,7 +158,6 @@ Update the last-updated date in the model files for each cube in `models/*.json`
 Update the materialised view data using `bin/materialised_views.py`:
 
 1. Run with --profiles-from-api to update the muni-specific profile data
- - This takes about 6 minutes locally
 2. Run with --calc-medians and --calc-rating-counts to update comparison data based on profile changes.
 3. Check what changed using `git diff` and commit commit if changes look right.
 4. Run `bin/test-pages.sh` and ensure that all pages return "200 OK"

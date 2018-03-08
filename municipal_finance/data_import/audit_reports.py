@@ -79,11 +79,11 @@ class Main(object):
                 for path in self.expand_dir(dir, {'p_FileLeafRef': last_name, 'Paged': 'TRUE'}):
                     yield path
         except:
-            print("error", dir, params)
+            print "error", dir, params
             traceback.print_exc()
             sys.stdout.flush()
 
 if __name__ == "__main__":
     [outfile] = sys.argv[1:]
-    with open(outfile, 'w') as csv_file:
+    with open(outfile, 'wb') as csv_file:
         Main(csv_file).run()
