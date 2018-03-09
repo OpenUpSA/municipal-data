@@ -22,7 +22,7 @@ CREATE TEMPORARY TABLE aged_creditor_upsert
 
 \echo Read data...
 
-\copy aged_creditor_upsert (demarcation_code, period_code, item_code, g1_amount, l1_amount, l120_amount, l150_amount, l180_amount, l30_amount, l60_amount, l90_amount, total_amount) FROM '/home/jdb/proj/code4sa/municipalmoney/data/Section 71 Q1 2017-18/cred_2018q1_acrmun-KZN275-invalid-submissions-removed.csv' DELIMITER ',' CSV HEADER;
+\copy aged_creditor_upsert (demarcation_code, period_code, item_code, g1_amount, l1_amount, l120_amount, l150_amount, l180_amount, l30_amount, l60_amount, l90_amount, total_amount) FROM '/home/jdb/proj/code4sa/municipalmoney/data/Section 71 Q2 2017-18/cred_2018q2_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \echo Delete demarcation_code-period_code pairs that are in the update
 
