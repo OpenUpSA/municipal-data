@@ -2,6 +2,12 @@
     "audit_opinions": {
         "values": [
             {
+                "date": 2017,
+                "rating": "unqualified_emphasis_of_matter",
+                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2016-17/02.%20Local%20municipalities/KZN292%20KwaDukuza/KZN292%20KwaDukuza%20Audit%20Report%202016-17.pdf",
+                "result": "Unqualified - Emphasis of Matter items"
+            },
+            {
                 "date": 2016,
                 "rating": "unqualified_emphasis_of_matter",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2015-16/02.%20Local%20municipalities/KZN292%20KwaDukuza/KZN292%20KwaDukuza%20Audit%20Report%202015-16.pdf",
@@ -17,12 +23,6 @@
                 "date": 2014,
                 "rating": "unqualified_emphasis_of_matter",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/KZN292%20KwaDukuza/KZN292%20KwaDukuza%20Audit%20report%202013-14.pdf",
-                "result": "Unqualified - Emphasis of Matter items"
-            },
-            {
-                "date": 2013,
-                "rating": "unqualified_emphasis_of_matter",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2012-13/02.%20Local%20Municipalities/KZN292%20KwaDukuza/KZN292%20KwaDukuza%20Audit%20report%202012-13.pdf",
                 "result": "Unqualified - Emphasis of Matter items"
             }
         ]
@@ -72,8 +72,8 @@
             "values": [
                 {
                     "date": 2017,
-                    "rating": "bad",
-                    "result": null
+                    "rating": "good",
+                    "result": 270209175.0
                 },
                 {
                     "date": 2016,
@@ -100,8 +100,8 @@
             "values": [
                 {
                     "date": 2017,
-                    "rating": null,
-                    "result": null
+                    "rating": "ave",
+                    "result": 2.5
                 },
                 {
                     "date": 2016,
@@ -126,6 +126,25 @@
                 "url": "http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        113612255.0,
+                        94592372.0,
+                        101804388.0
+                    ],
+                    "date": "2018q3",
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "receipts": [
+                        94106287.0,
+                        71193811.0,
+                        79399360.0
+                    ],
+                    "result": 78.93,
+                    "year": 2018
+                },
                 {
                     "amount_type": "ACT",
                     "billing": [
@@ -201,25 +220,6 @@
                     ],
                     "result": 90.32,
                     "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        100874854.0,
-                        92290641.0,
-                        92833728.0
-                    ],
-                    "date": "2017q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "receipts": [
-                        117447777.0,
-                        101296034.0,
-                        92197804.0
-                    ],
-                    "result": 108.72,
-                    "year": 2017
                 }
             ]
         },
@@ -229,6 +229,17 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "assets": 717842477.0,
+                    "date": "2018q3",
+                    "liabilities": 310679653.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "good",
+                    "result": 2.31,
+                    "year": 2018
+                },
                 {
                     "amount_type": "ACT",
                     "assets": 694034774.0,
@@ -271,17 +282,6 @@
                     "quarter": 3,
                     "rating": "good",
                     "result": 2.27,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "assets": 586976247.0,
-                    "date": "2017q2",
-                    "liabilities": 240714016.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "result": 2.44,
                     "year": 2017
                 }
             ]
@@ -622,6 +622,18 @@
             "values": [
                 {
                     "amount_type": "ACT",
+                    "call_investment_deposits": 98531752.0,
+                    "cash": 356251013.0,
+                    "date": "2018q3",
+                    "liabilities": 310679653.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "good",
+                    "result": 1.46,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
                     "call_investment_deposits": 101142909.0,
                     "cash": 319114999.0,
                     "date": "2018q2",
@@ -666,18 +678,6 @@
                     "quarter": 3,
                     "rating": "good",
                     "result": 1.61,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 311367167.0,
-                    "cash": 78340730.0,
-                    "date": "2017q2",
-                    "liabilities": 240714016.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "result": 1.62,
                     "year": 2017
                 }
             ]
@@ -1310,7 +1310,7 @@
                 "title": "Mr"
             }
         ],
-        "updated_date": "March 2018"
+        "updated_date": "June 2018"
     },
     "muni_contact": {
         "phone_number": "032 437 5000",

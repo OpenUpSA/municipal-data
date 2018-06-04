@@ -2,6 +2,12 @@
     "audit_opinions": {
         "values": [
             {
+                "date": 2017,
+                "rating": "qualified",
+                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2016-17/02.%20Local%20municipalities/EC442%20Umzimvubu/EC442%20Umzimvubu%20Audit%20report%202016-17.pdf",
+                "result": "Qualified"
+            },
+            {
                 "date": 2016,
                 "rating": "unqualified",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2015-16/02.%20Local%20municipalities/EC442%20Umzimvubu/EC442%20Umzimvubu%20Audit%20report%202015-16.pdf",
@@ -17,12 +23,6 @@
                 "date": 2014,
                 "rating": "unqualified_emphasis_of_matter",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/EC442%20Mbizana/EC442%20Mbizana%20Audit%20report%202013-14.pdf",
-                "result": "Unqualified - Emphasis of Matter items"
-            },
-            {
-                "date": 2013,
-                "rating": "unqualified_emphasis_of_matter",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2012-13/02.%20Local%20Municipalities/EC442%20Umzimvubu/EC442%20Umzimvubu%20Audit%20report%202012-13.pdf",
                 "result": "Unqualified - Emphasis of Matter items"
             }
         ]
@@ -129,6 +129,25 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
+                        1223109.0,
+                        1232878.0,
+                        1470810.0
+                    ],
+                    "date": "2018q3",
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "receipts": [
+                        1223109.0,
+                        1232878.0,
+                        1097722.0
+                    ],
+                    "result": 90.5,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
                         1460237.0,
                         1454332.0,
                         1712016.0
@@ -201,25 +220,6 @@
                     ],
                     "result": 100.0,
                     "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        991780.0,
-                        978368.0,
-                        742824.0
-                    ],
-                    "date": "2017q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "receipts": [
-                        541775.0,
-                        179665.0,
-                        832164.0
-                    ],
-                    "result": 57.27,
-                    "year": 2017
                 }
             ]
         },
@@ -229,6 +229,17 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "assets": 205330673.0,
+                    "date": "2018q3",
+                    "liabilities": 75924806.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "good",
+                    "result": 2.7,
+                    "year": 2018
+                },
                 {
                     "amount_type": "ACT",
                     "assets": 164305306.0,
@@ -271,17 +282,6 @@
                     "quarter": 3,
                     "rating": "good",
                     "result": 1.61,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "assets": 135945099.0,
-                    "date": "2017q2",
-                    "liabilities": 45900411.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "result": 2.96,
                     "year": 2017
                 }
             ]
@@ -496,6 +496,18 @@
             "values": [
                 {
                     "amount_type": "ACT",
+                    "call_investment_deposits": 137576904.0,
+                    "cash": 0.0,
+                    "date": "2018q3",
+                    "liabilities": 75924806.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "good",
+                    "result": 1.81,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
                     "call_investment_deposits": 132450734.0,
                     "cash": 17743.0,
                     "date": "2018q2",
@@ -540,18 +552,6 @@
                     "quarter": 3,
                     "rating": "good",
                     "result": 1.36,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 111666117.0,
-                    "cash": 3132907.0,
-                    "date": "2017q2",
-                    "liabilities": 45900411.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "result": 2.5,
                     "year": 2017
                 }
             ]
@@ -1176,10 +1176,10 @@
                 "title": "Mrs"
             }
         ],
-        "updated_date": "March 2018"
+        "updated_date": "June 2018"
     },
     "muni_contact": {
-        "phone_number": "039 255 0166",
+        "phone_number": "039 255 8500",
         "street_address_1": "813 Main Street",
         "street_address_2": "Mount Frere",
         "street_address_3": "5090",
