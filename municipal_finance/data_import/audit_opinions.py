@@ -17,8 +17,18 @@ def convert(sheet, csv_file):
         'Disclaimer of opinion': 'disclaimer',
         'Qualified': 'qualified',
         'Unqualified - Emphasis of Matter items': 'unqualified_emphasis_of_matter',
+        'Unqualified - With findings': 'unqualified_emphasis_of_matter',
         'Unqualified - No findings': 'unqualified',
         'Outstanding': 'outstanding',
+    }
+    label_normalised = {
+        'Adverse opinion': 'Adverse opinion',
+        'Disclaimer of opinion': 'Disclaimer of opinion',
+        'Qualified': 'Qualified',
+        'Unqualified - Emphasis of Matter items': 'Unqualified - Emphasis of Matter items',
+        'Unqualified - With findings': 'Unqualified - Emphasis of Matter items',
+        'Unqualified - No findings': 'Unqualified - No findings',
+        'Outstanding': 'Outstanding',
     }
 
     item = None
@@ -27,10 +37,10 @@ def convert(sheet, csv_file):
         fieldnames = ['demarcation_code', 'year', 'opinion_code', 'opinion_label']
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
-        for rowx in xrange(10, sheet.nrows):
+        for rowx in range(10, sheet.nrows):
             if sheet.cell(rowx, 0).value == 'TOTAL':
                 continue
-            for colx in xrange(3, sheet.ncols):
+            for colx in range(3, sheet.ncols):
                 if sheet.cell(3, colx).value != '':
                     # new year
                     current_year = int(sheet.cell(3, colx).value)
@@ -40,7 +50,7 @@ def convert(sheet, csv_file):
                     }
                 val = sheet.cell(rowx, colx).value
                 if val != '':
-                    item['opinion_label'] = sheet.cell(5, colx).value
+                    item['opinion_label'] = label_normalised[sheet.cell(5, colx).value]
                     item['opinion_code'] = label_to_code[item['opinion_label']]
                     writer.writerow(item)
 
