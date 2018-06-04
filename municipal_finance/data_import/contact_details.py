@@ -1,5 +1,5 @@
 """
-python muni_contacts.py 'Municipal contact detail - 28 April 2016.xlsx' 'muni.csv' 'persons.csv'
+python contact_details.py 'Municipal contact detail - 28 April 2016.xlsx' 'muni.csv' 'persons.csv'
 python -m pdb muni_contacts.py 'Municipal contact detail - 28 April 2016.xlsx' 'muni.csv' 'persons.csv'
 """
 import csv
