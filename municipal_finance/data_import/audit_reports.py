@@ -1,4 +1,4 @@
-# python municipal_finance/data_import/audit_reports.py |tee audit_reports.csv
+# python municipal_finance/data_import/audit_reports.py audit_reports.csv
 # cat audit_reports.csv|grep -v "Thumbs.db"|cut -d, -f-2  | sort |uniq -c|sort -n|grep -v ' 1 '|cut -d' ' -f 8- > multi
 # grep -f multi audit_reports.csv
 #

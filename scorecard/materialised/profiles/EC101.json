@@ -2,6 +2,12 @@
     "audit_opinions": {
         "values": [
             {
+                "date": 2017,
+                "rating": "disclaimer",
+                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2016-17/02.%20Local%20municipalities/EC101%20Dr%20Beyers%20Naude/EC101%20Dr%20Beyers%20Naude%20Audit%20report%202016-17.pdf",
+                "result": "Disclaimer of opinion"
+            },
+            {
                 "date": 2016,
                 "rating": "unqualified_emphasis_of_matter",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2015-16/02.%20Local%20municipalities/EC101%20Camdeboo/EC101%20Camdeboo%20Audit%20report%202015-16.pdf",
@@ -18,12 +24,6 @@
                 "rating": "unqualified_emphasis_of_matter",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/EC101%20Camdeboo/EC101%20Camdeboo%20Audit%20report%202013-14.pdf",
                 "result": "Unqualified - Emphasis of Matter items"
-            },
-            {
-                "date": 2013,
-                "rating": "qualified",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2012-13/02.%20Local%20Municipalities/EC101%20Camdeboo/EC101%20Camdeboo%20Audit%20report%202012-13.pdf",
-                "result": "Qualified"
             }
         ]
     },
@@ -143,6 +143,25 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
+                        13314541.0,
+                        12343329.0,
+                        11432822.0
+                    ],
+                    "date": "2018q3",
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "receipts": [
+                        11541294.0,
+                        10557430.0,
+                        7516030.0
+                    ],
+                    "result": 79.84,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
                         11055857.0,
                         13086225.0,
                         12244221.0
@@ -215,25 +234,6 @@
                     ],
                     "result": 0.0,
                     "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        11734938.0,
-                        11311893.0,
-                        14625775.0
-                    ],
-                    "date": "2017q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "receipts": [
-                        0.0,
-                        0.0,
-                        8468433.0
-                    ],
-                    "result": 22.48,
-                    "year": 2017
                 }
             ]
         },
@@ -243,6 +243,17 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "assets": 82722027.0,
+                    "date": "2018q3",
+                    "liabilities": 108771139.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "result": 0.76,
+                    "year": 2018
+                },
                 {
                     "amount_type": "ACT",
                     "assets": 90017123.0,
@@ -285,17 +296,6 @@
                     "quarter": 3,
                     "rating": "good",
                     "result": 2.41,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "assets": 127950222.0,
-                    "date": "2017q2",
-                    "liabilities": 42315684.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "result": 3.02,
                     "year": 2017
                 }
             ]
@@ -720,6 +720,18 @@
             "values": [
                 {
                     "amount_type": "ACT",
+                    "call_investment_deposits": 22849378.0,
+                    "cash": 2317578.0,
+                    "date": "2018q3",
+                    "liabilities": 108771139.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "result": 0.23,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
                     "call_investment_deposits": 30013719.0,
                     "cash": 12797206.0,
                     "date": "2018q2",
@@ -764,18 +776,6 @@
                     "quarter": 3,
                     "rating": "bad",
                     "result": 0.76,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 29011823.0,
-                    "cash": 20416116.0,
-                    "date": "2017q2",
-                    "liabilities": 42315684.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "result": 1.17,
                     "year": 2017
                 }
             ]
@@ -843,11 +843,11 @@
         "revenue_breakdown": {
             "values": [
                 {
-                    "amount": 25528296.0,
+                    "amount": 21625697.0,
                     "amount_type": "AUDA",
                     "date": "2017",
                     "item": "Property rates",
-                    "percent": 7.86
+                    "percent": 6.66
                 },
                 {
                     "amount": 117962297.0,
@@ -864,11 +864,11 @@
                     "percent": 0.18
                 },
                 {
-                    "amount": 3652953.0,
+                    "amount": 7555552.0,
                     "amount_type": "AUDA",
                     "date": "2017",
                     "item": "Interest and investments",
-                    "percent": 1.13
+                    "percent": 2.33
                 },
                 {
                     "amount": 76547.0,
@@ -1226,7 +1226,7 @@
                         "item.label": "Property Rates"
                     },
                     {
-                        "amount.sum": 3902599.0,
+                        "amount.sum": 0.0,
                         "amount_type.code": "AUDA",
                         "financial_year_end.year": 2017,
                         "item.code": "0300",
@@ -1254,7 +1254,7 @@
                         "item.label": "Interest Earned - External Investments"
                     },
                     {
-                        "amount.sum": 1956848.0,
+                        "amount.sum": 5859447.0,
                         "amount_type.code": "AUDA",
                         "financial_year_end.year": 2017,
                         "item.code": "1000",
@@ -1400,7 +1400,7 @@
                 "title": "Ms"
             }
         ],
-        "updated_date": "March 2018"
+        "updated_date": "June 2018"
     },
     "muni_contact": {
         "phone_number": "049 807 5700",

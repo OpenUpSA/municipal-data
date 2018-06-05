@@ -2,6 +2,12 @@
     "audit_opinions": {
         "values": [
             {
+                "date": 2017,
+                "rating": "qualified",
+                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2016-17/02.%20Local%20municipalities/KZN223%20Mpofana/KZN223%20Mpofana%20Audit%20Report%202016-17.pdf",
+                "result": "Qualified"
+            },
+            {
                 "date": 2016,
                 "rating": "disclaimer",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2015-16/02.%20Local%20municipalities/KZN223%20Mpofana/KZN223%20Mpofana%20Audit%20Report%202015-16.pdf",
@@ -17,12 +23,6 @@
                 "date": 2014,
                 "rating": "qualified",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/KZN223%20Mpofana/KZN223%20Mpofana%20Audit%20report%202013-14.pdf",
-                "result": "Qualified"
-            },
-            {
-                "date": 2013,
-                "rating": "qualified",
-                "report_url": null,
                 "result": "Qualified"
             }
         ]
@@ -40,9 +40,9 @@
             "values": [
                 {
                     "date": 2017,
-                    "overunder": "under",
+                    "overunder": "over",
                     "rating": "bad",
-                    "result": -47.93
+                    "result": 56.11
                 },
                 {
                     "date": 2016,
@@ -129,28 +129,47 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
-                        9931340.0,
-                        1097701.0,
-                        4850029.0
+                        5459285.0,
+                        6113932.0,
+                        4942135.0
                     ],
-                    "date": "2018q2",
-                    "month": 6,
-                    "quarter": 2,
+                    "date": "2018q3",
+                    "month": 9,
+                    "quarter": 3,
                     "rating": "bad",
                     "receipts": [
-                        1385210.0,
-                        1361236.0,
-                        6549414.0
+                        1277487.0,
+                        1016094.0,
+                        5473936.0
                     ],
-                    "result": 58.54,
+                    "result": 47.03,
                     "year": 2018
                 },
                 {
                     "amount_type": "ACT",
                     "billing": [
-                        12996121.0,
-                        6523298.0,
-                        6615423.0
+                        9685469.0,
+                        1097701.0,
+                        -444118.0
+                    ],
+                    "date": "2018q2",
+                    "month": 6,
+                    "quarter": 2,
+                    "rating": "good",
+                    "receipts": [
+                        5531253.0,
+                        1361236.0,
+                        6549414.0
+                    ],
+                    "result": 130.01,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        12877898.0,
+                        6404804.0,
+                        6780699.0
                     ],
                     "date": "2018q1",
                     "month": 3,
@@ -158,10 +177,10 @@
                     "rating": "bad",
                     "receipts": [
                         9442896.0,
-                        983361.0,
+                        3180734.0,
                         758628.0
                     ],
-                    "result": 42.8,
+                    "result": 51.35,
                     "year": 2018
                 },
                 {
@@ -201,25 +220,6 @@
                     ],
                     "result": 108.51,
                     "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        7007424.0,
-                        6126000.0,
-                        6126000.0
-                    ],
-                    "date": "2017q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "receipts": [
-                        705000.0,
-                        6658000.0,
-                        3745000.0
-                    ],
-                    "result": 57.68,
-                    "year": 2017
                 }
             ]
         },
@@ -229,6 +229,17 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "assets": 45260219.0,
+                    "date": "2018q3",
+                    "liabilities": 90922757.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "result": 0.5,
+                    "year": 2018
+                },
                 {
                     "amount_type": "ACT",
                     "assets": 45260219.0,
@@ -269,17 +280,6 @@
                     "liabilities": 36603866.0,
                     "month": 9,
                     "quarter": 3,
-                    "rating": "ave",
-                    "result": 1.36,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "assets": 49848588.0,
-                    "date": "2017q2",
-                    "liabilities": 36603866.0,
-                    "month": 6,
-                    "quarter": 2,
                     "rating": "ave",
                     "result": 1.36,
                     "year": 2017
@@ -528,6 +528,18 @@
                     "amount_type": "ACT",
                     "call_investment_deposits": 0.0,
                     "cash": 496505.0,
+                    "date": "2018q3",
+                    "liabilities": 90922757.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "result": 0.01,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 0.0,
+                    "cash": 496505.0,
                     "date": "2018q2",
                     "liabilities": 90922757.0,
                     "month": 6,
@@ -568,18 +580,6 @@
                     "liabilities": 36603866.0,
                     "month": 9,
                     "quarter": 3,
-                    "rating": "bad",
-                    "result": 0.13,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 2776519.0,
-                    "cash": 2158882.0,
-                    "date": "2017q2",
-                    "liabilities": 36603866.0,
-                    "month": 6,
-                    "quarter": 2,
                     "rating": "bad",
                     "result": 0.13,
                     "year": 2017
@@ -1198,7 +1198,7 @@
                 "title": null
             }
         ],
-        "updated_date": "March 2018"
+        "updated_date": "June 2018"
     },
     "muni_contact": {
         "phone_number": "033 263 7700/1221",

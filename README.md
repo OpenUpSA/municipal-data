@@ -248,6 +248,10 @@ Do each of these cursory tests for a small sample of municipalities to sanity-ch
 
 - capital and creditor age had unexpected codes for one KZN muni. Marina said we should filter them out.
 
+## 2018q3
+
+- The audit opinion label `Unqualified - With findings` should get mapped to `Unqualified - Emphasis of Matter items` - confirmed with Elsabe.
+
 # License
 
 MIT License

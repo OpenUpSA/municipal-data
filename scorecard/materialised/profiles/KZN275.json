@@ -2,6 +2,12 @@
     "audit_opinions": {
         "values": [
             {
+                "date": 2017,
+                "rating": "unqualified_emphasis_of_matter",
+                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2016-17/02.%20Local%20municipalities/KZN275%20Mtubatuba/KZN275%20Ntubatuba%20AFS%202016-17%20audited.pdf",
+                "result": "Unqualified - Emphasis of Matter items"
+            },
+            {
                 "date": 2016,
                 "rating": "unqualified_emphasis_of_matter",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2015-16/02.%20Local%20municipalities/KZN275%20Mtubatuba/KZN275%20Mtubatuba%20Audit%20Report%202015-16.pdf",
@@ -18,12 +24,6 @@
                 "rating": "unqualified_emphasis_of_matter",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/KZN275%20Mtubatuba/KZN275%20Mtubatuba%20Audit%20report%202013-14.pdf",
                 "result": "Unqualified - Emphasis of Matter items"
-            },
-            {
-                "date": 2013,
-                "rating": "qualified",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2012-13/02.%20Local%20Municipalities/KZN275%20Mtubatuba/KZN275%20Mtubatuba%20Audit%20report%202012-13.pdf",
-                "result": "Qualified"
             }
         ]
     },
@@ -40,9 +40,9 @@
             "values": [
                 {
                     "date": 2017,
-                    "overunder": null,
-                    "rating": null,
-                    "result": null
+                    "overunder": "under",
+                    "rating": "good",
+                    "result": -4.05
                 },
                 {
                     "date": 2016,
@@ -101,7 +101,7 @@
                 {
                     "date": 2017,
                     "rating": "bad",
-                    "result": 0.4
+                    "result": 0.5
                 },
                 {
                     "date": 2016,
@@ -129,18 +129,39 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
+                        7096095.0,
+                        3660379.0,
+                        2762895.0
+                    ],
+                    "date": "2018q3",
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "receipts": [
+                        1792928.0,
+                        2437560.0,
+                        1616722.0
+                    ],
+                    "result": 43.25,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        2850851.0,
                         2679335.0,
                         2588087.0
                     ],
                     "date": "2018q2",
-                    "month": 5,
+                    "month": 6,
                     "quarter": 2,
-                    "rating": "bad",
+                    "rating": "good",
                     "receipts": [
+                        2262289.0,
                         4785923.0,
                         2467715.0
                     ],
-                    "result": null,
+                    "result": 117.22,
                     "year": 2018
                 },
                 {
@@ -199,25 +220,6 @@
                     ],
                     "result": 64.45,
                     "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        8181953.0,
-                        3361152.0,
-                        3349844.0
-                    ],
-                    "date": "2017q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "receipts": [
-                        3585150.0,
-                        1587715.0,
-                        1787782.0
-                    ],
-                    "result": 46.74,
-                    "year": 2017
                 }
             ]
         },
@@ -227,6 +229,17 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "assets": 105216439.0,
+                    "date": "2018q3",
+                    "liabilities": 97083484.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "ave",
+                    "result": 1.08,
+                    "year": 2018
+                },
                 {
                     "amount_type": "ACT",
                     "assets": 86755059.0,
@@ -269,17 +282,6 @@
                     "quarter": 3,
                     "rating": "good",
                     "result": 3.6,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "assets": 82534029.0,
-                    "date": "2017q2",
-                    "liabilities": 24535341.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "result": 3.36,
                     "year": 2017
                 }
             ]
@@ -380,31 +382,31 @@
                     "amount": 33442373.0,
                     "date": "2017",
                     "item": "Community & Social Services",
-                    "percent": 16.46
+                    "percent": 17.68
                 },
                 {
-                    "amount": 120729890.0,
+                    "amount": 106729890.0,
                     "date": "2017",
                     "item": "Governance, Administration, Planning and Development",
-                    "percent": 59.44
+                    "percent": 56.43
                 },
                 {
                     "amount": 13247394.0,
                     "date": "2017",
                     "item": "Public Safety",
-                    "percent": 6.52
+                    "percent": 7.0
                 },
                 {
                     "amount": 14385283.0,
                     "date": "2017",
                     "item": "Road Transport",
-                    "percent": 7.08
+                    "percent": 7.61
                 },
                 {
                     "amount": 21320088.0,
                     "date": "2017",
                     "item": "Waste Management",
-                    "percent": 10.5
+                    "percent": 11.27
                 },
                 {
                     "amount": 25835196.0,
@@ -443,7 +445,7 @@
                 {
                     "date": 2017,
                     "rating": "",
-                    "result": 11.35
+                    "result": 12.19
                 },
                 {
                     "date": 2016,
@@ -467,7 +469,7 @@
                 {
                     "date": 2017,
                     "rating": "",
-                    "result": 27.12
+                    "result": 29.13
                 },
                 {
                     "date": 2016,
@@ -492,6 +494,18 @@
                 "url": "http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 40199709.0,
+                    "cash": 9281983.0,
+                    "date": "2018q3",
+                    "liabilities": 97083484.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "result": 0.51,
+                    "year": 2018
+                },
                 {
                     "amount_type": "ACT",
                     "call_investment_deposits": 42782275.0,
@@ -539,18 +553,6 @@
                     "rating": "good",
                     "result": 1.55,
                     "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 22507243.0,
-                    "cash": 13053370.0,
-                    "date": "2017q2",
-                    "liabilities": 24535341.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "result": 1.45,
-                    "year": 2017
                 }
             ]
         },
@@ -563,8 +565,8 @@
                 {
                     "date": 2017,
                     "overunder": "over",
-                    "rating": "bad",
-                    "result": 15.7
+                    "rating": "ave",
+                    "result": 7.7
                 },
                 {
                     "date": 2016,
@@ -594,8 +596,8 @@
             "values": [
                 {
                     "date": 2017,
-                    "rating": null,
-                    "result": null
+                    "rating": "bad",
+                    "result": 1.12
                 },
                 {
                     "date": 2016,
@@ -1118,23 +1120,23 @@
     "mayoral_staff": {
         "officials": [
             {
-                "email": "mayor.mkhwanazi@mtubatuba.org.za",
+                "email": "mayor.vmgumede@mtubatuba.gov.za",
                 "fax_number": "035 550 0060",
-                "name": "M.Q. Mkhwanazi",
+                "name": "V.M Gumede",
                 "office_phone": "035 550 0069",
                 "role": "Mayor/Executive Mayor",
                 "secretary": {
-                    "email": "pa.mayor@mtubatuba.org.za",
+                    "email": "pa.mayor@mtubatuba.gov.za",
                     "fax_number": "035 550 0060",
-                    "name": "B.P Gasa",
+                    "name": "T.P Mazibuko",
                     "office_phone": "035 550 0069",
                     "role": "Secretary of Mayor/Executive Mayor",
-                    "title": "Mr"
+                    "title": "Ms"
                 },
                 "title": "Mr"
             },
             {
-                "email": "mm@mtubatuba.org.za",
+                "email": "mm@mtubatuba.gov.za",
                 "fax_number": "035 550 0060",
                 "name": "J.A Mngomezulu",
                 "office_phone": "035 550 0069",
@@ -1150,15 +1152,15 @@
                 "title": "Mr"
             },
             {
-                "email": "deputymayor.gumede@mtubatuba.org.za",
+                "email": "deputymayor.mlambo@mtubatuba.gov.za",
                 "fax_number": "035 550 0060",
-                "name": "M.S. Gumede",
+                "name": "N.J Mlambo",
                 "office_phone": "035 550 0069",
                 "role": "Deputy Mayor/Executive Mayor",
                 "secretary": {
-                    "email": "pa.deputymayor@mtubatuba.org.za",
+                    "email": "pa.mayor@mtubatuba.gov.za",
                     "fax_number": "035 550 0060",
-                    "name": "Q.N Kekane",
+                    "name": "T.P Mazibuko",
                     "office_phone": "035 550 0069",
                     "role": "Secretary of Deputy Mayor/Executive Mayor",
                     "title": "Ms"
@@ -1174,7 +1176,7 @@
                 "title": "Mr"
             }
         ],
-        "updated_date": "March 2018"
+        "updated_date": "June 2018"
     },
     "muni_contact": {
         "phone_number": "035 550 0069",

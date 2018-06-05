@@ -2,10 +2,16 @@
     "audit_opinions": {
         "values": [
             {
-                "date": 2016,
+                "date": 2017,
                 "rating": "outstanding",
                 "report_url": null,
                 "result": "Outstanding"
+            },
+            {
+                "date": 2016,
+                "rating": "adverse",
+                "report_url": null,
+                "result": "Adverse opinion"
             },
             {
                 "date": 2015,
@@ -18,12 +24,6 @@
                 "rating": "unqualified_emphasis_of_matter",
                 "report_url": null,
                 "result": "Unqualified - Emphasis of Matter items"
-            },
-            {
-                "date": 2013,
-                "rating": "qualified",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2012-13/02.%20Local%20Municipalities/LIM367%20Mogalakwena/LIM367%20Mogalakwena%20Audit%20report%202012-13.pdf",
-                "result": "Qualified"
             }
         ]
     },
@@ -129,6 +129,25 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
+                        31293904.0,
+                        34825597.0,
+                        34487919.0
+                    ],
+                    "date": "2018q3",
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "receipts": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "result": 0.0,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
                         34418397.0,
                         34658635.0,
                         3591974.0
@@ -194,25 +213,6 @@
                         32193069.0,
                         30905105.0,
                         29594987.0
-                    ],
-                    "result": 100.0,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        32513473.0,
-                        31762725.0,
-                        31152356.0
-                    ],
-                    "date": "2017q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "receipts": [
-                        32513473.0,
-                        31762724.0,
-                        31152356.0
                     ],
                     "result": 100.0,
                     "year": 2017
@@ -1161,7 +1161,7 @@
                 "title": "Mr"
             }
         ],
-        "updated_date": "March 2018"
+        "updated_date": "June 2018"
     },
     "muni_contact": {
         "phone_number": "015 491 9600",

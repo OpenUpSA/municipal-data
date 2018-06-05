@@ -2,6 +2,12 @@
     "audit_opinions": {
         "values": [
             {
+                "date": 2017,
+                "rating": "disclaimer",
+                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2016-17/02.%20Local%20municipalities/NW396%20Lekwa-Teemane/NW396%20Lekwa-Teemane%20Audit%20report%202016-17.pdf",
+                "result": "Disclaimer of opinion"
+            },
+            {
                 "date": 2016,
                 "rating": "disclaimer",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2015-16/02.%20Local%20municipalities/NW396%20Lekwa%20Teemane/NW396%20Lekwa-Teemane%20Audit%20report%202015-16.pdf",
@@ -15,12 +21,6 @@
             },
             {
                 "date": 2014,
-                "rating": "disclaimer",
-                "report_url": null,
-                "result": "Disclaimer of opinion"
-            },
-            {
-                "date": 2013,
                 "rating": "disclaimer",
                 "report_url": null,
                 "result": "Disclaimer of opinion"
@@ -40,15 +40,15 @@
             "values": [
                 {
                     "date": 2017,
-                    "overunder": "under",
-                    "rating": "bad",
-                    "result": -100.0
+                    "overunder": "over",
+                    "rating": "ave",
+                    "result": 12.16
                 },
                 {
                     "date": 2016,
-                    "overunder": "under",
-                    "rating": "bad",
-                    "result": -24.21
+                    "overunder": "over",
+                    "rating": "ave",
+                    "result": 9.82
                 },
                 {
                     "date": 2015,
@@ -73,12 +73,12 @@
                 {
                     "date": 2017,
                     "rating": "good",
-                    "result": 5730858.0
+                    "result": 5730857.0
                 },
                 {
                     "date": 2016,
                     "rating": "bad",
-                    "result": -278014.0
+                    "result": -22568541.0
                 },
                 {
                     "date": 2015,
@@ -106,7 +106,7 @@
                 {
                     "date": 2016,
                     "rating": "bad",
-                    "result": -0.0
+                    "result": 0
                 },
                 {
                     "date": 2015,
@@ -129,7 +129,26 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
-                        15204587.0,
+                        14846807.0,
+                        16020796.0,
+                        15130101.0
+                    ],
+                    "date": "2018q3",
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "receipts": [
+                        7321771.0,
+                        12577383.0,
+                        4622041.0
+                    ],
+                    "result": 53.31,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        14944159.0,
                         15140085.0,
                         20638553.0
                     ],
@@ -142,7 +161,7 @@
                         8561679.0,
                         9119845.0
                     ],
-                    "result": 48.05,
+                    "result": 48.3,
                     "year": 2018
                 },
                 {
@@ -201,25 +220,6 @@
                     ],
                     "result": 664.47,
                     "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        54714095.0,
-                        17530430.0,
-                        9637685.0
-                    ],
-                    "date": "2017q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "receipts": [
-                        4518808.0,
-                        6954368.0,
-                        7374608.0
-                    ],
-                    "result": 23.02,
-                    "year": 2017
                 }
             ]
         },
@@ -231,13 +231,24 @@
             "values": [
                 {
                     "amount_type": "ACT",
-                    "assets": 116701761.0,
+                    "assets": 109706649.0,
+                    "date": "2018q3",
+                    "liabilities": 22046423.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "good",
+                    "result": 4.98,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
+                    "assets": 30257440.0,
                     "date": "2018q2",
-                    "liabilities": 5481815.0,
+                    "liabilities": -2722663.0,
                     "month": 6,
                     "quarter": 2,
-                    "rating": "good",
-                    "result": 21.29,
+                    "rating": "bad",
+                    "result": -11.11,
                     "year": 2018
                 },
                 {
@@ -271,17 +282,6 @@
                     "quarter": 3,
                     "rating": "bad",
                     "result": 0.47,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "assets": 72024539.0,
-                    "date": "2017q2",
-                    "liabilities": -1549752.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "result": -46.47,
                     "year": 2017
                 }
             ]
@@ -433,7 +433,7 @@
                     "percent": 20.07
                 },
                 {
-                    "amount": 81808808.0,
+                    "amount": 81808809.0,
                     "date": "2016",
                     "item": "Governance, Administration, Planning and Development",
                     "percent": 31.8
@@ -664,14 +664,26 @@
             "values": [
                 {
                     "amount_type": "ACT",
-                    "call_investment_deposits": -23029032.0,
-                    "cash": 30350089.0,
+                    "call_investment_deposits": -11129032.0,
+                    "cash": -2685809.0,
+                    "date": "2018q3",
+                    "liabilities": 22046423.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "result": -0.63,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 0.0,
+                    "cash": 21098258.0,
                     "date": "2018q2",
-                    "liabilities": 5481815.0,
+                    "liabilities": -2722663.0,
                     "month": 6,
                     "quarter": 2,
-                    "rating": "good",
-                    "result": 1.34,
+                    "rating": "bad",
+                    "result": -7.75,
                     "year": 2018
                 },
                 {
@@ -708,18 +720,6 @@
                     "quarter": 3,
                     "rating": "bad",
                     "result": 0.07,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 0.0,
-                    "cash": 16895139.0,
-                    "date": "2017q2",
-                    "liabilities": -1549752.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "result": -10.9,
                     "year": 2017
                 }
             ]
@@ -765,7 +765,7 @@
                 {
                     "date": 2017,
                     "rating": "bad",
-                    "result": 0.0
+                    "result": 0.68
                 },
                 {
                     "date": 2016,
@@ -1336,7 +1336,7 @@
                 "title": "Mr"
             }
         ],
-        "updated_date": "March 2018"
+        "updated_date": "June 2018"
     },
     "muni_contact": {
         "phone_number": "053 441 2206",

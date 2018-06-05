@@ -2,6 +2,12 @@
     "audit_opinions": {
         "values": [
             {
+                "date": 2017,
+                "rating": "unqualified_emphasis_of_matter",
+                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2016-17/02.%20Local%20municipalities/EC102%20Blue%20Crane%20Route/EC102%20Blue%20Crane%20Route%20Audit%20report%202016-17.pdf",
+                "result": "Unqualified - Emphasis of Matter items"
+            },
+            {
                 "date": 2016,
                 "rating": "unqualified_emphasis_of_matter",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2015-16/02.%20Local%20municipalities/EC102%20Blue%20Crane%20Route/EC102%20Blue%20Crane%20Route%20Audit%20Report%202015-16.pdf",
@@ -17,12 +23,6 @@
                 "date": 2014,
                 "rating": "qualified",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/EC102%20Blue%20Crane%20Route",
-                "result": "Qualified"
-            },
-            {
-                "date": 2013,
-                "rating": "qualified",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2012-13/02.%20Local%20Municipalities/EC102%20Blue%20Crane%20Route/EC102%20Blue%20Crane%20Route%20Audit%20report%202012-13.pdf",
                 "result": "Qualified"
             }
         ]
@@ -129,20 +129,39 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
-                        9400672.0,
+                        10766854.0,
+                        12804840.0,
+                        10409654.0
+                    ],
+                    "date": "2018q3",
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "good",
+                    "receipts": [
+                        16831577.0,
+                        9769247.0,
+                        11629320.0
+                    ],
+                    "result": 112.5,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        26758314.0,
                         9686143.0,
                         9970161.0
                     ],
                     "date": "2018q2",
                     "month": 6,
                     "quarter": 2,
-                    "rating": "good",
+                    "rating": "bad",
                     "receipts": [
-                        9400477.0,
+                        8174171.0,
                         11280103.0,
                         10998188.0
                     ],
-                    "result": 109.02,
+                    "result": 65.61,
                     "year": 2018
                 },
                 {
@@ -201,25 +220,6 @@
                     ],
                     "result": 91.47,
                     "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        10000761.0,
-                        10575700.0,
-                        11355729.0
-                    ],
-                    "date": "2017q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "receipts": [
-                        7296637.0,
-                        8499983.0,
-                        9024776.0
-                    ],
-                    "result": 77.73,
-                    "year": 2017
                 }
             ]
         },
@@ -229,6 +229,17 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "assets": 62613910.0,
+                    "date": "2018q3",
+                    "liabilities": 45233606.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "ave",
+                    "result": 1.38,
+                    "year": 2018
+                },
                 {
                     "amount_type": "ACT",
                     "assets": 39285938.0,
@@ -271,17 +282,6 @@
                     "quarter": 3,
                     "rating": "bad",
                     "result": 0.87,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "assets": 55932136.0,
-                    "date": "2017q2",
-                    "liabilities": 66387165.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "result": 0.84,
                     "year": 2017
                 }
             ]
@@ -634,6 +634,18 @@
             "values": [
                 {
                     "amount_type": "ACT",
+                    "call_investment_deposits": 17863869.0,
+                    "cash": 6726480.0,
+                    "date": "2018q3",
+                    "liabilities": 45233606.0,
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "result": 0.54,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
                     "call_investment_deposits": 2769967.0,
                     "cash": 2665060.0,
                     "date": "2018q2",
@@ -678,18 +690,6 @@
                     "quarter": 3,
                     "rating": "bad",
                     "result": 0.39,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 18299934.0,
-                    "cash": 5409661.0,
-                    "date": "2017q2",
-                    "liabilities": 66387165.0,
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "result": 0.36,
                     "year": 2017
                 }
             ]
@@ -1322,7 +1322,7 @@
                 "title": "Ms"
             }
         ],
-        "updated_date": "March 2018"
+        "updated_date": "June 2018"
     },
     "muni_contact": {
         "phone_number": "042 243 6400",

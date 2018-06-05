@@ -2,6 +2,12 @@
     "audit_opinions": {
         "values": [
             {
+                "date": 2017,
+                "rating": "unqualified",
+                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2016-17/02.%20Local%20municipalities/EC153%20Ngquza%20Hills/EC153%20Ngquza%20Hills%20Audit%20Report%202016-17.pdf",
+                "result": "Unqualified - No findings"
+            },
+            {
                 "date": 2016,
                 "rating": "unqualified",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2015-16/02.%20Local%20municipalities/EC153%20Ngquza%20Hills/EC153%20Ngquza%20Hills%20Audit%20report%202015-16.pdf",
@@ -10,19 +16,13 @@
             {
                 "date": 2015,
                 "rating": "unqualified",
-                "report_url": null,
+                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2014-15/02.%20Local%20municipalities/EC153%20Ngquza%20Hills/EC153%20Ngquza%20Hills%20Audit%20report%202014-15%20.pdf",
                 "result": "Unqualified - No findings"
             },
             {
                 "date": 2014,
                 "rating": "unqualified_emphasis_of_matter",
                 "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2013-14/02.%20Local%20municipalities/EC153%20Ngquza%20Hills/EC153%20Ngquza%20Hills%20Audit%20report%202013-14.pdf",
-                "result": "Unqualified - Emphasis of Matter items"
-            },
-            {
-                "date": 2013,
-                "rating": "unqualified_emphasis_of_matter",
-                "report_url": "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2012-13/02.%20Local%20Municipalities/EC153%20Ngquza%20Hills/EC153%20Ngquza%20Hills%20Audit%20report%202012-13.pdf",
                 "result": "Unqualified - Emphasis of Matter items"
             }
         ]
@@ -41,14 +41,14 @@
                 {
                     "date": 2017,
                     "overunder": "over",
-                    "rating": "good",
-                    "result": -0.0
+                    "rating": "ave",
+                    "result": 9.23
                 },
                 {
                     "date": 2016,
                     "overunder": "under",
                     "rating": "bad",
-                    "result": -31.29
+                    "result": -27.98
                 },
                 {
                     "date": 2015,
@@ -73,7 +73,7 @@
                 {
                     "date": 2017,
                     "rating": "good",
-                    "result": 51559046.0
+                    "result": 51559146.0
                 },
                 {
                     "date": 2016,
@@ -129,6 +129,25 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
+                        101583.0,
+                        97881.0,
+                        97881.0
+                    ],
+                    "date": "2018q3",
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "good",
+                    "receipts": [
+                        1911269.0,
+                        8766529.0,
+                        574809.0
+                    ],
+                    "result": 3784.36,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
                         598107.0,
                         1998285.0,
                         753872.0
@@ -136,13 +155,13 @@
                     "date": "2018q2",
                     "month": 6,
                     "quarter": 2,
-                    "rating": "good",
+                    "rating": "bad",
                     "receipts": [
-                        3753759.0,
-                        3753759.0,
-                        3753759.0
+                        687618.0,
+                        117826.0,
+                        751747.0
                     ],
-                    "result": 336.13,
+                    "result": 46.48,
                     "year": 2018
                 },
                 {
@@ -157,11 +176,11 @@
                     "quarter": 1,
                     "rating": "good",
                     "receipts": [
-                        3753759.0,
-                        3753759.0,
-                        3753759.0
+                        463868.0,
+                        403269.0,
+                        686011.0
                     ],
-                    "result": 838.61,
+                    "result": 115.66,
                     "year": 2018
                 },
                 {
@@ -201,25 +220,6 @@
                     ],
                     "result": 100.0,
                     "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        636650.0,
-                        1669217.0,
-                        5548218.0
-                    ],
-                    "date": "2017q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "good",
-                    "receipts": [
-                        636650.0,
-                        1669217.0,
-                        5548219.0
-                    ],
-                    "result": 100.0,
-                    "year": 2017
                 }
             ]
         },
@@ -231,13 +231,13 @@
             "values": [
                 {
                     "amount_type": "ACT",
-                    "assets": 135733091.0,
+                    "assets": 31061087.0,
                     "date": "2018q2",
-                    "liabilities": 40051090.0,
-                    "month": 4,
+                    "liabilities": 7203975.0,
+                    "month": 5,
                     "quarter": 2,
                     "rating": "good",
-                    "result": 3.39,
+                    "result": 4.31,
                     "year": 2018
                 },
                 {
@@ -352,19 +352,19 @@
                     "amount": 23874938.0,
                     "date": "2017",
                     "item": "Community & Social Services",
-                    "percent": 9.61
+                    "percent": 9.6
                 },
                 {
-                    "amount": 177535763.0,
+                    "amount": 177923675.0,
                     "date": "2017",
                     "item": "Governance, Administration, Planning and Development",
-                    "percent": 71.47
+                    "percent": 71.52
                 },
                 {
                     "amount": 46981931.0,
                     "date": "2017",
                     "item": "Road Transport",
-                    "percent": 18.91
+                    "percent": 18.88
                 },
                 {
                     "amount": 0.0,
@@ -433,7 +433,7 @@
                 {
                     "date": 2017,
                     "rating": "",
-                    "result": 37.0
+                    "result": 36.94
                 },
                 {
                     "date": 2016,
@@ -461,13 +461,13 @@
                 {
                     "amount_type": "ACT",
                     "call_investment_deposits": 0.0,
-                    "cash": 51559046.0,
+                    "cash": 16885617.0,
                     "date": "2018q2",
-                    "liabilities": 40051090.0,
-                    "month": 4,
+                    "liabilities": 7203975.0,
+                    "month": 5,
                     "quarter": 2,
                     "rating": "good",
-                    "result": 1.29,
+                    "result": 2.34,
                     "year": 2018
                 },
                 {
@@ -530,7 +530,7 @@
                     "date": 2017,
                     "overunder": "over",
                     "rating": "ave",
-                    "result": 6.6
+                    "result": 6.8
                 },
                 {
                     "date": 2016,
@@ -561,7 +561,7 @@
                 {
                     "date": 2017,
                     "rating": "bad",
-                    "result": 1.44
+                    "result": 1.79
                 },
                 {
                     "date": 2016,
@@ -1132,7 +1132,7 @@
                 "title": "Mr"
             }
         ],
-        "updated_date": "March 2018"
+        "updated_date": "June 2018"
     },
     "muni_contact": {
         "phone_number": "039 252 0131/0090/0089",
