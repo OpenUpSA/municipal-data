@@ -133,7 +133,7 @@ class Geography(models.Model):
         resp.raise_for_status()
 
         geos = []
-        for feature in resp.json().itervalues():
+        for feature in resp.json().values():
             try:
                 geo = cls.find(feature['codes']['MDB'], feature['type_name'].lower())
 
