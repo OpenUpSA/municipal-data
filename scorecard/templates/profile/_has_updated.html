@@ -1,0 +1,8 @@
+{% load update %}
+
+{% if geography.geo_code|has_updated %}
+<abbr title="This municipality's information was not updated in the latest update due to errors in the supplied information">
+    <i class="fa fa-exclamation-triangle" style="color:#ffd700"></i>
+</abbr>
+{% else %}
+{% endif %}
