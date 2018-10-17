@@ -6,8 +6,8 @@
   <div class="indicator">
     {% with indicators.expenditure_trends_staff.values|first as latest %}
       <h2>
-	  {% include 'profile/_has_updated.html' %}
 	  Staff Wages and Salaries <span class="indicator-date">{{ latest.date|finyear }}</span>
+	  {% include 'profile/_has_updated.html' %}
       </h2>
 
     {% if demarcation.established_after_last_audit %}
@@ -69,8 +69,8 @@
   <div class="indicator">
     {% with indicators.expenditure_trends_contracting.values|first as latest %}
       <h2>
-	  {% include 'profile/_has_updated.html' %}
 	  Contractor Services <span class="indicator-date">{{ latest.date|finyear }}</span>
+	  {% include 'profile/_has_updated.html' %}
       </h2>
 
     {% if demarcation.established_after_last_audit %}

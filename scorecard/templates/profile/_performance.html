@@ -97,9 +97,9 @@
   <div class="indicator">
       {% with indicators.cash_at_year_end.values|first as latest %}
       <h2 class="sub-heading">
-	  {% include 'profile/_has_updated.html' %}
 	  Cash Balance
 	  <span class="indicator-date">{{ latest.date|finyear }}</span>
+	  {% include 'profile/_has_updated.html' %}
       </h2>
     {% if demarcation.established_after_last_audit %}
     {% include 'profile/_demarcation_indicator_notice.html' %}
@@ -160,8 +160,8 @@
   <div class="indicator">
     {% with indicators.cash_coverage.values|first as latest %}
       <h2>
-	  {% include 'profile/_has_updated.html' %}
 	  Cash Coverage <span class="indicator-date">{{ latest.date|finyear }}</span>
+	  {% include 'profile/_has_updated.html' %}
       </h2>
 
     {% if demarcation.established_after_last_audit %}
@@ -229,8 +229,8 @@
   <div class="indicator">
     {% with indicators.op_budget_diff.values|first as latest %}
       <h2>
-	  {% include 'profile/_has_updated.html' %}
 	  Spending of Operating Budget <span class="indicator-date">{{ latest.date|finyear }}</span>
+	  {% include 'profile/_has_updated.html' %}
       </h2>
 
     {% if demarcation.established_after_last_audit %}
@@ -301,8 +301,8 @@
   <div class="indicator">
     {% with indicators.cap_budget_diff.values|first as latest %}
       <h2>
-	  {% include 'profile/_has_updated.html' %}
 	  Spending of Capital Budget <span class="indicator-date">{{ latest.date|finyear }}</span>
+	  {% include 'profile/_has_updated.html' %}
       </h2>
 
     {% if demarcation.established_after_last_audit %}
@@ -373,8 +373,8 @@
   <div class="indicator">
     {% with indicators.rep_maint_perc_ppe.values|first as latest %}
       <h2>
-	  {% include 'profile/_has_updated.html' %}
 	  Spending on Repairs and Maintenance <span class="indicator-date">{{ latest.date|finyear }}</span>
+	  {% include 'profile/_has_updated.html' %}
       </h2>
 
     {% if demarcation.established_after_last_audit %}
@@ -441,8 +441,8 @@
   <div class="indicator">
     {% with indicators.wasteful_exp.values.1 as latest %}
       <h2>
-	  {% include 'profile/_has_updated.html' %}
 	  Fruitless and Wasteful Expenditure <span class="indicator-date">{{ latest.date|finyear }}</span>
+	  {% include 'profile/_has_updated.html' %}
       </h2>
 
     {% if demarcation.established_after_last_audit %}
@@ -506,8 +506,8 @@
   <div class="indicator">
     {% with indicators.current_ratio.values|first as latest %}
       <h2>
-	  {% include 'profile/_has_updated.html' %}
 	  Current Ratio <span class="indicator-date">{{ latest.year|finyear }} Quarter {{ latest.quarter }}</span>
+	  {% include 'profile/_has_updated.html' %}
       </h2>
 
     <div class="row">
@@ -570,8 +570,8 @@
   <div class="indicator">
     {% with indicators.liquidity_ratio.values|first as latest %}
       <h2>
-	  {% include 'profile/_has_updated.html' %}
 	  Liquidity Ratio <span class="indicator-date">{{ latest.year|finyear }} Quarter {{ latest.quarter }}</span>
+	  {% include 'profile/_has_updated.html' %}
       </h2>
 
     <div class="row">
@@ -630,8 +630,8 @@
   <div class="indicator">
     {% with indicators.current_debtors_collection_rate.values|first as latest %}
       <h2>
-	  {% include 'profile/_has_updated.html' %}
 	  Current Debtors Collection Rate <span class="indicator-date">{{ latest.year|finyear }} Quarter {{ latest.quarter }}</span>
+	  {% include 'profile/_has_updated.html' %}
       </h2>
 
     <div class="row">

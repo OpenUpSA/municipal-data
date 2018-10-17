@@ -20,8 +20,9 @@
             <div class="arrow">↗</div>
 
             <h2><span class="visible-xs-inline">1. </span>
+		Money Generated Locally <span class="indicator-date">{{ indicators.revenue_sources.year|finyear }}</span>
 		{% include 'profile/_has_updated.html' %}
-		Money Generated Locally <span class="indicator-date">{{ indicators.revenue_sources.year|finyear }}</span></h2>
+	    </h2>
             <div class="indicator-value">
               {% if indicators.revenue_sources.local.percent == None %}
               Not Available
@@ -41,8 +42,9 @@
             <div class="arrow">↖</div>
 
             <h2><span class="visible-xs-inline">2. </span>
+		Money from National Government <span class="indicator-date">{{ indicators.revenue_sources.year|finyear }}</span>
 		{% include 'profile/_has_updated.html' %}
-		Money from National Government <span class="indicator-date">{{ indicators.revenue_sources.year|finyear }}</span></h2>
+	    </h2>
             <div class="indicator-value">
               {% if indicators.revenue_sources.government.percent == None %}
               Not Available
