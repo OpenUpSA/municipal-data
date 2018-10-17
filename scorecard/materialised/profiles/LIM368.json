@@ -29,9 +29,9 @@
             "values": [
                 {
                     "date": 2017,
-                    "overunder": null,
-                    "rating": null,
-                    "result": null
+                    "overunder": "under",
+                    "rating": "bad",
+                    "result": -17.9
                 },
                 {
                     "date": 2016,
@@ -118,6 +118,25 @@
                 {
                     "amount_type": "ACT",
                     "billing": [
+                        26993232.0,
+                        29673113.0,
+                        25978365.0
+                    ],
+                    "date": "2018q4",
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "receipts": [
+                        20603949.0,
+                        25595694.0,
+                        17825974.0
+                    ],
+                    "result": 77.47,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
                         26957363.0,
                         28602532.0,
                         26563404.0
@@ -190,25 +209,6 @@
                     ],
                     "result": 76.99,
                     "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        24636516.0,
-                        33650658.0,
-                        15217770.0
-                    ],
-                    "date": "2017q3",
-                    "month": 9,
-                    "quarter": 3,
-                    "rating": "bad",
-                    "receipts": [
-                        20421367.0,
-                        15586601.0,
-                        17009264.0
-                    ],
-                    "result": 72.13,
-                    "year": 2017
                 }
             ]
         },
@@ -218,6 +218,17 @@
                 "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "assets": 426319640.0,
+                    "date": "2018q4",
+                    "liabilities": 356978536.0,
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "ave",
+                    "result": 1.19,
+                    "year": 2018
+                },
                 {
                     "amount_type": "ACT",
                     "assets": 391670219.0,
@@ -260,17 +271,6 @@
                     "quarter": 4,
                     "rating": "bad",
                     "result": 0.83,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "assets": 344953901.0,
-                    "date": "2017q3",
-                    "liabilities": 346071273.0,
-                    "month": 9,
-                    "quarter": 3,
-                    "rating": "ave",
-                    "result": 1.0,
                     "year": 2017
                 }
             ]
@@ -390,6 +390,18 @@
                 {
                     "amount_type": "ACT",
                     "call_investment_deposits": 900000.0,
+                    "cash": 5987026.0,
+                    "date": "2018q4",
+                    "liabilities": 356978536.0,
+                    "month": 12,
+                    "quarter": 4,
+                    "rating": "bad",
+                    "result": 0.02,
+                    "year": 2018
+                },
+                {
+                    "amount_type": "ACT",
+                    "call_investment_deposits": 900000.0,
                     "cash": 8361540.0,
                     "date": "2018q3",
                     "liabilities": 373119256.0,
@@ -433,18 +445,6 @@
                     "quarter": 4,
                     "rating": "bad",
                     "result": -0.03,
-                    "year": 2017
-                },
-                {
-                    "amount_type": "ACT",
-                    "call_investment_deposits": 900000.0,
-                    "cash": 64743950.0,
-                    "date": "2017q3",
-                    "liabilities": 346071273.0,
-                    "month": 9,
-                    "quarter": 3,
-                    "rating": "bad",
-                    "result": 0.19,
                     "year": 2017
                 }
             ]
@@ -719,7 +719,7 @@
                 "title": "Mr"
             }
         ],
-        "updated_date": "June 2018"
+        "updated_date": "October 2018"
     },
     "muni_contact": {
         "phone_number": "014 718 2000",
