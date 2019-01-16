@@ -40,9 +40,9 @@
             "values": [
                 {
                     "date": 2017,
-                    "overunder": null,
-                    "rating": null,
-                    "result": null
+                    "overunder": "under",
+                    "rating": "bad",
+                    "result": -100.0
                 },
                 {
                     "date": 2016,
@@ -73,7 +73,7 @@
                 {
                     "date": 2017,
                     "rating": "good",
-                    "result": 565182.0
+                    "result": 33422097.0
                 },
                 {
                     "date": 2016,
@@ -100,8 +100,8 @@
             "values": [
                 {
                     "date": 2017,
-                    "rating": null,
-                    "result": null
+                    "rating": "good",
+                    "result": 4.0
                 },
                 {
                     "date": 2016,
@@ -403,6 +403,36 @@
                     "percent": 0.0
                 },
                 {
+                    "amount": 918885.0,
+                    "date": "2017",
+                    "item": "Community & Social Services",
+                    "percent": 0.93
+                },
+                {
+                    "amount": 0.0,
+                    "date": "2017",
+                    "item": "Electricity ",
+                    "percent": 0.0
+                },
+                {
+                    "amount": 82170116.0,
+                    "date": "2017",
+                    "item": "Governance, Administration, Planning and Development",
+                    "percent": 82.79
+                },
+                {
+                    "amount": 0.0,
+                    "date": "2017",
+                    "item": "Public Safety",
+                    "percent": 0.0
+                },
+                {
+                    "amount": 16159511.0,
+                    "date": "2017",
+                    "item": "Road Transport",
+                    "percent": 16.28
+                },
+                {
                     "amount": 2856400.0,
                     "date": "2018 budget",
                     "item": "Community & Social Services",
@@ -445,7 +475,7 @@
                 {
                     "date": 2017,
                     "rating": "",
-                    "result": null
+                    "result": 8.22
                 },
                 {
                     "date": 2016,
@@ -469,7 +499,7 @@
                 {
                     "date": 2017,
                     "rating": "",
-                    "result": null
+                    "result": 41.48
                 },
                 {
                     "date": 2016,
@@ -564,9 +594,9 @@
             "values": [
                 {
                     "date": 2017,
-                    "overunder": null,
-                    "rating": null,
-                    "result": null
+                    "overunder": "under",
+                    "rating": "ave",
+                    "result": -6.6
                 },
                 {
                     "date": 2016,
@@ -596,8 +626,8 @@
             "values": [
                 {
                     "date": 2017,
-                    "rating": null,
-                    "result": null
+                    "rating": "bad",
+                    "result": 0.0
                 },
                 {
                     "date": 2016,
@@ -619,11 +649,74 @@
         "revenue_breakdown": {
             "values": [
                 {
-                    "amount": null,
+                    "amount": 14883763.0,
                     "amount_type": "AUDA",
                     "date": "2017",
-                    "item": null,
-                    "percent": null
+                    "item": "Property rates",
+                    "percent": 10.55
+                },
+                {
+                    "amount": 21704398.0,
+                    "amount_type": "AUDA",
+                    "date": "2017",
+                    "item": "Service Charges",
+                    "percent": 15.38
+                },
+                {
+                    "amount": 1249990.0,
+                    "amount_type": "AUDA",
+                    "date": "2017",
+                    "item": "Rental income",
+                    "percent": 0.89
+                },
+                {
+                    "amount": 357302.0,
+                    "amount_type": "AUDA",
+                    "date": "2017",
+                    "item": "Interest and investments",
+                    "percent": 0.25
+                },
+                {
+                    "amount": 1854886.0,
+                    "amount_type": "AUDA",
+                    "date": "2017",
+                    "item": "Fines",
+                    "percent": 1.31
+                },
+                {
+                    "amount": 880469.0,
+                    "amount_type": "AUDA",
+                    "date": "2017",
+                    "item": "Licenses and Permits",
+                    "percent": 0.62
+                },
+                {
+                    "amount": 0.0,
+                    "amount_type": "AUDA",
+                    "date": "2017",
+                    "item": "Agency services",
+                    "percent": 0
+                },
+                {
+                    "amount": 62437395.0,
+                    "amount_type": "AUDA",
+                    "date": "2017",
+                    "item": "Government Transfers for Operating Expenses",
+                    "percent": 44.24
+                },
+                {
+                    "amount": 36928042.0,
+                    "amount_type": "AUDA",
+                    "date": "2017",
+                    "item": "Government Transfers for Capital Expenses",
+                    "percent": 26.17
+                },
+                {
+                    "amount": 823153.0,
+                    "amount_type": "AUDA",
+                    "date": "2017",
+                    "item": "Other",
+                    "percent": 0.58
                 },
                 {
                     "amount": 14055902.0,
@@ -909,16 +1002,114 @@
         },
         "revenue_sources": {
             "government": {
-                "amount": 0,
-                "items": [],
-                "percent": null,
-                "value": null
+                "amount": 99365437.0,
+                "items": [
+                    {
+                        "amount.sum": 62437395.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2017,
+                        "item.code": "1600",
+                        "item.label": "Transfers Recognised - Operating"
+                    },
+                    {
+                        "amount.sum": 36928042.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2017,
+                        "item.code": "1610",
+                        "item.label": "Transfers Recognised - Capital"
+                    }
+                ],
+                "percent": 70.41
             },
             "local": {
-                "amount": 0,
-                "items": [],
-                "percent": null,
-                "value": null
+                "amount": 41753961.0,
+                "items": [
+                    {
+                        "amount.sum": 14883763.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2017,
+                        "item.code": "0200",
+                        "item.label": "Property Rates"
+                    },
+                    {
+                        "amount.sum": 0.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2017,
+                        "item.code": "0300",
+                        "item.label": "Property Rates - Penalties And Collection Charges"
+                    },
+                    {
+                        "amount.sum": 21704398.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2017,
+                        "item.code": "0400",
+                        "item.label": "Service Charges"
+                    },
+                    {
+                        "amount.sum": 1249990.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2017,
+                        "item.code": "0700",
+                        "item.label": "Rent Of Facilities And Equipment"
+                    },
+                    {
+                        "amount.sum": 357302.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2017,
+                        "item.code": "0800",
+                        "item.label": "Interest Earned - External Investments"
+                    },
+                    {
+                        "amount.sum": 0.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2017,
+                        "item.code": "1000",
+                        "item.label": "Interest Earned - Outstanding Debtors"
+                    },
+                    {
+                        "amount.sum": 0.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2017,
+                        "item.code": "1100",
+                        "item.label": "Dividends Received"
+                    },
+                    {
+                        "amount.sum": 1854886.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2017,
+                        "item.code": "1300",
+                        "item.label": "Fines"
+                    },
+                    {
+                        "amount.sum": 880469.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2017,
+                        "item.code": "1400",
+                        "item.label": "Licenses and Permits"
+                    },
+                    {
+                        "amount.sum": 0.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2017,
+                        "item.code": "1500",
+                        "item.label": "Agency Services"
+                    },
+                    {
+                        "amount.sum": 823153.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2017,
+                        "item.code": "1700",
+                        "item.label": "Other Revenue"
+                    },
+                    {
+                        "amount.sum": 0.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2017,
+                        "item.code": "1800",
+                        "item.label": "Gain On Disposal Of Property, Plant & Equipment"
+                    }
+                ],
+                "percent": 29.59
             },
             "rating": "bad",
             "ref": {
@@ -941,12 +1132,12 @@
                 {
                     "date": 2015,
                     "rating": "bad",
-                    "result": 48.76
+                    "result": 46.53
                 },
                 {
                     "date": 2014,
                     "rating": "bad",
-                    "result": 24.96
+                    "result": 43.01
                 },
                 {
                     "date": 2013,
@@ -975,9 +1166,9 @@
                 "title": "Mr"
             },
             {
-                "email": "mkhizetv@edumbe.gov.za",
+                "email": "mm@edumbe.gov.za",
                 "fax_number": "034 995 1192",
-                "name": "TV Mkhize",
+                "name": "MP Khathide",
                 "office_phone": "034 995 1650",
                 "role": "Municipal Manager",
                 "secretary": {
@@ -1015,7 +1206,7 @@
                 "title": "Mr"
             }
         ],
-        "updated_date": "October 2018"
+        "updated_date": "January 2019"
     },
     "muni_contact": {
         "phone_number": "034 995 1650",
