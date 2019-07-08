@@ -45,7 +45,6 @@ gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:
 
 ```
 dokku config:set municipal-finance DJANGO_DEBUG=False \
-                                   DISABLE_COLLECTSTATIC=1 \
                                    DJANGO_SECRET_KEY=... \
                                    NEW_RELIC_APP_NAME=municipal_finance \
                                    NEW_RELIC_LICENSE_KEY=... \
