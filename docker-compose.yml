@@ -1,43 +1,47 @@
 version: "2"
 
+volumes:
+  postgres_data: {}
+
 services:
   portal:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ".:/app"
       - "../datasets:/data"
     environment:
-      DATABASE_URL: 'postgres://municipal_finance@172.17.0.1/municipal_finance'
-      BABBAGE_TEST_DB: 'postgres://municipal_finance@172.17.0.1/babbage'
+      DATABASE_URL: 'postgres://postgres@postgres/municipal_finance'
+      BABBAGE_TEST_DB: 'postgres://postgres@postgres/babbage'
       SITE_ID: '3'
       PRELOAD_CUBES: 'true'
-      API_URL: http://172.23.0.3:8000/api
+      API_URL: http://localhost:8000/api
     working_dir: /app
-    networks:
-      app_net:
-        ipv4_address: 172.23.0.3
+    ports:
+      - "8002:8000"
 
   scorecard:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ".:/app"
       - "../datasets:/data"
     environment:
-      DATABASE_URL: 'postgres://municipal_finance@172.17.0.1/municipal_finance'
-      BABBAGE_TEST_DB: 'postgres://municipal_finance@172.17.0.1/babbage'
+      DATABASE_URL: 'postgres://postgres@postgres/municipal_finance'
+      BABBAGE_TEST_DB: 'postgres://postgres@potgres/babbage'
       SITE_ID: '2'
+      API_URL: http://portal:8000/api
+    ports:
+      - "8001:8000"
     working_dir: /app
-    networks:
-      app_net:
-        ipv4_address: 172.23.0.2
 
-networks:
-  app_net:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-      -
-        subnet: 172.23.0.0/24
+  postgres:
+    image: postgres:9.4
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=municipal_finance

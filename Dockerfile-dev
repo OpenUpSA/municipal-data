@@ -19,22 +19,14 @@ ADD requirements.txt /requirements.txt
 
 RUN apt-get update -y && \
     apt-get install -y software-properties-common && \
-    apt-add-repository -y ppa:ubuntugis/ubuntugis-unstable && \
-    apt-get update -y && \
-    apt-get install -y  libgdal-dev=1.11* \
+    apt-get install -y  libpq-dev \
                         python-pip \
                         git \
-                        python-gdal \
-                        libgdal1-dev \
                         libncurses5-dev \
                         python-psycopg2 \
                         python-dev && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     ln -snf /bin/bash /bin/sh
 
-RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal && \
-    export export C_INCLUDE_PATH=/usr/include/gdal && \
-    pip install -r /requirements.txt
+RUN pip install -r /requirements.txt
 
 CMD ["/bin/bash"]
