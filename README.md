@@ -249,6 +249,9 @@ Do each of these cursory tests for a small sample of municipalities to sanity-ch
 
 - The audit opinion label `Unqualified - With findings` should get mapped to `Unqualified - Emphasis of Matter items` - confirmed with Elsabe.
 
+## 2019-07-09 loading Section 71 Q3 2018-19
+
+e.g. `cat sql/upsert/aged_debtor.sql | docker-compose run --rm postgres psql postgresql://postgres@postgres/municipal_finance`
 # License
 
 MIT License
