@@ -12,7 +12,6 @@ make municipal finance information available to the public. It is made up of a c
 
    Some python packages require system packages.
    * psycopg2 requires libpq-dev (postgresql development files).
-   * shapely requires libgeos-dev (Geometry engine development files).
    * gnureadline requires libncurses5-dev (ncurses development files).
    * multiple packages require python development files (python-dev).
 
@@ -45,9 +44,8 @@ gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:
 
 ```
 dokku config:set municipal-finance DJANGO_DEBUG=False \
+                                   DISABLE_COLLECTSTATIC=1 \
                                    DJANGO_SECRET_KEY=... \
-                                   NEW_RELIC_APP_NAME=municipal_finance \
-                                   NEW_RELIC_LICENSE_KEY=... \
                                    DATABASE_URL=postgres://municipal_finance:...@postgresq....amazonaws.com/municipal_finance
 ```
 
