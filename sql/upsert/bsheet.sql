@@ -12,7 +12,7 @@ CREATE TEMPORARY TABLE bsheet_upsert
 
 \echo Read data...
 
-\copy bsheet_upsert (demarcation_code, period_code, item_code, amount) FROM '/data/Section 71 Q3 2018-19/bsheet_2019q3_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy bsheet_upsert (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/proj/code4sa/municipalmoney/data/Section 71 Q3 2018-19/bsheet_2019q3_acrmun.csv' DELIMITER ',' CSV HEADER;
 
 \echo Delete demarcation_code-period_code pairs that are in the update
 
