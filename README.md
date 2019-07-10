@@ -155,6 +155,8 @@ Update the last-updated date in the model files for each cube in `models/*.json`
 
 Update the materialised view data using `bin/materialised_views.py`:
 
+You might need to allow extra open files with something like `ulimit -n 500000`
+
 1. Run with --profiles-from-api to update the muni-specific profile data
  - This takes about 6 minutes locally
 2. Run with --calc-medians and --calc-rating-counts to update comparison data based on profile changes.
