@@ -11,7 +11,7 @@ CREATE TEMPORARY TABLE municipality_staff_contacts_upsert
         email_address TEXT
 ) ON COMMIT DROP;
 
-\copy municipality_staff_contacts_upsert (demarcation_code, role, title, name, office_number, fax_number, email_address) FROM '/django-project/persons.csv' DELIMITER ',' CSV HEADER;
+\copy municipality_staff_contacts_upsert (demarcation_code, role, title, name, office_number, fax_number, email_address) FROM '/home/jdb/proj/code4sa/municipalmoney/django-project/persons.csv' DELIMITER ',' CSV HEADER;
 
 UPDATE municipality_staff_contacts f
 SET title = i.title,

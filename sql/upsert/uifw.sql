@@ -22,7 +22,7 @@ CREATE TEMPORARY TABLE uifw_upsert
 
 \echo Read data...
 
-\copy uifw_upsert (demarcation_code, financial_year, item_code, item_label, amount) FROM '/django-project/uifw-2015.csv' DELIMITER ',' CSV HEADER;
+\copy uifw_upsert (demarcation_code, financial_year, item_code, item_label, amount) FROM '/home/jdb/proj/code4sa/municipalmoney/django-project/uifw-2019-07-11.csv' DELIMITER ',' CSV HEADER;
 
 \echo Delete demarcation_code-financial_year pairs that are in the update
 
