@@ -11,7 +11,7 @@ import re
 import requests
 import sys
 import traceback
-import logging
+import urllib.parse
 
 root = 'http://mfma.treasury.gov.za'
 fieldnames = ['demarcation_code', 'year', 'url']
@@ -38,13 +38,15 @@ class Main(object):
                     elif len(report_paths) == 1:
                         self.writerow(report_paths[0])
                     elif len(report_paths) > 1:
-                        self.writerow(muni_dir)
+                        querystring = urllib.parse.urlsplit(muni_dir).query
+                        directory = urllib.parse.parse_qs(querystring)["RootFolder"][0]
+                        self.writerow(directory)
 
 
-    # /Documents/07.%20Audit%20Reports/2003-04/02.%20Local%20municipalities/EC125%20Buffalo%20City/EC125%20Buffalo%20City%20Audit%20Report%202003-04.pdf
+    # /Documents/07. Audit Reports/2003-04/02. Local municipalities/EC125 Buffalo City/EC125 Buffalo City Audit Report 2003-04.pdf
     def writerow(self, report_path):
         try:
-            regex = '/Documents/07.%20Audit%20Reports/\d{4}-(\d{2})/[\w.%]+/(\w{3,6})'
+            regex = '/Documents/07\. Audit Reports/\d{4}-(\d{2})/[^/]+/(\w{3,6})'
             match = re.search(regex, report_path)
             self.writer.writerow({
                 'demarcation_code': match.group(2),
@@ -64,10 +66,9 @@ class Main(object):
             r = requests.get(root + dir, params=params)
             r.raise_for_status()
             soup = BeautifulSoup(r.text.encode('utf8', 'replace'), "html.parser")
-            for table in soup.find_all('table'):
-                if u'url' in table.attrs:
-                    child_path = table.attrs[u'url']
-                    yield child_path
+            for anchor in soup.select('table[Field="LinkFilename"] a'):
+                child_path = anchor.attrs['href']
+                yield child_path
             next_arrow = soup.find(alt='Next')
             if next_arrow:
                 # print
