@@ -100,8 +100,8 @@
             "values": [
                 {
                     "date": 2018,
-                    "rating": null,
-                    "result": null
+                    "rating": "ave",
+                    "result": 1.3
                 },
                 {
                     "date": 2017,
@@ -126,6 +126,44 @@
                 "url": "http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx"
             },
             "values": [
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        5539690.0,
+                        5334946.0,
+                        5350101.0
+                    ],
+                    "date": "2019q3",
+                    "month": 9,
+                    "quarter": 3,
+                    "rating": "bad",
+                    "receipts": [
+                        1206215.0,
+                        1159287.0,
+                        1222482.0
+                    ],
+                    "result": 22.11,
+                    "year": 2019
+                },
+                {
+                    "amount_type": "ACT",
+                    "billing": [
+                        5330729.0,
+                        5298858.0,
+                        5339871.0
+                    ],
+                    "date": "2019q2",
+                    "month": 6,
+                    "quarter": 2,
+                    "rating": "bad",
+                    "receipts": [
+                        487656.0,
+                        347543.0,
+                        4138054.0
+                    ],
+                    "result": 31.14,
+                    "year": 2019
+                },
                 {
                     "amount_type": "ACT",
                     "billing": [
@@ -181,44 +219,6 @@
                         537858.0
                     ],
                     "result": 18.09,
-                    "year": 2018
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        3316420.0,
-                        4079632.0,
-                        3316448.0
-                    ],
-                    "date": "2018q2",
-                    "month": 6,
-                    "quarter": 2,
-                    "rating": "bad",
-                    "receipts": [
-                        284031.0,
-                        4350167.0,
-                        2376208.0
-                    ],
-                    "result": 65.44,
-                    "year": 2018
-                },
-                {
-                    "amount_type": "ACT",
-                    "billing": [
-                        2752331.0,
-                        2751853.0,
-                        2776571.0
-                    ],
-                    "date": "2018q1",
-                    "month": 3,
-                    "quarter": 1,
-                    "rating": "bad",
-                    "receipts": [
-                        113420.0,
-                        227171.0,
-                        180147.0
-                    ],
-                    "result": 6.29,
                     "year": 2018
                 }
             ]
@@ -400,19 +400,19 @@
                     "amount": 8075717.0,
                     "date": "2017",
                     "item": "Community & Social Services",
-                    "percent": 2.5
+                    "percent": 2.52
                 },
                 {
-                    "amount": 35597729.0,
+                    "amount": 32319122.0,
                     "date": "2017",
                     "item": "Electricity ",
-                    "percent": 11.03
+                    "percent": 10.08
                 },
                 {
-                    "amount": 228709964.0,
+                    "amount": 230044454.0,
                     "date": "2017",
                     "item": "Governance, Administration, Planning and Development",
-                    "percent": 70.88
+                    "percent": 71.72
                 },
                 {
                     "amount": 944669.0,
@@ -424,25 +424,67 @@
                     "amount": 32028481.0,
                     "date": "2017",
                     "item": "Road Transport",
-                    "percent": 9.93
+                    "percent": 9.99
                 },
                 {
                     "amount": 6161756.0,
                     "date": "2017",
                     "item": "Sport And Recreation",
-                    "percent": 1.91
+                    "percent": 1.92
                 },
                 {
                     "amount": 11175913.0,
                     "date": "2017",
                     "item": "Waste Management",
-                    "percent": 3.46
+                    "percent": 3.48
                 },
                 {
                     "amount": 0.0,
                     "date": "2017",
                     "item": "Water",
                     "percent": 0.0
+                },
+                {
+                    "amount": 7878192.0,
+                    "date": "2018",
+                    "item": "Community & Social Services",
+                    "percent": 1.44
+                },
+                {
+                    "amount": 32394539.0,
+                    "date": "2018",
+                    "item": "Electricity ",
+                    "percent": 5.92
+                },
+                {
+                    "amount": 459633241.0,
+                    "date": "2018",
+                    "item": "Governance, Administration, Planning and Development",
+                    "percent": 84.05
+                },
+                {
+                    "amount": 1114778.0,
+                    "date": "2018",
+                    "item": "Housing",
+                    "percent": 0.2
+                },
+                {
+                    "amount": 29261961.0,
+                    "date": "2018",
+                    "item": "Road Transport",
+                    "percent": 5.35
+                },
+                {
+                    "amount": 5679297.0,
+                    "date": "2018",
+                    "item": "Sport And Recreation",
+                    "percent": 1.04
+                },
+                {
+                    "amount": 10906035.0,
+                    "date": "2018",
+                    "item": "Waste Management",
+                    "percent": 1.99
                 },
                 {
                     "amount": 11760716.0,
@@ -505,12 +547,12 @@
                 {
                     "date": 2018,
                     "rating": "",
-                    "result": null
+                    "result": 9.51
                 },
                 {
                     "date": 2017,
                     "rating": "",
-                    "result": 0.0
+                    "result": 10.27
                 },
                 {
                     "date": 2016,
@@ -529,12 +571,12 @@
                 {
                     "date": 2018,
                     "rating": "",
-                    "result": null
+                    "result": 22.91
                 },
                 {
                     "date": 2017,
                     "rating": "",
-                    "result": 37.04
+                    "result": 36.79
                 },
                 {
                     "date": 2016,
@@ -624,15 +666,15 @@
             "values": [
                 {
                     "date": 2018,
-                    "overunder": null,
-                    "rating": null,
-                    "result": null
+                    "overunder": "over",
+                    "rating": "bad",
+                    "result": 65.5
                 },
                 {
                     "date": 2017,
                     "overunder": "over",
                     "rating": "ave",
-                    "result": 14.5
+                    "result": 13.8
                 },
                 {
                     "date": 2016,
@@ -679,53 +721,116 @@
         "revenue_breakdown": {
             "values": [
                 {
-                    "amount": null,
+                    "amount": 35238339.0,
                     "amount_type": "AUDA",
                     "date": "2018",
-                    "item": null,
-                    "percent": null
+                    "item": "Property rates",
+                    "percent": 8.34
                 },
                 {
-                    "amount": 33865255.0,
+                    "amount": 4594593.0,
+                    "amount_type": "AUDA",
+                    "date": "2018",
+                    "item": "Service Charges",
+                    "percent": 1.09
+                },
+                {
+                    "amount": 836285.0,
+                    "amount_type": "AUDA",
+                    "date": "2018",
+                    "item": "Rental income",
+                    "percent": 0.2
+                },
+                {
+                    "amount": 24164019.0,
+                    "amount_type": "AUDA",
+                    "date": "2018",
+                    "item": "Interest and investments",
+                    "percent": 5.72
+                },
+                {
+                    "amount": 6256181.0,
+                    "amount_type": "AUDA",
+                    "date": "2018",
+                    "item": "Fines",
+                    "percent": 1.48
+                },
+                {
+                    "amount": 5160503.0,
+                    "amount_type": "AUDA",
+                    "date": "2018",
+                    "item": "Licenses and Permits",
+                    "percent": 1.22
+                },
+                {
+                    "amount": 226696.0,
+                    "amount_type": "AUDA",
+                    "date": "2018",
+                    "item": "Agency services",
+                    "percent": 0.05
+                },
+                {
+                    "amount": 241319882.0,
+                    "amount_type": "AUDA",
+                    "date": "2018",
+                    "item": "Government Transfers for Operating Expenses",
+                    "percent": 57.11
+                },
+                {
+                    "amount": 102650780.0,
+                    "amount_type": "AUDA",
+                    "date": "2018",
+                    "item": "Government Transfers for Capital Expenses",
+                    "percent": 24.29
+                },
+                {
+                    "amount": 2121034.0,
+                    "amount_type": "AUDA",
+                    "date": "2018",
+                    "item": "Other",
+                    "percent": 0.5
+                },
+                {
+                    "amount": 36754780.0,
                     "amount_type": "AUDA",
                     "date": "2017",
                     "item": "Property rates",
-                    "percent": 8.85
+                    "percent": 9.45
                 },
                 {
-                    "amount": 4302622.0,
+                    "amount": 4472543.0,
                     "amount_type": "AUDA",
                     "date": "2017",
                     "item": "Service Charges",
-                    "percent": 1.12
+                    "percent": 1.15
                 },
                 {
-                    "amount": 880127.0,
+                    "amount": 767531.0,
                     "amount_type": "AUDA",
                     "date": "2017",
                     "item": "Rental income",
-                    "percent": 0.23
+                    "percent": 0.2
                 },
                 {
-                    "amount": 20820583.0,
+                    "amount": 23807863.0,
                     "amount_type": "AUDA",
                     "date": "2017",
                     "item": "Interest and investments",
-                    "percent": 5.44
+                    "percent": 6.12
                 },
                 {
-                    "amount": 31259.0,
+                    "amount": 438150.0,
                     "amount_type": "AUDA",
                     "date": "2017",
                     "item": "Fines",
-                    "percent": 0.01
+                    "percent": 0.11
                 },
                 {
                     "amount": 4926246.0,
                     "amount_type": "AUDA",
                     "date": "2017",
                     "item": "Licenses and Permits",
-                    "percent": 1.29
+                    "percent": 1.27
                 },
                 {
                     "amount": 318997.0,
@@ -739,21 +844,21 @@
                     "amount_type": "AUDA",
                     "date": "2017",
                     "item": "Government Transfers for Operating Expenses",
-                    "percent": 58.17
+                    "percent": 57.21
                 },
                 {
                     "amount": 92999654.0,
                     "amount_type": "AUDA",
                     "date": "2017",
                     "item": "Government Transfers for Capital Expenses",
-                    "percent": 24.32
+                    "percent": 23.91
                 },
                 {
-                    "amount": 1826660.0,
+                    "amount": 1954142.0,
                     "amount_type": "AUDA",
                     "date": "2017",
                     "item": "Other",
-                    "percent": 0.48
+                    "percent": 0.5
                 },
                 {
                     "amount": 30675862.0,
@@ -969,16 +1074,114 @@
         },
         "revenue_sources": {
             "government": {
-                "amount": 0,
-                "items": [],
-                "percent": null,
-                "value": null
+                "amount": 343970662.0,
+                "items": [
+                    {
+                        "amount.sum": 241319882.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2018,
+                        "item.code": "1600",
+                        "item.label": "Transfers Recognised - Operating"
+                    },
+                    {
+                        "amount.sum": 102650780.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2018,
+                        "item.code": "1610",
+                        "item.label": "Transfers Recognised - Capital"
+                    }
+                ],
+                "percent": 81.4
             },
             "local": {
-                "amount": 0,
-                "items": [],
-                "percent": null,
-                "value": null
+                "amount": 78597650.0,
+                "items": [
+                    {
+                        "amount.sum": 35238339.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2018,
+                        "item.code": "0200",
+                        "item.label": "Property Rates"
+                    },
+                    {
+                        "amount.sum": 0.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2018,
+                        "item.code": "0300",
+                        "item.label": "Property Rates - Penalties And Collection Charges"
+                    },
+                    {
+                        "amount.sum": 4594593.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2018,
+                        "item.code": "0400",
+                        "item.label": "Service Charges"
+                    },
+                    {
+                        "amount.sum": 836285.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2018,
+                        "item.code": "0700",
+                        "item.label": "Rent Of Facilities And Equipment"
+                    },
+                    {
+                        "amount.sum": 11958996.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2018,
+                        "item.code": "0800",
+                        "item.label": "Interest Earned - External Investments"
+                    },
+                    {
+                        "amount.sum": 12205023.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2018,
+                        "item.code": "1000",
+                        "item.label": "Interest Earned - Outstanding Debtors"
+                    },
+                    {
+                        "amount.sum": 0.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2018,
+                        "item.code": "1100",
+                        "item.label": "Dividends Received"
+                    },
+                    {
+                        "amount.sum": 6256181.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2018,
+                        "item.code": "1300",
+                        "item.label": "Fines"
+                    },
+                    {
+                        "amount.sum": 5160503.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2018,
+                        "item.code": "1400",
+                        "item.label": "Licenses and Permits"
+                    },
+                    {
+                        "amount.sum": 226696.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2018,
+                        "item.code": "1500",
+                        "item.label": "Agency Services"
+                    },
+                    {
+                        "amount.sum": 2121034.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2018,
+                        "item.code": "1700",
+                        "item.label": "Other Revenue"
+                    },
+                    {
+                        "amount.sum": 0.0,
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2018,
+                        "item.code": "1800",
+                        "item.label": "Gain On Disposal Of Property, Plant & Equipment"
+                    }
+                ],
+                "percent": 18.6
             },
             "rating": "bad",
             "ref": {
@@ -996,7 +1199,7 @@
                 {
                     "date": 2017,
                     "rating": "bad",
-                    "result": 13.68
+                    "result": 13.76
                 },
                 {
                     "date": 2016,
