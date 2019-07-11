@@ -19,10 +19,11 @@ fieldnames = ['demarcation_code', 'year', 'url']
 
 class Main(object):
     def __init__(self, csv_file):
-            self.writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-            self.writer.writeheader()
-            self.session = requests.Session()
-            self.session.mount(root, HTTPAdapter(max_retries=5))
+        self.csv_file = csv_file
+        self.writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        self.writer.writeheader()
+        self.session = requests.Session()
+        self.session.mount(root, HTTPAdapter(max_retries=5))
 
     def run(self):
         year_dirs = list(self.expand_dir('/Documents/07.%20Audit%20Reports/', {}))
@@ -51,8 +52,9 @@ class Main(object):
             self.writer.writerow({
                 'demarcation_code': match.group(2),
                 'year': '20' + match.group(1),
-                'url': root + report_path,
+                'url': root + urllib.parse.quote(report_path),
             })
+            self.csv_file.flush()
         except:
             print("\nerror  %s\n" % report_path)
             traceback.print_exc()
