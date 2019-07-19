@@ -13,8 +13,8 @@ import sys
 import traceback
 import urllib.parse
 
-root = 'http://mfma.treasury.gov.za'
-fieldnames = ['demarcation_code', 'year', 'url']
+root = "http://mfma.treasury.gov.za"
+fieldnames = ["demarcation_code", "year", "url"]
 
 
 class Main(object):
@@ -26,13 +26,16 @@ class Main(object):
         self.session.mount(root, HTTPAdapter(max_retries=5))
 
     def run(self):
-        year_dirs = list(self.expand_dir('/Documents/07.%20Audit%20Reports/', {}))
+        year_dirs = list(self.expand_dir("/Documents/07.%20Audit%20Reports/", {}))
         year_dirs.reverse()
         for year_dir in year_dirs:
             for category_dir in self.expand_dir(year_dir, {}):
                 for muni_dir in self.expand_dir(category_dir, {}):
-                    report_paths = [p for p in list(self.expand_dir(muni_dir, {}))
-                                    if 'Thumbs.db' not in p]
+                    report_paths = [
+                        p
+                        for p in list(self.expand_dir(muni_dir, {}))
+                        if "Thumbs.db" not in p
+                    ]
 
                     if len(report_paths) == 0:
                         pass
@@ -43,17 +46,18 @@ class Main(object):
                         directory = urllib.parse.parse_qs(querystring)["RootFolder"][0]
                         self.writerow(directory)
 
-
     # /Documents/07. Audit Reports/2003-04/02. Local municipalities/EC125 Buffalo City/EC125 Buffalo City Audit Report 2003-04.pdf
     def writerow(self, report_path):
         try:
-            regex = '/Documents/07\. Audit Reports/\d{4}-(\d{2})/[^/]+/(\w{3,6})'
+            regex = "/Documents/07\. Audit Reports/\d{4}-(\d{2})/[^/]+/(\w{3,6})"
             match = re.search(regex, report_path)
-            self.writer.writerow({
-                'demarcation_code': match.group(2),
-                'year': '20' + match.group(1),
-                'url': root + urllib.parse.quote(report_path),
-            })
+            self.writer.writerow(
+                {
+                    "demarcation_code": match.group(2),
+                    "year": "20" + match.group(1),
+                    "url": root + urllib.parse.quote(report_path),
+                }
+            )
             self.csv_file.flush()
         except:
             print("\nerror  %s\n" % report_path)
@@ -61,32 +65,39 @@ class Main(object):
             sys.stdout.flush()
 
     def expand_dir(self, dir, params):
-        params['SortField'] = 'LinkFilename'
-        params['SortDir'] = 'Asc'
+        params["p_SortBehavior"] = "1"
         print("\nDir: %s %r" % (dir, params))
         try:
             r = requests.get(root + dir, params=params)
             r.raise_for_status()
-            soup = BeautifulSoup(r.text.encode('utf8', 'replace'), "html.parser")
+            soup = BeautifulSoup(r.text.encode("utf8", "replace"), "html.parser")
             for anchor in soup.select('table[Field="LinkFilename"] a'):
-                child_path = anchor.attrs['href']
+                child_path = anchor.attrs["href"]
                 yield child_path
-            next_arrow = soup.find(alt='Next')
+            next_arrow = soup.find(alt="Next")
             if next_arrow:
                 # print
                 print("  Current dir=%s" % dir)
                 print("  Last child_path=%s" % child_path)
-                last_name = child_path.replace(dir + '/', '')
-                # print(last_name)
+                child_path_no_qs = urllib.parse.parse_qs(
+                    urllib.parse.urlsplit(child_path).query
+                )["RootFolder"][0]
+                regex = ".+\/(.+)$"
+                last_name = re.search(regex, child_path_no_qs).group(1)
+                print("    last_name=%s" % last_name)
                 # print
-                for path in self.expand_dir(dir, {'p_FileLeafRef': last_name, 'Paged': 'TRUE'}):
+                for path in self.expand_dir(
+                    dir, {"p_FileLeafRef": last_name, "Paged": "TRUE"}
+                ):
+                    print("    NEXT %s" % path)
                     yield path
         except:
             print("error", dir, params)
             traceback.print_exc()
             sys.stdout.flush()
 
+
 if __name__ == "__main__":
     [outfile] = sys.argv[1:]
-    with open(outfile, 'w') as csv_file:
+    with open(outfile, "w") as csv_file:
         Main(csv_file).run()
