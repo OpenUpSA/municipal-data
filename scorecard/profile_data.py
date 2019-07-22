@@ -19,7 +19,6 @@ to indicate in the page that it is missing.
 
 from collections import defaultdict, OrderedDict
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime
 from itertools import groupby
 from requests.adapters import HTTPAdapter
 from requests_futures.sessions import FuturesSession
@@ -35,22 +34,22 @@ logger = logging.getLogger('municipal_finance')
 EXECUTOR = ThreadPoolExecutor(max_workers=10)
 
 # The years for which we need results. Must be in desceneding order.
-LAST_AUDIT_YEAR = 2017
-LAST_AUDIT_QUARTER = '2017q4'
+LAST_AUDIT_YEAR = 2018
+LAST_AUDIT_QUARTER = '2018q4'
 YEARS = list(range(LAST_AUDIT_YEAR-3, LAST_AUDIT_YEAR+1))
 YEARS.reverse()
 
-LAST_OPINION_YEAR = 2017
+LAST_OPINION_YEAR = 2018
 AUDIT_OPINION_YEARS = list(range(LAST_OPINION_YEAR-3, LAST_OPINION_YEAR+1))
 AUDIT_OPINION_YEARS.reverse()
 
 # we'll actually only have data up to the year before this but use four
 # for consistency on the page.
-LAST_UIFW_YEAR = 2016
+LAST_UIFW_YEAR = 2017
 UIFW_YEARS = list(range(LAST_UIFW_YEAR-3, LAST_UIFW_YEAR+1))
 UIFW_YEARS.reverse()
 
-LAST_IN_YEAR_YEAR = 2017
+LAST_IN_YEAR_YEAR = 2018
 IN_YEAR_YEARS = [LAST_IN_YEAR_YEAR+1, LAST_IN_YEAR_YEAR, LAST_IN_YEAR_YEAR-1, LAST_IN_YEAR_YEAR-2]
 
 

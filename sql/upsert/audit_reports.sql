@@ -7,7 +7,7 @@ CREATE TEMPORARY TABLE audit_reports_upsert
         url TEXT
 ) ;
 
-\copy audit_reports_upsert (demarcation_code, financial_year, url) FROM '/home/jdb/proj/code4sa/municipalmoney/django-project/audit_reports.csv' DELIMITER ',' CSV HEADER;
+\copy audit_reports_upsert (demarcation_code, financial_year, url) FROM '/home/jdb/proj/code4sa/municipalmoney/django-project/audit_reports-2019-07-19.csv' DELIMITER ',' CSV HEADER;
 
 
 UPDATE audit_opinion_facts f

@@ -23,7 +23,7 @@ expected_headings = [
     'Fax Number',
     'NT File No',
     'E-mail Address',
-    '',
+    'Position',
     'ID Number',
     'Title',
     'Name',
@@ -31,7 +31,6 @@ expected_headings = [
     'Cell Number',
     'Fax Number',
     'EMAILADD',
-    'POSITION',
 ]
 
 expected_roles = [
@@ -98,7 +97,7 @@ def convert_persons(sheet, person_csv_name):
         for rowx in range(1, sheet.nrows):
             if str(sheet.cell(rowx, col("CAP")).value) not in ['H', 'L', 'M']:
                 continue
-            role = sheet.cell(rowx, col("")).value
+            role = sheet.cell(rowx, col("Position")).value
             check_role(role)
             if role not in output_roles:
                 continue

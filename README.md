@@ -12,7 +12,6 @@ make municipal finance information available to the public. It is made up of a c
 
    Some python packages require system packages.
    * psycopg2 requires libpq-dev (postgresql development files).
-   * shapely requires libgeos-dev (Geometry engine development files).
    * gnureadline requires libncurses5-dev (ncurses development files).
    * multiple packages require python development files (python-dev).
 
@@ -47,8 +46,6 @@ gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:
 dokku config:set municipal-finance DJANGO_DEBUG=False \
                                    DISABLE_COLLECTSTATIC=1 \
                                    DJANGO_SECRET_KEY=... \
-                                   NEW_RELIC_APP_NAME=municipal_finance \
-                                   NEW_RELIC_LICENSE_KEY=... \
                                    DATABASE_URL=postgres://municipal_finance:...@postgresq....amazonaws.com/municipal_finance
 ```
 
@@ -158,6 +155,8 @@ Update the last-updated date in the model files for each cube in `models/*.json`
 
 Update the materialised view data using `bin/materialised_views.py`:
 
+You might need to allow extra open files with something like `ulimit -n 500000`
+
 1. Run with --profiles-from-api to update the muni-specific profile data
  - This takes about 6 minutes locally
 2. Run with --calc-medians and --calc-rating-counts to update comparison data based on profile changes.
@@ -252,6 +251,9 @@ Do each of these cursory tests for a small sample of municipalities to sanity-ch
 
 - The audit opinion label `Unqualified - With findings` should get mapped to `Unqualified - Emphasis of Matter items` - confirmed with Elsabe.
 
+## 2019-07-09 loading Section 71 Q3 2018-19
+
+e.g. `cat sql/upsert/aged_debtor.sql | docker-compose run --rm postgres psql postgresql://postgres@postgres/municipal_finance`
 # License
 
 MIT License
