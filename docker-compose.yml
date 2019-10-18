@@ -11,13 +11,13 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ".:/app"
-      - "../datasets:/data"
+      - "../data:/data"
     environment:
       DATABASE_URL: 'postgres://postgres@postgres/municipal_finance'
       BABBAGE_TEST_DB: 'postgres://postgres@postgres/babbage'
       SITE_ID: '3'
       PRELOAD_CUBES: 'true'
-      API_URL: http://localhost:8002/api
+      API_URL: http://localhost:8000/api
     working_dir: /app
     ports:
       - "8002:8000"
