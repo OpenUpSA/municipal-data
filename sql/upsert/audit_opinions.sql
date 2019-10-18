@@ -8,7 +8,7 @@ CREATE TEMPORARY TABLE audit_opinions_upsert
         opinion_label TEXT
 ) ON COMMIT DROP;
 
-\copy audit_opinions_upsert (demarcation_code, financial_year, opinion_code, opinion_label) FROM '/home/jdb/proj/code4sa/municipalmoney/django-project/audit_opinions.csv' DELIMITER ',' CSV HEADER;
+\copy audit_opinions_upsert (demarcation_code, financial_year, opinion_code, opinion_label) FROM '/home/jdb/projects/municipal-money/municipal-data/audit_opinions.csv' DELIMITER ',' CSV HEADER;
 
 UPDATE audit_opinion_facts f
 SET opinion_code = i.opinion_code,
