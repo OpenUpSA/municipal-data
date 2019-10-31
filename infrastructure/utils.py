@@ -62,9 +62,13 @@ def load_file(geography, fp):
 
 def create_expenditure(project, finance_phase, amount):
     phase, year = create_finance_phase(finance_phase)
-    expenditure = models.Expenditure.objects.create(
-        project=project, budget_phase=phase, financial_year=year, amount=float(amount)
-    )
+    try:
+        expenditure = models.Expenditure.objects.create(
+            project=project, budget_phase=phase, financial_year=year, amount=float(amount)
+        )
+        return True
+    except ValueError:
+        return False
 
 
 def create_finance_phase(s):

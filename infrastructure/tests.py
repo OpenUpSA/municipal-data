@@ -9,7 +9,7 @@ class ImportCSVTestCase(TestCase):
 
     @classmethod
     def setUp(cls):
-        Geography.objects.create(geo_level="X", geo_code="geo_code", province_name="Western Cape", province_code="WC", category="A")
+        ImportCSVTestCase.geography = Geography.objects.create(geo_level="X", geo_code="geo_code", province_name="Western Cape", province_code="WC", category="A")
 
     def generate_data(self, rows):
         fp = StringIO()
@@ -84,18 +84,15 @@ class ImportCSVTestCase(TestCase):
 
     def test_load_file_with_bad_data(self):
         fp = self.generate_bad_data()
-        geography = Geography.objects.all().first()
 
-        self.assertRaises(ValueError, utils.load_file, geography, fp)
+        self.assertRaises(ValueError, utils.load_file, ImportCSVTestCase.geography, fp)
 
     def test_load_file(self):
         self.assertEqual(models.Project.objects.count(), 0)
 
         fp = self.generate_good_data()
 
-        geography = Geography.objects.all().first()
-
-        utils.load_file(geography, fp)
+        utils.load_file(ImportCSVTestCase.geography, fp)
         self.assertEqual(models.Project.objects.count(), 1)
         project = models.Project.objects.all().first()
 
@@ -115,7 +112,7 @@ class ImportCSVTestCase(TestCase):
                 self.assertEquals(getattr(project, h.lower()), "x")
 
         fp = self.generate_good_data(num_rows=2)
-        rows = utils.load_file(geography, fp)
+        rows = utils.load_file(ImportCSVTestCase.geography, fp)
         self.assertEqual(models.Project.objects.count(), 3)
         self.assertEquals(rows, 2)
 
@@ -125,9 +122,7 @@ class ImportCSVTestCase(TestCase):
 
         fp = self.generate_good_data()
 
-        geography = Geography.objects.all().first()
-
-        utils.load_file(geography, fp)
+        utils.load_file(ImportCSVTestCase.geography, fp)
         self.assertEquals(models.BudgetPhase.objects.count(), 3)
         self.assertEquals(models.FinancialYear.objects.count(), 5)
 
@@ -140,10 +135,9 @@ class ImportCSVTestCase(TestCase):
 
     def load_good_data(self):
         fp = self.generate_good_data()
-        geography = Geography.objects.all().first()
-        utils.load_file(geography, fp)
+        utils.load_file(ImportCSVTestCase.geography, fp)
 
-    def test_load_expenditure(self):
+    def test_create_expenditure(self):
         self.assertEquals(models.Expenditure.objects.count(), 0)
         self.load_good_data()
 
@@ -158,11 +152,16 @@ class ImportCSVTestCase(TestCase):
         self.assertEquals(expenditures[3].amount, 3)
         self.assertEquals(expenditures[4].amount, 4)
 
+    def test_create_empty_expenditure(self):
+        self.assertEquals(models.Expenditure.objects.count(), 0)
+        project = models.Project.objects.create(geography=ImportCSVTestCase.geography) 
+        created = utils.create_expenditure(project, "Budget Year 2019/2020", "")
+        self.assertFalse(created)
+        self.assertEquals(models.Expenditure.objects.count(), 0)
 
     def test_load_file_with_bad_coordinates(self):
-        geography = Geography.objects.all().first()
         fp = self.generate_bad_coordinates()
-        utils.load_file(geography, fp)
+        utils.load_file(ImportCSVTestCase.geography, fp)
 
         project = models.Project.objects.first()
         self.assertIsNone(project.latitude)
