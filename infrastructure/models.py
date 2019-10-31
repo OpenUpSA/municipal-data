@@ -37,3 +37,6 @@ class Expenditure(models.Model):
     budget_phase = models.ForeignKey(BudgetPhase, null=False)
     financial_year = models.ForeignKey(FinancialYear, null=False)
     amount = models.DecimalField(max_digits=20, decimal_places=2)
+
+    def __str__(self):
+        return "%s - %s (%s)" % (self.project, self.budget_phase, self.financial_year)
