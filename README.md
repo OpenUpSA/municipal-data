@@ -3,7 +3,13 @@
 Municipal Money is a project between the [South African National Treasury](http://www.treasury.gov.za/) and [Code for South Africa](http://code4sa.org) to
 make municipal finance information available to the public. It is made up of a citizen-facing app and an API.
 
-# Local development
+# Local development quick start (with docker-compose)
+
+If you only want to work on the scorecard website. The site will still use the live API server
+
+``docker-compose up``
+
+# Local development (without docker)
 
 1. Clone this repo
 2. Create a python virtual environment. ```virtualenv <env_name>```
