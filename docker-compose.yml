@@ -17,7 +17,7 @@ services:
       BABBAGE_TEST_DB: 'postgres://postgres@postgres/babbage'
       SITE_ID: '3'
       PRELOAD_CUBES: 'true'
-      API_URL: http://localhost:8000/api
+      API_URL: https://municipaldata.treasury.gov.za/api
     working_dir: /app
     ports:
       - "8002:8000"
@@ -34,7 +34,7 @@ services:
       DATABASE_URL: 'postgres://postgres@postgres/municipal_finance'
       BABBAGE_TEST_DB: 'postgres://postgres@potgres/babbage'
       SITE_ID: '2'
-      API_URL: http://portal:8000/api
+      API_URL: https://municipaldata.treasury.gov.za/api
     ports:
       - "8001:8000"
     working_dir: /app
@@ -47,5 +47,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=municipal_finance
+      - POSTGRES_USER=municipal_finance
+      - POSTGRES_PASS=municipal_finance
     ports:
       - "5433:5432"
