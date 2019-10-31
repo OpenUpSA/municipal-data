@@ -15,7 +15,6 @@ class BudgetPhase(models.Model):
         return self.code 
 
 class Project(models.Model):
-    financial_year = models.ForeignKey(FinancialYear, on_delete=models.CASCADE, null=False, related_name="projects")
     geography = models.ForeignKey(Geography, on_delete=models.CASCADE, null=False, related_name="geographies")
     function = models.CharField(max_length=150, blank=True)
     project_description = models.CharField(max_length=255, blank=True)
@@ -23,7 +22,7 @@ class Project(models.Model):
     project_type = models.CharField(max_length=20, blank=True)
     mtsf_service_outcome = models.CharField(max_length=50, blank=True)
     iudf = models.CharField(max_length=50, blank=True)
-    own_strategic_objective = models.CharField(max_length=50, blank=True)
+    own_strategic_objectives = models.CharField(max_length=50, blank=True)
     asset_class = models.CharField(max_length=50, blank=True)
     asset_subclass = models.CharField(max_length=50, blank=True)
     ward_location = models.CharField(max_length=50, blank=True)
