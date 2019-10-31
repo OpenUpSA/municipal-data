@@ -40,6 +40,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = (
     'municipal_finance',
     'scorecard',
+    'infrastructure',
     'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.humanize',
