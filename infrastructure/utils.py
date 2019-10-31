@@ -23,7 +23,7 @@ def float_or_none(val):
     try:
         return float(val)
     except ValueError:
-        return Nonej
+        return None
 
 def check_file(fp):
     reader = csv.DictReader(fp)
@@ -42,8 +42,9 @@ def load_file(geography, fp):
                 geography=geography,
                 function=row["Function"], project_description=row["Project Description"], project_number=row["Project Number"],
                 project_type=row["Type"], mtsf_service_outcome=row["MTSF Service Outcome"], iudf=row["IUDF"],
-                own_strategic_objectives=row["Own Strategic Objectives"], asset_class=row["Asset Class"], asset_subclass=row["Asset Sub-Class"],
-                ward_location=row["Ward Location"], longitude=float(row["GPS Longitude"]), latitude=float(row["GPS Latitude"])
+                own_strategic_objectives=row["Own Strategic Objectives"], asset_class=row["Asset Class"],
+                asset_subclass=row["Asset Sub-Class"], ward_location=row["Ward Location"], 
+                longitude=float_or_none(row["GPS Longitude"]), latitude=float_or_none(row["GPS Latitude"])
             )
         except ValueError as e:
             raise ValueError("Error loading data in row: %d - %s" % (idx + 2, row))
