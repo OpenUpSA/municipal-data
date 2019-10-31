@@ -5,11 +5,17 @@ from infrastructure import models
 from scorecard.models import Geography
 from io import StringIO
 
-class ImportCSVTestCase(TestCase):
 
+class ImportCSVTestCase(TestCase):
     @classmethod
     def setUp(cls):
-        ImportCSVTestCase.geography = Geography.objects.create(geo_level="X", geo_code="geo_code", province_name="Western Cape", province_code="WC", category="A")
+        ImportCSVTestCase.geography = Geography.objects.create(
+            geo_level="X",
+            geo_code="geo_code",
+            province_name="Western Cape",
+            province_code="WC",
+            category="A",
+        )
 
     def generate_data(self, rows):
         fp = StringIO()
@@ -20,19 +26,23 @@ class ImportCSVTestCase(TestCase):
         return fp
 
     def generate_bad_data(self):
-        additional_headers = ",".join([
-            "Audited Outcome 2018/2019",
-            "Full Year Forecast 2019/20",
-            "Budget year 2020/21",
-            "Budget year 2021/22",
-            "Budget year 2022/23",
-        ])
+        additional_headers = ",".join(
+            [
+                "Audited Outcome 2018/2019",
+                "Full Year Forecast 2019/20",
+                "Budget year 2020/21",
+                "Budget year 2021/22",
+                "Budget year 2022/23",
+            ]
+        )
 
         additional_data = ",".join([str(i) for i in range(len(additional_headers))])
 
         rows = [
-            ",".join("field%d" % i for i in range(len(utils.headers))) + additional_headers,
-            ",".join("value%d" % i for i in range(len(utils.headers))) + additional_data,
+            ",".join("field%d" % i for i in range(len(utils.headers)))
+            + additional_headers,
+            ",".join("value%d" % i for i in range(len(utils.headers)))
+            + additional_data,
         ]
 
         return self.generate_data(rows)
@@ -41,13 +51,15 @@ class ImportCSVTestCase(TestCase):
         rows = []
         headers = ",".join(utils.headers)
 
-        additional_headers = ",".join([
-            "Audited Outcome 2018/2019",
-            "Full Year Forecast 2019/20",
-            "Budget year 2020/21",
-            "Budget year 2021/22",
-            "Budget year 2022/23",
-        ])
+        additional_headers = ",".join(
+            [
+                "Audited Outcome 2018/2019",
+                "Full Year Forecast 2019/20",
+                "Budget year 2020/21",
+                "Budget year 2021/22",
+                "Budget year 2022/23",
+            ]
+        )
 
         additional_data = ",".join([str(i) for i in range(len(additional_headers))])
 
@@ -154,7 +166,7 @@ class ImportCSVTestCase(TestCase):
 
     def test_create_empty_expenditure(self):
         self.assertEquals(models.Expenditure.objects.count(), 0)
-        project = models.Project.objects.create(geography=ImportCSVTestCase.geography) 
+        project = models.Project.objects.create(geography=ImportCSVTestCase.geography)
         created = utils.create_expenditure(project, "Budget Year 2019/2020", "")
         self.assertFalse(created)
         self.assertEquals(models.Expenditure.objects.count(), 0)

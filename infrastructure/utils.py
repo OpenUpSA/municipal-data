@@ -4,7 +4,9 @@ from infrastructure import models
 from scorecard.models import Geography
 from django.db import transaction
 
-headers = [x.strip() for x in """
+headers = [
+    x.strip()
+    for x in """
     Function,
     Project Description,
     Project Number,
@@ -17,7 +19,11 @@ headers = [x.strip() for x in """
     Ward Location,
     GPS Longitude,
     GPS Latitude
-""".split(",")]
+""".split(
+        ","
+    )
+]
+
 
 def float_or_none(val):
     try:
@@ -25,12 +31,16 @@ def float_or_none(val):
     except ValueError:
         return None
 
+
 def check_file(fp):
     reader = csv.DictReader(fp)
     fields = reader.fieldnames[0:12]
 
     if fields != headers:
-        raise ValueError("Expected these fields as input: \n%s. Received: \n%s" % (headers, fields))
+        raise ValueError(
+            "Expected these fields as input: \n%s. Received: \n%s" % (headers, fields)
+        )
+
 
 @transaction.atomic
 def load_file(geography, fp):
@@ -46,13 +56,20 @@ def load_file(geography, fp):
         try:
             p = models.Project.objects.create(
                 geography=geography,
-                function=row["Function"], project_description=row["Project Description"], project_number=row["Project Number"],
-                project_type=row["Type"], mtsf_service_outcome=row["MTSF Service Outcome"], iudf=row["IUDF"],
-                own_strategic_objectives=row["Own Strategic Objectives"], asset_class=row["Asset Class"],
-                asset_subclass=row["Asset Sub-Class"], ward_location=row["Ward Location"], 
-                longitude=float_or_none(row["GPS Longitude"]), latitude=float_or_none(row["GPS Latitude"])
+                function=row["Function"],
+                project_description=row["Project Description"],
+                project_number=row["Project Number"],
+                project_type=row["Type"],
+                mtsf_service_outcome=row["MTSF Service Outcome"],
+                iudf=row["IUDF"],
+                own_strategic_objectives=row["Own Strategic Objectives"],
+                asset_class=row["Asset Class"],
+                asset_subclass=row["Asset Sub-Class"],
+                ward_location=row["Ward Location"],
+                longitude=float_or_none(row["GPS Longitude"]),
+                latitude=float_or_none(row["GPS Latitude"]),
             )
-            
+
             for field in additional_fields:
                 amount = row[field]
                 create_expenditure(p, field, amount)
@@ -60,11 +77,15 @@ def load_file(geography, fp):
             raise ValueError("Error loading data in row: %d - %s" % (idx + 2, row))
     return idx + 1
 
+
 def create_expenditure(project, finance_phase, amount):
     phase, year = create_finance_phase(finance_phase)
     try:
         expenditure = models.Expenditure.objects.create(
-            project=project, budget_phase=phase, financial_year=year, amount=float(amount)
+            project=project,
+            budget_phase=phase,
+            financial_year=year,
+            amount=float(amount),
         )
         return True
     except ValueError:
@@ -90,5 +111,3 @@ def parse_finance_phase(s):
     year = "%s/%s" % (y1, y2)
 
     return " ".join(parts[0:-1]), year
-
-
