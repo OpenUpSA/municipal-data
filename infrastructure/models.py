@@ -8,11 +8,11 @@ class FinancialYear(models.Model):
         return self.budget_year
 
 class BudgetPhase(models.Model):
-    code = models.CharField(max_length=10)
+    code = models.CharField(max_length=10, null=True)
     name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.code 
+        return self.name 
 
 class Project(models.Model):
     geography = models.ForeignKey(Geography, on_delete=models.CASCADE, null=False, related_name="geographies")
