@@ -77,3 +77,10 @@ class ImportCSVTestCase(TestCase):
         fp = self.generate_good_data(rows=2)
         utils.load_file(geography, fp)
         self.assertEqual(models.Project.objects.count(), 3)
+
+    def test_float_or_none(self):
+        r = utils.float_or_none("10.5")
+        self.assertEquals(type(r), float)
+
+        r = utils.float_or_none("")
+        self.assertEquals(r, None)

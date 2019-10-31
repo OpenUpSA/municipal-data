@@ -19,6 +19,12 @@ headers = [x.strip() for x in """
     GPS Latitude
 """.split(",")]
 
+def float_or_none(val):
+    try:
+        return float(val)
+    except ValueError:
+        return Nonej
+
 def check_file(fp):
     reader = csv.DictReader(fp)
 
