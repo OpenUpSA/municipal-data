@@ -30,10 +30,10 @@ class Project(models.Model):
     latitude = models.FloatField(null=True)
 
     def __str__(self):
-        return "%s (%s) - %s" % (self.geography, self.financial_year, self.project_description)
+        return "%s - %s" % (self.geography, self.project_description)
 
 class Expenditure(models.Model):
-    project = models.ForeignKey(Project, null=False, related_name="expenditures")
+    project = models.ForeignKey(Project, null=False, related_name="expenditure")
     budget_phase = models.ForeignKey(BudgetPhase, null=False)
     financial_year = models.ForeignKey(FinancialYear, null=False)
     amount = models.DecimalField(max_digits=20, decimal_places=2)
