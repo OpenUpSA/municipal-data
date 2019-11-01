@@ -8,6 +8,14 @@ from wkhtmltopdf.utils import wkhtmltopdf
 from scorecard.profiles import get_profile
 from scorecard.models import Geography, LocationNotFound
 
+from . import models
+from . import serializers
+from rest_framework import viewsets
+
+class GeographyViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Geography.objects.all()
+    serializer_class = serializers.GeographySerializer
+
 
 class LocateView(TemplateView):
     template_name = 'locate.html'

@@ -1,8 +1,8 @@
 from django.test import TestCase
 import json
-from infrastructure import utils
 from infrastructure import models, serializers
 from scorecard.models import Geography
+from scorecard.serializers import GeographySerializer
 
 
 class TestSerializers(TestCase):
@@ -83,7 +83,9 @@ class TestSerializers(TestCase):
         for k, v in js.items():
             self.assertIn(k, js)
             if k == "geography":
-                self.assertEquals(TestSerializers.geography.id, v)
+                js_geo = GeographySerializer(TestSerializers.geography).data
+
+                self.assertEquals(js_geo, v)
             else:
                 self.assertEquals(js[k], v)
 

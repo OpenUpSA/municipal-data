@@ -3,9 +3,15 @@ from django.conf.urls import include
 from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
+from rest_framework import routers
 
 import scorecard.views as views
 import infrastructure.views
+
+router = routers.DefaultRouter()
+router.register(r'geography', views.GeographyViewSet)
+
+urlpatterns = router.urls
 
 # This cache is reset on each deployment. Corresponding caching headers are
 # sent to the client, too.
@@ -53,6 +59,9 @@ urlpatterns = [
     ),
     url(
         '^api/infrastructure/', include("infrastructure.urls")
+    ),
+    url(
+        '^api/geography/', include(router.urls)
     ),
     url(
         regex='^api(?:/.*)?$',

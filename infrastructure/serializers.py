@@ -1,5 +1,6 @@
-from infrastructure import models
 from rest_framework import serializers
+from . import models
+from scorecard.serializers import GeographySerializer
 
 
 class FinancialYearSerializer(serializers.ModelSerializer):
@@ -24,6 +25,7 @@ class ExpenditureSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
     expenditure = ExpenditureSerializer(many=True, read_only=True)
+    geography = GeographySerializer(read_only=True)
 
     class Meta:
         model = models.Project
