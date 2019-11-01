@@ -1,9 +1,11 @@
 from django.conf.urls import url
+from django.conf.urls import include
 from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 
 import scorecard.views as views
+import infrastructure.views
 
 # This cache is reset on each deployment. Corresponding caching headers are
 # sent to the client, too.
@@ -48,6 +50,9 @@ urlpatterns = [
             "Sitemap: https://municipalmoney.gov.za/sitemap.txt",
             content_type="text/plain"
         )
+    ),
+    url(
+        '^api/infrastructure/', include("infrastructure.urls")
     ),
     url(
         regex='^api(?:/.*)?$',
