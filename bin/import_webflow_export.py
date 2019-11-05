@@ -73,6 +73,8 @@ with ZipFile(args.webflow_zipfile, 'r') as zipObj:
         zipObj.extractall(tmp_dir)
 
         template_dir = os.path.join(args.webflow_app_dir, "templates/webflow")
+        if not os.path.exists(template_dir):
+            os.makedirs(template_dir)
 
         for htmlfile in glob(tmp_dir + "/*.html"):
             print(f"Adapting {htmlfile} as Django template")
