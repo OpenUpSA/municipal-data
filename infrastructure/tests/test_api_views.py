@@ -51,9 +51,9 @@ class TestProject(TestCase):
         response = self.client.get("/api/infrastructure/projects/?geo=CPT")
         self.assertEqual(response.status_code, 200)
         js = response.json()
-        self.assertEquals(len(js), 2)
+        self.assertEquals(len(js["results"]), 2)
 
         response = self.client.get("/api/infrastructure/projects/?geo=WC011")
         self.assertEqual(response.status_code, 200)
         js = response.json()
-        self.assertEquals(len(js), 1)
+        self.assertEquals(len(js["results"]), 1)
