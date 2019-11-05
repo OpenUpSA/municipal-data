@@ -7,7 +7,4 @@ router.register(r'financial_years', views.FinancialYearViewSet)
 router.register(r'budget_phases', views.BudgetPhaseViewSet)
 router.register(r'projects', views.ProjectViewSet)
 
-urlpatterns = [
-    url(r'^projects$', views.ListView.as_view(), name='project-list-view'),
-] + router.urls
-
+urlpatterns = router.urls
