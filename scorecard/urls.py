@@ -58,7 +58,10 @@ urlpatterns = [
         )
     ),
     url(
-        '^api/infrastructure/', include("infrastructure.urls")
+        '^api/infrastructure/', include("infrastructure.urls.api")
+    ),
+    url(
+        '^infrastructure/', include("infrastructure.urls.templates")
     ),
     url(
         '^api/geography/', include(router.urls)

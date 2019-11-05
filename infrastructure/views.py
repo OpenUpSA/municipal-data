@@ -1,6 +1,8 @@
 from . import models
 from . import serializers
 from rest_framework import viewsets
+from django.views.generic.base import TemplateView
+
 
 class FinancialYearViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.FinancialYear.objects.all()
@@ -13,3 +15,8 @@ class BudgetPhaseViewSet(viewsets.ReadOnlyModelViewSet):
 class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Project.objects.all()
     serializer_class = serializers.ProjectSerializer
+
+
+class ListView(TemplateView):
+
+    template_name = 'infrastructure/list.html'
