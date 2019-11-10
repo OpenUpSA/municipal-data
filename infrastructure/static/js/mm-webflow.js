@@ -98,7 +98,7 @@ function mmWebflow(js) {
         }
 
         function createMap(selector, bbox, markers) {
-            var map = L.map(selector)//.setView([51.505, -0.09], 13);
+            var map = L.map(selector);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -113,7 +113,7 @@ function mmWebflow(js) {
         }
 
         function addMarker(map, coords, message) {
-            if (coords[0] != 0 && coords[1] != 0) {
+            if (coords[0] != undefined && coords[1] != undefined && coords[0] != 0 && coords[1] != 0) {
                 marker = L.marker(coords).addTo(map)
 
                 if (message != undefined) {

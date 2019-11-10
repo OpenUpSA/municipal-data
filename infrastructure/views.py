@@ -31,7 +31,8 @@ class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_serializer_context(self, **kwargs):
         context = super(ProjectViewSet, self).get_serializer_context(**kwargs)
-        context["full"] = True
+        if "full" in self.request.query_params:
+            context["full"] = True
         return context
 
 class ListView(TemplateView):
