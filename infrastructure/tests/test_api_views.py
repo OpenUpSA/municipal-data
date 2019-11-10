@@ -40,7 +40,7 @@ class TestProject(TestCase):
         }
         """)
         self.maxDiff = None
-        response = self.client.get("/api/infrastructure/projects/1/")
+        response = self.client.get("/api/infrastructure/projects/1/?full=True")
         self.assertEqual(response.status_code, 200)
 
         js = response.json()
