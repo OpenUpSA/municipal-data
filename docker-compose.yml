@@ -1,7 +1,4 @@
-version: "2"
-
-volumes:
-  postgres_data: {}
+version: '2'
 
 services:
   portal:
@@ -10,8 +7,10 @@ services:
       dockerfile: Dockerfile-dev
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ".:/app"
-      - "../data:/data"
+      - '.:/app'
+      - '../data:/data'
+    networks:
+      - munimoney
     environment:
       DATABASE_URL: 'postgres://postgres@postgres/municipal_finance'
       BABBAGE_TEST_DB: 'postgres://postgres@postgres/babbage'
@@ -20,7 +19,7 @@ services:
       API_URL: https://municipaldata.treasury.gov.za/api
     working_dir: /app
     ports:
-      - "8002:8000"
+      - '8002:8000'
 
   scorecard:
     build:
@@ -28,26 +27,54 @@ services:
       dockerfile: Dockerfile-dev
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ".:/app"
-      - "../datasets:/data"
+      - '.:/app'
+      - '../datasets:/data'
     environment:
       DATABASE_URL: 'postgres://postgres@postgres/municipal_finance'
+      HAYSTACK_URL: 'http://elasticsearch:9200/'
       BABBAGE_TEST_DB: 'postgres://postgres@potgres/babbage'
       SITE_ID: '2'
       API_URL: https://municipaldata.treasury.gov.za/api
+    networks:
+      - munimoney
     ports:
-      - "8001:8000"
+      - '8001:8000'
     working_dir: /app
 
   postgres:
     image: postgres:9.4
     volumes:
-      - ".:/app"
-      - "../data:/data"
+      - '.:/app'
+      - '../data:/data'
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - munimoney
     environment:
       - POSTGRES_DB=municipal_finance
       - POSTGRES_USER=municipal_finance
       - POSTGRES_PASS=municipal_finance
     ports:
-      - "5433:5432"
+      - '5433:5432'
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
+    container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - discovery.type=single-node
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    networks:
+      - munimoney
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+
+networks:
+    munimoney:
+        driver: bridge
+
+volumes:
+  postgres_data: {}
+  esdata:
+    driver: local
+
