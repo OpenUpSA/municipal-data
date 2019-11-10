@@ -169,8 +169,7 @@ function mmWebflow(js) {
         setFinanceValue($(".finances .budget2"), js["expenditure"], "Budget Year");
         setFinanceValue($(".finances .budget3"), js["expenditure"], "Budget Year");
 
-        // TODO current setting the iframe location in order to avoid flicker - might not be necessary
-        setMapCoordinates($(".project-map iframe")[0], js["geography"]["bbox"]);
+        $(".project-map iframe").remove()
         map = createMap("project-map", js["geography"]["bbox"], [[js["latitude"], js["longitude"]]])
         addMarker(map, [js["latitude"], js["longitude"]], js["project_description"])
 
