@@ -11,8 +11,6 @@ import infrastructure.views
 router = routers.DefaultRouter()
 router.register(r'geography', views.GeographyViewSet)
 
-urlpatterns = router.urls
-
 # This cache is reset on each deployment. Corresponding caching headers are
 # sent to the client, too.
 CACHE_SECS = 12 * 60 * 60
@@ -66,13 +64,13 @@ urlpatterns = [
     url(
         '^api/geography/', include(router.urls)
     ),
-    url(
-        regex='^api(?:/.*)?$',
-        view=lambda r: HttpResponse(
-            "The API is at https://municipaldata.treasury.gov.za/api\n" +
-            "The API Documentation is at https://municipaldata.treasury.gov.za/docs\n",
-            content_type="text/plain",
-            status=404
-        )
-    ),
+    #url(
+    #    regex='^api(?:/.*)?$',
+    #    view=lambda r: HttpResponse(
+    #        "The API is at https://municipaldata.treasury.gov.za/api\n" +
+    #        "The API Documentation is at https://municipaldata.treasury.gov.za/docs\n",
+    #        content_type="text/plain",
+    #        status=404
+    #    )
+    #),
 ]
