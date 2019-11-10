@@ -33,9 +33,9 @@ class Project(models.Model):
         return "%s - %s" % (self.geography, self.project_description)
 
 class Expenditure(models.Model):
-    project = models.ForeignKey(Project, null=False, related_name="expenditure")
-    budget_phase = models.ForeignKey(BudgetPhase, null=False)
-    financial_year = models.ForeignKey(FinancialYear, null=False)
+    project = models.ForeignKey(Project, null=False, on_delete=models.CASCADE, related_name="expenditure")
+    budget_phase = models.ForeignKey(BudgetPhase, null=False, on_delete=models.CASCADE)
+    financial_year = models.ForeignKey(FinancialYear, null=False, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=20, decimal_places=2)
 
     def __str__(self):
