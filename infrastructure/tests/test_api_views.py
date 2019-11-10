@@ -51,6 +51,7 @@ class TestProject(TestCase):
         self.assertEqual(response.status_code, 200)
         js = response.json()
         self.assertEquals(len(js["results"]), 2)
+        self.assertEquals(len(js["results"][0]["geography"]["bbox"]), 0)
 
         response = self.client.get("/api/infrastructure/projects/?geo=WC011")
         self.assertEqual(response.status_code, 200)
