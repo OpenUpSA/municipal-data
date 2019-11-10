@@ -113,6 +113,13 @@ class Geography(models.Model):
             'slug': self.slug,
         }
 
+    @property
+    def bbox(self):
+        url = settings.MAPIT['url'] + '/area/MDB:%s/geometry?generation=%s' % (self.geo_code, settings.MAPIT['generation'])
+        resp = requests.get(url)
+        js = resp.json()
+        return [js[x] for x in ["min_lon", "min_lat", "max_lon", "max_lat"]]
+
     def __unicode__(self):
         return self.full_name
 
