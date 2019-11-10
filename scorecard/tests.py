@@ -17,20 +17,30 @@ def request_mock(json_data, response_code=200):
         return MockResponse(json_data, response_code)
     return _request_mock
 
+cpt_coords = {
+    "min_lat": -34.35833999699997,
+    "max_lat": -33.47127600399995,
+    "parts": 2,
+    "centre_lon": 18.594296829500248,
+    "max_lon": 19.005338203000065,
+    "min_lon": 18.307220001000076,
+    "centre_lat": -33.89270693372812
+}
+
 fixtures = {
     "parent_map": {
-       "geo_level":"my geo_level",
-       "geo_code": "my code",
-       "name": "my name",
-       "long_name": "my long_name",
-       "square_kms":  1000,
-       "parent_level":  None,
-       "parent_code":  None,
-       "province_name": "pr",
-       "province_code": "prov",
-       "category": "my",
-       "miif_category": "my miff_category",
-       "population":  2000,
+        "geo_level":"my geo_level",
+        "geo_code": "CPT",
+        "name": "my name",
+        "long_name": "my long_name",
+        "square_kms":  1000,
+        "parent_level":  None,
+        "parent_code":  None,
+        "province_name": "pr",
+        "province_code": "prov",
+        "category": "my",
+        "miif_category": "my miff_category",
+        "population":  2000,
     },
 
     "child_map": {
@@ -52,17 +62,6 @@ fixtures = {
 
 class TestGeographies(TestCase):
 
-    @classmethod
-    def setUp(cls):
-        pass
-        #cls.geography = Geography.objects.create(
-        #    geo_level="X",
-        #    geo_code="geo_code",
-        #    province_name="Western Cape",
-        #    province_code="WC",
-        #    category="A",
-        #)
-
     def test_geography(self):
 
         parent_geography = models.Geography.objects.create(**fixtures["parent_map"])
@@ -71,18 +70,11 @@ class TestGeographies(TestCase):
         js_parent = serializers.GeographySerializer(parent_geography, context={"request": None}).data
         js_child = serializers.GeographySerializer(child_geography, context={"request": None}).data
 
-        self.assertEquals(fixtures["parent_map"], js_parent)
-        self.assertEquals(fixtures["child_map"], js_child)
+        coords = [cpt_coords[x] for x in ["min_lon", "min_lat", "max_lon", "max_lat"]]
+        parent_json = dict(fixtures["parent_map"], bbox=coords)
 
-cpt_coords = {
-    "min_lat": -34.35833999699997,
-    "max_lat": -33.47127600399995,
-    "parts": 2,
-    "centre_lon": 18.594296829500248,
-    "max_lon": 19.005338203000065,
-    "min_lon": 18.307220001000076,
-    "centre_lat": -33.89270693372812
-}
+        self.assertDictEqual(parent_json, js_parent)
+        self.assertEquals(fixtures["child_map"], js_child)
 
 class TestBoundingBoxes(TestCase):
     @mock.patch('requests.get', side_effect=request_mock(cpt_coords))
