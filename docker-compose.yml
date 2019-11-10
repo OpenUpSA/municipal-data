@@ -7,10 +7,8 @@ services:
       dockerfile: Dockerfile-dev
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - '.:/app'
-      - '../data:/data'
-    networks:
-      - munimoney
+      - ".:/app"
+      - "../data:/data"
     environment:
       DATABASE_URL: 'postgres://postgres@postgres/municipal_finance'
       BABBAGE_TEST_DB: 'postgres://postgres@postgres/babbage'
@@ -63,11 +61,9 @@ services:
       - discovery.type=single-node
     volumes:
       - esdata:/usr/share/elasticsearch/data
-    networks:
-      - munimoney
     ports:
-      - '9200:9200'
-      - '9300:9300'
+      - "9200:9200"
+      - "9300:9300"
 
 networks:
     munimoney:
