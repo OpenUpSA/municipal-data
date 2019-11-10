@@ -16708,7 +16708,7 @@ Webflow.define('dropdown', module.exports = function ($, _) {
     data.toggle.attr('aria-controls', listId);
     data.toggle.attr('aria-haspopup', 'menu');
     data.toggle.on('keyup', makeToggleKeyupHandler(data));
-    $el.attr('aria-labelled-by', toggleId); // Hide focus outline (temporarily, until more widespread a11y
+    $el.attr('aria-labelledby', toggleId); // Hide focus outline (temporarily, until more widespread a11y
     // support and communication)
 
     data.toggle.css('outline', 'none');

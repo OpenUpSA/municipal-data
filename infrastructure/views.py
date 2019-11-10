@@ -42,6 +42,7 @@ class ListView(TemplateView):
         projects = json.loads(projects)
 
         projects["view"] = "list";
+
         context = super().get_context_data(**kwargs)
         context['page_data_json'] = {"data" : json.dumps(projects)}
         return context
@@ -58,7 +59,8 @@ class DetailView(TemplateView):
         project = view(self.request, **kwargs).render().content
         project = json.loads(project)
 
-        print(kwargs)
+        project["view"] = "detail";
+
         context = super().get_context_data(**kwargs)
         context['page_data_json'] = {"data" : json.dumps(project)}
         return context
