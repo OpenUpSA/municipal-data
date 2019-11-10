@@ -97,6 +97,33 @@ function mmWebflow(js) {
             selector.src = url + $.param(params);
         }
 
+        function createMap(selector, bbox, markers) {
+            var map = L.map(selector)//.setView([51.505, -0.09], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+            map.fitBounds([
+              [bbox[3], bbox[2]],
+              [bbox[1], bbox[0]],
+            ])
+
+            return map;
+        }
+
+        function addMarker(map, coords, message) {
+            if (coords[0] != 0 && coords[1] != 0) {
+                marker = L.marker(coords).addTo(map)
+
+                if (message != undefined) {
+                    marker
+                        .bindPopup(message)
+                        .openPopup();
+                }
+            }
+        }
+
         function formatCurrency(amount) {
             return "R" + parseInt(amount).toLocaleString();
         }
@@ -134,9 +161,6 @@ function mmWebflow(js) {
         var coordinates = formatCoordinates(js["latitude"], js["longitude"])
         setValue($(".geography .coordinates"), coordinates)
 
-        coords = [22.735740001000067, -33.77845492599994, 25.178260000000023, -31.688509996999983]
-
-
         setFinanceValue($(".finances .outcome"), js["expenditure"], "Audited Outcome");
         setFinanceValue($(".finances .forecast"), js["expenditure"], "Full Year Forecast");
 
@@ -145,7 +169,10 @@ function mmWebflow(js) {
         setFinanceValue($(".finances .budget2"), js["expenditure"], "Budget Year");
         setFinanceValue($(".finances .budget3"), js["expenditure"], "Budget Year");
 
-        setMapCoordinates($(".project-map iframe")[0], coords);
+        // TODO current setting the iframe location in order to avoid flicker - might not be necessary
+        setMapCoordinates($(".project-map iframe")[0], js["geography"]["bbox"]);
+        map = createMap("project-map", js["geography"]["bbox"], [[js["latitude"], js["longitude"]]])
+        addMarker(map, [js["latitude"], js["longitude"]], js["project_description"])
 
     }
 
