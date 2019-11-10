@@ -5,15 +5,13 @@ import json
 
 class TestProject(TestCase):
     fixtures = ["test_infrastructure.json"]
-    @classmethod
-    def setUp(cls):
-        pass
 
     def test_individual_project(self):
         test_data = json.loads(""" {
             "id": 1,
             "expenditure": [ ],
             "geography": {
+                "bbox": [18.307220001000076, -34.35833999699997, 19.005338203000065, -33.47127600399995],
                 "geo_level": "municipality",
                 "geo_code": "CPT",
                 "name": "City of Cape Town",
@@ -41,6 +39,7 @@ class TestProject(TestCase):
             "latitude": 0
         }
         """)
+        self.maxDiff = None
         response = self.client.get("/api/infrastructure/projects/1/")
         self.assertEqual(response.status_code, 200)
 

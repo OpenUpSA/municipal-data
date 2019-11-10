@@ -41,6 +41,7 @@ fixtures = {
         "category": "my",
         "miif_category": "my miff_category",
         "population":  2000,
+        "population":  2000,
     },
 
     "child_map": {
@@ -62,19 +63,24 @@ fixtures = {
 
 class TestGeographies(TestCase):
 
-    def test_geography(self):
+    def setUp(self):
+        self.parent_geography = models.Geography.objects.create(**fixtures["parent_map"])
+        self.child_geography = models.Geography.objects.create(**fixtures["child_map"])
 
-        parent_geography = models.Geography.objects.create(**fixtures["parent_map"])
-        child_geography = models.Geography.objects.create(**fixtures["child_map"])
+    def test_geography_without_bbox(self):
+        js_parent = serializers.GeographySerializer(self.parent_geography, context={"request": None}).data
 
-        js_parent = serializers.GeographySerializer(parent_geography, context={"request": None}).data
-        js_child = serializers.GeographySerializer(child_geography, context={"request": None}).data
+        parent_json = dict(fixtures["parent_map"], bbox=[])
+        self.assertDictEqual(parent_json, js_parent)
+
+
+    def test_geography_with_bbox(self):
+        js_parent = serializers.GeographySerializer(self.parent_geography, context={"request": None, "full": True}).data
 
         coords = [cpt_coords[x] for x in ["min_lon", "min_lat", "max_lon", "max_lat"]]
-        parent_json = dict(fixtures["parent_map"], bbox=coords)
 
+        parent_json = dict(fixtures["parent_map"], bbox=coords)
         self.assertDictEqual(parent_json, js_parent)
-        self.assertEquals(fixtures["child_map"], js_child)
 
 class TestBoundingBoxes(TestCase):
     @mock.patch('requests.get', side_effect=request_mock(cpt_coords))

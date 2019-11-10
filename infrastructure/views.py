@@ -29,6 +29,11 @@ class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
             queryset = queryset.filter(geography__geo_code=geo)
         return queryset
 
+    def get_serializer_context(self, **kwargs):
+        context = super(ProjectViewSet, self).get_serializer_context(**kwargs)
+        context["full"] = True
+        return context
+
 class ListView(TemplateView):
 
     template_name = 'webflow/infrastructure-search.html'
@@ -51,10 +56,13 @@ class DetailView(TemplateView):
 
     template_name = 'webflow/infrastructure-project.html'
 
+    def get_full_serialize_url(self, pk):
+        api_url = reverse("project-detail", args=(pk,))
+        return "%s?full" % api_url
+
     def get_context_data(self, **kwargs):
         view = ProjectViewSet.as_view({"get" : "retrieve"}) 
-        api_url = reverse("project-detail", args=(kwargs["pk"],))
-        self.request.path = api_url
+        self.request.path = self.get_full_serialize_url(kwargs["pk"])
 
         project = view(self.request, **kwargs).render().content
         project = json.loads(project)
