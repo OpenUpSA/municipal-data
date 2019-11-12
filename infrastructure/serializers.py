@@ -46,6 +46,8 @@ class ProjectSearchSerializer(HaystackSerializerMixin, ProjectSerializer):
 
 class ProjectFacetSerializer(HaystackFacetSerializer):
 
+    serialize_objects = True
+
     class Meta:
         index_classes = [search_indexes.ProjectIndex]
         fields = ["function", "project_type", "asset_class", "asset_subclass", "province"]
