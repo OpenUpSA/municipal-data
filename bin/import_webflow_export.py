@@ -28,7 +28,7 @@ def djangofy(htmlfile):
 
     file_contents = asset_path_regex.sub(r'"/static/\1/', file_contents)
     file_contents = insert_at_body_end(file_contents, '<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>')
-    file_contents = insert_at_head_end(file_contents, '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>')
+    file_contents = insert_at_body_end(file_contents, '<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js" crossorigin=""></script>')
     file_contents = insert_at_body_end(file_contents, '<script src="/static/js/mm-webflow.js"></script>')
     file_contents = insert_at_body_end(file_contents, '<script>')
     file_contents = insert_at_body_end(file_contents, '    $(document).ready(function() {')
@@ -46,6 +46,7 @@ def djangofy(htmlfile):
     file_contents = insert_at_head_end(file_contents, '<meta name="twitter:card" content="page_summary">')
     file_contents = insert_at_head_end(file_contents, '<meta property="og:title" content="{{ page_title }}" />')
     file_contents = insert_at_head_end(file_contents, '<meta property="og:description" content="{{ page_description }}" />')
+    file_contents = insert_at_head_end(file_contents, '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>')
 
     with open(htmlfile, "w") as f:
         f.write(file_contents)
