@@ -3,6 +3,9 @@ import json
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from drf_haystack.viewsets import HaystackViewSet
+from drf_haystack.mixins import FacetMixin 
+
 from django.views.generic.base import TemplateView
 from django.http import JsonResponse
 from django.urls import reverse
@@ -73,3 +76,8 @@ class DetailView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['page_data_json'] = {"data" : json.dumps(project)}
         return context
+
+class ProjectSearchView(FacetMixin, HaystackViewSet):
+
+    serializer_class = serializers.ProjectSearchSerializer
+    facet_serializer_class = serializers.ProjectFacetSerializer
