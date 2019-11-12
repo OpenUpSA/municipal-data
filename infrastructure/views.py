@@ -5,6 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_haystack.viewsets import HaystackViewSet
 from drf_haystack.mixins import FacetMixin 
+from drf_haystack.filters import HaystackFacetFilter, HaystackFilter
 
 from django.views.generic.base import TemplateView
 from django.http import JsonResponse
@@ -77,7 +78,31 @@ class DetailView(TemplateView):
         context['page_data_json'] = {"data" : json.dumps(project)}
         return context
 
+class ProjectFilter(HaystackFilter):
+    def filter_queryset(self, request, queryset, view, *args, **kwargs):
+        queryset = super(ProjectFilter, self).filter_queryset(
+            request, queryset, view, *args, **kwargs
+        )
+        text_query = request.query_params.get("q", None)
+        if text_query:
+            queryset = queryset.filter(text=text_query)
+        return queryset
+
+class ProjectFacetFilter(HaystackFacetFilter):
+    def filter_queryset(self, request, queryset, view, *args, **kwargs):
+        queryset = super(ProjectFacetFilter, self).filter_queryset(
+            request, queryset, view, *args, **kwargs
+        )
+        text_query = request.query_params.get("q", None)
+        if text_query:
+            queryset = queryset.filter(text=text_query)
+        return queryset
+
 class ProjectSearchView(FacetMixin, HaystackViewSet):
 
     serializer_class = serializers.ProjectSearchSerializer
     facet_serializer_class = serializers.ProjectFacetSerializer
+
+    facet_filter_backends = [ProjectFacetFilter]
+    filter_backends = [ProjectFilter]
+
