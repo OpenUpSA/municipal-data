@@ -337,6 +337,7 @@ HAYSTACK_CONNECTIONS = {
     "default": {
         "ENGINE": "haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine",
         "URL": os.environ.get("HAYSTACK_URL", "http://elasticsearch:9200/"),
-        "INDEX_NAME": "projects",
+        "INDEX_NAME": os.environ.get("HAYSTACK_INDEX", "projects"),
+        "TIMEOUT": os.environ.get("HAYSTACK_TIMEOUT", 10),
     }
 }
