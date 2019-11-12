@@ -8,7 +8,12 @@ function mmWebflow(js) {
     function formatNumber(number) {
         return parseInt(number).toLocaleString();
     }
-        
+
+    function formatCurrency(decimalString) {
+        if (decimalString == null)
+            return "";
+        return "R " + Math.round(parseFloat(decimalString)).toLocaleString();
+    }
 
     function populateList(container, template, data) {
         var count = formatNumber(data["count"]);
@@ -109,6 +114,7 @@ function mmWebflow(js) {
             baseLocation: "/api/infrastructure/search/",
             facetsLocation: "/api/infrastructure/search/facets/",
             projectsLocation: "/infrastructure/projects/",
+            nextUrl: "",
             params: new URLSearchParams(),
             selectedFacets: {},
             map: L.map("map").setView([-30.5595, 22.9375], 4),
@@ -127,6 +133,10 @@ function mmWebflow(js) {
 
         createTileLayer().addTo(searchState.map);
         searchState.map.addLayer(searchState.markers);
+
+        function buildProjectUrl(project) {
+            return searchState.projectsLocation + project.id;
+        }
 
         function createTileLayer() {
             return L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -177,9 +187,11 @@ function mmWebflow(js) {
             searchState.noResultsMessage.hide();
         }
 
-        function triggerSearch() {
-            $.get(buildPagedSearchURL())
+        function triggerSearch(url) {
+            url = url || buildPagedSearchURL();
+            $.get(url)
                 .done(function(response) {
+                    searchState.nextUrl = response.objects.next;
                     resetResults();
                     showResults(response);
                 })
@@ -191,13 +203,16 @@ function mmWebflow(js) {
             getMapPoints(buildAllCoordinatesSearchURL());
         }
 
-        function getMapPoints(url) {
+        function getMapPoints(url, resetBounds) {
+            var DONT_RESET_BOUNDS = false
+            var RESET_BOUNDS = true
+            resetBounds = resetBounds == undefined ? RESET_BOUNDS : resetBounds;
             searchState.loadingSpinner.show();
             $.get(url)
                 .done(function(response) {
-                    addMapPoints(response);
+                    addMapPoints(response, resetBounds);
                     if (response.next) {
-                        getMapPoints(response.next);
+                        getMapPoints(response.next, DONT_RESET_BOUNDS);
                     } else {
                         searchState.loadingSpinner.hide();
                     }
@@ -220,7 +235,7 @@ function mmWebflow(js) {
                 response.objects.results.forEach(function(project) {
                     var resultItem = resultRowTemplate.clone();
                     var expenditure = project["expenditure"]
-                    resultItem.attr("href", searchState.projectsLocation + project.id);
+                    resultItem.attr("href", buildProjectUrl(project));
                     resultItem.find(".narrow-card_title").html(project.project_description);
                     resultItem.find(".narrow-card_middle-column:first").html(project.function);
                     resultItem.find(".narrow-card_middle-column:last").html(project.project_type);
@@ -240,7 +255,7 @@ function mmWebflow(js) {
             searchState.markers.clearLayers();
         }
 
-        function addMapPoints(response) {
+        function addMapPoints(response, resetBounds) {
             var markers = [];
             response.results.forEach(function(project) {
                 if (! project.latitude || ! project.longitude)
@@ -259,11 +274,11 @@ function mmWebflow(js) {
                 }
 
                 var marker = L.marker([latitude, longitude])
-                    .bindPopup(project.name + '<br><a target="_blank" href="' +
-                               project.url_path + '">Jump to project</a>');
+                    .bindPopup(project.project_description + '<br><a target="_blank" href="' +
+                               buildProjectUrl(project) + '">Jump to project</a>');
                 markers.push(marker);
             });
-            if (markers.length) {
+            if (markers.length && resetBounds) {
                 searchState.markers.addLayers(markers);
                 searchState.map.fitBounds(searchState.markers.getBounds());
             }
@@ -322,47 +337,15 @@ function mmWebflow(js) {
         });
         $("#Search-Button").on("click", triggerSearch);
 
+        $(".load-more_wrapper a").click(function(e) {
+            if (searchState.nextUrl.length > 0) {
+                triggerSearch(searchState.nextUrl);
+            }
+        })
 
-        /** Search on page load **/
 
         resetResults();
         triggerSearch()
-
-        return;
-
-        var nextUrl = js["next"];
-        var projects = $(".narrow-card_wrapper");
-        var projectContainer = $(".narrow-list_wrapper")
-        var projectTemplate = projects[0].cloneNode(deepCopy);
-        populateSummary($(".filtered-projects-info"), "")
-
-        projects.remove();
-
-        
-        $(".load-more_wrapper a").click(function(e) {
-            console.log(nextUrl);
-            $.ajax(nextUrl, {
-                success: function(data, textStatus, jqXHR) {
-                    nextUrl = data["next"];
-                    populateList(projectContainer, projectTemplate, data)
-                }
-            })
-        })
-
-        $("#Search-Button").click(function(e) {
-            var query = $("#Infrastructure-Search-Input").val();
-            var searchUrl = "/api/infrastructure/search/?text=" + query;
-            if (query.length > 0) {
-                projects = $(".narrow-card_wrapper").remove();
-                $.ajax(searchUrl, {
-                    success: function(data, textStatus, jqXHR) {
-                        nextUrl = data["next"]
-                        populateList(projectContainer, projectTemplate, data);
-                    }
-                })
-            }
-        });
-        populateList(projectContainer, projectTemplate, js);
     }
 
     function mmDetailView(js) {
