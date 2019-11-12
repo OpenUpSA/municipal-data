@@ -43,14 +43,28 @@ function mmWebflow(js) {
 
         
         $(".load-more_wrapper a").click(function(e) {
+            console.log(nextUrl);
             $.ajax(nextUrl, {
                 success: function(data, textStatus, jqXHR) {
-                    console.log(data);
                     nextUrl = data["next"];
                     populateList(projectContainer, projectTemplate, data)
                 }
             })
         })
+
+        $("#Search-Button").click(function(e) {
+            var query = $("#Infrastructure-Search-Input").val();
+            var searchUrl = "/api/infrastructure/search/?text=" + query;
+            if (query.length > 0) {
+                projects = $(".narrow-card_wrapper").remove();
+                $.ajax(searchUrl, {
+                    success: function(data, textStatus, jqXHR) {
+                        nextUrl = data["next"]
+                        populateList(projectContainer, projectTemplate, data);
+                    }
+                })
+            }
+        });
         populateList(projectContainer, projectTemplate, js);
     }
 
