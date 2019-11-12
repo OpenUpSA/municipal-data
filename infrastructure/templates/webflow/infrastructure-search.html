@@ -171,7 +171,7 @@
         <div class="col col-3 col-m-6 col-xs-12">
           <div class="small-detail-heading cc-mb-4 cc-ml-4">filter by municipality:</div>
           <div class="dropdown_wrapper">
-            <div data-delay="0" id="department-dropdown" class="dropdown w-dropdown">
+            <div data-delay="0" id="municipality-dropdown" class="dropdown w-dropdown">
               <div class="chart-dropdown_trigger w-dropdown-toggle">
                 <div class="text-block">All Municipalities</div><img src="/static/images/dropdown-24px.svg" alt="" class="icon_16px"></div>
               <nav class="chart-dropdown_list w-dropdown-list">
@@ -263,7 +263,7 @@
         <div class="col col-3 col-m-6 col-xs-12">
           <div class="small-detail-heading cc-mb-4 cc-ml-4">filter by project type:</div>
           <div class="dropdown_wrapper">
-            <div data-delay="0" class="dropdown w-dropdown">
+            <div data-delay="0" id="type-dropdown" class="dropdown w-dropdown">
               <div id="primary-funding-source-dropdown" class="chart-dropdown_trigger w-dropdown-toggle">
                 <div class="text-block">All Project Types</div><img src="/static/images/dropdown-24px.svg" alt="" class="icon_16px"></div>
               <nav class="chart-dropdown_list w-dropdown-list">
@@ -295,7 +295,7 @@
           <div class="small-detail-heading cc-mb-4 cc-ml-4">FILTER by project function:</div>
           <div class="dropdown_wrapper">
             <div data-delay="0" class="dropdown w-dropdown">
-              <div id="status-dropdown" class="chart-dropdown_trigger w-dropdown-toggle">
+              <div id="function-dropdown" class="chart-dropdown_trigger w-dropdown-toggle">
                 <div class="text-block">All Project Functions</div><img src="/static/images/dropdown-24px.svg" alt="" class="icon_16px"></div>
               <nav class="chart-dropdown_list w-dropdown-list">
                 <a href="#" class="dropdown-link active w-inline-block">
@@ -361,14 +361,14 @@
         <div class="col col-2 col-m-6">
           <div class="search-detail_wrapper">
             <div class="small-detail-heading">filtered projects:</div>
-            <div class="search-detail-value">12,312</div>
+            <div id="num-matching-projects-field" class="search-detail-value">12,312</div>
           </div>
         </div>
         <div class="col col-2 col-m-6 cc-border-left">
           <div class="search-detail_wrapper">
             <div class="small-detail-heading">Total full year forecast:</div>
             <div class="search-detail__amount">
-              <div class="search-detail-value">R4.2</div>
+              <div id="search-total-forecast" class="search-detail-value">R4.2</div>
               <div class="units-label">BN</div>
             </div>
           </div>
@@ -499,7 +499,7 @@
       </div>
       <div class="row">
         <div class="col">
-          <div class="narrow-list_wrapper">
+          <div class="narrow-list_wrapper" id="result-list-container">
             <a href="#" class="narrow-card_header w-inline-block">
               <div class="narrow-card_first-header">
                 <div>PROJECT NAME</div>
@@ -812,13 +812,14 @@
   <script src="/static/js/webflow.js" type="text/javascript"></script>
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
-<script src="/static/js/mm-webflow.js"></script>
-<script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js" crossorigin=""></script>
+  <script src="/static/js/mm-webflow.js"></script>
+  <script>
     $(document).ready(function() {
         var pageData = {{ page_data_json|safe }}
         var js = JSON.parse(pageData["data"]);
         mmWebflow(js);
     })
-</script>
+  </script>
 </body>
 </html>
