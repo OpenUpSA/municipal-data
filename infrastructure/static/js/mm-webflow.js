@@ -127,7 +127,7 @@ function mmWebflow(js) {
             province: "Provinces",
             geography_name: "Municipalities",
             project_type: "Project Types",
-            "function": "Project Functions",
+            "function": "Government Functions",
         };
 
 
