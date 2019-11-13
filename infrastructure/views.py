@@ -78,25 +78,27 @@ class DetailView(TemplateView):
         context['page_data_json'] = {"data" : json.dumps(project)}
         return context
 
-class ProjectFilter(HaystackFilter):
+class FilterOrderMixin(object):
     def filter_queryset(self, request, queryset, view, *args, **kwargs):
-        queryset = super(ProjectFilter, self).filter_queryset(
+        queryset = super(FilterOrderMixin, self).filter_queryset(
             request, queryset, view, *args, **kwargs
         )
         text_query = request.query_params.get("q", None)
+        ordering = request.query_params.get("ordering", None)
+
         if text_query:
             queryset = queryset.filter(text=text_query)
+
+        if ordering:
+            queryset = queryset.order_by(ordering)
         return queryset
 
-class ProjectFacetFilter(HaystackFacetFilter):
-    def filter_queryset(self, request, queryset, view, *args, **kwargs):
-        queryset = super(ProjectFacetFilter, self).filter_queryset(
-            request, queryset, view, *args, **kwargs
-        )
-        text_query = request.query_params.get("q", None)
-        if text_query:
-            queryset = queryset.filter(text=text_query)
-        return queryset
+
+class ProjectFilter(FilterOrderMixin, HaystackFilter):
+    pass
+
+class ProjectFacetFilter(FilterOrderMixin, HaystackFacetFilter):
+    pass 
 
 class ProjectSearchView(FacetMixin, HaystackViewSet):
 
