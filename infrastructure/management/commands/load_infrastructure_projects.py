@@ -2,6 +2,9 @@ from django.core.management.base import BaseCommand, CommandError
 from scorecard.models import Geography
 from infrastructure import utils
 import os
+import logging
+
+logger = logging.Logger(__name__)
 
 class Command(BaseCommand):
     help = """
@@ -21,18 +24,27 @@ class Command(BaseCommand):
     """
 
     def add_arguments(self, parser):
-        parser.add_argument('geography_code', type=str)
         parser.add_argument('filename', type=str)
+        parser.add_argument('--geography_code', type=str, help="Municipal Code e.g. ETH, WC011, etc. The filename is used if this is not provided")
 
-    def handle(self, *args, **options):
-        geo_code = options["geography_code"]
-        filename = options["filename"]
+    def process_csv(self, filename, geo_code):
         if Geography.objects.filter(geo_code=geo_code).count() == 0:
             raise CommandError("%s is an unknown Geography. Please ensure that this Geography exists in the database" % geo_code)
-            
         geography = Geography.objects.get(geo_code=geo_code)
+        utils.load_file(geography, open(filename))
+
+    def handle(self, *args, **options):
+        filename = options["filename"]
+        geo_code = options["geography_code"]
 
         if not os.path.exists(filename):
             raise CommandError("Can't file filename: %s" % filename)
 
-        utils.load_file(geography, open(filename))
+        if filename.endswith(".csv"):
+            logging.info("Processing capital file as csv")
+            if geo_code is None:
+                basename = os.path.basename(filename)
+                geo_code = basename.split(os.path.extsep)[0]
+                logging.info("Municipal Code not provided, using filename: %s" % geo_code)
+            self.process_csv(filename, geo_code)
+
