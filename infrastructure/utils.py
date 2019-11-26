@@ -73,7 +73,7 @@ def load_file(geography, fp):
             for field in additional_fields:
                 amount = row[field]
                 create_expenditure(p, field, amount)
-        except ValueError as e:
+        except Exception as e:
             raise ValueError("Error loading data in row: %d - %s" % (idx + 2, row))
     return idx + 1
 
