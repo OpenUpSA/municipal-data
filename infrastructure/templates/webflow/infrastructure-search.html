@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--  This site was created in Webflow. http://www.webflow.com  -->
-<!--  Last Published: Sun Nov 10 2019 06:33:43 GMT+0000 (UTC)  -->
+<!--  Last Published: Mon Nov 25 2019 11:12:18 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="5db2adb5e800a55b0df2f9a7" data-wf-site="5db2adb5e800a59830f2f99c">
 <head>
   <meta charset="utf-8">
@@ -52,10 +52,65 @@
         text-overflow: ellipsis;
         overflow: hidden;
       }
+      /*LOADER*/
+      .loader,
+      .loader:before,
+      .loader:after {
+        border-radius: 50%;
+        width: 2.5em;
+        height: 2.5em;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        -webkit-animation: load7 1.8s infinite ease-in-out;
+        animation: load7 1.8s infinite ease-in-out;
+      }
+      .loader {
+        color: #151515;
+        font-size: 10px;
+        margin: 80px auto;
+        position: relative;
+        text-indent: -9999em;
+        -webkit-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-animation-delay: -0.16s;
+        animation-delay: -0.16s;
+      }
+      .loader:before,
+      .loader:after {
+        content: '';
+        position: absolute;
+        top: 0;
+      }
+      .loader:before {
+        left: -3.5em;
+        -webkit-animation-delay: -0.32s;
+        animation-delay: -0.32s;
+      }
+      .loader:after {
+        left: 3.5em;
+      }
+      @-webkit-keyframes load7 {
+        0%,
+        80%,
+        100% {
+          box-shadow: 0 2.5em 0 -1.3em;
+        }
+        40% {
+          box-shadow: 0 2.5em 0 0;
+        }
+      }
+      @keyframes load7 {
+        0%,
+        80%,
+        100% {
+          box-shadow: 0 2.5em 0 -1.3em;
+        }
+        40% {
+          box-shadow: 0 2.5em 0 0;
+        }
+      }
     </style>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" crossorigin=""/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" crossorigin=""/>
 <title>{{ page_title }}</title>
 <meta name="description" content="{{ page_description }}">
 <meta name="twitter:title" content="{{ page_title }}">
@@ -63,6 +118,9 @@
 <meta name="twitter:card" content="page_summary">
 <meta property="og:title" content="{{ page_title }}" />
 <meta property="og:description" content="{{ page_description }}" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" crossorigin=""/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" crossorigin=""/>
 </head>
 <body>
   <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
@@ -296,7 +354,7 @@
         <div class="col col-3 col-m-6 col-xs-12">
           <div class="small-detail-heading cc-mb-4 cc-ml-4">FILTER by project function:</div>
           <div class="dropdown_wrapper">
-            <div id="function-dropdown" data-delay="0" class="dropdown w-dropdown">
+            <div data-delay="0" id="functions-dropdown" class="dropdown w-dropdown">
               <div class="chart-dropdown_trigger w-dropdown-toggle">
                 <div class="text-block">All Project Functions</div><img src="/static/images/dropdown-24px.svg" alt="" class="icon_16px"></div>
               <nav class="chart-dropdown_list w-dropdown-list">
@@ -457,6 +515,12 @@
             <div class="small-detail-heading">Map of filtered projects:</div>
           </div>
           <div id="map" class="map__embed w-embed w-iframe"><iframe id="map" width="100%" height="" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=1.5051269531250002%2C-34.651285198954135%2C26.883544921875004%2C-22.39071391683855&amp;layer=mapnik" style="float:left"></iframe></div>
+          <div class="project-map-2">
+            <div class="loading-spinner">
+              <div class="loader"></div>
+            </div>
+            <div id="map" class="map__embed-2 w-embed w-iframe"><iframe id="map" width="100%" height="" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=1.5051269531250002%2C-34.651285198954135%2C26.883544921875004%2C-22.39071391683855&amp;layer=mapnik" style="float:left"></iframe></div>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -501,7 +565,7 @@
       </div>
       <div class="row">
         <div class="col">
-          <div class="narrow-list_wrapper" id="result-list-container">
+          <div id="result-list-container" class="narrow-list_wrapper">
             <a href="#" class="narrow-card_header w-inline-block">
               <div class="narrow-card_first-header">
                 <div>PROJECT NAME</div>
@@ -815,13 +879,13 @@
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js" crossorigin=""></script>
-  <script src="/static/js/mm-webflow.js"></script>
-  <script>
+<script src="/static/js/mm-webflow.js"></script>
+<script>
     $(document).ready(function() {
         var pageData = {{ page_data_json|safe }}
         var js = JSON.parse(pageData["data"]);
         mmWebflow(js);
     })
-  </script>
+</script>
 </body>
 </html>

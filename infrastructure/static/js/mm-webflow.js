@@ -183,7 +183,7 @@ function mmWebflow(js) {
             resetDropdown("#province-dropdown");
             resetDropdown("#municipality-dropdown");
             resetDropdown("#type-dropdown");
-            resetDropdown("#function-dropdown");
+            resetDropdown("#functions-dropdown");
             searchState.noResultsMessage.hide();
         }
 
@@ -228,7 +228,7 @@ function mmWebflow(js) {
             updateDropdown("#province-dropdown", response.fields, "province");
             updateDropdown("#municipality-dropdown", response.fields, "geography_name");
             updateDropdown("#type-dropdown", response.fields, "project_type");
-            updateDropdown("#function-dropdown", response.fields, "function");
+            updateDropdown("#functions-dropdown", response.fields, "function");
 
             if (response.objects.results.length) {
                 searchState.noResultsMessage.hide();
