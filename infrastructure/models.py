@@ -16,16 +16,16 @@ class BudgetPhase(models.Model):
 
 class Project(models.Model):
     geography = models.ForeignKey(Geography, on_delete=models.CASCADE, null=False, related_name="geographies")
-    function = models.CharField(max_length=150, blank=True)
+    function = models.CharField(max_length=255, blank=True)
     project_description = models.CharField(max_length=255, blank=True)
     project_number = models.CharField(max_length=30, blank=True)
     project_type = models.CharField(max_length=20, blank=True)
     mtsf_service_outcome = models.CharField(max_length=100, blank=True)
-    iudf = models.CharField(max_length=100, blank=True)
-    own_strategic_objectives = models.CharField(max_length=100, blank=True)
-    asset_class = models.CharField(max_length=100, blank=True)
-    asset_subclass = models.CharField(max_length=100, blank=True)
-    ward_location = models.CharField(max_length=100, blank=True)
+    iudf = models.CharField(max_length=255, blank=True)
+    own_strategic_objectives = models.CharField(max_length=255, blank=True)
+    asset_class = models.CharField(max_length=255, blank=True)
+    asset_subclass = models.CharField(max_length=255, blank=True)
+    ward_location = models.CharField(max_length=255, blank=True)
     longitude = models.FloatField(null=True)
     latitude = models.FloatField(null=True)
 
