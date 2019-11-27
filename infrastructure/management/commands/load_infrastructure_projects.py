@@ -31,7 +31,7 @@ class Command(BaseCommand):
         if Geography.objects.filter(geo_code=geo_code).count() == 0:
             raise CommandError("%s is an unknown Geography. Please ensure that this Geography exists in the database" % geo_code)
         geography = Geography.objects.get(geo_code=geo_code)
-        utils.load_file(geography, open(filename))
+        utils.load_csv(geography, open(filename))
 
     def handle(self, *args, **options):
         filename = options["filename"]
@@ -47,4 +47,6 @@ class Command(BaseCommand):
                 geo_code = basename.split(os.path.extsep)[0]
                 logging.info("Municipal Code not provided, using filename: %s" % geo_code)
             self.process_csv(filename, geo_code)
+        elif filename.endswith("xls") or filename.endswith("xlsx"):
+            utils.load_excel(filename)
 

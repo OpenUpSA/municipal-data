@@ -3,26 +3,24 @@ import unittest
 from infrastructure import models
 from scorecard.models import Geography
 from django.db import transaction
+import xlrd
+import logging
+
+logger = logging.Logger(__name__)
 
 headers = [
     x.strip()
     for x in """
-    Function,
-    Project Description,
-    Project Number,
-    Type,
-    MTSF Service Outcome,
-    IUDF,
-    Own Strategic Objectives,
-    Asset Class,
-    Asset Sub-Class,
-    Ward Location,
-    GPS Longitude,
-    GPS Latitude
-""".split(
-        ","
-    )
+    Function, Project Description, Project Number,
+    Type, MTSF Service Outcome, IUDF,
+    Own Strategic Objectives, Asset Class, Asset Sub-Class,
+    Ward Location, GPS Longitude, GPS Latitude""".strip().split(",")
 ]
+#Audited Outcome 2017/18,
+#Full Year Forecast 2018/19,
+#Budget year 2019/20,
+#Budget year 2020/21,
+#Budget year 2021/22
 
 
 def float_or_none(val):
@@ -34,25 +32,75 @@ def float_or_none(val):
 
 def check_file(fp):
     reader = csv.DictReader(fp)
-    fields = reader.fieldnames[0:12]
+    return check_headers(reader.fieldnames)
 
-    if fields != headers:
+def check_headers(fields):
+    missing_headers = [h for h in headers if h not in fields]
+    if len(missing_headers) > 0:
         raise ValueError(
-            "Expected these fields as input: \n%s. Received: \n%s" % (headers, fields)
+            "The following fields are missing from the data source: %s" % missing_headers
         )
 
-
 @transaction.atomic
-def load_file(geography, fp):
+def load_excel(filename):
+    def clean(s):
+        if type(s) == str:
+            return s.strip()
+        else:
+            return s
+
+    def fix_broken_headers(header_row):
+        header_row = [r.replace("\n", " ") for r in header_row]
+        header_row = [r.replace("Project Decription", "Project Description") for r in header_row]
+        return header_row
+
+    def sheet_parser(sheet):
+        skip = True
+        header_row = []
+        for idx in range(0, sheet.nrows):
+            row = [clean(sheet.cell(idx, col).value) for col in range(0, sheet.ncols)]
+
+            val = sheet.cell(idx, 0).value.strip()
+            if val != "Function" and skip:
+                continue 
+            elif val == "Function":
+                header_row = fix_broken_headers(row)
+                check_headers(header_row)
+                skip = False
+                continue
+            elif val == "":
+                return
+
+            yield dict(zip(header_row, row))
+
+    workbook = xlrd.open_workbook(filename)
+    print(workbook.sheets)
+    for sheet in workbook.sheets():
+        geo_code = sheet.name
+        logger.info("Processing sheet: %s" % sheet.name)
+        if Geography.objects.filter(geo_code=geo_code).count() == 0:
+            raise CommandError("%s is an unknown Geography. Please ensure that this Geography exists in the database" % geo_code)
+        geography = Geography.objects.get(geo_code=geo_code)
+        load_file(geography, sheet_parser(sheet))
+
+def load_csv(geography, fp):
     check_file(fp)
     fp.seek(0)
     reader = csv.DictReader(fp)
+    return load_file(geography, reader)
 
-    additional_fields = list(reader.fieldnames[12:])
-    for field in additional_fields:
-        create_finance_phase(field)
+@transaction.atomic
+def load_file(geography, reader):
+    print(geography.geo_code)
+    created_phases = False
+
 
     for idx, row in enumerate(reader):
+        if not created_phases:
+            additional_fields = [k for k in row.keys() if k not in headers]
+            for field in additional_fields:
+                create_finance_phase(field)
+            created_phases = True
         try:
             p = models.Project.objects.create(
                 geography=geography,
