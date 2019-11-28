@@ -185,6 +185,53 @@ function mmWebflow(js) {
             }
         }
 
+        function FunctionBarChart(el) {
+            this.barchart = new BarChart()
+            this.el = el;
+        }
+
+        FunctionBarChart.prototype = {
+            
+            update: function(data) {
+                var functionFacet = data.fields["function"];
+                var sortedFunctions = functionFacet.sort(function(a, b) {
+                    return b.count - a.count;
+                })
+                var total_count = data.objects.count;
+
+                for (idx in sortedFunctions) {
+                    f = sortedFunctions[idx]
+                    var label = f.text;
+                    var count = f.count;
+                    var val = parseInt(count / total_count * 100);
+                    console.log(val)
+                    console.log(label)
+                    
+                    this.barchart.setupBar($(".vertical-bar_wrapper:eq(" + idx + ")", this.el), label, val); 
+                }
+            
+                /*
+                var total_count = data.objects.count;
+                var barMap = {
+                    "New": 0, "Renewal": 1, "Upgrading": 2, "": 3, 
+                }
+
+                var typeFacet = data.fields.project_type;
+
+                for (idx in typeFacet) {
+                    var key = typeFacet[idx].text;
+                    var barID = barMap[key];
+                    var count = typeFacet[idx].count;
+                    var val = parseInt(count / total_count * 100);
+                    var label = key + " - " + val + "%";
+
+                    this.barchart.setupBar($(".vertical-bar_wrapper:eq(" + barID + ")", this.el), label, val);
+                }
+                */
+            }
+        }
+
+
 
         function ListView() {
             this.searchState = {
@@ -209,7 +256,8 @@ function mmWebflow(js) {
 
             this.sorter = new Sorter($("#sorting-dropdown"));
             this.sorter.initialize();
-            this.typeBarChart = new ProjectTypeBarChart();
+            this.typeBarChart = new ProjectTypeBarChart($("#project-type-summary-chart"));
+            this.functionBarChart = new FunctionBarChart($("#project-function-summary-chart"));
         } 
 
         ListView.prototype = {
@@ -247,6 +295,7 @@ function mmWebflow(js) {
                 showResults(response);
 
                 this.typeBarChart.update(response);
+                this.functionBarChart.update(response);
 
             }
         }
@@ -462,8 +511,6 @@ function mmWebflow(js) {
             }
         })
 
-
-        //listView.onDataLoaded();
         triggerSearch()
     }
 
