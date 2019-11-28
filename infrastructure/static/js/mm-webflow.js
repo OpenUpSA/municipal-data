@@ -133,6 +133,59 @@ function mmWebflow(js) {
             }
         }
 
+        function BarChart() {
+        }
+
+        BarChart.prototype = {
+            setupBar: function(el, text, val) {
+                this.addTooltip(el, text)
+                $(".bar", el).css("height", val + "%")
+            },
+
+            addTooltip: function(el, text) {
+                $(".chart-tooltip", el).remove();
+                var tooltip = $("<div></div>").addClass("chart-tooltip");
+                $(".bar", el).append(tooltip);
+                tooltip.append($("<div></div>").addClass("div-block-16"));
+                tooltip.append($("<div></div>").addClass("text-block-5").text(text));
+                tooltip.css("display", "none");
+
+                el.on("mouseover", function(e) {
+                    tooltip.show();
+                })
+                .on("mouseout", function() {
+                    tooltip.hide();
+                })
+            }
+        }
+
+        function ProjectTypeBarChart(el) {
+            this.barchart = new BarChart()
+            this.el = el;
+        }
+
+        ProjectTypeBarChart.prototype = {
+            update: function(data) {
+                var total_count = data.objects.count;
+                var barMap = {
+                    "New": 0, "Renewal": 1, "Upgrading": 2, "": 3, 
+                }
+
+                var typeFacet = data.fields.project_type;
+
+                for (idx in typeFacet) {
+                    var key = typeFacet[idx].text;
+                    var barID = barMap[key];
+                    var count = typeFacet[idx].count;
+                    var val = parseInt(count / total_count * 100);
+                    var label = key + " - " + val + "%";
+
+                    this.barchart.setupBar($(".vertical-bar_wrapper:eq(" + barID + ")", this.el), label, val);
+                }
+            }
+        }
+
+
         function ListView() {
             this.searchState = {
                 baseLocation: "/api/infrastructure/search/",
@@ -156,6 +209,7 @@ function mmWebflow(js) {
 
             this.sorter = new Sorter($("#sorting-dropdown"));
             this.sorter.initialize();
+            this.typeBarChart = new ProjectTypeBarChart();
         } 
 
         ListView.prototype = {
@@ -191,6 +245,9 @@ function mmWebflow(js) {
                 $(".search-detail-amount--placeholder").hide()
 
                 showResults(response);
+
+                this.typeBarChart.update(response);
+
             }
         }
 
@@ -280,42 +337,6 @@ function mmWebflow(js) {
                 });
         }
 
-        function addTooltip(el, text) {
-            $(".chart-tooltip", el).remove();
-            var tooltip = $("<div></div>").addClass("chart-tooltip");
-            $(".bar", el).append(tooltip);
-            tooltip.append($("<div></div>").addClass("div-block-16"));
-            tooltip.append($("<div></div>").addClass("text-block-5").text(text));
-            tooltip.css("display", "none");
-
-            el.on("mouseover", function(e) {
-                tooltip.show();
-            })
-            .on("mouseout", function() {
-                tooltip.hide();
-            })
-        }
-
-        function setupBar(el, text, val) {
-            addTooltip(el, text)
-            $(".bar", el).css("height", val + "%")
-        }
-
-        function updateCharts(response) {
-            var total_count = response.objects.count;
-            var bar_map = {
-                "New": 0, "Renewal": 1, "Upgrading": 2, "": 3, 
-            }
-            var type_facet = response.fields.project_type;
-            for (idx in type_facet) {
-                var key = type_facet[idx].text;
-                var barID = bar_map[key];
-                var count = type_facet[idx].count;
-                var val = parseInt(count / total_count * 100);
-                setupBar($("#project-type-summary-chart .vertical-bar_wrapper:eq(" + barID + ")"), key + " - " + val + "%", val);
-            }
-        }
-
         function showResults(response) {
             $(".search-detail-value").show();
             $(".search-detail__amount").show();
@@ -327,7 +348,6 @@ function mmWebflow(js) {
             updateDropdown("#functions-dropdown", response.fields, "function");
             //updateDropdown(".sorting-dropdown_trigger", response.fields, "function");
             //updateDropdown("#sorting-dropdown", response.fields, "function");
-            updateCharts(response);
 
             if (response.objects.results.length) {
                 listView.searchState.noResultsMessage.hide();
