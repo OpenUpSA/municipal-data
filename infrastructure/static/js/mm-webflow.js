@@ -50,14 +50,14 @@ function mmWebflow(js) {
 
         var selectedOption = getSelectedOption(fieldName);
         if (typeof(selectedOption) == "undefined") {
-            container.find(".text-block").text("All " + facetPlurals[fieldName]);
+            container.find(".text-block").text("All " + mmListView.facetPlurals[fieldName]);
         } else {
             container.find(".text-block").text(selectedOption);
             // Add "clear filter" option
             optionElement = dropdownItemTemplate.clone();
-            optionElement.find(".search-dropdown_label").text("All " + facetPlurals[fieldName]);
+            optionElement.find(".search-dropdown_label").text("All " + mmListView.facetPlurals[fieldName]);
             optionElement.click(function() {
-                delete searchState.selectedFacets[fieldName];
+                delete listView.searchState.selectedFacets[fieldName];
                 optionContainer.removeClass("w--open");
                 triggerSearch();
             });
@@ -66,13 +66,13 @@ function mmWebflow(js) {
 
         var options = fields[fieldName];
         fields[fieldName].forEach(function (option) {
-            optionElement = dropdownItemTemplate.clone();
+            optionElement = mmListView.dropdownItemTemplate.clone();
             optionElement.find(".search-dropdown_label").text(option.text);
             if (option.count) {
                 optionElement.find(".search-dropdown_value").text("(" + option.count + ")");
             }
             optionElement.click(function() {
-                searchState.selectedFacets[fieldName] = option.text;
+                listView.searchState.selectedFacets[fieldName] = option.text;
                 optionContainer.removeClass("w--open");
                 triggerSearch();
             });
@@ -102,41 +102,108 @@ function mmWebflow(js) {
     }
 
     function mmListView(js) {
-        $(".map__embed-2").hide();
-        var resultRowTemplate = $("#result-list-container .narrow-card_wrapper:first").clone();
-        resultRowTemplate.find(".narrow-card_icon").remove();
+        function Sorter(dropdown) {
+            this.state = null;
+            this.dropdown = dropdown; 
+            this.sortOptions = [
+                "Alphabetical (a-z)",
+                "Alphabetical (z-a)",
+                "Value (descending)",
+                "Value (ascending)",
+                "Project Status (descending)",
+                "Project Status (ascending)",
+                "Completion (descending)",
+                "Completion (ascending)",
+            ];
+        }
 
-        var dropdownItemTemplate = $("#province-dropdown * .dropdown-link:first");
-            dropdownItemTemplate.find(".search-status").remove();
-            dropdownItemTemplate.find(".search-dropdown_label").text("");
-            dropdownItemTemplate.find(".search-dropdown_value").text("");
+        Sorter.prototype = {
+            initialize: function() {
+                var me = this;
+                var options = this.dropdown.find("nav .dropdown-link")
+                me.template = $(options[0]).clone();
+                options.remove();
 
-        var searchState = {
-            baseLocation: "/api/infrastructure/search/",
-            facetsLocation: "/api/infrastructure/search/facets/",
-            projectsLocation: "/infrastructure/projects/",
-            nextUrl: "",
-            params: new URLSearchParams(),
-            selectedFacets: {},
-            map: L.map("map").setView([-30.5595, 22.9375], 4),
-            markers: L.markerClusterGroup(),
-            noResultsMessage: $("#result-list-container * .w-dyn-empty"), // TODO check this
-            loadingSpinner: $(".loading-spinner"), // TODO check this
-        };
+                this.sortOptions.forEach(function(el) {
+                    var option = me.template.clone();
+                    $(".dropdown-label", option).text(el);
+                    me.dropdown.find("nav").append(option);
+                })
+                
+            }
+        }
 
-        var facetPlurals = {
-            province: "Provinces",
-            geography_name: "Municipalities",
-            project_type: "Project Types",
-            "function": "Government Functions",
-        };
+        function ListView() {
+            this.searchState = {
+                baseLocation: "/api/infrastructure/search/",
+                facetsLocation: "/api/infrastructure/search/facets/",
+                projectsLocation: "/infrastructure/projects/",
+                nextUrl: "",
+                params: new URLSearchParams(),
+                selectedFacets: {},
+                map: L.map("map").setView([-30.5595, 22.9375], 4),
+                markers: L.markerClusterGroup(),
+                noResultsMessage: $("#result-list-container * .w-dyn-empty"), // TODO check this
+                loadingSpinner: $(".loading-spinner"), // TODO check this
+            };
+
+            this.facetPlurals = {
+                province: "Provinces",
+                geography_name: "Municipalities",
+                project_type: "Project Types",
+                "function": "Government Functions",
+            };
+
+            this.sorter = new Sorter($("#sorting-dropdown"));
+            this.sorter.initialize();
+        } 
+
+        ListView.prototype = {
+            initialize: function() {
+                this.onPageLoaded();
+            },
+
+            onPageLoaded: function() {
+                mmListView.resultRowTemplate = $("#result-list-container .narrow-card_wrapper-2:first").clone();
+                mmListView.resultRowTemplate.find(".narrow-card_icon").remove();
+
+                mmListView.dropdownItemTemplate = $("#province-dropdown * .dropdown-link:first");
+                mmListView.dropdownItemTemplate.find(".search-status").remove();
+                mmListView.dropdownItemTemplate.find(".search-dropdown_label").text("");
+
+                
+                $(".search-detail-value").hide();
+                $(".search-detail__amount").hide();
+
+            },
+
+            onDataLoaded: function(response) {
+                $("#num-matching-projects-field").text("");
+                $("#result-list-container .narrow-card_wrapper").remove()
+                resetDropdown("#province-dropdown");
+                resetDropdown("#municipality-dropdown");
+                resetDropdown("#type-dropdown");
+                resetDropdown("#functions-dropdown");
+                resetDropdown("#functions-dropdown");
+                this.searchState.noResultsMessage.hide();
+
+                $(".search-detail-value--placeholder").hide()
+                $(".search-detail-amount--placeholder").hide()
+
+                showResults(response);
+            }
+        }
+
+    
+        var listView = new ListView();
+        listView.initialize();
 
 
-        createTileLayer().addTo(searchState.map);
-        searchState.map.addLayer(searchState.markers);
+        createTileLayer().addTo(listView.searchState.map);
+        listView.searchState.map.addLayer(listView.searchState.markers);
 
         function buildProjectUrl(project) {
-            return searchState.projectsLocation + project.id;
+            return listView.searchState.projectsLocation + project.id;
         }
 
         function createTileLayer() {
@@ -149,52 +216,41 @@ function mmWebflow(js) {
 
 
         function updateFreeTextParam() {
-            searchState.params.set("q", $("#Infrastructure-Search-Input").val());
+            listView.searchState.params.set("q", $("#Infrastructure-Search-Input").val());
         }
 
         function updateFacetParam() {
-            searchState.params.delete("selected_facets");
-            for (fieldName in searchState.selectedFacets) {
-                var paramValue = fieldName + "_exact:" + searchState.selectedFacets[fieldName];
-                searchState.params.append("selected_facets", paramValue);
+            listView.searchState.params.delete("selected_facets");
+            for (fieldName in listView.searchState.selectedFacets) {
+                var paramValue = fieldName + "_exact:" + listView.searchState.selectedFacets[fieldName];
+                listView.searchState.params.append("selected_facets", paramValue);
             }
         }
 
         function buildPagedSearchURL() {
             updateFreeTextParam();
             updateFacetParam();
-            return searchState.facetsLocation + "?" + searchState.params.toString();
+            return listView.searchState.facetsLocation + "?" + listView.searchState.params.toString();
         }
 
         function buildAllCoordinatesSearchURL() {
             var params = new URLSearchParams()
             params.set("q", $("#Infrastructure-Search-Input").val());
-            for (fieldName in searchState.selectedFacets) {
-                params.set(fieldName, searchState.selectedFacets[fieldName])
+            for (fieldName in listView.searchState.selectedFacets) {
+                params.set(fieldName, listView.searchState.selectedFacets[fieldName])
             }
             // TODO figure this out
             params.set("fields", "url_path,name,latitude,longitude");
             params.set("limit", "1000");
-            return searchState.baseLocation + "?" + params.toString();
-        }
-
-        function resetResults() {
-            $("#num-matching-projects-field").text("");
-            $("#result-list-container .narrow-card_wrapper").remove()
-            resetDropdown("#province-dropdown");
-            resetDropdown("#municipality-dropdown");
-            resetDropdown("#type-dropdown");
-            resetDropdown("#functions-dropdown");
-            searchState.noResultsMessage.hide();
+            return listView.searchState.baseLocation + "?" + params.toString();
         }
 
         function triggerSearch(url) {
             url = url || buildPagedSearchURL();
             $.get(url)
                 .done(function(response) {
-                    searchState.nextUrl = response.objects.next;
-                    resetResults();
-                    showResults(response);
+                    listView.searchState.nextUrl = response.objects.next;
+                    listView.onDataLoaded(response);
                 })
                 .fail(function(jqXHR, textStatus, errorThrown) {
                     alert("Something went wrong when searching. Please try again.");
@@ -208,14 +264,14 @@ function mmWebflow(js) {
             var DONT_RESET_BOUNDS = false
             var RESET_BOUNDS = true
             resetBounds = resetBounds == undefined ? RESET_BOUNDS : resetBounds;
-            searchState.loadingSpinner.show();
+            listView.searchState.loadingSpinner.show();
             $.get(url)
                 .done(function(response) {
                     addMapPoints(response, resetBounds);
                     if (response.next) {
                         getMapPoints(response.next, DONT_RESET_BOUNDS);
                     } else {
-                        searchState.loadingSpinner.hide();
+                        listView.searchState.loadingSpinner.hide();
                     }
                 })
                 .fail(function(jqXHR, textStatus, errorThrown) {
@@ -244,45 +300,58 @@ function mmWebflow(js) {
             addTooltip(el, text)
             $(".bar", el).css("height", val + "%")
         }
-        function updateCharts() {
-            setupBar($(".project-status-overview:eq(0) .vertical-bar_wrapper:eq(0)"), "New - 50%", 50);
-            setupBar($(".project-status-overview:eq(0) .vertical-bar_wrapper:eq(1)"), "Upgrading - 20%", 20);
-            setupBar($(".project-status-overview:eq(0) .vertical-bar_wrapper:eq(2)"), "Renewal - 30%", 30);
-            setupBar($(".project-status-overview:eq(0) .vertical-bar_wrapper:eq(3)"), "60%", 60);
+
+        function updateCharts(response) {
+            var total_count = response.objects.count;
+            var bar_map = {
+                "New": 0, "Renewal": 1, "Upgrading": 2, "": 3, 
+            }
+            var type_facet = response.fields.project_type;
+            for (idx in type_facet) {
+                var key = type_facet[idx].text;
+                var barID = bar_map[key];
+                var count = type_facet[idx].count;
+                var val = parseInt(count / total_count * 100);
+                setupBar($("#project-type-summary-chart .vertical-bar_wrapper:eq(" + barID + ")"), key + " - " + val + "%", val);
+            }
         }
 
         function showResults(response) {
+            $(".search-detail-value").show();
+            $(".search-detail__amount").show();
             $("#num-matching-projects-field").text(formatNumber(response.objects.count));
             $("#search-total-forecast").text(formatNumber(543));
             updateDropdown("#province-dropdown", response.fields, "province");
             updateDropdown("#municipality-dropdown", response.fields, "geography_name");
             updateDropdown("#type-dropdown", response.fields, "project_type");
             updateDropdown("#functions-dropdown", response.fields, "function");
-            updateCharts();
+            //updateDropdown(".sorting-dropdown_trigger", response.fields, "function");
+            //updateDropdown("#sorting-dropdown", response.fields, "function");
+            updateCharts(response);
 
             if (response.objects.results.length) {
-                searchState.noResultsMessage.hide();
+                listView.searchState.noResultsMessage.hide();
                 response.objects.results.forEach(function(project) {
-                    var resultItem = resultRowTemplate.clone();
+                    var resultItem = mmListView.resultRowTemplate.clone();
                     var expenditure = project["expenditure"]
                     resultItem.attr("href", buildProjectUrl(project));
-                    resultItem.find(".narrow-card_title").html(project.project_description);
-                    resultItem.find(".narrow-card_middle-column:first").html(project.function);
-                    resultItem.find(".narrow-card_middle-column:last").html(project.project_type);
+                    resultItem.find(".narrow-card_title-2").html(project.project_description);
+                    resultItem.find(".narrow-card_middle-column-2:first div").html(project.function);
+                    resultItem.find(".narrow-card_middle-column-2:last").html(project.project_type);
                     var amount = "Not available";
                     if (expenditure.length > 0) {
                         amount = formatCurrency(expenditure[0]["amount"]);
                     }
-                    resultItem.find(".narrow-card_last-column").html(amount);
+                    resultItem.find(".narrow-card_last-column-2").html(amount);
                     $("#result-list-container").append(resultItem);
                 });
             } else {
-                searchState.noResultsMessage.show();
+                listView.searchState.noResultsMessage.show();
             }
         }
 
         function resetMapPoints() {
-            searchState.markers.clearLayers();
+            listView.searchState.markers.clearLayers();
         }
 
         function addMapPoints(response, resetBounds) {
@@ -309,8 +378,8 @@ function mmWebflow(js) {
                 markers.push(marker);
             });
             if (markers.length && resetBounds) {
-                searchState.markers.addLayers(markers);
-                searchState.map.fitBounds(searchState.markers.getBounds());
+                listView.searchState.markers.addLayers(markers);
+                listView.searchState.map.fitBounds(listView.searchState.markers.getBounds());
             }
         }
 
@@ -320,7 +389,7 @@ function mmWebflow(js) {
         }
 
         function getSelectedOption(fieldName) {
-            return searchState.selectedFacets[fieldName];
+            return listView.searchState.selectedFacets[fieldName];
         }
 
         function updateDropdown(selector, fields, fieldName) {
@@ -329,14 +398,14 @@ function mmWebflow(js) {
 
             var selectedOption = getSelectedOption(fieldName);
             if (typeof(selectedOption) == "undefined") {
-                container.find(".text-block").text("All " + facetPlurals[fieldName]);
+                container.find(".text-block").text("All " + listView.facetPlurals[fieldName]);
             } else {
                 container.find(".text-block").text(selectedOption);
                 // Add "clear filter" option
-                optionElement = dropdownItemTemplate.clone();
-                optionElement.find(".search-dropdown_label").text("All " + facetPlurals[fieldName]);
+                optionElement = mmListView.dropdownItemTemplate.clone();
+                optionElement.find(".search-dropdown_label").text("All " + listView.facetPlurals[fieldName]);
                 optionElement.click(function() {
-                    delete searchState.selectedFacets[fieldName];
+                    delete listView.searchState.selectedFacets[fieldName];
                     optionContainer.removeClass("w--open");
                     triggerSearch();
                 });
@@ -345,13 +414,13 @@ function mmWebflow(js) {
 
             var options = fields[fieldName];
             fields[fieldName].forEach(function (option) {
-                optionElement = dropdownItemTemplate.clone();
+                optionElement = mmListView.dropdownItemTemplate.clone();
                 optionElement.find(".search-dropdown_label").text(option.text);
                 if (option.count) {
                     optionElement.find(".search-dropdown_value").text("(" + option.count + ")");
                 }
                 optionElement.click(function() {
-                    searchState.selectedFacets[fieldName] = option.text;
+                    listView.searchState.selectedFacets[fieldName] = option.text;
                     optionContainer.removeClass("w--open");
                     triggerSearch();
                 });
@@ -368,13 +437,13 @@ function mmWebflow(js) {
         $("#Search-Button").on("click", triggerSearch);
 
         $(".load-more_wrapper a").click(function(e) {
-            if (searchState.nextUrl.length > 0) {
-                triggerSearch(searchState.nextUrl);
+            if (listView.searchState.nextUrl.length > 0) {
+                triggerSearch(listView.searchState.nextUrl);
             }
         })
 
 
-        resetResults();
+        //listView.onDataLoaded();
         triggerSearch()
     }
 
