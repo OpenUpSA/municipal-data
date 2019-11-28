@@ -92,15 +92,9 @@ def load_csv(geography, fp):
 @transaction.atomic
 def load_file(geography, reader):
     print(geography.geo_code)
-    created_phases = False
 
 
     for idx, row in enumerate(reader):
-        if not created_phases:
-            additional_fields = [k for k in row.keys() if k not in headers]
-            for field in additional_fields:
-                create_finance_phase(field)
-            created_phases = True
         try:
             p = models.Project.objects.create(
                 geography=geography,
@@ -118,6 +112,7 @@ def load_file(geography, reader):
                 latitude=float_or_none(row["GPS Latitude"]),
             )
 
+            additional_fields = [k for k in row.keys() if k not in headers]
             for field in additional_fields:
                 amount = row[field]
                 create_expenditure(p, field, amount)
