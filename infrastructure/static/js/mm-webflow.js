@@ -102,6 +102,7 @@ function mmWebflow(js) {
     }
 
     function mmListView(js) {
+        $(".map__embed-2").hide();
         var resultRowTemplate = $("#result-list-container .narrow-card_wrapper:first").clone();
         resultRowTemplate.find(".narrow-card_icon").remove();
 
@@ -223,12 +224,41 @@ function mmWebflow(js) {
                 });
         }
 
+        function addTooltip(el, text) {
+            $(".chart-tooltip", el).remove();
+            var tooltip = $("<div></div>").addClass("chart-tooltip");
+            $(".bar", el).append(tooltip);
+            tooltip.append($("<div></div>").addClass("div-block-16"));
+            tooltip.append($("<div></div>").addClass("text-block-5").text(text));
+            tooltip.css("display", "none");
+
+            el.on("mouseover", function(e) {
+                tooltip.show();
+            })
+            .on("mouseout", function() {
+                tooltip.hide();
+            })
+        }
+
+        function setupBar(el, text, val) {
+            addTooltip(el, text)
+            $(".bar", el).css("height", val + "%")
+        }
+        function updateCharts() {
+            setupBar($(".project-status-overview:eq(0) .vertical-bar_wrapper:eq(0)"), "New - 50%", 50);
+            setupBar($(".project-status-overview:eq(0) .vertical-bar_wrapper:eq(1)"), "Upgrading - 20%", 20);
+            setupBar($(".project-status-overview:eq(0) .vertical-bar_wrapper:eq(2)"), "Renewal - 30%", 30);
+            setupBar($(".project-status-overview:eq(0) .vertical-bar_wrapper:eq(3)"), "60%", 60);
+        }
+
         function showResults(response) {
             $("#num-matching-projects-field").text(formatNumber(response.objects.count));
+            $("#search-total-forecast").text(formatNumber(543));
             updateDropdown("#province-dropdown", response.fields, "province");
             updateDropdown("#municipality-dropdown", response.fields, "geography_name");
             updateDropdown("#type-dropdown", response.fields, "project_type");
             updateDropdown("#functions-dropdown", response.fields, "function");
+            updateCharts();
 
             if (response.objects.results.length) {
                 searchState.noResultsMessage.hide();
