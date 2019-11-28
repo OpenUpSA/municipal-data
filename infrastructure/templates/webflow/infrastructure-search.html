@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--  This site was created in Webflow. http://www.webflow.com  -->
-<!--  Last Published: Mon Nov 25 2019 11:12:18 GMT+0000 (Coordinated Universal Time)  -->
+<!--  Last Published: Thu Nov 28 2019 06:33:54 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="5db2adb5e800a55b0df2f9a7" data-wf-site="5db2adb5e800a59830f2f99c">
 <head>
   <meta charset="utf-8">
@@ -413,6 +413,15 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col">
+          <div class="filter-buttons__wrapper">
+            <a id="clear-filters-button" href="#" class="clear-filters-button w-inline-block">
+              <div class="clear-filter__text">Clear all filters</div>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="section cc-last">
@@ -421,7 +430,10 @@
         <div class="col col-2 col-m-6">
           <div class="search-detail_wrapper">
             <div class="small-detail-heading">filtered projects:</div>
-            <div id="num-matching-projects-field" class="search-detail-value">12,312</div>
+            <div class="search-detail_projects">
+              <div id="num-matching-projects-field" class="search-detail-value">12,312</div>
+            </div>
+            <div id="num-matching-projects-field" class="search-detail-value--placeholder">Loading...</div>
           </div>
         </div>
         <div class="col col-2 col-m-6 cc-border-left">
@@ -431,10 +443,11 @@
               <div id="search-total-forecast" class="search-detail-value">R4.2</div>
               <div class="units-label">BN</div>
             </div>
+            <div id="num-matching-projects-field" class="search-detail-amount--placeholder">Loading...</div>
           </div>
         </div>
         <div class="col col-4 col-m-6 col-xs-12 cc-border-left cc-m-no-border-left">
-          <div class="project-status-overview">
+          <div id="project-type-summary-chart" class="project-status-overview">
             <div class="small-detail_wrapper cc-mb-4">
               <div class="small-detail-heading">Project type summary:</div>
             </div>
@@ -460,7 +473,7 @@
           </div>
         </div>
         <div class="col col-4 col-m-6 col-xs-12 cc-border-left cc-xs-no-border-left">
-          <div class="project-status-overview">
+          <div id="project-function-summary-chart" class="project-status-overview">
             <div class="small-detail_wrapper cc-mb-4">
               <div class="small-detail-heading">project function summary:</div>
             </div>
@@ -514,12 +527,11 @@
           <div class="small-detail_wrapper cc-mb-4">
             <div class="small-detail-heading">Map of filtered projects:</div>
           </div>
-          <div id="map" class="map__embed w-embed w-iframe"><iframe id="map" width="100%" height="" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=1.5051269531250002%2C-34.651285198954135%2C26.883544921875004%2C-22.39071391683855&amp;layer=mapnik" style="float:left"></iframe></div>
-          <div class="project-map-2">
+          <div class="project-map">
             <div class="loading-spinner">
               <div class="loader"></div>
             </div>
-            <div id="map" class="map__embed-2 w-embed w-iframe"><iframe id="map" width="100%" height="" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=1.5051269531250002%2C-34.651285198954135%2C26.883544921875004%2C-22.39071391683855&amp;layer=mapnik" style="float:left"></iframe></div>
+            <div id="map" class="map__embed w-embed w-iframe"><iframe id="map" width="100%" height="" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=1.5051269531250002%2C-34.651285198954135%2C26.883544921875004%2C-22.39071391683855&amp;layer=mapnik" style="float:left"></iframe></div>
           </div>
         </div>
       </div>
@@ -529,7 +541,7 @@
             <h2 class="sub-section__title">Project list</h2>
             <div class="list-sorting_wrapper">
               <div class="sort-by-label">Sorting by:</div>
-              <div data-delay="0" class="dropdown cc-align-right w-dropdown">
+              <div data-delay="0" id="sorting-dropdown" class="dropdown cc-align-right w-dropdown">
                 <div class="sorting-dropdown_trigger w-dropdown-toggle">
                   <div class="text-block">Value (Descending)</div><img src="/static/images/dropdown-24px.svg" alt="" class="icon_16px"></div>
                 <nav class="sorting-dropdown_list w-dropdown-list">
@@ -565,299 +577,33 @@
       </div>
       <div class="row">
         <div class="col">
-          <div id="result-list-container" class="narrow-list_wrapper">
+          <div id="result-list-container" class="narrow-list_wrapper-2">
             <a href="#" class="narrow-card_header w-inline-block">
-              <div class="narrow-card_first-header">
+              <div class="narrow-card_first-header-2">
                 <div>PROJECT NAME</div>
               </div>
-              <div class="narrow-card_middle-header hide-sm">
-                <div>project function</div>
+              <div class="narrow-card_middle-header-2 large-column hide-sm">
+                <div class="align-right">PROJECT STATUS</div>
               </div>
-              <div class="narrow-card_middle-header hide-m">
-                <div>project type</div>
+              <div class="narrow-card_middle-header-2 hide-m">
+                <div class="align-right">COMPLETION DATE</div>
               </div>
-              <div class="narrow-card_last-header">
-                <div>full year forecast</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
+              <div class="narrow-card_last-header-2">
+                <div>ESTIMATED TOTAL PROJECT COST</div>
               </div>
             </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
+            <a href="#" class="narrow-card_wrapper-2 w-inline-block">
+              <div class="narrow-card_first-column-2"><img src="https://uploads-ssl.webflow.com/5d660ef145315201ac996790/5d6774ed1a93c64ca8fabf27_school-24px.svg" alt="" class="narrow-card_icon-2">
+                <div class="narrow-card_title-2 truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
               </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
+              <div class="narrow-card_middle-column-2 large-column hide-sm">
+                <div class="align-right">Other - packaged ongoing project</div>
               </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
+              <div class="narrow-card_middle-column-2 hide-m">
+                <div class="align-right">JANUARY 2020</div>
               </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
-              </div>
-            </a>
-            <a href="infrastructure-project.html" class="narrow-card_wrapper w-inline-block">
-              <div class="narrow-card_first-column"><img src="/static/images/school-24px.svg" alt="" class="narrow-card_icon">
-                <div class="narrow-card_title">Pelonami Inter</div>
-              </div>
-              <div class="narrow-card_middle-column hide-sm">
-                <div>PRACTICAL COMPLETION (100%)</div>
-              </div>
-              <div class="narrow-card_middle-column hide-m">
-                <div>JANUARY 2020</div>
-              </div>
-              <div class="narrow-card_last-column">
-                <div>R300,000,042,610</div>
+              <div class="narrow-card_last-column-2">
+                <div class="align-right">R300,000,042,610</div>
               </div>
             </a>
           </div>
