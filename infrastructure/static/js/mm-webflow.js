@@ -726,6 +726,8 @@ function mmWebflow(js) {
         setValue($(".geography .province, .breadcrumbs .province"), js["geography"]["province_name"]);
         setValue($(".geography .municipality, .breadcrumbs .municipality"), js["geography"]["name"]);
         setValue($(".geography .ward"), js["ward_location"]);
+        // TODO remove
+        $(".breadcrumbs a").attr("href", "/infrastructure/projects");
 
         var coordinates = formatCoordinates(js["latitude"], js["longitude"])
         setValue($(".geography .coordinates"), coordinates)
