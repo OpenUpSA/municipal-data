@@ -44,47 +44,10 @@ function mmWebflow(js) {
         }
     }
 
-    function updateDropdown(selector, fields, fieldName) {
-        var container = $(selector);
-        var optionContainer = container.find(".chart-dropdown_list");
-
-        var selectedOption = getSelectedOption(fieldName);
-        if (typeof(selectedOption) == "undefined") {
-            container.find(".text-block").text("All " + mmListView.facetPlurals[fieldName]);
-        } else {
-            container.find(".text-block").text(selectedOption);
-            // Add "clear filter" option
-            optionElement = dropdownItemTemplate.clone();
-            optionElement.find(".search-dropdown_label").text("All " + mmListView.facetPlurals[fieldName]);
-            optionElement.click(function() {
-                delete listView.searchState.selectedFacets[fieldName];
-                optionContainer.removeClass("w--open");
-                triggerSearch();
-            });
-            optionContainer.append(optionElement);
-        }
-
-        var options = fields[fieldName];
-        fields[fieldName].forEach(function (option) {
-            optionElement = mmListView.dropdownItemTemplate.clone();
-            optionElement.find(".search-dropdown_label").text(option.text);
-            if (option.count) {
-                optionElement.find(".search-dropdown_value").text("(" + option.count + ")");
-            }
-            optionElement.click(function() {
-                listView.searchState.selectedFacets[fieldName] = option.text;
-                optionContainer.removeClass("w--open");
-                triggerSearch();
-            });
-            optionContainer.append(optionElement);
-        });
-    }
-
     function populateSummary(container, searchQuery) {
         var facetUrl = "/api/infrastructure/search/facets/?selected_facets=text:" + searchQuery;
         $.ajax(facetUrl, {
             success: function(data, textStatus, jqXHR) {
-                console.log(data);
                 var provinceDropDown = $("#w-dropdown-toggle-0")
                 var itemTemplate = $(".dropdown-link", "#w-dropdown-list-0")[0].cloneNode(deepCopy)
                 $(".dropdown-link", "#w-dropdown-list-0").remove();
@@ -133,8 +96,7 @@ function mmWebflow(js) {
             }
         }
 
-        function BarChart() {
-        }
+        function BarChart() {}
 
         BarChart.prototype = {
             setupBar: function(el, text, val) {
@@ -171,6 +133,11 @@ function mmWebflow(js) {
                     "New": 0, "Renewal": 1, "Upgrading": 2, "": 3, 
                 }
 
+                for (key in barMap) {
+                    var idx = barMap[key];
+                    this.barchart.setupBar($(".vertical-bar_wrapper:eq(" + idx + ")", this.el), key, 0);
+                }
+
                 var typeFacet = data.fields.project_type;
 
                 for (idx in typeFacet) {
@@ -199,41 +166,159 @@ function mmWebflow(js) {
                 })
                 var total_count = data.objects.count;
 
+
+                for (var i = 0; i < 12; i++) {
+                    this.barchart.setupBar($(".vertical-bar_wrapper:eq(" + i + ")", this.el), "", 0); 
+                }
+
                 for (idx in sortedFunctions) {
                     f = sortedFunctions[idx]
                     var label = f.text;
                     var count = f.count;
                     var val = parseInt(count / total_count * 100);
-                    console.log(val)
-                    console.log(label)
                     
                     this.barchart.setupBar($(".vertical-bar_wrapper:eq(" + idx + ")", this.el), label, val); 
                 }
-            
-                /*
-                var total_count = data.objects.count;
-                var barMap = {
-                    "New": 0, "Renewal": 1, "Upgrading": 2, "": 3, 
-                }
-
-                var typeFacet = data.fields.project_type;
-
-                for (idx in typeFacet) {
-                    var key = typeFacet[idx].text;
-                    var barID = barMap[key];
-                    var count = typeFacet[idx].count;
-                    var val = parseInt(count / total_count * 100);
-                    var label = key + " - " + val + "%";
-
-                    this.barchart.setupBar($(".vertical-bar_wrapper:eq(" + barID + ")", this.el), label, val);
-                }
-                */
             }
         }
 
+        function filterDropdown(el, defaultValue) {
+            this.el = el;
+            this.listeners = {};
+            this.defaultValue = defaultValue;
+            this.enabled = true;
+    
+            this.selectedElement = $(".chart-dropdown_trigger", this.el);
+            this.optionContainer = this.el.find("nav.chart-dropdown_list");
+            this.dropdownItemTemplate = $(".dropdown-link:first", this.optionContainer).clone();
+        }
 
+        filterDropdown.prototype = {
+            reset: function() {
+                // TODO clear filters
+                this.setSelected(this.defaultValue);
+            },
+
+            setEnabled: function(val) {
+                this.enabled = val;
+                if (val) {
+                    $("div", this.el).css("background-color", "");
+                } else {
+                    $("div", this.el).css("background-color", "#eee");
+                }
+            },
+
+            clearOptions: function() {
+                $(this.el).find(".dropdown-link").remove();
+            },
+
+            hideOptions: function() {
+                this.optionContainer.removeClass("w--open");
+            },
+
+            setSelected: function(label) {
+                this.selectedElement.find(".text-block").text(label);
+            },
+
+            createOption: function(label, ev) {
+                var optionElement = this.dropdownItemTemplate.clone();
+                var me = this;
+
+                optionElement.click(function() {
+                    me.setSelected(label.text);
+                    me.hideOptions();
+                    ev(label);
+                });
+
+                optionElement.find(".search-dropdown_label").text(label.text);
+                optionElement.find(".search-dropdown_value").text("");
+                if (label.count) {
+                    optionElement.find(".search-dropdown_value").text("(" + label.count + ")");
+                }
+
+                me.optionContainer.append(optionElement);
+            },
+
+            updateDropdown: function(fields, fieldName, plural) {
+                var me = this;
+
+                this.clearOptions();
+
+                this.createOption({text: "All " + plural}, function(payload) {
+                    payload.fieldName = fieldName; 
+                    me.trigger("removefilters", payload);
+                });
+
+                fields[fieldName].forEach(function(option) {
+                    option.fieldName = fieldName;
+                    me.createOption(option, function(payload) {
+                        me.trigger("selectedoption", payload);
+                    });
+                })
+            },
+
+            on: function(e, func) {
+                if (this.listeners[e] == undefined)
+                    this.listeners[e] = [];
+
+                this.listeners[e].push(func)
+            },
+
+            trigger: function(e, payload) {
+                for (idx in this.listeners[e]) {
+                    this.listeners[e][idx](payload);
+                }
+            }
+
+        }
+
+        function Search(baseUrl) {
+            this.baseUrl = baseUrl
+            this.selectedFacets = {};
+            this.params = new URLSearchParams();
+            this.query = "";
+        }
+
+        Search.prototype = {
+            addFacet: function(key, value) {
+                this.selectedFacets[key] = value;
+            },
+
+            clearFacets: function(key) {
+                if (key != undefined) {
+                    delete this.selectedFacets[key];
+                } else {
+                    this.selectedFacets = {};
+                }
+            },
+
+            addSearch: function(q) {
+                this.query = q;
+            },
+
+            clearAll: function(key) {
+                this.query = "";
+                this.clearFacets();
+            },
+
+            createUrl: function() {
+                this.params = new URLSearchParams();
+                if (this.q != "")
+                    this.params.set("q", this.query);
+
+                for (key in this.selectedFacets) {
+                    var paramValue = key + "_exact:" + this.selectedFacets[key];
+                    this.params.append("selected_facets", paramValue);
+                } 
+
+                return this.baseUrl + "?" + this.params.toString();
+            }
+
+        }
 
         function ListView() {
+            var me = this;
+            this.search = new Search("/api/infrastructure/search/facets/");
             this.searchState = {
                 baseLocation: "/api/infrastructure/search/",
                 facetsLocation: "/api/infrastructure/search/facets/",
@@ -247,17 +332,52 @@ function mmWebflow(js) {
                 loadingSpinner: $(".loading-spinner"), // TODO check this
             };
 
-            this.facetPlurals = {
-                province: "Provinces",
-                geography_name: "Municipalities",
-                project_type: "Project Types",
-                "function": "Government Functions",
-            };
-
             this.sorter = new Sorter($("#sorting-dropdown"));
             this.sorter.initialize();
             this.typeBarChart = new ProjectTypeBarChart($("#project-type-summary-chart"));
             this.functionBarChart = new FunctionBarChart($("#project-function-summary-chart"));
+
+            var removeFilters = function(payload) {
+                me.search.clearFacets(payload.fieldName);
+                var url = me.search.createUrl()
+                triggerSearch(url);
+            }
+
+            var addFilter = function(payload) {
+                me.search.addFacet(payload.fieldName, payload.text);
+                var url = me.search.createUrl()
+                triggerSearch(url);
+            }
+
+            this.provinceDropDown = new filterDropdown($("#province-dropdown"), "All Provinces");
+            this.provinceDropDown.on("removefilters", removeFilters);
+            this.provinceDropDown.on("selectedoption", addFilter);
+
+            this.municipalityDropDown = new filterDropdown($("#municipality-dropdown"), "All Municipalities");
+            this.municipalityDropDown.on("removefilters", removeFilters);
+            this.municipalityDropDown.on("selectedoption", addFilter);
+
+            this.typeDropDown = new filterDropdown($("#type-dropdown"), "All Project Types");
+            this.typeDropDown.on("removefilters", removeFilters);
+            this.typeDropDown.on("selectedoption", addFilter);
+
+            this.functionDropDown = new filterDropdown($("#functions-dropdown"), "All Functions");
+            this.functionDropDown.on("removefilters", removeFilters);
+            this.functionDropDown.on("selectedoption", addFilter);
+
+            $(".clear-filter__text").on("click", function() {
+                // TODO create widget
+                $("#Infrastructure-Search-Input").val("");
+                me.provinceDropDown.reset();
+                me.municipalityDropDown.reset();
+                me.typeDropDown.reset();
+                me.functionDropDown.reset();
+                me.search.clearAll();
+
+                var url = me.search.createUrl()
+                triggerSearch(url);
+            });
+
         } 
 
         ListView.prototype = {
@@ -265,7 +385,29 @@ function mmWebflow(js) {
                 this.onPageLoaded();
             },
 
+            clearProjectResults: function() {
+                $("#result-list-container .narrow-card_wrapper-2").remove();
+            },
+
+            onLoading: function() {
+                this.clearProjectResults();
+                $(".search-detail-value--placeholder").show()
+                $(".search-detail-amount--placeholder").show()
+                $(".search-detail-value").hide();
+                $(".search-detail-amount").hide();
+                $(".search-detail__amount").hide();
+
+                this.provinceDropDown.setEnabled(false);
+                this.municipalityDropDown.setEnabled(false);
+                this.typeDropDown.setEnabled(false);
+                this.functionDropDown.setEnabled(false);
+            },
+
             onPageLoaded: function() {
+                var me = this;
+
+                // TODO remove this
+                $(".list-sorting_wrapper").hide();
                 mmListView.resultRowTemplate = $("#result-list-container .narrow-card_wrapper-2:first").clone();
                 mmListView.resultRowTemplate.find(".narrow-card_icon").remove();
 
@@ -273,37 +415,45 @@ function mmWebflow(js) {
                 mmListView.dropdownItemTemplate.find(".search-status").remove();
                 mmListView.dropdownItemTemplate.find(".search-dropdown_label").text("");
 
-                
-                $(".search-detail-value").hide();
-                $(".search-detail__amount").hide();
+                this.onLoading(); 
+                $("#clear-filters-button").on("click", function() {
+                    me.searchState.selectedFacets = {};
+                });
 
             },
 
             onDataLoaded: function(response) {
                 $("#num-matching-projects-field").text("");
                 $("#result-list-container .narrow-card_wrapper").remove()
-                resetDropdown("#province-dropdown");
-                resetDropdown("#municipality-dropdown");
-                resetDropdown("#type-dropdown");
-                resetDropdown("#functions-dropdown");
-                resetDropdown("#functions-dropdown");
-                this.searchState.noResultsMessage.hide();
 
-                $(".search-detail-value--placeholder").hide()
-                $(".search-detail-amount--placeholder").hide()
+                this.provinceDropDown.setEnabled(true);
+                this.municipalityDropDown.setEnabled(true);
+                this.typeDropDown.setEnabled(true);
+                this.functionDropDown.setEnabled(true);
+
+                this.searchState.noResultsMessage.hide();
 
                 showResults(response);
 
                 this.typeBarChart.update(response);
                 this.functionBarChart.update(response);
 
+                this.provinceDropDown.updateDropdown(response.fields, "province", "Provinces");
+                this.municipalityDropDown.updateDropdown(response.fields, "geography_name", "Municipalities");
+                this.typeDropDown.updateDropdown(response.fields, "project_type", "Project Types");
+                this.functionDropDown.updateDropdown(response.fields, "function", "Government Functions");
+
+                $(".search-detail-value--placeholder").hide()
+                $(".search-detail-amount--placeholder").hide()
+                $(".search-detail-value").show()
+                $(".search-detail-amount").show()
+                $(".search-detail__amount").show();
             }
         }
 
     
         var listView = new ListView();
         listView.initialize();
-
 
         createTileLayer().addTo(listView.searchState.map);
         listView.searchState.map.addLayer(listView.searchState.markers);
@@ -352,6 +502,7 @@ function mmWebflow(js) {
         }
 
         function triggerSearch(url) {
+            listView.onLoading();
             url = url || buildPagedSearchURL();
             $.get(url)
                 .done(function(response) {
@@ -390,15 +541,13 @@ function mmWebflow(js) {
             $(".search-detail-value").show();
             $(".search-detail__amount").show();
             $("#num-matching-projects-field").text(formatNumber(response.objects.count));
-            $("#search-total-forecast").text(formatNumber(543));
-            updateDropdown("#province-dropdown", response.fields, "province");
-            updateDropdown("#municipality-dropdown", response.fields, "geography_name");
-            updateDropdown("#type-dropdown", response.fields, "project_type");
-            updateDropdown("#functions-dropdown", response.fields, "function");
-            //updateDropdown(".sorting-dropdown_trigger", response.fields, "function");
-            //updateDropdown("#sorting-dropdown", response.fields, "function");
+            //$("#search-total-forecast").textformatNumber(formatNumber(543));
+            // TODO fix this
+            $("#search-total-forecast").text("-");
+            var resultItem = mmListView.resultRowTemplate.clone();
 
             if (response.objects.results.length) {
+                listView.clearProjectResults();
                 listView.searchState.noResultsMessage.hide();
                 response.objects.results.forEach(function(project) {
                     var resultItem = mmListView.resultRowTemplate.clone();
@@ -452,55 +601,15 @@ function mmWebflow(js) {
             }
         }
 
-        function resetDropdown(selector) {
-            $(selector).find(".text-block").text("");
-            $(selector).find(".dropdown-link").remove();
-        }
-
-        function getSelectedOption(fieldName) {
-            return listView.searchState.selectedFacets[fieldName];
-        }
-
-        function updateDropdown(selector, fields, fieldName) {
-            var container = $(selector);
-            var optionContainer = container.find(".chart-dropdown_list");
-
-            var selectedOption = getSelectedOption(fieldName);
-            if (typeof(selectedOption) == "undefined") {
-                container.find(".text-block").text("All " + listView.facetPlurals[fieldName]);
-            } else {
-                container.find(".text-block").text(selectedOption);
-                // Add "clear filter" option
-                optionElement = mmListView.dropdownItemTemplate.clone();
-                optionElement.find(".search-dropdown_label").text("All " + listView.facetPlurals[fieldName]);
-                optionElement.click(function() {
-                    delete listView.searchState.selectedFacets[fieldName];
-                    optionContainer.removeClass("w--open");
-                    triggerSearch();
-                });
-                optionContainer.append(optionElement);
-            }
-
-            var options = fields[fieldName];
-            fields[fieldName].forEach(function (option) {
-                optionElement = mmListView.dropdownItemTemplate.clone();
-                optionElement.find(".search-dropdown_label").text(option.text);
-                if (option.count) {
-                    optionElement.find(".search-dropdown_value").text("(" + option.count + ")");
-                }
-                optionElement.click(function() {
-                    listView.searchState.selectedFacets[fieldName] = option.text;
-                    optionContainer.removeClass("w--open");
-                    triggerSearch();
-                });
-                optionContainer.append(optionElement);
-            });
-        }
-
          $("#Infrastructure-Search-Input").keypress(function (e) {
             var key = e.which;
             if (key == 13) {  // the enter key code
-                triggerSearch();
+                listView.searchState.params.set("q", $("#Infrastructure-Search-Input").val());
+                // TODO move this into an object
+                var query = $("#Infrastructure-Search-Input").val();
+                listView.search.addSearch(query);
+                var url = listView.search.createUrl()
+                triggerSearch(url);
             }
         });
         $("#Search-Button").on("click", triggerSearch);
