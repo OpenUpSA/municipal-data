@@ -204,7 +204,7 @@ function mmWebflow(js) {
                 if (val) {
                     $("div", this.el).css("background-color", "");
                 } else {
-                    $("div", this.el).css("background-color", "#eee");
+                    $("div", this.el).css("background-color", "#f7f7f7");
                 }
             },
 
