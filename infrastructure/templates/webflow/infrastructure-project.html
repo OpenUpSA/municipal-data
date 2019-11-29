@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--  This site was created in Webflow. http://www.webflow.com  -->
-<!--  Last Published: Mon Nov 25 2019 11:12:18 GMT+0000 (Coordinated Universal Time)  -->
+<!--  Last Published: Fri Nov 29 2019 11:31:51 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="5db2adb5e800a54297f2f9a6" data-wf-site="5db2adb5e800a59830f2f99c">
 <head>
   <meta charset="utf-8">
@@ -41,16 +41,14 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" crossorigin=""/>
 </head>
 <body>
-  <div data-collapse="medium" data-animation="default" data-duration="400" class="w-nav">
+  <div data-collapse="medium" data-animation="default" data-duration="400" class="nav w-nav">
     <div class="container">
-      <a href="index.html" class="brand w-nav-brand">
-        <div class="div-block-13">
-          <div>Home</div>
-        </div>
-      </a>
-      <nav role="navigation" class="w-nav-menu"><a href="#" class="w-nav-link">Home</a><a href="#" class="w-nav-link">About</a><a href="#" class="w-nav-link">Contact</a></nav>
-      <div class="w-nav-button">
-        <div class="w-icon-nav-menu"></div>
+      <div class="nav__inner">
+        <a href="index.html" class="brand w-nav-brand">
+          <div class="nav__logo">Municipal Money</div>
+        </a>
+        <nav role="navigation" class="w-nav-menu"><a href="https://municipalmoney.gov.za/about" class="nav__link w-nav-link">About</a><a href="https://municipalmoney.gov.za/faq" class="nav__link w-nav-link">FAQ</a></nav>
+        <div class="nav__button w-nav-button"><img src="/static/images/menu-white-24px.svg" alt="" class="image-4"></div>
       </div>
     </div>
   </div>
@@ -130,7 +128,7 @@
               <div class="project-detail_text mtsf-outcome">An efficient, competitive and responsive economic infrastructure network</div>
               <div class="project-detail__tooltip_highlight"></div>
             </div>
-            <div class="project-details__item--tooltip">
+            <div class="project-details__item">
               <div class="item-heading--with-tooltip">
                 <div class="small-detail-heading underline">Type</div>
                 <div class="small-tooltip__plate--alt">
@@ -259,7 +257,39 @@
       </div>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col col-4 col-sm-12">
+          <div class="footer__logos"><a href="http://www.treasury.go.za" target="_blank" class="footer__logo w-inline-block"><img src="/static/images/treasury-logo.611e78e53f15.png" srcset="/static/images/treasury-logo.611e78e53f15.png 500w, images/treasury-logo.611e78e53f15.png 600w" sizes="(max-width: 479px) 86vw, 200px" alt="" class="image-2"></a><a href="http://www.openup.org.za" target="_blank" class="footer__logo _2 w-inline-block"><img src="/static/images/code4sa-logo.831760fd7c32.png" alt="" class="image-3"></a></div>
+        </div>
+        <div class="col col-4 col-sm-6 col-xs-12">
+          <div class="footer__links">
+            <ul class="footer__sitemap">
+              <li class="footer__sitemap_item"><a href="https://municipalmoney.gov.za/about" class="footer__link">About Municipal Money</a></li>
+              <li class="footer__sitemap_item"><a href="https://municipalmoney.gov.za/locate" class="footer__link">Find Your Municipality</a></li>
+              <li class="footer__sitemap_item"><a href="https://municipalmoney.gov.za/faq" class="footer__link">Frequently Asked Questions</a></li>
+              <li class="footer__sitemap_item"><a href="https://municipalmoney.gov.za/faq" class="footer__link">Terms of Use</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col col-4 col-sm-6 col-xs-12">
+          <div class="footer__links">
+            <ul class="footer__sitemap">
+              <li class="footer__sitemap_item">Use the <a href="https://municipalmoney.gov.za/about" target="_blank" class="footer__link">Municipal Money API</a></li>
+              <li class="footer__sitemap_item">Contribute on <a href="https://municipalmoney.gov.za/locate" target="_blank" class="footer__link">GitHub</a></li>
+              <li class="footer__sitemap_item">Email: <a href="mailto:feedback@municipalmoney.gov.za" class="footer__link">feedback@municipalmoney.org.za</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col col-12">
+          <div class="footer__credit">
+            <div>A project by <a href="http://www.treasury.gov.za/" target="_blank" class="footer__link">National Treasury </a>and<a href="http://www.openup.org.za" target="_blank" class="footer__link"> OpenUp</a><br></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.4.1.min.220afd743d.js" type="text/javascript" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="/static/js/webflow.js" type="text/javascript"></script>
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
