@@ -7,6 +7,7 @@ from rest_framework import routers
 
 import scorecard.views as views
 import infrastructure.views
+from search_indexes import urls as search_index_urls
 
 router = routers.DefaultRouter()
 router.register(r'geography', views.GeographyViewSet)
@@ -73,4 +74,5 @@ urlpatterns = [
     #        status=404
     #    )
     #),
+    url(r'^search/', include(search_index_urls)),
 ]

@@ -50,7 +50,11 @@ INSTALLED_APPS = (
     "pipeline",
     "django_extensions",
     "corsheaders",
-    "haystack",
+    #"haystack",
+    "django_elasticsearch_dsl",
+    "django_elasticsearch_dsl_drf",
+    "rest_framework",
+    "search_indexes",
 )
 
 # Sites
@@ -330,7 +334,7 @@ REST_FRAMEWORK = {
     "UNAUTHENTICATED_USER": None,
     "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
-    "PAGE_SIZE": 50,
+    "PAGE_SIZE": 150,
 }
 
 HAYSTACK_CONNECTIONS = {
@@ -340,4 +344,10 @@ HAYSTACK_CONNECTIONS = {
         "INDEX_NAME": os.environ.get("HAYSTACK_INDEX", "projects"),
         "TIMEOUT": os.environ.get("HAYSTACK_TIMEOUT", 10),
     }
+}
+
+ELASTICSEARCH_DSL={
+    'default': {
+        'hosts': 'elasticsearch:9200'
+    },
 }

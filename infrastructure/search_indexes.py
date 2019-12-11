@@ -22,6 +22,7 @@ class ProjectIndex(indexes.SearchIndex, indexes.Indexable):
     asset_class = indexes.CharField(model_attr="asset_class", faceted=True)
     asset_subclass = indexes.CharField(model_attr="asset_subclass", faceted=True)
     ward_location = indexes.CharField(model_attr="ward_location")
+    full_year_forecast = indexes.DecimalField()
 
     def get_model(self):
         return models.Project
@@ -40,3 +41,10 @@ class ProjectIndex(indexes.SearchIndex, indexes.Indexable):
 
     def prepare_geo_parent(self, obj):
         return obj.geography.parent_code
+
+    def prepare_full_year_forecast(self, obj):
+        budgets = obj.expenditure.filter(financial_year__budget_year="2019/2020")
+        if budgets.count() == 0:
+            return 0
+        else:
+            return budgets.first().amount

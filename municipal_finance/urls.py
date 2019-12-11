@@ -1,8 +1,10 @@
 from django.conf.urls import url
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
+from django.conf.urls import include
 
 from . import views
+
 
 # Used to cache expensive API calls, since our data only changes occasionally
 # This cache is reset on each deployment. Corresponding caching headers are
@@ -23,4 +25,5 @@ urlpatterns = [
     url(r'^api/cubes/(?P<cube_name>[\w_]+)/facts$', cache_page(API_CACHE_SECS)(views.facts)),
     url(r'^api/cubes/(?P<cube_name>[\w_]+)/members/?$', cache_page(API_CACHE_SECS)(views.members_root)),
     url(r'^api/cubes/(?P<cube_name>[\w_]+)/members/(?P<member_ref>[\w_.]+)$', cache_page(API_CACHE_SECS)(views.members)),
+
 ]

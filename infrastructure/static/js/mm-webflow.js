@@ -5,6 +5,28 @@ function mmWebflow(js) {
         var count = formatNumber(js["count"])
     }
 
+    function formatUnits(number) {
+        if (number >= 10**9) {
+            return "bn"
+            number = number / 10**9
+        } else if (number >= 10**6) {
+            return "mil"
+        }
+        return ""
+    }
+
+    function formatHuman(number) {
+        if (number >= 10**9) {
+            number = number / 10**9
+        } else if (number >= 10**6) {
+            number = number / 10**6;
+        } else {
+            return "R" + parseInt(number).toLocaleString();
+        }
+
+        return "R" + parseFloat(number).toFixed(1);
+    }
+
     function formatNumber(number) {
         return parseInt(number).toLocaleString();
     }
@@ -107,10 +129,11 @@ function mmWebflow(js) {
             addTooltip: function(el, text) {
                 $(".chart-tooltip", el).remove();
                 var tooltip = $("<div></div>").addClass("chart-tooltip");
-                $(".bar", el).append(tooltip);
+                (".bar", el).append(tooltip);
                 tooltip.append($("<div></div>").addClass("div-block-16"));
                 tooltip.append($("<div></div>").addClass("text-block-5").text(text));
                 tooltip.css("display", "none");
+                tooltip.css("visibility", "visible");
 
                 el.on("mouseover", function(e) {
                     tooltip.show();
@@ -127,8 +150,8 @@ function mmWebflow(js) {
         }
 
         ProjectTypeBarChart.prototype = {
-            update: function(data) {
-                var total_count = data.objects.count;
+            update: function(response) {
+                var total_count = response.count;
                 var barMap = {
                     "New": 0, "Renewal": 1, "Upgrading": 2, "": 3, 
                 }
@@ -138,10 +161,10 @@ function mmWebflow(js) {
                     this.barchart.setupBar($(".vertical-bar_wrapper:eq(" + idx + ")", this.el), key, 0);
                 }
 
-                var typeFacet = data.fields.project_type;
+                var typeFacet = response.facets.project_types;
 
                 for (idx in typeFacet) {
-                    var key = typeFacet[idx].text;
+                    var key = typeFacet[idx].key;
                     var barID = barMap[key];
                     var count = typeFacet[idx].count;
                     var val = parseInt(count / total_count * 100);
@@ -153,32 +176,71 @@ function mmWebflow(js) {
         }
 
         function FunctionBarChart(el) {
-            this.barchart = new BarChart()
             this.el = el;
+            this.addTooltip(el, "");
         }
 
         FunctionBarChart.prototype = {
             
             update: function(data) {
-                var functionFacet = data.fields["function"];
+                var total_count = data.count;
+                var functionFacet = data.facets.functions
                 var sortedFunctions = functionFacet.sort(function(a, b) {
-                    return b.count - a.count;
+                    return b.doc_count - a.doc_count;
                 })
-                var total_count = data.objects.count;
 
-
-                for (var i = 0; i < 12; i++) {
-                    this.barchart.setupBar($(".vertical-bar_wrapper:eq(" + i + ")", this.el), "", 0); 
+                for (var idx = 0; idx < 12; idx++) {
+                    if (sortedFunctions[idx] != undefined) {
+                        f = sortedFunctions[idx]
+                        var label = f.key;
+                        var count = f.count;
+                        var val = parseInt(count / total_count * 100);
+                        
+                        this.setupBar(idx, label, val); 
+                    } else {
+                        this.setBarHeight(idx, 0);
+                    }
                 }
+            },
 
-                for (idx in sortedFunctions) {
-                    f = sortedFunctions[idx]
-                    var label = f.text;
-                    var count = f.count;
-                    var val = parseInt(count / total_count * 100);
-                    
-                    this.barchart.setupBar($(".vertical-bar_wrapper:eq(" + idx + ")", this.el), label, val); 
-                }
+            getBar: function(idx) {
+                return $(".vertical-bar_wrapper:eq(" + idx + ")", this.el)
+            },
+
+            setBarHeight: function(idx, val) {
+                var bar = this.getBar(idx);
+                $(".bar", bar).css("height", val + "%")
+            },
+
+            setupBar: function(idx, text, val) {
+                var self = this;
+                var label = text + " - " + val + "%";
+                var bar = this.getBar(idx);
+                this.setBarHeight(idx, val);
+                //$(".bar", bar).css("height", val + "%")
+
+                bar.on("mousemove", function(e) {
+                    $(".text-block-5", self.tooltip).text(label);
+                    self.tooltip.show();
+                    self.tooltip.css("left", (-77 + idx * 30) + "px")
+                })
+                .on("mouseout", function() {
+                    self.tooltip.hide();
+                })
+            },
+
+            addTooltip: function(el, text) {
+                $(".chart-tooltip", el).remove();
+                this.tooltip = $("<div></div>").addClass("chart-tooltip");
+                $(".progress-chart_wrapper", el).append(this.tooltip);
+                this.tooltip.append($("<div></div>").addClass("div-block-16"));
+                this.tooltip.append($("<div></div>").addClass("text-block-5").text(text));
+                this.tooltip.css("width", "50%");
+                this.tooltip.css("bottom", "unset");
+                this.tooltip.css("top", "-20px");
+                this.tooltip.css("display", "none");
+                this.tooltip.css("visibility", "visible");
+
             }
         }
 
@@ -249,8 +311,10 @@ function mmWebflow(js) {
                     me.trigger("removefilters", payload);
                 });
 
-                fields[fieldName].forEach(function(option) {
+                fields.forEach(function(option) {
                     option.fieldName = fieldName;
+                    option.text = option.key;
+                    option.count = option.doc_count;
                     me.createOption(option, function(payload) {
                         me.trigger("selectedoption", payload);
                     });
@@ -303,12 +367,12 @@ function mmWebflow(js) {
 
             createUrl: function() {
                 this.params = new URLSearchParams();
-                if (this.q != "")
-                    this.params.set("q", this.query);
+                if (this.query != "" && this.query != undefined)
+                    this.params.set("search", this.query);
 
                 for (key in this.selectedFacets) {
-                    var paramValue = key + "_exact:" + this.selectedFacets[key];
-                    this.params.append("selected_facets", paramValue);
+                    var paramValue = this.selectedFacets[key];
+                    this.params.append(key, paramValue);
                 } 
 
                 return this.baseUrl + "?" + this.params.toString();
@@ -318,10 +382,10 @@ function mmWebflow(js) {
 
         function ListView() {
             var me = this;
-            this.search = new Search("/api/infrastructure/search/facets/");
+            this.search = new Search("/search/projects");
             this.searchState = {
-                baseLocation: "/api/infrastructure/search/",
-                facetsLocation: "/api/infrastructure/search/facets/",
+                baseLocation: "/search/projects/",
+                facetsLocation: "/search/projects/",
                 projectsLocation: "/infrastructure/projects/",
                 nextUrl: "",
                 params: new URLSearchParams(),
@@ -339,31 +403,23 @@ function mmWebflow(js) {
 
             var removeFilters = function(payload) {
                 me.search.clearFacets(payload.fieldName);
-                var url = me.search.createUrl()
-                triggerSearch(url);
+                triggerSearch();
             }
 
             var addFilter = function(payload) {
                 me.search.addFacet(payload.fieldName, payload.text);
-                var url = me.search.createUrl()
-                triggerSearch(url);
+                triggerSearch();
             }
 
             this.provinceDropDown = new filterDropdown($("#province-dropdown"), "All Provinces");
-            this.provinceDropDown.on("removefilters", removeFilters);
-            this.provinceDropDown.on("selectedoption", addFilter);
-
             this.municipalityDropDown = new filterDropdown($("#municipality-dropdown"), "All Municipalities");
-            this.municipalityDropDown.on("removefilters", removeFilters);
-            this.municipalityDropDown.on("selectedoption", addFilter);
-
             this.typeDropDown = new filterDropdown($("#type-dropdown"), "All Project Types");
-            this.typeDropDown.on("removefilters", removeFilters);
-            this.typeDropDown.on("selectedoption", addFilter);
-
             this.functionDropDown = new filterDropdown($("#functions-dropdown"), "All Functions");
-            this.functionDropDown.on("removefilters", removeFilters);
-            this.functionDropDown.on("selectedoption", addFilter);
+
+            [this.provinceDropDown, this.municipalityDropDown, this.typeDropDown, this.functionDropDown].forEach(function(dropdown) {
+                dropdown.on("removefilters", removeFilters);
+                dropdown.on("selectedoption", addFilter);
+            })
 
             $(".clear-filter__text").on("click", function() {
                 // TODO create widget
@@ -374,8 +430,7 @@ function mmWebflow(js) {
                 me.functionDropDown.reset();
                 me.search.clearAll();
 
-                var url = me.search.createUrl()
-                triggerSearch(url);
+                triggerSearch();
             });
 
         } 
@@ -389,14 +444,13 @@ function mmWebflow(js) {
                 $("#result-list-container .narrow-card_wrapper-2").remove();
             },
 
-            onLoading: function() {
-                this.clearProjectResults();
+            onLoading: function(clearResults) {
+                if (clearResults || clearResults == undefined)
+                    this.clearProjectResults();
                 $(".search-detail-value--placeholder").show()
                 $(".search-detail-amount--placeholder").show()
-                $(".search-detail-value").hide();
-                $(".search-detail-amount").hide();
-                $(".search-detail__amount").hide();
-
+                $(".search-detail_projects").hide();
+                
                 this.provinceDropDown.setEnabled(false);
                 this.municipalityDropDown.setEnabled(false);
                 this.typeDropDown.setEnabled(false);
@@ -438,16 +492,22 @@ function mmWebflow(js) {
                 this.typeBarChart.update(response);
                 this.functionBarChart.update(response);
 
-                this.provinceDropDown.updateDropdown(response.fields, "province", "Provinces");
-                this.municipalityDropDown.updateDropdown(response.fields, "geography_name", "Municipalities");
-                this.typeDropDown.updateDropdown(response.fields, "project_type", "Project Types");
-                this.functionDropDown.updateDropdown(response.fields, "function", "Government Functions");
+                var facets = response.facets
+                this.provinceDropDown.updateDropdown(response.facets.provinces, "province", "Provinces");
+                this.municipalityDropDown.updateDropdown(response.facets.municipalities, "municipality", "Municipalities");
+                this.typeDropDown.updateDropdown(response.facets.project_types, "project_type", "Project Types");
+                this.functionDropDown.updateDropdown(response.facets.functions, "function", "Government Functions");
 
+                // Hack to ensure unit is on the same line as the value
+                $(".search-detail__amount").css("display", "flex");
+                $(".search-detail-value").css("display", "flex");
+
+                $(".search-detail_projects").show();
+                //$(".search-detail-value").show()
+                //$(".search-detail-amount").show()
+                $(".search-detail__amount").show();
                 $(".search-detail-value--placeholder").hide()
                 $(".search-detail-amount--placeholder").hide()
-                $(".search-detail-value").show()
-                $(".search-detail-amount").show()
-                $(".search-detail__amount").show();
             }
         }
 
@@ -472,7 +532,8 @@ function mmWebflow(js) {
 
 
         function updateFreeTextParam() {
-            listView.searchState.params.set("q", $("#Infrastructure-Search-Input").val());
+            listView.searchState.params.set("search", $("#Infrastructure-Search-Input").val());
+            //listView.searchState.params.set("q", $("#Infrastructure-Search-Input").val());
         }
 
         function updateFacetParam() {
@@ -481,12 +542,6 @@ function mmWebflow(js) {
                 var paramValue = fieldName + "_exact:" + listView.searchState.selectedFacets[fieldName];
                 listView.searchState.params.append("selected_facets", paramValue);
             }
-        }
-
-        function buildPagedSearchURL() {
-            updateFreeTextParam();
-            updateFacetParam();
-            return listView.searchState.facetsLocation + "?" + listView.searchState.params.toString();
         }
 
         function buildAllCoordinatesSearchURL() {
@@ -501,20 +556,45 @@ function mmWebflow(js) {
             return listView.searchState.baseLocation + "?" + params.toString();
         }
 
-        function triggerSearch(url) {
-            listView.onLoading();
-            url = url || buildPagedSearchURL();
+        function normaliseResponse(response) {
+            response.count = response.facets._filter_province.doc_count;
+            var facets = response.facets;
+
+            facets.provinces = response.facets._filter_province.province.buckets;
+            facets.municipalities = response.facets._filter_municipality.municipality.buckets;
+            facets.project_types = response.facets._filter_project_type.project_type.buckets;
+            facets.functions = response.facets._filter_functions.functions.buckets;
+
+            ["provinces", "municipalities", "project_types", "functions"].forEach(function(el) {
+                var facet = facets[el];
+                facet.forEach(function(el2) {
+                    el2.count = el2.doc_count;
+                    el2.label = el2.key;
+                });
+            })
+
+            return response;
+        }
+
+        function triggerSearch(url, clearProjects) {
+            listView.onLoading(clearProjects);
+            var isEvent = (url != undefined && url.type != undefined);
+            if (isEvent || url == undefined)
+                url = listView.search.createUrl();
+
             $.get(url)
                 .done(function(response) {
-                    listView.searchState.nextUrl = response.objects.next;
+                    response = normaliseResponse(response)
+                    listView.searchState.nextUrl = response.next;
                     listView.onDataLoaded(response);
                 })
                 .fail(function(jqXHR, textStatus, errorThrown) {
                     alert("Something went wrong when searching. Please try again.");
                     console.error( jqXHR, textStatus, errorThrown );
                 });
-            resetMapPoints();
-            getMapPoints(buildAllCoordinatesSearchURL());
+            // TODO re-enable
+            //resetMapPoints();
+            //getMapPoints(buildAllCoordinatesSearchURL());
         }
 
         function getMapPoints(url, resetBounds) {
@@ -538,28 +618,28 @@ function mmWebflow(js) {
         }
 
         function showResults(response) {
-            $(".search-detail-value").show();
-            $(".search-detail__amount").show();
-            $("#num-matching-projects-field").text(formatNumber(response.objects.count));
-            //$("#search-total-forecast").textformatNumber(formatNumber(543));
+            $("#num-matching-projects-field").text(formatNumber(response.count));
+            $("#search-total-forecast").text(formatHuman(response.facets._filter_total_budget.total_budget.value));
+            $(".search-detail__amount .units-label").text(formatUnits(response.facets._filter_total_budget.total_budget.value));
             // TODO fix this
-            $("#search-total-forecast").text("-");
             var resultItem = mmListView.resultRowTemplate.clone();
 
-            if (response.objects.results.length) {
+            if (response.results.length) {
                 listView.clearProjectResults();
                 listView.searchState.noResultsMessage.hide();
-                response.objects.results.forEach(function(project) {
+                response.results.forEach(function(project) {
                     var resultItem = mmListView.resultRowTemplate.clone();
+                    // TODO fix this
                     var expenditure = project["expenditure"]
                     resultItem.attr("href", buildProjectUrl(project));
                     resultItem.find(".narrow-card_title-2").html(project.project_description);
                     resultItem.find(".narrow-card_middle-column-2:first div").html(project.function);
                     resultItem.find(".narrow-card_middle-column-2:last").html(project.project_type);
                     var amount = "Not available";
-                    if (expenditure.length > 0) {
-                        amount = formatCurrency(expenditure[0]["amount"]);
-                    }
+                    // TODO fix this
+                    //if (expenditure.length > 0) {
+                    //    amount = formatCurrency(expenditure[0]["amount"]);
+                    //}
                     resultItem.find(".narrow-card_last-column-2").html(amount);
                     $("#result-list-container").append(resultItem);
                 });
@@ -608,15 +688,14 @@ function mmWebflow(js) {
                 // TODO move this into an object
                 var query = $("#Infrastructure-Search-Input").val();
                 listView.search.addSearch(query);
-                var url = listView.search.createUrl()
-                triggerSearch(url);
+                triggerSearch();
             }
         });
         $("#Search-Button").on("click", triggerSearch);
 
         $(".load-more_wrapper a").click(function(e) {
             if (listView.searchState.nextUrl.length > 0) {
-                triggerSearch(listView.searchState.nextUrl);
+                triggerSearch(listView.searchState.nextUrl, false);
             }
         })
 

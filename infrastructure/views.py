@@ -108,3 +108,10 @@ class ProjectSearchView(FacetMixin, HaystackViewSet):
     facet_filter_backends = [ProjectFacetFilter]
     filter_backends = [ProjectFilter]
 
+    def get_queryset(self):
+        print("B" * 100)
+        qs = super(ProjectSearchView, self).get_queryset()
+        return qs
+        print(qs)
+        raise Exception("ProjectSearchView " + "#" * 100)
+

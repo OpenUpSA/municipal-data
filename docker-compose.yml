@@ -26,6 +26,7 @@ services:
       context: .
       dockerfile: Dockerfile-dev
     command: python manage.py runserver 0.0.0.0:8000
+    #command: :/usr/local/bin/gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:application -t 600 --log-file -
     volumes:
       - '.:/app'
       - '../datasets:/data'
@@ -39,6 +40,7 @@ services:
       - munimoney
     ports:
       - '8001:8000'
+      - '8080:8080'
     working_dir: /app
 
   postgres:
@@ -57,13 +59,15 @@ services:
       - '5433:5432'
 
   elasticsearch:
-    image: elasticsearch:1.7.4
+    image: elasticsearch:7.4.2
     container_name: elasticsearch
     environment:
       - node.name=elasticsearch
       - discovery.type=single-node
     networks:
       - munimoney
+    volumes:
+      - munimoney_search=/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
 
@@ -73,6 +77,7 @@ networks:
 
 volumes:
   postgres_data: {}
+  munimoney_search: {}
   esdata:
     driver: local
 
