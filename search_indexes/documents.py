@@ -35,7 +35,6 @@ class ProjectDocument(Document):
 
     # TODO year currently hardcoded - need to figure out the best way to handle this
     total_forecast_budget = fields.DoubleField()
-    #id = fields.IntegerField(attr='id')
     def prepare_total_forecast_budget(self, instance):
 
         qs = instance.expenditure.filter(financial_year__budget_year="2019/2020")
@@ -53,7 +52,6 @@ class ProjectDocument(Document):
         return instance.project_type
 
     def get_queryset(self):
-        # TODO remove slice - used for dev only
         return (super(ProjectDocument, self)
             .get_queryset()
             .select_related("geography")
@@ -61,18 +59,14 @@ class ProjectDocument(Document):
         )
 
     class Index:
-        # Name of the Elasticsearch index
         name = "projects"
-        # See Elasticsearch Indices API reference for available settings
         settings = {"number_of_shards": 1,
                     "number_of_replicas": 0}
 
     class Django:
-        model = Project 
+        model = Project
 
         fields = [
-            #"id",
-            #"project_description",
             "project_number",
             "mtsf_service_outcome",
             "iudf",
