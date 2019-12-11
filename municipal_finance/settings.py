@@ -50,7 +50,6 @@ INSTALLED_APPS = (
     "pipeline",
     "django_extensions",
     "corsheaders",
-    #"haystack",
     "django_elasticsearch_dsl",
     "django_elasticsearch_dsl_drf",
     "rest_framework",
@@ -337,17 +336,8 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 150,
 }
 
-HAYSTACK_CONNECTIONS = {
-    "default": {
-        "ENGINE": "haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine",
-        "URL": os.environ.get("HAYSTACK_URL", "http://elasticsearch:9200/"),
-        "INDEX_NAME": os.environ.get("HAYSTACK_INDEX", "projects"),
-        "TIMEOUT": os.environ.get("HAYSTACK_TIMEOUT", 10),
-    }
-}
-
 ELASTICSEARCH_DSL={
-    'default': {
-        'hosts': 'elasticsearch:9200'
+    "default": {
+        "hosts": os.environ.get("ELASTICSEARCH_URL", "elasticsearch:9200")
     },
 }
