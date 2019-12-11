@@ -27,6 +27,7 @@ class ProjectDocument(Document):
     #})
 
 
+    project_description = fields.KeywordField()
     project_type = fields.KeywordField()
     function = fields.KeywordField()
     province = fields.KeywordField()
@@ -49,7 +50,7 @@ class ProjectDocument(Document):
         return instance.geography.name
 
     def prepare_project_type(self, instance):
-        return instance.geography.name
+        return instance.project_type
 
     def get_queryset(self):
         # TODO remove slice - used for dev only
@@ -71,7 +72,7 @@ class ProjectDocument(Document):
 
         fields = [
             #"id",
-            "project_description",
+            #"project_description",
             "project_number",
             "mtsf_service_outcome",
             "iudf",
