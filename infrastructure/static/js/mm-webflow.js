@@ -88,17 +88,18 @@ function mmWebflow(js) {
 
     function mmListView(js) {
         function Sorter(dropdown) {
+            this.listeners = {};
             this.state = null;
             this.dropdown = dropdown; 
             this.sortOptions = [
-                "Alphabetical (a-z)",
-                "Alphabetical (z-a)",
-                "Value (descending)",
-                "Value (ascending)",
-                "Project Status (descending)",
-                "Project Status (ascending)",
-                "Completion (descending)",
-                "Completion (ascending)",
+                {label: "Alphabetical (a-z)", value: "project-description"},
+                {label: "Alphabetical (z-a)", value: "-project-description"},
+                {label: "Value (descending)", value: "-total_forecast_budget"},
+                {label: "Value (ascending)", value: "total_forecast_budget"},
+                {label: "Project Type (descending)", value: "-project_type"},
+                {label: "Project Type (ascending)", value: "project_type"},
+                {label: "Function (descending)", value: "-function"},
+                {label: "Function (ascending)", value: "function"},
             ];
         }
 
@@ -111,10 +112,28 @@ function mmWebflow(js) {
 
                 this.sortOptions.forEach(function(el) {
                     var option = me.template.clone();
-                    $(".dropdown-label", option).text(el);
+                    $(".dropdown-label", option).text(el.label);
+                    $(".dropdown-label", option).attr("data-option", el.value);
                     me.dropdown.find("nav").append(option);
+                    option.on("click", function(e) {
+                        var sortField = $("div", option).data("option")
+                        me.trigger("sortchanged", sortField);
+                    })
                 })
                 
+            },
+
+            on: function(e, func) {
+                if (this.listeners[e] == undefined)
+                    this.listeners[e] = [];
+
+                this.listeners[e].push(func)
+            },
+
+            trigger: function(e, payload) {
+                for (idx in this.listeners[e]) {
+                    this.listeners[e][idx](payload);
+                }
             }
         }
 
@@ -257,7 +276,6 @@ function mmWebflow(js) {
 
         filterDropdown.prototype = {
             reset: function() {
-                // TODO clear filters
                 this.setSelected(this.defaultValue);
             },
 
@@ -341,11 +359,16 @@ function mmWebflow(js) {
             this.selectedFacets = {};
             this.params = new URLSearchParams();
             this.query = "";
+            this.order = undefined;
         }
 
         Search.prototype = {
             addFacet: function(key, value) {
                 this.selectedFacets[key] = value;
+            },
+
+            addOrder: function(orderField) {
+                this.order = orderField;
             },
 
             clearFacets: function(key) {
@@ -375,6 +398,10 @@ function mmWebflow(js) {
                     this.params.append(key, paramValue);
                 } 
 
+                if (this.order != undefined) {
+                    this.params.append("ordering", this.order);
+                }
+
                 return this.baseUrl + "?" + this.params.toString();
             }
 
@@ -398,6 +425,11 @@ function mmWebflow(js) {
 
             this.sorter = new Sorter($("#sorting-dropdown"));
             this.sorter.initialize();
+            this.sorter.on("sortchanged", function(payload) {
+                me.search.addOrder(payload);
+                triggerSearch();
+            });
+
             this.typeBarChart = new ProjectTypeBarChart($("#project-type-summary-chart"));
             this.functionBarChart = new FunctionBarChart($("#project-function-summary-chart"));
 
@@ -422,7 +454,6 @@ function mmWebflow(js) {
             })
 
             $(".clear-filter__text").on("click", function() {
-                // TODO create widget
                 $("#Infrastructure-Search-Input").val("");
                 me.provinceDropDown.reset();
                 me.municipalityDropDown.reset();
@@ -460,8 +491,6 @@ function mmWebflow(js) {
             onPageLoaded: function() {
                 var me = this;
 
-                // TODO remove this
-                $(".list-sorting_wrapper").hide();
                 mmListView.resultRowTemplate = $("#result-list-container .narrow-card_wrapper-2:first").clone();
                 mmListView.resultRowTemplate.find(".narrow-card_icon").remove();
 
@@ -498,13 +527,11 @@ function mmWebflow(js) {
                 this.typeDropDown.updateDropdown(response.facets.project_types, "project_type", "Project Types");
                 this.functionDropDown.updateDropdown(response.facets.functions, "function", "Government Functions");
 
-                // Hack to ensure unit is on the same line as the value
+                // TODO Hack to ensure unit is on the same line as the value
                 $(".search-detail__amount").css("display", "flex");
                 $(".search-detail-value").css("display", "flex");
 
                 $(".search-detail_projects").show();
-                //$(".search-detail-value").show()
-                //$(".search-detail-amount").show()
                 $(".search-detail__amount").show();
                 $(".search-detail-value--placeholder").hide()
                 $(".search-detail-amount--placeholder").hide()
@@ -621,7 +648,6 @@ function mmWebflow(js) {
             $("#num-matching-projects-field").text(formatNumber(response.count));
             $("#search-total-forecast").text(formatHuman(response.facets._filter_total_budget.total_budget.value));
             $(".search-detail__amount .units-label").text(formatUnits(response.facets._filter_total_budget.total_budget.value));
-            // TODO fix this
             var resultItem = mmListView.resultRowTemplate.clone();
 
             if (response.results.length) {
@@ -629,17 +655,11 @@ function mmWebflow(js) {
                 listView.searchState.noResultsMessage.hide();
                 response.results.forEach(function(project) {
                     var resultItem = mmListView.resultRowTemplate.clone();
-                    // TODO fix this
-                    var expenditure = project["expenditure"]
                     resultItem.attr("href", buildProjectUrl(project));
                     resultItem.find(".narrow-card_title-2").html(project.project_description);
                     resultItem.find(".narrow-card_middle-column-2:first div").html(project.function);
                     resultItem.find(".narrow-card_middle-column-2:last").html(project.project_type);
-                    var amount = "Not available";
-                    // TODO fix this
-                    //if (expenditure.length > 0) {
-                    //    amount = formatCurrency(expenditure[0]["amount"]);
-                    //}
+                    var amount = "R" + formatNumber(project.total_forecast_budget);
                     resultItem.find(".narrow-card_last-column-2").html(amount);
                     $("#result-list-container").append(resultItem);
                 });

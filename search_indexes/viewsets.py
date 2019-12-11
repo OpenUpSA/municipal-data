@@ -155,13 +155,11 @@ class ProjectDocumentView(DocumentViewSet):
     ## Define ordering fields
     ordering_fields = {
     #    "id": "id",
-        "province": "province.raw",
-    #    "municipality": "municipality.raw",
-    #    "function": "function.raw",
+        "total_forecast_budget": "total_forecast_budget",
+        "province": "province",
+        "project_description": "project_description",
+        "function": "function",
+        "project_type": "project_type",
     }
     ## Specify default ordering
-    #ordering = ("id", "province", "municipality", "function")
-
-    @action(detail=True)
-    def do_stuff(self, *args, **kwargs):
-        import pdb; pdb.set_trace()
+    ordering = ("-total_forecast_budget",)
