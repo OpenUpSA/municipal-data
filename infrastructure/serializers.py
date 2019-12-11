@@ -4,7 +4,7 @@ from rest_framework import serializers
 #from drf_haystack.serializers import HaystackSerializerMixin
 
 from . import models
-from . import search_indexes
+#from . import search_indexes
 from scorecard.serializers import GeographySerializer
 
 
