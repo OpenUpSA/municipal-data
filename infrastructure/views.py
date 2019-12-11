@@ -3,9 +3,9 @@ import json
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from drf_haystack.viewsets import HaystackViewSet
-from drf_haystack.mixins import FacetMixin 
-from drf_haystack.filters import HaystackFacetFilter, HaystackFilter
+#from drf_haystack.viewsets import HaystackViewSet
+#from drf_haystack.mixins import FacetMixin 
+#from drf_haystack.filters import HaystackFacetFilter, HaystackFilter
 
 from django.views.generic.base import TemplateView
 from django.http import JsonResponse
@@ -94,24 +94,24 @@ class FilterOrderMixin(object):
         return queryset
 
 
-class ProjectFilter(FilterOrderMixin, HaystackFilter):
-    pass
+#class ProjectFilter(FilterOrderMixin, HaystackFilter):
+#    pass
 
-class ProjectFacetFilter(FilterOrderMixin, HaystackFacetFilter):
-    pass 
+#class ProjectFacetFilter(FilterOrderMixin, HaystackFacetFilter):
+#    pass 
 
-class ProjectSearchView(FacetMixin, HaystackViewSet):
-
-    serializer_class = serializers.ProjectSearchSerializer
-    facet_serializer_class = serializers.ProjectFacetSerializer
-
-    facet_filter_backends = [ProjectFacetFilter]
-    filter_backends = [ProjectFilter]
-
-    def get_queryset(self):
-        print("B" * 100)
-        qs = super(ProjectSearchView, self).get_queryset()
-        return qs
-        print(qs)
-        raise Exception("ProjectSearchView " + "#" * 100)
+#class ProjectSearchView(FacetMixin, HaystackViewSet):
+#
+#    serializer_class = serializers.ProjectSearchSerializer
+#    facet_serializer_class = serializers.ProjectFacetSerializer
+#
+#    facet_filter_backends = [ProjectFacetFilter]
+#    filter_backends = [ProjectFilter]
+#
+#    def get_queryset(self):
+#        print("B" * 100)
+#        qs = super(ProjectSearchView, self).get_queryset()
+#        return qs
+#        print(qs)
+#        raise Exception("ProjectSearchView " + "#" * 100)
 
