@@ -1,170 +1,9 @@
 function mmWebflow(js) {
-    var deepCopy = true;
-    function populateSummary(js, container) {
-        var count = parseInt(js["count"]).toLocaleString()
-        var count = formatNumber(js["count"])
-    }
-
-    function formatUnits(number) {
-        if (number >= 10**9) {
-            return "bn"
-            number = number / 10**9
-        } else if (number >= 10**6) {
-            return "mil"
-        }
-        return ""
-    }
-
-    function formatHuman(number) {
-        if (number >= 10**9) {
-            number = number / 10**9
-        } else if (number >= 10**6) {
-            number = number / 10**6;
-        } else {
-            return "R" + parseInt(number).toLocaleString();
-        }
-
-        return "R" + parseFloat(number).toFixed(1);
-    }
-
-    function formatNumber(number) {
-        return parseInt(number).toLocaleString();
-    }
-
-    function formatCurrency(decimalString) {
-        if (decimalString == null)
-            return "";
-        return "R " + Math.round(parseFloat(decimalString)).toLocaleString();
-    }
-
-    function populateList(container, template, data) {
-        var count = formatNumber(data["count"]);
-        $(".search-detail-value").text(count);
-        var dtProjects = data["results"];
-        for (var idx in dtProjects) {
-
-            var dtProject = dtProjects[idx];
-            var dtExpenditure = dtProject["expenditure"]
-
-            var newProject = template.cloneNode(deepCopy);
-            // TODO figure out a better way to reverse this url
-            newProject.href = "/infrastructure/projects/" + dtProject["id"] + "/";
-
-            $(".narrow-card_title", newProject).text(dtProject["project_description"]);
-            var divs = $("div", newProject)
-
-            divs[3].textContent = dtProject["function"]
-            divs[4].textContent = dtProject["project_type"]
-            if (dtExpenditure.length > 0) {
-                divs[6].textContent = dtExpenditure[0]["amount"];
-            } else {
-                divs[6].textContent = "Not available";
-            }
-
-            container.append(newProject);
-            
-        }
-    }
-
-    function populateSummary(container, searchQuery) {
-        var facetUrl = "/api/infrastructure/search/facets/?selected_facets=text:" + searchQuery;
-        $.ajax(facetUrl, {
-            success: function(data, textStatus, jqXHR) {
-                var provinceDropDown = $("#w-dropdown-toggle-0")
-                var itemTemplate = $(".dropdown-link", "#w-dropdown-list-0")[0].cloneNode(deepCopy)
-                $(".dropdown-link", "#w-dropdown-list-0").remove();
-
-                for (idx in data["fields"]["province"]) {
-                    var el = data["fields"]["province"][idx];
-                    var item = itemTemplate.cloneNode(deepCopy);
-                    $(".search-dropdown_label", item).text(el["text"]);
-
-                    provinceDropDown.append(item);
-                }
-
-            }
-        }) 
-    }
+    utils = mm.utils;
 
     function mmListView(js) {
-        function Sorter(dropdown) {
-            this.listeners = {};
-            this.state = null;
-            this.dropdown = dropdown; 
-            this.sortOptions = [
-                {label: "Alphabetical (a-z)", value: "project-description"},
-                {label: "Alphabetical (z-a)", value: "-project-description"},
-                {label: "Value (descending)", value: "-total_forecast_budget"},
-                {label: "Value (ascending)", value: "total_forecast_budget"},
-                {label: "Project Type (descending)", value: "-project_type"},
-                {label: "Project Type (ascending)", value: "project_type"},
-                {label: "Function (descending)", value: "-function"},
-                {label: "Function (ascending)", value: "function"},
-            ];
-        }
-
-        Sorter.prototype = {
-            initialize: function() {
-                var me = this;
-                var options = this.dropdown.find("nav .dropdown-link")
-                me.template = $(options[0]).clone();
-                options.remove();
-
-                this.sortOptions.forEach(function(el) {
-                    var option = me.template.clone();
-                    $(".dropdown-label", option).text(el.label);
-                    $(".dropdown-label", option).attr("data-option", el.value);
-                    me.dropdown.find("nav").append(option);
-                    option.on("click", function(e) {
-                        var sortField = $("div", option).data("option")
-                        me.trigger("sortchanged", sortField);
-                    })
-                })
-                
-            },
-
-            on: function(e, func) {
-                if (this.listeners[e] == undefined)
-                    this.listeners[e] = [];
-
-                this.listeners[e].push(func)
-            },
-
-            trigger: function(e, payload) {
-                for (idx in this.listeners[e]) {
-                    this.listeners[e][idx](payload);
-                }
-            }
-        }
-
-        function BarChart() {}
-
-        BarChart.prototype = {
-            setupBar: function(el, text, val) {
-                this.addTooltip(el, text)
-                $(".bar", el).css("height", val + "%")
-            },
-
-            addTooltip: function(el, text) {
-                $(".chart-tooltip", el).remove();
-                var tooltip = $("<div></div>").addClass("chart-tooltip");
-                (".bar", el).append(tooltip);
-                tooltip.append($("<div></div>").addClass("div-block-16"));
-                tooltip.append($("<div></div>").addClass("text-block-5").text(text));
-                tooltip.css("display", "none");
-                tooltip.css("visibility", "visible");
-
-                el.on("mouseover", function(e) {
-                    tooltip.show();
-                })
-                .on("mouseout", function() {
-                    tooltip.hide();
-                })
-            }
-        }
-
         function ProjectTypeBarChart(el) {
-            this.barchart = new BarChart()
+            this.barchart = new mm.BarChart()
             this.el = el;
         }
 
@@ -180,7 +19,7 @@ function mmWebflow(js) {
                     this.barchart.setupBar($(".vertical-bar_wrapper:eq(" + idx + ")", this.el), key, 0);
                 }
 
-                var typeFacet = response.facets.project_types;
+                var typeFacet = response.results.facets.type;
 
                 for (idx in typeFacet) {
                     var key = typeFacet[idx].key;
@@ -201,14 +40,16 @@ function mmWebflow(js) {
 
         FunctionBarChart.prototype = {
             
-            update: function(data) {
-                var total_count = data.count;
-                var functionFacet = data.facets.functions
+            update: function(response) {
+                var total_count = response.count;
+                var functionFacet = response.results.facets.function
                 var sortedFunctions = functionFacet.sort(function(a, b) {
                     return b.doc_count - a.doc_count;
                 })
 
-                for (var idx = 0; idx < 12; idx++) {
+                var totalBars = 12;
+
+                for (var idx = 0; idx < totalBars; idx++) {
                     if (sortedFunctions[idx] != undefined) {
                         f = sortedFunctions[idx]
                         var label = f.key;
@@ -332,7 +173,6 @@ function mmWebflow(js) {
                 fields.forEach(function(option) {
                     option.fieldName = fieldName;
                     option.text = option.key;
-                    option.count = option.doc_count;
                     me.createOption(option, function(payload) {
                         me.trigger("selectedoption", payload);
                     });
@@ -391,7 +231,7 @@ function mmWebflow(js) {
             createUrl: function() {
                 this.params = new URLSearchParams();
                 if (this.query != "" && this.query != undefined)
-                    this.params.set("search", this.query);
+                    this.params.set("q", this.query);
 
                 for (key in this.selectedFacets) {
                     var paramValue = this.selectedFacets[key];
@@ -409,7 +249,8 @@ function mmWebflow(js) {
 
         function ListView() {
             var me = this;
-            this.search = new Search("/search/projects");
+            //this.search = new Search("/search/projects");
+            this.search = new Search("/search/new_search/");
             this.searchState = {
                 baseLocation: "/search/projects/",
                 facetsLocation: "/search/projects/",
@@ -423,7 +264,7 @@ function mmWebflow(js) {
                 loadingSpinner: $(".loading-spinner"), // TODO check this
             };
 
-            this.sorter = new Sorter($("#sorting-dropdown"));
+            this.sorter = new mm.Sorter($("#sorting-dropdown"));
             this.sorter.initialize();
             this.sorter.on("sortchanged", function(payload) {
                 me.search.addOrder(payload);
@@ -521,11 +362,11 @@ function mmWebflow(js) {
                 this.typeBarChart.update(response);
                 this.functionBarChart.update(response);
 
-                var facets = response.facets
-                this.provinceDropDown.updateDropdown(response.facets.provinces, "province", "Provinces");
-                this.municipalityDropDown.updateDropdown(response.facets.municipalities, "municipality", "Municipalities");
-                this.typeDropDown.updateDropdown(response.facets.project_types, "project_type", "Project Types");
-                this.functionDropDown.updateDropdown(response.facets.functions, "function", "Government Functions");
+                var facets = response.results.facets
+                this.provinceDropDown.updateDropdown(facets.province, "province", "Provinces");
+                this.municipalityDropDown.updateDropdown(facets.municipality, "municipality", "Municipalities");
+                this.typeDropDown.updateDropdown(facets.type, "project_type", "Project Types");
+                this.functionDropDown.updateDropdown(facets.function, "function", "Government Functions");
 
                 // TODO Hack to ensure unit is on the same line as the value
                 $(".search-detail__amount").css("display", "flex");
@@ -584,20 +425,34 @@ function mmWebflow(js) {
         }
 
         function normaliseResponse(response) {
-            response.count = response.facets._filter_province.doc_count;
-            var facets = response.facets;
+            var facets = response.results.facets;
 
-            facets.provinces = response.facets._filter_province.province.buckets;
-            facets.municipalities = response.facets._filter_municipality.municipality.buckets;
-            facets.project_types = response.facets._filter_project_type.project_type.buckets;
-            facets.functions = response.facets._filter_functions.functions.buckets;
-
-            ["provinces", "municipalities", "project_types", "functions"].forEach(function(el) {
+            ["province", "municipality", "type", "function"].forEach(function(el) {
                 var facet = facets[el];
                 facet.forEach(function(el2) {
-                    el2.count = el2.doc_count;
                     el2.label = el2.key;
                 });
+            })
+
+            response.results.projects.forEach(function(project) {
+                // TODO figure out where to put these
+                var budget_phase = "Full Year Forecast";
+                var financial_year = "2018/2019";
+                project.total_forecast_budget = 0;
+
+                if (project.expenditure.length > 0) {
+                    var expenditures = project.expenditure.filter(function(exp) {
+                        return exp.financial_year.budget_year == financial_year
+                    })
+
+                    expenditures = expenditures.filter(function(exp) {
+                        return exp.budget_phase.name == budget_phase; 
+                    })
+
+                    if (expenditures.length > 0)
+                        project.total_forecast_budget = expenditures[0].amount;
+                }
+
             })
 
             return response;
@@ -645,21 +500,21 @@ function mmWebflow(js) {
         }
 
         function showResults(response) {
-            $("#num-matching-projects-field").text(formatNumber(response.count));
-            $("#search-total-forecast").text(formatHuman(response.facets._filter_total_budget.total_budget.value));
-            $(".search-detail__amount .units-label").text(formatUnits(response.facets._filter_total_budget.total_budget.value));
+            $("#num-matching-projects-field").text(utils.formatNumber(response.count));
+            $("#search-total-forecast").text(utils.formatHuman(response.results.aggregations.total));
+            $(".search-detail__amount .units-label").text(utils.formatUnits(response.results.aggregations.total));
             var resultItem = mmListView.resultRowTemplate.clone();
 
-            if (response.results.length) {
+            if (response.results.projects.length) {
                 listView.clearProjectResults();
                 listView.searchState.noResultsMessage.hide();
-                response.results.forEach(function(project) {
+                response.results.projects.forEach(function(project) {
                     var resultItem = mmListView.resultRowTemplate.clone();
                     resultItem.attr("href", buildProjectUrl(project));
                     resultItem.find(".narrow-card_title-2").html(project.project_description);
                     resultItem.find(".narrow-card_middle-column-2:first div").html(project.function);
                     resultItem.find(".narrow-card_middle-column-2:last").html(project.project_type);
-                    var amount = "R" + formatNumber(project.total_forecast_budget);
+                    var amount = "R" + utils.formatNumber(project.total_forecast_budget);
                     resultItem.find(".narrow-card_last-column-2").html(amount);
                     $("#result-list-container").append(resultItem);
                 });
@@ -792,10 +647,6 @@ function mmWebflow(js) {
             }
         }
 
-        function formatCurrency(amount) {
-            return "R" + parseInt(amount).toLocaleString();
-        }
-
         // TODO change the budget year label currently hardcoded to specific years in the template
         function setFinanceValue(selector, expenses, phase) {
             if (expenses.length == 0)
@@ -805,7 +656,7 @@ function mmWebflow(js) {
                     var e = expenses[idx];    
                     if (e["budget_phase"] != undefined)
                         if (e["budget_phase"]["name"] == phase)
-                            return setValue(selector, formatCurrency(e["amount"]))
+                            return setValue(selector, utils.formatCurrency(e["amount"]))
                 }
                 return setValue(selector, "");
             }
