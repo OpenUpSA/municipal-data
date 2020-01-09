@@ -46,6 +46,8 @@ class Project(models.Model):
     longitude = models.FloatField(null=True)
     latitude = models.FloatField(null=True)
 
+    objects = ProjectManager()
+
     def __str__(self):
         return "%s - %s" % (self.geography, self.project_description)
 
