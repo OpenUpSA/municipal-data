@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 from scorecard.models import Geography
 
 class FinancialYear(models.Model):
@@ -13,6 +14,22 @@ class BudgetPhase(models.Model):
 
     def __str__(self):
         return self.name 
+
+class ProjectQuerySet(models.QuerySet):
+    def total_value(self, budget_year, budget_phase):
+        qs = self
+        res = (
+            Expenditure.objects
+                .filter(financial_year__budget_year=budget_year, budget_phase__name=budget_phase, project__in=qs)
+                .aggregate(total=Sum("amount"))
+        )
+
+        return res["total"]
+
+class ProjectManager(models.Manager):
+    def get_queryset(self):
+        return ProjectQuerySet(self.model, using=self._db)
+
 
 class Project(models.Model):
     geography = models.ForeignKey(Geography, on_delete=models.CASCADE, null=False, related_name="geographies")
