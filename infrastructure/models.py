@@ -1,6 +1,10 @@
 from django.db import models
 from django.db.models import Sum
+from django.contrib.postgres.search import SearchVectorField
+from django.contrib.postgres.indexes import GinIndex
+
 from scorecard.models import Geography
+
 
 class FinancialYear(models.Model):
     budget_year = models.CharField(max_length=10)
@@ -29,6 +33,9 @@ class ProjectQuerySet(models.QuerySet):
 class ProjectManager(models.Manager):
     def get_queryset(self):
         return ProjectQuerySet(self.model, using=self._db)
+        # return ProjectQuerySet(self.model, using=self._db).prefetch_related(
+        #     "expenditure", "expenditure__financial_year", "expenditure__budget_phase"
+        # )
 
 
 class Project(models.Model):
@@ -46,7 +53,12 @@ class Project(models.Model):
     longitude = models.FloatField(null=True)
     latitude = models.FloatField(null=True)
 
+    content_search = SearchVectorField(null=True)
+
     objects = ProjectManager()
+
+    class Meta:
+        indexes = [GinIndex(fields=["content_search"])]
 
     def __str__(self):
         return "%s - %s" % (self.geography, self.project_description)
