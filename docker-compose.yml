@@ -59,19 +59,6 @@ services:
     ports:
       - '5433:5432'
 
-  elasticsearch:
-    image: elasticsearch:7.4.2
-    container_name: elasticsearch
-    environment:
-      - node.name=elasticsearch
-      - discovery.type=single-node
-    networks:
-      - munimoney
-    volumes:
-      - munimoney_search=/usr/share/elasticsearch/data
-    ports:
-      - "9200:9200"
-
 networks:
     munimoney:
         driver: bridge
