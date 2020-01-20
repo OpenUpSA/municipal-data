@@ -1,3 +1,4 @@
+{% load staticfiles pipeline %}
 <!DOCTYPE html>
 <!--  This site was created in Webflow. http://www.webflow.com  -->
 <!--  Last Published: Fri Nov 29 2019 11:31:51 GMT+0000 (Coordinated Universal Time)  -->
@@ -657,7 +658,7 @@
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js" crossorigin=""></script>
-<script src="/static/js/mm-webflow.js"></script>
+{% javascript "infrastructure" %}
 <script>
     $(document).ready(function() {
         var pageData = {{ page_data_json|safe }}

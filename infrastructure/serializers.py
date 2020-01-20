@@ -1,10 +1,6 @@
 from rest_framework import serializers
-#from drf_haystack.serializers import HaystackSerializer
-#from drf_haystack.serializers import HaystackFacetSerializer
-#from drf_haystack.serializers import HaystackSerializerMixin
 
 from . import models
-#from . import search_indexes
 from scorecard.serializers import GeographySerializer
 
 
@@ -36,28 +32,3 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = models.Project
         fields = "__all__"
 
-#Class ProjectSearchSerializer(HaystackSerializerMixin, ProjectSerializer):
-#
-#    class Meta(ProjectSerializer.Meta):
-#        index_classes = [search_indexes.ProjectIndex]
-#
-#        search_fields = ("text",) 
-#
-
-#class ProjectFacetSerializer(HaystackFacetSerializer):
-#
-#    serialize_objects = True
-#
-#    class Meta:
-#        index_classes = [search_indexes.ProjectIndex]
-#        fields = ["function", "project_type", "asset_class", "asset_subclass", "province"]
-#        field_options = {
-#            "function" : {},
-#            "project_type" : {},
-#            "asset_class" : {},
-#            "asset_subclass" : {},
-#            "province" : {},
-#            "geography_name" : {},
-#            "geo_code" : {},
-#            "geo_parent" : {},
-#        }

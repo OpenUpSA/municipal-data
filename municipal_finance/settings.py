@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     "municipal_finance",
     "scorecard",
     "infrastructure",
+    
     "django.contrib.sites",
     "django.contrib.contenttypes",
     "django.contrib.humanize",
@@ -50,18 +51,15 @@ INSTALLED_APPS = (
     "pipeline",
     "django_extensions",
     "corsheaders",
-    "django_elasticsearch_dsl",
-    "django_elasticsearch_dsl_drf",
+
     "rest_framework",
-    "search_indexes",
 )
 
 # Sites
 # 2: Scorecard
 # 3: API
 
-if DEBUG:
-    SITE_ID = int(os.environ.get("SITE_ID", "2"))
+SITE_ID = int(os.environ.get("SITE_ID", "2"))
 
 API_BASE = "https://municipaldata.treasury.gov.za"
 API_URL = os.environ.get("API_URL", API_BASE + "/api")
@@ -291,6 +289,15 @@ PIPELINE = {
             ),
             "output_filename": "scorecard.js",
         },
+        "infrastructure": {
+            "source_filenames": (
+                "js/utils.js",
+                "js/sorter.js",
+                "js/barchart.js",
+                "js/mm-webflow.js",
+            ),
+            "output_filename": "infrastructure.js"
+        }
     },
     "CSS_COMPRESSOR": None,
     "JS_COMPRESSOR": None,
@@ -334,10 +341,4 @@ REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 150,
-}
-
-ELASTICSEARCH_DSL={
-    "default": {
-        "hosts": os.environ.get("ELASTICSEARCH_URL", "elasticsearch:9200")
-    },
 }

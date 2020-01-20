@@ -6,5 +6,4 @@ router = routers.DefaultRouter()
 router.register(r'financial_years', views.FinancialYearViewSet)
 router.register(r'budget_phases', views.BudgetPhaseViewSet)
 router.register(r'projects', views.ProjectViewSet)
-
 urlpatterns = router.urls

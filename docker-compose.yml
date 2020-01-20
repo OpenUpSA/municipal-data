@@ -14,6 +14,7 @@ services:
     environment:
       DATABASE_URL: 'postgres://postgres@postgres/municipal_finance'
       BABBAGE_TEST_DB: 'postgres://postgres@postgres/babbage'
+      DJANGO_SECRET_KEY: "dgdsfjdhfkjdshfdkfhdskfhjkdfhdsjhfkdjfdhk"
       SITE_ID: '3'
       PRELOAD_CUBES: 'true'
       API_URL: https://municipaldata.treasury.gov.za/api
@@ -32,7 +33,7 @@ services:
       - '../datasets:/data'
     environment:
       DATABASE_URL: 'postgres://postgres@postgres/municipal_finance'
-      HAYSTACK_URL: 'http://elasticsearch:9200/'
+      DJANGO_SECRET_KEY: "dgdsfjdhfkjdshfdkfhdskfhjkdfhdsjhfkdjfdhk"
       BABBAGE_TEST_DB: 'postgres://postgres@potgres/babbage'
       SITE_ID: '2'
       API_URL: https://municipaldata.treasury.gov.za/api
