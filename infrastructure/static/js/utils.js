@@ -4,7 +4,6 @@ mm.utils = mm.utils || {
     formatUnits: function(number) {
         if (number >= 10**9) {
             return "bn"
-            number = number / 10**9
         } else if (number >= 10**6) {
             return "mil"
         }

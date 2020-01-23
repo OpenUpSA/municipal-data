@@ -72,6 +72,7 @@ urlpatterns = [
     #        content_type="text/plain",
     #        status=404
     #    )
-    #),
-    url(r'^search/new_search', infrastructure.views.ProjectSearch.as_view())
+    # ),
+    url(r"^search/new_search", infrastructure.views.ProjectSearch.as_view()),
+    url(r"^search/projects", infrastructure.views.GeoProject.as_view()),
 ]

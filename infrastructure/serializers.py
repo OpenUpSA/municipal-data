@@ -32,3 +32,10 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = models.Project
         fields = "__all__"
 
+
+class GeoProjectSerializer(serializers.ModelSerializer):
+    expenditure = ExpenditureSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = models.Project
+        fields = ("project_description", "latitude", "longitude", "expenditure")

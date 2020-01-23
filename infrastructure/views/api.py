@@ -34,6 +34,40 @@ class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
             context["full"] = True
         return context
 
+
+class GeoProject(generics.ListAPIView):
+    queryset = models.Project.objects.prefetch_related(
+        "expenditure", "expenditure__budget_phase", "expenditure__financial_year"
+    ).all()
+    serializer_class = serializers.GeoProjectSerializer
+
+    fieldmap = {
+        "municipality": "geography__name",
+        "function": "function",
+        "type": "project_type",
+        "province": "geography__province_name",
+        "budget_phase": "expenditure__budget_phase__name",
+        "financial_year": "expenditure__financial_year__budget_year",
+    }
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        queryset = self.filters(queryset, request.GET)
+
+        serializer_class = self.get_serializer_class()
+        serializer = serializer_class(queryset, many=True)
+
+        return Response({"projects": serializer.data})
+
+    def filters(self, queryset, params):
+        query_dict = {}
+        for k, v in ProjectSearch.fieldmap.items():
+            if k in params:
+                query_dict[v] = params[k]
+
+        return queryset.filter(**query_dict)
+
+
 class ProjectSearch(generics.ListCreateAPIView):
     queryset = models.Project.objects.all()
     serializer_class = serializers.ProjectSerializer
@@ -42,16 +76,17 @@ class ProjectSearch(generics.ListCreateAPIView):
         "municipality": "geography__name",
         "function": "function",
         "type": "project_type",
-        "province": "geography__province_name"
+        "province": "geography__province_name",
+        "budget_phase": "expenditure__budget_phase__name",
+        "financial_year": "expenditure__financial_year__budget_year",
     }
 
     order_fields = {
         "project_description": "project_description",
-        "total_forecast_budget": "project_description", # TODO still needs to be implemented
+        "total_forecast_budget": "expenditure__amount",
         "type": "project_type",
         "function": "function",
     }
-
 
     def list(self, request):
         search_query = request.GET.get("q", "")
@@ -83,8 +118,8 @@ class ProjectSearch(generics.ListCreateAPIView):
 
     def aggregations(self, qs, params):
         # TODO - not sure where to put these magic values
-        financial_year = params.get("financial_year", "2017/2018")
-        budget_phase = params.get("budget_phase", "Audited Outcome")
+        financial_year = params.get("financial_year", "2019/2020")
+        budget_phase = params.get("budget_phase", "Budget Year")
 
         return {
             "total": qs.total_value(financial_year, budget_phase)
@@ -92,6 +127,9 @@ class ProjectSearch(generics.ListCreateAPIView):
         }
 
     def add_filters(self, qs, params):
+        """
+        Going to hard code params for budget phase and financial year,
+        """
         query_dict = {}
         for k, v in ProjectSearch.fieldmap.items():
             if k in params:
