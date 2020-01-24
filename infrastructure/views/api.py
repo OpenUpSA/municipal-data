@@ -23,8 +23,13 @@ class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.ProjectSerializer
 
     def get_queryset(self):
-        queryset = models.Project.objects.all()
-        geo = self.request.query_params.get('geo', None)
+        queryset = models.Project.objects.prefetch_related(
+            "geography",
+            "expenditure",
+            "expenditure__budget_phase",
+            "expenditure__financial_year",
+        ).all()
+        geo = self.request.query_params.get("geo", None)
         if geo is not None:
             queryset = queryset.filter(geography__geo_code=geo)
         return queryset
@@ -70,7 +75,12 @@ class GeoProject(generics.ListAPIView):
 
 
 class ProjectSearch(generics.ListCreateAPIView):
-    queryset = models.Project.objects.all()
+    queryset = models.Project.objects.prefetch_related(
+        "expenditure",
+        "expenditure__budget_phase",
+        "expenditure__financial_year",
+        "geography",
+    ).all()
     serializer_class = serializers.ProjectSerializer
     pagination_class = PageNumberPagination
     fieldmap = {
