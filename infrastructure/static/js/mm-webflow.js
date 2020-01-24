@@ -547,10 +547,36 @@ function mmWebflow(js) {
                     //console.log("Ignoring longitude " + longitude);
                     return;
                 }
+		var budget_phase = "Budget year";
+		var financial_year = "2019/2020";
+		var expenditures;
+		if (project.expenditure.length > 0) {
+                    expenditures = project.expenditure.filter(function(exp) {
+                        return exp.financial_year.budget_year == financial_year;
+                    });
+		    
+                    expenditures = expenditures.filter(function(exp) {
+                        return exp.budget_phase.name == budget_phase; 
+                    });
+                    // if (expenditures.length > 0)
+                    //     project.total_forecast_budget = expenditures[0].amount;
+                }
+		var markerText = 'not avaliable';
+		if (expenditures.length > 0){
+		    var units = utils.formatUnits(expenditures[0].amount);
+		    var numberFormat = utils.formatHuman(expenditures[0].amount);
+		    markerText = project.project_description + '<br><a target="_blank" href="' +
+		    buildProjectUrl(project) + '">Jump to project</a></br>' +
+		    "<br>" + "Budget: " + numberFormat + units + "</br>";
+		}else{
+		    markerText = project.project_description + '<br><a target="_blank" href="' +
+		    buildProjectUrl(project) + '">Jump to project</a></br>' +
+		    "<br>" + "Budget: Not Avaliable" +  + "</br>";
+		}
+
 
                 var marker = L.marker([latitude, longitude])
-                    .bindPopup(project.project_description + '<br><a target="_blank" href="' +
-                               buildProjectUrl(project) + '">Jump to project</a>');
+                    .bindPopup(markerText);
                 markers.push(marker);
             });
             if (markers.length && resetBounds) {
