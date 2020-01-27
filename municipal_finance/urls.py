@@ -12,18 +12,35 @@ from . import views
 API_CACHE_SECS = 12 * 60 * 60
 
 urlpatterns = [
-    url(r'^$', cache_page(API_CACHE_SECS)(views.index), name='homepage'),
-    url(r'^docs$', cache_page(API_CACHE_SECS)(views.docs)),
-    url(r'^terms', TemplateView.as_view(template_name='terms.html'), name='terms'),
-    url(r'^table/(?P<cube_name>[\w_]+)/$', views.table, name='table'),
-    url(r'^api/?$', views.api_root),
-    url(r'^api/status$', views.status),
-    url(r'^api/cubes/?$', cache_page(API_CACHE_SECS)(views.cubes)),
-    url(r'^api/cubes/(?P<cube_name>[\w_]+)/?$', cache_page(API_CACHE_SECS)(views.cube_root)),
-    url(r'^api/cubes/(?P<cube_name>[\w_]+)/model$', cache_page(API_CACHE_SECS)(views.model)),
-    url(r'^api/cubes/(?P<cube_name>[\w_]+)/aggregate$', cache_page(API_CACHE_SECS)(views.aggregate)),
-    url(r'^api/cubes/(?P<cube_name>[\w_]+)/facts$', cache_page(API_CACHE_SECS)(views.facts)),
-    url(r'^api/cubes/(?P<cube_name>[\w_]+)/members/?$', cache_page(API_CACHE_SECS)(views.members_root)),
-    url(r'^api/cubes/(?P<cube_name>[\w_]+)/members/(?P<member_ref>[\w_.]+)$', cache_page(API_CACHE_SECS)(views.members)),
-
+    url(r"^$", cache_page(API_CACHE_SECS)(views.index), name="homepage"),
+    url(r"^docs$", cache_page(API_CACHE_SECS)(views.docs)),
+    url(r"^terms", TemplateView.as_view(template_name="terms.html"), name="terms"),
+    url(r"^table/(?P<cube_name>[\w_]+)/$", views.table, name="table"),
+    url(r"^api/?$", views.api_root),
+    url(r"^api/status$", views.status),
+    url(r"^api/cubes/?$", cache_page(API_CACHE_SECS)(views.cubes)),
+    url(
+        r"^api/cubes/(?P<cube_name>[\w_]+)/?$",
+        cache_page(API_CACHE_SECS)(views.cube_root),
+    ),
+    url(
+        r"^api/cubes/(?P<cube_name>[\w_]+)/model$",
+        cache_page(API_CACHE_SECS)(views.model),
+    ),
+    url(
+        r"^api/cubes/(?P<cube_name>[\w_]+)/aggregate$",
+        cache_page(API_CACHE_SECS)(views.aggregate),
+    ),
+    url(
+        r"^api/cubes/(?P<cube_name>[\w_]+)/facts$",
+        cache_page(API_CACHE_SECS)(views.facts),
+    ),
+    url(
+        r"^api/cubes/(?P<cube_name>[\w_]+)/members/?$",
+        cache_page(API_CACHE_SECS)(views.members_root),
+    ),
+    url(
+        r"^api/cubes/(?P<cube_name>[\w_]+)/members/(?P<member_ref>[\w_.]+)$",
+        cache_page(API_CACHE_SECS)(views.members),
+    ),
 ]

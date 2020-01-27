@@ -7,16 +7,20 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 from rest_framework.response import Response
 
+
 from .. import models
 from .. import serializers
+
 
 class FinancialYearViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.FinancialYear.objects.all()
     serializer_class = serializers.FinancialYearSerializer
 
+
 class BudgetPhaseViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.BudgetPhase.objects.all()
     serializer_class = serializers.BudgetPhaseSerializer
+
 
 class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Project.objects.all()
@@ -59,9 +63,10 @@ class GeoProject(generics.ListAPIView):
     def list(self, request):
         queryset = self.get_queryset()
         queryset = self.filters(queryset, request.GET)
-
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(queryset, many=True)
+
+        # return self.get_paginated_response(serializer.data)
 
         return Response({"projects": serializer.data})
 
@@ -116,15 +121,15 @@ class ProjectSearch(generics.ListCreateAPIView):
         data = {
             "projects": serializer.data,
             "facets": facets,
-            "aggregations": aggregations
-        } 
+            "aggregations": aggregations,
+        }
 
         return self.get_paginated_response(data)
 
     def text_search(self, qs, text):
         if len(text) == 0:
             return qs
-        
+
         return qs.filter(content_search=SearchQuery(text))
 
     def aggregations(self, qs, params):
@@ -132,10 +137,7 @@ class ProjectSearch(generics.ListCreateAPIView):
         financial_year = params.get("financial_year", "2019/2020")
         budget_phase = params.get("budget_phase", "Budget Year")
 
-        return {
-            "total": qs.total_value(financial_year, budget_phase)
-
-        }
+        return {"total": qs.total_value(financial_year, budget_phase)}
 
     def add_filters(self, qs, params):
         """
@@ -158,12 +160,10 @@ class ProjectSearch(generics.ListCreateAPIView):
 
         return qs.order_by(f"{prefix}{order_by}")
 
-
     def get_facets(self, qs):
         def facet_query(field):
-            field_name = F(field)
-            return qs.values(key=F(field)).annotate(count=Count(field))
-
+            # field_name = F(field)
+            return qs.values(key=F(field)).annotate(count=Count(F(field)))
 
         facet_muni = facet_query("geography__name")
         facet_type = facet_query("project_type")
@@ -173,8 +173,6 @@ class ProjectSearch(generics.ListCreateAPIView):
             "municipality": facet_muni,
             "type": facet_type,
             "function": facet_function,
-            "province": facet_province
+            "province": facet_province,
         }
         return js
-
-
