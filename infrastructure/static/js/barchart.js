@@ -4,8 +4,8 @@ mm.BarChart = mm.BarChart || (function() {
 
     BarChart.prototype = {
         setupBar: function(el, text, val) {
-            this.addTooltip(el, text)
-            $(".bar", el).css("height", val + "%")
+            this.addTooltip(el, text);
+            $(".bar", el).css("height", val + "%");
         },
 
         addTooltip: function(el, text) {
@@ -22,10 +22,10 @@ mm.BarChart = mm.BarChart || (function() {
             })
             .on("mouseout", function() {
                 tooltip.hide();
-            })
+            });
         }
-    }
+    };
 
-    return BarChart
+    return BarChart;
 
-})()
+})();

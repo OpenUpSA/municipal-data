@@ -1,4 +1,4 @@
-var mm = mm || {}
+var mm = mm || {};
 mm.Sorter = mm.Sorter || (function() {
 
     var Sorter = function(dropdown) {
@@ -21,7 +21,7 @@ mm.Sorter = mm.Sorter || (function() {
     Sorter.prototype = {
         initialize: function() {
             var me = this;
-            var options = this.dropdown.find("nav .dropdown-link")
+            var options = this.dropdown.find("nav .dropdown-link");
             me.template = $(options[0]).clone();
             options.remove();
 
@@ -31,10 +31,10 @@ mm.Sorter = mm.Sorter || (function() {
                 $(".dropdown-label", option).attr("data-option", el.value);
                 me.dropdown.find("nav").append(option);
                 option.on("click", function(e) {
-                    var sortField = $("div", option).data("option")
+                    var sortField = $("div", option).data("option");
                     me.trigger("sortchanged", sortField);
-                })
-            })
+                });
+            });
             
         },
 
@@ -42,7 +42,7 @@ mm.Sorter = mm.Sorter || (function() {
             if (this.listeners[e] == undefined)
                 this.listeners[e] = [];
 
-            this.listeners[e].push(func)
+            this.listeners[e].push(func);
         },
 
         trigger: function(e, payload) {
@@ -50,9 +50,9 @@ mm.Sorter = mm.Sorter || (function() {
                 this.listeners[e][idx](payload);
             }
         }
-    }
+    };
 
     return Sorter;
-})()
+})();
 
 
