@@ -1,18 +1,18 @@
-var mm = mm || {}
+var mm = mm || {};
 
 mm.utils = mm.utils || {
     formatUnits: function(number) {
         if (number >= 10**9) {
-            return "bn"
+            return "bn";
         } else if (number >= 10**6) {
-            return "mil"
+            return "mil";
         }
-        return ""
+        return "";
     },
 
     formatHuman: function(number) {
         if (number >= 10**9) {
-            number = number / 10**9
+            number = number / 10**9;
         } else if (number >= 10**6) {
             number = number / 10**6;
         } else {
@@ -31,4 +31,4 @@ mm.utils = mm.utils || {
             return "";
         return "R " + Math.round(parseFloat(decimalString)).toLocaleString();
     }
-}
+};

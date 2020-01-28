@@ -256,7 +256,7 @@ function mmWebflow(js) {
             this.search = new Search("/search/new_search/");
             this.searchState = {
                 baseLocation: "/search/projects/",
-                //facetsLocation: "/search/projects/",
+                facetsLocation: "/search/projects/",
                 projectsLocation: "/infrastructure/projects/",
                 nextUrl: "",
                 params: new URLSearchParams(),
@@ -532,7 +532,7 @@ function mmWebflow(js) {
 
         function addMapPoints(response, resetBounds) {
             var markers = [];
-            response.projects.forEach(function(project) {
+            response.results.forEach(function(project) {
                 if (! project.latitude || ! project.longitude)
                     return;
 
