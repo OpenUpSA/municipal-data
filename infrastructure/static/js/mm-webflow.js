@@ -579,7 +579,7 @@ function mmWebflow(js) {
                     .bindPopup(markerText);
                 markers.push(marker);
             });
-            if (markers.length && resetBounds) {
+            if (markers.length) {
                 listView.searchState.markers.addLayers(markers);
                 listView.searchState.map.fitBounds(listView.searchState.markers.getBounds());
             }

@@ -12,6 +12,11 @@ from .. import models
 from .. import serializers
 
 
+class GeoPagination(PageNumberPagination):
+    page_query_param = "page"
+    page_size = 500
+
+
 class FinancialYearViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.FinancialYear.objects.all()
     serializer_class = serializers.FinancialYearSerializer
@@ -50,6 +55,7 @@ class GeoProject(generics.ListAPIView):
         "expenditure", "expenditure__budget_phase", "expenditure__financial_year"
     ).all()
     serializer_class = serializers.GeoProjectSerializer
+    pagination_class = GeoPagination
 
     fieldmap = {
         "municipality": "geography__name",
@@ -63,12 +69,14 @@ class GeoProject(generics.ListAPIView):
     def list(self, request):
         queryset = self.get_queryset()
         queryset = self.filters(queryset, request.GET)
+
+        queryset = self.paginate_queryset(queryset)
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(queryset, many=True)
 
-        # return self.get_paginated_response(serializer.data)
+        return self.get_paginated_response(serializer.data)
 
-        return Response({"projects": serializer.data})
+        # return Response({"projects": serializer.data})
 
     def filters(self, queryset, params):
         query_dict = {}
@@ -111,8 +119,9 @@ class ProjectSearch(generics.ListCreateAPIView):
         queryset = self.get_queryset()
         queryset = self.add_filters(queryset, request.GET)
         queryset = self.text_search(queryset, search_query)
-        queryset = self.order_by(queryset, order_field)
         facets = self.get_facets(queryset)
+        queryset = self.order_by(queryset, order_field)
+
         aggregations = self.aggregations(queryset, request.GET)
 
         queryset = self.paginate_queryset(queryset)
@@ -162,8 +171,7 @@ class ProjectSearch(generics.ListCreateAPIView):
 
     def get_facets(self, qs):
         def facet_query(field):
-            # field_name = F(field)
-            return qs.values(key=F(field)).annotate(count=Count(F(field)))
+            return qs.values(field).annotate(count=Count(field))
 
         facet_muni = facet_query("geography__name")
         facet_type = facet_query("project_type")

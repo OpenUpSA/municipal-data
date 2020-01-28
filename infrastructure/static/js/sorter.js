@@ -8,14 +8,15 @@ mm.Sorter = mm.Sorter || (function() {
         this.sortOptions = [
             {label: "Alphabetical (a-z)", value: "project_description"},
             {label: "Alphabetical (z-a)", value: "-project_description"},
+	    {label: "Function (descending)", value: "-function"},
+            {label: "Function (ascending)", value: "function"},
+	    {label: "Project Type (descending)", value: "-project_type"},
+            {label: "Project Type (ascending)", value: "project_type"},
             {label: "Value (descending)", value: "-total_forecast_budget"},
             {label: "Value (ascending)", value: "total_forecast_budget"},
-            {label: "Project Type (descending)", value: "-project_type"},
-            {label: "Project Type (ascending)", value: "project_type"},
-            {label: "Function (descending)", value: "-function"},
-            {label: "Function (ascending)", value: "function"},
+            
         ];
-    }
+    };
 
     Sorter.prototype = {
         initialize: function() {
