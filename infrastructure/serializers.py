@@ -56,5 +56,5 @@ class GeoProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Project
-        fields = ("project_description", "latitude", "longitude", "expenditure")
+        fields = ("id", "project_description", "latitude", "longitude", "expenditure")
         read_only_fields = ["project_description", "latitude", "longitude"]
