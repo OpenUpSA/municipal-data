@@ -379,6 +379,7 @@ function mmWebflow(js) {
                 $(".search-detail__amount").show();
                 $(".search-detail-value--placeholder").hide();
                 $(".search-detail-amount--placeholder").hide();
+		$(".dropdown-link").removeClass('active');
             }
         };
 
