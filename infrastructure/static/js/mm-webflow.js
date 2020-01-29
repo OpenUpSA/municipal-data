@@ -160,19 +160,19 @@ function mmWebflow(js) {
                 me.optionContainer.append(optionElement);
             },
 
-            updateDropdown: function(fields, fieldName, plural) {
+            updateDropdown: function(fields, fieldName, plural, field_key) {
                 var me = this;
 
                 this.clearOptions();
 
                 this.createOption({text: "All " + plural}, function(payload) {
-                    payload.fieldName = fieldName; 
+                    payload.fieldName = fieldName;
                     me.trigger("removefilters", payload);
                 });
 
                 fields.forEach(function(option) {
                     option.fieldName = fieldName;
-                    option.text = option.key;
+                    option.text = option[field_key];
                     me.createOption(option, function(payload) {
                         me.trigger("selectedoption", payload);
                     });
@@ -366,10 +366,10 @@ function mmWebflow(js) {
                 this.functionBarChart.update(response);
 
                 var facets = response.results.facets;
-                this.provinceDropDown.updateDropdown(facets.province, "province", "Provinces");
-                this.municipalityDropDown.updateDropdown(facets.municipality, "municipality", "Municipalities");
-                this.typeDropDown.updateDropdown(facets.type, "project_type", "Project Types");
-                this.functionDropDown.updateDropdown(facets.function, "function", "Government Functions");
+                this.provinceDropDown.updateDropdown(facets.province, "province", "Provinces", 'geography__province_name');
+                this.municipalityDropDown.updateDropdown(facets.municipality, "municipality", "Municipalities", "geography__name");
+                this.typeDropDown.updateDropdown(facets.type, "project_type", "Project Types", "project_type");
+                this.functionDropDown.updateDropdown(facets.function, "function", "Government Functions", 'function');
 
                 // TODO Hack to ensure unit is on the same line as the value
                 $(".search-detail__amount").css("display", "flex");
@@ -416,15 +416,16 @@ function mmWebflow(js) {
         }
 
         function buildAllCoordinatesSearchURL() {
+	    console.log(listView.search.selectedFacets);
             var params = new URLSearchParams();
 	    var budget_phase = "Budget year";
             var financial_year = "2019/2020";
-            params.set("q", $("#Infrastructure-Search-Input").val());
-            for (fieldName in listView.searchState.selectedFacets) {
-                params.set(fieldName, listView.searchState.selectedFacets[fieldName]);
-            }
-            params.set('budget_phase',budget_phase);
+            //params.set("q", $("#Infrastructure-Search-Input").val());
+	    params.set('budget_phase',budget_phase);
 	    params.set('financial_year', financial_year);
+            for (fieldName in listView.search.selectedFacets) {
+                params.set(fieldName, listView.search.selectedFacets[fieldName]);
+            }
             return listView.searchState.baseLocation + "?" + params.toString();
         }
 
