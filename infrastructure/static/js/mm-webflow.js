@@ -26,7 +26,7 @@ function mmWebflow(js) {
                     var barID = barMap[key];
                     var count = typeFacet[idx].count;
                     var val = parseInt(count / total_count * 100);
-                    var label = key + " - " + val + "%";
+                    var label = key + ": " + val + "%";
 
                     this.barchart.setupBar($(".vertical-bar_wrapper:eq(" + barID + ")", this.el), label, val);
                 }
@@ -74,7 +74,7 @@ function mmWebflow(js) {
 
             setupBar: function(idx, text, val) {
                 var self = this;
-                var label = text + " - " + val + "%";
+                var label = text + ": " + val + "%";
                 var bar = this.getBar(idx);
                 this.setBarHeight(idx, val);
                 //$(".bar", bar).css("height", val + "%")
