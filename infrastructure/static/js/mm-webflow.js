@@ -22,7 +22,7 @@ function mmWebflow(js) {
                 var typeFacet = response.results.facets.type;
 
                 for (idx in typeFacet) {
-                    var key = typeFacet[idx].key;
+                    var key = typeFacet[idx]['project_type'];
                     var barID = barMap[key];
                     var count = typeFacet[idx].count;
                     var val = parseInt(count / total_count * 100);
@@ -52,7 +52,7 @@ function mmWebflow(js) {
                 for (var idx = 0; idx < totalBars; idx++) {
                     if (sortedFunctions[idx] != undefined) {
                         f = sortedFunctions[idx];
-                        var label = f.key;
+                        var label = f['function'];
                         var count = f.count;
                         var val = parseInt(count / total_count * 100);
                         
