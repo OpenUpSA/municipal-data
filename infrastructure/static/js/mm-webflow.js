@@ -11,7 +11,7 @@ function mmWebflow(js) {
             update: function(response) {
                 var total_count = response.count;
                 var barMap = {
-                    "New": 0, "Renewal": 1, "Upgrading": 2, "": 3, 
+                    "New": 0, "Renewal": 1, "Upgrading": 2, 
                 };
 
                 for (key in barMap) {
