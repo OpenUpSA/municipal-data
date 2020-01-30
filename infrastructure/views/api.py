@@ -76,8 +76,6 @@ class GeoProject(generics.ListAPIView):
 
         return self.get_paginated_response(serializer.data)
 
-        # return Response({"projects": serializer.data})
-
     def filters(self, queryset, params):
         query_dict = {}
         for k, v in ProjectSearch.fieldmap.items():

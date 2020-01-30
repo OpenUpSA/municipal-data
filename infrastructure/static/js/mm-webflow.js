@@ -417,7 +417,6 @@ function mmWebflow(js) {
         }
 
         function buildAllCoordinatesSearchURL() {
-	    console.log(listView.search.selectedFacets);
             var params = new URLSearchParams();
 	    var budget_phase = "Budget year";
             var financial_year = "2019/2020";
