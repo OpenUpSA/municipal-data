@@ -234,8 +234,10 @@
             <div data-delay="0" id="municipality-dropdown" class="dropdown w-dropdown">
               <div class="chart-dropdown_trigger w-dropdown-toggle">
                 <div class="text-block">All Municipalities</div><img src="/static/images/dropdown-24px.svg" alt="" class="icon_16px"></div>
-              <nav class="chart-dropdown_list w-dropdown-list">
-                <div class="dropdown__search"><input type="text" class="dropdown__search-field w-input" autofocus="true" maxlength="256" name="Municipality-search" data-name="Municipality search" placeholder="Search for a municipality" id="Municipality-search"></div>
+              <nav class="chart-dropdown_list w-dropdown-list" id="muniDropdown">
+                  <div class="dropdown__search">
+		      <input id="muniInput" type="text" class="dropdown__search-field w-input" autofocus="true" maxlength="256" name="Municipality-search" data-name="Municipality search" placeholder="Search for a municipality" id="Municipality-search" onkeyup="filterFunction()">
+		  </div>
                 <a href="#" class="dropdown-link active w-inline-block">
                   <div class="search-status"></div>
                   <div class="search-dropdown_label">All Municipalities</div>
