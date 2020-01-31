@@ -44,7 +44,7 @@ function mmWebflow(js) {
                 var total_count = response.count;
                 var functionFacet = response.results.facets.function;
                 var sortedFunctions = functionFacet.sort(function(a, b) {
-                    return b.doc_count - a.doc_count;
+                    return b.count - a.count;
                 });
 
                 var totalBars = 12;
