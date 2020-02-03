@@ -60,7 +60,7 @@ class GeoProject(generics.ListAPIView):
     fieldmap = {
         "municipality": "geography__name",
         "function": "function",
-        "type": "project_type",
+        "project_type": "project_type",
         "province": "geography__province_name",
         "budget_phase": "expenditure__budget_phase__name",
         "financial_year": "expenditure__financial_year__budget_year",
@@ -97,7 +97,7 @@ class ProjectSearch(generics.ListCreateAPIView):
     fieldmap = {
         "municipality": "geography__name",
         "function": "function",
-        "type": "project_type",
+        "project_type": "project_type",
         "province": "geography__province_name",
         "budget_phase": "expenditure__budget_phase__name",
         "financial_year": "expenditure__financial_year__budget_year",
@@ -106,7 +106,7 @@ class ProjectSearch(generics.ListCreateAPIView):
     order_fields = {
         "project_description": "project_description",
         "total_forecast_budget": "expenditure__amount",
-        "type": "project_type",
+        "project_type": "project_type",
         "function": "function",
     }
 
