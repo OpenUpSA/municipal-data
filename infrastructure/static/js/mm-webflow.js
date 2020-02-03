@@ -667,7 +667,7 @@ function mmWebflow(js) {
 
         function addMarker(map, coords, message) {
             if (coords[0] != undefined && coords[1] != undefined && coords[0] != 0 && coords[1] != 0) {
-                marker = L.marker(coords).addTo(map);
+                var marker = L.marker(coords).addTo(map);
 
                 if (message != undefined) {
                     marker
@@ -720,7 +720,7 @@ function mmWebflow(js) {
         setFinanceValue($(".finances .budget2"), js["expenditure"], "Budget Year");
         setFinanceValue($(".finances .budget3"), js["expenditure"], "Budget Year");
 
-        $(".project-map iframe").remove();
+        //$(".project-map iframe").remove();
         map = createMap("project-map", js["geography"]["bbox"], [[js["latitude"], js["longitude"]]]);
         addMarker(map, [js["latitude"], js["longitude"]], js["project_description"]);
 
