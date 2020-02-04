@@ -21,9 +21,9 @@ class Migration(migrations.Migration):
             name='population',
             field=models.IntegerField(null=True),
         ),
-        migrations.RunSQL("""update scorecard_geography s
-                             set population = pop.population
-                             from population_2011 pop
-                             where pop.geo_level = s.geo_level and pop.geo_code = s.geo_code""",
-                          migrations.RunSQL.noop)
+        #migrations.RunSQL("""update scorecard_geography s
+        #                     set population = pop.population
+        #                     from population_2011 pop
+        #                     where pop.geo_level = s.geo_level and pop.geo_code = s.geo_code""",
+        #                  migrations.RunSQL.noop)
     ]

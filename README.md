@@ -87,6 +87,30 @@ Data import is still a fairly manual process leveraging the DB and a few SQL scr
 
 *Remember to run `VACUUM ANALYSE` or REINDEX tables after significant changes to ensure stats are up to date to use indices properly.*
 
+# Capital Projects
+
+## Loading new capital projects
+`python manage.py load_infrastructure_projects <municode> <filename>`
+
+- <municode> is should be one of the official municipal codes such as CPT, WC011, KZN121, etc
+- <filename> is a csv file with the following headings
+"Function","Project Description","Project Number","Type","MTSF Service Outcome","IUDF","Own Strategic Objectives","Asset Class","Asset Sub-Class","Ward Location","GPS Longitude","GPS Latitude","Audited Outcome 2017/18","Full Year Forecast 2018/19","Budget year 2019/20","Budget year 2020/21","Budget year 2021/22"
+
+## Updating the Elastic Search index
+
+Whenever new capital projects are added, the search index should be rebuilt
+`python manage.py rebuild_index`
+
+## TODO
+Currently the following columns are expected in the capital projects input files:
+
+- Audited Outcome 2017/18
+- Full Year Forecast 2018/19
+- Budget year 2019/20
+- Budget year 2020/21
+- Budget year 2021/22
+
+This will need to change once the file format is finalised
 # Standard Operating Procedure
 
 This covers how to keep the data up to date. Each quarter, as new data is released, the following needs to be done to update the data served by the API and the Citizen Scorecard. It's best to do this on a test database first and validate the results before updating the production database.

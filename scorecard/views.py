@@ -1,12 +1,20 @@
 from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
 from django.http import Http404
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from wkhtmltopdf.views import PDFResponse
 from wkhtmltopdf.utils import wkhtmltopdf
 
 from scorecard.profiles import get_profile
 from scorecard.models import Geography, LocationNotFound
+
+from . import models
+from . import serializers
+from rest_framework import viewsets
+
+class GeographyViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Geography.objects.all()
+    serializer_class = serializers.GeographySerializer
 
 
 class LocateView(TemplateView):
