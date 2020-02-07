@@ -2,6 +2,9 @@ from django.contrib.postgres.search import SearchQuery
 from django.db.models import Count, Sum
 from django.db.models import F
 
+# from django.views.decorators.cache import cache_page
+# from django.utils.decorators import method_decorator
+
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
@@ -12,9 +15,9 @@ from .. import models
 from .. import serializers
 
 
-# class GeoPagination(PageNumberPagination):
-#     page_query_param = "page"
-#     page_size = 500
+class GeoPagination(PageNumberPagination):
+    page_query_param = "page"
+    page_size = 500
 
 
 class FinancialYearViewSet(viewsets.ReadOnlyModelViewSet):
@@ -55,7 +58,7 @@ class GeoProject(generics.ListAPIView):
         "expenditure", "expenditure__budget_phase", "expenditure__financial_year"
     ).all()
     serializer_class = serializers.GeoProjectSerializer
-    # pagination_class = GeoPagination
+    pagination_class = GeoPagination
 
     fieldmap = {
         "municipality": "geography__name",
@@ -70,12 +73,12 @@ class GeoProject(generics.ListAPIView):
         queryset = self.get_queryset()
         queryset = self.filters(queryset, request.GET)
 
-        # queryset = self.paginate_queryset(queryset)
+        queryset = self.paginate_queryset(queryset)
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(queryset, many=True)
 
-        return Response({"results": serializer.data})
-        # return self.get_paginated_response(serializer.data)
+        # return Response({"results": serializer.data})
+        return self.get_paginated_response(serializer.data)
 
     def filters(self, queryset, params):
         query_dict = {}
