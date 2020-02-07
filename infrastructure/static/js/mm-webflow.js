@@ -264,7 +264,9 @@ function mmWebflow(js) {
                 map: L.map("map").setView([-30.5595, 22.9375], 4),
                 markers: L.markerClusterGroup(),
                 noResultsMessage: $("#result-list-container * .w-dyn-empty"), // TODO check this
-                loadingSpinner: $(".loading-spinner"), // TODO check this
+                loadingSpinner: $(".loading-spinner"),
+		mapPointRequest: null,
+		projectRequest: null,
             };
 
             this.sorter = new mm.Sorter($("#sorting-dropdown"));
@@ -464,11 +466,14 @@ function mmWebflow(js) {
 
         function triggerSearch(url, clearProjects) {
             listView.onLoading(clearProjects);
+	    if (listView.searchState.mapPointRequest !== null){
+		listView.searchState.mapPointRequest.abort();
+	    }
             var isEvent = (url != undefined && url.type != undefined);
             if (isEvent || url == undefined)
                 url = listView.search.createUrl();
 
-            $.get(url)
+            listView.searchState.projectRequest = $.get(url)
                 .done(function(response) {
                     response = normaliseResponse(response);
                     listView.searchState.nextUrl = response.next;
@@ -488,7 +493,7 @@ function mmWebflow(js) {
             var RESET_BOUNDS = true;
             resetBounds = resetBounds == undefined ? RESET_BOUNDS : resetBounds;
             listView.searchState.loadingSpinner.show();
-            $.get(url)
+            listView.searchState.mapPointRequest = $.get(url)
                 .done(function(response) {
                     addMapPoints(response, resetBounds);
                     if (response.next) {
@@ -498,8 +503,10 @@ function mmWebflow(js) {
                     }
                 })
                 .fail(function(jqXHR, textStatus, errorThrown) {
-                    alert("Something went wrong when loading map data. Please try again.");
-                    console.error( jqXHR, textStatus, errorThrown );
+		    if (textStatus !== 'abort'){
+			alert("Something went wrong when loading map data. Please try again.");
+			console.error( jqXHR, textStatus, errorThrown );
+		    }
                 });
         }
 
