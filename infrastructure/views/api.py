@@ -15,7 +15,7 @@ from .. import models
 from .. import serializers
 
 
-class GeoPagination(PageNumberPagination):
+class CoordinatesPagination(PageNumberPagination):
     page_query_param = "page"
     page_size = 500
 
@@ -53,36 +53,45 @@ class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
         return context
 
 
-class GeoProject(generics.ListAPIView):
+class ProjectCoordinates(generics.ListCreateAPIView):
     queryset = models.Project.objects.prefetch_related(
-        "expenditure", "expenditure__budget_phase", "expenditure__financial_year"
-    ).all()
+        "expenditure",
+        "expenditure__budget_phase",
+        "expenditure__financial_year",
+        "geography",
+    )
     serializer_class = serializers.GeoProjectSerializer
-    pagination_class = GeoPagination
+    pagination_class = CoordinatesPagination
 
     fieldmap = {
-        "municipality": "geography__name",
         "function": "function",
         "project_type": "project_type",
+        "municipality": "geography__name",
         "province": "geography__province_name",
         "budget_phase": "expenditure__budget_phase__name",
         "financial_year": "expenditure__financial_year__budget_year",
     }
 
     def list(self, request):
+        search_query = request.GET.get("q", "")
         queryset = self.get_queryset()
         queryset = self.filters(queryset, request.GET)
-
+        queryset = self.text_search(queryset, search_query)
         queryset = self.paginate_queryset(queryset)
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(queryset, many=True)
 
-        # return Response({"results": serializer.data})
         return self.get_paginated_response(serializer.data)
+
+    def text_search(self, qs, text):
+        if len(text) == 0:
+            return qs
+
+        return qs.filter(content_search=SearchQuery(text))
 
     def filters(self, queryset, params):
         query_dict = {}
-        for k, v in ProjectSearch.fieldmap.items():
+        for k, v in self.fieldmap.items():
             if k in params:
                 query_dict[v] = params[k]
 
