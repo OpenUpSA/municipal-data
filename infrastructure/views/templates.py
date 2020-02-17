@@ -1,14 +1,17 @@
 import json
+import csv
 
 from django.views.generic.base import TemplateView
 from django.urls import reverse
-
+from django.contrib.postgres.search import SearchQuery
 from . import models
 from . import api as api_views
+from django.http import HttpResponse
+
 
 class ListView(TemplateView):
 
-    template_name = 'webflow/infrastructure-search.html'
+    template_name = "webflow/infrastructure-search.html"
 
     def get_context_data(self, **kwargs):
         view = api_views.ProjectViewSet.as_view({"get" : "list"}) 
@@ -45,3 +48,87 @@ class DetailView(TemplateView):
         context['page_data_json'] = {"data" : json.dumps(project)}
         return context
 
+
+def download_csv(request):
+    """
+    Downloads csv of all the projects
+    """
+    response = HttpResponse(content_type="text/csv")
+    file_name = "infrastructure_projects.csv"
+    response["Content-Disposition"] = f"attachment;filename={file_name}"
+    csv_fields = [field.name for field in models.Project._meta.get_fields()]
+    csv_fields += [
+        "budget phase",
+        "financial year",
+        "province",
+        "municipality",
+        "amount",
+    ]
+
+    queryset = models.Project.objects.prefetch_related(
+        "geography",
+        "expenditure",
+        "expenditure__financial_year",
+        "expenditure__budget_phase",
+    )
+    queryset = filters(queryset, request.GET)
+    queryset = text_search(queryset, request.GET.get("q", ""))
+
+    writer = csv.DictWriter(response, fieldnames=csv_fields)
+    writer.writeheader()
+    for project in queryset:
+        budget_phase = request.GET.get("budget_phase", "Budget year")
+        financial_year = request.GET.get("financial_year", "2019/2020")
+        try:
+            expenditure = project.expenditure.get(
+                budget_phase__name=budget_phase,
+                financial_year__budget_year=financial_year,
+            )
+        except models.Expenditure.DoesNotExist:
+            continue
+
+        writer.writerow(
+            {
+                "province": project.geography.province_name,
+                "municipality": project.geography.name,
+                "project_number": project.project_number,
+                "project_description": project.project_description,
+                "project_type": project.project_type,
+                "function": project.function,
+                "asset_class": project.asset_class,
+                "mtsf_service_outcome": project.mtsf_service_outcome,
+                "own_strategic_objectives": project.own_strategic_objectives,
+                "iudf": project.iudf,
+                "budget phase": expenditure.budget_phase,
+                "financial year": expenditure.financial_year.budget_year,
+                "amount": expenditure.amount,
+                "latitude": project.latitude,
+                "longitude": project.longitude,
+            }
+        )
+
+    return response
+
+
+def filters(queryset, params):
+    fieldmap = {
+        "function": "function",
+        "project_type": "project_type",
+        "municipality": "geography__name",
+        "province": "geography__province_name",
+        "budget_phase": "expenditure__budget_phase__name",
+        "financial_year": "expenditure__financial_year__budget_year",
+    }
+    query_dict = {}
+    for k, v in fieldmap.items():
+        if k in params:
+            query_dict[v] = params[k]
+
+    return queryset.filter(**query_dict)
+
+
+def text_search(qs, text):
+    if len(text) == 0:
+        return qs
+
+    return qs.filter(content_search=SearchQuery(text))

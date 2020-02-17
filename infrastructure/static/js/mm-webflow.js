@@ -355,6 +355,7 @@ function mmWebflow(js) {
 			}
 			
 		    }
+		triggerSearch();
 	    },
 
             onLoading: function(clearResults) {
