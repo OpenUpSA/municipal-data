@@ -265,6 +265,7 @@ function mmWebflow(js) {
                 loadingSpinner: $(".loading-spinner"),
 		mapPointRequest: null,
 		projectRequest: null,
+		downloadCSV: "/infrastructure/download"
             };
 
             this.sorter = new mm.Sorter($("#sorting-dropdown"));
@@ -541,6 +542,14 @@ function mmWebflow(js) {
             getMapPoints(buildAllCoordinatesSearchURL());
         }
 
+	function triggerDownload(){
+	    var params = new URLSearchParams();
+	    for (fieldName in listView.search.selectedFacets) {
+                params.set(fieldName, listView.search.selectedFacets[fieldName]);
+            }
+	    return listView.searchState.downloadCSV + "?" + params.toString();
+	}
+
 	function triggerUpdateFilter(){
 	    var url = listView.search.createUrl();
 	    
@@ -673,6 +682,12 @@ function mmWebflow(js) {
         $("#Search-Button").on("click", function(){
 	    listView.search.addFacet("q", $("#Infrastructure-Search-Input").val());
 	    triggerSearch();  
+	});
+	$("#Download-Button").on("click", function(e){
+	    //e.preventDefault();
+	    var url = triggerDownload();
+	    $('#Download-Button').attr('href', url);
+	    $(this).click();
 	});
 
         $(".load-more_wrapper a").click(function(e) {
