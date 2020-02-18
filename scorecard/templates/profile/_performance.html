@@ -363,13 +363,13 @@
 			    -
 			    <a href="{% table_url "capital" year=latest.date items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Total Assets, Adjusted Budget</a>)
 			    /
-				    <a href="{% table_url "capital" year=latest.date items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Total Assets, Adjusted Budget</a>
+					    <a href="{% table_url "capital" year=latest.date items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Total Assets, Adjusted Budget</a>
 	    </ul>
-				</div>
+					</div>
 	    <div class="row">
 		<h3> Capital Projects</h3>
 		<div class="table-container">
-		    <table class="table">
+		    <table class="table table-bordered">
 			<thead>
 			    <tr>
 				<th>Project Description</th>
@@ -379,8 +379,8 @@
 			<tbody>
 			    {% for project in infrastructure %}
 			    <tr>
-				<td>{{project.name}}</td>
-				<td> R {{project.amount|intword}}</td>
+				<td>{{project.project_description}}</td>
+				<td> R {{project.expenditure__amount|intword}}</td>
 			    </tr>
 			    {% endfor %}
 			</tbody>
