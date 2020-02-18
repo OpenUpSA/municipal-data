@@ -151,8 +151,9 @@
           <div class="page-header__infra_search">
             <div class="small-detail-heading cc-mb-4 cc-ml-4">Search for a specific project:</div>
             <div class="cc-flex-h">
-              <div class="search-field_wrapper cc-mr-12"><input type="text" class="search-field w-input" maxlength="256" name="Infrastructure-Search" data-name="Infrastructure Search" placeholder="Enter a project name, location, main contractor etc." id="Infrastructure-Search-Input" required=""></div>
-              <div class="button_wrapper"><a id="Search-Button" href="#" class="button w-inline-block"><img src="/static/images/search-white-24px.svg" alt="" class="button-icon _24px"><div class="button-text xs-hide">Search</div></a></div>
+		<div class="search-field_wrapper cc-mr-12">
+		    <input type="text" class="search-field w-input" maxlength="256" name="Infrastructure-Search" data-name="Infrastructure Search" placeholder="Enter a project name, location, main contractor etc." id="Infrastructure-Search-Input" required="">
+		</div>
             </div>
             <div class="search-chips_wrapper hidden">
               <div class="search-chip">
@@ -417,7 +418,11 @@
       </div>
       <div class="row">
         <div class="col">
-          <div class="filter-buttons__wrapper">
+            <div class="filter-buttons__wrapper">
+		<a id="Search-Button" href="#" class="button w-inline-block">
+		    <img src="/static/images/search-white-24px.svg" alt="" class="button-icon _24px">
+		    <div class="button-text xs-hide">Search</div>
+		</a>
             <a id="clear-filters-button" href="#" class="clear-filters-button w-inline-block">
               <div class="clear-filter__text">Clear all filters</div>
             </a>
@@ -592,7 +597,7 @@
                 <div class="align-right">PROJECT TYPE</div>
               </div>
               <div class="narrow-card_last-header-2">
-                <div>ESTIMATED TOTAL PROJECT COST</div>
+                <div>BUDGET TOTAL</div>
               </div>
             </a>
             <a href="#" class="narrow-card_wrapper-2 w-inline-block">

@@ -252,11 +252,9 @@ function mmWebflow(js) {
 
         function ListView() {
             var me = this;
-            //this.search = new Search("/search/projects");
-            this.search = new Search("/search/new_search/");
+            this.search = new Search("/api/v1/infrastructure/search/");
             this.searchState = {
-                baseLocation: "/search/projects/",
-                facetsLocation: "/search/projects/",
+                baseLocation: "/api/v1/infrastructure/coordinates/",
                 projectsLocation: "/infrastructure/projects/",
                 nextUrl: "",
                 params: new URLSearchParams(),
@@ -281,13 +279,28 @@ function mmWebflow(js) {
 
             var removeFilters = function(payload) {
                 me.search.clearFacets(payload.fieldName);
-                triggerSearch();
             };
 
+	    var updateURLSearch = function(field,value){
+		var params = new URLSearchParams();
+		for (fieldName in listView.search.selectedFacets) {
+                    params.set(fieldName, listView.search.selectedFacets[fieldName]);
+		}
+		var queryString = params.toString();
+		var url = '?'+queryString;
+		history.pushState({
+		    field:value}, '', url);
+	    };
+
             var addFilter = function(payload) {
-                me.search.addFacet(payload.fieldName, payload.text);
-                triggerSearch();
+		var fieldName = payload.fieldName;
+		var textValue = payload.text;
+		
+                me.search.addFacet(fieldName, textValue);
+		updateURLSearch(fieldName, textValue);
+		triggerUpdateFilter();
             };
+
 
             this.provinceDropDown = new filterDropdown($("#province-dropdown"), "All Provinces");
             this.municipalityDropDown = new filterDropdown($("#municipality-dropdown"), "All Municipalities");
@@ -306,8 +319,8 @@ function mmWebflow(js) {
                 me.typeDropDown.reset();
                 me.functionDropDown.reset();
                 me.search.clearAll();
-
-                triggerSearch();
+		history.pushState({}, '','/infrastructure/projects/');
+		triggerUpdateFilter();
             });
 
         } 
@@ -320,6 +333,29 @@ function mmWebflow(js) {
             clearProjectResults: function() {
                 $("#result-list-container .narrow-card_wrapper-2").remove();
             },
+
+	    loadSearchFromUrl: function(queryString){
+		this.provinceDropDown.setEnabled(true);
+                this.municipalityDropDown.setEnabled(true);
+                this.typeDropDown.setEnabled(true);
+                this.functionDropDown.setEnabled(true);
+		const params = new URLSearchParams(queryString);
+		    for (const [key, value] of params){
+			listView.search.addFacet(key, value);
+			if (key == 'province'){
+			    $('#province-dropdown .text-block').text(value);
+			}else if (key == 'municipality'){
+			    $('#municipality-dropdown .text-block').text(value);
+			}else if (key == 'project_type'){
+			    $('#type-dropdown .text-block').text(value);
+			}else if (key == 'function'){
+			    $('#functions-dropdown .text-block').text(value);
+			}else if (key == 'q'){
+			    $('#Infrastructure-Search-Input').val(value);
+			}
+			
+		    }
+	    },
 
             onLoading: function(clearResults) {
                 if (clearResults || clearResults == undefined)
@@ -349,7 +385,25 @@ function mmWebflow(js) {
                     me.searchState.selectedFacets = {};
                 });
 
+		const queryString = window.location.search.substring(1);
+		if (queryString){
+		    this.loadSearchFromUrl(queryString);
+		}
             },
+
+	    onUpdateSearchFilter: function(response){
+		this.provinceDropDown.setEnabled(true);
+                this.municipalityDropDown.setEnabled(true);
+                this.typeDropDown.setEnabled(true);
+                this.functionDropDown.setEnabled(true);
+		this.searchState.noResultsMessage.hide();
+
+		var facets = response.results.facets;
+                this.provinceDropDown.updateDropdown(facets.province, "province", "Provinces", 'geography__province_name');
+                this.municipalityDropDown.updateDropdown(facets.municipality, "municipality", "Municipalities", "geography__name");
+                this.typeDropDown.updateDropdown(facets.type, "project_type", "Project Types", "project_type");
+                this.functionDropDown.updateDropdown(facets.function, "function", "Government Functions", 'function');
+	    },
 
             onDataLoaded: function(response) {
                 $("#num-matching-projects-field").text("");
@@ -407,7 +461,6 @@ function mmWebflow(js) {
 
         function updateFreeTextParam() {
             listView.searchState.params.set("search", $("#Infrastructure-Search-Input").val());
-            //listView.searchState.params.set("q", $("#Infrastructure-Search-Input").val());
         }
 
         function updateFacetParam() {
@@ -422,7 +475,7 @@ function mmWebflow(js) {
             var params = new URLSearchParams();
 	    var budget_phase = "Budget year";
             var financial_year = "2019/2020";
-            //params.set("q", $("#Infrastructure-Search-Input").val());
+            params.set("q", $("#Infrastructure-Search-Input").val());
 	    params.set('budget_phase',budget_phase);
 	    params.set('financial_year', financial_year);
             for (fieldName in listView.search.selectedFacets) {
@@ -483,10 +536,23 @@ function mmWebflow(js) {
                     alert("Something went wrong when searching. Please try again.");
                     console.error( jqXHR, textStatus, errorThrown );
                 });
-            // TODO re-enable
             resetMapPoints();
             getMapPoints(buildAllCoordinatesSearchURL());
         }
+
+	function triggerUpdateFilter(){
+	    var url = listView.search.createUrl();
+	    
+	    listView.searchState.projectRequest = $.get(url)
+		.done(function(response){
+		    response = normaliseResponse(response);
+		    listView.onUpdateSearchFilter(response);
+		}).fail(function(jqXHR, textStatus, errorThrown){
+		    alert("Something went wrong when searching. Please try again.");
+                    console.error( jqXHR, textStatus, errorThrown );
+		});
+	    
+	}
 
         function getMapPoints(url, resetBounds) {
             var DONT_RESET_BOUNDS = false;
@@ -600,10 +666,13 @@ function mmWebflow(js) {
                 // TODO move this into an object
                 var query = $("#Infrastructure-Search-Input").val();
                 listView.search.addSearch(query);
-                triggerSearch();
+                //triggerSearch();
             }
         });
-        $("#Search-Button").on("click", triggerSearch);
+        $("#Search-Button").on("click", function(){
+	    listView.search.addFacet("q", $("#Infrastructure-Search-Input").val());
+	    triggerSearch();  
+	});
 
         $(".load-more_wrapper a").click(function(e) {
             if (listView.searchState.nextUrl.length > 0) {

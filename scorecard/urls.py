@@ -55,7 +55,7 @@ urlpatterns = [
             content_type="text/plain",
         ),
     ),
-    url("^api/infrastructure/", include("infrastructure.urls.api")),
+    url("^api/v1/infrastructure/", include("infrastructure.urls.api")),
     url("^infrastructure/", include("infrastructure.urls.templates")),
     url("^api/geography/", include(router.urls)),
     # url(
@@ -67,6 +67,4 @@ urlpatterns = [
     #        status=404
     #    )
     # ),
-    url(r"^search/new_search", infrastructure.views.ProjectSearch.as_view()),
-    url(r"^search/projects", infrastructure.views.GeoProject.as_view()),
 ]
