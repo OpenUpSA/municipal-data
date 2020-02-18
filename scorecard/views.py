@@ -7,6 +7,7 @@ from wkhtmltopdf.utils import wkhtmltopdf
 
 from scorecard.profiles import get_profile
 from scorecard.models import Geography, LocationNotFound
+from infrastructure.models import Project
 
 from . import models
 from . import serializers
@@ -98,6 +99,27 @@ class GeographyDetailView(TemplateView):
             for change in date['changes']:
                 change['geo'] = Geography.objects.filter(
                     geo_code=change['demarcation_code']).first().as_dict()
+        project_results = []
+        infrastructure = Project.objects.prefetch_related(
+            "geography",
+            "expenditure__budget_phase",
+            "expenditure__financial_year",
+            "expenditure",
+        ).filter(
+            geography__geo_code=self.geo_code,
+            expenditure__budget_phase__name="Budget year",
+            expenditure__financial_year__budget_year="2019/2020",
+        )
+        for project in infrastructure:
+            budget = project.expenditure.get(
+                budget_phase__name="Budget year",
+                financial_year__budget_year="2019/2020",
+            )
+            project_results.append(
+                {"name": project.project_description, "amount": budget.amount}
+            )
+        project_results.sort(key=lambda p: p["amount"])
+        page_context["infrastructure"] = project_results[-5:][::-1]
 
         # is this a head-to-head view?
         if 'head2head' in self.request.GET:
