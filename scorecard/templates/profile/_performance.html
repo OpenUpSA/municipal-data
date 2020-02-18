@@ -1,5 +1,6 @@
 {% load l10n finance %}
 
+{% load humanize %} 
 <div class="section" id="performance">
     <h1><i class="fa fa-line-chart" aria-hidden="true"></i> Financial Performance</h1>
 
@@ -319,6 +320,38 @@
             {{ latest.result|absolute|formatvalue:"p" }}
             {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
           {% endif %}
+	<div class="row">
+	    <h3> Capital Projects</h3>
+	    <div class="table-container">
+		<table class="table">
+		    <thead>
+			<tr>
+			    <th>Project Description</th>
+			    <th> Budget</th>
+			</tr>
+		    </thead>
+		    <tbody>
+			{% for project in infrastructure %}
+			<tr>
+			    <td>{{project.name}}</td>
+				    <td> R {{project.amount|intword}}</td>
+			</tr>
+				    {% endfor %}
+		    </tbody>
+		</table>
+	    </div>
+			</div>
+	<div class="show-calc">
+	    <a href="#show-more-source" data-toggle="collapse" class="show-more">
+		<span class="icon">
+		    <i class="fa fa-plus" aria-hidden="true"></i>
+		</span> Show More
+	    </a>
+	</div>
+	<div class="calc collapse" id="show-more-source">
+	    <a href='/infrastructure/projects/municipality={{geography.name}}'>
+		Click here to see more projects
+	    </a>
         </div>
         <div class="indicator-description">Difference between budgeted capital expenditure and what was actually spent.</div>
         {% render_comparatives "cap_budget_diff" %}
