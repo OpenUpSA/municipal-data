@@ -114,13 +114,22 @@ class GeographyDetailView(TemplateView):
             budget = project.expenditure.get(
                 budget_phase__name="Budget year",
                 financial_year__budget_year="2019/2020",
+        infrastructure = (
+            Project.objects.prefetch_related(
+                "geography",
+                "expenditure__budget_phase",
+                "expenditure__financial_year",
+                "expenditure",
             )
-            project_results.append(
-                {"name": project.project_description, "amount": budget.amount}
+            .filter(
+                geography__geo_code=self.geo_code,
+                expenditure__budget_phase__name="Budget year",
+                expenditure__financial_year__budget_year="2019/2020",
             )
-        project_results.sort(key=lambda p: p["amount"])
-        page_context["infrastructure"] = project_results[-5:][::-1]
-
+            .order_by("-expenditure__amount")[:5]
+            .values("project_description", "expenditure__amount")
+        )
+        page_context["infrastructure"] = infrastructure
         # is this a head-to-head view?
         if 'head2head' in self.request.GET:
             page_context['head2head'] = 'head2head'
