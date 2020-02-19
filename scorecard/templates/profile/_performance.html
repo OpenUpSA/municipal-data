@@ -1,5 +1,5 @@
 {% load l10n finance %}
-{% load humanize %} 
+{% load humanize %}
 <div class="section" id="performance">
     <h1><i class="fa fa-line-chart" aria-hidden="true"></i> Financial Performance</h1>
 
@@ -310,95 +310,99 @@
 	{% else %}
 
 	<div class="row">
-		    <div class="col-sm-4">
-			    <div class="indicator-value rating rating-{{ latest.rating }}">
-			    {% if latest.result == None %}
-			    Not available
-			    <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
-			    {% else %}
-			    {{ latest.result|absolute|formatvalue:"p" }}
-			    {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
-			    {% endif %}
+	    <div class="col-sm-4">
+		<div class="indicator-value rating rating-{{ latest.rating }}">
+		    {% if latest.result == None %}
+		    Not available
+		    <div class="faq-link"><a href="/faq#info-not-available" target="blank">What does this mean?</a></div>
+		    {% else %}
+		    {{ latest.result|absolute|formatvalue:"p" }}
+		    {% if latest.result != 0 %}{{ latest.overunder }}spent{% endif %}
+		    {% endif %}
 		</div>
-			    <div class="indicator-description">Difference between budgeted capital expenditure and what was actually spent.</div>
-			    {% render_comparatives "cap_budget_diff" %}
-			    <table class="indicator-key">
-			    <tr>
-				    <td class="key-symbol rating rating-good">good</td>
-				    <td class="key-description">Up to 5%</td>
+		<div class="indicator-description">Difference between budgeted capital expenditure and what was actually spent.</div>
+		{% render_comparatives "cap_budget_diff" %}
+		<table class="indicator-key">
+		    <tr>
+			<td class="key-symbol rating rating-good">good</td>
+			<td class="key-description">Up to 5%</td>
 		    </tr>
-			    <tr>
-				    <td class="key-symbol rating rating-ave">average</td>
-				    <td class="key-description">Between 5% and 15%</td>
+		    <tr>
+			<td class="key-symbol rating rating-ave">average</td>
+			<td class="key-description">Between 5% and 15%</td>
 		    </tr>
-			    <tr>
-				    <td class="key-symbol rating rating-bad">bad</td>
-				    <td class="key-description">More than 15%</td>
+		    <tr>
+			<td class="key-symbol rating rating-bad">bad</td>
+			<td class="key-description">More than 15%</td>
 		    </tr>
 		</table>
-			    <div class="show-calc"><a href="#cap-budget-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show calculation</a></div>
+		<div class="show-calc"><a href="#cap-budget-calc" data-toggle="collapse" class="show-more"><span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span> Show calculation</a></div>
 	    </div>
-		    <div class="col-sm-4">
-			    <div class="chart-container" data-chart="column-cap_budget_diff" data-unit="percent"></div>
+	    <div class="col-sm-4">
+		<div class="chart-container" data-chart="column-cap_budget_diff" data-unit="percent"></div>
 	    </div>
-		    <div class="col-sm-4">
-			    <div class="panel panel-didyouknow">
-			    <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
-			    <div class="panel-body">
-				    <p>Capital spending includes spending on infrastructure projects like new water pipes or building a library. Underspending on a capital budget can lead to an under-delivery of basic services. This indicator looks at the percentage by which actual spending falls short of the budget for capital expenses.  Persistent underspending may be due to underresourced municipalities which cannot manage large projects on time.</p>
-				    <p>Municipalities should aim to spend at least 95 percent of their capital budgets. Failure to spend even 85 percent is a clear warning sign.</p>
-				    <a href="https://www.youtube.com/embed/L7rfUkK5PJI" class="video-link"><i class="fa fa-play fa-fw" aria-hidden="true"></i>Play video</a>
+	    <div class="col-sm-4">
+		<div class="panel panel-didyouknow">
+		    <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+		    <div class="panel-body">
+			<p>Capital spending includes spending on infrastructure projects like new water pipes or building a library. Underspending on a capital budget can lead to an under-delivery of basic services. This indicator looks at the percentage by which actual spending falls short of the budget for capital expenses.  Persistent underspending may be due to underresourced municipalities which cannot manage large projects on time.</p>
+			<p>Municipalities should aim to spend at least 95 percent of their capital budgets. Failure to spend even 85 percent is a clear warning sign.</p>
+			<a href="https://www.youtube.com/embed/L7rfUkK5PJI" class="video-link"><i class="fa fa-play fa-fw" aria-hidden="true"></i>Play video</a>
 		    </div>
 		</div>
 	    </div>
-		</div>
+	</div>
 	<div class="calc collapse" id="cap-budget-calc">
-		    <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.cap_budget_diff.ref.url }}" target="_blank">{{ indicators.cap_budget_diff.ref.title }}</a></div>
+	    <div class="ref"><span class="h5">Reference:</span> <a href="{{ indicators.cap_budget_diff.ref.url }}" target="_blank">{{ indicators.cap_budget_diff.ref.title }}</a></div>
 
-		    <h5>Formula:</h5>
-		    <ul class="formula">
-			    <li>= (Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure</li>
-			    <li>=
-			    (<a href="{% table_url "capital" year=latest.date items=4100 amountType="AUDA" %}" target="_blank">Capital item code 4100, Total Assets, Audited Actual</a>
-			    -
-			    <a href="{% table_url "capital" year=latest.date items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Total Assets, Adjusted Budget</a>)
-			    /
-					    <a href="{% table_url "capital" year=latest.date items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Total Assets, Adjusted Budget</a>
+	    <h5>Formula:</h5>
+	    <ul class="formula">
+		<li>= (Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure</li>
+		<li>=
+		    (<a href="{% table_url "capital" year=latest.date items=4100 amountType="AUDA" %}" target="_blank">Capital item code 4100, Total Assets, Audited Actual</a>
+		    -
+		    <a href="{% table_url "capital" year=latest.date items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Total Assets, Adjusted Budget</a>)
+		    /
+		    <a href="{% table_url "capital" year=latest.date items=4100 amountType="ADJB" %}" target="_blank">Capital item code 4100, Total Assets, Adjusted Budget</a>
 	    </ul>
-					</div>
-	    <div class="row">
-		<h3> Capital Projects</h3>
-		<div class="table-container">
-		    <table class="table table-bordered">
-			<thead>
-			    <tr>
-				<th>Project Description</th>
-				<th> Budget</th>
-			    </tr>
-			</thead>
-			<tbody>
-			    {% for project in infrastructure %}
-			    <tr>
-				<td>{{project.project_description}}</td>
-				<td> R {{project.expenditure__amount|intword}}</td>
-			    </tr>
-			    {% endfor %}
-			</tbody>
-		    </table>
-		</div>
+	</div>
+	<div class="row">
+	    <h3> Capital Projects</h3>
+	    <div class="table-container">
+		<table class="table table-bordered">
+		    <thead>
+			<tr>
+			    <th class="budget-table">Project Description</th>
+			    <th class="budget-table"> Budget</th>
+			</tr>
+		    </thead>
+		    <tbody>
+			{% for project in infrastructure %}
+			<tr>
+			    <td>
+				<a href="{% url 'project-detail-view' project.id %}">
+				    {{project.project_description}}
+				</a>
+			    </td>
+			    <td> R {{project.expenditure__amount|intword}}</td>
+			</tr>
+			{% endfor %}
+		    </tbody>
+		</table>
 	    </div>
-	    <div class="show-calc">
-		<a href="#show-more-source" data-toggle="collapse" class="show-more">
-		    <span class="icon">
-			<i class="fa fa-plus" aria-hidden="true"></i>
-		    </span> Show More
-		</a>
-	    </div>
-	    <div class="calc collapse" id="show-more-source">
-		<a href='/infrastructure/projects/?municipality={{geography.name}}'>
-		    Click here to see more projects
-		</a>
-            </div>
+	</div>
+	<div class="show-calc">
+	    <a href="#show-more-source" data-toggle="collapse" class="show-more">
+		<span class="icon">
+		    <i class="fa fa-plus" aria-hidden="true"></i>
+		</span> Show More
+	    </a>
+	</div>
+	<div class="calc collapse" id="show-more-source">
+	    <a href='/infrastructure/projects/?municipality={{geography.name}}'>
+		Click here to see more projects
+	    </a>
+        </div>
 	{% endif %}
 	{% endwith %}
     </div>
