@@ -199,7 +199,7 @@ function mmWebflow(js) {
             this.selectedFacets = {};
             this.params = new URLSearchParams();
             this.query = "";
-            this.order = undefined;
+            this.order = '-total_forecast_budget';
         }
 
         Search.prototype = {
@@ -265,12 +265,14 @@ function mmWebflow(js) {
                 loadingSpinner: $(".loading-spinner"),
 		mapPointRequest: null,
 		projectRequest: null,
+		downloadCSV: "/infrastructure/download"
             };
 
             this.sorter = new mm.Sorter($("#sorting-dropdown"));
             this.sorter.initialize();
             this.sorter.on("sortchanged", function(payload) {
                 me.search.addOrder(payload);
+		
                 triggerSearch();
             });
 
@@ -355,6 +357,7 @@ function mmWebflow(js) {
 			}
 			
 		    }
+		triggerSearch();
 	    },
 
             onLoading: function(clearResults) {
@@ -540,6 +543,18 @@ function mmWebflow(js) {
             getMapPoints(buildAllCoordinatesSearchURL());
         }
 
+	function triggerDownload(){
+	    var params = new URLSearchParams();
+	    var budget_phase = "Budget year";
+            var financial_year = "2019/2020";
+	    params.set('budget_phase',budget_phase);
+	    params.set('financial_year', financial_year);
+	    for (fieldName in listView.search.selectedFacets) {
+                params.set(fieldName, listView.search.selectedFacets[fieldName]);
+            }
+	    return listView.searchState.downloadCSV + "?" + params.toString();
+	}
+
 	function triggerUpdateFilter(){
 	    var url = listView.search.createUrl();
 	    
@@ -672,6 +687,12 @@ function mmWebflow(js) {
         $("#Search-Button").on("click", function(){
 	    listView.search.addFacet("q", $("#Infrastructure-Search-Input").val());
 	    triggerSearch();  
+	});
+	$("#Download-Button").on("click", function(e){
+	    //e.preventDefault();
+	    var url = triggerDownload();
+	    $('#Download-Button').attr('href', url);
+	    $(this).click();
 	});
 
         $(".load-more_wrapper a").click(function(e) {
