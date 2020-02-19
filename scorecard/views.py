@@ -125,7 +125,7 @@ class GeographyDetailView(TemplateView):
                 expenditure__financial_year__budget_year="2019/2020",
             )
             .order_by("-expenditure__amount")[:5]
-            .values("project_description", "expenditure__amount")
+            .values("project_description", "expenditure__amount", "id")
         )
         page_context["infrastructure"] = infrastructure
         # is this a head-to-head view?
