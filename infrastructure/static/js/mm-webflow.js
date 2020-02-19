@@ -199,7 +199,7 @@ function mmWebflow(js) {
             this.selectedFacets = {};
             this.params = new URLSearchParams();
             this.query = "";
-            this.order = undefined;
+            this.order = '-total_forecast_budget';
         }
 
         Search.prototype = {
@@ -272,6 +272,7 @@ function mmWebflow(js) {
             this.sorter.initialize();
             this.sorter.on("sortchanged", function(payload) {
                 me.search.addOrder(payload);
+		
                 triggerSearch();
             });
 
@@ -544,6 +545,10 @@ function mmWebflow(js) {
 
 	function triggerDownload(){
 	    var params = new URLSearchParams();
+	    var budget_phase = "Budget year";
+            var financial_year = "2019/2020";
+	    params.set('budget_phase',budget_phase);
+	    params.set('financial_year', financial_year);
 	    for (fieldName in listView.search.selectedFacets) {
                 params.set(fieldName, listView.search.selectedFacets[fieldName]);
             }

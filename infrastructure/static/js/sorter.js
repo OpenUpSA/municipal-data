@@ -33,6 +33,8 @@ mm.Sorter = mm.Sorter || (function() {
                 option.on("click", function(e) {
                     var sortField = $("div", option).data("option");
                     me.trigger("sortchanged", sortField);
+		    $('.sorting-dropdown_trigger .text-block').text(el.label);
+		    $('.sorting-dropdown_list').removeClass('w--open');
                 });
             });
             
