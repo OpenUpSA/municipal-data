@@ -775,14 +775,14 @@ function mmWebflow(js) {
         }
 
         // TODO change the budget year label currently hardcoded to specific years in the template
-        function setFinanceValue(selector, expenses, phase) {
+        function setFinanceValue(selector, expenses, phase, budget_year) {
             if (expenses.length == 0)
                 return setValue(selector, "");
             else {
                 for (var idx in expenses) {
                     var e = expenses[idx];    
                     if (e["budget_phase"] != undefined)
-                        if (e["budget_phase"]["name"] == phase)
+                        if (e["budget_phase"]["name"] == phase && e["financial_year"]['budget_year'] == budget_year)
                             return setValue(selector, utils.formatCurrency(e["amount"]));
                 }
                 return setValue(selector, "");
@@ -809,13 +809,13 @@ function mmWebflow(js) {
         var coordinates = formatCoordinates(js["latitude"], js["longitude"]);
         setValue($(".geography .coordinates"), coordinates);
 
-        setFinanceValue($(".finances .outcome"), js["expenditure"], "Audited Outcome");
-        setFinanceValue($(".finances .forecast"), js["expenditure"], "Full Year Forecast");
+        setFinanceValue($(".finances .outcome"), js["expenditure"], "Audited Outcome", "2017/2018");
+        setFinanceValue($(".finances .forecast"), js["expenditure"], "Full Year Forecast", "2018/2019");
 
         // TODO take into account the budget year
-        setFinanceValue($(".finances .budget1"), js["expenditure"], "Budget Year");
-        setFinanceValue($(".finances .budget2"), js["expenditure"], "Budget Year");
-        setFinanceValue($(".finances .budget3"), js["expenditure"], "Budget Year");
+        setFinanceValue($(".finances .budget1"), js["expenditure"], "Budget year", "2019/2020");
+        setFinanceValue($(".finances .budget2"), js["expenditure"], "Budget year", "2020/2021");
+        setFinanceValue($(".finances .budget3"), js["expenditure"], "Budget year", "2021/2022");
 
         //$(".project-map iframe").remove();
         map = createMap("project-map", js["geography"]["bbox"], [[js["latitude"], js["longitude"]]]);
