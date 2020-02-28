@@ -804,7 +804,10 @@ function mmWebflow(js) {
         setValue($(".geography .municipality, .breadcrumbs .municipality"), js["geography"]["name"]);
         setValue($(".geography .ward"), js["ward_location"]);
         // TODO remove
-        $(".breadcrumbs a").attr("href", "/infrastructure/projects");
+        $(".breadcrumbs .home").attr("href", "/infrastructure/projects");
+	$(".breadcrumbs .province").attr("href", "/infrastructure/projects?province="+ js["geography"]["province_name"]);
+	$(".breadcrumbs .municipality").attr("href", "/infrastructure/projects?province="+ js["geography"]["province_name"]+"&municipality="+ js["geography"]["name"]);
+	
 
         var coordinates = formatCoordinates(js["latitude"], js["longitude"]);
         setValue($(".geography .coordinates"), coordinates);
