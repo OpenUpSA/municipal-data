@@ -3,9 +3,9 @@ var mm = mm || {};
 mm.utils = mm.utils || {
     formatUnits: function(number) {
         if (number >= 10**9) {
-            return "bn";
+            return "billion";
         } else if (number >= 10**6) {
-            return "mil";
+            return "million";
         }
         return "";
     },
@@ -22,10 +22,13 @@ mm.utils = mm.utils || {
         return "R" + parseFloat(number).toFixed(1);
     },
 
-    formatNumber: function(number) {
-	var amount = Humanize.compactInteger(parseInt(number), 2);
-	return amount;
-        //return parseInt(number).toLocaleString();
+    formatNumber: function(number, isFormat=false) {
+	if (isFormat){
+	 var amount = Humanize.compactInteger(parseInt(number), 2);
+	return amount;   
+	}else{
+	 return parseInt(number).toLocaleString();   
+	}
     },
 
     formatCurrency: function(decimalString) {

@@ -606,7 +606,7 @@ function mmWebflow(js) {
                     resultItem.find(".narrow-card_title-2").html(project.project_description);
                     resultItem.find(".narrow-card_middle-column-2:first div").html(project.function);
                     resultItem.find(".narrow-card_middle-column-2:last").html(project.project_type);
-                    var amount = "R" + utils.formatNumber(project.total_forecast_budget);
+                    var amount = "R" + utils.formatNumber(project.total_forecast_budget, true);
                     resultItem.find(".narrow-card_last-column-2").html(amount);
                     $("#result-list-container").append(resultItem);
                 });
