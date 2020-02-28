@@ -297,12 +297,13 @@
   <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js" crossorigin=""></script>
   <script src="/static/js/utils.js"></script>
   <script src="/static/js/mm-webflow.js"></script>
-<script>
-    $(document).ready(function() {
-        var pageData = {{ page_data_json|safe }}
-        var js = JSON.parse(pageData["data"]);
-        mmWebflow(js);
-    })
-</script>
+  <script src="/static/js/humanize.js"></script>
+  <script>
+   $(document).ready(function() {
+       var pageData = {{ page_data_json|safe }}
+       var js = JSON.parse(pageData["data"]);
+       mmWebflow(js);
+   })
+  </script>
 </body>
 </html>

@@ -23,12 +23,16 @@ mm.utils = mm.utils || {
     },
 
     formatNumber: function(number) {
-        return parseInt(number).toLocaleString();
+	var amount = Humanize.compactInteger(parseInt(number), 2);
+	return amount;
+        //return parseInt(number).toLocaleString();
     },
 
     formatCurrency: function(decimalString) {
         if (decimalString == null)
             return "";
-        return "R " + Math.round(parseFloat(decimalString)).toLocaleString();
+	var value = Humanize.compactInteger(parseFloat(decimalString), 2);
+	return "R" + value;
+        //return "R " + Math.round(parseFloat(decimalString)).toLocaleString();
     }
 };
