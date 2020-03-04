@@ -2,6 +2,7 @@ from django.conf.urls import url
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 from django.conf.urls import include
+from django.contrib import admin
 
 from . import views
 
@@ -12,6 +13,7 @@ from . import views
 API_CACHE_SECS = 12 * 60 * 60
 
 urlpatterns = [
+    url('admin/', admin.site.urls),
     url(r"^$", cache_page(API_CACHE_SECS)(views.index), name="homepage"),
     url(r"^docs$", cache_page(API_CACHE_SECS)(views.docs)),
     url(r"^terms", TemplateView.as_view(template_name="terms.html"), name="terms"),
