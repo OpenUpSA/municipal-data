@@ -1,5 +1,5 @@
 import csv
-from .models import (HouseholdServiceBill, HouseholdBillIncrease,
+from .models import (HouseholdServiceTotal, HouseholdBillTotal,
                      DataSetFile, BudgetPhase,HouseholdService,
                      FinancialYear, HouseholdClass)
 from scorecard.models import Geography
@@ -33,7 +33,7 @@ def household_service_total(csv_obj):
             household_class = HouseholdClass.objects.get(name=row['Class'])
             service = HouseholdService.objects.get(name=row['Service Name'])
             total = row['Total'] if row['Total'] else None
-            HouseholdServiceBill.objects.create(
+            HouseholdServiceTotal.objects.create(
                 geography=geography,
                 financial_year=financial_year,
                 budget_phase=budget_phase,
@@ -55,7 +55,7 @@ def household_bill_total(csv_obj):
             household_class = HouseholdClass.objects.get(name=row['Class'])
             percent = row['Percent Increase'] if row['Percent Increase'] else None
             total = row['Total'] if row['Total'] else None
-            HouseholdBillIncrease.objects.create(
+            HouseholdBillTotal.objects.create(
                 geography=geography,
                 financial_year=financial_year,
                 budget_phase=budget_phase,

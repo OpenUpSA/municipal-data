@@ -6,14 +6,16 @@ from . import models
 from .forms import UploadForm
 from .upload import import_bill_data
 
-@admin.register(models.HouseholdServiceBill)
-class HouseholdBillAdmin(admin.ModelAdmin):
+@admin.register(models.HouseholdServiceTotal)
+class HouseholdServiceBillAdmin(admin.ModelAdmin):
     list_display = ('geography', 'financial_year', 'budget_phase', 'household_class','service', 'total', 'version')
+    list_filter = ('financial_year', 'budget_phase', 'household_class')
 
 
-@admin.register(models.HouseholdBillIncrease)
-class HouseholdIncreaseAdmin(admin.ModelAdmin):
+@admin.register(models.HouseholdBillTotal)
+class HouseholdBillTotalAdmin(admin.ModelAdmin):
     list_display = ('geography', 'financial_year', 'budget_phase', 'household_class', 'percent', 'total', 'version')
+    list_filter = ('financial_year', 'budget_phase', 'household_class')
 
 
 @admin.register(models.DataSetFile)
@@ -29,7 +31,11 @@ class DataSetFileAdmin(admin.ModelAdmin):
             "household.upload.import_bill_data", obj.id
         )
 
-admin.site.register(models.FinancialYear)
+
+@admin.register(models.FinancialYear)
+class FinancialYearAdmin(admin.ModelAdmin):
+    list_display = ('budget_year', 'active')
+
 admin.site.register(models.BudgetPhase)
 admin.site.register(models.HouseholdClass)
 admin.site.register(models.HouseholdService)
