@@ -1,0 +1,95 @@
+{% load static %}
+{% load l10n %}
+<div class="section" id="householdbills">
+    <h1><i class="fa fa-line-chart" aria-hidden="true"></i>Household Bills</h1>
+    <div class="indicator">
+	<h2 class="sub-heading">
+	    Monthly Total for Income Levels Over Time
+	</h2>
+	<div class="row">
+	    <div class="col-sm-8">
+		<div id="householdChart"></div>
+	    </div>
+	    <div class="col-sm-4">
+		<div class="panel panel-didyouknow">
+		    <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+		    <div class="panel-body">
+			<p>Employee-related costs are typically the largest portion of operating expenditure, but they should not grow so large that they threaten the sustainability of the operating budget.</p>
+			<p>The normal range for this indicator is between 25% - 40% of total operating expenditure.  Municipalities must guard against spending too much on staff while also making sure they have the people they need to deliver services effectively.</p>
+		    </div>
+		</div>
+	    </div>
+	</div>
+    </div>
+    <div class="indicator">
+	<h2 class="sub-heading">
+	    Monthly Bills for Middle Income Over Time
+	</h2>
+	<div class="row">
+	    <div class="col-sm-8">
+		<div id="householdMiddleChart"></div>
+	    </div>
+	    <div class="col-sm-4">
+		<div class="panel panel-didyouknow">
+		    <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+		    <div class="panel-body">
+			<p>Employee-related costs are typically the largest portion of operating expenditure, but they should not grow so large that they threaten the sustainability of the operating budget.</p>
+			<p>The normal range for this indicator is between 25% - 40% of total operating expenditure.  Municipalities must guard against spending too much on staff while also making sure they have the people they need to deliver services effectively.</p>
+		    </div>
+		</div>
+	    </div>
+	</div>
+    </div>
+    <div class="indicator">
+	<h2 class="sub-heading">
+	    Monthly Bills for Affordable Income Over Time
+	</h2>
+	<div class="row">
+	    <div class="col-sm-8">
+		<div id="householdAffordableChart"></div>
+	    </div>
+	    <div class="col-sm-4">
+		<div class="panel panel-didyouknow">
+		    <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+		    <div class="panel-body">
+			<p>Employee-related costs are typically the largest portion of operating expenditure, but they should not grow so large that they threaten the sustainability of the operating budget.</p>
+			<p>The normal range for this indicator is between 25% - 40% of total operating expenditure.  Municipalities must guard against spending too much on staff while also making sure they have the people they need to deliver services effectively.</p>
+		    </div>
+		</div>
+	    </div>
+	</div>
+    </div>
+    <div class="indicator">
+	<h2 class="sub-heading">
+	    Monthly Bills for Indigent Income Over Time
+	</h2>
+	<div class="row">
+	    <div class="col-sm-8">
+		<div id="householdIndigentChart"></div>
+	    </div>
+	    <div class="col-sm-4">
+		<div class="panel panel-didyouknow">
+		    <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+		    <div class="panel-body">
+			<p>Employee-related costs are typically the largest portion of operating expenditure, but they should not grow so large that they threaten the sustainability of the operating budget.</p>
+			<p>The normal range for this indicator is between 25% - 40% of total operating expenditure.  Municipalities must guard against spending too much on staff while also making sure they have the people they need to deliver services effectively.</p>
+		    </div>
+		</div>
+	    </div>
+	</div>
+    </div>
+    </div>
+    <script src="{% static 'js/plotly.js' %}"></script>
+    <script src="{% static 'household/js/household.js' %}"></script>
+    <script>
+     var chartData = {{ household_chart_overall|safe }};
+     var middleChartData = {{ household_chart_middle|safe }};
+     var affordableChartData = {{ household_chart_affordable|safe }};
+     var indigentChartData = {{ household_chart_indigent|safe }};
+
+     overall_chart(chartData);
+     income_chart(middleChartData, "householdMiddleChart");
+     income_chart(affordableChartData, "householdAffordableChart");
+     income_chart(indigentChartData, "householdIndigentChart");
+    </script>
+    
