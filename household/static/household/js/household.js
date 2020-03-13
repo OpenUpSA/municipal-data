@@ -1,15 +1,17 @@
+function amount_convert(value){
+    return 'R ' + value.toString();
+}
 function overall_chart(chartData){
     var data = [];   
     for (const [income, value] of Object.entries(chartData)){
 	var region = {
 	    name: income,
 	    type: 'bar',
-	    y: value.x,
-	    x:value.y,
-	    text: value.y.map(String),
+	    y: value.y,
+	    x:value.x,
+	    text: value.y.map(amount_convert),
 	    textposition: 'auto',
 	    hoverinfo:'none',
-	    orientation: 'h'
 	};
 	data.push(region);
     }
@@ -28,10 +30,12 @@ function income_chart(incomeData, chart_id){
 	    type: 'bar',
 	    y: value.y,
 	    x:value.x,
+	    hoverinfo:'text',
+	    text: value.y.map(amount_convert),
 	};
 	middleData.push(region);
     }
     var layout = {barmode: 'stack'};
-    //var config = {displayModeBar: false, responsive:true}
+    var config = {responsive:true, displayModeBar: false};
     Plotly.newPlot(chart_id, middleData, layout);
 }
