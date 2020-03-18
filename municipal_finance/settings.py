@@ -57,6 +57,7 @@ INSTALLED_APPS = (
 
     "rest_framework",
     'django_q'
+    "storages",
 )
 
 # Sites
@@ -171,7 +172,6 @@ ASSETS_URL_EXPIRE = False
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # the URL for assets
 STATIC_URL = "/static/"
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -362,3 +362,14 @@ Q_CLUSTER = {
     "bulk": 10,
     "orm": "default",
 }
+
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME", "")
+AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=86400",
+}
+
+DEFAULT_FILE_STORAGE = "municipal_finance.storage.MediaStorage"
+# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
