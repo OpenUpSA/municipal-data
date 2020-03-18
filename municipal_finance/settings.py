@@ -39,20 +39,24 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
     "municipal_finance",
     "scorecard",
     "infrastructure",
-    
+    'household',
     "django.contrib.sites",
     "django.contrib.contenttypes",
     "django.contrib.humanize",
     "django.contrib.messages",
+    'django.contrib.sessions',
     "django.contrib.staticfiles",
     "pipeline",
     "django_extensions",
     "corsheaders",
 
     "rest_framework",
+    'django_q'
 )
 
 # Sites
@@ -72,9 +76,12 @@ MIDDLEWARE = [
     "django.middleware.gzip.GZipMiddleware",
     "municipal_finance.middleware.RedirectsMiddleware",
     "municipal_finance.middleware.SiteMiddleware",
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.common.CommonMiddleware",
+    'django.contrib.messages.middleware.MessageMiddleware',
     "municipal_finance.middleware.ApiErrorHandler",
 ]
 
@@ -137,6 +144,7 @@ TEMPLATES = [
         "OPTIONS": {
             "debug": DEBUG,
             "context_processors": [
+                'django.contrib.auth.context_processors.auth',
                 "django.template.context_processors.debug",
                 "django.template.context_processors.i18n",
                 "django.template.context_processors.media",
@@ -163,6 +171,7 @@ ASSETS_URL_EXPIRE = False
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # the URL for assets
 STATIC_URL = "/static/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -342,4 +351,14 @@ REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 150,
+}
+
+Q_CLUSTER = {
+    "name": "DjangORM",
+    "workers": 2,
+    "timeout": 600,
+    "retry": 600,
+    "queue_limit": 50,
+    "bulk": 10,
+    "orm": "default",
 }
