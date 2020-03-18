@@ -2,6 +2,7 @@ import csv
 import boto3
 import io
 import tempfile
+import logging
 
 from django.conf import settings
 from .models import (
@@ -15,6 +16,9 @@ from .models import (
 )
 from scorecard.models import Geography
 from django.db import transaction
+
+
+log = logging.getLogger("household.upload")
 
 
 def amazon_s3(file_name):
@@ -49,11 +53,11 @@ def import_bill_data(id):
 
 @transaction.atomic
 def household_service_total(csv_obj):
+    log.info("Working on service totals")
     csv_file = amazon_s3(csv_obj.csv_file.name)
     with open(csv_file.name, "r") as new_file:
         reader = csv.DictReader(new_file)
         for row in reader:
-            print(row["Financial Year"])
             geography = Geography.objects.get(geo_code=row["Geography"])
             financial_year = FinancialYear.objects.get(
                 budget_year=row["Financial Year"]
@@ -71,10 +75,12 @@ def household_service_total(csv_obj):
                 service=service,
                 total=total,
             )
+    log.info("Completed working on service totals")
 
 
 @transaction.atomic
 def household_bill_total(csv_obj):
+    log.info("Working on total bill totals")
     csv_file = amazon_s3(csv_obj.csv_file.name)
     with open(csv_file.name, "r") as new_file:
         reader = csv.DictReader(new_file)
@@ -96,3 +102,4 @@ def household_bill_total(csv_obj):
                 percent=percent,
                 total=total,
             )
+    log.info("Completed working on bill totals")
