@@ -39,24 +39,24 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
-    'django.contrib.auth',
+    "django.contrib.admin",
+    "django.contrib.auth",
     "municipal_finance",
     "scorecard",
     "infrastructure",
-    'household',
+    "household",
     "django.contrib.sites",
     "django.contrib.contenttypes",
     "django.contrib.humanize",
     "django.contrib.messages",
-    'django.contrib.sessions',
+    "django.contrib.sessions",
     "django.contrib.staticfiles",
     "pipeline",
     "django_extensions",
     "corsheaders",
 
     "rest_framework",
-    'django_q'
+    "django_q",
     "storages",
 )
 
@@ -77,12 +77,12 @@ MIDDLEWARE = [
     "django.middleware.gzip.GZipMiddleware",
     "municipal_finance.middleware.RedirectsMiddleware",
     "municipal_finance.middleware.SiteMiddleware",
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.common.CommonMiddleware",
-    'django.contrib.messages.middleware.MessageMiddleware',
+    "django.contrib.messages.middleware.MessageMiddleware",
     "municipal_finance.middleware.ApiErrorHandler",
 ]
 
@@ -145,7 +145,7 @@ TEMPLATES = [
         "OPTIONS": {
             "debug": DEBUG,
             "context_processors": [
-                'django.contrib.auth.context_processors.auth',
+                "django.contrib.auth.context_processors.auth",
                 "django.template.context_processors.debug",
                 "django.template.context_processors.i18n",
                 "django.template.context_processors.media",
@@ -306,8 +306,8 @@ PIPELINE = {
                 "js/barchart.js",
                 "js/mm-webflow.js",
             ),
-            "output_filename": "infrastructure.js"
-        }
+            "output_filename": "infrastructure.js",
+        },
     },
     "CSS_COMPRESSOR": None,
     "JS_COMPRESSOR": None,
