@@ -610,6 +610,9 @@ function mmWebflow(js) {
                     resultItem.find(".narrow-card_last-column-2").html(amount);
                     $("#result-list-container").append(resultItem);
                 });
+		if (!response.next){
+		    $(".load-more_wrapper").hide();
+		}
             } else {
                 listView.searchState.noResultsMessage.show();
             }
