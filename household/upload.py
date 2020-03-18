@@ -59,6 +59,7 @@ def import_bill_data(id):
 def household_service_total(csv_obj):
     log.info("Working on service totals")
     csv_file = amazon_s3(csv_obj.csv_file.name)
+    csv_file.seek(0)
     with open(csv_file.name, "r") as new_file:
         reader = csv.DictReader(new_file)
         for row in reader:
@@ -79,6 +80,7 @@ def household_service_total(csv_obj):
                 service=service,
                 total=total,
             )
+    csv_file.close()
     log.info("Completed working on service totals")
 
 
@@ -87,10 +89,10 @@ def household_bill_total(csv_obj):
     print("Working on total bill totals")
     log.info("Working on total bill totals")
     csv_file = amazon_s3(csv_obj.csv_file.name)
+    csv_file.seek(0)
     with open(csv_file.name, "r") as new_file:
         reader = csv.DictReader(new_file)
         for row in reader:
-            print(row["Geography"])
             geography = Geography.objects.get(geo_code=row["Geography"])
             financial_year = FinancialYear.objects.get(
                 budget_year=row["Financial Year"]
@@ -108,5 +110,5 @@ def household_bill_total(csv_obj):
                 percent=percent,
                 total=total,
             )
-    print("complete")
+    csv_file.close()
     log.info("Completed working on bill totals")
