@@ -2,117 +2,122 @@
 {% load l10n %}
 <div class="section" id="householdbills">
     <h1><i class="fa fa-line-chart" aria-hidden="true"></i>Household Bills</h1>
-    <div class="indicator">
-	<h2 class="sub-heading">
-	    Monthly Total for Income Levels Over Time
-	    <span class="indicator-date"></span>
-	</h2>
-	<div class="row">
-	    <div class="col-sm-8">
-		<div class="indicator-value"></div>
-		<div class="indicator-description"></div>
-		<div id="householdChart"></div>
-	    </div>
-	    <div class="col-sm-4">
-		<div class="panel panel-didyouknow">
-		    <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
-		    <div class="panel-body">
-			<p><strong>Middle Income</strong>: Use as basis property value of R700 000, 1 000 kWh electricity and 30kl water</p>
-			<p><strong>Affordable</strong>:Use as basis property value  of R500 000 and R700 000, 500 kWh electricity and 25kl water</p>
-			<p><strong>Indigent HH receiving FBS</strong>: Use as basis property value of R 300 000, 350kWh electricity and 20kl water (50 kWh electricity and 6 kl water free)</p>
-			<p><a href="/faq#household-applicability">Click here to learn more</a></p>
+    {% if household_percent %}
+	<div class="indicator">
+	    <h2 class="sub-heading">
+		Monthly Total for Income Levels Over Time
+		<span class="indicator-date"></span>
+	    </h2>
+	    <div class="row">
+		<div class="col-sm-8">
+		    <div class="indicator-value"></div>
+		    <div class="indicator-description"></div>
+		    <div id="householdChart"></div>
+		</div>
+		<div class="col-sm-4">
+		    <div class="panel panel-didyouknow">
+			<div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+			<div class="panel-body">
+			    <p><strong>Middle Income</strong>: Use as basis property value of R700 000, 1 000 kWh electricity and 30kl water</p>
+			    <p><strong>Affordable</strong>:Use as basis property value  of R500 000 and R700 000, 500 kWh electricity and 25kl water</p>
+			    <p><strong>Indigent HH receiving FBS</strong>: Use as basis property value of R 300 000, 350kWh electricity and 20kl water (50 kWh electricity and 6 kl water free)</p>
+			    <p><a href="/faq#household-applicability">Click here to learn more</a></p>
+			</div>
 		    </div>
 		</div>
 	    </div>
 	</div>
-    </div>
-    <div class="indicator">
-	<h2 class="sub-heading">
-	    Monthly Bills for Middle Income Over Time
-	</h2>
-	<div class="indicator-value">
-	    {{household_percent.MiddleIncomeRange}}%
-	</div>
-	<div class="indicator-description">Increase from the previous year financial year</div>
-	<div class="row">
-	    <div class="col-sm-8">
-		<div id="householdMiddleChart"></div>
+	<div class="indicator">
+	    <h2 class="sub-heading">
+		Monthly Bills for Middle Income Over Time
+	    </h2>
+	    <div class="indicator-value">
+		{{household_percent.MiddleIncomeRange}}%
 	    </div>
-	    <div class="col-sm-4">
-		<div class="panel panel-didyouknow">
-		    <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
-		    <div class="panel-body">
-			<p>The Bill is made up of property rates, service charges or tariffs for electricty, water, sanitation and refuse removal and various other charges which are typically small.</p>
-			<p>
-			    It is tempting when comparing municipalities to compare the water bill or electricity bill in isolation. It is important, however, to compare the full bill. </p>
-			<p>This is because municipalities may take different strategic approaches to their funding mix. Some rely heavily on property rates, others rely on surpluses from trading services tariffs.</p>
-			<p>Some charge a lot for one service and use it to cross-subsidise another in order to keep the tariff for the second service low. The customer experiences a bill for all of the services combined and so it is only by comparing the full bill that we can get a full picture of how the different approaches work out for customers.</p> 
-			</p>
+	    <div class="indicator-description">Increase from the previous year financial year</div>
+	    <div class="row">
+		<div class="col-sm-8">
+		    <div id="householdMiddleChart"></div>
+		</div>
+		<div class="col-sm-4">
+		    <div class="panel panel-didyouknow">
+			<div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+			<div class="panel-body">
+			    <p>The Bill is made up of property rates, service charges or tariffs for electricty, water, sanitation and refuse removal and various other charges which are typically small.</p>
+			    <p>
+				It is tempting when comparing municipalities to compare the water bill or electricity bill in isolation. It is important, however, to compare the full bill. </p>
+			    <p>This is because municipalities may take different strategic approaches to their funding mix. Some rely heavily on property rates, others rely on surpluses from trading services tariffs.</p>
+			    <p>Some charge a lot for one service and use it to cross-subsidise another in order to keep the tariff for the second service low. The customer experiences a bill for all of the services combined and so it is only by comparing the full bill that we can get a full picture of how the different approaches work out for customers.</p> 
+			    </p>
+			</div>
 		    </div>
 		</div>
 	    </div>
 	</div>
-    </div>
-    <div class="indicator">
-	<h2 class="sub-heading">
-	    Monthly Bills for Affordable Income Over Time
-	</h2>
-	<div class="indicator-value">
-	    {{household_percent.AffordableRange}}%
-	</div>
-	<div class="indicator-description">Increase from the previous year financial year</div>
-	<div class="row">
-	    <div class="col-sm-8">
-		<div id="householdAffordableChart"></div>
+	<div class="indicator">
+	    <h2 class="sub-heading">
+		Monthly Bills for Affordable Income Over Time
+	    </h2>
+	    <div class="indicator-value">
+		{{household_percent.AffordableRange}}%
 	    </div>
-	    <div class="col-sm-4">
-		<div class="panel panel-didyouknow">
-		    <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
-		    <div class="panel-body">
-			<p>The basic levy is a fixed monthly charge that does not change with the amount of service consumed.</p>
-			<p>These basic levies can be important for a municipality because many  of the costs of providing a service do not change with the volume of the service provided.</p>
-			<p>Maintenance costs, for example, depend of the extent of  infrastructure to be maintained and the condition of that infrastructure. They are the same if a municipality sells a small amount of a service   
-			    or a large amount. The consumption charge is based on the amount of service consumed.</p> 
+	    <div class="indicator-description">Increase from the previous year financial year</div>
+	    <div class="row">
+		<div class="col-sm-8">
+		    <div id="householdAffordableChart"></div>
+		</div>
+		<div class="col-sm-4">
+		    <div class="panel panel-didyouknow">
+			<div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+			<div class="panel-body">
+			    <p>The basic levy is a fixed monthly charge that does not change with the amount of service consumed.</p>
+			    <p>These basic levies can be important for a municipality because many  of the costs of providing a service do not change with the volume of the service provided.</p>
+			    <p>Maintenance costs, for example, depend of the extent of  infrastructure to be maintained and the condition of that infrastructure. They are the same if a municipality sells a small amount of a service   
+				or a large amount. The consumption charge is based on the amount of service consumed.</p> 
+			</div>
 		    </div>
 		</div>
 	    </div>
 	</div>
-    </div>
-    <div class="indicator">
-	<h2 class="sub-heading">
-	    Monthly Bills for Indigent Income Over Time
-	</h2>
-	<div class="indicator-value">
-	    {{household_percent.IndigentHHreceivingFBS}}%
-	</div>
-	<div class="indicator-description">Increase from the previous year financial year</div>
-	<div class="row">
-	    <div class="col-sm-8">
-		<div id="householdIndigentChart"></div>
+	<div class="indicator">
+	    <h2 class="sub-heading">
+		Monthly Bills for Indigent Income Over Time
+	    </h2>
+	    <div class="indicator-value">
+		{{household_percent.IndigentHHreceivingFBS}}%
 	    </div>
-	    <div class="col-sm-4">
-		<div class="panel panel-didyouknow">
-		    <div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
-		    <div class="panel-body">
-			<p>The prices of many municipal inputs increase at a rate above inflation from one year to the next. For example, the salaries and wages of municipal staff often increase at a rate above inflation due to increases negotiated at the wage bargaining councils.</p>
-			<p>Municipal property rates and tariffs must increase to keep pace with increases in input prices otherwise a municipality will become financially unsustainable over time. A municipality should try to contain these costs increases by becoming more efficient over time. Some municipalities have more scope to improve efficiencies than others</p>
+	    <div class="indicator-description">Increase from the previous year financial year</div>
+	    <div class="row">
+		<div class="col-sm-8">
+		    <div id="householdIndigentChart"></div>
+		</div>
+		<div class="col-sm-4">
+		    <div class="panel panel-didyouknow">
+			<div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+			<div class="panel-body">
+			    <p>The prices of many municipal inputs increase at a rate above inflation from one year to the next. For example, the salaries and wages of municipal staff often increase at a rate above inflation due to increases negotiated at the wage bargaining councils.</p>
+			    <p>Municipal property rates and tariffs must increase to keep pace with increases in input prices otherwise a municipality will become financially unsustainable over time. A municipality should try to contain these costs increases by becoming more efficient over time. Some municipalities have more scope to improve efficiencies than others</p>
+			</div>
 		    </div>
 		</div>
 	    </div>
-	</div>
-    </div>
-    </div>
-    <script src="{% static 'household/js/plotly.js' %}"></script>
-    <script src="{% static 'household/js/household.js' %}"></script>
-    <script>
-     var chartData = {{ household_chart_overall|safe }};
-     var middleChartData = {{ household_chart_middle|safe }};
-     var affordableChartData = {{ household_chart_affordable|safe }};
-     var indigentChartData = {{ household_chart_indigent|safe }};
+        </div>
+	<script src="{% static 'household/js/plotly.js' %}"></script>
+	<script src="{% static 'household/js/household.js' %}"></script>
+	<script>
+	 var chartData = {{ household_chart_overall|safe }};
+	 var middleChartData = {{ household_chart_middle|safe }};
+	 var affordableChartData = {{ household_chart_affordable|safe }};
+	 var indigentChartData = {{ household_chart_indigent|safe }};
 
-     overall_chart(chartData);
-     income_chart(middleChartData, "householdMiddleChart");
-     income_chart(affordableChartData, "householdAffordableChart");
-     income_chart(indigentChartData, "householdIndigentChart");
-    </script>
+	 overall_chart(chartData);
+	 income_chart(middleChartData, "householdMiddleChart");
+	 income_chart(affordableChartData, "householdAffordableChart");
+	 income_chart(indigentChartData, "householdIndigentChart");
+	</script>
+    {% else %}
+	<h3> No Data Available</h3>
+    {% endif %}
+</div>
+    
     
