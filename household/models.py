@@ -53,11 +53,10 @@ class HouseholdService(models.Model):
         return self.name
 
 
+
 class HouseholdServiceTotalQuerySet(models.QuerySet):
     def active(self, geo_code):
-        return self.filter(Q(budget_phase__name='Audited Outcome') | Q(budget_phase__name='Original Budget') | Q(budget_phase__name='Budget Year'),
-                           geography__geo_code=geo_code,
-                           financial_year__active=True)
+        return self.filter(Q(budget_phase__name='Audited Outcome') | Q(budget_phase__name='Original Budget') | Q(budget_phase__name='Budget Year'),geography__geo_code=geo_code,financial_year__active=True)
 
     def middle(self):
         return self.filter(household_class__name='Middle Income Range').values('financial_year__budget_year', 'total', 'service__name')
