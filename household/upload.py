@@ -45,9 +45,12 @@ def import_bill_data(id):
     csv_obj = DataSetFile.objects.get(id=id)
     if csv_obj.file_type == "Service":
         household_service_total(csv_obj)
+        log.info("Found correct csv Service bill, moving to Service Total")
     elif csv_obj.file_type == "Bill":
+        log.info("Found correct bill, moving to Bill Totals")
         household_bill_total(csv_obj)
     else:
+        log.error("Unknown household csv type")
         raise Exception("csv type unknown")
 
 
