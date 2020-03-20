@@ -69,8 +69,8 @@
       <ul class="nav nav-pills" id="page-nav">
         <li role="presentation" class="active"><a href="#performance"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i><br><span class="nav-text">Financial<br>Performance</span></a></li>
         <li role="presentation"><a href="#income"><i class="fa fa-money fa-2x" aria-hidden="true"></i><br><span class="nav-text">Income</span></a></li>
-	<li role="presentation"><a href="#householdbills"><i class="fa fa-credit-card fa-2x" aria-hidden="true"></i><br><span class="nav-text">Household Bills</span></a></li>
         <li role="presentation"><a href="#spending"><i class="fa fa-credit-card fa-2x" aria-hidden="true"></i><br><span class="nav-text">Spending</span></a></li>
+	<li role="presentation"><a href="#householdbills"><i class="fa fa-credit-card fa-2x" aria-hidden="true"></i><br><span class="nav-text">Household Bills</span></a></li>
         <li role="presentation"><a href="#resources"><i class="fa fa-book fa-2x" aria-hidden="true"></i><br><span class="nav-text">Resources</span></a></li>
         <li role="presentation" class="pull-right hidden-xs"><a href="/profiles/{{ geography.geo_level }}-{{ geography.geo_code }}-{{ geography.slug }}.pdf" target="_blank" rel="alternate" type="application/pdf"><i class="fa fa-print fa-2x" area-hidden="true"></i><br><span class="nav-text">Print PDF</span></a></li>
         <li role="presentation" class="pull-right hidden-xs"><a href="#" class="twitter-share"><i class="fa fa-twitter fa-2x" area-hidden="true"></i><br><span class="nav-text">Tweet</span></a></li>
@@ -132,9 +132,10 @@
 
 {% include 'profile/_performance.html' %}
 {% include 'profile/_income.html' %}
-{% include 'household/_household_bills.djhtml' %}
 {% include 'profile/_spending.html' %}
+{% include 'household/_household_bills.djhtml' %}
 {% include 'profile/_resources.html' %}
+
 
 {% endblock %}
 
