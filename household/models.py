@@ -89,6 +89,7 @@ class HouseholdServiceTotal(models.Model):
 
     class Meta:
         unique_together = (
+            "geography",
             "financial_year",
             "budget_phase",
             "household_class",
@@ -134,3 +135,12 @@ class HouseholdBillTotal(models.Model):
 
     def __str__(self):
         return f"{self.household_class} - {self.total}"
+
+    class Meta:
+        unique_together = (
+            "geography",
+            "financial_year",
+            "budget_phase",
+            "household_class",
+            "total",
+        )
