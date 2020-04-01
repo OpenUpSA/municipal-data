@@ -1,4 +1,6 @@
 from household.models import FinancialYear, HouseholdClass, HouseholdService
+from collections import OrderedDict
+import json
 
 
 def chart_data(audited, original, budgeted):
@@ -47,4 +49,7 @@ def stack_chart(queryset):
                 result["financial_year__budget_year"]
             )
             data[result["service__name"]]["y"].append(str(result["total"]))
-    return data
+    data = OrderedDict(
+        sorted(data.items(), key=lambda item: len(item[1]["x"]), reverse=True)
+    )
+    return json.dumps(data)
