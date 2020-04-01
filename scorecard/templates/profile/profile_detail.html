@@ -5,16 +5,26 @@
 {% block head_meta_description %}Financial Performance for {{ geography.name }}, and other information.{% endblock %}
 
 {% block head_facebook_tags %}
-    <meta property="og:title" content="Municipal Money Profile: {{ geography.name }}" />
-    <meta property="og:site_name" content="Municipal Money" />
-    <meta property="og:description" content="Financial Performance for {{ geography.name }}, and other information." />
-    <meta property="og:type" content="article" />
-    <meta property="og:image" content="https://municipalmoney.gov.za{% static 'img/video-placeholder.jpg' %}" />
+<meta property="og:title" content="Municipal Money Profile: {{ geography.name }}" />
+<meta property="og:site_name" content="Municipal Money" />
+<meta property="og:description" content="Financial Performance for {{ geography.name }}, and other information." />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="https://municipalmoney.gov.za{% static 'img/video-placeholder.jpg' %}" />
 {% endblock %}
 
 {% block body_id %}profile{% endblock %}
 
 {% block header_content %}
+<div id="notification-banner" style="background-color:#ab2328;">
+    <div class="container" style="color:#fff;font-size: 18px;padding:10px 16px">
+	<a class="title" href="#householdbills">
+	    <span style="color:#fff">
+		<b>Click Here</b>
+		to see Household Bills in the Municipality
+	    </span>
+	</a>
+    </div>
+</div>
 <div id="cover-map" class="clearfix">
   <div id="slippy-map"></div>
   <div id="cover-profile">
