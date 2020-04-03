@@ -8,6 +8,8 @@ from wkhtmltopdf.utils import wkhtmltopdf
 from scorecard.profiles import get_profile
 from scorecard.models import Geography, LocationNotFound
 from infrastructure.models import Project
+from household.models import HouseholdServiceTotal, HouseholdBillTotal
+from household.chart import chart_data, stack_chart
 
 from . import models
 from . import serializers
@@ -128,6 +130,62 @@ class GeographyDetailView(TemplateView):
             .values("project_description", "expenditure__amount", "id")
         )
         page_context["infrastructure"] = infrastructure
+
+        household = HouseholdBillTotal.objects.filter(
+            budget_phase__name="Budget Year",
+            financial_year__budget_year="2019/20",
+            geography__geo_code=self.geo_code,
+        ).values("household_class__name", "percent")
+
+        percent = {
+            x["household_class__name"].replace(" ", ""): x["percent"] for x in household
+        }
+        page_context["household_percent"] = percent
+
+        # Get the audited outcomes for the previous financial years bills
+        audited = (
+            HouseholdBillTotal.summary.active(self.geo_code)
+            .audited()
+            .order_by("financial_year__budget_year")
+        )
+        # Get the original budget for  the current financial year
+        original = (
+            HouseholdBillTotal.summary.active(self.geo_code)
+            .original()
+            .order_by("financial_year__budget_year")
+        )
+        # Get the budget year amounts for the next couple financial years.
+        budgeted = (
+            HouseholdBillTotal.summary.active(self.geo_code)
+            .budgeted()
+            .order_by("financial_year__budget_year")
+        )
+        chart = chart_data(audited, original, budgeted)
+        page_context["household_chart_overall"] = chart
+
+        service_middle = (
+            HouseholdServiceTotal.summary.active(self.geo_code)
+            .middle()
+            .order_by("financial_year__budget_year")
+        )
+        service_affordable = (
+            HouseholdServiceTotal.summary.active(self.geo_code)
+            .affordable()
+            .order_by("financial_year__budget_year")
+        )
+        service_indigent = (
+            HouseholdServiceTotal.summary.active(self.geo_code)
+            .indigent()
+            .order_by("financial_year__budget_year")
+        )
+
+        chart_middle = stack_chart(service_middle)
+        chart_affordable = stack_chart(service_affordable)
+        chart_indigent = stack_chart(service_indigent)
+
+        page_context["household_chart_middle"] = chart_middle
+        page_context["household_chart_affordable"] = chart_affordable
+        page_context["household_chart_indigent"] = chart_indigent
         # is this a head-to-head view?
         if "head2head" in self.request.GET:
             page_context["head2head"] = "head2head"

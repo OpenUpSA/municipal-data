@@ -39,20 +39,25 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = (
+    "django.contrib.admin",
+    "django.contrib.auth",
     "municipal_finance",
     "scorecard",
     "infrastructure",
-    
+    "household",
     "django.contrib.sites",
     "django.contrib.contenttypes",
     "django.contrib.humanize",
     "django.contrib.messages",
+    "django.contrib.sessions",
     "django.contrib.staticfiles",
     "pipeline",
     "django_extensions",
     "corsheaders",
 
     "rest_framework",
+    "django_q",
+    "storages",
 )
 
 # Sites
@@ -72,9 +77,12 @@ MIDDLEWARE = [
     "django.middleware.gzip.GZipMiddleware",
     "municipal_finance.middleware.RedirectsMiddleware",
     "municipal_finance.middleware.SiteMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
     "municipal_finance.middleware.ApiErrorHandler",
 ]
 
@@ -137,6 +145,7 @@ TEMPLATES = [
         "OPTIONS": {
             "debug": DEBUG,
             "context_processors": [
+                "django.contrib.auth.context_processors.auth",
                 "django.template.context_processors.debug",
                 "django.template.context_processors.i18n",
                 "django.template.context_processors.media",
@@ -297,8 +306,8 @@ PIPELINE = {
                 "js/barchart.js",
                 "js/mm-webflow.js",
             ),
-            "output_filename": "infrastructure.js"
-        }
+            "output_filename": "infrastructure.js",
+        },
     },
     "CSS_COMPRESSOR": None,
     "JS_COMPRESSOR": None,
@@ -343,3 +352,24 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 150,
 }
+
+Q_CLUSTER = {
+    "name": "DjangORM",
+    "workers": 2,
+    "timeout": 600,
+    "retry": 600,
+    "queue_limit": 50,
+    "bulk": 10,
+    "orm": "default",
+}
+
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME", "")
+AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=86400",
+}
+
+DEFAULT_FILE_STORAGE = "municipal_finance.storage.MediaStorage"
+# MEDIA_ROOT = os.path.join(BASE_DIR, "media")

@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 from rest_framework import routers
+from django.contrib import admin
 
 import scorecard.views as views
 import infrastructure.views
@@ -16,6 +17,7 @@ router.register(r"geography", views.GeographyViewSet)
 CACHE_SECS = 12 * 60 * 60
 
 urlpatterns = [
+    url('admin/', admin.site.urls),
     url(r"^$", TemplateView.as_view(template_name="homepage.html"), name="homepage"),
     url(r"^about", TemplateView.as_view(template_name="about.html"), name="about"),
     url(r"^faq", TemplateView.as_view(template_name="faq.html"), name="faq"),

@@ -11,9 +11,11 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def table_url(context, cube, year=None, month=None, muni=None, items=None, amountType=None):
+def table_url(
+    context, cube, year=None, month=None, muni=None, items=None, amountType=None
+):
     if not muni:
-        muni = context['geography'].geo_code
+        muni = context["geography"].geo_code
 
     params = {
         "municipalities": muni,
@@ -31,9 +33,7 @@ def table_url(context, cube, year=None, month=None, muni=None, items=None, amoun
         if isinstance(v, list):
             params[k] = ",".join(v)
 
-    return settings.API_BASE + "/table/" + cube + "/?" + urllib\
-                   .parse\
-                   .urlencode(params)
+    return settings.API_BASE + "/table/" + cube + "/?" + urllib.parse.urlencode(params)
 
 
 @register.filter
@@ -46,8 +46,8 @@ def finyear(year):
 
     if year:
         year = int(year)
-        return 'July %s - June %s' % (year - 1, year)
-    return ''
+        return "July %s - June %s" % (year - 1, year)
+    return ""
 
 
 @register.filter
@@ -70,32 +70,32 @@ def month_days(n):
 
 @register.filter
 def formatvalue(n, typ):
-    if typ == 'currency' or typ == 'R':
+    if typ == "currency" or typ == "R":
         return u"R\u00A0" + floatformat(n, "0")
 
-    if typ == 'months':
+    if typ == "months":
         return month_days(n)
 
-    if typ == 'p' or typ == 'percent' or typ == '%':
-        return str(n) + '%'
+    if typ == "p" or typ == "percent" or typ == "%":
+        return str(round(n, 2)) + "%"
 
-    if typ == 'ratio':
-        return n
+    if typ == "ratio":
+        return round(n, 3)
 
     return n
 
 
-@register.inclusion_tag('profile/_comparative_list.html', takes_context=True)
+@register.inclusion_tag("profile/_comparative_list.html", takes_context=True)
 def render_comparatives(context, indicator_name):
-    indicator = context['indicators'][indicator_name]
-    values = [v for v in indicator['values'] if v['result'] is not None]
+    indicator = context["indicators"][indicator_name]
+    values = [v for v in indicator["values"] if v["result"] is not None]
 
     if values:
-        date = str(values[0]['date'])
-        comparisons = indicator['comparisons'].get(date)
+        date = str(values[0]["date"])
+        comparisons = indicator["comparisons"].get(date)
     else:
         comparisons = None
 
     return {
-        'comparisons': comparisons,
+        "comparisons": comparisons,
     }
