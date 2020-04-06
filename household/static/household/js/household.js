@@ -35,5 +35,5 @@ function income_chart(incomeData, chart_id){
     }
     var layout = {barmode: 'stack'};
     var config = {responsive:true, displayModeBar: false};
-    Plotly.newPlot(chart_id, middleData, layout);
+    Plotly.newPlot(chart_id, middleData, layout, config);
 }
