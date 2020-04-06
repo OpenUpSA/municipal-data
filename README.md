@@ -152,6 +152,7 @@ Extract CSV datasets from Excel Spreadsheets using the following scripts in `mun
   - Choose Excel 2000 report format
   - Process Request: The downloaded file has .xls extension but is html - open in libreoffice or excel and save explicitly as .xls again.
 - contact_details.py
+  - Go to the [local government database](https://lg.treasury.gov.za/iworld/default_prov.htm)
   - Contacts - Reporting > General Information - Municipalities Individuals
   - Choose Municipal level
   - Choose relevant roles

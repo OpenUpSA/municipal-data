@@ -6,17 +6,24 @@ import pdb
 import sys
 import traceback
 import xlrd
-
+import re
 
 def convert(sheet, csv_file):
     book = xlrd.open_workbook(sheet)
     sheet = book.sheet_by_index(0)
+    year = re.sub(r'\d\d/', '', sheet.cell(4, 4).value)
+    
+    labels = [
+        'Unauthorised Expenditure',
+        'Irregular Expenditure',
+        'Fruitless and Wasteful Expenditure',
+    ]
 
-    a10th_code_to_label = {
-        "9001": "Unauthorised Expenditure",
-        "9002": "Irregular Expenditure",
-        "9003": "Fruitless and Wasteful Expenditure",
-    }
+    # a10th_code_to_label = {
+    #     "9001": "Unauthorised Expenditure",
+    #     "9002": "Irregular Expenditure",
+    #     "9003": "Fruitless and Wasteful Expenditure",
+    # }
     label_to_code = {
         'Unauthorised Expenditure': 'unauthorised',
         'Irregular Expenditure': 'irregular',
@@ -29,20 +36,24 @@ def convert(sheet, csv_file):
         fieldnames = ['demarcation_code', 'year', 'item_code', 'item_label', 'amount']
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
-        for rowx in range(7, sheet.nrows):
+        for rowx in range(9, sheet.nrows):
             if str(sheet.cell(rowx, 0).value) not in ['A', 'B', 'C']:
                 continue
-            for year_col in [6, 7, 8]:
+            for idx,label in enumerate(labels):
+            #for year_col in [6, 7, 8]:
                 item = {
-                    'year': sheet.cell(2, year_col).value,
+                    'year': year,
+                    #'year': sheet.cell(2, year_col).value,
                     'demarcation_code': sheet.cell(rowx, 1).value
                 }
                 try:
-                    item['amount'] = int(round(sheet.cell(rowx, year_col).value))
+                    #item['amount'] = int(round(sheet.cell(rowx, year_col).value))
+                    item['amount'] = int(round(sheet.cell(rowx, 4+idx).value))
                 except:
                     item['amount'] = None
 
-                item['item_label'] = a10th_code_to_label[sheet.cell(rowx, 4).value]
+                item['item_label'] = label
+                #item['item_label'] = a10th_code_to_label[sheet.cell(rowx, 4).value]
                 item['item_code'] = label_to_code[item['item_label']]
                 writer.writerow(item)
 
