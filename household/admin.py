@@ -53,7 +53,11 @@ class FinancialYearAdmin(admin.ModelAdmin):
     list_display = ("budget_year", "active")
 
 
+@admin.register(models.HouseholdClass)
+class HouseholdClassAdmin(admin.ModelAdmin):
+    list_display = ("name", "min_value", "max_value")
+
+
 admin.site.register(models.BudgetPhase)
-admin.site.register(models.HouseholdClass)
 admin.site.register(models.HouseholdService)
 admin.site.register(models.DataSetVersion)
