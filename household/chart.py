@@ -11,7 +11,7 @@ def is_range(household_class, queryset):
 
     for income in household_class:
         for data in queryset:
-            if data["household_class__name"] == income.name:
+            if data["household_class__name"] == income.name and data["total"]:
                 if (
                     data["total"] > income.min_value
                     and data["total"] < income.max_value
