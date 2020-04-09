@@ -21,6 +21,7 @@ class DataSetFile(models.Model):
 
 
 class FinancialYear(models.Model):
+
     budget_year = models.CharField(max_length=10)
     active = models.BooleanField(default=False)
 
@@ -117,6 +118,11 @@ class HouseholdBillTotalQuerySet(models.QuerySet):
 
     def budgeted(self):
         return self.filter(budget_phase__name="Budget Year").values(
+            "financial_year__budget_year", "household_class__name", "total"
+        )
+
+    def percent_increase(self):
+        return self.values(
             "financial_year__budget_year", "household_class__name", "total"
         )
 

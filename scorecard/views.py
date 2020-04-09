@@ -9,7 +9,8 @@ from scorecard.profiles import get_profile
 from scorecard.models import Geography, LocationNotFound
 from infrastructure.models import Project
 from household.models import HouseholdServiceTotal, HouseholdBillTotal
-from household.chart import chart_data, stack_chart
+from household.chart import stack_chart, chart_data, percent_increase
+
 
 from . import models
 from . import serializers
@@ -131,16 +132,8 @@ class GeographyDetailView(TemplateView):
         )
         page_context["infrastructure"] = infrastructure
 
-        household = HouseholdBillTotal.objects.filter(
-            budget_phase__name="Budget Year",
-            financial_year__budget_year="2019/20",
-            geography__geo_code=self.geo_code,
-        ).values("household_class__name", "percent")
-
-        percent = {
-            x["household_class__name"].replace(" ", ""): x["percent"] for x in household
-        }
-        page_context["household_percent"] = percent
+        households = HouseholdBillTotal.summary.active("JHB").percent_increase()
+        page_context["household_percent"] = percent_increase(households)
 
         # Get the audited outcomes for the previous financial years bills
         audited = (

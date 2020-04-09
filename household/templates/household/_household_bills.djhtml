@@ -37,9 +37,14 @@
 		Monthly Bills for Middle Income Over Time
 	    </h2>
 	    <div class="indicator-value">
-		{{household_percent.MiddleIncomeRange}}%
+		{% if household_percent.Middle %}
+		    {{household_percent.Middle}}%
+		{% else %}
+		    No Data Available
+		{% endif %}
+		
 	    </div>
-	    <div class="indicator-description">Increase from the previous year financial year</div>
+	    <div class="indicator-description">average increase over the financial years</div>
 	    <div class="row">
 		<div class="col-sm-8">
 		    <div id="householdMiddleChart"></div>
@@ -72,9 +77,13 @@
 		Monthly Bills for Affordable Income Over Time
 	    </h2>
 	    <div class="indicator-value">
-		{{household_percent.AffordableRange}}%
+		{% if household_percent.Affordable %}
+		    {{household_percent.Affordable}}%
+		{% else %}
+		    No Data Available
+		{% endif %}
 	    </div>
-	    <div class="indicator-description">Increase from the previous year financial year</div>
+	    <div class="indicator-description">average increase over the financial years</div>
 	    <div class="row">
 		<div class="col-sm-8">
 		    <div id="householdAffordableChart"></div>
@@ -102,9 +111,13 @@
 		Monthly Bills for Indigent Income Over Time
 	    </h2>
 	    <div class="indicator-value">
-		{{household_percent.IndigentHHreceivingFBS}}%
+		{% if household_percent.Indigent %}
+		    {{household_percent.Indigent}}%
+		{% else %}
+		    No Data Available
+		{% endif %}
 	    </div>
-	    <div class="indicator-description">Increase from the previous year financial year</div>
+	    <div class="indicator-description">average increase over the financial years</div>
 	    <div class="row">
 		<div class="col-sm-8">
 		    <div id="householdIndigentChart"></div>
