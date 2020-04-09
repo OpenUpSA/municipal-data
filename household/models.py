@@ -38,6 +38,8 @@ class BudgetPhase(models.Model):
 
 class HouseholdClass(models.Model):
     name = models.CharField(max_length=100)
+    min_value = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    max_value = models.DecimalField(max_digits=10, decimal_places=2, default=10000)
 
     def __str__(self):
         return self.name
@@ -103,28 +105,41 @@ class HouseholdServiceTotal(models.Model):
 
 
 class HouseholdBillTotalQuerySet(models.QuerySet):
-    def active(self, geo_code):
-        return self.filter(financial_year__active=True, geography__geo_code=geo_code)
-
-    def audited(self):
-        return self.filter(budget_phase__name="Audited Outcome").values(
-            "financial_year__budget_year", "household_class__name", "total"
+    def bill_totals(self, geo_code):
+        return (
+            self.filter(
+                Q(budget_phase__name="Audited Outcome")
+                | Q(budget_phase__name="Original Budget")
+                | Q(budget_phase__name="Budget Year"),
+                financial_year__active=True,
+                geography__geo_code=geo_code,
+            )
+            .values("financial_year__budget_year", "household_class__name", "total")
+            .order_by("financial_year__budget_year")
         )
 
-    def original(self):
-        return self.filter(budget_phase__name="Original Budget").values(
-            "financial_year__budget_year", "household_class__name", "total"
-        )
+    # def audited(self):
+    #     return self.filter(budget_phase__name="Audited Outcome").values(
+    #         "financial_year__budget_year", "household_class__name", "total"
+    #     )
 
-    def budgeted(self):
-        return self.filter(budget_phase__name="Budget Year").values(
-            "financial_year__budget_year", "household_class__name", "total"
-        )
+    # def original(self):
+    #     return self.filter(budget_phase__name="Original Budget").values(
+    #         "financial_year__budget_year", "household_class__name", "total"
+    #     )
 
-    def percent_increase(self):
-        return self.values(
-            "financial_year__budget_year", "household_class__name", "total"
-        )
+    # def budgeted(self):
+    #     return self.filter(budget_phase__name="Budget Year").values(
+    #         "financial_year__budget_year", "household_class__name", "total"
+    #     )
+
+    # def percent_increase(self):
+    #     return self.values(
+    #         "financial_year__budget_year", "household_class__name", "total"
+    #     )
+
+    # def is_range(self):
+    #     return
 
 
 class HouseholdBillTotal(models.Model):
