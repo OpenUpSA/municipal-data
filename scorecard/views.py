@@ -132,28 +132,13 @@ class GeographyDetailView(TemplateView):
         )
         page_context["infrastructure"] = infrastructure
 
-        households = HouseholdBillTotal.summary.active("JHB").percent_increase()
+        households = HouseholdBillTotal.summary.bill_totals(self.geo_code)
         page_context["household_percent"] = percent_increase(households)
 
         # Get the audited outcomes for the previous financial years bills
-        audited = (
-            HouseholdBillTotal.summary.active(self.geo_code)
-            .audited()
-            .order_by("financial_year__budget_year")
-        )
-        # Get the original budget for  the current financial year
-        original = (
-            HouseholdBillTotal.summary.active(self.geo_code)
-            .original()
-            .order_by("financial_year__budget_year")
-        )
-        # Get the budget year amounts for the next couple financial years.
-        budgeted = (
-            HouseholdBillTotal.summary.active(self.geo_code)
-            .budgeted()
-            .order_by("financial_year__budget_year")
-        )
-        chart = chart_data(audited, original, budgeted)
+        # bill_totals = HouseholdBillTotal.summary.bill_totals(self.geo_code)
+        chart = chart_data(households)
+
         page_context["household_chart_overall"] = chart
 
         service_middle = (
