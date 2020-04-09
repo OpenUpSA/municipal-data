@@ -3,36 +3,52 @@ from collections import OrderedDict
 import json
 
 
-def chart_data(audited, original, budgeted):
+def is_range(household_class, queryset):
+    """
+    Check if the bill totals in each icome class are within the allocated range
+    """
+    filtered_queryset = []
+    middle = HouseholdClass.objects.get(name="Middle Income Range")
+    affordable = HouseholdClass.objects.get(name="Affordable Range")
+    indigent = HouseholdClass.objects.get(name="Indigent HH receiving FBS")
+    income_class = HouseholdClass.objects.all()
+
+    for income in income_class:
+        for data in queryset:
+            if data["household_class__name"] == income.name:
+                if (
+                    data["total"] > income.min_value
+                    and data["total"] < income.max_value
+                ):
+                    filtered_queryset.append(data)
+
+    return filtered_queryset
+
+
+def chart_data(queryset):
     """
     Get all the household bill totals for all avaliable years and join
     the data so that plotly can draw the graph.
     Eg: for 2015/16 we need all the total for all the income levels
     """
-    data = {}
-    household_class = HouseholdClass.objects.all().values("name")
-    for h_class in household_class:
-        data[h_class["name"]] = {"x": [], "y": []}
 
-    for value in audited:
-        data[value["household_class__name"]]["x"].append(
+    final_bill_totals = {}
+    household_class = HouseholdClass.objects.all()
+
+    filtered_queryset = is_range(household_class, queryset)
+
+    for income in household_class:
+        final_bill_totals[income.name] = {"x": [], "y": []}
+
+    for value in filtered_queryset:
+        final_bill_totals[value["household_class__name"]]["x"].append(
             value["financial_year__budget_year"]
         )
-        data[value["household_class__name"]]["y"].append(str(value["total"]))
-
-    for value in original:
-        data[value["household_class__name"]]["x"].append(
-            value["financial_year__budget_year"]
+        final_bill_totals[value["household_class__name"]]["y"].append(
+            str(value["total"])
         )
-        data[value["household_class__name"]]["y"].append(str(value["total"]))
 
-    for value in budgeted:
-        data[value["household_class__name"]]["x"].append(
-            value["financial_year__budget_year"]
-        )
-        data[value["household_class__name"]]["y"].append(str(value["total"]))
-
-    return data
+    return final_bill_totals
 
 
 def stack_chart(queryset):
