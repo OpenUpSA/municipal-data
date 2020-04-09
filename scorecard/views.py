@@ -135,8 +135,6 @@ class GeographyDetailView(TemplateView):
         households = HouseholdBillTotal.summary.bill_totals(self.geo_code)
         page_context["household_percent"] = percent_increase(households)
 
-        # Get the audited outcomes for the previous financial years bills
-        # bill_totals = HouseholdBillTotal.summary.bill_totals(self.geo_code)
         chart = chart_data(households)
 
         page_context["household_chart_overall"] = chart
@@ -157,9 +155,9 @@ class GeographyDetailView(TemplateView):
             .order_by("financial_year__budget_year")
         )
 
-        chart_middle = stack_chart(service_middle)
-        chart_affordable = stack_chart(service_affordable)
-        chart_indigent = stack_chart(service_indigent)
+        chart_middle = stack_chart(service_middle, households)
+        chart_affordable = stack_chart(service_affordable, households)
+        chart_indigent = stack_chart(service_indigent, households)
 
         page_context["household_chart_middle"] = chart_middle
         page_context["household_chart_affordable"] = chart_affordable

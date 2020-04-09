@@ -64,17 +64,26 @@ class HouseholdServiceTotalQuerySet(models.QuerySet):
 
     def middle(self):
         return self.filter(household_class__name="Middle Income Range").values(
-            "financial_year__budget_year", "total", "service__name"
+            "financial_year__budget_year",
+            "total",
+            "service__name",
+            "household_class__name",
         )
 
     def affordable(self):
         return self.filter(household_class__name="Affordable Range").values(
-            "financial_year__budget_year", "total", "service__name"
+            "financial_year__budget_year",
+            "total",
+            "service__name",
+            "household_class__name",
         )
 
     def indigent(self):
         return self.filter(household_class__name="Indigent HH receiving FBS").values(
-            "financial_year__budget_year", "total", "service__name"
+            "financial_year__budget_year",
+            "total",
+            "service__name",
+            "household_class__name",
         )
 
 
