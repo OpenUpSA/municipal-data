@@ -54,10 +54,10 @@ INSTALLED_APPS = (
     "pipeline",
     "django_extensions",
     "corsheaders",
-
     "rest_framework",
     "django_q",
     "storages",
+    "metro",
 )
 
 # Sites
