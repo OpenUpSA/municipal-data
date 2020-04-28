@@ -59,6 +59,7 @@ urlpatterns = [
     ),
     url("^api/v1/infrastructure/", include("infrastructure.urls.api")),
     url("^infrastructure/", include("infrastructure.urls.templates")),
+    url("^metro/", include('metro.urls'))
     url("^api/geography/", include(router.urls)),
     # url(
     #    regex='^api(?:/.*)?$',
