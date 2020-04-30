@@ -123,32 +123,14 @@ class HouseholdBillTotalQuerySet(models.QuerySet):
                 financial_year__active=True,
                 geography__geo_code=geo_code,
             )
-            .values("financial_year__budget_year", "household_class__name", "total")
+            .values(
+                "financial_year__budget_year",
+                "household_class__name",
+                "total",
+                "percent",
+            )
             .order_by("financial_year__budget_year")
         )
-
-    # def audited(self):
-    #     return self.filter(budget_phase__name="Audited Outcome").values(
-    #         "financial_year__budget_year", "household_class__name", "total"
-    #     )
-
-    # def original(self):
-    #     return self.filter(budget_phase__name="Original Budget").values(
-    #         "financial_year__budget_year", "household_class__name", "total"
-    #     )
-
-    # def budgeted(self):
-    #     return self.filter(budget_phase__name="Budget Year").values(
-    #         "financial_year__budget_year", "household_class__name", "total"
-    #     )
-
-    # def percent_increase(self):
-    #     return self.values(
-    #         "financial_year__budget_year", "household_class__name", "total"
-    #     )
-
-    # def is_range(self):
-    #     return
 
 
 class HouseholdBillTotal(models.Model):

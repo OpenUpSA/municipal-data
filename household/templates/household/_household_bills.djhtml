@@ -174,15 +174,16 @@
 	<script src="{% static 'household/js/plotly.js' %}"></script>
 	<script src="{% static 'household/js/household.js' %}"></script>
 	<script>
+	 var yearly_percent = {{yearly_percent|safe}};
 	 var chartData = {{ household_chart_overall|safe }};
 	 var middleChartData = {{ household_chart_middle|safe }};
 	 var affordableChartData = {{ household_chart_affordable|safe }};
 	 var indigentChartData = {{ household_chart_indigent|safe }};
 
 	 overall_chart(chartData);
-	 income_chart(middleChartData, "householdMiddleChart");
-	 income_chart(affordableChartData, "householdAffordableChart");
-	 income_chart(indigentChartData, "householdIndigentChart");
+	 income_chart(middleChartData, "householdMiddleChart", yearly_percent['Middle Income Range']);
+	 income_chart(affordableChartData, "householdAffordableChart", yearly_percent['Affordable Range']);
+	 income_chart(indigentChartData, "householdIndigentChart", yearly_percent['Indigent HH receiving FBS']);
 	</script>
     {% else %}
 	<h3> No Data Available</h3>

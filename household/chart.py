@@ -90,7 +90,7 @@ def stack_chart(services_queryset, bill_totals_queryset):
 
 def percent_increase(queryset):
     """
-    Calculate the percentage increase between the oldest financial year and the lastest financial year totals
+    Calculate the average annual percentage increase
     """
     increase_dict = {}
     household_class = HouseholdClass.objects.all()
@@ -119,3 +119,18 @@ def percent_increase(queryset):
 
     increase_dict = {key.split(" ")[0]: values for key, values in increase_dict.items()}
     return increase_dict
+
+
+def yearly_percent(queryset):
+    if queryset:
+        yearly_data = {
+            "Indigent HH receiving FBS": {},
+            "Affordable Range": {},
+            "Middle Income Range": {},
+        }
+        for q in queryset:
+            yearly_data[q["household_class__name"]][
+                q["financial_year__budget_year"]
+            ] = (q["percent"] if q["percent"] else "-")
+        return yearly_data
+    return {}
