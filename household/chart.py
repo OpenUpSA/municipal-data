@@ -105,7 +105,9 @@ def percent_increase(queryset):
         final_year = years[-1]
 
         if start_year:
-            percent = ((v[final_year] - v[start_year]) / v[start_year]) * 100
+            percent = (((v[final_year] - v[start_year]) / v[start_year]) * 100) / len(
+                years
+            )
             if percent > 0:
                 increase_dict[k] = round(percent, 2)
             else:
