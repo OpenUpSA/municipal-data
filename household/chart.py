@@ -55,33 +55,37 @@ def stack_chart(services_queryset, bill_totals_queryset):
     
     """
     service_total_data = {}
-    class_name = services_queryset[0]["household_class__name"]
-    household_class = HouseholdClass.objects.filter(name=class_name)
-    filtered_queryset = is_range(household_class, bill_totals_queryset)
+    if services_queryset:
+        class_name = services_queryset[0]["household_class__name"]
+        household_class = HouseholdClass.objects.filter(name=class_name)
+        filtered_queryset = is_range(household_class, bill_totals_queryset)
 
-    available_years = []
-    for bills in filtered_queryset:
-        if bills["household_class__name"] == class_name:
-            available_years.append(bills["financial_year__budget_year"])
+        available_years = []
+        for bills in filtered_queryset:
+            if bills["household_class__name"] == class_name:
+                available_years.append(bills["financial_year__budget_year"])
 
-    services = HouseholdService.objects.all().values("name")
-    for s in services:
-        service_total_data[s["name"]] = {"x": [], "y": []}
-    for result in services_queryset:
-        if result["financial_year__budget_year"] in available_years:
-            if result["total"]:
-                service_total_data[result["service__name"]]["x"].append(
-                    result["financial_year__budget_year"]
-                )
-                service_total_data[result["service__name"]]["y"].append(
-                    str(result["total"])
-                )
-    service_total_data = OrderedDict(
-        sorted(
-            service_total_data.items(), key=lambda item: len(item[1]["x"]), reverse=True
+        services = HouseholdService.objects.all().values("name")
+        for s in services:
+            service_total_data[s["name"]] = {"x": [], "y": []}
+        for result in services_queryset:
+            if result["financial_year__budget_year"] in available_years:
+                if result["total"]:
+                    service_total_data[result["service__name"]]["x"].append(
+                        result["financial_year__budget_year"]
+                    )
+                    service_total_data[result["service__name"]]["y"].append(
+                        str(result["total"])
+                    )
+        service_total_data = OrderedDict(
+            sorted(
+                service_total_data.items(),
+                key=lambda item: len(item[1]["x"]),
+                reverse=True,
+            )
         )
-    )
-    return json.dumps(service_total_data)
+        return json.dumps(service_total_data)
+    return json.dumps({})
 
 
 def percent_increase(queryset):
