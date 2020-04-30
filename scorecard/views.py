@@ -9,7 +9,7 @@ from scorecard.profiles import get_profile
 from scorecard.models import Geography, LocationNotFound
 from infrastructure.models import Project
 from household.models import HouseholdServiceTotal, HouseholdBillTotal
-from household.chart import stack_chart, chart_data, percent_increase
+from household.chart import stack_chart, chart_data, percent_increase, yearly_percent
 
 
 from . import models
@@ -134,6 +134,7 @@ class GeographyDetailView(TemplateView):
 
         households = HouseholdBillTotal.summary.bill_totals(self.geo_code)
         page_context["household_percent"] = percent_increase(households)
+        page_context["yearly_percent"] = yearly_percent(households)
 
         chart = chart_data(households)
 
