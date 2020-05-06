@@ -48,7 +48,7 @@ function income_chart(incomeData, chart_id, yearly_percent){
             percArr.push('<b style="padding-top:5px">' + value + ' %</b>');
         }
         else {
-            percArr.push('');
+            percArr.push('N/A');
         }
     }
 
