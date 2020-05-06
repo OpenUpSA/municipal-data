@@ -7,32 +7,54 @@ from .models import (
     HouseholdService,
     HouseholdClass,
 )
+from scorecard.models import Geography
 
 
-class LoadData(TestCase):
-    def setup(self):
-        year_2015_2016 = FinancialYear.objects.create(
-            budget_year="2015/16", active=True
+class HouseholdsTestCase(TestCase):
+    def setUp(self):
+        FinancialYear.objects.bulk_create(
+            [
+                FinancialYear(budget_year="2015/16", active=True),
+                FinancialYear(budget_year="2016/17", active=True),
+                FinancialYear(budget_year="2017/18", active=True),
+            ]
         )
-        year_2016_2017 = FinancialYear.objects.create(
-            budget_year="2016/17", active=True
+        BudgetPhase.objects.bulk_create(
+            [BudgetPhase(name="Audited Outcome"), BudgetPhase(name="Original Budget"),]
         )
-        audited = BudgetPhase.objects.create(name="Audited Outcome")
-        original = BudgetPhase.objects.create(name="Original Budget")
+        HouseholdClass.objects.bulk_create(
+            [
+                HouseholdClass(name="Middle Income Range"),
+                HouseholdClass(name="Indigent HH receiving FBS"),
+            ]
+        )
+        HouseholdService.objects.bulk_create(
+            [
+                HouseholdService(name="Water"),
+                HouseholdService(name="Electricity"),
+                HouseholdService(name="Sanitation"),
+            ]
+        )
+        Geography(
+            [
+                Geography(
+                    geo_level="municipality",
+                    geo_code="JHB",
+                    name="City of Johannesburg",
+                    parent_level="province",
+                    parent_code="GT",
+                    category="A",
+                )
+            ]
+        )
 
-        middle = HouseholdClass.objects.create(name="Middle Income Range")
-        indigent = HouseholdClass.objects.create(name="Indigent HH receiving FBS")
+        HouseholdBillTotal.objects.create()
 
-        water = HouseholdService.objects.create(name="Water")
-        electricity = HouseholdService.objects.create(name="Electricity")
-
-
-# Create your tests here.
-class BillTotalTestCase(TestCase):
-    def setup(self):
+    def test_bill_total(self):
         pass
 
+    def test_service_total(self):
+        pass
 
-class ServiceTotalTestCase(TestCase):
-    def setup(self):
+    def test_average_increase(self):
         pass
