@@ -17,7 +17,7 @@ router.register(r"geography", views.GeographyViewSet)
 CACHE_SECS = 12 * 60 * 60
 
 urlpatterns = [
-    url('admin/', admin.site.urls),
+    url("admin/", admin.site.urls),
     url(r"^$", TemplateView.as_view(template_name="homepage.html"), name="homepage"),
     url(r"^about", TemplateView.as_view(template_name="about.html"), name="about"),
     url(r"^faq", TemplateView.as_view(template_name="faq.html"), name="faq"),
@@ -59,7 +59,7 @@ urlpatterns = [
     ),
     url("^api/v1/infrastructure/", include("infrastructure.urls.api")),
     url("^infrastructure/", include("infrastructure.urls.templates")),
-    url("^metro/", include('metro.urls'))
+    # url("^metro/", include('metro.urls')),
     url("^api/geography/", include(router.urls)),
     # url(
     #    regex='^api(?:/.*)?$',
