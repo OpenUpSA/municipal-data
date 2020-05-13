@@ -55,12 +55,6 @@ class Command(BaseCommand):
                                 financial_year=financial_year,
                                 defaults={"quarter_one": row["Output"],},
                             )
-                            # models.IndicatorQuarterResult.objects.create(
-                            #     indicator=indicator,
-                            #     geography=geography,
-                            #     financial_year=financial_year,
-                            #     quarter_one=row["Output"],
-                            # )
 
                         elif options["quarter"] == "2":
                             models.IndicatorQuarterResult.objects.update_or_create(
@@ -69,35 +63,21 @@ class Command(BaseCommand):
                                 financial_year=financial_year,
                                 defaults={"quarter_two": row["Output"],},
                             )
-                            # models.IndicatorQuarterResult.objects.update_or_create(
-                            #     indicator=indicator,
-                            #     defaults={
-                            #         "geography": geography,
-                            #         "financial_year": financial_year,
-                            #         "quarter_two": row["Output"],
-                            #     },
-                            # )
-                            # models.IndicatorQuarterResult.objects.create(
-                            #     indicator=indicator,
-                            #     geography=geography,
-                            #     financial_year=financial_year,
-                            #     quarter_two=row["Output"],
-                            # )
 
                         elif options["quarter"] == "3":
-                            models.IndicatorQuarterResult.objects.create(
+                            models.IndicatorQuarterResult.objects.update_or_create(
                                 indicator=indicator,
                                 geography=geography,
                                 financial_year=financial_year,
-                                quarter_three=row["Output"],
+                                defaults={"quarter_three": row["Output"],},
                             )
 
                         elif options["quarter"] == "4":
-                            models.IndicatorQuarterResult.objects.create(
+                            models.IndicatorQuarterResult.objects.update_or_create(
                                 indicator=indicator,
                                 geography=geography,
                                 financial_year=financial_year,
-                                quarter_four=row["Output"],
+                                defaults={"quarter_four": row["Output"],},
                             )
                         else:
                             raise CommandError("Financial Quarter does not exist")
