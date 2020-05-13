@@ -163,6 +163,17 @@ class GeographyDetailView(TemplateView):
         page_context["household_chart_middle"] = chart_middle
         page_context["household_chart_affordable"] = chart_affordable
         page_context["household_chart_indigent"] = chart_indigent
+
+        page_context["is_metro"] = self.geo_code in [
+            " BUF",
+            "NMA",
+            "MAN",
+            "EKU",
+            "JHB",
+            "TSH",
+            "ETH",
+            "CPT",
+        ]
         # is this a head-to-head view?
         if "head2head" in self.request.GET:
             page_context["head2head"] = "head2head"
