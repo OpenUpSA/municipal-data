@@ -21,6 +21,7 @@ class DataSetFile(models.Model):
 
 
 class FinancialYear(models.Model):
+
     budget_year = models.CharField(max_length=10)
     active = models.BooleanField(default=False)
 
@@ -37,6 +38,8 @@ class BudgetPhase(models.Model):
 
 class HouseholdClass(models.Model):
     name = models.CharField(max_length=100)
+    min_value = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    max_value = models.DecimalField(max_digits=10, decimal_places=2, default=10000)
 
     def __str__(self):
         return self.name
@@ -61,17 +64,26 @@ class HouseholdServiceTotalQuerySet(models.QuerySet):
 
     def middle(self):
         return self.filter(household_class__name="Middle Income Range").values(
-            "financial_year__budget_year", "total", "service__name"
+            "financial_year__budget_year",
+            "total",
+            "service__name",
+            "household_class__name",
         )
 
     def affordable(self):
         return self.filter(household_class__name="Affordable Range").values(
-            "financial_year__budget_year", "total", "service__name"
+            "financial_year__budget_year",
+            "total",
+            "service__name",
+            "household_class__name",
         )
 
     def indigent(self):
         return self.filter(household_class__name="Indigent HH receiving FBS").values(
-            "financial_year__budget_year", "total", "service__name"
+            "financial_year__budget_year",
+            "total",
+            "service__name",
+            "household_class__name",
         )
 
 
@@ -102,22 +114,22 @@ class HouseholdServiceTotal(models.Model):
 
 
 class HouseholdBillTotalQuerySet(models.QuerySet):
-    def active(self, geo_code):
-        return self.filter(financial_year__active=True, geography__geo_code=geo_code)
-
-    def audited(self):
-        return self.filter(budget_phase__name="Audited Outcome").values(
-            "financial_year__budget_year", "household_class__name", "total"
-        )
-
-    def original(self):
-        return self.filter(budget_phase__name="Original Budget").values(
-            "financial_year__budget_year", "household_class__name", "total"
-        )
-
-    def budgeted(self):
-        return self.filter(budget_phase__name="Budget Year").values(
-            "financial_year__budget_year", "household_class__name", "total"
+    def bill_totals(self, geo_code):
+        return (
+            self.filter(
+                Q(budget_phase__name="Audited Outcome")
+                | Q(budget_phase__name="Original Budget")
+                | Q(budget_phase__name="Budget Year"),
+                financial_year__active=True,
+                geography__geo_code=geo_code,
+            )
+            .values(
+                "financial_year__budget_year",
+                "household_class__name",
+                "total",
+                "percent",
+            )
+            .order_by("financial_year__budget_year")
         )
 
 

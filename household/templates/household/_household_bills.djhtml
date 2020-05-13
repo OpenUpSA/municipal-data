@@ -13,6 +13,9 @@
 		    <div class="indicator-value"></div>
 		    <div class="indicator-description"></div>
 		    <div id="householdChart"></div>
+		    <p>
+			<small>* If an income household is missing in a financial year, it means that there is no data available for that year.</small>
+		    </p>
 		</div>
 		<div class="col-sm-4">
 		    <div class="panel panel-didyouknow">
@@ -37,12 +40,22 @@
 		Monthly Bills for Middle Income Over Time
 	    </h2>
 	    <div class="indicator-value">
-		{{household_percent.MiddleIncomeRange}}%
+		{% if household_percent.Middle %}
+		    {{household_percent.Middle}}%
+		{% else %}
+		    No Data Available
+		{% endif %}
+		
 	    </div>
-	    <div class="indicator-description">Increase from the previous year financial year</div>
+	    <div class="indicator-description">average increase over the financial years</div>
 	    <div class="row">
 		<div class="col-sm-8">
 		    <div id="householdMiddleChart"></div>
+		    <p>
+			<small>
+			    * If a financial year is missing, it means that no data was provided for that year.
+			</small>
+		    </p>
 		</div>
 		<div class="col-sm-4">
 		    <div class="panel panel-didyouknow">
@@ -72,12 +85,21 @@
 		Monthly Bills for Affordable Income Over Time
 	    </h2>
 	    <div class="indicator-value">
-		{{household_percent.AffordableRange}}%
+		{% if household_percent.Affordable %}
+		    {{household_percent.Affordable}}%
+		{% else %}
+		    No Data Available
+		{% endif %}
 	    </div>
-	    <div class="indicator-description">Increase from the previous year financial year</div>
+	    <div class="indicator-description">average increase over the financial years</div>
 	    <div class="row">
 		<div class="col-sm-8">
 		    <div id="householdAffordableChart"></div>
+		    <p>
+			<small>
+			    * If a financial year is missing, it means that no data was provided for that year.
+			</small>
+		    </p>
 		</div>
 		<div class="col-sm-4">
 		    <div class="panel panel-didyouknow">
@@ -102,12 +124,21 @@
 		Monthly Bills for Indigent Income Over Time
 	    </h2>
 	    <div class="indicator-value">
-		{{household_percent.IndigentHHreceivingFBS}}%
+		{% if household_percent.Indigent %}
+		    {{household_percent.Indigent}}%
+		{% else %}
+		    No Data Available
+		{% endif %}
 	    </div>
-	    <div class="indicator-description">Increase from the previous year financial year</div>
+	    <div class="indicator-description">average increase over the financial years</div>
 	    <div class="row">
 		<div class="col-sm-8">
 		    <div id="householdIndigentChart"></div>
+		    <p>
+			<small>
+			    * If a financial year is missing, it means that no data was provided for that year.
+			</small>
+		    </p>
 		</div>
 		<div class="col-sm-4">
 		    <div class="panel panel-didyouknow">
@@ -143,15 +174,16 @@
 	<script src="{% static 'household/js/plotly.js' %}"></script>
 	<script src="{% static 'household/js/household.js' %}"></script>
 	<script>
+	 var yearly_percent = {{yearly_percent|safe}};
 	 var chartData = {{ household_chart_overall|safe }};
 	 var middleChartData = {{ household_chart_middle|safe }};
 	 var affordableChartData = {{ household_chart_affordable|safe }};
 	 var indigentChartData = {{ household_chart_indigent|safe }};
 
 	 overall_chart(chartData);
-	 income_chart(middleChartData, "householdMiddleChart");
-	 income_chart(affordableChartData, "householdAffordableChart");
-	 income_chart(indigentChartData, "householdIndigentChart");
+	 income_chart(middleChartData, "householdMiddleChart", yearly_percent['Middle Income Range']);
+	 income_chart(affordableChartData, "householdAffordableChart", yearly_percent['Affordable Range']);
+	 income_chart(indigentChartData, "householdIndigentChart", yearly_percent['Indigent HH receiving FBS']);
 	</script>
     {% else %}
 	<h3> No Data Available</h3>
