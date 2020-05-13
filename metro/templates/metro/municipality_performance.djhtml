@@ -138,20 +138,6 @@
 				      </div>
 				  </div>
 				  <div class="performance-card__analysis">
-				      <style>
-				       #q1-achieved.performance-card__chart-bar_value.dummy.{{quarter.indicator.uuid}}{
-					   height: {{quarter.quarter_one|percentage:quarter.indicator.target}}% !important;
-				       }
-				       #q2-achieved.performance-card__chart-bar_value.dummy.{{quarter.indicator.uuid}}{
-					   height: {{quarter.quarter_two|percentage:quarter.indicator.target}}% !important;
-				       }
-				       #q3-achieved.performance-card__chart-bar_value.dummy.{{quarter.indicator.uuid}}{
-					   height: {{quarter.quarter_three|percentage:quarter.indicator.target}}% !important;
-				       }
-				       #q4-achieved.performance-card__chart-bar_value.dummy.{{quarter.indicator.uuid}}{
-					   height: {{quarter.quarter_four|percentage:quarter.indicator.target}}% !important;
-				       }
-				      </style>
 				      <div class="performance-card__label">
 					  <div>PERFORMANCE History (<span id="financial-year" class="financial-year">FY&#x27;{{current_financial_year}}</span>)</div>
 				      </div>
@@ -168,8 +154,7 @@
 							  </div>
 						      </div>
 						  </div>
-						  <div id="q1-achieved" class="performance-card__chart-bar_value dummy {{quarter.indicator.uuid}}">
-						  </div>
+						  <div id="q1-achieved" class="performance-card__chart-bar_value dummy q{{quarter.indicator.uuid}}"></div>
 						  <div class="performance-card__chart-label">
 						      <div>Q1</div>
 						  </div>
@@ -185,7 +170,7 @@
 							  </div>
 						      </div>
 						  </div>
-						  <div id="q2-achieved" class="performance-card__chart-bar_value dummy {{quarter.indicator.uuid}}">
+						  <div id="q2-achieved" class="performance-card__chart-bar_value dummy q{{quarter.indicator.uuid}}">
 						  </div>
 						  <div class="performance-card__chart-label">
 						      <div>Q2</div>
@@ -202,7 +187,7 @@
 							  </div>
 						      </div>
 						  </div>
-						  <div id="q3-achieved" class="performance-card__chart-bar_value dummy {{quarter.indicator.uuid}}">
+						  <div id="q3-achieved" class="performance-card__chart-bar_value dummy q{{quarter.indicator.uuid}}">
 						  </div>
 						  <div class="performance-card__chart-label">
 						      <div>Q3</div>
@@ -219,18 +204,36 @@
 							  </div>
 						      </div>
 						  </div>
-						  <div id="q4-achieved" class="performance-card__chart-bar_value dummy {{quarter.indicator.uuid}}">
-						     
+						  <div id="q4-achieved" class="performance-card__chart-bar_value dummy q{{quarter.indicator.uuid}}">
+						      
 						  </div>
 						  <div class="performance-card__chart-label">
 						      <div>Q4</div>
 						  </div>
-										      </div>
+					      </div>
 					  </div>
 				      </div>
 				  </div>
 			      </div>
 			  </div>
+			  <style>
+			   #q1-achieved.q{{quarter.indicator.uuid}}
+			   {
+			       height: {{quarter.quarter_one|percentage:quarter.indicator.target}}% !important;
+			   }
+			   #q2-achieved.q{{quarter.indicator.uuid}}
+			   {
+			       height: {{quarter.quarter_two|percentage:quarter.indicator.target}}% !important;
+			   }
+			   #q3-achieved.q{{quarter.indicator.uuid}}
+			   {
+			       height: {{quarter.quarter_three|percentage:quarter.indicator.target}}% !important;
+			   }
+			   #q4-achieved.q{{quarter.indicator.uuid}}
+			   {
+			       height: {{quarter.quarter_four|percentage:quarter.indicator.target}}% !important;
+			   }
+			  </style>
 		      {% endfor %}
 		  </div>
 	      </div>
