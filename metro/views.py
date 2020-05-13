@@ -52,7 +52,9 @@ class PerformanceView(TemplateView):
         page_context["category"] = category
 
         quarter_results = IndicatorQuarterResult.objects.filter(
-            indicator__tier="Tier 1", financial_year__active=True
+            indicator__tier="Tier 1",
+            financial_year__active=True,
+            geography__geo_code=self.geo_code,
         )
 
         current_quarter = FinancialYear.current_quarter()
