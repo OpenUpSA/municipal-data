@@ -109,13 +109,8 @@ class IndicatorQuarterResult(models.Model):
 
         if self.indicator.target is None:
             return False
-        print(self.indicator.name)
-        print(calc)
-        print(self.indicator.target)
         if calc >= self.clean_value(self.indicator.target):
-            print("This is True")
             return True
-        print("This is False")
         return False
 
     def _percentage_target_archived(self, calculation):
@@ -123,14 +118,17 @@ class IndicatorQuarterResult(models.Model):
         if self.quarter == "Q1":
             calc = calculation["Q1"]
         elif self.quarter == "Q2":
-            calc = (calculation["Q2"]) / 2
+            calc = (calculation["Q2"]) / 1
         elif self.quarter == "Q3":
-            calc = (calculation["Q3"]) / 3
+            calc = (calculation["Q3"]) / 2
         elif self.quarter == "Q4":
-            calc = (calculation["Q4"]) / 4
+            calc = (calculation["Q4"]) / 3
 
         if self.indicator.target is None:
             return False
+        print(self.indicator.name)
+        print(calc)
+        print(self.indicator.target)
         if calc >= self.clean_value(self.indicator.target):
             return True
         return False
@@ -142,15 +140,12 @@ class IndicatorQuarterResult(models.Model):
         """
         calculation = {
             "Q1": self.clean_value(self.quarter_one),
-            "Q2": self.clean_value(self.quarter_one)
-            + self.clean_value(self.quarter_two),
+            "Q2": self.clean_value(self.quarter_one),
             "Q3": self.clean_value(self.quarter_one)
-            + self.clean_value(self.quarter_two)
-            + self.clean_value(self.quarter_three),
+            + self.clean_value(self.quarter_two),
             "Q4": self.clean_value(self.quarter_one)
             + self.clean_value(self.quarter_two)
-            + self.clean_value(self.quarter_three)
-            + self.clean_value(self.quarter_four),
+            + self.clean_value(self.quarter_three),
         }
         if (
             "percentage" in self.indicator.name
