@@ -109,8 +109,13 @@ class IndicatorQuarterResult(models.Model):
 
         if self.indicator.target is None:
             return False
+        print(self.indicator.name)
+        print(calc)
+        print(self.indicator.target)
         if calc >= self.clean_value(self.indicator.target):
+            print("This is True")
             return True
+        print("This is False")
         return False
 
     def _percentage_target_archived(self, calculation):
@@ -154,9 +159,9 @@ class IndicatorQuarterResult(models.Model):
             or "Ratio" in self.indicator.name
             or "Rate" in self.indicator.name
         ):
-            self._percentage_target_archived(calculation)
+            return self._percentage_target_archived(calculation)
         else:
-            self._numbers_target_archived(calculation)
+            return self._numbers_target_archived(calculation)
 
     def current_quarter_value(self):
         quarter_map = {
