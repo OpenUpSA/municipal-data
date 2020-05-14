@@ -41,8 +41,6 @@ class Command(BaseCommand):
                             "Indicator code does not exists, perhaps add it first"
                         )
                     else:
-                        indicator.target = row["Annual target"]
-                        indicator.save()
                         self.stdout.write(
                             self.style.SUCCESS(
                                 'Success on  "%s"' % row["Performance indicator"]
@@ -53,6 +51,7 @@ class Command(BaseCommand):
                                 indicator=indicator,
                                 geography=geography,
                                 financial_year=financial_year,
+                                target=row["Annual target"],
                                 defaults={"quarter_one": row["Output"],},
                             )
 
@@ -61,6 +60,7 @@ class Command(BaseCommand):
                                 indicator=indicator,
                                 geography=geography,
                                 financial_year=financial_year,
+                                target=row["Annual target"],
                                 defaults={"quarter_two": row["Output"],},
                             )
 
@@ -69,6 +69,7 @@ class Command(BaseCommand):
                                 indicator=indicator,
                                 geography=geography,
                                 financial_year=financial_year,
+                                target=row["Annual target"],
                                 defaults={"quarter_three": row["Output"],},
                             )
 
@@ -77,6 +78,7 @@ class Command(BaseCommand):
                                 indicator=indicator,
                                 geography=geography,
                                 financial_year=financial_year,
+                                target=row["Annual target"],
                                 defaults={"quarter_four": row["Output"],},
                             )
                         else:

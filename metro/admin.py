@@ -19,7 +19,6 @@ class IndicatorAdmin(admin.ModelAdmin):
         "reporting",
         "alignment",
         "frequency",
-        "target",
     )
     list_filter = ("tier", "reporting", "frequency")
 
@@ -35,6 +34,7 @@ class QuarterResultAdmin(admin.ModelAdmin):
         "indicator",
         "financial_year",
         "geography",
+        "target",
         "quarter_one",
         "quarter_two",
         "quarter_three",
