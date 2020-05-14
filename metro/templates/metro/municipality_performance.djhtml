@@ -73,7 +73,7 @@
     </div>
   </div>
   {% for category,results in quarter_results.items %}
-      <section id="#{{results.slug}}" class="section performance-category">
+      <section id="{{results.slug}}" class="section performance-category">
 	  <div class="container">
 	      <div class="row">
 		  <div class="col">
@@ -238,7 +238,6 @@
 		  </div>
 	      </div>
 	  </div>
-
       </section>
   {% endfor %}
   <section id="procurement-resources" class="section cc-no-padding last">
@@ -265,7 +264,7 @@
       </div>
     </div>
     </section>
-  <div class="footer">
+  x<div class="footer">
     <div class="container">
       <div class="row">
         <div class="col col-4 col-sm-12">
