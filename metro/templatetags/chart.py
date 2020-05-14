@@ -20,4 +20,6 @@ def percentage(value, arg):
             IndicatorQuarterResult.clean_value(value)
             / IndicatorQuarterResult.clean_value(arg)
         ) * 100
+        if result > 100:
+            return 99
         return int(result)
