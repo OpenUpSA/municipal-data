@@ -56,7 +56,6 @@ class Indicator(models.Model):
     formula = models.TextField()
     frequency = models.CharField(max_length=100)
     definition = models.TextField()
-    target = models.CharField(max_length=20, null=True)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     def __str__(self):
@@ -85,6 +84,7 @@ class IndicatorQuarterResult(models.Model):
     quarter_two = models.CharField(max_length=20, null=True, verbose_name="Q2")
     quarter_three = models.CharField(max_length=20, null=True, verbose_name="Q3")
     quarter_four = models.CharField(max_length=20, null=True, verbose_name="Q4")
+    target = models.CharField(max_length=20, null=True)
 
     @staticmethod
     def clean_value(value):
@@ -107,9 +107,9 @@ class IndicatorQuarterResult(models.Model):
         elif self.quarter == "Q4":
             calc = calculation["Q4"]
 
-        if self.indicator.target is None:
+        if self.target is None:
             return False
-        if calc >= self.clean_value(self.indicator.target):
+        if calc >= self.clean_value(self.target):
             return True
         return False
 
@@ -124,12 +124,9 @@ class IndicatorQuarterResult(models.Model):
         elif self.quarter == "Q4":
             calc = (calculation["Q4"]) / 3
 
-        if self.indicator.target is None:
+        if self.target is None:
             return False
-        print(self.indicator.name)
-        print(calc)
-        print(self.indicator.target)
-        if calc >= self.clean_value(self.indicator.target):
+        if calc >= self.clean_value(self.target):
             return True
         return False
 
