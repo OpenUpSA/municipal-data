@@ -107,7 +107,11 @@ class IndicatorQuarterResult(models.Model):
         elif self.quarter == "Q4":
             calc = calculation["Q4"]
 
-        if self.target is None:
+        print(self.indicator.name)
+        print(calc)
+        print(self.target)
+        print(type(self.target))
+        if self.target is None or self.target == "":
             return False
         if calc >= self.clean_value(self.target):
             return True
@@ -124,7 +128,7 @@ class IndicatorQuarterResult(models.Model):
         elif self.quarter == "Q4":
             calc = (calculation["Q4"]) / 3
 
-        if self.target is None:
+        if self.target is None or self.target == "":
             return False
         if calc >= self.clean_value(self.target):
             return True
