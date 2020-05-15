@@ -120,7 +120,7 @@
 				      </div>
 				      <div class="performance-card__target_wrap">
 					  <div class="performance-card__target-value">
-					      <div id="target-value">{{quarter.indicator.target|default:"No data available"}}</div>
+					      <div id="target-value">{{quarter.target|default:"No data available"}}</div>
 					  </div>
 					  <div class="performance-card__metric">
 					      <div id="target-measurement">
@@ -219,19 +219,19 @@
 			  <style>
 			   #q1-achieved.q{{quarter.indicator.uuid}}
 			   {
-			       height: {{quarter.quarter_one|percentage:quarter.indicator.target}}% !important;
+			       height: {{quarter.quarter_one|percentage:quarter.target}}% !important;
 			   }
 			   #q2-achieved.q{{quarter.indicator.uuid}}
 			   {
-			       height: {{quarter.quarter_two|percentage:quarter.indicator.target}}% !important;
+			       height: {{quarter.quarter_two|percentage:quarter.target}}% !important;
 			   }
 			   #q3-achieved.q{{quarter.indicator.uuid}}
 			   {
-			       height: {{quarter.quarter_three|percentage:quarter.indicator.target}}% !important;
+			       height: {{quarter.quarter_three|percentage:quarter.target}}% !important;
 			   }
 			   #q4-achieved.q{{quarter.indicator.uuid}}
 			   {
-			       height: {{quarter.quarter_four|percentage:quarter.indicator.target}}% !important;
+			       height: {{quarter.quarter_four|percentage:quarter.target}}% !important;
 			   }
 			  </style>
 		      {% endfor %}
