@@ -40,6 +40,7 @@ class QuarterResultAdmin(admin.ModelAdmin):
         "quarter_three",
         "quarter_four",
     )
+    search_fields = ["geography__geo_code"]
 
 
 @admin.register(models.FinancialYear)
