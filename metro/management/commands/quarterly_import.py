@@ -51,8 +51,10 @@ class Command(BaseCommand):
                                 indicator=indicator,
                                 geography=geography,
                                 financial_year=financial_year,
-                                target=row["Annual target"],
-                                defaults={"quarter_one": row["Output"],},
+                                defaults={
+                                    "quarter_one": row["Output"],
+                                    "target": row["Annual target"],
+                                },
                             )
 
                         elif options["quarter"] == "2":
@@ -60,8 +62,10 @@ class Command(BaseCommand):
                                 indicator=indicator,
                                 geography=geography,
                                 financial_year=financial_year,
-                                target=row["Annual target"],
-                                defaults={"quarter_two": row["Output"],},
+                                defaults={
+                                    "quarter_two": row["Output"],
+                                    "target": row["Annual target"],
+                                },
                             )
 
                         elif options["quarter"] == "3":
@@ -69,8 +73,10 @@ class Command(BaseCommand):
                                 indicator=indicator,
                                 geography=geography,
                                 financial_year=financial_year,
-                                target=row["Annual target"],
-                                defaults={"quarter_three": row["Output"],},
+                                defaults={
+                                    "quarter_three": row["Output"],
+                                    "target": row["Annual target"],
+                                },
                             )
 
                         elif options["quarter"] == "4":
@@ -78,8 +84,10 @@ class Command(BaseCommand):
                                 indicator=indicator,
                                 geography=geography,
                                 financial_year=financial_year,
-                                target=row["Annual target"],
-                                defaults={"quarter_four": row["Output"],},
+                                defaults={
+                                    "quarter_four": row["Output"],
+                                    "target": row["Annual target"],
+                                },
                             )
                         else:
                             raise CommandError("Financial Quarter does not exist")
