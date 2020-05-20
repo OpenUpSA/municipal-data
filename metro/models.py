@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime
 from scorecard.models import Geography
 import uuid
+from django.utils.text import slugify
 
 
 class FinancialYearQuerySet(models.QuerySet):
@@ -42,6 +43,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
 
 class Indicator(models.Model):
     category = models.ForeignKey(
@@ -58,6 +63,9 @@ class Indicator(models.Model):
     definition = models.TextField()
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
+    class Meta:
+        unique_together = ("code", "name")
+
     def __str__(self):
         return self.name
 
@@ -69,6 +77,9 @@ class IndicatorElements(models.Model):
     code = models.CharField(max_length=10)
     name = models.CharField(max_length=255)
     definition = models.TextField()
+
+    class Meta:
+        unique_together = ("code", "name")
 
     def __str__(self):
         return self.name
@@ -85,6 +96,9 @@ class IndicatorQuarterResult(models.Model):
     quarter_three = models.CharField(max_length=20, null=True, verbose_name="Q3")
     quarter_four = models.CharField(max_length=20, null=True, verbose_name="Q4")
     target = models.CharField(max_length=20, null=True)
+
+    class Meta:
+        unique_together = ("indicator", "financial_year", "geography")
 
     @staticmethod
     def clean_value(value):
