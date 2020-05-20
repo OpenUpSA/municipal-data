@@ -11,7 +11,7 @@ def percentage(value, arg):
     """
     if not value:
         return 0
-    if not arg:
+    if not arg or arg == "0":
         return 0
     if "%" in value:
         return float(value.replace("%", ""))
