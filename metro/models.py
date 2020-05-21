@@ -136,11 +136,11 @@ class IndicatorQuarterResult(models.Model):
         if self.quarter == "Q1":
             calc = calculation["Q1"]
         elif self.quarter == "Q2":
-            calc = (calculation["Q2"]) / 1
+            calc = calculation["Q2"]
         elif self.quarter == "Q3":
-            calc = (calculation["Q3"]) / 2
+            calc = calculation["Q3"]
         elif self.quarter == "Q4":
-            calc = (calculation["Q4"]) / 3
+            calc = calculation["Q4"]
 
         if self.target is None or self.target == "":
             return False
