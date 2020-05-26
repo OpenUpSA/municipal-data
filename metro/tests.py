@@ -94,5 +94,3 @@ class MetroTestCase(TestCase):
         result_cpt = IndicatorQuarterResult.objects.get(quarter_one='10%')
         self.assertEqual(result_jhb.target_achived, False)
         self.assertEqual(result_cpt.target_achived, True)
-    def category_sort_test(self):
-        pass
