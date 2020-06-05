@@ -4232,6 +4232,19 @@ a {
   font-weight: 500;
 }
 
+.performance-card__info {
+  margin-top: 12px;
+  margin-bottom: -4px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  color: rgba(0, 0, 0, 0.74);
+  font-size: 0.8em;
+}
+
+.performance-card__info.hidden {
+  display: none;
+}
+
 @media screen and (max-width: 991px) {
   h1 {
     font-size: 2.1em;
