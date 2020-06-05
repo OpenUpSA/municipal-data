@@ -7,11 +7,12 @@ from django.contrib.postgres.search import SearchQuery
 from . import models
 from . import api as api_views
 from django.http import HttpResponse
+from infrastructure.utils import chart_quarters
 
 
 class ListView(TemplateView):
 
-    template_name = "webflow/infrastructure-search.html"
+    template_name = "infrastructure/search.djhtml"
 
     def get_context_data(self, **kwargs):
         view = api_views.ProjectViewSet.as_view({"get": "list"})
@@ -25,12 +26,13 @@ class ListView(TemplateView):
 
         context = super().get_context_data(**kwargs)
         context["page_data_json"] = {"data": json.dumps(projects)}
+
         return context
 
 
 class DetailView(TemplateView):
 
-    template_name = "webflow/infrastructure-project.html"
+    template_name = "infrastructure/project.djhtml"
 
     def get_full_serialize_url(self, pk):
         api_url = reverse("project-detail", args=(pk,))
@@ -47,6 +49,26 @@ class DetailView(TemplateView):
 
         context = super().get_context_data(**kwargs)
         context["page_data_json"] = {"data": json.dumps(project)}
+
+        project_quarters = models.ProjectQuarterlySpend.objects.filter(
+            project__id=kwargs["pk"]
+        ).order_by("financial_year")
+
+        project_phases = models.Expenditure.objects.filter(
+            project__id=kwargs["pk"]
+        ).order_by("financial_year")
+        financial_years = models.FinancialYear.objects.all()
+
+        (
+            context["original_chart_data"],
+            context["adjusted_chart_data"],
+            context["quarter_chart_data"],
+        ) = chart_quarters(project_quarters, project_phases, financial_years)
+
+        is_quarters = False
+        if project_quarters:
+            is_quarters = True
+        context["is_quarters"] = is_quarters
         return context
 
 
