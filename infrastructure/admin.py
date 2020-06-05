@@ -1,7 +1,9 @@
 from django.contrib import admin
+from django.conf.urls import url
+from django.contrib import messages
 
-# Register your models here.
 from . import models
+from django_q.tasks import async_task
 
 
 @admin.register(models.FinancialYear)
@@ -34,3 +36,21 @@ class ExpenditureAdmin(admin.ModelAdmin):
         "financial_year",
         "amount",
     )
+    list_filter = ("budget_phase", "financial_year")
+
+
+@admin.register(models.ProjectQuarterlySpend)
+class QuarterlySpendAdmin(admin.ModelAdmin):
+    list_display = ("project", "financial_year", "q1", "q2", "q3", "q4")
+
+
+@admin.register(models.QuarterlySpendFile)
+class SpendFileAdmin(admin.ModelAdmin):
+    list_display = ("financial_year", "document")
+
+    def save_model(self, request, obj, form, change):
+        messages.add_message(
+            request, messages.INFO, "Dataset is currently being processed."
+        )
+        super().save_model(request, obj, form, change)
+        task_id = async_task("infrastructure.upload.process_document", obj.id)

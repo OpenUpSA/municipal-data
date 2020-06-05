@@ -64,6 +64,12 @@ class Project(models.Model):
 
     class Meta:
         indexes = [GinIndex(fields=["content_search"])]
+        unique_together = (
+            "geography",
+            "project_number",
+            "function",
+            "project_description",
+        )
 
     def __str__(self):
         return "%s - %s" % (self.geography, self.project_description)
@@ -81,3 +87,26 @@ class Expenditure(models.Model):
 
     def __str__(self):
         return "%s - %s (%s)" % (self.project, self.budget_phase, self.financial_year)
+
+
+class ProjectQuarterlySpend(models.Model):
+    project = models.ForeignKey(
+        Project, on_delete=models.CASCADE, related_name="quarterly"
+    )
+    financial_year = models.ForeignKey(FinancialYear, on_delete=models.CASCADE)
+    q1 = models.DecimalField(max_digits=20, decimal_places=2, null=True)
+    q2 = models.DecimalField(max_digits=20, decimal_places=2, null=True)
+    q3 = models.DecimalField(max_digits=20, decimal_places=2, null=True)
+    q4 = models.DecimalField(max_digits=20, decimal_places=2, null=True)
+
+    class Meta:
+        unique_together = ("project", "financial_year")
+
+
+class QuarterlySpendFile(models.Model):
+    SUCCESS = 1
+    ERROR = 2
+    PROGRESS = 3
+    financial_year = models.ForeignKey(FinancialYear, on_delete=models.CASCADE)
+    document = models.FileField(upload_to="quarterly/")
+    status = models.IntegerField(default=PROGRESS)
