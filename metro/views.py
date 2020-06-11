@@ -57,7 +57,7 @@ class PerformanceView(TemplateView):
             geography__geo_code=self.geo_code,
         )
 
-        current_quarter = FinancialYear.current_quarter()
+        current_quarter = FinancialYear.financial_year.quarter()
 
         quarter_results_sort = utils.category_sort(quarter_results)
         page_context["quarter_results"] = quarter_results_sort
