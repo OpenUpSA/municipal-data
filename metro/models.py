@@ -3,6 +3,7 @@ from datetime import datetime
 from scorecard.models import Geography
 import uuid
 from django.utils.text import slugify
+from enum import Enum
 
 
 class FinancialYearQuerySet(models.QuerySet):
@@ -10,29 +11,24 @@ class FinancialYearQuerySet(models.QuerySet):
         active = self.get(active=True)
         return active.budget_year[2:4]
 
+    def quarter(self):
+        year = self.get(active=True)
+        return year.quarter
+
 
 class FinancialYear(models.Model):
+
     budget_year = models.CharField(max_length=10)
     active = models.BooleanField(default=False)
+    quarter = models.CharField(
+        max_length=5, null=True, help_text="Current quarter of the financial year"
+    )
 
     def __str__(self):
         return self.budget_year
 
     financial_year = FinancialYearQuerySet.as_manager()
     objects = models.Manager()
-
-    @staticmethod
-    def current_quarter():
-        QUARTERS = {
-            "June July August": "Q1",
-            "September October, November": "Q2",
-            "December January Febuary": "Q3",
-            "March April May": "Q4",
-        }
-        month = datetime.now().strftime("%B")
-        for months in QUARTERS.keys():
-            if month in months:
-                return QUARTERS[months]
 
 
 class Category(models.Model):
@@ -62,6 +58,7 @@ class Indicator(models.Model):
     frequency = models.CharField(max_length=100)
     definition = models.TextField()
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    goal = models.CharField(max_length=25, null=True)
 
     class Meta:
         unique_together = ("code", "name")
@@ -86,7 +83,7 @@ class IndicatorElements(models.Model):
 
 
 class IndicatorQuarterResult(models.Model):
-    quarter = FinancialYear.current_quarter()
+    quarter = FinancialYear.financial_year.quarter()
 
     indicator = models.ForeignKey(Indicator, on_delete=models.CASCADE)
     financial_year = models.ForeignKey(FinancialYear, on_delete=models.CASCADE)
@@ -121,13 +118,17 @@ class IndicatorQuarterResult(models.Model):
         elif self.quarter == "Q4":
             calc = calculation["Q4"]
 
-        print(self.indicator.name)
-        print(calc)
-        print(self.target)
-        print(type(self.target))
         if self.target is None or self.target == "":
             return False
-        if calc >= self.clean_value(self.target):
+        if (
+            calc >= self.clean_value(self.target)
+            and self.indicator.goal == "Higher is better"
+        ):
+            return True
+        elif (
+            calc <= self.clean_value(self.target)
+            and self.indicator.goal == "Lower is better"
+        ):
             return True
         return False
 
@@ -144,14 +145,22 @@ class IndicatorQuarterResult(models.Model):
 
         if self.target is None or self.target == "":
             return False
-        if calc >= self.clean_value(self.target):
+        if (
+            calc >= self.clean_value(self.target)
+            and self.indicator.goal == "Higher is better"
+        ):
+            return True
+        elif (
+            calc <= self.clean_value(self.target)
+            and self.indicator.goal == "Lower is better"
+        ):
             return True
         return False
 
     def target_achived(self):
         """
         Check if targert has been reached
-        We cant compare percentage
+        We cant compare percentages
         """
         calculation = {
             "Q1": self.clean_value(self.quarter_one),
@@ -181,3 +190,15 @@ class IndicatorQuarterResult(models.Model):
             "Q4": self.quarter_four,
         }
         return quarter_map[self.quarter]
+
+
+class UpdateFile(models.Model):
+    PROGRESS = "In Progress"
+    ERROR = "Error Processing File"
+    SUCCESS = "File Successfully processed"
+
+    financial_year = models.ForeignKey(FinancialYear, on_delete=models.CASCADE)
+    geography = models.ForeignKey(Geography, on_delete=models.CASCADE, null=True)
+    document = models.FileField(upload_to="quarterly/")
+    quarter = models.CharField(max_length=5, null=True)
+    status = models.CharField(max_length=25, null=True)
