@@ -83,8 +83,7 @@ class IndicatorElements(models.Model):
 
 
 class IndicatorQuarterResult(models.Model):
-    # quarter = FinancialYear.financial_year.quarter()
-    quarter = "Q3"
+    quarter = FinancialYear.financial_year.quarter()
 
     indicator = models.ForeignKey(Indicator, on_delete=models.CASCADE)
     financial_year = models.ForeignKey(FinancialYear, on_delete=models.CASCADE)
@@ -196,7 +195,7 @@ class IndicatorQuarterResult(models.Model):
 class UpdateFile(models.Model):
     PROGRESS = "In Progress"
     ERROR = "Error Processing File"
-    SUCCESS = "File Successfully processed"
+    SUCCESS = "File Successfully Processed"
 
     financial_year = models.ForeignKey(FinancialYear, on_delete=models.CASCADE)
     geography = models.ForeignKey(Geography, on_delete=models.CASCADE, null=True)
