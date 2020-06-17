@@ -371,5 +371,6 @@ AWS_S3_OBJECT_PARAMETERS = {
     "CacheControl": "max-age=86400",
 }
 
-DEFAULT_FILE_STORAGE = "municipal_finance.storage.MediaStorage"
+if not DEBUG:
+    DEFAULT_FILE_STORAGE = "municipal_finance.storage.MediaStorage"
 # MEDIA_ROOT = os.path.join(BASE_DIR, "media")
