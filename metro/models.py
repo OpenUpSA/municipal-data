@@ -83,7 +83,8 @@ class IndicatorElements(models.Model):
 
 
 class IndicatorQuarterResult(models.Model):
-    quarter = FinancialYear.financial_year.quarter()
+    # quarter = FinancialYear.financial_year.quarter()
+    quarter = "Q3"
 
     indicator = models.ForeignKey(Indicator, on_delete=models.CASCADE)
     financial_year = models.ForeignKey(FinancialYear, on_delete=models.CASCADE)
