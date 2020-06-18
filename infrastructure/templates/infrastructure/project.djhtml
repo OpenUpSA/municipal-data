@@ -259,19 +259,50 @@
             </div>
           </div>
         </div>
-            </div>
-      <div class="row">
-	  <div class="col">
-	      <h2 class="sub-section__title">Chart Here</h2>
-              <div class="divider"></div>
-	      {% if is_quarters %}
-		  <div id="chart"></div>
-              {% else %}
-		  <h3>No Data Available</h3>
-	      {% endif %}	  
-	  </div>
       </div>
     </div>
+  </div>
+  <div class="section">
+      <div class="container">
+	  <div class="row">
+              <div class="info-chart__body">
+		  <div class="col col-12">
+		      <div class="subsection-details__heading">
+			  <h3 class="project-detail_heading">PROJECT IMPLEMENTATION</h3>
+		      </div>
+		  </div>
+		  <div class="col col-4 col-m-12">
+		      <div class="subsection-detail_wrapper">
+			  <p class="text_subsection-detail">
+			      This chart shows the expenditure of a capital project over a financial year and not over the projects lifetime. The original and adjusted budgets also cover a financial year.
+			      <br><br>
+			      The quarterly expenditure line goes up by the amount spend in that quarter, subsequent quarters will show a combination of the total spent so far in the year and what was spent in the quarter as well.	      
+			  </p>
+			  <!-- <div class="detail-button_wrapper"><a href="#" class="button-3 w-inline-block"><img src="https://uploads-ssl.webflow.com/5d660ef145315201ac996790/5d66718445315264549b89ee_book-white-24px.svg" alt="" class="button-icon-2 _20px"><div class="button-text">Learn about budget schedules</div></a></div> -->
+		      </div>
+		  </div>
+		  <div class="col col-8 col-m-12">
+		      <div class="subsection-chart_wrapper">
+			  {% if quarter_chart_data.data %}
+			      <div id="project-time-series" class="subsection-chart">
+				  <div id="chart"></div>
+			      </div>
+			      <!-- <div class="subsection-chart__detail">
+				   <div class="source_wrapper">
+				   <div class="source">Source:</div>
+				   <div class="text-source-link-2">Estimates of National Expenditure</div>
+				   </div>
+				   <div class="small-button_wrapper"><a href="http://www.google.com" class="icon-button cc-text w-inline-block"><img src="https://uploads-ssl.webflow.com/5d660ef145315201ac996790/5d6622584531524f0699ad8c_download-24px.svg" alt="" class="icon_16px"><div class="text_icon-button">Download data</div></a><a href="http://www.google.com" class="icon-button cc-text w-inline-block"><img src="https://uploads-ssl.webflow.com/5d660ef145315201ac996790/5d8b18ec08d7f80d225ee656_image-24px.svg" alt="" class="icon_16px"><div class="text_icon-button">Download image</div></a></div>
+				   </div> -->
+			  {% else %}
+			      {{quarter_chart_data}}
+			      <h3 class="project-detail_heading">No Data Available</h3>
+			  {% endif %}
+		      </div>
+		  </div>
+              </div>
+	  </div>
+      </div>
   </div>
   <div class="footer">
     <div class="container">
@@ -337,48 +368,48 @@
        
        
        var quarterChartData = {{quarter_chart_data|safe}};
-       var originalChartData = {{original_chart_data|safe}};
-       var adjustedChartData = {{adjusted_chart_data|safe}};
-       
-       console.log(quarterChartData);
-       console.log("Original: " + originalChartData);
-       console.log("Adjusted: " + adjustedChartData);
-       
-       var quarterPlot = {
-	   x: quarterChartData.labels,
-	   y: quarterChartData.data.map(extract_quarters),
-	   hoverinfo:'text',
-	   hovertext: quarterChartData.data.map(amount_convert),
-	   type: 'scatter',
-	   name: "Quarterly Expenditure"
+       if (quarterChartData.data){
+	   var originalChartData = {{original_chart_data|safe}};
+	   var adjustedChartData = {{adjusted_chart_data|safe}};
+	   
+	   var quarterPlot = {
+	       x: quarterChartData.labels,
+	       y: quarterChartData.data.map(extract_quarters),
+	       hoverinfo:'text',
+	       hovertext: quarterChartData.data.map(amount_convert),
+	       type: 'scatter',
+	       name: "Quarterly Expenditure"
 
-       };
-       var originalPlot = {
-	   x: originalChartData.labels,
-	   y: originalChartData.data,
-	   hoverinfo: 'text',
-	   text: originalChartData.data.map(add_rand),
-	   name: "Original Budget",
-	   mode:'lines',
-	   line:{
-	       width: 4
-	   }
-       };
-       var adjustedPlot = {
-	   x: adjustedChartData.labels,
-	   y: adjustedChartData.data,
-	   hoverinfo: 'text',
-	   text: adjustedChartData.data.map(add_rand),
-	   mode: 'lines',
-	   line:{
-	       dash: "dot",
-	       width: 4
-	   },
-	   name: "Adjusted Budget"
-       };
-       var layout = {};
-       var config = {displayModeBar: false, responsive:true};
-       Plotly.newPlot('chart', [quarterPlot, originalPlot, adjustedPlot], layout, config);
+	   };
+	   var originalPlot = {
+	       x: originalChartData.labels,
+	       y: originalChartData.data,
+	       hoverinfo: 'text',
+	       text: originalChartData.data.map(add_rand),
+	       name: "Original Budget",
+	       mode:'lines',
+	       line:{
+		   width: 4
+	       }
+	   };
+	   var adjustedPlot = {
+	       x: adjustedChartData.labels,
+	       y: adjustedChartData.data,
+	       hoverinfo: 'text',
+	       text: adjustedChartData.data.map(add_rand),
+	       mode: 'lines',
+	       line:{
+		   dash: "dot",
+		   width: 4
+	       },
+	       name: "Adjusted Budget"
+	   };
+	   var layout = {margin: {
+	       t:10
+	   }};
+	   var config = {displayModeBar: false, responsive:true};
+	   Plotly.newPlot('chart', [quarterPlot, originalPlot, adjustedPlot], layout, config);   
+       }
    })
   </script>
 </body>

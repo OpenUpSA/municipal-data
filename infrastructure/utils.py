@@ -239,13 +239,12 @@ def chart_quarters(quarter_queryset, phase_queryset, years):
                 original_chart_data["labels"].append(
                     f"End Q2<br>{phase.financial_year.budget_year}"
                 )
-                original_chart_data["labels"].append(
-                    f"End Q3<br>{phase.financial_year.budget_year}"
-                )
-                original_chart_data["data"].append(float(phase.amount))
                 original_chart_data["data"].append(float(phase.amount))
                 original_chart_data["data"].append(float(phase.amount))
             if phase.budget_phase.name == "Adjusted Budget":
+                adjusted_chart_data["labels"].append(
+                    f"End Q2<br>{phase.financial_year.budget_year}"
+                )
                 adjusted_chart_data["labels"].append(
                     f"End Q3<br>{phase.financial_year.budget_year}"
                 )
@@ -254,9 +253,11 @@ def chart_quarters(quarter_queryset, phase_queryset, years):
                 )
                 adjusted_chart_data["data"].append(float(phase.amount))
                 adjusted_chart_data["data"].append(float(phase.amount))
+                adjusted_chart_data["data"].append(float(phase.amount))
             if phase.budget_phase.name == "Audited Outcome":
+                pass
                 # audited_years.append(phase.financial_year)
-                total_audit_expenditure += float(phase.amount)
+                # total_audit_expenditure += float(phase.amount)
 
     if quarter_queryset:
         for spend in quarter_queryset:
