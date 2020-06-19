@@ -14,6 +14,6 @@ def process_document(id):
         spend.status = QuarterlySpendFile.SUCCESS
         spend.save()
     except Exception:
+        spend.status = QuarterlySpendFile.ERROR
+        spend.save()
         raise ValueError("Error processing file")
-        # spend_file.status = QuarterlySpendFile.SUCCESS
-        # spend_file.save()
