@@ -267,7 +267,7 @@ def chart_quarters(quarter_queryset, phase_queryset, years):
                 )
                 total_spending["Q1"] = float(spend.q1) + total_audit_expenditure
                 quarter_chart_data["data"].append(
-                    [float(spend.q1), total_spending["Q1"]]
+                    [total_spending["Q1"], float(spend.q1)]
                 )
 
             if spend.q2:
@@ -277,7 +277,7 @@ def chart_quarters(quarter_queryset, phase_queryset, years):
 
                 total_spending["Q2"] = float(spend.q2) + total_spending["Q1"]
                 quarter_chart_data["data"].append(
-                    [float(spend.q2), total_spending["Q2"]]
+                    [total_spending["Q2"], float(spend.q2)]
                 )
 
             if spend.q3:
@@ -287,7 +287,7 @@ def chart_quarters(quarter_queryset, phase_queryset, years):
 
                 total_spending["Q3"] = float(spend.q3) + total_spending["Q2"]
                 quarter_chart_data["data"].append(
-                    [float(spend.q3), total_spending["Q3"]]
+                    [total_spending["Q3"], float(spend.q3)]
                 )
 
             if spend.q4:
@@ -297,6 +297,6 @@ def chart_quarters(quarter_queryset, phase_queryset, years):
 
                 total_spending["Q4"] = float(spend.q4) + total_spending["Q4"]
                 quarter_chart_data["data"].append(
-                    [float(spend.q4), total_spending["Q4"]]
+                    [total_spending["Q4"], float(spend.q4)]
                 )
     return original_chart_data, adjusted_chart_data, quarter_chart_data

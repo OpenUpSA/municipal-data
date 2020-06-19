@@ -369,8 +369,8 @@
   <script src="{% static 'household/js/plotly.js' %}"></script>
   <script>
    function amount_convert(value){
-       var total = Humanize.compactInteger(value[1], 1);
-       var quarter = Humanize.compactInteger(value[0], 1);
+       var total = Humanize.compactInteger(value[0], 1);
+       var quarter = Humanize.compactInteger(value[1], 1);
        return 'Total Spent: R '+ total +"<br>" + 'Spent in quarter: R ' + quarter;
    }
    function extract_quarters(data){
