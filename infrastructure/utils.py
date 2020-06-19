@@ -142,11 +142,11 @@ def load_file(geography, reader, financial_year):
 def create_expenditure(project, finance_phase, amount):
     phase, year = create_finance_phase(finance_phase)
     try:
-        expenditure = models.Expenditure.objects.create(
+        expenditure, _ = models.Expenditure.objects.update_or_create(
             project=project,
             budget_phase=phase,
             financial_year=year,
-            amount=float(amount),
+            defaults={"amount": float(amount)},
         )
         return True
     except ValueError:
