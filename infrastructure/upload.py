@@ -1,6 +1,7 @@
 from .models import QuarterlySpendFile
 
 from .utils import load_excel
+import io
 
 
 def process_document(id):
@@ -9,8 +10,8 @@ def process_document(id):
     """
     spend = QuarterlySpendFile.objects.get(id=id)
     try:
-        path = spend.document.path
-        load_excel(path, financial_year=spend.financial_year)
+        excel_file = io.TextIOWrapper(spend.document.path.file)
+        load_excel(excel_file, financial_year=spend.financial_year)
         spend.status = QuarterlySpendFile.SUCCESS
         spend.save()
     except Exception:
