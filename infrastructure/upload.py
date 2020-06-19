@@ -10,7 +10,7 @@ def process_document(id):
     """
     spend = QuarterlySpendFile.objects.get(id=id)
     try:
-        excel_file = io.TextIOWrapper(spend.document.path.file)
+        excel_file = io.TextIOWrapper(spend.document.file)
         load_excel(excel_file, financial_year=spend.financial_year)
         spend.status = QuarterlySpendFile.SUCCESS
         spend.save()
