@@ -48,7 +48,7 @@ def check_headers(fields):
 
 
 @transaction.atomic
-def load_excel(filename, financial_year=None):
+def load_excel(filename, financial_year=None, file_contents=None):
     def clean(s):
         if type(s) == str:
             return s.strip()
@@ -81,7 +81,10 @@ def load_excel(filename, financial_year=None):
 
             yield dict(zip(header_row, row))
 
-    workbook = xlrd.open_workbook(filename)
+    if file_contents:
+        workbook = xlrd.open_workbook(file_contents=file_contents)
+    else:
+        workbook = xlrd.open_workbook(file_contents=file_contents)
     print(workbook.sheets)
     for sheet in workbook.sheets():
         geo_code = sheet.name
