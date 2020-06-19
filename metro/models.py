@@ -201,4 +201,4 @@ class UpdateFile(models.Model):
     geography = models.ForeignKey(Geography, on_delete=models.CASCADE, null=True)
     document = models.FileField(upload_to="quarterly/")
     quarter = models.CharField(max_length=5, null=True)
-    status = models.CharField(max_length=25, null=True)
+    status = models.CharField(max_length=50, null=True)
