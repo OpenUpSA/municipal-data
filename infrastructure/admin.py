@@ -3,6 +3,7 @@ from django.conf.urls import url
 from django.contrib import messages
 
 from . import models
+from .forms import UploadFileForm
 from django_q.tasks import async_task
 
 
@@ -47,6 +48,7 @@ class QuarterlySpendAdmin(admin.ModelAdmin):
 @admin.register(models.QuarterlySpendFile)
 class SpendFileAdmin(admin.ModelAdmin):
     list_display = ("financial_year", "document")
+    form = UploadFileForm
 
     def save_model(self, request, obj, form, change):
         messages.add_message(
