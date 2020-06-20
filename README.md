@@ -3,6 +3,8 @@
 Municipal Money is a project between the [South African National Treasury](http://www.treasury.gov.za/) and [OpenUp](https://openup.org.za) to
 make municipal finance information available to the public. It is made up of a citizen-facing app and an API.
 
+In production, the two sites are served by one django instance, using the hostname to determine which site to serve. In development, we use the SITE_ID environment variable to select the site, and run two instances when needed:
+
 | Site                                 | Production URL                         | docker-compose service name | Django Sites ID |
 |--------------------------------------|----------------------------------------|-----------------------------|-----------------|
 | Public-friendly site                 | https://municipalmoney.gov.za/         | scorecard                   | 2               |
