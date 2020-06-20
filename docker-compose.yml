@@ -6,15 +6,11 @@ services:
       context: .
       dockerfile: Dockerfile-dev
     command: python manage.py runserver 0.0.0.0:8000
-    networks:
-      - munimoney
     volumes:
       - ".:/app"
-      - "../data:/data"
     environment:
-      DATABASE_URL: 'postgres://postgres@postgres/municipal_finance'
-      BABBAGE_TEST_DB: 'postgres://postgres@postgres/babbage'
-      DJANGO_SECRET_KEY: "dgdsfjdhfkjdshfdkfhdskfhjkdfhdsjhfkdjfdhk"
+      DATABASE_URL: 'postgres://municipal_finance@postgres/municipal_finance'
+      DJANGO_SECRET_KEY: "not-so-secret"
       SITE_ID: '3'
       PRELOAD_CUBES: 'true'
       API_URL: https://municipaldata.treasury.gov.za/api
@@ -27,45 +23,28 @@ services:
       context: .
       dockerfile: Dockerfile-dev
     command: python manage.py runserver 0.0.0.0:8000
-    #command: :/usr/local/bin/gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:application -t 600 --log-file -
     volumes:
       - '.:/app'
-      - '../datasets:/data'
     environment:
-      DATABASE_URL: 'postgres://postgres@postgres/municipal_finance'
-      DJANGO_SECRET_KEY: "dgdsfjdhfkjdshfdkfhdskfhjkdfhdsjhfkdjfdhk"
-      BABBAGE_TEST_DB: 'postgres://postgres@potgres/babbage'
+      DATABASE_URL: 'postgres://municipal_finance@postgres/municipal_finance'
+      DJANGO_SECRET_KEY: "not-so-secret"
       SITE_ID: '2'
       API_URL: https://municipaldata.treasury.gov.za/api
-    networks:
-      - munimoney
     ports:
       - '8001:8000'
-      - '8080:8080'
     working_dir: /app
 
   postgres:
-    image: postgres:9.4
+    image: postgres:11.5
     volumes:
-      - '.:/app'
-      - '../data:/data'
       - postgres_data:/var/lib/postgresql/data
-    networks:
-      - munimoney
     environment:
       - POSTGRES_DB=municipal_finance
       - POSTGRES_USER=municipal_finance
       - POSTGRES_PASS=municipal_finance
-    ports:
-      - '5433:5432'
-
-networks:
-    munimoney:
-        driver: bridge
 
 volumes:
   postgres_data: {}
   munimoney_search: {}
   esdata:
     driver: local
-
