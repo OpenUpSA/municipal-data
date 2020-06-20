@@ -1,35 +1,21 @@
 version: '3'
 
 services:
-  scorecard:
+  portal:
     build:
       context: .
       dockerfile: Dockerfile-dev
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - '.:/app'
+      - ".:/app"
     environment:
       DATABASE_URL: 'postgres://municipal_finance@postgres/municipal_finance'
       DJANGO_SECRET_KEY: "not-so-secret"
-      SITE_ID: '2'
+      SITE_ID: '3'
+      PRELOAD_CUBES: 'true'
       API_URL: https://municipaldata.treasury.gov.za/api
-    ports:
-      - '8001:8000'
     working_dir: /app
+    ports:
+      - '8002:8000'
     depends_on:
       - postgres
-
-  postgres:
-    image: postgres:11.5
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=municipal_finance
-      - POSTGRES_USER=municipal_finance
-      - POSTGRES_PASS=municipal_finance
-
-volumes:
-  postgres_data: {}
-  munimoney_search: {}
-  esdata:
-    driver: local

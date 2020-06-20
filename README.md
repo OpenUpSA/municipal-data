@@ -1,13 +1,42 @@
 # Municipal Money
 
-Municipal Money is a project between the [South African National Treasury](http://www.treasury.gov.za/) and [Code for South Africa](http://code4sa.org) to
+Municipal Money is a project between the [South African National Treasury](http://www.treasury.gov.za/) and [OpenUp](https://openup.org.za) to
 make municipal finance information available to the public. It is made up of a citizen-facing app and an API.
+
+| Site                                 | Production URL                         | docker-compose service name | Django Sites ID |
+|--------------------------------------|----------------------------------------|-----------------------------|-----------------|
+| Public-friendly site                 | https://municipalmoney.gov.za/         | scorecard                   | 2               |
+| Data exploration/download UI and API | https://municipaldata.treasury.gov.za/ | portal                      | 3               |
 
 # Local development quick start (with docker-compose)
 
-If you only want to work on the scorecard website. The site will still use the live API server
+If you only want to work on the scorecard website. The site will use pre-calculated
+financials and link to the production data/API site for detail.
 
-``docker-compose up``
+```
+docker-compose up -d postgres
+docker-compose run --rm scorecard python manage.py migrate
+docker-compose run --rm scorecard python manage.py loaddata demo-data
+docker-compose up scorecard
+```
+
+If you want to run the API and data portallocally using docker-compose you also need to:
+
+
+1. dump the production database
+2. load the production database dump into your docker-compose postgres instance
+   (this will take at least 40 minutes) with something like
+
+```
+docker-compose -f docker-compose.yml -f docker-compose.portal.yml \
+               run --rm -v /home/user/folder-containing-dumpdata/:/data \
+               portal pg_restore -h postgres -U municipal_finance -d municipal_finance /data/dumpfile
+```
+3. run the API and data portal along with the scorecard site with something like
+
+```
+docker-compose -f docker-compose.yml -f docker-compose.portal.yml up portal scorecard
+```
 
 # Local development (without docker)
 
@@ -46,6 +75,7 @@ export SITE_ID=3
 gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:application -t 600 --log-file -
 ```
 
+
 # Production
 
 ```
@@ -54,6 +84,7 @@ dokku config:set municipal-finance DJANGO_DEBUG=False \
                                    DJANGO_SECRET_KEY=... \
                                    DATABASE_URL=postgres://municipal_finance:...@postgresq....amazonaws.com/municipal_finance
 ```
+
 
 ## Running dabatase migrations in production
 
@@ -87,7 +118,9 @@ Data import is still a fairly manual process leveraging the DB and a few SQL scr
 
 *Remember to run `VACUUM ANALYSE` or REINDEX tables after significant changes to ensure stats are up to date to use indices properly.*
 
+
 # Capital Projects
+
 
 ## Loading new capital projects
 `python manage.py load_infrastructure_projects <municode> <filename>`
@@ -96,10 +129,6 @@ Data import is still a fairly manual process leveraging the DB and a few SQL scr
 - <filename> is a csv file with the following headings
 "Function","Project Description","Project Number","Type","MTSF Service Outcome","IUDF","Own Strategic Objectives","Asset Class","Asset Sub-Class","Ward Location","GPS Longitude","GPS Latitude","Audited Outcome 2017/18","Full Year Forecast 2018/19","Budget year 2019/20","Budget year 2020/21","Budget year 2021/22"
 
-## Updating the Elastic Search index
-
-Whenever new capital projects are added, the search index should be rebuilt
-`python manage.py rebuild_index`
 
 ## TODO
 Currently the following columns are expected in the capital projects input files:
@@ -111,6 +140,8 @@ Currently the following columns are expected in the capital projects input files
 - Budget year 2021/22
 
 This will need to change once the file format is finalised
+
+
 # Standard Operating Procedure
 
 This covers how to keep the data up to date. Each quarter, as new data is released, the following needs to be done to update the data served by the API and the Citizen Scorecard. It's best to do this on a test database first and validate the results before updating the production database.
@@ -162,9 +193,11 @@ Extract CSV datasets from Excel Spreadsheets using the following scripts in `mun
 - uifw_expenditure.py
   - input files like [01. Irregular Expenditures - Master 04 December 2014](http://mfma.treasury.gov.za/Media_Releases/mbi/2014/Documents/G.%20Additional%20information)
 
+
 ## Scrape the MFMA website for the Audit Report URLs into a CSV file
 
 Using `municipal_finance/data_import/audit_reports.py`
+
 
 ## Insert/update from CSV files
 
@@ -194,6 +227,7 @@ You might need to allow extra open files with something like `ulimit -n 500000`
 3. Check what changed using `git diff` and commit commit if changes look right.
 4. Run `bin/test-pages.sh` and ensure that all pages return "200 OK"
 
+
 ## Annual data
 
 Whenever Audited Annual data becomes available (AUDA financial data and Audit Outcomes), adjust the years used by `scorecard/profile_data.py` to include the latest financial year available.
@@ -202,11 +236,13 @@ Audit outcomes will be captured in the months following 1 December following the
 
 Pre-audit figures are captured in the period 3 Aug to 30 Nov after the end of the financial year.
 
+
 ## Quarterly data
 
 Indicators using quarterly data automatically use the latest quarter available.
 
 Quarterly Section 71 submissions are available 2 months after the end of the quarter.
+
 
 ## Validating the data
 
@@ -264,27 +300,35 @@ Do each of these cursory tests for a small sample of municipalities to sanity-ch
     - e.g. `select l.label, l30_amount from aged_debtor_facts f, aged_debtor_items l where f.item_code = l.code and demarcation_code = 'CPT' and financial_year = 2016 and financial_period = 09 and amount_type_code = 'ACT';`
   - Compare the latest available month of a quarter to the quarter value in the report
 
+
 # Upsert Log
+
 
 ## 2016q4
 
 - Some of the files had amounts ending .00 so to check that simply rounding was ok, I ran `grep -v  '\.00' *|egrep  -v "(capital|cflow|grants|rm_)"` - the excluded files didn't have .00 endings.
 
+
 ## 2017q4
 
 - cflow monthly amounts doubled from previous snapshots where they occurred. It turned out this was due to an issue in the query used to generate the snapshot and a new cflow snapshot was supplied.
+
 
 ## 2018q1
 
 - capital and creditor age had unexpected codes for one KZN muni. Marina said we should filter them out.
 
+
 ## 2018q3
 
 - The audit opinion label `Unqualified - With findings` should get mapped to `Unqualified - Emphasis of Matter items` - confirmed with Elsabe.
 
+
 ## 2019-07-09 loading Section 71 Q3 2018-19
 
 e.g. `cat sql/upsert/aged_debtor.sql | docker-compose run --rm postgres psql postgresql://postgres@postgres/municipal_finance`
+
+
 # License
 
 MIT License
