@@ -83,8 +83,6 @@ class IndicatorElements(models.Model):
 
 
 class IndicatorQuarterResult(models.Model):
-    quarter = FinancialYear.financial_year.quarter()
-
     indicator = models.ForeignKey(Indicator, on_delete=models.CASCADE)
     financial_year = models.ForeignKey(FinancialYear, on_delete=models.CASCADE)
     geography = models.ForeignKey(Geography, on_delete=models.CASCADE, null=True)
@@ -162,6 +160,8 @@ class IndicatorQuarterResult(models.Model):
         Check if targert has been reached
         We cant compare percentages
         """
+        self.quarter = FinancialYear.financial_year.quarter()
+
         calculation = {
             "Q1": self.clean_value(self.quarter_one),
             "Q2": self.clean_value(self.quarter_one),
