@@ -34,11 +34,30 @@ docker-compose -f docker-compose.yml -f docker-compose.portal.yml \
                run --rm -v /home/user/folder-containing-dumpdata/:/data \
                portal pg_restore -h postgres -U municipal_finance -d municipal_finance /data/dumpfile
 ```
+
 3. run the API and data portal along with the scorecard site with something like
 
 ```
 docker-compose -f docker-compose.yml -f docker-compose.portal.yml up portal scorecard
 ```
+
+
+## Updating municipality profile data in docker
+
+Run the portal service using gunicorn instead of django's `runserver`:
+
+```
+docker-compose -f docker-compose.yml -f docker-compose.portal.yml -f docker-compose.portal-gunicorn.yml up portal
+```
+
+Run the update scripts against the portal service:
+
+```
+docker-compose -f docker-compose.yml run --rm scorecard python bin/materialised_views.py --api-url http://portal:8000/api --profiles-from-api
+```
+
+Any changes should be written to the json files in the container, which are mapped into the container from the repository directory.
+
 
 # Local development (without docker)
 
