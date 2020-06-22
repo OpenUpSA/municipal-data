@@ -1,0 +1,5 @@
+version: '3'
+
+services:
+  portal:
+    command: gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:application -t 600 --log-file - -b 0.0.0.0:8000
