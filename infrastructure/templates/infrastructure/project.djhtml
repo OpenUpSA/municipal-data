@@ -392,16 +392,9 @@
        if (quarterChartData.data){
 	   var originalChartData = {{original_chart_data|safe}};
 	   var adjustedChartData = {{adjusted_chart_data|safe}};
-	   
-	   var quarterPlot = {
-	       x: quarterChartData.labels,
-	       y: quarterChartData.data.map(extract_quarters),
-	       hoverinfo:'text',
-	       hovertext: quarterChartData.data.map(amount_convert),
-	       type: 'scatter',
-	       name: "Quarterly Expenditure"
-
-	   };
+	   console.log(originalChartData);
+	   console.log(adjustedChartData);
+	   console.log(quarterChartData);
 	   var originalPlot = {
 	       x: originalChartData.labels,
 	       y: originalChartData.data,
@@ -425,11 +418,21 @@
 	       },
 	       name: "Adjusted Budget"
 	   };
+	   var quarterPlot = {
+	       x: quarterChartData.labels,
+	       y: quarterChartData.data.map(extract_quarters),
+	       hoverinfo:'text',
+	       hovertext: quarterChartData.data.map(amount_convert),
+	       type: 'scatter',
+	       name: "Quarterly Expenditure"
+
+	   };
+	   
 	   var layout = {margin: {
 	       t:10
 	   }};
 	   var config = {displayModeBar: false, responsive:true};
-	   Plotly.newPlot('chart', [quarterPlot, originalPlot, adjustedPlot], layout, config);   
+	   Plotly.newPlot('chart', [originalPlot, adjustedPlot,quarterPlot ], layout, config);   
        }
    })
   </script>
