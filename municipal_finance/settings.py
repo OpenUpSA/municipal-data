@@ -54,10 +54,10 @@ INSTALLED_APPS = (
     "pipeline",
     "django_extensions",
     "corsheaders",
-
     "rest_framework",
     "django_q",
     "storages",
+    "metro",
 )
 
 # Sites
@@ -356,20 +356,21 @@ REST_FRAMEWORK = {
 Q_CLUSTER = {
     "name": "DjangORM",
     "workers": 2,
-    "timeout": 600,
-    "retry": 600,
-    "queue_limit": 50,
-    "bulk": 10,
+    "timeout": 3600,
+    "retry": 700,
+    "queue_limit": 100,
+    "bulk": 50,
     "orm": "default",
 }
 
-AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
-AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
-AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME", "")
-AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
-AWS_S3_OBJECT_PARAMETERS = {
-    "CacheControl": "max-age=86400",
-}
-
-DEFAULT_FILE_STORAGE = "municipal_finance.storage.MediaStorage"
-# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+if not DEBUG:
+    DEFAULT_FILE_STORAGE = "municipal_finance.storage.MediaStorage"
+    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
+    AWS_STORAGE_BUCKET_NAME = os.environ.get(
+        "AWS_STORAGE_BUCKET_NAME", "munimoney-media"
+    )
+    AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
+    AWS_S3_OBJECT_PARAMETERS = {
+        "CacheControl": "max-age=86400",
+    }
