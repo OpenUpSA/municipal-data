@@ -305,9 +305,9 @@
 		  </div>
 		  <div class="col col-8 col-m-12">
 		      <div class="subsection-chart_wrapper">
-			  {% if quarter_chart_data.data %}
+			  {% if quarter_data %}
 			      <div id="project-time-series" class="subsection-chart">
-				  <h3 class="project-detail_heading">No Data Available</h3>
+				  <div id="chart"></div>
 			      </div>
 			  {% else %}
 			      <h3 class="project-detail_heading">No Data Available</h3>
@@ -363,11 +363,10 @@
   <script>
    function amount_convert(value){
        var total = Humanize.compactInteger(value[0], 1);
-       var quarter = Humanize.compactInteger(value[1], 1);
-       return 'Total Spent: R '+ total +"<br>" + 'Spent in quarter: R ' + quarter;
+       return "Spent in "+ value + "<br>" + "R "+ total;
    }
    function extract_quarters(data){
-       return data[0];
+       return data[1];
    }
    function add_rand(value){
        return "R " + Humanize.compactInteger(value, 1);
@@ -375,57 +374,72 @@
   </script>
   <script>
    $(document).ready(function() {
-       var pageData = {{ page_data_json|safe }}
-	   var js = JSON.parse(pageData["data"]);
+       var pageData = {{ page_data_json|safe }};
+       var js = JSON.parse(pageData["data"]);
        mmWebflow(js);
 
-       
-       
-       var quarterChartData = {{quarter_chart_data|safe}};
-       if (quarterChartData.data){
-	   var originalChartData = {{original_chart_data|safe}};
-	   var adjustedChartData = {{adjusted_chart_data|safe}};
-	   console.log(originalChartData);
-	   console.log(adjustedChartData);
-	   console.log(quarterChartData);
-	   var originalPlot = {
-	       x: originalChartData.labels,
-	       y: originalChartData.data,
-	       hoverinfo: 'text',
-	       text: originalChartData.data.map(add_rand),
-	       name: "Original Budget",
-	       mode:'lines',
-	       line:{
-		   width: 4
-	       }
-	   };
-	   var adjustedPlot = {
-	       x: adjustedChartData.labels,
-	       y: adjustedChartData.data,
-	       hoverinfo: 'text',
-	       text: adjustedChartData.data.map(add_rand),
-	       mode: 'lines',
-	       line:{
-		   dash: "dot",
-		   width: 4
+       var original_data = {{original_data|safe}};
+       var adjusted_data = {{adjusted_data|safe}};
+       var quarter_data = {{quarter_data|safe}};
+       if (quarter_data){
+	   data = []
+	   var adjusted_chart = {
+	       x:adjusted_data.labels,
+	       y: adjusted_data.data,
+	       hoverinfo:'text',
+	       text: adjusted_data.data.map(add_rand),
+	       type:'bar',
+	       marker: {
+		   color: 'rgb(26, 118, 255)',
 	       },
 	       name: "Adjusted Budget"
-	   };
-	   var quarterPlot = {
-	       x: quarterChartData.labels,
-	       y: quarterChartData.data.map(extract_quarters),
+	       
+	   }
+	   data.push(adjusted_chart);
+	   var original_chart = {
+	       x: original_data.labels,
+	       y: original_data.data,
 	       hoverinfo:'text',
-	       hovertext: quarterChartData.data.map(amount_convert),
-	       type: 'scatter',
-	       name: "Quarterly Expenditure"
-
-	   };
+	       text: original_data.data.map(add_rand),
+	       type:'bar',
+	       marker: {
+		   color: 'rgb(55, 83, 109)',
+	       },
+	       name:"Original Budget"
+	       
+	   }
+	   data.push(original_chart);
 	   
-	   var layout = {margin: {
-	       t:10
-	   }};
+	   colour_mix = ['rgb(252, 177, 3)', 'rgb(0, 153, 51)', 'rgb(204, 0, 153)','rgb(153, 0, 0)'];
+	   
+	   for (const quarter in quarter_data){
+	       var total = Humanize.compactInteger(quarter_data[quarter][1], 1);
+	       var quarter_name = quarter_data[quarter][0];
+	       
+	       var quarter_chart = {
+		   x: ["Quarterly Expenditure"],
+		   y: [quarter_data[quarter][1]],
+		   type: 'bar',
+		   hoverinfo:'text',
+		   text:"Spent in "+ quarter_name + "<br>" + "R "+ total,
+		   name: quarter_name + " Spending",
+		   marker:{
+		       color: colour_mix[quarter],
+		   }
+	       }
+	       data.push(quarter_chart);
+	       
+	   }
+	   var layout = {
+	       margin: {
+		   t:10
+	       },
+	       barmode: 'stack',
+	       xaxis: {title: 'Financial Year 2019/2020'},
+	   };
+	   console.log(data);
 	   var config = {displayModeBar: false, responsive:true};
-	   Plotly.newPlot('chart', [originalPlot, adjustedPlot,quarterPlot ], layout, config);   
+	   Plotly.newPlot('chart', data, layout, config);
        }
    })
   </script>
