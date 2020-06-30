@@ -38,6 +38,7 @@ class HouseholdBillTotalAdmin(admin.ModelAdmin):
 
 @admin.register(models.DataSetFile)
 class DataSetFileAdmin(admin.ModelAdmin):
+    list_display = ("csv_file", "file_type", "version")
     form = UploadForm
 
     def save_model(self, request, obj, form, change):
