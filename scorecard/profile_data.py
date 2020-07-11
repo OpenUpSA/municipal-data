@@ -39,13 +39,13 @@ LAST_AUDIT_QUARTER = "2018q4"
 YEARS = list(range(LAST_AUDIT_YEAR - 3, LAST_AUDIT_YEAR + 1))
 YEARS.reverse()
 
-LAST_OPINION_YEAR = 2018
+LAST_OPINION_YEAR = 2019
 AUDIT_OPINION_YEARS = list(range(LAST_OPINION_YEAR - 3, LAST_OPINION_YEAR + 1))
 AUDIT_OPINION_YEARS.reverse()
 
 # we'll actually only have data up to the year before this but use four
 # for consistency on the page.
-LAST_UIFW_YEAR = 2018
+LAST_UIFW_YEAR = 2019
 UIFW_YEARS = list(range(LAST_UIFW_YEAR - 3, LAST_UIFW_YEAR + 1))
 UIFW_YEARS.reverse()
 
