@@ -361,70 +361,78 @@
   <script src="/static/js/humanize.js"></script>
   <script src="{% static 'household/js/plotly.js' %}"></script>
   <script>
-   function amount_convert(value){
-       var total = Humanize.compactInteger(value[0], 1);
-       var quarter = Humanize.compactInteger(value[1], 1);
-       return 'Total Spent: R '+ total +"<br>" + 'Spent in quarter: R ' + quarter;
-   }
-   function extract_quarters(data){
-       return data[0];
-   }
-   function add_rand(value){
-       return "R " + Humanize.compactInteger(value, 1);
-   }
+    function amount_convert(value) {
+      var total = Humanize.compactInteger(value[0], 1);
+      var quarter = Humanize.compactInteger(value[1], 1);
+      return 'Total Spent: R ' + total + "<br>" + 'Spent in quarter: R ' + quarter;
+    }
+
+    function extract_quarters(data) {
+      return data[0];
+    }
+
+    function add_rand(value) {
+      return "R " + Humanize.compactInteger(value, 1);
+    }
   </script>
   <script>
-   $(document).ready(function() {
-       var pageData = {{ page_data_json|safe }}
-	   var js = JSON.parse(pageData["data"]);
-       mmWebflow(js);
+    $(document).ready(function() {
+      var pageData = {{page_data_json|safe}}
+      var js = JSON.parse(pageData["data"]);
+      mmWebflow(js);
+      var quarterChartData = {{quarter_chart_data|safe}};
+      if (quarterChartData.data) {
+        var originalChartData = {{original_chart_data|safe}};
+        var adjustedChartData = {{adjusted_chart_data|safe}};
+        var originalPlot = {
+          x: originalChartData.labels,
+          y: originalChartData.data,
+          hoverinfo: 'text',
+          text: originalChartData.data.map(add_rand),
+          name: "Original Budget",
+          mode: 'lines',
+          line: {
+            width: 4
+          }
+        };
+        var adjustedPlot = {
+          x: adjustedChartData.labels,
+          y: adjustedChartData.data,
+          hoverinfo: 'text',
+          text: adjustedChartData.data.map(add_rand),
+          mode: 'lines',
+          line: {
+            dash: "dot",
+            width: 4
+          },
+          name: "Adjusted Budget"
+        };
+        var quarterPlot = {
+          x: quarterChartData.labels,
+          y: quarterChartData.data.map(extract_quarters),
+          hoverinfo: 'text',
+          hovertext: quarterChartData.data.map(amount_convert),
+          type: 'scatter',
+          name: "Quarterly Expenditure"
 
-
-
-       var quarterChartData = {{quarter_chart_data|safe}};
-       if (quarterChartData.data){
-	   var originalChartData = {{original_chart_data|safe}};
-	   var adjustedChartData = {{adjusted_chart_data|safe}};
-	   var originalPlot = {
-	       x: originalChartData.labels,
-	       y: originalChartData.data,
-	       hoverinfo: 'text',
-	       text: originalChartData.data.map(add_rand),
-	       name: "Original Budget",
-	       mode:'lines',
-	       line:{
-		   width: 4
-	       }
-	   };
-	   var adjustedPlot = {
-	       x: adjustedChartData.labels,
-	       y: adjustedChartData.data,
-	       hoverinfo: 'text',
-	       text: adjustedChartData.data.map(add_rand),
-	       mode: 'lines',
-	       line:{
-		   dash: "dot",
-		   width: 4
-	       },
-	       name: "Adjusted Budget"
-	   };
-	   var quarterPlot = {
-	       x: quarterChartData.labels,
-	       y: quarterChartData.data.map(extract_quarters),
-	       hoverinfo:'text',
-	       hovertext: quarterChartData.data.map(amount_convert),
-	       type: 'scatter',
-	       name: "Quarterly Expenditure"
-
-	   };
-
-	   var layout = {margin: {
-	       t:10
-	   }};
-	   var config = {displayModeBar: false, responsive:true};
-	   Plotly.newPlot('chart', [originalPlot, adjustedPlot,quarterPlot ], layout, config);
-       }
-   })
+        };
+        var layout = {
+          margin: {
+            t: 10
+          }
+        };
+        var config = {
+          displayModeBar: false,
+          responsive: true
+        };
+        Plotly.newPlot(
+          'chart',
+          [originalPlot, adjustedPlot, quarterPlot],
+          layout,
+          config
+        );
+      }
+    })
   </script>
 </body>
 </html>
