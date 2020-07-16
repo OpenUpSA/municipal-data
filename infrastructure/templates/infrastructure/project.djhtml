@@ -5,7 +5,7 @@
 <html data-wf-page="5db2adb5e800a54297f2f9a6" data-wf-site="5db2adb5e800a59830f2f99c">
 <head>
   <meta charset="utf-8">
-  
+
   <meta content="Infrastructure-project" property="og:title">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
@@ -298,7 +298,7 @@
 			  <p class="text_subsection-detail">
 			      This chart shows the expenditure of a capital project over a financial year and not over the projects lifetime. The original and adjusted budgets also cover a financial year.
 			      <br><br>
-			      The quarterly expenditure line goes up by the amount spend in that quarter, subsequent quarters will show a combination of the total spent so far in the year and what was spent in the quarter as well.	      
+			      The quarterly expenditure line goes up by the amount spend in that quarter, subsequent quarters will show a combination of the total spent so far in the year and what was spent in the quarter as well.
 			  </p>
 			  <!-- <div class="detail-button_wrapper"><a href="#" class="button-3 w-inline-block"><img src="https://uploads-ssl.webflow.com/5d660ef145315201ac996790/5d66718445315264549b89ee_book-white-24px.svg" alt="" class="button-icon-2 _20px"><div class="button-text">Learn about budget schedules</div></a></div> -->
 		      </div>
@@ -379,15 +379,12 @@
 	   var js = JSON.parse(pageData["data"]);
        mmWebflow(js);
 
-       
-       
+
+
        var quarterChartData = {{quarter_chart_data|safe}};
        if (quarterChartData.data){
 	   var originalChartData = {{original_chart_data|safe}};
 	   var adjustedChartData = {{adjusted_chart_data|safe}};
-	   console.log(originalChartData);
-	   console.log(adjustedChartData);
-	   console.log(quarterChartData);
 	   var originalPlot = {
 	       x: originalChartData.labels,
 	       y: originalChartData.data,
@@ -420,12 +417,12 @@
 	       name: "Quarterly Expenditure"
 
 	   };
-	   
+
 	   var layout = {margin: {
 	       t:10
 	   }};
 	   var config = {displayModeBar: false, responsive:true};
-	   Plotly.newPlot('chart', [originalPlot, adjustedPlot,quarterPlot ], layout, config);   
+	   Plotly.newPlot('chart', [originalPlot, adjustedPlot,quarterPlot ], layout, config);
        }
    })
   </script>
