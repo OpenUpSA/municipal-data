@@ -5,7 +5,7 @@
 <html data-wf-page="5db2adb5e800a54297f2f9a6" data-wf-site="5db2adb5e800a59830f2f99c">
 <head>
   <meta charset="utf-8">
-  
+
   <meta content="Infrastructure-project" property="og:title">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
@@ -298,7 +298,7 @@
 			  <p class="text_subsection-detail">
 			      This chart shows the expenditure of a capital project over a financial year and not over the projects lifetime. The original and adjusted budgets also cover a financial year.
 			      <br><br>
-			      The quarterly expenditure line goes up by the amount spend in that quarter, subsequent quarters will show a combination of the total spent so far in the year and what was spent in the quarter as well.	      
+			      The quarterly expenditure line goes up by the amount spend in that quarter, subsequent quarters will show a combination of the total spent so far in the year and what was spent in the quarter as well.
 			  </p>
 			  <!-- <div class="detail-button_wrapper"><a href="#" class="button-3 w-inline-block"><img src="https://uploads-ssl.webflow.com/5d660ef145315201ac996790/5d66718445315264549b89ee_book-white-24px.svg" alt="" class="button-icon-2 _20px"><div class="button-text">Learn about budget schedules</div></a></div> -->
 		      </div>
@@ -361,87 +361,87 @@
   <script src="/static/js/humanize.js"></script>
   <script src="{% static 'household/js/plotly.js' %}"></script>
   <script>
-   function amount_convert(value){
-       var total = Humanize.compactInteger(value[0], 1);
-       return "Spent in "+ value + "<br>" + "R "+ total;
-   }
-   function extract_quarters(data){
-       return data[1];
-   }
-   function add_rand(value){
-       return "R " + Humanize.compactInteger(value, 1);
-   }
+    function amount_convert(value){
+      var total = Humanize.compactInteger(value[0], 1);
+      return "Spent in "+ value + "<br>" + "R "+ total;
+    }
+    function extract_quarters(data){
+      return data[1];
+    }
+    function add_rand(value){
+      return "R " + Humanize.compactInteger(value, 1);
+    }
   </script>
   <script>
-   $(document).ready(function() {
-       var pageData = {{ page_data_json|safe }};
-       var js = JSON.parse(pageData["data"]);
-       mmWebflow(js);
+    $(document).ready(function() {
+      var pageData = {{page_data_json|safe}};
+      var js = JSON.parse(pageData["data"]);
+      mmWebflow(js);
+      var original_data = {{original_data|safe}};
+      var adjusted_data = {{adjusted_data|safe}};
+      var quarter_data = {{quarter_data|safe}};
+      if (quarter_data) {
+        data = []
+        var adjusted_chart = {
+          x: adjusted_data.labels,
+          y: adjusted_data.data,
+          hoverinfo: 'text',
+          text: adjusted_data.data.map(add_rand),
+          type: 'bar',
+          marker: {
+            color: 'rgb(26, 118, 255)',
+          },
+          name: "Adjusted Budget"
 
-       var original_data = {{original_data|safe}};
-       var adjusted_data = {{adjusted_data|safe}};
-       var quarter_data = {{quarter_data|safe}};
-       if (quarter_data){
-	   data = []
-	   var adjusted_chart = {
-	       x:adjusted_data.labels,
-	       y: adjusted_data.data,
-	       hoverinfo:'text',
-	       text: adjusted_data.data.map(add_rand),
-	       type:'bar',
-	       marker: {
-		   color: 'rgb(26, 118, 255)',
-	       },
-	       name: "Adjusted Budget"
-	       
-	   }
-	   data.push(adjusted_chart);
-	   var original_chart = {
-	       x: original_data.labels,
-	       y: original_data.data,
-	       hoverinfo:'text',
-	       text: original_data.data.map(add_rand),
-	       type:'bar',
-	       marker: {
-		   color: 'rgb(55, 83, 109)',
-	       },
-	       name:"Original Budget"
-	       
-	   }
-	   data.push(original_chart);
-	   
-	   colour_mix = ['rgb(252, 177, 3)', 'rgb(0, 153, 51)', 'rgb(204, 0, 153)','rgb(153, 0, 0)'];
-	   
-	   for (const quarter in quarter_data){
-	       var total = Humanize.compactInteger(quarter_data[quarter][1], 1);
-	       var quarter_name = quarter_data[quarter][0];
-	       
-	       var quarter_chart = {
-		   x: ["Quarterly Expenditure"],
-		   y: [quarter_data[quarter][1]],
-		   type: 'bar',
-		   hoverinfo:'text',
-		   text:"Spent in "+ quarter_name + "<br>" + "R "+ total,
-		   name: quarter_name + " Spending",
-		   marker:{
-		       color: colour_mix[quarter],
-		   }
-	       }
-	       data.push(quarter_chart);
-	       
-	   }
-	   var layout = {
-	       margin: {
-		   t:10
-	       },
-	       barmode: 'stack',
-	       xaxis: {title: 'Financial Year 2019/2020'},
-	   };
-	   console.log(data);
-	   var config = {displayModeBar: false, responsive:true};
-	   Plotly.newPlot('chart', data, layout, config);
-       }
-   })
+        }
+        data.push(adjusted_chart);
+        var original_chart = {
+          x: original_data.labels,
+          y: original_data.data,
+          hoverinfo: 'text',
+          text: original_data.data.map(add_rand),
+          type: 'bar',
+          marker: {
+            color: 'rgb(55, 83, 109)',
+          },
+          name: "Original Budget"
+
+        }
+        data.push(original_chart);
+        colour_mix = ['rgb(252, 177, 3)', 'rgb(0, 153, 51)', 'rgb(204, 0, 153)', 'rgb(153, 0, 0)'];
+        for (const quarter in quarter_data) {
+          var total = Humanize.compactInteger(quarter_data[quarter][1], 1);
+          var quarter_name = quarter_data[quarter][0];
+          var quarter_chart = {
+            x: ["Quarterly Expenditure"],
+            y: [quarter_data[quarter][1]],
+            type: 'bar',
+            hoverinfo: 'text',
+            text: "Spent in " + quarter_name + "<br>" + "R " + total,
+            name: quarter_name + " Spending",
+            marker: {
+              color: colour_mix[quarter],
+            }
+          }
+          data.push(quarter_chart);
+        }
+        var layout = {
+          margin: {
+            t: 10
+          },
+          barmode: 'stack',
+          xaxis: {
+            title: 'Financial Year 2019/2020'
+          },
+        };
+        console.log(data);
+        var config = {
+          displayModeBar: false,
+          responsive: true
+        };
+        Plotly.newPlot('chart', data, layout, config);
+      }
+    });
   </script>
 </body>
 </html>
