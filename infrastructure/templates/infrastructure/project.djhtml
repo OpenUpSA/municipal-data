@@ -293,38 +293,38 @@
     </div>
   </div>
   <div class="section">
-      <div class="container">
-	  <div class="row">
-              <div class="info-chart__body">
-		  <div class="col col-12">
-		      <div class="subsection-details__heading">
-			  <h3 class="project-detail_heading">PROJECT IMPLEMENTATION</h3>
-		      </div>
-		  </div>
-		  <div class="col col-4 col-m-12">
-		      <div class="subsection-detail_wrapper">
-			  <p class="text_subsection-detail">
-			      This chart shows the expenditure of a capital project over a financial year and not over the projects lifetime. The original and adjusted budgets also cover a financial year.
-			      <br><br>
-			      The quarterly expenditure line goes up by the amount spend in that quarter, subsequent quarters will show a combination of the total spent so far in the year and what was spent in the quarter as well.
-			  </p>
-			  <!-- <div class="detail-button_wrapper"><a href="#" class="button-3 w-inline-block"><img src="https://uploads-ssl.webflow.com/5d660ef145315201ac996790/5d66718445315264549b89ee_book-white-24px.svg" alt="" class="button-icon-2 _20px"><div class="button-text">Learn about budget schedules</div></a></div> -->
-		      </div>
-		  </div>
-		  <div class="col col-8 col-m-12">
-		      <div class="subsection-chart_wrapper">
-			  {% if quarter_data %}
-			      <div id="project-time-series" class="subsection-chart">
-				  <div id="chart"></div>
-			      </div>
-			  {% else %}
-			      <h3 class="project-detail_heading">No Data Available</h3>
-			  {% endif %}
-		      </div>
-		  </div>
-              </div>
-	  </div>
+    <div class="container">
+      <div class="row">
+        <div class="info-chart__body">
+          <div class="col col-12">
+            <div class="subsection-details__heading">
+              <h3 class="project-detail_heading">PROJECT IMPLEMENTATION</h3>
+            </div>
+          </div>
+          <div class="col col-4 col-m-12">
+            <div class="subsection-detail_wrapper">
+              <p class="text_subsection-detail">
+                This chart shows the expenditure of a capital project over a financial year and not over the projects lifetime. The original and adjusted budgets also cover a financial year.
+                <br><br>
+                The quarterly expenditure line goes up by the amount spend in that quarter, subsequent quarters will show a combination of the total spent so far in the year and what was spent in the quarter as well.
+              </p>
+              <!-- <div class="detail-button_wrapper"><a href="#" class="button-3 w-inline-block"><img src="https://uploads-ssl.webflow.com/5d660ef145315201ac996790/5d66718445315264549b89ee_book-white-24px.svg" alt="" class="button-icon-2 _20px"><div class="button-text">Learn about budget schedules</div></a></div> -->
+            </div>
+          </div>
+          <div class="col col-8 col-m-12">
+            <div class="subsection-chart_wrapper">
+              {% if quarter_data %}
+                <div id="project-time-series" class="subsection-chart">
+                  <div id="chart"></div>
+                </div>
+              {% else %}
+                <h3 class="project-detail_heading">No Data Available</h3>
+              {% endif %}
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
   </div>
   <div class="footer">
     <div class="container">
