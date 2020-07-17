@@ -382,6 +382,17 @@
   </script>
   <script>
     $(document).ready(function() {
+      var chartColors = [
+        '#4fb2db',
+        '#4ba39c',
+        '#7558a6',
+        '#ff73a0',
+        '#ffac54',
+        '#ff9061',
+        '#826a6c',
+        '#5b74d9',
+        '#98ceb4',
+      ];
       var pageData = {{page_data_json|safe}};
       var js = JSON.parse(pageData["data"]);
       mmWebflow(js);
@@ -396,10 +407,7 @@
           hoverinfo: 'text',
           text: adjusted_data.data.map(add_rand),
           type: 'bar',
-          marker: {
-            color: 'rgb(26, 118, 255)',
-          },
-          name: "Adjusted Budget"
+          name: 'Adjusted Budget',
 
         }
         data.push(adjusted_chart);
@@ -409,27 +417,20 @@
           hoverinfo: 'text',
           text: original_data.data.map(add_rand),
           type: 'bar',
-          marker: {
-            color: 'rgb(55, 83, 109)',
-          },
-          name: "Original Budget"
+          name: 'Original Budget',
 
         }
         data.push(original_chart);
-        colour_mix = ['rgb(252, 177, 3)', 'rgb(0, 153, 51)', 'rgb(204, 0, 153)', 'rgb(153, 0, 0)'];
         for (const quarter in quarter_data) {
           var total = Humanize.compactInteger(quarter_data[quarter][1], 1);
           var quarter_name = quarter_data[quarter][0];
           var quarter_chart = {
-            x: ["Quarterly Expenditure"],
+            x: ['Quarterly Expenditure'],
             y: [quarter_data[quarter][1]],
             type: 'bar',
             hoverinfo: 'text',
-            text: "Spent in " + quarter_name + "<br>" + "R " + total,
-            name: quarter_name + " Spending",
-            marker: {
-              color: colour_mix[quarter],
-            }
+            text: 'Spent in ' + quarter_name + '<br>' + 'R ' + total,
+            name: quarter_name + ' Spending',
           }
           data.push(quarter_chart);
         }
@@ -441,10 +442,11 @@
           xaxis: {
             title: 'Financial Year 2019/2020'
           },
+          colorway: chartColors,
         };
         var config = {
           displayModeBar: false,
-          responsive: true
+          responsive: true,
         };
         Plotly.newPlot('chart', data, layout, config);
       }
