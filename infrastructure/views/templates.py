@@ -51,19 +51,18 @@ class DetailView(TemplateView):
         context["page_data_json"] = {"data": json.dumps(project)}
 
         project_quarters = models.ProjectQuarterlySpend.objects.filter(
-            project__id=kwargs["pk"]
-        ).order_by("financial_year")
+            project__id=kwargs["pk"], financial_year__active=True
+        )
 
         project_phases = models.Expenditure.objects.filter(
-            project__id=kwargs["pk"]
-        ).order_by("financial_year")
-        financial_years = models.FinancialYear.objects.all()
+            project__id=kwargs["pk"], financial_year__active=True
+        )
 
         (
-            context["original_chart_data"],
-            context["adjusted_chart_data"],
-            context["quarter_chart_data"],
-        ) = chart_quarters(project_quarters, project_phases, financial_years)
+            context["original_data"],
+            context["adjusted_data"],
+            context["quarter_data"],
+        ) = chart_quarters(project_quarters, project_phases)
 
         is_quarters = False
         if project_quarters:

@@ -218,87 +218,33 @@ def find_quarter(fields):
     return [field for field in fields if field.startswith("Q")]
 
 
-def chart_quarters(quarter_queryset, phase_queryset, years):
+def chart_quarters(quarter_queryset, phase_queryset):
     """
     prepare data for charting.
     """
-    quarter_chart_data = {"labels": [], "data": []}
-    original_chart_data = {"labels": [], "data": []}
-    adjusted_chart_data = {"labels": [], "data": []}
+    quarter_data = []
+    original_data = {"labels": [], "data": []}
+    adjusted_data = {"labels": [], "data": []}
 
-    total_audit_expenditure = 0
-    total_spending = {"Q1": 0, "Q2": 0, "Q3": 0, "Q4": 0}
-
-    audited_years = []
     if phase_queryset:
         for phase in phase_queryset:
             if phase.budget_phase.name == "Original Budget":
-                original_chart_data["labels"].append(f"")
-                original_chart_data["labels"].append(
-                    f"End Q1<br>{phase.financial_year.budget_year}"
-                )
-                original_chart_data["labels"].append(
-                    f"End Q2<br>{phase.financial_year.budget_year}"
-                )
-                original_chart_data["data"].append(float(phase.amount))
-                original_chart_data["data"].append(float(phase.amount))
-                original_chart_data["data"].append(float(phase.amount))
-            if phase.budget_phase.name == "Adjusted Budget":
-                adjusted_chart_data["labels"].append(
-                    f"End Q2<br>{phase.financial_year.budget_year}"
-                )
-                adjusted_chart_data["labels"].append(
-                    f"End Q3<br>{phase.financial_year.budget_year}"
-                )
-                adjusted_chart_data["labels"].append(
-                    f"End Q4<br>{phase.financial_year.budget_year}"
-                )
-                adjusted_chart_data["data"].append(float(phase.amount))
-                adjusted_chart_data["data"].append(float(phase.amount))
-                adjusted_chart_data["data"].append(float(phase.amount))
-            if phase.budget_phase.name == "Audited Outcome":
-                pass
-                # audited_years.append(phase.financial_year)
-                # total_audit_expenditure += float(phase.amount)
+                original_data["labels"].append(phase.budget_phase.name)
+                original_data["data"].append(float(phase.amount))
+            elif phase.budget_phase.name == "Adjusted Budget":
+                adjusted_data["labels"].append(phase.budget_phase.name)
+                adjusted_data["data"].append(float(phase.amount))
 
     if quarter_queryset:
         for spend in quarter_queryset:
             if spend.q1:
-                quarter_chart_data["labels"].append(
-                    f"End Q1<br>{spend.financial_year.budget_year}"
-                )
-                total_spending["Q1"] = float(spend.q1) + total_audit_expenditure
-                quarter_chart_data["data"].append(
-                    [total_spending["Q1"], float(spend.q1)]
-                )
-
+                quarter_data.append(["Q1", float(spend.q1)])
             if spend.q2:
-                quarter_chart_data["labels"].append(
-                    f"End Q2<br>{spend.financial_year.budget_year}"
-                )
-
-                total_spending["Q2"] = float(spend.q2) + total_spending["Q1"]
-                quarter_chart_data["data"].append(
-                    [total_spending["Q2"], float(spend.q2)]
-                )
-
+                quarter_data.append(["Q2", float(spend.q2)])
             if spend.q3:
-                quarter_chart_data["labels"].append(
-                    f"End Q3<br>{spend.financial_year.budget_year}"
-                )
-
-                total_spending["Q3"] = float(spend.q3) + total_spending["Q2"]
-                quarter_chart_data["data"].append(
-                    [total_spending["Q3"], float(spend.q3)]
-                )
-
+                quarter_data.append(["Q3", float(spend.q3)])
             if spend.q4:
-                quarter_chart_data["labels"].append(
-                    f"End Q4<br>{spend.financial_year.budget_year}"
-                )
+                quarter_data.append(["Q4", float(spend.q4)])
 
-                total_spending["Q4"] = float(spend.q4) + total_spending["Q4"]
-                quarter_chart_data["data"].append(
-                    [total_spending["Q4"], float(spend.q4)]
-                )
-    return original_chart_data, adjusted_chart_data, quarter_chart_data
+    quarter_data = sorted(quarter_data, key=lambda quarter: quarter[0])
+    return original_data, adjusted_data, quarter_data
