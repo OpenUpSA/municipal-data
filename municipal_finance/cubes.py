@@ -2,7 +2,6 @@ from django.conf import settings
 from sqlalchemy import create_engine
 from babbage.manager import JSONCubeManager
 
-engine = create_engine(settings.DATABASE_URL)
 models_directory = 'models/'
 
 
@@ -47,5 +46,6 @@ _cube_manager = None
 def get_manager():
     global _cube_manager
     if _cube_manager is None:
+        engine = create_engine(settings.DATABASE_URL)
         _cube_manager = PreloadingJSONCubeManager(engine, models_directory)
     return _cube_manager

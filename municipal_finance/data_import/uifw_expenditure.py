@@ -1,5 +1,5 @@
 """
-python audit_opinions.py directory 'audit_opinions.csv'
+python uif_expenditure.py "UIFW as per AGSA.xlsx" uifw.csv
 """
 import csv
 import pdb
@@ -8,17 +8,16 @@ import traceback
 import xlrd
 import re
 
-
 def convert(sheet, csv_file):
     book = xlrd.open_workbook(sheet)
     sheet = book.sheet_by_index(0)
-    year = re.sub(r'\d\d/', '', sheet.cell(4, 4).value)
 
-    labels = [
-        'Unauthorised Expenditure',
-        'Irregular Expenditure',
-        'Fruitless and Wasteful Expenditure',
-    ]
+    a10th_code_to_label = {
+        "9001": "Unauthorised Expenditure",
+        "9002": "Irregular Expenditure",
+        "9003": "Fruitless and Wasteful Expenditure",
+    }
+
     label_to_code = {
         'Unauthorised Expenditure': 'unauthorised',
         'Irregular Expenditure': 'irregular',
@@ -31,23 +30,31 @@ def convert(sheet, csv_file):
         fieldnames = ['demarcation_code', 'year', 'item_code', 'item_label', 'amount']
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
-        for rowx in xrange(9, sheet.nrows):
+        current_code = None
+        for rowx in range(9, sheet.nrows):
+            # Skip over rows without data
             if str(sheet.cell(rowx, 0).value) not in ['A', 'B', 'C']:
                 continue
-            for idx, label in enumerate(labels):
-                item = {
-                    'year': year,
-                    'demarcation_code': sheet.cell(rowx, 1).value
-                }
-                try:
-                    item['amount'] = int(round(sheet.cell(rowx, 4+idx).value))
-                except:
-                    item['amount'] = None
-
-                item['item_label'] = label
-                item['item_code'] = label_to_code[item['item_label']]
-                writer.writerow(item)
-
+            # Capture the demarcation code
+            demarcation_code = sheet.cell(rowx, 1).value
+            # Iterate over columns with amount data
+            for idx in range(0, 6):
+                # Determine the current code, year and label
+                code_in_head = sheet.cell(2, (4 + idx)).value
+                current_code = code_in_head or current_code
+                year_in_head = sheet.cell(4, (4 + idx)).value
+                label = a10th_code_to_label[current_code]
+                # Attempt to parse amount
+                amount = sheet.cell(rowx, (4 + idx)).value
+                amount = int(round(amount)) if amount else None
+                # Write row to result
+                writer.writerow({
+                    'year': year_in_head,
+                    'demarcation_code': demarcation_code,
+                    'amount': amount,
+                    'item_label': label,
+                    'item_code': label_to_code[label],
+                })
 
 def main():
     [sheet, csv_file] = sys.argv[1:]

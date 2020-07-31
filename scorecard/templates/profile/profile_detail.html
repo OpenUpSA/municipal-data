@@ -5,16 +5,28 @@
 {% block head_meta_description %}Financial Performance for {{ geography.name }}, and other information.{% endblock %}
 
 {% block head_facebook_tags %}
-    <meta property="og:title" content="Municipal Money Profile: {{ geography.name }}" />
-    <meta property="og:site_name" content="Municipal Money" />
-    <meta property="og:description" content="Financial Performance for {{ geography.name }}, and other information." />
-    <meta property="og:type" content="article" />
-    <meta property="og:image" content="https://municipalmoney.gov.za{% static 'img/video-placeholder.jpg' %}" />
+<meta property="og:title" content="Municipal Money Profile: {{ geography.name }}" />
+<meta property="og:site_name" content="Municipal Money" />
+<meta property="og:description" content="Financial Performance for {{ geography.name }}, and other information." />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="https://municipalmoney.gov.za{% static 'img/video-placeholder.jpg' %}" />
 {% endblock %}
 
 {% block body_id %}profile{% endblock %}
 
 {% block header_content %}
+<div id="notification-banner" style="background-color:#ab2328;">
+    {% if is_metro %}
+    <div class="container" style="color:#fff;font-size: 18px;padding:10px 16px">
+	<a class="title" href="{% url 'metro:performance' geography.geoid %}">
+	    <span style="color:#fff">
+		<b>Click Here</b> to see the performance of this metro.
+	    </span>
+	</a>
+    </div>
+    {% endif %}
+    
+</div>
 <div id="cover-map" class="clearfix">
   <div id="slippy-map"></div>
   <div id="cover-profile">
@@ -70,6 +82,7 @@
         <li role="presentation" class="active"><a href="#performance"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i><br><span class="nav-text">Financial<br>Performance</span></a></li>
         <li role="presentation"><a href="#income"><i class="fa fa-money fa-2x" aria-hidden="true"></i><br><span class="nav-text">Income</span></a></li>
         <li role="presentation"><a href="#spending"><i class="fa fa-credit-card fa-2x" aria-hidden="true"></i><br><span class="nav-text">Spending</span></a></li>
+	<li role="presentation"><a href="#householdbills"><i class="fa fa-credit-card fa-2x" aria-hidden="true"></i><br><span class="nav-text">Household Bills</span></a></li>
         <li role="presentation"><a href="#resources"><i class="fa fa-book fa-2x" aria-hidden="true"></i><br><span class="nav-text">Resources</span></a></li>
         <li role="presentation" class="pull-right hidden-xs"><a href="/profiles/{{ geography.geo_level }}-{{ geography.geo_code }}-{{ geography.slug }}.pdf" target="_blank" rel="alternate" type="application/pdf"><i class="fa fa-print fa-2x" area-hidden="true"></i><br><span class="nav-text">Print PDF</span></a></li>
         <li role="presentation" class="pull-right hidden-xs"><a href="#" class="twitter-share"><i class="fa fa-twitter fa-2x" area-hidden="true"></i><br><span class="nav-text">Tweet</span></a></li>
@@ -120,7 +133,7 @@
       <div class="modal-content">
         <div class="modal-body">
           <div class="embed-responsive embed-responsive-16by9">
-            <iframe id="video-iframe" frameborder="0" allowfullscreen name="video-iframe" src=""></iframe>
+              <iframe id="video-iframe" frameborder="0" allowfullscreen name="video-iframe" src=""></iframe>
           </div>
         </div>
       </div>
@@ -132,12 +145,15 @@
 {% include 'profile/_performance.html' %}
 {% include 'profile/_income.html' %}
 {% include 'profile/_spending.html' %}
+{% include 'household/_household_bills.djhtml' %}
 {% include 'profile/_resources.html' %}
+
 
 {% endblock %}
 
 {% block body_javascript_extra %}
 <script src="{% static 'js/head2head.js' %}"></script>
+
 
 <script type="text/javascript">
 

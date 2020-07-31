@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  portal:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ".:/app"
+    environment:
+      DATABASE_URL: 'postgres://municipal_finance@postgres/municipal_finance'
+      DJANGO_SECRET_KEY: "not-so-secret"
+      SITE_ID: '3'
+      PRELOAD_CUBES: 'true'
+      API_URL: http://localhost:8002/api
+    working_dir: /app
+    ports:
+      - '8002:8000'
+    depends_on:
+      - postgres

@@ -1,0 +1,193 @@
+{% load static %}
+{% load l10n %}
+<div class="section" id="householdbills">
+    <h1><i class="fa fa-line-chart" aria-hidden="true"></i>Household Bills</h1>
+    {% if household_percent %}
+	<div class="indicator">
+	    <h2 class="sub-heading">
+		Monthly Total for Income Levels Over Time
+		<span class="indicator-date"></span>
+	    </h2>
+	    <div class="row">
+		<div class="col-sm-8">
+		    <div class="indicator-value"></div>
+		    <div class="indicator-description"></div>
+		    <div id="householdChart"></div>
+		    <p>
+			<small>* If an income household is missing in a financial year, it means that there is no data available for that year.</small>
+		    </p>
+		</div>
+		<div class="col-sm-4">
+		    <div class="panel panel-didyouknow">
+			<div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+			<div class="panel-body">
+			    <p> Your municipal bill is made up of property rates, basic electricity levy,
+				electricity consumption charge, basic water levy, water consumption charge, sanitation,
+				refuse removal and ‘other’.
+			    </p>
+			    <p>
+				The property values, water consumption and electricity
+				consumption of a household in an income category may differ from municipality
+				to municipality.
+			    </p>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	</div>
+	<div class="indicator">
+	    <h2 class="sub-heading">
+		Monthly Bills for Middle Income Over Time
+	    </h2>
+	    <div class="indicator-value">
+		{% if household_percent.Middle %}
+		    {{household_percent.Middle}}%
+		{% else %}
+		    No Data Available
+		{% endif %}
+		
+	    </div>
+	    <div class="indicator-description">average increase over the financial years</div>
+	    <div class="row">
+		<div class="col-sm-8">
+		    <div id="householdMiddleChart"></div>
+		    <p>
+			<small>
+			    * If a financial year is missing, it means that no data was provided for that year.
+			</small>
+		    </p>
+		</div>
+		<div class="col-sm-4">
+		    <div class="panel panel-didyouknow">
+			<div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+			<div class="panel-body">
+			    <p>
+				A middle income household use as base a property value of R700 000,
+				consumption of 1 000 kWh electricity and 30kl water.
+			    </p>
+			    <p>
+				The bill is made up of property rates,
+				service  charges for  electricity,   water,  sanitation and  refuse  removal  and various other
+				charges   which   are   typically   small.
+			    </p>
+			    <p>
+				Minimum   service   standards   may   differ   between
+				municipalities. These standards form part of the municipality’s budget which is consulted
+				with citizens in the period 1 April to 31 May each year.
+			    </p>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	</div>
+	<div class="indicator">
+	    <h2 class="sub-heading">
+		Monthly Bills for Affordable Income Over Time
+	    </h2>
+	    <div class="indicator-value">
+		{% if household_percent.Affordable %}
+		    {{household_percent.Affordable}}%
+		{% else %}
+		    No Data Available
+		{% endif %}
+	    </div>
+	    <div class="indicator-description">average increase over the financial years</div>
+	    <div class="row">
+		<div class="col-sm-8">
+		    <div id="householdAffordableChart"></div>
+		    <p>
+			<small>
+			    * If a financial year is missing, it means that no data was provided for that year.
+			</small>
+		    </p>
+		</div>
+		<div class="col-sm-4">
+		    <div class="panel panel-didyouknow">
+			<div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+			<div class="panel-body">
+			    <p>
+				The statistical standard set for affordable income households is a base 
+				property value of between R500
+				000 and R700 000, consumption of 500 kWh electricity and 
+				25kl water.
+			    </p>
+			    <p>A basic levy is a fixed monthly charge that does not change with the amount of 
+				service consumed. Not all municipalities use basic levies.
+			    </p>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	</div>
+	<div class="indicator">
+	    <h2 class="sub-heading">
+		Monthly Bills for Indigent Income Over Time
+	    </h2>
+	    <div class="indicator-value">
+		{% if household_percent.Indigent %}
+		    {{household_percent.Indigent}}%
+		{% else %}
+		    No Data Available
+		{% endif %}
+	    </div>
+	    <div class="indicator-description">average increase over the financial years</div>
+	    <div class="row">
+		<div class="col-sm-8">
+		    <div id="householdIndigentChart"></div>
+		    <p>
+			<small>
+			    * If a financial year is missing, it means that no data was provided for that year.
+			</small>
+		    </p>
+		</div>
+		<div class="col-sm-4">
+		    <div class="panel panel-didyouknow">
+			<div class="panel-heading"><i class="fa fa-info-circle" aria-hidden="true"></i> Did you know?</div>
+			<div class="panel-body">
+			    <p>Free basic service (FBS) is defined as the minimum amount of basic 
+			    levels of services, provided on a day to day basis, sufficient to cover or cater for the basic 
+				needs of the poor households.
+			    </p>
+			    <p>Various sector departments have set minimum standards 
+			    outlining basic amount of services or quantity to be supplied to the indigents with regards to 
+				water, energy, sanitation and refuse removal.
+			    </p>
+			    <p>
+			    
+			    Only indigent households qualify for FBS and the programme is solely intended to assist 
+			    them. Municipalities subject all applications to means tests to determine whether households
+				applying meet the criteria set by their municipality to qualify for indigent status.
+			    </p>
+			    <p>There are 
+			    different categories of subsidies as set out by the various indigent by-laws/policies of the 
+			    municipalities. In some municipalities, households qualify for 100% subsidies while other 
+				qualify for less that 100% depending on the criteria set.
+			    </p>
+			    <p>
+				The bill represented in the graph reflects what it costs the municipality to render the services to indigent households, not what each indigent household needs to pay as these costs are covered by the Equitable Share grant allocation to the municipality.
+			    </p>
+			</div>
+		    </div>
+		</div>
+	    </div>
+        </div>
+	<script src="{% static 'household/js/plotly.js' %}"></script>
+	<script src="{% static 'household/js/household.js' %}"></script>
+	<script>
+	 var yearly_percent = {{yearly_percent|safe}};
+	 var chartData = {{ household_chart_overall|safe }};
+	 var middleChartData = {{ household_chart_middle|safe }};
+	 var affordableChartData = {{ household_chart_affordable|safe }};
+	 var indigentChartData = {{ household_chart_indigent|safe }};
+
+	 overall_chart(chartData);
+	 income_chart(middleChartData, "householdMiddleChart", yearly_percent['Middle Income Range']);
+	 income_chart(affordableChartData, "householdAffordableChart", yearly_percent['Affordable Range']);
+	 income_chart(indigentChartData, "householdIndigentChart", yearly_percent['Indigent HH receiving FBS']);
+	</script>
+    {% else %}
+	<h3> No Data Available</h3>
+    {% endif %}
+</div>
+    
+    

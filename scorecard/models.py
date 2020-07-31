@@ -52,6 +52,8 @@ class Geography(models.Model):
 
     class Meta:
         unique_together = ('geo_level', 'geo_code')
+    def __str__(self):
+        return f'{self.name}'
 
     @property
     def category_name(self):
@@ -112,6 +114,13 @@ class Geography(models.Model):
             'miif_category': self.miif_category,
             'slug': self.slug,
         }
+
+    @property
+    def bbox(self):
+        url = settings.MAPIT['url'] + '/area/MDB:%s/geometry?generation=%s' % (self.geo_code, settings.MAPIT['generation'])
+        resp = requests.get(url)
+        js = resp.json()
+        return [js[x] for x in ["min_lon", "min_lat", "max_lon", "max_lat"]]
 
     def __unicode__(self):
         return self.full_name
