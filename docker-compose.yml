@@ -9,10 +9,10 @@ services:
     volumes:
       - '.:/app'
     environment:
-      DATABASE_URL: 'postgres://municipal_finance@postgres/municipal_finance'
-      DJANGO_SECRET_KEY: "not-so-secret"
-      SITE_ID: '2'
-      API_URL: https://municipaldata.treasury.gov.za/api
+      - DATABASE_URL=postgres://municipal_finance@postgres/municipal_finance
+      - DJANGO_SECRET_KEY=not-so-secret
+      - SITE_ID=2
+      - API_URL=https://municipaldata.treasury.gov.za/api
     ports:
       - '8001:8000'
     working_dir: /app
@@ -21,13 +21,15 @@ services:
 
   postgres:
     image: postgres:11.5
+    ports:
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=municipal_finance
       - POSTGRES_USER=municipal_finance
       - POSTGRES_PASS=municipal_finance
-
+  
 volumes:
   postgres_data: {}
   munimoney_search: {}

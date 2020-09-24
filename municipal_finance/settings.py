@@ -8,13 +8,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
+import dj_database_url
+import os
+import environ
+
 TESTING = False
 
+env = environ.Env()
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -98,7 +102,6 @@ os.environ["PGOPTIONS"] = "-c statement_timeout=" + os.environ.get(
 )
 
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-import dj_database_url
 
 DATABASE_URL = os.environ.get(
     "DATABASE_URL",
@@ -365,12 +368,25 @@ Q_CLUSTER = {
 
 if not DEBUG:
     DEFAULT_FILE_STORAGE = "municipal_finance.storage.MediaStorage"
-    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
-    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
-    AWS_STORAGE_BUCKET_NAME = os.environ.get(
+    AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID", "")
+    AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY", "")
+    AWS_STORAGE_BUCKET_NAME = env.str(
         "AWS_STORAGE_BUCKET_NAME", "munimoney-media"
     )
     AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
     AWS_S3_OBJECT_PARAMETERS = {
         "CacheControl": "max-age=86400",
     }
+else:
+    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+    AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME")
+    AWS_DEFAULT_ACL = "public-read"
+    AWS_BUCKET_ACL = "public-read"
+    AWS_AUTO_CREATE_BUCKET = True
+    AWS_S3_ENDPOINT_URL = env.str("AWS_S3_ENDPOINT_URL", None)
+    AWS_S3_REGION_NAME = env.str("AWS_S3_REGION_NAME", None)
+    AWS_S3_SECURE_URLS = env.bool("AWS_S3_SECURE_URLS", True)
+    AWS_S3_CUSTOM_DOMAIN = env.str("AWS_S3_CUSTOM_DOMAIN", None)
+    AWS_S3_FILE_OVERWRITE = False
