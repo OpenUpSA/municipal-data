@@ -11,7 +11,8 @@ from django.db import models
 class AgedCreditorFacts(models.Model):
     demarcation_code = models.TextField()
     period_code = models.TextField()
-    item_code = models.ForeignKey('AgedCreditorItems', models.DO_NOTHING, db_column='item_code')
+    item_code = models.ForeignKey(
+        'AgedCreditorItems', models.DO_NOTHING, db_column='item_code')
     g1_amount = models.BigIntegerField(null=True)
     l1_amount = models.BigIntegerField(null=True)
     l120_amount = models.BigIntegerField(null=True)
@@ -56,7 +57,8 @@ class AgedDebtorFacts(models.Model):
     demarcation_code = models.TextField()
     period_code = models.TextField()
     customer_group_code = models.TextField()
-    item_code = models.ForeignKey('AgedDebtorItems', models.DO_NOTHING, db_column='item_code')
+    item_code = models.ForeignKey(
+        'AgedDebtorItems', models.DO_NOTHING, db_column='item_code')
     bad_amount = models.BigIntegerField(null=True)
     badi_amount = models.BigIntegerField(null=True)
     g1_amount = models.BigIntegerField(null=True)
@@ -76,7 +78,8 @@ class AgedDebtorFacts(models.Model):
     class Meta:
         db_table = 'aged_debtor_facts'
         unique_together = (
-            ('demarcation_code', 'period_code', 'customer_group_code', 'item_code'),
+            ('demarcation_code', 'period_code',
+             'customer_group_code', 'item_code'),
             (
                 'amount_type_code',
                 'customer_group_code',
@@ -133,7 +136,8 @@ class AuditOpinions(models.Model):
 class BsheetFacts(models.Model):
     demarcation_code = models.TextField()
     period_code = models.TextField()
-    item_code = models.ForeignKey('BsheetItems', models.DO_NOTHING, db_column='item_code')
+    item_code = models.ForeignKey(
+        'BsheetItems', models.DO_NOTHING, db_column='item_code')
     amount = models.BigIntegerField(null=True)
     financial_year = models.IntegerField()
     period_length = models.TextField()
@@ -169,8 +173,10 @@ class BsheetItems(models.Model):
 class CapitalFacts(models.Model):
     demarcation_code = models.TextField()
     period_code = models.TextField()
-    function_code = models.ForeignKey('GovernmentFunctions', models.DO_NOTHING, db_column='function_code')
-    item_code = models.ForeignKey('CapitalItems', models.DO_NOTHING, db_column='item_code')
+    function_code = models.ForeignKey(
+        'GovernmentFunctions', models.DO_NOTHING, db_column='function_code')
+    item_code = models.ForeignKey(
+        'CapitalItems', models.DO_NOTHING, db_column='item_code')
     new_assets = models.BigIntegerField(null=True)
     renewal_of_existing = models.BigIntegerField(null=True)
     total_assets = models.BigIntegerField(null=True)
@@ -211,7 +217,8 @@ class CapitalItems(models.Model):
 class CflowFacts(models.Model):
     demarcation_code = models.TextField()
     period_code = models.TextField()
-    item_code = models.ForeignKey('CflowItems', models.DO_NOTHING, db_column='item_code')
+    item_code = models.ForeignKey(
+        'CflowItems', models.DO_NOTHING, db_column='item_code')
     amount = models.BigIntegerField(null=True)
     amount_type_code = models.TextField()
     financial_year = models.IntegerField()
@@ -326,7 +333,7 @@ class IncexpItems(models.Model):
 
 
 class MunicipalityStaffContacts(models.Model):
-    demarcation_code = models.TextField()
+    demarcation_code = models.TextField(primary_key=True)
     role = models.TextField()
     title = models.TextField(null=True)
     name = models.TextField(null=True)
@@ -336,6 +343,15 @@ class MunicipalityStaffContacts(models.Model):
 
     class Meta:
         db_table = 'municipality_staff_contacts'
+        unique_together = (('demarcation_code', 'role'),)
+
+
+class ContactsUpload(models.Model):
+    datetime = models.DateTimeField(auto_now_add=True)
+    file = models.FileField(upload_to='uploads/contacts/')
+
+    class Meta:
+        db_table = 'contacts_uploads'
 
 
 class RepmaintFacts(models.Model):
@@ -383,12 +399,15 @@ class UifwexpFacts(models.Model):
 
     class Meta:
         db_table = 'uifwexp_facts'
-        unique_together = (('demarcation_code', 'financial_year', 'item_code'),)
+        unique_together = (
+            ('demarcation_code', 'financial_year', 'item_code'),)
 
 
 class DemarcationChanges(models.Model):
     date = models.DateField(blank=False, null=False)
     old_code = models.TextField(blank=False, null=False, db_index=True)
     new_code = models.TextField(blank=False, null=False, db_index=True)
-    old_code_transition = models.TextField(blank=False, null=False, db_index=True)
-    new_code_transition = models.TextField(blank=False, null=False, db_index=True)
+    old_code_transition = models.TextField(
+        blank=False, null=False, db_index=True)
+    new_code_transition = models.TextField(
+        blank=False, null=False, db_index=True)
