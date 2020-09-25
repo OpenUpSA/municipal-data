@@ -12,7 +12,7 @@ services:
       - DATABASE_URL=postgres://municipal_finance@postgres/municipal_finance
       - DJANGO_SECRET_KEY=not-so-secret
       - SITE_ID=2
-      - API_URL=https://municipaldata.treasury.gov.za/api
+      - API_URL=http://portal:8000/api
       - AWS_ACCESS_KEY_ID=minio-access-key
       - AWS_SECRET_ACCESS_KEY=minio-secret-key
       - AWS_STORAGE_BUCKET_NAME=municipal-money
@@ -24,8 +24,11 @@ services:
     working_dir: /app
     depends_on:
       - postgres
+      - portal
       - minio-client
       - minio
+    stdin_open: true
+    tty: true
 
   postgres:
     image: postgres:11.5
@@ -64,6 +67,31 @@ services:
       /usr/bin/mc mb  local/municipal-money;
       /usr/bin/mc policy set public local/municipal-money;
       "
+
+  portal:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ".:/app"
+    environment:
+      - DATABASE_URL=postgres://municipal_finance@postgres/municipal_finance
+      - DJANGO_SECRET_KEY=not-so-secret
+      - SITE_ID=3
+      - PRELOAD_CUBES=true
+      - API_URL=http://portal:8000/api
+      - AWS_ACCESS_KEY_ID=minio-access-key
+      - AWS_SECRET_ACCESS_KEY=minio-secret-key
+      - AWS_STORAGE_BUCKET_NAME=municipal-money
+      - AWS_S3_ENDPOINT_URL=http://minio:9000
+      - AWS_S3_SECURE_URLS=True
+      - AWS_S3_CUSTOM_DOMAIN
+    working_dir: /app
+    ports:
+      - '8002:8000'
+    depends_on:
+      - postgres
 
 volumes:
   minio_data: {}

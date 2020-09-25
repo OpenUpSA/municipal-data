@@ -2,10 +2,13 @@ import csv
 import urllib
 import requests
 
+from argparse import Namespace
 from contextlib import closing
 from django.contrib import admin
 
+from .materialised_views import generate_profiles
 from .models import ContactsUpload, MunicipalityStaffContacts
+from .settings import API_URL
 
 
 @admin.register(ContactsUpload)
@@ -24,13 +27,13 @@ class ContactsUploadAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         super(ContactsUploadAdmin, self).save_model(request, obj, form, change)
         # Read the file
+        updated_count = 0
+        created_count = 0
         with closing(requests.get(obj.file.url, stream=True)) as r:
             f = (line.decode('utf-8') for line in r.iter_lines())
             reader = csv.DictReader(f, fieldnames=self.fieldnames)
             # TODO: Confirm column names
             # Process all the rows in the file
-            updated_count = 0
-            created_count = 0
             for row in reader:
                 if reader.line_num > 1:
                     print(row['demarcation_code'], row['role'])
@@ -61,4 +64,5 @@ class ContactsUploadAdmin(admin.ModelAdmin):
                             email_address=row['email_address'],
                         )
                         updated_count += 1
-            print(updated_count, created_count)
+        print(updated_count, created_count)
+        generate_profiles(Namespace(skip=0), API_URL)
