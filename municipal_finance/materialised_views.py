@@ -30,6 +30,9 @@ from scorecard.profile_data import (
 from itertools import groupby
 from collections import defaultdict
 import sys
+from .models import MunicipalityProfile
+
+
 sys.path.append('.')
 
 
@@ -82,7 +85,6 @@ def generate_profiles(args, api_url):
     api_client = MuniApiClient(api_url)
     munis = get_munis(api_client)
     for muni in munis[int(args.skip):]:
-        print(muni)
         demarcation_code = muni.get('municipality.demarcation_code')
         api_data = APIData(api_client.API_URL,
                            demarcation_code, client=api_client)
@@ -95,11 +97,11 @@ def generate_profiles(args, api_url):
             'indicators': indicators,
             'demarcation': Demarcation(api_data).as_dict(),
         }
-
-        filename = "scorecard/materialised/profiles/%s.json" % demarcation_code
-        with open(filename, 'w', encoding="utf8") as f:
-            json.dump(profile, f, sort_keys=True,
-                      indent=4, separators=(',', ': '))
+        # Save profile to database
+        MunicipalityProfile(
+            demarcation_code=demarcation_code,
+            data=profile,
+        ).save()
 
 
 def calculate_medians(args, api_url):

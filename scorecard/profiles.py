@@ -6,6 +6,7 @@ import json
 import os
 
 from scorecard.utils import comparison_relative_words
+from municipal_finance.models import MunicipalityProfile
 
 
 def get_profile(geo):
@@ -51,7 +52,8 @@ def build_comparison(geo, indicators, medians, rating_counts, calculator):
             median = medians[group]['dev_cat'].get(date, 0)
 
             # how many comparable places are there, including this one?
-            comparable_places = sum(v for k, v in ratings[group]['dev_cat'].get(date, {}).items() if k)
+            comparable_places = sum(
+                v for k, v in ratings[group]['dev_cat'].get(date, {}).items() if k)
 
             # only do this if we have at least one other place to compare with
             if comparable_places > 1:
@@ -67,14 +69,10 @@ def build_comparison(geo, indicators, medians, rating_counts, calculator):
 
 
 def get_precalculated_profile(geo_code):
-    filename = os.path.join(
-        settings.MATERIALISED_VIEWS_BASE,
-        "profiles/%s.json" % geo_code)
-    if not os.path.abspath(filename).startswith(settings.MATERIALISED_VIEWS_BASE):
-        raise Exception("Trying to load file outside app path")
-    with open(filename) as f:
-        profile = json.load(f)
-    return profile
+    # Read profile from database
+    profile = MunicipalityProfile.objects.get(demarcation_code=geo_code)
+    # Return profile data
+    return profile.data
 
 
 def get_medians(geo):

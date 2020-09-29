@@ -6,6 +6,8 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User
+from django.contrib.postgres.fields import JSONField
 
 
 class AgedCreditorFacts(models.Model):
@@ -346,12 +348,13 @@ class MunicipalityStaffContacts(models.Model):
         unique_together = (('demarcation_code', 'role'),)
 
 
-class ContactsUpload(models.Model):
+class MunicipalityStaffContactsUpload(models.Model):
+    user = models.ForeignKey(User)
     datetime = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to='uploads/contacts/')
 
     class Meta:
-        db_table = 'contacts_uploads'
+        db_table = 'municipality_staff_contacts_uploads'
 
 
 class RepmaintFacts(models.Model):
@@ -411,3 +414,19 @@ class DemarcationChanges(models.Model):
         blank=False, null=False, db_index=True)
     new_code_transition = models.TextField(
         blank=False, null=False, db_index=True)
+
+
+class MunicipalityProfilesRebuild(models.Model):
+    user = models.ForeignKey(User)
+    datetime = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'municipality_profiles_rebuild'
+
+
+class MunicipalityProfile(models.Model):
+    demarcation_code = models.CharField(max_length=10, primary_key=True)
+    data = JSONField()
+
+    class Meta:
+        db_table = 'municipality_profile'
