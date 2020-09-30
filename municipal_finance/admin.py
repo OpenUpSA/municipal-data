@@ -72,7 +72,7 @@ class MunicipalityProfilesRebuildAdmin(admin.ModelAdmin):
         # Queue task
         async_task(
             'municipal_finance.materialised_views.generate_profiles',
-            Namespace(skip=290), API_URL,
+            Namespace(skip=0), API_URL,
             task_name='Rebuild municipality profiles'
         )
 
