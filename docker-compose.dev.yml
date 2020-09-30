@@ -37,9 +37,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=municipal_finance
-      - POSTGRES_USER=municipal_finance
-      - POSTGRES_PASS=municipal_finance
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASS=postgres
 
   minio:
     image: "minio/minio:RELEASE.2019-10-12T01-39-57Z"
