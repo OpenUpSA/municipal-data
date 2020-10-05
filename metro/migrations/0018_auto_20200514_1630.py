@@ -36,20 +36,23 @@ def add_indicators(apps, schema_editor):
             category = Category.objects.get(code=row["Category Code"])
             metros = ["BUF", "NMA", "MAN", "EKU", "JHB", "TSH", "ETH", "CPT"]
             for metro in metros:
-                geography = Geography.objects.get(geo_code=metro)
-                Indicator.objects.create(
-                    category=category,
-                    geography=geography,
-                    code=row["Indicator Code"],
-                    name=row["Indicator"],
-                    tier=row["Tier"],
-                    reporting=row["Reporting Responsibility"],
-                    measurement=row["Measurement"],
-                    alignment=row["Alignment"],
-                    formula=row["Indicator Formula"],
-                    frequency=row["Frequency of Reporting"],
-                    definition=row["Definition"],
-                )
+                try:
+                    geography = Geography.objects.get(geo_code=metro)
+                    Indicator.objects.create(
+                        category=category,
+                        geography=geography,
+                        code=row["Indicator Code"],
+                        name=row["Indicator"],
+                        tier=row["Tier"],
+                        reporting=row["Reporting Responsibility"],
+                        measurement=row["Measurement"],
+                        alignment=row["Alignment"],
+                        formula=row["Indicator Formula"],
+                        frequency=row["Frequency of Reporting"],
+                        definition=row["Definition"],
+                    )
+                except Geography.DoesNotExist:
+                    continue
 
 
 class Migration(migrations.Migration):
