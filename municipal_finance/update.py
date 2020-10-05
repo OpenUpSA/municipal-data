@@ -53,4 +53,7 @@ def update_municipal_staff_contacts(obj):
                         email_address=row['email_address'],
                     )
                     updated_count += 1
-    print(updated_count, created_count)
+    return {
+        "updated": updated_count,
+        "created": created_count,
+    }

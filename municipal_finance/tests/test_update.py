@@ -22,8 +22,9 @@ class UpdateMunicipalContactsTestCase(TestCase):
         )
 
     def test_upload_processes_correctly(self):
-        update_municipal_staff_contacts(self.upload)
+        result = update_municipal_staff_contacts(self.upload)
         records = MunicipalityStaffContacts.objects.all()
+        self.assertEquals(result, {"updated": 0, "created": 4})
         self.assertQuerysetEqual(records, [
             MunicipalityStaffContacts(
                 demarcation_code="AAA",
