@@ -32,7 +32,7 @@ class MunicipalityProfilesRebuildAdmin(admin.ModelAdmin):
 
 
 @admin.register(MunicipalityStaffContactsUpload)
-class ContactsUploadAdmin(admin.ModelAdmin):
+class MunicipalityStaffContactsUploadAdmin(admin.ModelAdmin):
     list_display = ('datetime',)
     readonly_fields = ('user',)
 
@@ -40,15 +40,17 @@ class ContactsUploadAdmin(admin.ModelAdmin):
         if obj is None:
             return ('user',)
         else:
-            return super(ContactsUploadAdmin, self).get_exclude(request, obj)
+            return super(MunicipalityStaffContactsUploadAdmin, self).get_exclude(request, obj)
 
     def save_model(self, request, obj, form, change):
         # Set the user to the current user
         obj.user = request.user
         # Process default save behavior
-        super(ContactsUploadAdmin, self).save_model(request, obj, form, change)
+        super(MunicipalityStaffContactsUploadAdmin,
+              self).save_model(request, obj, form, change)
         # Queue task
         async_task(
             'municipal_finance.update.update_municipal_staff_contacts',
-            obj, task_name='Municipal staff contacts upload',
+            obj,
+            task_name='Municipal staff contacts upload',
         )
