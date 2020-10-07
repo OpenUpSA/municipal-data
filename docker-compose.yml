@@ -9,7 +9,7 @@ services:
     volumes:
       - '.:/app'
     environment:
-      - DATABASE_URL=postgres://municipal_finance@postgres/municipal_finance
+      - DATABASE_URL=postgres://municipal_finance:municipal_finance@postgres/municipal_finance
       - DJANGO_SECRET_KEY=not-so-secret
       - SITE_ID=2
       - API_URL=http://portal:8000/api
@@ -37,9 +37,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASS=postgres
+      - POSTGRES_DB=municipal_finance
+      - POSTGRES_USER=municipal_finance
+      - POSTGRES_PASS=municipal_finance
 
   portal:
     build:

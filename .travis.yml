@@ -1,11 +1,5 @@
 services:
 - docker
 
-before_script:
-- docker-compose up -d
-
 script:
-- docker exec -it municipal-data_scorecard_1 python manage.py test municipal_finance
-
-after_script:
-- docker-compose down
+- docker-compose run scorecard bin/wait-for-postgres.sh run scorecard manage.py test municipal_finance
