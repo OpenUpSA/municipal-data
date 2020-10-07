@@ -311,7 +311,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MunicipalityStaffContacts',
             fields=[
-                ('demarcation_code', models.TextField(blank=True, null=True)),
+                ('demarcation_code', models.TextField(
+                    blank=True, null=True, primary_key=True)),
                 ('role', models.TextField(blank=True, null=True)),
                 ('title', models.TextField(blank=True, null=True)),
                 ('name', models.TextField(blank=True, null=True)),

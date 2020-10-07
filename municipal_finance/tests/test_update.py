@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TransactionTestCase
 from django.contrib.auth.models import User
 from django.core.files import File
 
@@ -6,7 +6,7 @@ from ..models import MunicipalityStaffContactsUpload, MunicipalityStaffContacts
 from ..update import update_municipal_staff_contacts
 
 
-class UpdateMunicipalContactsTestCase(TestCase):
+class UpdateMunicipalContactsTestCase(TransactionTestCase):
     def setUp(self):
         self.user = User.objects.create_user(
             username="sample", email="sample@some.co", password="testpass",
@@ -35,8 +35,9 @@ class UpdateMunicipalContactsTestCase(TestCase):
         result = update_municipal_staff_contacts(self.initial_upload)
         records = MunicipalityStaffContacts.objects.all()
         self.assertEquals(result, {"updated": 0, "created": 4})
-        self.assertQuerysetEqual(records, [
+        self.assertQuerysetEqual(records, [repr(o) for o in [
             MunicipalityStaffContacts(
+                id=1,
                 demarcation_code="AAA",
                 role="Role A",
                 title="Ms",
@@ -46,6 +47,7 @@ class UpdateMunicipalContactsTestCase(TestCase):
                 email_address="one@some.co",
             ),
             MunicipalityStaffContacts(
+                id=2,
                 demarcation_code="AAA",
                 role="Role B",
                 title="Mr",
@@ -55,6 +57,7 @@ class UpdateMunicipalContactsTestCase(TestCase):
                 email_address="two@some.co",
             ),
             MunicipalityStaffContacts(
+                id=3,
                 demarcation_code="BBB",
                 role="Role A",
                 title="Dr",
@@ -64,6 +67,7 @@ class UpdateMunicipalContactsTestCase(TestCase):
                 email_address="three@some.co",
             ),
             MunicipalityStaffContacts(
+                id=4,
                 demarcation_code="BBB",
                 role="Role B",
                 title="Mrs",
@@ -72,13 +76,14 @@ class UpdateMunicipalContactsTestCase(TestCase):
                 fax_number="081 123 4444",
                 email_address="four@some.co",
             ),
-        ], transform=lambda x: x, ordered=False)
+        ]], ordered=False)
         # Upload an update
         result = update_municipal_staff_contacts(self.update_upload)
         records = MunicipalityStaffContacts.objects.all()
         self.assertEquals(result, {"updated": 2, "created": 1})
-        self.assertQuerysetEqual(records, [
+        self.assertQuerysetEqual(records, [repr(o) for o in [
             MunicipalityStaffContacts(
+                id=1,
                 demarcation_code="AAA",
                 role="Role A",
                 title="Mr",
@@ -88,6 +93,7 @@ class UpdateMunicipalContactsTestCase(TestCase):
                 email_address="one@updated.co",
             ),
             MunicipalityStaffContacts(
+                id=2,
                 demarcation_code="AAA",
                 role="Role B",
                 title="Mr",
@@ -97,6 +103,7 @@ class UpdateMunicipalContactsTestCase(TestCase):
                 email_address="two@some.co",
             ),
             MunicipalityStaffContacts(
+                id=3,
                 demarcation_code="BBB",
                 role="Role A",
                 title="Dr",
@@ -106,6 +113,7 @@ class UpdateMunicipalContactsTestCase(TestCase):
                 email_address="three@some.co",
             ),
             MunicipalityStaffContacts(
+                id=4,
                 demarcation_code="BBB",
                 role="Role B",
                 title="Mr",
@@ -115,6 +123,7 @@ class UpdateMunicipalContactsTestCase(TestCase):
                 email_address="four@updated.co",
             ),
             MunicipalityStaffContacts(
+                id=5,
                 demarcation_code="CCC",
                 role="Role A",
                 title="Mr",
@@ -123,4 +132,4 @@ class UpdateMunicipalContactsTestCase(TestCase):
                 fax_number="081 123 5555",
                 email_address="five@some.co",
             ),
-        ], transform=lambda x: x, ordered=False)
+        ]], ordered=False)
