@@ -1,0 +1,11 @@
+services:
+- docker
+
+before_script:
+- docker-compose up -d
+
+script:
+- docker exec -it municipal-data_scorecard_1 python manage.py test municipal_finance
+
+after_script:
+- docker-compose down
