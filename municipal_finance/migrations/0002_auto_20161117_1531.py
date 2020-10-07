@@ -18,7 +18,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AgedCreditorFacts',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('demarcation_code', models.TextField(blank=True, null=True)),
                 ('period_code', models.TextField(blank=True, null=True)),
                 ('g1_amount', models.BigIntegerField(blank=True, null=True)),
@@ -44,7 +45,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('code', models.TextField(primary_key=True, serialize=False)),
                 ('label', models.TextField(blank=True, null=True)),
-                ('position_in_return_form', models.IntegerField(blank=True, null=True)),
+                ('position_in_return_form',
+                 models.IntegerField(blank=True, null=True)),
                 ('return_form_structure', models.TextField(blank=True, null=True)),
                 ('composition', models.TextField(blank=True, null=True)),
             ],
@@ -55,7 +57,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AgedDebtorFacts',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('demarcation_code', models.TextField(blank=True, null=True)),
                 ('period_code', models.TextField(blank=True, null=True)),
                 ('customer_group_code', models.TextField(blank=True, null=True)),
@@ -84,7 +87,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('code', models.TextField(primary_key=True, serialize=False)),
                 ('label', models.TextField(blank=True, null=True)),
-                ('position_in_return_form', models.IntegerField(blank=True, null=True)),
+                ('position_in_return_form',
+                 models.IntegerField(blank=True, null=True)),
                 ('return_form_structure', models.TextField(blank=True, null=True)),
                 ('composition', models.TextField(blank=True, null=True)),
             ],
@@ -105,7 +109,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AuditOpinionFacts',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('demarcation_code', models.TextField()),
                 ('financial_year', models.IntegerField()),
                 ('opinion_code', models.TextField()),
@@ -119,7 +124,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AuditOpinions',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('demarcation_code', models.TextField()),
                 ('financial_year', models.TextField()),
                 ('opinion_code', models.TextField()),
@@ -132,7 +138,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BsheetFacts',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('demarcation_code', models.TextField()),
                 ('period_code', models.TextField()),
                 ('amount', models.BigIntegerField(blank=True, null=True)),
@@ -150,7 +157,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('code', models.TextField(primary_key=True, serialize=False)),
                 ('label', models.TextField(blank=True, null=True)),
-                ('position_in_return_form', models.IntegerField(blank=True, null=True)),
+                ('position_in_return_form',
+                 models.IntegerField(blank=True, null=True)),
                 ('return_form_structure', models.TextField(blank=True, null=True)),
                 ('composition', models.TextField(blank=True, null=True)),
             ],
@@ -161,14 +169,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CapitalFacts',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('demarcation_code', models.TextField(blank=True, null=True)),
                 ('period_code', models.TextField(blank=True, null=True)),
                 ('new_assets', models.BigIntegerField(blank=True, null=True)),
                 ('renewal_of_existing', models.BigIntegerField(blank=True, null=True)),
                 ('total_assets', models.BigIntegerField(blank=True, null=True)),
                 ('repairs_maintenance', models.BigIntegerField(blank=True, null=True)),
-                ('asset_register_summary', models.BigIntegerField(blank=True, null=True)),
+                ('asset_register_summary',
+                 models.BigIntegerField(blank=True, null=True)),
                 ('financial_year', models.IntegerField()),
                 ('period_length', models.TextField()),
                 ('financial_period', models.IntegerField()),
@@ -183,7 +193,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('code', models.TextField(primary_key=True, serialize=False)),
                 ('label', models.TextField(blank=True, null=True)),
-                ('position_in_return_form', models.IntegerField(blank=True, null=True)),
+                ('position_in_return_form',
+                 models.IntegerField(blank=True, null=True)),
                 ('return_form_structure', models.TextField(blank=True, null=True)),
                 ('composition', models.TextField(blank=True, null=True)),
             ],
@@ -194,7 +205,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CflowFacts',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('demarcation_code', models.TextField(blank=True, null=True)),
                 ('period_code', models.TextField(blank=True, null=True)),
                 ('amount', models.BigIntegerField(blank=True, null=True)),
@@ -212,7 +224,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('code', models.TextField(primary_key=True, serialize=False)),
                 ('label', models.TextField(blank=True, null=True)),
-                ('position_in_return_form', models.IntegerField(blank=True, null=True)),
+                ('position_in_return_form',
+                 models.IntegerField(blank=True, null=True)),
                 ('return_form_structure', models.TextField(blank=True, null=True)),
                 ('composition', models.TextField(blank=True, null=True)),
             ],
@@ -223,7 +236,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ConditionalGrants',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('code', models.TextField(blank=True, null=True)),
                 ('name', models.TextField(blank=True, null=True)),
             ],
@@ -234,7 +248,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ConditionalGrantsFacts',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('demarcation_code', models.TextField(blank=True, null=True)),
                 ('period_code', models.TextField(blank=True, null=True)),
                 ('grant_code', models.TextField(blank=True, null=True)),
@@ -263,7 +278,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='IncexpFacts',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('demarcation_code', models.TextField(blank=True, null=True)),
                 ('period_code', models.TextField(blank=True, null=True)),
                 ('function_code', models.TextField(blank=True, null=True)),
@@ -283,7 +299,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('code', models.TextField(primary_key=True, serialize=False)),
                 ('label', models.TextField(blank=True, null=True)),
-                ('position_in_return_form', models.IntegerField(blank=True, null=True)),
+                ('position_in_return_form',
+                 models.IntegerField(blank=True, null=True)),
                 ('return_form_structure', models.TextField(blank=True, null=True)),
                 ('composition', models.TextField(blank=True, null=True)),
             ],
@@ -294,7 +311,6 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MunicipalityStaffContacts',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('demarcation_code', models.TextField(blank=True, null=True)),
                 ('role', models.TextField(blank=True, null=True)),
                 ('title', models.TextField(blank=True, null=True)),
@@ -310,7 +326,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='RepmaintFacts',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('demarcation_code', models.TextField(blank=True, null=True)),
                 ('period_code', models.TextField(blank=True, null=True)),
                 ('item_code', models.TextField(blank=True, null=True)),
@@ -329,7 +346,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('code', models.TextField(primary_key=True, serialize=False)),
                 ('label', models.TextField(blank=True, null=True)),
-                ('position_in_return_form', models.IntegerField(blank=True, null=True)),
+                ('position_in_return_form',
+                 models.IntegerField(blank=True, null=True)),
                 ('return_form_structure', models.TextField(blank=True, null=True)),
                 ('composition', models.TextField(blank=True, null=True)),
             ],
@@ -340,7 +358,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UifwexpFacts',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('demarcation_code', models.TextField(blank=True, null=True)),
                 ('financial_year', models.IntegerField(blank=True, null=True)),
                 ('item_code', models.TextField(blank=True, null=True)),
@@ -353,39 +372,47 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='uifwexpfacts',
-            unique_together=set([('demarcation_code', 'financial_year', 'item_code')]),
+            unique_together=set(
+                [('demarcation_code', 'financial_year', 'item_code')]),
         ),
         migrations.AlterUniqueTogether(
             name='repmaintfacts',
-            unique_together=set([('demarcation_code', 'period_code', 'item_code')]),
+            unique_together=set(
+                [('demarcation_code', 'period_code', 'item_code')]),
         ),
         migrations.AlterUniqueTogether(
             name='incexpfacts',
-            unique_together=set([('demarcation_code', 'period_code', 'function_code', 'item_code')]),
+            unique_together=set(
+                [('demarcation_code', 'period_code', 'function_code', 'item_code')]),
         ),
         migrations.AlterUniqueTogether(
             name='conditionalgrantsfacts',
-            unique_together=set([('demarcation_code', 'period_code', 'grant_code')]),
+            unique_together=set(
+                [('demarcation_code', 'period_code', 'grant_code')]),
         ),
         migrations.AddField(
             model_name='cflowfacts',
             name='item_code',
-            field=models.ForeignKey(blank=True, db_column='item_code', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.CflowItems'),
+            field=models.ForeignKey(blank=True, db_column='item_code', null=True,
+                                    on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.CflowItems'),
         ),
         migrations.AddField(
             model_name='capitalfacts',
             name='function_code',
-            field=models.ForeignKey(blank=True, db_column='function_code', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.GovernmentFunctions'),
+            field=models.ForeignKey(blank=True, db_column='function_code', null=True,
+                                    on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.GovernmentFunctions'),
         ),
         migrations.AddField(
             model_name='capitalfacts',
             name='item_code',
-            field=models.ForeignKey(blank=True, db_column='item_code', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.CapitalItems'),
+            field=models.ForeignKey(blank=True, db_column='item_code', null=True,
+                                    on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.CapitalItems'),
         ),
         migrations.AddField(
             model_name='bsheetfacts',
             name='item_code',
-            field=models.ForeignKey(blank=True, db_column='item_code', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.BsheetItems'),
+            field=models.ForeignKey(blank=True, db_column='item_code', null=True,
+                                    on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.BsheetItems'),
         ),
         migrations.AlterUniqueTogether(
             name='auditopinions',
@@ -394,27 +421,33 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='ageddebtorfacts',
             name='item_code',
-            field=models.ForeignKey(blank=True, db_column='item_code', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.AgedDebtorItems'),
+            field=models.ForeignKey(blank=True, db_column='item_code', null=True,
+                                    on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.AgedDebtorItems'),
         ),
         migrations.AddField(
             model_name='agedcreditorfacts',
             name='item_code',
-            field=models.ForeignKey(blank=True, db_column='item_code', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.AgedCreditorItems'),
+            field=models.ForeignKey(blank=True, db_column='item_code', null=True,
+                                    on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.AgedCreditorItems'),
         ),
         migrations.AlterUniqueTogether(
             name='cflowfacts',
-            unique_together=set([('demarcation_code', 'period_code', 'item_code')]),
+            unique_together=set(
+                [('demarcation_code', 'period_code', 'item_code')]),
         ),
         migrations.AlterUniqueTogether(
             name='capitalfacts',
-            unique_together=set([('demarcation_code', 'period_code', 'function_code', 'item_code')]),
+            unique_together=set(
+                [('demarcation_code', 'period_code', 'function_code', 'item_code')]),
         ),
         migrations.AlterUniqueTogether(
             name='bsheetfacts',
-            unique_together=set([('demarcation_code', 'period_code', 'item_code')]),
+            unique_together=set(
+                [('demarcation_code', 'period_code', 'item_code')]),
         ),
         migrations.AlterUniqueTogether(
             name='ageddebtorfacts',
-            unique_together=set([('demarcation_code', 'period_code', 'customer_group_code', 'item_code')]),
+            unique_together=set(
+                [('demarcation_code', 'period_code', 'customer_group_code', 'item_code')]),
         ),
     ]

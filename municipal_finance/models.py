@@ -335,7 +335,8 @@ class IncexpItems(models.Model):
 
 
 class MunicipalityStaffContacts(models.Model):
-    demarcation_code = models.TextField(primary_key=True)
+    id = models.AutoField(primary_key=True)
+    demarcation_code = models.TextField()
     role = models.TextField()
     title = models.TextField(null=True)
     name = models.TextField(null=True)
@@ -349,6 +350,7 @@ class MunicipalityStaffContacts(models.Model):
 
 
 class MunicipalityStaffContactsUpload(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User)
     datetime = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to='uploads/contacts/')
@@ -417,6 +419,7 @@ class DemarcationChanges(models.Model):
 
 
 class MunicipalityProfilesRebuild(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User)
     datetime = models.DateTimeField(auto_now_add=True)
 
