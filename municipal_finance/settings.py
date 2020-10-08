@@ -73,7 +73,6 @@ if DEBUG:
 
 API_BASE = "https://municipaldata.treasury.gov.za"
 API_URL = os.environ.get("API_URL", API_BASE + "/api")
-API_URL_INTERNAL = os.environ.get("API_URL_INTERNAL", API_URL)
 
 MAPIT = {"url": "https://mapit.code4sa.org", "generation": "2"}
 
