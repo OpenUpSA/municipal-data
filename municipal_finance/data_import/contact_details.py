@@ -158,22 +158,24 @@ def convert_muni(sheet, person_csv_name):
             writer.writerow(item)
 
 
+def normalize(name):
+    return name.replace(' ', '').replace('\n', '')
+
+
 def get_headings(sheet):
     headings = []
     for colx in range(0, sheet.ncols):
-        heading = " ".join([
-            str(sheet.cell(2, colx).value).strip(),
-            str(sheet.cell(3, colx).value).strip(),
-            str(sheet.cell(4, colx).value).strip(),
-        ])
-        headings.append(heading.strip())
+        headings.append(
+            normalize(str(sheet.cell(1, colx).value))
+        )
     return headings
 
 
 def check_columns(headings):
     for colx in range(0, len(headings)):
         heading = headings[colx]
-        if heading != expected_headings[colx]:
+        expected_heading = normalize(expected_headings[colx])
+        if heading != expected_heading:
             raise Exception("Unexpected heading %r != %r <- expected"
                             % (heading, expected_headings[colx]))
 
