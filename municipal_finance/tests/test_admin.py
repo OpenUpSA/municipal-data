@@ -36,7 +36,7 @@ class MunicipalityProfileRebuildAdminTestCase(TransactionTestCase):
         record = OrmQ.objects.latest('id')
         self.assertEquals(
             record.func(),
-            'municipal_finance.materialised_views.generate_profiles',
+            'municipal_finance.compile_data.compile_data',
         )
 
 
