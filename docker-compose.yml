@@ -45,7 +45,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-dev
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:application -t 600 --log-file - -b 0.0.0.0:8000
+    # command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ".:/app"
     environment:

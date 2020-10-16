@@ -34,8 +34,8 @@ logger = logging.getLogger("municipal_finance")
 EXECUTOR = ThreadPoolExecutor(max_workers=10)
 
 # The years for which we need results. Must be in desceneding order.
-LAST_AUDIT_YEAR = 2018
-LAST_AUDIT_QUARTER = "2018q4"
+LAST_AUDIT_YEAR = 2019
+LAST_AUDIT_QUARTER = "2019q4"
 YEARS = list(range(LAST_AUDIT_YEAR - 3, LAST_AUDIT_YEAR + 1))
 YEARS.reverse()
 
@@ -49,7 +49,7 @@ LAST_UIFW_YEAR = 2019
 UIFW_YEARS = list(range(LAST_UIFW_YEAR - 3, LAST_UIFW_YEAR + 1))
 UIFW_YEARS.reverse()
 
-LAST_IN_YEAR_YEAR = 2018
+LAST_IN_YEAR_YEAR = 2019
 IN_YEAR_YEARS = [
     LAST_IN_YEAR_YEAR + 1,
     LAST_IN_YEAR_YEAR,
@@ -90,7 +90,8 @@ class MuniApiClient(object):
                 params["order"] = "financial_year_end.year:desc,item.code:asc"
         elif query["query_type"] == "facts":
             url = self.API_URL + query["cube"] + "/facts"
-            params = {"fields": ",".join(field for field in query["fields"]), "page": 0}
+            params = {"fields": ",".join(
+                field for field in query["fields"]), "page": 0}
             if query.get("cut"):
                 params["cut"] = self.format_cut_param(query.get("cut"))
             if query.get("order"):
@@ -160,7 +161,8 @@ class APIData(object):
             responses.append((query_name, query, self.client.api_get(query)))
 
         for (query_name, query, response) in responses:
-            self.results[query_name] = self.response_to_results(response, query)
+            self.results[query_name] = self.response_to_results(
+                response, query)
 
     def response_to_results(self, api_response, query):
         self.raise_if_overloaded(api_response.result())
@@ -187,7 +189,8 @@ class APIData(object):
             and body.get("total_cell_count") is not None
         ):
             url = response.url
-            raise Exception("Page is full: should check next page for %s " % url)
+            raise Exception(
+                "Page is full: should check next page for %s " % url)
 
     def mayoral_staff(self):
         roles = [
@@ -529,7 +532,7 @@ class APIData(object):
                 "cube": "incexp",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "item.code": ["3000", "3100", "4200", "4600",],
+                    "item.code": ["3000", "3100", "4200", "4600", ],
                     "amount_type.code": ["AUDA", "ORGB"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
@@ -563,7 +566,7 @@ class APIData(object):
                 "cube": "incexp",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "item.code": ["3000", "3100", "4200", "4600",],
+                    "item.code": ["3000", "3100", "4200", "4600", ],
                     "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
@@ -575,7 +578,7 @@ class APIData(object):
             },
             "officials": {
                 "cube": "officials",
-                "cut": {"municipality.demarcation_code": [self.geo_code],},
+                "cut": {"municipality.demarcation_code": [self.geo_code], },
                 "fields": [
                     "role.role",
                     "contact_details.title",
@@ -596,7 +599,7 @@ class APIData(object):
             },
             "contact_details": {
                 "cube": "municipalities",
-                "cut": {"municipality.demarcation_code": [self.geo_code],},
+                "cut": {"municipality.demarcation_code": [self.geo_code], },
                 "fields": [
                     "municipality.phone_number",
                     "municipality.street_address_1",
@@ -789,7 +792,8 @@ class OperatingBudgetDifference(IndicatorCalculator):
             try:
                 op_ex_budget = api_data.results["op_exp_budget"]["4600"][year]
                 op_ex_actual = api_data.results["op_exp_actual"]["4600"][year]
-                result = percent((op_ex_actual - op_ex_budget), op_ex_budget, 1)
+                result = percent(
+                    (op_ex_actual - op_ex_budget), op_ex_budget, 1)
                 overunder = "under" if result < 0 else "over"
                 if abs(result) <= 5:
                     rating = "good"
@@ -831,7 +835,8 @@ class CapitalBudgetDifference(IndicatorCalculator):
             try:
                 cap_ex_budget = api_data.results["cap_exp_budget"]["4100"][year]
                 cap_ex_actual = api_data.results["cap_exp_actual"]["4100"][year]
-                result = percent((cap_ex_actual - cap_ex_budget), cap_ex_budget)
+                result = percent(
+                    (cap_ex_actual - cap_ex_budget), cap_ex_budget)
                 overunder = "under" if result < 0 else "over"
                 if abs(result) <= 5:
                     rating = "good"
@@ -901,8 +906,8 @@ class RevenueSources(IndicatorCalculator):
     def get_muni_specifics(cls, api_data):
         year = api_data.years[0]
         results = {
-            "local": {"amount": 0, "items": [],},
-            "government": {"amount": 0, "items": [],},
+            "local": {"amount": 0, "items": [], },
+            "government": {"amount": 0, "items": [], },
             "year": year,
             "ref": api_data.references["lges"],
         }
@@ -979,7 +984,8 @@ class RevenueBreakdown(IndicatorCalculator):
             if item["financial_year_end.year"] not in results:
                 results[item["financial_year_end.year"]] = {}
             if item["item.code"] not in results[item["financial_year_end.year"]]:
-                results[item["financial_year_end.year"]][item["item.code"]] = {}
+                results[item["financial_year_end.year"]
+                        ][item["item.code"]] = {}
             results[item["financial_year_end.year"]][item["item.code"]][
                 item["amount_type.code"]
             ] = item
@@ -1030,7 +1036,8 @@ class CurrentRatio(IndicatorCalculator):
     def get_muni_specifics(cls, api_data):
         values = []
         results = api_data.results["in_year_bsheet"]
-        year_month_key = lambda r: (
+
+        def year_month_key(r): return (
             r["financial_year_end.year"],
             r["financial_period.period"],
         )
@@ -1117,7 +1124,8 @@ class LiquidityRatio(IndicatorCalculator):
     def get_muni_specifics(cls, api_data):
         values = []
         results = api_data.results["in_year_bsheet"]
-        year_month_key = lambda r: (
+
+        def year_month_key(r): return (
             r["financial_year_end.year"],
             r["financial_period.period"],
         )
@@ -1152,7 +1160,8 @@ class LiquidityRatio(IndicatorCalculator):
                 # Skip the remaining months in that quarter. Thus the latest
                 # month in the quarter is used.
                 if quarter_key not in quarters:
-                    result = ratio(cash + call_investment_deposits, liabilities)
+                    result = ratio(
+                        cash + call_investment_deposits, liabilities)
                     q = {
                         "date": quarter_string(year, month),
                         "year": year,
@@ -1207,7 +1216,8 @@ class CurrentDebtorsCollectionRate(IndicatorCalculator):
     def get_muni_specifics(cls, api_data):
         values = []
         results = {}
-        year_month_key = lambda r: (
+
+        def year_month_key(r): return (
             r["financial_year_end.year"],
             r["financial_period.period"],
         )
@@ -1217,14 +1227,16 @@ class CurrentDebtorsCollectionRate(IndicatorCalculator):
         for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
             results[(year, month)] = {"cflow": {}}
             for cell in yearmonthgroup:
-                results[(year, month)]["cflow"][cell["item.code"]] = cell["amount.sum"]
+                results[(year, month)]["cflow"][cell["item.code"]
+                                                ] = cell["amount.sum"]
         year_month_sorted = sorted(
             api_data.results["in_year_incexp"], key=year_month_key, reverse=True
         )
         for (year, month), yearmonthgroup in groupby(year_month_sorted, year_month_key):
             results[(year, month)]["incexp"] = {}
             for cell in yearmonthgroup:
-                results[(year, month)]["incexp"][cell["item.code"]] = cell["amount.sum"]
+                results[(year, month)]["incexp"][cell["item.code"]
+                                                 ] = cell["amount.sum"]
         quarters = {}
         latest_quarter = None
         # Loop over months that exist and use their values in quarters
@@ -1303,7 +1315,8 @@ class CurrentDebtorsCollectionRate(IndicatorCalculator):
                     and len(q["receipts"]) == 3
                     and len(q["billing"]) == 3
                 ):
-                    q["result"] = percent(sum(q["receipts"]), sum(q["billing"]))
+                    q["result"] = percent(
+                        sum(q["receipts"]), sum(q["billing"]))
                     q["rating"] = "good" if round(q["result"]) >= 95 else "bad"
                 values.append(q)
         return {
@@ -1336,7 +1349,7 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
                 contracting = None
 
             values.append(
-                {"date": year, "result": contracting, "rating": "",}
+                {"date": year, "result": contracting, "rating": "", }
             )
 
         return {"values": values}
@@ -1368,7 +1381,7 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
                 staff = None
 
             values.append(
-                {"date": year, "result": staff, "rating": "",}
+                {"date": year, "result": staff, "rating": "", }
             )
 
         return {"values": values}
@@ -1428,7 +1441,8 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
             except KeyError:
                 continue
 
-        grouped_results = sorted(grouped_results, key=lambda r: (r["date"], r["item"]))
+        grouped_results = sorted(
+            grouped_results, key=lambda r: (r["date"], r["item"]))
         return {"values": grouped_results}
 
 
@@ -1452,7 +1466,8 @@ class CashAtYearEnd(IndicatorCalculator):
                 else:
                     rating = None
 
-                values.append({"date": year, "result": result, "rating": rating})
+                values.append(
+                    {"date": year, "result": result, "rating": rating})
             except KeyError:
                 values.append({"date": year, "result": None, "rating": "bad"})
         return {
@@ -1506,7 +1521,7 @@ class Demarcation(object):
         self.disestablished = False
         self.established_after_last_audit = False
         self.established_within_audit_years = False
-        date_key = lambda x: x["date.date"]
+        def date_key(x): return x["date.date"]
         # Watch out: groupby's iterator is finicky about seeing things twice.
         # E.g. If you just turn the tuples iterator into a list you only see one
         # item in the group
@@ -1517,21 +1532,24 @@ class Demarcation(object):
             else:
                 self.disestablished = True
                 self.disestablished_date = date
-                self.disestablished_to = [x["new_demarcation.code"] for x in group]
+                self.disestablished_to = [
+                    x["new_demarcation.code"] for x in group]
         for date, group in groupby(api_data.results["established"], date_key):
             if self.established_after_last_audit:
                 # If this is the second iteration
                 raise Exception("Muni established more than once")
             else:
                 datetime = dateutil.parser.parse(date)
-                year, month = calendar_to_financial(datetime.year, datetime.month)
+                year, month = calendar_to_financial(
+                    datetime.year, datetime.month)
                 quarter = quarter_string(year, month)
                 if quarter > LAST_AUDIT_QUARTER:
                     self.established_after_last_audit = True
                 if datetime.year in api_data.years:
                     self.established_within_audit_years = True
                 self.established_date = date
-                self.established_from = [x["old_demarcation.code"] for x in group]
+                self.established_from = [
+                    x["old_demarcation.code"] for x in group]
         for date, group in groupby(
             api_data.results["demarcation_involved_new"], date_key
         ):

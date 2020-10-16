@@ -6,7 +6,7 @@ import json
 import os
 
 from scorecard.utils import comparison_relative_words
-from municipal_finance.models import MunicipalityProfile
+from municipal_finance.models import MunicipalityProfile, MedianGroup, RatingCountGroup
 
 
 def get_profile(geo):
@@ -76,28 +76,26 @@ def get_precalculated_profile(geo_code):
 
 
 def get_medians(geo):
-    return get_muni_comparison(geo, "median.json")
+    return get_muni_comparison(geo, MedianGroup.objects)
 
 
 def get_rating_counts(geo):
-    return get_muni_comparison(geo, "rating_counts.json")
+    return get_muni_comparison(geo, RatingCountGroup.objects)
 
 
-def get_muni_comparison(geo, filename):
+def get_muni_comparison(geo, objects):
     """
     Returns a dict with the national and provincial comparison data specific to
     this municipality's province and MIIF category
     """
-    filename = os.path.join(
-        settings.MATERIALISED_VIEWS_BASE,
-        "indicators/distribution/%s" % filename)
-    with open(filename) as f:
-        all_groups = json.load(f)
+    national_group = objects.get(group_id='national').data
+    provincial_group = objects.get(group_id='provincial').data
     comparisons = defaultdict(lambda: defaultdict(dict))
     for calculator in get_indicator_calculators(has_comparisons=True):
         name = calculator.indicator_name
-        national = all_groups['national'][name][geo.miif_category]
+        objects.get(group_id='national')
+        national = national_group[name][geo.miif_category]
         comparisons[name]['national']['dev_cat'] = national
-        provincial = all_groups['provincial'][name][geo.province_code][geo.miif_category]
+        provincial = provincial_group[name][geo.province_code][geo.miif_category]
         comparisons[name]['provincial']['dev_cat'] = provincial
     return comparisons

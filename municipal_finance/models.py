@@ -433,3 +433,23 @@ class MunicipalityProfile(models.Model):
 
     class Meta:
         db_table = 'municipality_profile'
+
+
+class MedianGroup(models.Model):
+    group_id = models.CharField(max_length=10, primary_key=True)
+    data = JSONField()
+
+
+class RatingCountGroup(models.Model):
+    group_id = models.CharField(max_length=10, primary_key=True)
+    data = JSONField()
+
+# class Median(models.Model):
+#     area_code = models.CharField(max_length=5)
+#     miif_category = models.CharField(max_length=2)
+#     indicator = models.CharField(max_length=30)
+#     period = models.CharField(max_length=6)
+#     value = models.FloatField()
+
+#     class Meta:
+#         unique_together = ('area_code', 'miif_category', 'indicator', 'year',)
