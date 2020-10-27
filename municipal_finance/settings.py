@@ -61,7 +61,6 @@ INSTALLED_APPS = (
     "rest_framework",
     "django_q",
     "storages",
-    "metro",
 )
 
 # Sites
