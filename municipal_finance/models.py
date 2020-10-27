@@ -219,8 +219,6 @@ class CapitalItems(models.Model):
 class CflowFacts(models.Model):
     demarcation_code = models.TextField()
     period_code = models.TextField()
-    item_code = models.ForeignKey(
-        'CflowItems', models.DO_NOTHING, db_column='item_code')
     amount = models.BigIntegerField(null=True)
     amount_type_code = models.TextField()
     financial_year = models.IntegerField()
@@ -228,7 +226,7 @@ class CflowFacts(models.Model):
     financial_period = models.IntegerField()
 
     class Meta:
-        db_table = 'cflow_facts'
+        abstract = True
         unique_together = (
             ('demarcation_code', 'period_code', 'item_code'),
             (
@@ -242,6 +240,22 @@ class CflowFacts(models.Model):
         )
 
 
+class CflowFactsLegacy(CflowFacts):
+    item_code = models.ForeignKey(
+        'CflowItemsLegacy', models.DO_NOTHING, db_column='item_code')
+
+    class Meta:
+        db_table = 'cflow_facts'
+
+
+class CflowFactsMSCOA(CflowFacts):
+    item_code = models.ForeignKey(
+        'CflowItemsMSCOA', models.DO_NOTHING, db_column='item_code')
+
+    class Meta:
+        db_table = 'cflow_facts_mscoa'
+
+
 class CflowItems(models.Model):
     code = models.TextField(primary_key=True)
     label = models.TextField()
@@ -250,7 +264,17 @@ class CflowItems(models.Model):
     composition = models.TextField(null=True)
 
     class Meta:
+        abstract = True
+
+
+class CflowItemsLegacy(CflowItems):
+    class Meta:
         db_table = 'cflow_items'
+
+
+class CflowItemsMSCOA(CflowItems):
+    class Meta:
+        db_table = 'cflow_items_mscoa'
 
 
 class ConditionalGrants(models.Model):
