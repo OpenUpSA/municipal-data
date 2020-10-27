@@ -14,11 +14,11 @@ CREATE TEMPORARY TABLE cflow_upsert
 
 \echo Read data...
 
-\copy cflow_upsert (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/projects/municipal-money/data/treasury-snapshots/2019q4/S71 Q4 2018-19/cflow_2019q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy cflow_upsert (demarcation_code, period_code, item_code, amount) FROM '/Users/juriejan/Downloads/openup/data/mscoa/cflow.csv' DELIMITER ',' CSV HEADER;
 
 \echo Delete demarcation_code-period_code pairs that are in the update
 
-DELETE FROM cflow_facts f WHERE EXISTS (
+DELETE FROM cflow_facts_mscoa f WHERE EXISTS (
         SELECT 1 FROM cflow_upsert i
         WHERE f.demarcation_code = i.demarcation_code
         AND f.period_code = i.period_code
@@ -27,7 +27,7 @@ DELETE FROM cflow_facts f WHERE EXISTS (
 
 \echo Insert new values...
 
-INSERT INTO cflow_facts
+INSERT INTO cflow_facts_mscoa
 (
     demarcation_code,
     period_code,
@@ -43,19 +43,19 @@ SELECT demarcation_code,
        item_code,
        amount,
        cast(left(period_code, 4) as int),
-       case when period_code ~ '^\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD)(M\d{2})?$'
+       case when period_code ~ '^\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD|ITY1|ITY2|TABB)(M\d{2})?$'
                then substr(period_code, 5, 4)
            when period_code ~ '^\d{4}M\d{2}$'
                then 'ACT'
        end,
        case when period_code ~ '^\d{4}(ADJB|ORGB)?M\d{2}$'
                 then 'month'
-            when period_code ~ '^\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD)$'
+            when period_code ~ '^\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD|ITY1|ITY2|TABB)$'
                 then 'year'
        end,
        case when period_code ~ '^\d{4}(ADJB|ORGB)?M\d{2}$'
                 then cast(right(period_code, 2) as int)
-            when period_code ~ '^\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD)$'
+            when period_code ~ '^\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD|ITY1|ITY2|TABB)$'
                 then cast(left(period_code, 4) as int)
        end
 FROM cflow_upsert i;
