@@ -271,5 +271,5 @@ def compile_rating_counts(api_url):
 
 def compile_data(api_url):
     compile_profiles(api_url)
-    compile_medians(api_url)
-    compile_rating_counts(api_url)
+    # compile_medians(api_url)
+    # compile_rating_counts(api_url)

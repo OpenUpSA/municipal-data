@@ -416,6 +416,20 @@ class APIData(object):
                 "query_type": "aggregate",
                 "results_structure": self.item_code_year_aggregate,
             },
+            "cash_flow_mscoa": {
+                "cube": "cflow_mscoa",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": ["0430"],
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": YEAR_ITEM_DRILLDOWN,
+                "query_type": "aggregate",
+                "results_structure": self.item_code_year_aggregate,
+            },
             "cap_exp_actual": {
                 "cube": "capital",
                 "aggregate": "total_assets.sum",
@@ -1456,20 +1470,28 @@ class CashAtYearEnd(IndicatorCalculator):
     def get_muni_specifics(cls, api_data):
         values = []
         for year in api_data.years:
-            try:
-                result = api_data.results["cash_flow"]["4200"][year]
-
+            result = None
+            result = api_data.results["cash_flow"]["4200"].get(year)
+            result = api_data.results["cash_flow_mscoa"]["0430"].get(
+                year, result)
+            if result is None:
+                values.append({
+                    "date": year,
+                    "result": None,
+                    "rating": "bad",
+                })
+            else:
                 if result > 0:
                     rating = "good"
                 elif result <= 0:
                     rating = "bad"
                 else:
                     rating = None
-
-                values.append(
-                    {"date": year, "result": result, "rating": rating})
-            except KeyError:
-                values.append({"date": year, "result": None, "rating": "bad"})
+                values.append({
+                    "date": year,
+                    "result": result,
+                    "rating": rating,
+                })
         return {
             "values": values,
             "ref": api_data.references["solgf"],
