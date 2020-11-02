@@ -16,6 +16,9 @@ router.register(r"geography", views.GeographyViewSet)
 # sent to the client, too.
 CACHE_SECS = 12 * 60 * 60
 
+def trigger_error(request):
+    division_by_zero = 1 / 0
+
 urlpatterns = [
     url("admin/", admin.site.urls),
     url(r"^$", TemplateView.as_view(template_name="homepage.html"), name="homepage"),
@@ -62,13 +65,6 @@ urlpatterns = [
     url("^api/v1/infrastructure/", include("infrastructure.urls.api")),
     url("^infrastructure/", include("infrastructure.urls.templates")),
     url("^api/geography/", include(router.urls)),
-    # url(
-    #    regex='^api(?:/.*)?$',
-    #    view=lambda r: HttpResponse(
-    #        "The API is at https://municipaldata.treasury.gov.za/api\n" +
-    #        "The API Documentation is at https://municipaldata.treasury.gov.za/docs\n",
-    #        content_type="text/plain",
-    #        status=404
-    #    )
-    # ),
+
+    url("^sentry-debug/", trigger_error),
 ]

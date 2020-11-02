@@ -1,8 +1,10 @@
+import json
+
 from django.test import TestCase
 from unittest import mock
-import json
-from . import models, serializers
-import json
+
+from .. import models, serializers
+
 
 def request_mock(json_data, response_code=200):
     def _request_mock(*args, **kwargs):
@@ -17,6 +19,7 @@ def request_mock(json_data, response_code=200):
         return MockResponse(json_data, response_code)
     return _request_mock
 
+
 cpt_coords = {
     "min_lat": -34.35833999699997,
     "max_lat": -33.47127600399995,
@@ -29,7 +32,7 @@ cpt_coords = {
 
 fixtures = {
     "parent_map": {
-        "geo_level":"my geo_level",
+        "geo_level": "my geo_level",
         "geo_code": "CPT",
         "name": "my name",
         "long_name": "my long_name",
@@ -45,18 +48,18 @@ fixtures = {
     },
 
     "child_map": {
-       "geo_level":"my geo_levels2",
-       "geo_code": "my codes2",
-       "name": "my names2",
-       "long_name": "my long_names2",
-       "square_kms":  1000,
-       "parent_level":  None,
-       "parent_code":  None,
-       "province_name": "my provinces2",
-       "province_code": "pr2",
-       "category": "m2",
-       "miif_category": "my miff_categorys2",
-       "population":  2000,
+        "geo_level": "my geo_levels2",
+        "geo_code": "my codes2",
+        "name": "my names2",
+        "long_name": "my long_names2",
+        "square_kms":  1000,
+        "parent_level":  None,
+        "parent_code":  None,
+        "province_name": "my provinces2",
+        "province_code": "pr2",
+        "category": "m2",
+        "miif_category": "my miff_categorys2",
+        "population":  2000,
     }
 }
 
@@ -64,23 +67,28 @@ fixtures = {
 class TestGeographies(TestCase):
 
     def setUp(self):
-        self.parent_geography = models.Geography.objects.create(**fixtures["parent_map"])
-        self.child_geography = models.Geography.objects.create(**fixtures["child_map"])
+        self.parent_geography = models.Geography.objects.create(
+            **fixtures["parent_map"])
+        self.child_geography = models.Geography.objects.create(
+            **fixtures["child_map"])
 
     def test_geography_without_bbox(self):
-        js_parent = serializers.GeographySerializer(self.parent_geography, context={"request": None}).data
+        js_parent = serializers.GeographySerializer(
+            self.parent_geography, context={"request": None}).data
 
         parent_json = dict(fixtures["parent_map"], bbox=[])
         self.assertDictEqual(parent_json, js_parent)
 
-
     def test_geography_with_bbox(self):
-        js_parent = serializers.GeographySerializer(self.parent_geography, context={"request": None, "full": True}).data
+        js_parent = serializers.GeographySerializer(self.parent_geography, context={
+                                                    "request": None, "full": True}).data
 
-        coords = [cpt_coords[x] for x in ["min_lon", "min_lat", "max_lon", "max_lat"]]
+        coords = [cpt_coords[x]
+                  for x in ["min_lon", "min_lat", "max_lon", "max_lat"]]
 
         parent_json = dict(fixtures["parent_map"], bbox=coords)
         self.assertDictEqual(parent_json, js_parent)
+
 
 class TestBoundingBoxes(TestCase):
     @mock.patch('requests.get', side_effect=request_mock(cpt_coords))
@@ -90,7 +98,8 @@ class TestBoundingBoxes(TestCase):
 
         geography = models.Geography.objects.create(**muni)
         bbox = geography.bbox
-        coords = [cpt_coords[x] for x in ["min_lon", "min_lat", "max_lon", "max_lat"]]
+        coords = [cpt_coords[x]
+                  for x in ["min_lon", "min_lat", "max_lon", "max_lat"]]
         self.assertEquals(coords, bbox)
 
     def test_request(self):
@@ -99,5 +108,6 @@ class TestBoundingBoxes(TestCase):
 
         geography = models.Geography.objects.create(**muni)
         bbox = geography.bbox
-        coords = [cpt_coords[x] for x in ["min_lon", "min_lat", "max_lon", "max_lat"]]
+        coords = [cpt_coords[x]
+                  for x in ["min_lon", "min_lat", "max_lon", "max_lat"]]
         self.assertEquals(coords, bbox)

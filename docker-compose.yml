@@ -1,18 +1,21 @@
-version: '3'
+version: "3"
 
 services:
   scorecard:
     build:
       context: .
       dockerfile: Dockerfile-dev
-    command: python manage.py runserver 0.0.0.0:8000
+    command: bin/wait-for-postgres.sh python manage.py runserver 0.0.0.0:8000
     volumes:
-      - '.:/app'
+      - ".:/app"
     environment:
       - DATABASE_URL=postgres://municipal_finance:municipal_finance@postgres/municipal_finance
       - DJANGO_SECRET_KEY=not-so-secret
       - SITE_ID=2
       - API_URL=http://portal:8000/api
+      - ENVIRONMENT=development
+      - SENTRY_DSN
+      - SENTRY_PERF_SAMPLE_RATE
       - AWS_ACCESS_KEY_ID=minio-access-key
       - AWS_SECRET_ACCESS_KEY=minio-secret-key
       - AWS_STORAGE_BUCKET_NAME=municipal-money
@@ -20,7 +23,7 @@ services:
       - AWS_S3_SECURE_URLS=True
       - AWS_S3_CUSTOM_DOMAIN
     ports:
-      - '8001:8000'
+      - "8001:8000"
     working_dir: /app
     depends_on:
       - postgres
@@ -33,25 +36,28 @@ services:
   postgres:
     image: postgres:11.5
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=municipal_finance
       - POSTGRES_USER=municipal_finance
-      - POSTGRES_PASS=municipal_finance
+      - POSTGRES_PASSWORD=municipal_finance
 
   portal:
     build:
       context: .
       dockerfile: Dockerfile-dev
-    command: gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:application -t 600 --log-file - -b 0.0.0.0:8000
-    # command: python manage.py runserver 0.0.0.0:8000
+    command: bin/wait-for-postgres.sh python manage.py runserver 0.0.0.0:8000
+    # command: bin/wait-for-postgres.sh gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:application -t 600 --log-file - -b 0.0.0.0:8000
     volumes:
       - ".:/app"
     environment:
-      - DATABASE_URL=postgres://municipal_finance@postgres/municipal_finance
+      - DATABASE_URL=postgres://municipal_finance:municipal_finance@postgres/municipal_finance
       - DJANGO_SECRET_KEY=not-so-secret
+      - ENVIRONMENT=development
+      - SENTRY_DSN
+      - SENTRY_PERF_SAMPLE_RATE
       - SITE_ID=3
       - PRELOAD_CUBES=true
       - API_URL=http://portal:8000/api
@@ -63,7 +69,7 @@ services:
       - AWS_S3_CUSTOM_DOMAIN
     working_dir: /app
     ports:
-      - '8002:8000'
+      - "8002:8000"
     depends_on:
       - postgres
       - minio
@@ -72,12 +78,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-dev
-    command: python manage.py qcluster
+    command: bin/wait-for-postgres.sh python manage.py qcluster
     volumes:
       - ".:/app"
     environment:
-      - DATABASE_URL=postgres://municipal_finance@postgres/municipal_finance
+      - DATABASE_URL=postgres://municipal_finance:municipal_finance@postgres/municipal_finance
       - DJANGO_SECRET_KEY=not-so-secret
+      - ENVIRONMENT=development
+      - SENTRY_DSN
+      - SENTRY_PERF_SAMPLE_RATE
       - SITE_ID=2
       - PRELOAD_CUBES=true
       - API_URL=http://portal:8000/api

@@ -179,7 +179,6 @@ STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
     "pipeline.finders.PipelineFinder",
 )
-MATERIALISED_VIEWS_BASE = os.path.join(BASE_DIR, "scorecard/materialised/")
 
 PYSCSS_LOAD_PATHS = [
     os.path.join(BASE_DIR, "municipal_finance", "static"),
@@ -362,7 +361,8 @@ Q_CLUSTER = {
     "queue_limit": 100,
     "bulk": 50,
     "orm": "default",
-    "poll": 10,  # Check for queued tasks this frequently (seconds)
+    "poll": 10,
+    "max_attempts": 1,
 }
 
 if not DEBUG:
@@ -389,3 +389,25 @@ else:
     AWS_S3_SECURE_URLS = env.bool("AWS_S3_SECURE_URLS", True)
     AWS_S3_CUSTOM_DOMAIN = env.str("AWS_S3_CUSTOM_DOMAIN", None)
     AWS_S3_FILE_OVERWRITE = False
+
+# Do NOT use this for feature flags. Just use it to tell the outside world
+# which environment messages e.g. logs or errors are coming from.
+ENVIRONMENT = env.str("ENVIRONMENT")
+
+SENTRY_DSN = env.str("SENTRY_DSN", None)
+SENTRY_PERF_SAMPLE_RATE = env.float("SENTRY_PERF_SAMPLE_RATE", 0.1)
+
+if SENTRY_DSN:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=SENTRY_PERF_SAMPLE_RATE,
+        environment=ENVIRONMENT,
+
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True
+    )

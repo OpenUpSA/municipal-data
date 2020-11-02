@@ -15,18 +15,6 @@
 {% block body_id %}profile{% endblock %}
 
 {% block header_content %}
-<div id="notification-banner" style="background-color:#ab2328;">
-    {% if is_metro %}
-    <div class="container" style="color:#fff;font-size: 18px;padding:10px 16px">
-	<a class="title" href="{% url 'metro:performance' geography.geoid %}">
-	    <span style="color:#fff">
-		<b>Click Here</b> to see the performance of this metro.
-	    </span>
-	</a>
-    </div>
-    {% endif %}
-    
-</div>
 <div id="cover-map" class="clearfix">
   <div id="slippy-map"></div>
   <div id="cover-profile">
