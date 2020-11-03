@@ -12,8 +12,11 @@ In production, the two sites are served by one Django instance, using the hostna
 
 ## Local development quick start (with docker-compose)
 
-If you only want to work on the Scorecard website. The site will use pre-calculated
-financials and link to the production data/API site for detail.
+If you only want to work on the Scorecard website.
+
+The site will use pre-calculated data for a
+[small number of municipalities](#maintaining-demo-data-fixture)
+and link to the production data/API site for detail.
 
 ```
 docker-compose up -d postgres
@@ -40,7 +43,7 @@ docker-compose -f docker-compose.yml -f docker-compose.portal.yml \
 3. Run the API and data portal along with the scorecard site with something like:
 
 ```
-docker-compose -f docker-compose.yml -f docker-compose.portal.yml up portal scorecard
+docker-compose -f docker-compose.yml -f docker-compose.portal.yml up scorecard
 ```
 
 ### Maintaining demo data fixture
@@ -60,7 +63,13 @@ that should give us enough data to do
 
 The chosen municipalities are in demo-munis.txt, one on each line to be able to use with `grep --file`
 
-docker-compose run --rm scorecard python manage.py dumpdata --indent 2 scorecard.geography municipal_finance.municipality_profile municipal_finance.mediangroup municipal_finance.ratingcountgroup
+    docker-compose run --rm scorecard python manage.py dumpdata --indent 2 \
+      scorecard.geography \
+      municipal_finance.municipalityprofile \
+      municipal_finance.mediangroup \
+      municipal_finance.ratingcountgroup \
+      auth.user \
+      > demo-data.json
 
 ## Local development (without docker)
 

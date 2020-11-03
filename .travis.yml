@@ -1,12 +1,16 @@
 services:
   - docker
 
+before_script:
+  - docker-compose up -d postgres
+
 script:
-  - docker-compose exec scorecard python manage.py test municipal_finance.tests
+  - docker-compose run --rm scorecard python manage.py test municipal_finance.tests
 
   # Ensure that the demo-data fixture can be loaded and a municipality profile is shown
   # - smoke test
   # - ensure development environment setup is maintained.
-  - docker-compose run --rm web bin/wait-for-postgres.sh python manage.py loaddata demo-data
+  - docker-compose run --rm web bin/wait-for-postgres.sh python manage.py migrate
+  - docker-compose run --rm web python manage.py loaddata demo-data
   - docker-compose up -d
   - wget --retry-connrefused --waitretry=1 --read-timeout=10 --timeout=10 --tries=10 -O-  "http://localhost:8001/profiles/municipality-TSH-city-of-tshwane/" | grep "City of Tshwane"
