@@ -22,6 +22,8 @@ docker-compose run --rm scorecard python manage.py loaddata demo-data
 docker-compose up scorecard
 ```
 
+See [maintaining demo-data fixture](#maintaining-demo-data-fixture).
+
 If you want to run the API and data portal locally using docker-compose you also need to:
 
 
@@ -41,23 +43,24 @@ docker-compose -f docker-compose.yml -f docker-compose.portal.yml \
 docker-compose -f docker-compose.yml -f docker-compose.portal.yml up portal scorecard
 ```
 
+### Maintaining demo data fixture
 
-### Updating municipality profile data in Docker
+Only the following municipalities are included, to try and get as little data as possible for convenient maintenance, but enough to be able to try out key features quickly.
 
-Run the portal service using `gunicorn` instead of django's `runserver`:
+- 2 metros
+- 3 districts, two in one province, one in another
+- 4 locals, two in two provinces
 
-```
-docker-compose -f docker-compose.yml -f docker-compose.portal.yml -f docker-compose.portal-gunicorn.yml up portal
-```
+that should give us enough data to do
 
-Run the update scripts against the portal service:
+- metro -> compare to similar nationally
+- district and local -> compare to similar nearby, similar in province, similar nationally
+- median for similar in province, median for similar nationally
+- navigation between locals, districts and neighbours
 
-```
-docker-compose -f docker-compose.yml run --rm scorecard python bin/materialised_views.py --api-url http://portal:8000/api --profiles-from-api
-```
+The chosen municipalities are in demo-munis.txt, one on each line to be able to use with `grep --file`
 
-Any changes should be written to the JSON files in the container, which are mapped into the container from the repository directory.
-
+docker-compose run --rm scorecard python manage.py dumpdata --indent 2 scorecard.geography municipal_finance.municipality_profile municipal_finance.mediangroup municipal_finance.ratingcountgroup
 
 ## Local development (without docker)
 
