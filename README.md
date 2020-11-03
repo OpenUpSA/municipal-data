@@ -10,7 +10,11 @@ In production, the two sites are served by one Django instance, using the hostna
 | Public-friendly site                 | https://municipalmoney.gov.za/         | scorecard                   | 2               |
 | Data exploration/download UI and API | https://municipaldata.treasury.gov.za/ | portal                      | 3               |
 
+
 ## Local development quick start (with docker-compose)
+
+
+### Scorecard site only
 
 If you only want to work on the Scorecard website.
 
@@ -25,10 +29,14 @@ docker-compose run --rm scorecard python manage.py loaddata demo-data
 docker-compose up scorecard
 ```
 
+You can login to admin using username `admin` and password `password`.
+
 See [maintaining demo-data fixture](#maintaining-demo-data-fixture).
 
-If you want to run the API and data portal locally using docker-compose you also need to:
 
+### Scorecard and data portal/API
+
+If you want to run the API and data portal locally using docker-compose you also need to:
 
 1. Dump the production database.
 2. Load the production database dump into your docker-compose postgres instance
@@ -43,8 +51,9 @@ docker-compose -f docker-compose.yml -f docker-compose.portal.yml \
 3. Run the API and data portal along with the scorecard site with something like:
 
 ```
-docker-compose -f docker-compose.yml -f docker-compose.portal.yml up scorecard
+docker-compose -f docker-compose.yml -f docker-compose.portal.yml up portal scorecard
 ```
+
 
 ### Maintaining demo data fixture
 
