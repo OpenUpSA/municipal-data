@@ -1,0 +1,39 @@
+delete from household_householdservicetotal where geography_id not in (select id from scorecard_geography where geo_code in ('TSH', 'BUF', 'DC10', 'DC12', 'EC109', 'EC108', 'DC48', 'GT481', 'GT483'));
+
+delete from municipality_profile where demarcation_code not in ('TSH', 'BUF', 'DC10', 'DC12', 'EC109', 'EC108', 'DC48', 'GT481', 'GT483');
+
+delete from household_householdbilltotal where geography_id not in (select id from scorecard_geography where geo_code in ('TSH', 'BUF', 'DC10', 'DC12', 'EC109', 'EC108', 'DC48', 'GT481', 'GT483'));
+
+delete from infrastructure_expenditure where project_id in (select id from infrastructure_project where geography_id not in (select id from scorecard_geography where geo_code in ('TSH', 'BUF', 'DC10', 'DC12', 'EC109', 'EC108', 'DC48', 'GT481', 'GT483')));
+
+delete from infrastructure_projectquarterlyspend where project_id in (select id from infrastructure_project where geography_id not in (select id from scorecard_geography where geo_code in ('TSH', 'BUF', 'DC10', 'DC12', 'EC109', 'EC108', 'DC48', 'GT481', 'GT483')));
+
+delete from infrastructure_project where geography_id not in (select id from scorecard_geography where geo_code in ('TSH', 'BUF', 'DC10', 'DC12', 'EC109', 'EC108', 'DC48', 'GT481', 'GT483'));
+DELETE 54958
+
+drop table metro_indicatorquarterresult ;
+drop table metro_indicatorelements;
+drop table metro_indicator ;
+drop table metro_updatefile ;
+
+delete from scorecard_geography where geo_code not in ('TSH', 'BUF', 'DC10', 'DC12', 'EC109', 'EC108', 'DC48', 'GT481', 'GT483');
+
+
+
+household_budgetphase \
+household_datasetfile \
+household_datasetversion \
+household_financialyear \
+household_householdbilltotal \
+household_householdclass \
+household_householdservice \
+household_householdservicetotal \
+
+
+
+infrastructure_budgetphase \
+infrastructure_expenditure \
+infrastructure_financialyear \
+infrastructure_project \
+infrastructure_projectquarterlyspend \
+infrastructure_quarterlyspendfile \
