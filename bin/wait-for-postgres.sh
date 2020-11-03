@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -euxo pipefail
+
 echo $DATABASE_URL
 
 postgres_ready() {
@@ -8,14 +10,15 @@ import sys
 import psycopg2
 try:
     psycopg2.connect("$DATABASE_URL")
-except psycopg2.OperationalError:
+except psycopg2.OperationalError as e:
+    print(e)
     sys.exit(-1)
 sys.exit(0)
 END
 }
 until postgres_ready; do
   >&2 echo 'Waiting for PostgreSQL to become available...'
-  sleep 1
+  sleep 2
 done
 >&2 echo 'PostgreSQL is available'
 
