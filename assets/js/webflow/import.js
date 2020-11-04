@@ -10,9 +10,7 @@ exports.transformDOM = function(window, $) {
 
   [
     '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">',
-    '<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" crossorigin="">',
-    '<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" crossorigin="">',
-    '<link rel="stylesheet" href="{% static \'css/vulekamali-webflow.css\' %}">',
+    '<link rel="stylesheet" href="{% static \'scss/municipal-money.css\' %}">',
     '<meta name="description" content="{{ page_description }}">',
     '<meta name="twitter:title" content="{{ page_title }}">',
     '<meta name="twitter:description" content="{{ page_description }}">',
@@ -31,12 +29,8 @@ exports.transformDOM = function(window, $) {
     integrity: "sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==",
     crossorigin:""
   });
-  addScriptToBody(window, {
-    src: "https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js",
-    crossorigin: ""
-  });
   addScriptToBody(window, {src: "https://unpkg.com/@ungap/url-search-params@0.1.2"});
-  addScriptToBody(window, {src: "{% static 'generated/vulekamali-webflow.bundle.js' %}"});
+  addScriptToBody(window, {src: "{% static 'js/municipal-money.js' %}"});
 
 
 };

@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     "scorecard",
     "infrastructure",
     "household",
+    "webflow",
     "django.contrib.sites",
     "django.contrib.contenttypes",
     "django.contrib.humanize",
@@ -177,13 +178,11 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     str(ROOT_DIR.path("assets/bundles")),
 ]
-print(STATICFILES_DIRS)
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
     "pipeline.finders.PipelineFinder",
 )
-MATERIALISED_VIEWS_BASE = os.path.join(BASE_DIR, "scorecard/materialised/")
 
 PYSCSS_LOAD_PATHS = [
     os.path.join(BASE_DIR, "municipal_finance", "static"),
