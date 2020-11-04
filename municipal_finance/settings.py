@@ -173,6 +173,10 @@ ASSETS_URL_EXPIRE = False
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # the URL for assets
 STATIC_URL = "/static/"
+STATICFILES_DIRS = [
+    str(PROJ_DIR.path("static")),
+    str(ROOT_DIR.path("assets/bundles")),
+]
 
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",

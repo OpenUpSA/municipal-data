@@ -1,0 +1,32 @@
+{
+  "name": "municipal-data",
+  "version": "1.0.0",
+  "description": "South African municipal financial data portal",
+  "main": "index.js",
+  "repository": "git@github.com:OpenUpSA/municipal-data.git",
+  "author": "(JD Bothma <jd@openup.org.za>)",
+  "license": "MIT",
+  "scripts": {
+    "build": "parcel build assets/scss/municipal-money.scss assets/js/municipal-money.js --out-dir assets/bundles --no-content-hash"
+  },
+  "dependencies": {
+    "import-webflow-export": "^0.0.4",
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.25.1-test.1"
+  },
+  "importWebflowExport": {
+    "copyTrees": {
+      "css": "webflow/static/css",
+      "js": "webflow/static/js",
+      "images": "webflow/static/images",
+      "fonts": "webflow/static/fonts"
+    },
+    "importHtml": [
+      {
+        "glob": "*.html",
+        "destDir": "webflow/templates/webflow",
+        "transforms": "./assets/js/webflow/import.js"
+      }
+    ]
+  }
+}

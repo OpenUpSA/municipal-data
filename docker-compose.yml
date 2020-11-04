@@ -4,7 +4,9 @@ services:
   scorecard:
     build:
       context: .
-      dockerfile: Dockerfile-dev
+      args:
+        USER_ID: ${USER_ID:-1001}
+        GROUP_ID: ${GROUP_ID:-1001}
     command: bin/wait-for-postgres.sh python manage.py runserver 0.0.0.0:8000
     volumes:
       - '.:/app'
