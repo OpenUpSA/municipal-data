@@ -15,7 +15,7 @@ exports.transformDOM = function(window, $) {
     '<meta name="twitter:title" content="{{ page_title }}">',
     '<meta name="twitter:description" content="{{ page_description }}">',
     '<meta name="twitter:card" content="summary">',
-    '<meta name="twitter:site" content="@vulekamali">',
+    '<meta name="twitter:site" content="@MunicipalMoney">',
     '<meta property="og:description" content="{{ page_description }}">',
   ].forEach(html => $("head").append(html + "\n"));
 
@@ -29,7 +29,6 @@ exports.transformDOM = function(window, $) {
     integrity: "sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==",
     crossorigin:""
   });
-  addScriptToBody(window, {src: "https://unpkg.com/@ungap/url-search-params@0.1.2"});
   addScriptToBody(window, {src: "{% static 'js/municipal-money.js' %}"});
 
 

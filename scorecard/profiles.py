@@ -3,7 +3,6 @@ from django.conf import settings
 from .profile_data import get_indicator_calculators
 
 import json
-import os
 
 from scorecard.utils import comparison_relative_words
 from municipal_finance.models import MunicipalityProfile, MedianGroup, RatingCountGroup

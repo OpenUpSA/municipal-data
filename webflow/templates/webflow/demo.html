@@ -1,6 +1,6 @@
 {% load static %}
 {% load json_script_escape %}
-<!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  --><!--  Last Published: Tue Nov 03 2020 10:46:22 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f76fb3856d70f93387b1011" data-wf-site="5f742e794e922c13375e7183"><head>
+<!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  --><!--  Last Published: Wed Nov 04 2020 13:18:57 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f76fb3856d70f93387b1011" data-wf-site="5f742e794e922c13375e7183"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_title }}" property="og:title">
@@ -24,7 +24,7 @@
 <meta name="twitter:title" content="{{ page_title }}">
 <meta name="twitter:description" content="{{ page_description }}">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:site" content="@vulekamali">
+<meta name="twitter:site" content="@MunicipalMoney">
 <meta property="og:description" content="{{ page_description }}">
 </head>
 <body>
@@ -317,6 +317,5 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 <script id="page-data" type="application/json">{{ page_data_json|json_script_escape:True }}</script>
 <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
-<script src="https://unpkg.com/@ungap/url-search-params@0.1.2"></script>
 <script src="{% static 'js/municipal-money.js' %}"></script>
 </body></html>

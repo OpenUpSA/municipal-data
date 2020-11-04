@@ -5,6 +5,7 @@ from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 from rest_framework import routers
 from django.contrib import admin
+import debug_toolbar
 
 import scorecard.views as views
 import infrastructure.views
@@ -67,4 +68,6 @@ urlpatterns = [
     url("^api/geography/", include(router.urls)),
 
     url("^sentry-debug/", trigger_error),
+
+    url('__debug__/', include(debug_toolbar.urls)),
 ]

@@ -63,6 +63,7 @@ INSTALLED_APPS = (
     "rest_framework",
     "django_q",
     "storages",
+    "debug_toolbar",
 )
 
 # Sites
@@ -79,6 +80,7 @@ MAPIT = {"url": "https://mapit.code4sa.org", "generation": "2"}
 
 MIDDLEWARE = [
     "django.middleware.gzip.GZipMiddleware",
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     "municipal_finance.middleware.RedirectsMiddleware",
     "municipal_finance.middleware.SiteMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -417,3 +419,11 @@ if SENTRY_DSN:
         # django.contrib.auth) you may enable sending PII data.
         send_default_pii=True
     )
+
+DEBUG_TOOLBAR = os.environ.get("DJANGO_DEBUG_TOOLBAR", "false").lower() == "true"
+print("Django Debug Toolbar %s." % "enabled" if DEBUG_TOOLBAR else "disabled")
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": "municipal_finance.settings.show_toolbar_check"
+}
+def show_toolbar_check(request):
+    return DEBUG and DEBUG_TOOLBAR

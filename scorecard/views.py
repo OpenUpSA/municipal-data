@@ -11,6 +11,7 @@ from infrastructure.models import Project
 from household.models import HouseholdServiceTotal, HouseholdBillTotal
 from household.chart import stack_chart, chart_data, percent_increase, yearly_percent
 
+import json
 
 from . import models
 from . import serializers
@@ -57,7 +58,7 @@ class LocateView(TemplateView):
 
 
 class GeographyDetailView(TemplateView):
-    template_name = "profile/profile_detail.html"
+    template_name = "webflow/muni-profile.html"
 
     def dispatch(self, *args, **kwargs):
         self.geo_id = self.kwargs.get("geography_id", None)
@@ -82,14 +83,14 @@ class GeographyDetailView(TemplateView):
         return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
-        page_context = {}
+        page_json = {}
 
         profile = get_profile(self.geo)
-        page_context.update(profile)
+        page_json.update(profile)
 
         profile["geography"] = self.geo.as_dict()
-        page_context["profile_data"] = profile
-        page_context["geography"] = self.geo
+        page_json["profile_data"] = profile
+        page_json["geography"] = self.geo
 
         profile["demarcation"]["disestablished_to_geos"] = [
             Geography.objects.filter(geo_code=code).first().as_dict()
@@ -130,15 +131,15 @@ class GeographyDetailView(TemplateView):
             .order_by("-expenditure__amount")[:5]
             .values("project_description", "expenditure__amount", "id")
         )
-        page_context["infrastructure"] = infrastructure
+        # page_json["infrastructure"] = infrastructure
 
         households = HouseholdBillTotal.summary.bill_totals(self.geo_code)
-        page_context["household_percent"] = percent_increase(households)
-        page_context["yearly_percent"] = yearly_percent(households)
+        # page_json["household_percent"] = percent_increase(households)
+        # page_json["yearly_percent"] = yearly_percent(households)
 
         chart = chart_data(households)
 
-        page_context["household_chart_overall"] = chart
+        # page_json["household_chart_overall"] = chart
 
         service_middle = (
             HouseholdServiceTotal.summary.active(self.geo_code)
@@ -160,24 +161,15 @@ class GeographyDetailView(TemplateView):
         chart_affordable = stack_chart(service_affordable, households)
         chart_indigent = stack_chart(service_indigent, households)
 
-        page_context["household_chart_middle"] = chart_middle
-        page_context["household_chart_affordable"] = chart_affordable
-        page_context["household_chart_indigent"] = chart_indigent
+        # page_json["household_chart_middle"] = chart_middle
+        # page_json["household_chart_affordable"] = chart_affordable
+        # page_json["household_chart_indigent"] = chart_indigent
 
-        page_context["is_metro"] = self.geo_code in [
-            "BUF",
-            "NMA",
-            "MAN",
-            "EKU",
-            "JHB",
-            "TSH",
-            "ETH",
-            "CPT",
-        ]
-        # is this a head-to-head view?
-        if "head2head" in self.request.GET:
-            page_context["head2head"] = "head2head"
-
+        page_context ={
+            "page_data_json": json.dumps(page_json, cls=serializers.JSONEncoder),
+            "page_title": f"{ self.geo.name} - Municipal Money",
+            "page_description": f"Financial Performance for { self.geo.name }, and other information.",
+        }
         return page_context
 
 
