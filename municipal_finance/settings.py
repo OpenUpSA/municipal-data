@@ -323,6 +323,9 @@ PIPELINE = {
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = "municipal_finance.pipeline.GzipManifestPipelineStorage"
 
+WHITENOISE_MIMETYPES = {
+    '.map': 'application/octet-stream',
+}
 
 # Logging
 LOGGING = {
