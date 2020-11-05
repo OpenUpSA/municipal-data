@@ -165,8 +165,8 @@ class GeographyDetailView(TemplateView):
         # page_json["household_chart_affordable"] = chart_affordable
         # page_json["household_chart_indigent"] = chart_indigent
 
-        page_context ={
-            "page_data_json": json.dumps(page_json, cls=serializers.JSONEncoder),
+        page_context = {
+            "page_data_json": json.dumps(page_json, cls=serializers.JSONEncoder, sort_keys=True, indent=4),
             "page_title": f"{ self.geo.name} - Municipal Money",
             "page_description": f"Financial Performance for { self.geo.name }, and other information.",
         }

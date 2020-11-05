@@ -22,6 +22,12 @@ The site will use pre-calculated data for a
 [small number of municipalities](#maintaining-demo-data-fixture)
 and link to the production data/API site for detail.
 
+In one terminal, run
+
+```
+docker-compose run --rm scorecard yarn dev
+```
+
 ```
 docker-compose up -d postgres
 docker-compose run --rm scorecard python manage.py migrate
