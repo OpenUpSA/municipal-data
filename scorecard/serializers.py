@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from . import models
+
 import json
 
 class GeographySerializer(serializers.ModelSerializer):

@@ -23,5 +23,5 @@ class TextField {
 }
 const pageData = JSON.parse(document.getElementById('page-data').textContent);
 
-new Title(pageData.geography.name);
-new TextField(".profile-metric__label", pageData.total_population);
+new Title(pageData.geography.short_name);
+new TextField(".profile-metric__population", pageData.total_population);
