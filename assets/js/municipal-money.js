@@ -43,17 +43,54 @@ if (ancestors.length) {
 
 new TextField(".page-heading__geo-parent-2", pageData.geography.province_name);
 
+function formatFinancialYear(financialYearEnd) {
+  return `${ financialYearEnd - 1 }-${ financialYearEnd }`;
+}
+
+function ratingColor(rating) {
+  return {
+    "good": "#34A853",
+    "ave": "#FBBC05",
+    "bad": "#F00",
+  }[rating];
+}
+
 class Section {
-  constructor(selector, sectionData) {
+  constructor(selector, sectionData, municipality) {
+    this.selector = selector;
+    this.sectionData = sectionData;
     this.$element = $(selector);
     const latestItem = sectionData.values[0];
     this.$element.find(".section-header__info-right").text(latestItem.date);
+    console.log(`\n${selector}\n\n\`\`\`json\n${JSON.stringify(this.chartData(), null, 2)}\n\`\`\``);
+  }
+
+  chartData() {
+    const items = this.sectionData.values.map((item) => {
+      return {
+        period: formatFinancialYear(item.date),
+        fillColor: ratingColor(item.rating),
+        value: item.result,
+      };
+    });
+    items.reverse();
+    return {
+      municipality: municipality,
+      data: items,
+    };
   }
 }
 
-new Section("#cash-balance", pageData.indicators.cash_at_year_end);
-new Section("#cash-coverage", pageData.indicators.cash_coverage);
-new Section("#operating-budget", pageData.indicators.op_budget_diff);
-new Section("#capital-budget", pageData.indicators.cap_budget_diff);
-new Section("#repairs-maintenance", pageData.indicators.rep_maint_perc_ppe);
-new Section("#wasteful-expenditure", pageData.indicators.wasteful_exp);
+const municipality = {
+  code: pageData.geography.geo_code,
+  name: pageData.geography.short_name,
+};
+
+new Section("#cash-balance", pageData.indicators.cash_at_year_end, municipality);
+new Section("#cash-coverage", pageData.indicators.cash_coverage, municipality);
+new Section("#operating-budget", pageData.indicators.op_budget_diff, municipality);
+new Section("#capital-budget", pageData.indicators.cap_budget_diff, municipality);
+new Section("#repairs-maintenance", pageData.indicators.rep_maint_perc_ppe, municipality);
+new Section("#wasteful-expenditure", pageData.indicators.wasteful_exp, municipality);
+new Section("#current-ratio", pageData.indicators.current_ratio, municipality);
+new Section("#liquidity-ratio", pageData.indicators.liquidity_ratio, municipality);
