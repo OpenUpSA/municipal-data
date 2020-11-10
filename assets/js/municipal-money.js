@@ -68,7 +68,7 @@ class Section {
   chartData() {
     const items = this.sectionData.values.map((item) => {
       return {
-        period: formatFinancialYear(item.date),
+        period: this.formatPeriod(item.date),
         fillColor: ratingColor(item.rating),
         value: item.result,
       };
@@ -81,16 +81,28 @@ class Section {
   }
 }
 
+class AnnualSection extends Section {
+  formatPeriod(period) {
+    return formatFinancialYear(period);
+  }
+}
+
+class QuarterlySection extends Section {
+  formatPeriod(period) {
+    return period;
+  }
+}
+
 const municipality = {
   code: pageData.geography.geo_code,
   name: pageData.geography.short_name,
 };
 
-new Section("#cash-balance", pageData.indicators.cash_at_year_end, municipality);
-new Section("#cash-coverage", pageData.indicators.cash_coverage, municipality);
-new Section("#operating-budget", pageData.indicators.op_budget_diff, municipality);
-new Section("#capital-budget", pageData.indicators.cap_budget_diff, municipality);
-new Section("#repairs-maintenance", pageData.indicators.rep_maint_perc_ppe, municipality);
-new Section("#wasteful-expenditure", pageData.indicators.wasteful_exp, municipality);
-new Section("#current-ratio", pageData.indicators.current_ratio, municipality);
-new Section("#liquidity-ratio", pageData.indicators.liquidity_ratio, municipality);
+new AnnualSection("#cash-balance", pageData.indicators.cash_at_year_end, municipality);
+new AnnualSection("#cash-coverage", pageData.indicators.cash_coverage, municipality);
+new AnnualSection("#operating-budget", pageData.indicators.op_budget_diff, municipality);
+new AnnualSection("#capital-budget", pageData.indicators.cap_budget_diff, municipality);
+new AnnualSection("#repairs-maintenance", pageData.indicators.rep_maint_perc_ppe, municipality);
+new AnnualSection("#wasteful-expenditure", pageData.indicators.wasteful_exp, municipality);
+new QuarterlySection("#current-ratio", pageData.indicators.current_ratio, municipality);
+new QuarterlySection("#liquidity-ratio", pageData.indicators.liquidity_ratio, municipality);
