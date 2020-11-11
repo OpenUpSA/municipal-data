@@ -265,7 +265,9 @@ class APIData(object):
             )
         values = sorted(values, key=lambda r: r["date"])
         values.reverse()
-        return {"values": values}
+        return {
+            "values": values,
+        }
 
     def check_budget_actual(self, year, amount_type):
         return (
@@ -776,6 +778,7 @@ class CashCoverage(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["solgf"],
+            "result_type": cls.result_type,
         }
 
 
@@ -819,6 +822,7 @@ class OperatingBudgetDifference(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["overunder"],
+            "result_type": cls.result_type,
         }
 
 
@@ -862,6 +866,7 @@ class CapitalBudgetDifference(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["overunder"],
+            "result_type": cls.result_type,
         }
 
 
@@ -895,12 +900,14 @@ class RepairsMaintenance(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["circular71"],
+            "result_type": cls.result_type,
         }
 
 
 class RevenueSources(IndicatorCalculator):
     indicator_name = "revenue_sources"
     has_comparisons = False
+    result_type = "R"
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -963,6 +970,7 @@ class RevenueSources(IndicatorCalculator):
 class RevenueBreakdown(IndicatorCalculator):
     indicator_name = "revenue_breakdown"
     has_comparisons = False
+    result_type = "R"
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -1023,7 +1031,10 @@ class RevenueBreakdown(IndicatorCalculator):
                     }
                 )
 
-        return {"values": values}
+        return {
+            "values": values,
+            "result_type": cls.result_type,
+        }
 
 
 class CurrentRatio(IndicatorCalculator):
@@ -1111,6 +1122,7 @@ class CurrentRatio(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["circular71"],
+            "result_type": cls.result_type,
         }
 
 
@@ -1203,6 +1215,7 @@ class LiquidityRatio(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["mbrr"],
+            "result_type": cls.result_type,
         }
 
 
@@ -1322,6 +1335,7 @@ class CurrentDebtorsCollectionRate(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["mbrr"],
+            "result_type": cls.result_type,
         }
 
 
@@ -1352,7 +1366,10 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
                 {"date": year, "result": contracting, "rating": "", }
             )
 
-        return {"values": values}
+        return {
+            "values": values,
+            "result_type": cls.result_type,
+        }
 
 
 class ExpenditureTrendsStaff(IndicatorCalculator):
@@ -1384,12 +1401,16 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
                 {"date": year, "result": staff, "rating": "", }
             )
 
-        return {"values": values}
+        return {
+            "values": values,
+            "result_type": cls.result_type,
+        }
 
 
 class ExpenditureFunctionalBreakdown(IndicatorCalculator):
     indicator_name = "expenditure_functional_breakdown"
     has_comparisons = False
+    result_type = "R"
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -1443,7 +1464,10 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
 
         grouped_results = sorted(
             grouped_results, key=lambda r: (r["date"], r["item"]))
-        return {"values": grouped_results}
+        return {
+            "values": grouped_results,
+            "result_type": cls.result_type,
+        }
 
 
 class CashAtYearEnd(IndicatorCalculator):
@@ -1473,6 +1497,7 @@ class CashAtYearEnd(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["solgf"],
+            "result_type": cls.result_type,
         }
 
 
@@ -1511,6 +1536,7 @@ class FruitlWastefIrregUnauth(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["circular71"],
+            "result_type": cls.result_type,
         }
 
 

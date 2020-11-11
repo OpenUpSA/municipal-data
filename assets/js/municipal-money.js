@@ -62,7 +62,7 @@ class Section {
     this.$element = $(selector);
     const latestItem = sectionData.values[0];
     this.$element.find(".section-header__info-right").text(latestItem.date);
-    console.log(`\n${selector}\n\n\`\`\`json\n${JSON.stringify(this.chartData(), null, 2)}\n\`\`\``);
+    console.log(`\n${selector}\n\n\`\`\`json\n${JSON.stringify(this.chartData(), null, 2)}\n\`\`\`\n`);
   }
 
   chartData() {
@@ -77,7 +77,25 @@ class Section {
     return {
       municipality: municipality,
       data: items,
+      resultType: this.resultType(),
     };
+  }
+
+  resultType() {
+    return {
+      "R": "currency",
+      "%": "percentage",
+    }[this.sectionData.result_type] || this.sectionData.result_type;
+  }
+
+  formatSpecifier() {
+    return {
+      "R": "$,.0f",
+    }[this.sectionData.result_type];
+  }
+
+  formatValue(value) {
+    return D3_LOCALE.format(this.formatSpecifier())(value);
   }
 }
 
