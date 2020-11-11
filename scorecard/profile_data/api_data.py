@@ -23,8 +23,8 @@ class APIOverloadedException(BaseException):
 
 
 class ApiData(object):
-    def __init__(self, fetch, geo_code, years=YEARS):
-        self.fetch = fetch
+    def __init__(self, client, geo_code, years=YEARS):
+        self.client = client
         self.years = list(years)
         self.uifw_years = list(UIFW_YEARS)
         self.geo_code = str(geo_code)
@@ -58,16 +58,24 @@ class ApiData(object):
         # Only include queries indicated in include
         if include != None:
             queries = {key: queries[key] for key in include}
+        # Transform queries to future requests
+        requests = list(
+            map(
+                lambda k: (k, queries[k], self.client.api_get(queries[k])),
+                queries
+            )
+        )
         # Send queries and process responses
         self.results = defaultdict(dict)
-        for query_name, query in queries.items():
-            self.results[query_name] = self.response_to_results(
-                self.fetch(query), query,
+        for key, query, future in requests:
+            self.results[key] = self.response_to_results(
+                future.result(), query,
             )
 
     def response_to_results(self, response, query):
         self.raise_if_overloaded(response)
         self.raise_if_paged(response)
+        self.raise_for_status(response)
         response_dict = response.json()
         if query["query_type"] == "facts":
             return query["results_structure"](query, response_dict["data"])
@@ -75,6 +83,14 @@ class ApiData(object):
             return query["results_structure"](query, response_dict["cells"])
         elif query["query_type"] == "model":
             return query["results_structure"](query, response_dict["model"])
+
+    def raise_for_status(self, response):
+        if response.status_code != 200:
+            raise Exception(
+                "Request to %s failed with status code %s" % (
+                    response.url, response.status_code
+                )
+            )
 
     def raise_if_overloaded(self, response):
         DB_TIMEOUT_MSG = "(psycopg2.extensions.QueryCanceledError) canceling statement due to statement timeout\n"
@@ -225,22 +241,25 @@ class ApiData(object):
     def get_queries(self):
         return {
             # monthly values for in-year calculations from bsheet
-            "in_year_bsheet": {
+            "bsheet_auda_years": {
                 "cube": "bsheet",
                 "aggregate": "amount.sum",
                 "cut": {
                     "item.code": ["2150", "1600", "1800", "2200"],
-                    "amount_type.code": ["ACT"],
+                    "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
-                    "period_length.length": ["month"],
-                    "financial_year_end.year": IN_YEAR_YEARS,
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
                 },
-                "drilldown": YEAR_ITEM_DRILLDOWN + ["financial_period.period"],
-                "order": "financial_year_end.year:desc,financial_period.period:desc",
+                "drilldown": [
+                    "financial_year_end.year",
+                    "item.code",
+                ],
+                "order": "financial_year_end.year:desc",
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
             },
-            "in_year_bsheet_v2": {
+            "bsheet_auda_years_v2": {
                 "cube": "bsheet_v2",
                 "aggregate": "amount.sum",
                 "cut": {
@@ -248,21 +267,20 @@ class ApiData(object):
                         "0120", "0130", "0140", "0150", "0160", "0170",
                         "0330", "0340", "0350", "0360", "0370",
                     ],
-                    "amount_type.code": ["ACT"],
+                    "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
-                    "period_length.length": ["month"],
-                    "financial_year_end.year": IN_YEAR_YEARS,
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
                 },
                 "drilldown": [
                     "financial_year_end.year",
-                    "financial_period.period",
                     "item.code",
                 ],
-                "order": "financial_year_end.year:desc,financial_period.period:desc",
+                "order": "financial_year_end.year:desc",
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
             },
-            "in_year_cflow": {
+            "cflow_auda_years": {
                 "cube": "cflow",
                 "aggregate": "amount.sum",
                 "cut": {
@@ -270,77 +288,73 @@ class ApiData(object):
                         "3010", "3030", "3040", "3050", "3060", "3070",
                         "3100",
                     ],
-                    "amount_type.code": ["ACT"],
+                    "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
-                    "period_length.length": ["month"],
-                    "financial_year_end.year": IN_YEAR_YEARS,
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
                 },
                 "drilldown": [
                     "financial_year_end.year",
-                    "financial_period.period",
                     "item.code",
                 ],
-                "order": "financial_year_end.year:desc,financial_period.period:desc",
+                "order": "financial_year_end.year:desc",
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
             },
-            "in_year_cflow_v2": {
+            "cflow_auda_years_v2": {
                 "cube": "cflow_v2",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "item.code": ["0120", "0130", "0170"],
-                    "amount_type.code": ["ACT"],
+                    "item.code": ["0120", "0130", "0280"],
+                    "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
-                    "period_length.length": ["month"],
-                    "financial_year_end.year": IN_YEAR_YEARS,
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
                 },
                 "drilldown": [
                     "financial_year_end.year",
-                    "financial_period.period",
                     "item.code",
                 ],
-                "order": "financial_year_end.year:desc,financial_period.period:desc",
+                "order": "financial_year_end.year:desc",
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
             },
-            "in_year_incexp": {
+            "incexp_auda_years": {
                 "cube": "incexp",
                 "aggregate": "amount.sum",
                 "cut": {
                     "item.code": ["0200", "0400", "1000", "2000"],
-                    "amount_type.code": ["ACT"],
+                    "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
-                    "period_length.length": ["month"],
-                    "financial_year_end.year": IN_YEAR_YEARS,
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
                 },
                 "drilldown": [
                     "financial_year_end.year",
-                    "financial_period.period",
                     "item.code",
                 ],
-                "order": "financial_year_end.year:desc,financial_period.period:desc",
+                "order": "financial_year_end.year:desc",
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
             },
-            "in_year_incexp_v2": {
+            "incexp_auda_years_v2": {
                 "cube": "incexp_v2",
                 "aggregate": "amount.sum",
                 "cut": {
                     "item.code": [
                         "0200", "0300", "0400", "0500", "0600",
-                        "1000", "1200",
+                        "0800", "0900", "1000",
                     ],
-                    "amount_type.code": ["ACT"],
+                    "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
-                    "period_length.length": ["month"],
-                    "financial_year_end.year": IN_YEAR_YEARS,
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
                 },
                 "drilldown": [
                     "financial_year_end.year",
-                    "financial_period.period",
                     "item.code",
                 ],
-                "order": "financial_year_end.year:desc,financial_period.period:desc",
+                "order": "financial_year_end.year:desc",
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
             },

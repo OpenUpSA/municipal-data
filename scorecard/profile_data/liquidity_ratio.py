@@ -1,25 +1,18 @@
 from .utils import (
     ratio,
-    generate_expected_quarter_keys,
-    quarter_index,
-    group_items_by_month,
+    group_items_by_year,
     sum_item_amounts,
-    group_quarters,
     filter_for_all_keys,
-    select_latest_month,
 )
 from .indicator_calculator import IndicatorCalculator
 
 
-def generate_quarter_data(key, values):
-    year, quarter = key
+def generate_data(year, values):
     data = {
-        "date": "%sq%s" % (year, quarter),
+        "date": "%s" % (year),
         "year": year,
-        "quarter": quarter,
     }
     if values:
-        month = values["month"]
         cash = values["cash"]
         call_investment_deposits = values["call_investment_deposits"]
         total_current_liabilities = values["total_current_liabilities"]
@@ -27,7 +20,6 @@ def generate_quarter_data(key, values):
             cash + call_investment_deposits, total_current_liabilities
         )
         data.update({
-            "month": month,
             "amount_type": "ACT",
             "cash": cash,
             "call_investment_deposits": call_investment_deposits,
@@ -54,18 +46,16 @@ class LiquidityRatio(IndicatorCalculator):
         results = api_data.results
         periods = {}
         # Populate periods with v1 data
-        grouped_results = group_items_by_month(results["in_year_bsheet"])
+        grouped_results = group_items_by_year(results["bsheet_auda_years"])
         for key, result in grouped_results:
-            _, month = key
-            periods.setdefault(key, {"month": month})
+            periods.setdefault(key, {})
             periods[key]["cash"] = result.get("1800")
             periods[key]["call_investment_deposits"] = result.get("2200")
             periods[key]["total_current_liabilities"] = result.get("1600")
         # Populate periods with v2 data
-        grouped_results = group_items_by_month(results["in_year_bsheet_v2"])
+        grouped_results = group_items_by_year(results["bsheet_auda_years_v2"])
         for key, result in grouped_results:
-            _, month = key
-            periods.setdefault(key, {"month": month})
+            periods.setdefault(key, {})
             periods[key]["cash"] = result.get("0120")
             periods[key]["call_investment_deposits"] = result.get("0130")
             periods[key]["total_current_liabilities"] = sum_item_amounts(result, [
@@ -77,20 +67,15 @@ class LiquidityRatio(IndicatorCalculator):
             "call_investment_deposits",
             "total_current_liabilities",
         ])
-        # Group periods by quarter and select latest month
-        quarters = group_quarters(periods, select_latest_month)
-        # Convert the qurters to a dictionary
-        quarters = dict(quarters)
-        # Compile the data for the expected quarters, starting with the latest
-        values = []
-        if len(quarters) > 0:
-            latest_quarter_key = list(quarters.keys())[0]
-            values = list(
-                map(
-                    lambda k: generate_quarter_data(k, quarters.get(k)),
-                    generate_expected_quarter_keys(latest_quarter_key, 5)
-                )
+        # Convert periods into dictionary
+        periods = dict(periods)
+        # Generate data for the reuqested years
+        values = list(
+            map(
+                lambda year: generate_data(year, periods.get(year)),
+                api_data.years,
             )
+        )
         # Return the compiled data
         return {
             "values": values,

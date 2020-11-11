@@ -60,20 +60,29 @@ def quarter_index(month):
     return ((month - 1) // 3) + 1
 
 
-def year_month_key(r):
+def year_month_key(result):
     return (
-        r["financial_year_end.year"],
-        r["financial_period.period"],
+        result["financial_year_end.year"],
+        result["financial_period.period"],
     )
 
 
-def item_amount_pair(month):
-    return (month["item.code"], month["amount.sum"])
+def year_key(result):
+    return result["financial_year_end.year"]
+
+
+def item_amount_pair(item):
+    return (item["item.code"], item["amount.sum"])
 
 
 def collect_item_amounts(item):
-    key, months = item
-    return (key, dict(map(item_amount_pair, months)))
+    key, value = item
+    return (key, dict(map(item_amount_pair, value)))
+
+
+def group_items_by_year(results):
+    results = groupby(results, key=year_key)
+    return map(collect_item_amounts, results)
 
 
 def group_items_by_month(results):
