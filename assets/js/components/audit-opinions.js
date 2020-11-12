@@ -5,6 +5,7 @@ class Icon {
     this.$element = $template.clone();
     this.$element.removeClass("audit-outcome__icon--green audit-outcome__icon--yellow");
     this.$element.addClass(`audit-outcome__icon--${ color }`);
+    this.$element.find("div").attr("class", iconClasses);
   }
 
   render() {
@@ -32,28 +33,16 @@ class ReportCard {
     $iconContainer.empty();
 
     if (this.rating == "unqualified") {
-      //   thumbs-up, cup
-      $iconContainer.append(new Icon($iconTemplate, "thumbs-up", "green").render());
-      $iconContainer.append(new Icon($iconTemplate, "trophy", "yellow").render());
+      $iconContainer.append(new Icon($iconTemplate, "fas fa-thumbs-up", "green").render());
+      $iconContainer.append(new Icon($iconTemplate, "fas fa-trophy", "yellow").render());
     } else if (this.rating == "unqualified_emphasis_of_matter") {
-      // unqualified_emphasis_of_matter
-      //   thumbs-up
-      $iconContainer.append(new Icon($iconTemplate, "thumbs-up", "green").render());
-    } else if (this.rating == "unqualified") {
-
-      // qualified
-      //   thumbs-down
-      $iconContainer.append(new Icon($iconTemplate, "thumbs-down", "green").render());
-    } else if (this.rating == "unqualified") {
-
-      // adverse
-      // disclaimer
-      //   exclamation-mark
-      $iconContainer.append(new Icon($iconTemplate, "exclamation-mark", "green").render());
-    } else if (this.rating == "unqualified") {
-      // outstanding
-      //   clock
-      $iconContainer.append(new Icon($iconTemplate, "clock", "green").render());
+      $iconContainer.append(new Icon($iconTemplate, "fas fa-thumbs-up", "green").render());
+    } else if (this.rating == "qualified") {
+      $iconContainer.append(new Icon($iconTemplate, "fas fa-thumbs-down", "red").render());
+    } else if (["adverse", "disclaimer"].includes(this.rating)) {
+      $iconContainer.append(new Icon($iconTemplate, "fas fa-exclamation", "red").render());
+    } else if (this.rating == "outstanding") {
+      $iconContainer.append(new Icon($iconTemplate, "fas fa-clock", "black").render());
     }
     $iconContainer.removeClass("hidden");
   }
