@@ -1,9 +1,16 @@
 import { logIfUnequal } from '../utils.js';
 
 export class TextField {
-  constructor(selector, value) {
-    this.$element = $(selector);
+  constructor(selectorOrElement, value) {
+    this.$element = $(selectorOrElement);
     logIfUnequal(1, this.$element.length);
     this.$element.text(value);
+  }
+}
+
+export class LinkedTextField extends TextField {
+  constructor(selectorOrElement, value, url) {
+    super(selectorOrElement, value);
+    this.$element.parent().attr("href", url);
   }
 }

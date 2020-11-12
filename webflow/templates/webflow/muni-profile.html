@@ -1,6 +1,6 @@
 {% load static %}
 {% load json_script_escape %}
-<!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  --><!--  Last Published: Thu Nov 12 2020 13:08:54 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f869e42151dc3fb9c35b7a0" data-wf-site="5f742e794e922c13375e7183"><head>
+<!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  --><!--  Last Published: Thu Nov 12 2020 15:12:29 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f869e42151dc3fb9c35b7a0" data-wf-site="5f742e794e922c13375e7183"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_title }}" property="og:title">
@@ -197,10 +197,8 @@
       <div class="profile-header__inner">
         <div class="profile-heading">
           <h1 class="page-heading__title">Loading...</h1>
-          <div class="page-heading__local-muni hidden"><span class="page-heading__muni-type">Local municipality</span> in <a href="#" class="page-heading__subtitle_link"><span class="page-heading__geo-parent-1">...</span></a> , <a href="#" class="page-heading__subtitle_link"><span class="page-heading__geo-parent-2">...</span></a>
-          </div>
-          <div class="page-heading__district-muni hidden"><span class="page-heading__muni-type">District municipality</span> in <a href="#" class="page-heading__subtitle_link"><span class="page-heading__geo-parent-1">...</span></a>
-          </div>
+          <div class="page-heading__local-muni hidden"><span class="page-heading__muni-type">Local municipality</span> in <a href="#" class="page-heading__subtitle_link"><span class="page-heading__geo-parent-1">...</span></a> , <span class="page-heading__geo-parent-3">...</span></div>
+          <div class="page-heading__district-muni hidden"><span class="page-heading__muni-type">District municipality</span> in <span class="page-heading__geo-parent-3">...</span></div>
           <div class="page-heading__metro hidden"><span class="page-heading__muni-type">Metro</span> in <span class="page-heading__geo-parent-3">...</span></div>
         </div>
         <div class="profile-metrics">
@@ -220,7 +218,7 @@
       </div>
     </div>
   </div>
-  <div class="profile-notice">
+  <div class="profile-notice hidden">
     <div class="container">
       <div class="profile-notice__inner">
         <div class="profile-notice__icon">
