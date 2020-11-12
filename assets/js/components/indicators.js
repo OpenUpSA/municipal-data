@@ -7,10 +7,16 @@ class IndicatorSection {
     this.sectionData = sectionData;
     this.$element = $(selector);
     logIfUnequal(1, this.$element.length);
-    const latestItem = sectionData.values[0];
-    this.$element.find(".section-header__info-right").text(latestItem.date);
+    this.latestItem = sectionData.values[0];
+    this.$element.find(".section-header__info-right").text(formatFinancialYear(this.latestItem.date));
     this.municipality = municipality;
     console.debug(`\n${selector}\n\n\`\`\`json\n${JSON.stringify(this.chartData(), null, 2)}\n\`\`\`\n`);
+    this.initMetric();
+  }
+
+  initMetric() {
+    const $element = this.$element.find(".indicator-metric__value").text(this.latestItem.result);
+
   }
 
   chartData() {
