@@ -1,6 +1,6 @@
 exports.transformHTML = function(html) {
   let newHtml = "{% load static %}\n{% load json_script_escape %}\n" + html;
-  newHtml = newHtml.replace(/"(js|css|images|fonts)\//g, "\"/static/$1/");
+  newHtml = newHtml.replace(/"(js|css|images|fonts)\//g, "\"/static/webflow/$1/");
   return newHtml;
 };
 
