@@ -1,6 +1,6 @@
 {% load static %}
 {% load json_script_escape %}
-<!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  --><!--  Last Published: Mon Nov 09 2020 13:08:44 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f869e42151dc3fb9c35b7a0" data-wf-site="5f742e794e922c13375e7183"><head>
+<!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  --><!--  Last Published: Wed Nov 11 2020 07:22:15 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f869e42151dc3fb9c35b7a0" data-wf-site="5f742e794e922c13375e7183"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_title }}" property="og:title">
@@ -31,7 +31,7 @@
     <div class="plate plate--shadow-large"></div>
     <div class="container">
       <div class="nav-inner">
-        <a id="w-node-133d4c7ba194-4c7ba190" href="index.html" class="home-link w-inline-block"><img src="/static/images/municipal-money-logo--primary.svg" loading="lazy" height="39" alt="" class="nav-logo"></a>
+        <a id="w-node-133d4c7ba194-4c7ba190" href="index.html" class="home-link w-inline-block"><img src="/static/images/municipal-money-logo--primary.svg" loading="eager" height="39" alt="" class="nav-logo"></a>
         <div class="nav-items">
           <a href="index.html" class="nav-link w-inline-block">
             <div class="link-text link-text--site-nav">Home</div>
@@ -197,8 +197,11 @@
       <div class="profile-header__inner">
         <div class="profile-heading">
           <h1 class="page-heading__title">Loading...</h1>
-          <div class="page-heading__subtitle"><span class="page-heading__muni-type">Municipality</span> in <a href="#" class="page-heading__subtitle_link"><span class="page-heading__geo-parent-1">...</span></a> , <a href="#" class="page-heading__subtitle_link"><span class="page-heading__geo-parent-2">...</span></a>
+          <div class="page-heading__local-muni hidden"><span class="page-heading__muni-type">Local municipality</span> in <a href="#" class="page-heading__subtitle_link"><span class="page-heading__geo-parent-1">...</span></a> , <a href="#" class="page-heading__subtitle_link"><span class="page-heading__geo-parent-2">...</span></a>
           </div>
+          <div class="page-heading__district-muni hidden"><span class="page-heading__muni-type">District municipality</span> in <a href="#" class="page-heading__subtitle_link"><span class="page-heading__geo-parent-1">...</span></a>
+          </div>
+          <div class="page-heading__metro hidden"><span class="page-heading__muni-type">Metro</span> in <span class="page-heading__geo-parent-3">...</span></div>
         </div>
         <div class="profile-metrics">
           <div class="profile-metrics__block">
@@ -1389,6 +1392,109 @@
             </div>
           </div>
         </section>
+        <section id="liquidity-ratio" class="sub-section">
+          <div class="sub-section__link"></div>
+          <div class="section-header section-header--underline section-header--item-right">
+            <h3 class="heading heading--clear">Current Debtors Collection Rate</h3>
+            <div class="section-header__info-right">
+              <div><span class="financial-period">Loading...</span></div>
+            </div>
+          </div>
+          <div class="layout-grid layout-grid--1-3-2-3">
+            <div class="layout-grid__col layout-grid__col--padding-right layout-grid__col--border-right">
+              <div class="indicator-metric">
+                <div class="indicator-metric__value">Calculating...</div>
+                <div class="icon">
+                  <div class="far"></div>
+                </div>
+              </div>
+              <div class="indicator-detail w-richtext"></div>
+              <div class="expand-blocks">
+                <div class="expand-block">
+                  <div class="expand-block__trigger">
+                    <div class="expand-block__trigger_content">
+                      <div class="expand-block__content_icon">
+                        <div class="fas fa-info"></div>
+                      </div>
+                      <h5 id="w-node-f0ac6bee84dc-9c35b7a0" class="expand-block__heading">About this indicator</h5>
+                    </div>
+                    <div class="expand-block__trigger_icon">
+                      <div class="fas fa-plus"></div>
+                    </div>
+                  </div>
+                  <div class="expand-block__content">
+                    <div class="expand-block__content_inner">
+                      <div class="rich-text__small w-richtext"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="expand-block">
+                  <div class="expand-block__trigger">
+                    <div class="expand-block__trigger_content">
+                      <div class="expand-block__content_icon">
+                        <div class="fas fa-tachometer-alt"></div>
+                      </div>
+                      <h5 id="w-node-f0ac6bee84e8-9c35b7a0" class="expand-block__heading">How is performance measured?</h5>
+                    </div>
+                    <div class="expand-block__trigger_icon">
+                      <div class="fas fa-plus"></div>
+                    </div>
+                  </div>
+                  <div class="expand-block__content">
+                    <div class="expand-block__content_inner">
+                      <div class="grid grid--8px">
+                        <div class="indicator-legend">
+                          <div class="indicator-legend__icon indicator-legend__icon--green">
+                            <div class="far"></div>
+                          </div>
+                          <div class="indicator-legend__range">Loading...</div>
+                          <div class="indicator-legend__info">...</div>
+                          <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                        </div>
+                        <div class="indicator-legend">
+                          <div class="indicator-legend__icon indicator-legend__icon--red">
+                            <div class="far"></div>
+                          </div>
+                          <div class="indicator-legend__range">Loading...</div>
+                          <div class="indicator-legend__info">...</div>
+                          <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="layout-grid__col">
+              <div class="grid grid--24px">
+                <div class="icon-label-dropdown">
+                  <div class="icon-label-dropdown__inner">
+                    <div class="icon icon--32px icon--primary">
+                      <div class="fas fa-exchange-alt"></div>
+                    </div>
+                    <div class="label">Compare to other municipalities:</div>
+                  </div>
+                  <div data-hover="" data-delay="0" id="w-node-9f00652ed460-652ed45a" class="dropdown w-dropdown">
+                    <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
+                      <div class="dropdown-icon w-icon-dropdown-toggle"></div>
+                      <div>No comparison</div>
+                      <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                    </div>
+                    <nav class="dropdown-list w-dropdown-list">
+                      <a href="#" class="dropdown-link dropdown-link--current w-dropdown-link">No comparison</a>
+                      <a href="#" class="dropdown-link w-dropdown-link">Similar nearby</a>
+                      <a href="#" class="dropdown-link w-dropdown-link">Similar in same province</a>
+                      <a href="#" class="dropdown-link w-dropdown-link">Similar nationally</a>
+                      <div class="plate plate--white plate--rounded plate--shadow-large"></div>
+                    </nav>
+                  </div>
+                  <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                </div>
+                <div class="indicator-chart"></div>
+              </div>
+            </div>
+          </div>
+        </section>
       </section>
     </div>
   </div>
@@ -1894,7 +2000,7 @@
     <div class="container container--grid">
       <div class="layout-grid layout-grid--4-col">
         <div id="w-node-a2e6e9d831a0-e9d8319d" class="layout-grid__col">
-          <a href="http://www.treasury.gov.za" target="_blank" class="footer-logo w-inline-block"><img src="/static/images/national-treasury-logo.png" loading="lazy" alt="" class="logo"></a>
+          <a href="http://www.treasury.gov.za" target="_blank" class="footer-logo w-inline-block"><img src="/static/images/national-treasury-logo.png" loading="eager" alt="" class="logo"></a>
           <p class="footer-description">Municipal Money is an initiative of the National Treasury, which has collected extensive municipal financial data over several years and would like to share this information with the public.</p>
         </div>
         <div id="w-node-a2e6e9d831a5-e9d8319d" class="grid grid--16px">
@@ -1974,7 +2080,7 @@
         <div id="w-node-a2e6e9d831e8-e9d8319d">A project by <a href="http://www.treasury.gov.za" target="_blank">National Treasury</a>, created under The MIT License (MIT). </div>
         <div id="w-node-a2e6e9d831ed-e9d8319d" class="footer-meta__partner">
           <div>In partnership with:</div>
-          <a href="http://www.openup.org.za" target="_blank" class="footer__partner-logo w-inline-block"><img src="/static/images/openup-logo.svg" loading="lazy" alt="" class="logo"></a>
+          <a href="http://www.openup.org.za" target="_blank" class="footer__partner-logo w-inline-block"><img src="/static/images/openup-logo.svg" loading="eager" alt="" class="logo"></a>
         </div>
       </div>
     </div>

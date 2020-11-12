@@ -1613,7 +1613,7 @@ figure {
   flex: 1;
 }
 
-.page-heading__subtitle {
+.page-heading__local-muni {
   margin-top: 6px;
 }
 
@@ -2039,6 +2039,7 @@ figure {
   border-radius: 4px;
   background-color: rgba(0, 0, 0, 0.08);
   color: #4d4d4d;
+  text-align: center;
   text-decoration: none;
 }
 
@@ -3561,6 +3562,14 @@ figure {
   z-index: 1;
 }
 
+.page-heading__district-muni {
+  margin-top: 6px;
+}
+
+.page-heading__metro {
+  margin-top: 6px;
+}
+
 @media screen and (max-width: 991px) {
   h1 {
     font-size: 32px;
@@ -3962,6 +3971,10 @@ figure {
   .table-col.table-col--border-right {
     padding-right: 12px;
   }
+
+  .table-footer {
+    font-size: 14px;
+  }
 }
 
 @media screen and (max-width: 479px) {
@@ -4021,6 +4034,11 @@ figure {
   .table-row.table-row--2-col-value-right-with-icon {
     -ms-grid-columns: auto 110px 24px;
     grid-template-columns: auto 110px 24px;
+  }
+
+  .table-footer {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
   }
 }
 
@@ -4386,6 +4404,28 @@ figure {
 }
 
 #w-node-abbebfa2a1e2-9c35b7a0 {
+  -ms-grid-row: span 1;
+  grid-row-start: span 1;
+  -ms-grid-row-span: 1;
+  grid-row-end: span 1;
+  -ms-grid-column: span 1;
+  grid-column-start: span 1;
+  -ms-grid-column-span: 1;
+  grid-column-end: span 1;
+}
+
+#w-node-f0ac6bee84dc-9c35b7a0 {
+  -ms-grid-row: span 1;
+  grid-row-start: span 1;
+  -ms-grid-row-span: 1;
+  grid-row-end: span 1;
+  -ms-grid-column: span 1;
+  grid-column-start: span 1;
+  -ms-grid-column-span: 1;
+  grid-column-end: span 1;
+}
+
+#w-node-f0ac6bee84e8-9c35b7a0 {
   -ms-grid-row: span 1;
   grid-row-start: span 1;
   -ms-grid-row-span: 1;
