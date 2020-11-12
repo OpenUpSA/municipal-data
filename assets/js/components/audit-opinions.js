@@ -20,7 +20,8 @@ class ReportCard {
     this.$element.find(".audit-outcome__year").text(formatFinancialYear(report.date));
     this.$element.find(".audit-outcome__heading").text(report.result);
     this.$element.find(".audit-outcome__download").attr("href", report.report_url);
-    if (report.report_url) {
+    if (report.report_url === null) {
+      this.$element.find(".audit-outcome__download").text("No report available");
     }
 
     this.rating = report.rating;

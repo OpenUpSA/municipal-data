@@ -28,7 +28,6 @@ class ProfilePage {
 
     new ContactSection(pageData.mayoral_staff);
 
-    pageData.audit_opinions.values.reverse();
     new AuditOpinions(pageData.audit_opinions);
   }
 }
