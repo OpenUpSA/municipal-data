@@ -179,7 +179,6 @@ STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
     "pipeline.finders.PipelineFinder",
 )
-MATERIALISED_VIEWS_BASE = os.path.join(BASE_DIR, "scorecard/materialised/")
 
 PYSCSS_LOAD_PATHS = [
     os.path.join(BASE_DIR, "municipal_finance", "static"),
@@ -362,7 +361,8 @@ Q_CLUSTER = {
     "queue_limit": 100,
     "bulk": 50,
     "orm": "default",
-    "poll": 10,  # Check for queued tasks this frequently (seconds)
+    "poll": 10,
+    "max_attempts": 1,
 }
 
 if not DEBUG:

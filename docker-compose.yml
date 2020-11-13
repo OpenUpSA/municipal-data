@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   scorecard:
@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile-dev
     command: bin/wait-for-postgres.sh python manage.py runserver 0.0.0.0:8000
     volumes:
-      - '.:/app'
+      - ".:/app"
     environment:
       - DATABASE_URL=postgres://municipal_finance:municipal_finance@postgres/municipal_finance
       - DJANGO_SECRET_KEY=not-so-secret
@@ -23,7 +23,7 @@ services:
       - AWS_S3_SECURE_URLS=True
       - AWS_S3_CUSTOM_DOMAIN
     ports:
-      - '8001:8000'
+      - "8001:8000"
     working_dir: /app
     depends_on:
       - postgres
@@ -36,7 +36,7 @@ services:
   postgres:
     image: postgres:11.5
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
@@ -48,8 +48,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-dev
-    command: bin/wait-for-postgres.sh gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:application -t 600 --log-file - -b 0.0.0.0:8000
-    # command: bin/wait-for-postgres.sh python manage.py runserver 0.0.0.0:8000
+    command: bin/wait-for-postgres.sh python manage.py runserver 0.0.0.0:8000
+    # command: bin/wait-for-postgres.sh gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:application -t 600 --log-file - -b 0.0.0.0:8000
     volumes:
       - ".:/app"
     environment:
@@ -69,7 +69,7 @@ services:
       - AWS_S3_CUSTOM_DOMAIN
     working_dir: /app
     ports:
-      - '8002:8000'
+      - "8002:8000"
     depends_on:
       - postgres
       - minio
