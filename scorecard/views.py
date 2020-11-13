@@ -165,7 +165,7 @@ class GeographyDetailView(TemplateView):
         page_context["household_chart_indigent"] = chart_indigent
 
         page_context["is_metro"] = self.geo_code in [
-            "BUF",
+            " BUF",
             "NMA",
             "MAN",
             "EKU",

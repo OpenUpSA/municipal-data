@@ -52,7 +52,6 @@ class Geography(models.Model):
 
     class Meta:
         unique_together = ('geo_level', 'geo_code')
-
     def __str__(self):
         return f'{self.name}'
 
