@@ -42,7 +42,7 @@ class TestCurrentRatio(TransactionTestCase):
             "/api"
         )
         # Fetch data from API
-        api_data = ApiData(client, "CPT")
+        api_data = ApiData(client, "CPT", 2019, 2019, 2019, "2019q4")
         api_data.fetch_data(["bsheet_auda_years", "bsheet_auda_years_v2"])
         # Provide data to indicator
         result = CurrentRatio.get_muni_specifics(api_data)

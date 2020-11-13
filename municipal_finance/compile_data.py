@@ -206,11 +206,24 @@ def calc_provincial_rating_counts(munis):
     return prov_rating_counts
 
 
-def compile_profiles(api_client):
+def compile_profiles(
+    api_client,
+    last_audit_year,
+    last_opinion_year,
+    last_uifw_year,
+    last_audit_quarter,
+):
     munis = get_munis(api_client)
     for muni in munis:
         demarcation_code = muni.get('municipality.demarcation_code')
-        api_data = ApiData(api_client, demarcation_code)
+        api_data = ApiData(
+            api_client,
+            demarcation_code,
+            last_audit_year,
+            last_opinion_year,
+            last_uifw_year,
+            last_audit_quarter,
+        )
         api_data.fetch_data()
         indicators = get_indicators(api_data)
         profile = {
@@ -275,7 +288,13 @@ def compile_rating_counts(api_client):
     ).save()
 
 
-def compile_data(api_url):
+def compile_data(
+    api_url,
+    last_audit_year,
+    last_opinion_year,
+    last_uifw_year,
+    last_audit_quarter,
+):
     # Setup the client
     http_client = FuturesSession(
         executor=ThreadPoolExecutor(max_workers=10)
@@ -296,6 +315,12 @@ def compile_data(api_url):
 
     api_client = ApiClient(get, api_url)
     # Compile data
-    compile_profiles(api_client)
+    compile_profiles(
+        api_client,
+        last_audit_year,
+        last_opinion_year,
+        last_uifw_year,
+        last_audit_quarter,
+    )
     compile_medians(api_client)
     compile_rating_counts(api_client)
