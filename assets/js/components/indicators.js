@@ -5,6 +5,7 @@ const indicatorMetricClass = {
   "good": ".indicator-metric--status-green",
   "ave": ".indicator-metric--status-yellow",
   "bad": ".indicator-metric--status-red",
+  "": ".indicator-metric--no-status",
 };
 
 class IndicatorSection {
@@ -14,9 +15,10 @@ class IndicatorSection {
     this.$element = $(selector);
     logIfUnequal(1, this.$element.length);
     this.latestItem = sectionData.values[0];
-    this.$element.find(".section-header__info-right").text(formatFinancialYear(this.latestItem.date));
+
     this.municipality = municipality;
     console.debug(`\n${selector}\n\n\`\`\`json\n${JSON.stringify(this.chartData(), null, 2)}\n\`\`\`\n`);
+    this.initSectionPeriod();
     this.initMetric();
   }
 
@@ -24,15 +26,21 @@ class IndicatorSection {
     return formatForType(this.sectionData.result_type, value);
   }
 
+  initSectionPeriod() {
+    this.$element.find(".section-header__info-right").text(this.formatPeriod(this.latestItem.date));
+  }
+
   initMetric() {
-    const skeleton = this.$element.find(".indicator-metric");
+    const $skeleton = this.$element.find(".indicator-metric");
+    logIfUnequal(1, $skeleton.length);
     const templateClass = indicatorMetricClass[this.latestItem.rating];
     const $element = $(`.components ${templateClass}`).clone();
+    logIfUnequal(1, $element.length);
     const value = this.formatMetric(this.latestItem.result);
     $element.find(".indicator-metric__value").text(value);
-    skeleton.hide();
-    $element.insertBefore(skeleton);
-    skeleton.remove();
+    $skeleton.hide();
+    $element.insertBefore($skeleton);
+    $skeleton.remove();
   }
 
   chartData() {

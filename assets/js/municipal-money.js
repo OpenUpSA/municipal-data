@@ -24,6 +24,10 @@ class ProfilePage {
     new AnnualSection("#wasteful-expenditure", pageData.indicators.wasteful_exp, municipality);
     new QuarterlySection("#current-ratio", pageData.indicators.current_ratio, municipality);
     new QuarterlySection("#liquidity-ratio", pageData.indicators.liquidity_ratio, municipality);
+    new QuarterlySection("#collection-rate", pageData.indicators.current_debtors_collection_rate, municipality);
+    new AnnualSection("#wages-salaries", pageData.indicators.expenditure_trends_staff, municipality);
+    new AnnualSection("#contractor-services", pageData.indicators.expenditure_trends_contracting, municipality);
+
 
 
 
