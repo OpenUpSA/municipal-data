@@ -1,7 +1,7 @@
 import { logIfUnequal, locale, capFirst, formatFinancialYear, ratingColor } from './utils.js';
 import { ContactSection } from './components/contacts.js';
 import { TextField } from './components/common.js';
-import { AnnualSection, QuarterlySection } from './components/indicators.js';
+import { AnnualSection, QuarterlySection, OverUnderSection } from './components/indicators.js';
 import { AuditOpinions } from './components/audit-opinions.js';
 import { ProfileHeader } from './components/profile-header.js';
 
@@ -18,12 +18,13 @@ class ProfilePage {
 
     new AnnualSection("#cash-balance", pageData.indicators.cash_at_year_end, municipality);
     new AnnualSection("#cash-coverage", pageData.indicators.cash_coverage, municipality);
-    new AnnualSection("#operating-budget", pageData.indicators.op_budget_diff, municipality);
-    new AnnualSection("#capital-budget", pageData.indicators.cap_budget_diff, municipality);
+    new OverUnderSection("#operating-budget", pageData.indicators.op_budget_diff, municipality);
+    new OverUnderSection("#capital-budget", pageData.indicators.cap_budget_diff, municipality);
     new AnnualSection("#repairs-maintenance", pageData.indicators.rep_maint_perc_ppe, municipality);
     new AnnualSection("#wasteful-expenditure", pageData.indicators.wasteful_exp, municipality);
     new QuarterlySection("#current-ratio", pageData.indicators.current_ratio, municipality);
     new QuarterlySection("#liquidity-ratio", pageData.indicators.liquidity_ratio, municipality);
+
 
 
     new ContactSection(pageData.mayoral_staff);

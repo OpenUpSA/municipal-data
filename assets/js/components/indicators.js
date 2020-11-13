@@ -1,5 +1,11 @@
-import { logIfUnequal, formatFinancialYear, ratingColor } from '../utils.js';
+import { logIfUnequal, formatFinancialYear, ratingColor, formatForType } from '../utils.js';
 
+
+const indicatorMetricClass = {
+  "good": ".indicator-metric--status-green",
+  "ave": ".indicator-metric--status-yellow",
+  "bad": ".indicator-metric--status-red",
+};
 
 class IndicatorSection {
   constructor(selector, sectionData, municipality) {
@@ -14,9 +20,19 @@ class IndicatorSection {
     this.initMetric();
   }
 
-  initMetric() {
-    const $element = this.$element.find(".indicator-metric__value").text(this.latestItem.result);
+  formatMetric(value) {
+    return formatForType(this.sectionData.result_type, value);
+  }
 
+  initMetric() {
+    const skeleton = this.$element.find(".indicator-metric");
+    const templateClass = indicatorMetricClass[this.latestItem.rating];
+    const $element = $(`.components ${templateClass}`).clone();
+    const value = this.formatMetric(this.latestItem.result);
+    $element.find(".indicator-metric__value").text(value);
+    skeleton.hide();
+    $element.insertBefore(skeleton);
+    skeleton.remove();
   }
 
   chartData() {
@@ -49,7 +65,7 @@ class IndicatorSection {
   }
 
   formatValue(value) {
-    return D3_LOCALE.format(this.formatSpecifier())(value);
+    return locale.format(this.formatSpecifier())(value);
   }
 }
 
@@ -62,5 +78,12 @@ export class AnnualSection extends IndicatorSection {
 export class QuarterlySection extends IndicatorSection {
   formatPeriod(period) {
     return period;
+  }
+}
+
+export class OverUnderSection extends AnnualSection {
+  formatMetric(value) {
+    const overunder = value > 0 ? "overspent" : "underspent";
+    return `${super.formatMetric(value)} ${overunder}`;
   }
 }

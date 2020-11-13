@@ -28,3 +28,19 @@ export function ratingColor(rating) {
     "bad": "#F00",
   }[rating];
 }
+
+export function formatForType(type, value) {
+  switch (type) {
+  case "%":
+    return `${locale.format(".1f")(value)}%`;
+  case "R":
+    return locale.format("$,")(value);
+  case "months":
+    return `${locale.format(".1f")(value)} months`;
+  case "ratio":
+    return locale.format(".2f")(value);
+  default:
+    console.warning(`Don't know how to format for type ${type}`);
+    return ""; // Rather show nothing than something that could be misinterpreted
+  }
+}
