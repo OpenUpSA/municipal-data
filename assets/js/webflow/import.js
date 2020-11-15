@@ -1,5 +1,5 @@
 exports.transformHTML = function(html) {
-  let newHtml = "{% load static %}\n{% load json_script_escape %}\n" + html;
+  let newHtml = "{% load static %}\n{% load staticfiles pipeline json_script_escape %}\n" + html;
   newHtml = newHtml.replace(/"(js|css|images|fonts)\//g, "\"/static/webflow/$1/");
   newHtml = newHtml.replace(/"index.html"/, "/");
   newHtml = newHtml.replace(/"help.html"/, "/help");
@@ -12,7 +12,6 @@ exports.transformDOM = function(window, $) {
   $('a[href="contact.html"]').remove();
 
   [
-    '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">',
     '<link rel="stylesheet" href="{% static \'scss/municipal-money.css\' %}">',
     '<meta name="description" content="{{ page_description }}">',
     '<meta name="twitter:title" content="{{ page_title }}">',
@@ -27,11 +26,12 @@ exports.transformDOM = function(window, $) {
     id: "page-data",
     type: "application/json"
   }, "{{ page_data_json|json_script_escape:True }}");
-  addScriptToBody(window, {
-    src: "https://unpkg.com/leaflet@1.5.1/dist/leaflet.js",
-    integrity: "sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==",
-    crossorigin:""
-  });
+  addScriptToBody(window, {}, "var API_URL = '{{ API_URL }}'");
+  window.document.body.appendChild(
+    window.document.createTextNode(
+      "{% javascript 'scorecard' %}"
+    )
+  );
   addScriptToBody(window, {src: "{% static 'js/municipal-money.js' %}"});
 
 

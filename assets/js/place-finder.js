@@ -1,5 +1,5 @@
 var geocodingAPI = 'https://maps.googleapis.com/maps/api/geocode/json?address=%QUERY&components=country:ZA&region=ZA',
-    geoSelect = $('#municipality-search-2, #geography-select-home');
+    geoSelect = $('#geography-select, #geography-select-home');
 
 function resultTemplate(info) {
     return '<p class="result-name"><span class="result-type">' + info.geo_level + '</span>' + info.full_name + '</p>';

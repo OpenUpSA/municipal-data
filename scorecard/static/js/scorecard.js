@@ -5,10 +5,6 @@ window.browserWidth = document.documentElement.clientWidth;
 window.browserHeight = document.documentElement.clientHeight;
 
 $(document).ready(function(){
-  // prepare ajax spinners
-  $('body').append('<div id="body-spinner"></div>');
-  var spinnerTarget = document.getElementById('body-spinner'),
-      spinner = new Spinner();
 
   if ($('#profile').length > 0) {
     // profile page stuff
