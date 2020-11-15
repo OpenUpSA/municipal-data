@@ -1,12 +1,15 @@
 exports.transformHTML = function(html) {
   let newHtml = "{% load static %}\n{% load json_script_escape %}\n" + html;
   newHtml = newHtml.replace(/"(js|css|images|fonts)\//g, "\"/static/webflow/$1/");
+  newHtml = newHtml.replace(/"index.html"/, "/");
+  newHtml = newHtml.replace(/"help.html"/, "/help");
   return newHtml;
 };
 
 exports.transformDOM = function(window, $) {
   $("title").text("{{ page_title }}");
   $('meta[property="og:title"]').attr("content", "{{ page_title }}");
+  $('a[href="contact.html"]').remove();
 
   [
     '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">',
