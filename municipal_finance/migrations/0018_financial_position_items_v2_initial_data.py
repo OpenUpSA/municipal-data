@@ -10,7 +10,9 @@ from ..resources import FinancialPositionItemsV2Resource
 
 def import_initial_data(apps, schema_editor):
     dataset = tablib.Dataset().load(
-        open('municipal_finance/fixtures/initial/financial_position_items_v2.csv')
+        open('municipal_finance/fixtures/initial/financial_position_items_v2.csv'),
+        format='csv',
+        headers=True,
     )
     FinancialPositionItemsV2Resource().import_data(dataset, raise_errors=True)
 
