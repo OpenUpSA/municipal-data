@@ -1,9 +1,7 @@
 from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.urls import reverse
-from wkhtmltopdf.views import PDFResponse
-from wkhtmltopdf.utils import wkhtmltopdf
 
 from scorecard.profiles import get_profile
 from scorecard.models import Geography, LocationNotFound
@@ -16,6 +14,8 @@ import json
 from . import models
 from . import serializers
 from rest_framework import viewsets
+
+import subprocess
 
 
 class GeographyViewSet(viewsets.ReadOnlyModelViewSet):
@@ -176,20 +176,29 @@ class GeographyDetailView(TemplateView):
 class GeographyPDFView(GeographyDetailView):
     def get(self, request, *args, **kwargs):
         # render as pdf
-        url = "/profiles/%s-%s-%s?print=1" % (
+        path = "/profiles/%s-%s-%s?print=1" % (
             self.geo_level,
             self.geo_code,
             self.geo.slug,
         )
-        url = request.build_absolute_uri(url)
-        options = {
-            "zoom": "0.7",
-            "no-stop-slow-scripts": True,
-        }
-        pdf = wkhtmltopdf(url, **options)
+        url = request.build_absolute_uri(path)
+        # !!! This relies on GeographyDetailView validating the user-provided
+        # input to the path to avoid arbitraty command execution
+        command = ["node", "makepdf.js", url]
+        try:
+            completed_process = subprocess.run(
+                command,
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT
+            )
+        except subprocess.CalledProcessError as e:
+            print(e.output)
+            raise e
         filename = "%s-%s-%s.pdf" % (self.geo_level, self.geo_code, self.geo.slug)
-
-        return PDFResponse(pdf, filename=filename)
+        response = HttpResponse(completed_process.stdout, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{ filename }"'
+        return response
 
 
 class GeographyCompareView(TemplateView):
