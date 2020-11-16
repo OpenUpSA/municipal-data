@@ -7,7 +7,7 @@ services:
       args:
         USER_ID: ${USER_ID:-1001}
         GROUP_ID: ${GROUP_ID:-1001}
-    command: bin/wait-for-postgres.sh python manage.py runserver 0.0.0.0:8000
+    command: bin/wait-for-postgres.sh python manage.py runserver 0.0.0.0:8001
     volumes:
       - '.:/app'
     environment:
@@ -26,7 +26,7 @@ services:
       - AWS_S3_CUSTOM_DOMAIN
       - DJANGO_DEBUG_TOOLBAR
     ports:
-      - '8001:8000'
+      - '8001:8001'
     working_dir: /app
     depends_on:
       - postgres
@@ -53,7 +53,7 @@ services:
       args:
         USER_ID: ${USER_ID:-1001}
         GROUP_ID: ${GROUP_ID:-1001}
-    command: bin/wait-for-postgres.sh gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:application -t 600 --log-file - -b 0.0.0.0:8000
+    command: bin/wait-for-postgres.sh gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:application -t 600 --log-file - -b 0.0.0.0:8002
     # command: bin/wait-for-postgres.sh python manage.py runserver 0.0.0.0:8000
     volumes:
       - ".:/app"
@@ -74,7 +74,7 @@ services:
       - AWS_S3_CUSTOM_DOMAIN
     working_dir: /app
     ports:
-      - '8002:8000'
+      - '8002:8002'
     depends_on:
       - postgres
       - minio

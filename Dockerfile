@@ -6,17 +6,18 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK on
 ENV PYTHONUNBUFFERED 1
 ENV NODE_ENV production
 
+ADD packages.txt /packages.txt
 RUN set -ex; \
   apt-get update; \
-  # dependencies for building Python packages \
-  apt-get install -y build-essential python3.7-dev; \
-  # psycopg2 dependencies \
-  apt-get install -y libpq-dev; \
-  # git for codecov file listing \
-  apt-get install -y git; \
+  cat /packages.txt | grep -v \# | xargs apt-get install -y; \
   # cleaning up unused files \
   apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
   rm -rf /var/lib/apt/lists/*
+RUN set -ex; \
+  wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.buster_amd64.deb; \
+  dpkg --install wkhtmltox_0.12.6-1.buster_amd64.deb; \
+  rm wkhtmltox_0.12.6-1.buster_amd64.deb
+
 
 ADD requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
