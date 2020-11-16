@@ -182,7 +182,11 @@ class GeographyPDFView(GeographyDetailView):
             self.geo.slug,
         )
         url = request.build_absolute_uri(url)
-        pdf = wkhtmltopdf(url, zoom=0.7)
+        options = {
+            "zoom": "0.7",
+            "no-stop-slow-scripts": True,
+        }
+        pdf = wkhtmltopdf(url, **options)
         filename = "%s-%s-%s.pdf" % (self.geo_level, self.geo_code, self.geo.slug)
 
         return PDFResponse(pdf, filename=filename)
