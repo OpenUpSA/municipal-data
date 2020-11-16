@@ -10,7 +10,9 @@ from ..resources import AmountTypeV2Resource
 
 def import_initial_data(apps, schema_editor):
     dataset = tablib.Dataset().load(
-        open('municipal_finance/fixtures/initial/amount_type_v2.csv')
+        open('municipal_finance/fixtures/initial/amount_type_v2.csv'),
+        format='csv',
+        headers=True,
     )
     AmountTypeV2Resource().import_data(dataset, raise_errors=True)
 

@@ -10,7 +10,9 @@ from ..resources import CashflowItemsV2Resource
 
 def import_initial_data(apps, schema_editor):
     dataset = tablib.Dataset().load(
-        open('municipal_finance/fixtures/initial/cash_flow_items_v2.csv')
+        open('municipal_finance/fixtures/initial/cash_flow_items_v2.csv'),
+        format='csv',
+        headers=True,
     )
     CashflowItemsV2Resource().import_data(dataset, raise_errors=True)
 

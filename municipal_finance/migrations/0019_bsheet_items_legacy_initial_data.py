@@ -10,7 +10,9 @@ from ..resources import BsheetItemsV1Resource
 
 def import_initial_data(apps, schema_editor):
     dataset = tablib.Dataset().load(
-        open('municipal_finance/fixtures/initial/bsheet_items_v1.csv')
+        open('municipal_finance/fixtures/initial/bsheet_items_v1.csv'),
+        format='csv',
+        headers=True,
     )
     BsheetItemsV1Resource().import_data(dataset, raise_errors=True)
 

@@ -10,7 +10,9 @@ from ..resources import GovernmentFunctionsV2Resource
 
 def import_initial_data(apps, schema_editor):
     dataset = tablib.Dataset().load(
-        open('municipal_finance/fixtures/initial/government_functions_v2.csv')
+        open('municipal_finance/fixtures/initial/government_functions_v2.csv'),
+        format='csv',
+        headers=True,
     )
     GovernmentFunctionsV2Resource().import_data(dataset, raise_errors=True)
 
