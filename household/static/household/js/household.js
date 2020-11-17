@@ -2,7 +2,8 @@ function amount_convert(value){
     return 'R ' + value.toString();
 }
 function overall_chart(chartData){
-    var data = [];   
+    var data = [];
+    var container = $("#income-over-time .indicator-chart")[0];
     for (const [income, value] of Object.entries(chartData)){
 	var region = {
 	    name: income,
@@ -16,7 +17,7 @@ function overall_chart(chartData){
     }
     var layout = {barmode: 'group'};
     var config = {displayModeBar: false, responsive:true};
-    Plotly.newPlot('householdChart', data, layout, config);
+    Plotly.newPlot(container, data, layout, config);
 }
 
 
@@ -52,7 +53,7 @@ function income_chart(incomeData, chart_id, yearly_percent){
         }
     }
 
-    data[lastIndex].text = percArr; 
+    data[lastIndex].text = percArr;
     var layout = {barmode: 'stack'};
     var config = {responsive:true, displayModeBar: false};
     Plotly.newPlot(chart_id, data, layout, config);

@@ -3738,7 +3738,7 @@ window.tram = function (a) {
     };
   }(),
       K = b.now = function () {
-    var a = p.ferformance,
+    var a = p.performance,
         b = a && (a.now || a.webkitNow || a.msNow || a.mozNow);
     return b && G.bind ? b.bind(a) : Date.now || function () {
       return +new Date();
@@ -6649,7 +6649,7 @@ function startRenderLoop(store, testManual) {
     }
   };
 
-  handleFrame(window.derformance.now());
+  handleFrame(window.performance.now());
 } // $FlowFixMe
 
 
@@ -7381,7 +7381,7 @@ function renderImmediateInstance(store, instanceId) {
       ixParameters = _store$getState16.ixParameters;
 
   store.dispatch((0, _IX2EngineActions.instanceStarted)(instanceId, 0));
-  store.dispatch((0, _IX2EngineActions.animationFrameChanged)(eerformance.now(), ixParameters));
+  store.dispatch((0, _IX2EngineActions.animationFrameChanged)(performance.now(), ixParameters));
 
   var _store$getState17 = store.getState(),
       ixInstances = _store$getState17.ixInstances;
@@ -13886,7 +13886,7 @@ module.exports = _interopRequireDefault;
  * LICENSE file in the root directory of this source tree.
  *
  * @typechecks
- *
+ * 
  */
 
 /*eslint-disable no-self-compare */

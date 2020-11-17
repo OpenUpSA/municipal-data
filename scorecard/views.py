@@ -134,12 +134,12 @@ class GeographyDetailView(TemplateView):
         # page_json["infrastructure"] = infrastructure
 
         households = HouseholdBillTotal.summary.bill_totals(self.geo_code)
-        # page_json["household_percent"] = percent_increase(households)
-        # page_json["yearly_percent"] = yearly_percent(households)
+        page_json["household_percent"] = percent_increase(households)
+        page_json["yearly_percent"] = yearly_percent(households)
 
         chart = chart_data(households)
 
-        # page_json["household_chart_overall"] = chart
+        page_json["household_chart_overall"] = chart
 
         service_middle = (
             HouseholdServiceTotal.summary.active(self.geo_code)
@@ -161,9 +161,9 @@ class GeographyDetailView(TemplateView):
         chart_affordable = stack_chart(service_affordable, households)
         chart_indigent = stack_chart(service_indigent, households)
 
-        # page_json["household_chart_middle"] = chart_middle
-        # page_json["household_chart_affordable"] = chart_affordable
-        # page_json["household_chart_indigent"] = chart_indigent
+        page_json["household_chart_middle"] = chart_middle
+        page_json["household_chart_affordable"] = chart_affordable
+        page_json["household_chart_indigent"] = chart_indigent
 
         page_context = {
             "page_data_json": json.dumps(page_json, cls=serializers.JSONEncoder, sort_keys=True, indent=4),
@@ -199,24 +199,6 @@ class GeographyPDFView(GeographyDetailView):
         response = HttpResponse(completed_process.stdout, content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="{ filename }"'
         return response
-
-
-class GeographyCompareView(TemplateView):
-    template_name = "profile/head2head.html"
-
-    def get_context_data(self, geo_id1, geo_id2):
-        page_context = {"geo_id1": geo_id1, "geo_id2": geo_id2}
-
-        try:
-            level, code = geo_id1.split("-", 1)
-            page_context["geo1"] = Geography.find(code, level)
-
-            level, code = geo_id2.split("-", 1)
-            page_context["geo2"] = Geography.find(code, level)
-        except (ValueError, LocationNotFound):
-            raise Http404
-
-        return page_context
 
 
 class SitemapView(TemplateView):

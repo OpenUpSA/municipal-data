@@ -42,13 +42,6 @@ urlpatterns = [
         kwargs={},
         name="geography_pdf",
     ),
-    # e.g. /compare/province-GT/vs/province-WC/
-    url(
-        regex="^compare/(?P<geo_id1>\w+-\w+)/vs/(?P<geo_id2>\w+-\w+)/$",
-        view=cache_page(CACHE_SECS)(views.GeographyCompareView.as_view()),
-        kwargs={},
-        name="geography_compare",
-    ),
     url(
         regex="^locate/$",
         view=cache_page(CACHE_SECS)(views.LocateView.as_view()),

@@ -32,6 +32,9 @@ exports.transformDOM = function(window, $) {
       "{% javascript 'scorecard' %}"
     )
   );
+
+  addScriptToBody(window, {src: "{% static 'household/js/plotly.js' %}"});
+  addScriptToBody(window, {src: "{% static 'household/js/household.js' %}"});
   addScriptToBody(window, {src: "{% static 'js/municipal-money.js' %}"});
 
 

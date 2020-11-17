@@ -292,5 +292,7 @@
 
 <script id="page-data" type="application/json">{{ page_data_json|json_script_escape:True }}</script>
 <script>var API_URL = '{{ API_URL }}'</script>
-{% javascript 'scorecard' %}<script src="{% static 'js/municipal-money.js' %}"></script>
+{% javascript 'scorecard' %}<script src="{% static 'household/js/plotly.js' %}"></script>
+<script src="{% static 'household/js/household.js' %}"></script>
+<script src="{% static 'js/municipal-money.js' %}"></script>
 </body></html>

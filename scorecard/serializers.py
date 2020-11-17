@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from . import models
+import decimal
 
 import json
 
@@ -21,6 +22,8 @@ class GeographySerializer(serializers.ModelSerializer):
 
 class JSONEncoder(json.JSONEncoder):
     def default(self, o):
+        if isinstance(o, decimal.Decimal):
+            return str(o)
         if isinstance(o, models.Geography):
             return o.as_dict()
         return json.JSONEncoder.default(self, o)

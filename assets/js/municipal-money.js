@@ -34,7 +34,23 @@ class ProfilePage {
     new ContactSection(pageData.mayoral_staff);
 
     new AuditOpinions(pageData.audit_opinions);
+
+    this.initHouseholdBills(pageData);
   }
+
+  initHouseholdBills(pageData) {
+    var yearly_percent = pageData.yearly_percent;
+    var chartData = pageData.household_chart_overall;
+    var middleChartData = pageData.household_chart_middle;
+    var affordableChartData = pageData.household_chart_affordable;
+    var indigentChartData = pageData.household_chart_indigent;
+
+    overall_chart(chartData);
+    // income_chart(middleChartData, "householdMiddleChart", yearly_percent['Middle Income Range']);
+    // income_chart(affordableChartData, "householdAffordableChart", yearly_percent['Affordable Range']);
+    // income_chart(indigentChartData, "householdIndigentChart", yearly_percent['Indigent HH receiving FBS']);
+  }
+
 }
 
 new ProfilePage();
