@@ -1,9 +1,8 @@
 function amount_convert(value){
     return 'R ' + value.toString();
 }
-function overall_chart(chartData){
+function overall_chart(container, chartData){
     var data = [];
-    var container = $("#income-over-time .indicator-chart")[0];
     for (const [income, value] of Object.entries(chartData)){
 	var region = {
 	    name: income,
@@ -21,10 +20,11 @@ function overall_chart(chartData){
 }
 
 
-function income_chart(incomeData, chart_id, yearly_percent){
+function income_chart(incomeData, container, yearly_percent){
     var data = [];
     var lastIndex = -1;
-    for (const [service, value] of Object.entries(incomeData)){
+      incomeData.forEach((item) => {
+        var [service, value] = item;
 	var region = {
 	    name: service,
 	    type: 'bar',
@@ -40,7 +40,7 @@ function income_chart(incomeData, chart_id, yearly_percent){
                 lastIndex = lastIndex + 1;  //get the last stack
         }
 	data.push(region);
-    }
+      });
     var years = data[lastIndex].x;
     var percArr = [];
     for (var i = 0; i < years.length; i++) {
@@ -56,5 +56,5 @@ function income_chart(incomeData, chart_id, yearly_percent){
     data[lastIndex].text = percArr;
     var layout = {barmode: 'stack'};
     var config = {responsive:true, displayModeBar: false};
-    Plotly.newPlot(chart_id, data, layout, config);
+    Plotly.newPlot(container, data, layout, config);
 }
