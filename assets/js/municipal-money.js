@@ -45,20 +45,20 @@ class ProfilePage {
     var affordableChartData = pageData.household_chart_affordable;
     var indigentChartData = pageData.household_chart_indigent;
 
-    $("#middle-income-over-time .indicator-metric").hide();
+    $("#income-over-time .indicator-metric").hide();
     overall_chart($("#income-over-time .indicator-chart")[0], chartData);
 
     $("#middle-income-over-time .indicator-metric").hide();
     const middleContainer = $("#middle-income-over-time .indicator-chart")[0];
     income_chart(middleChartData, middleContainer, yearly_percent['Middle Income Range']);
 
-    $("#affordabl-income-over-time .indicator-metric").hide();
+    $("#affordable-income-over-time .indicator-metric").hide();
     const affordableContainer = $("#affordable-income-over-time .indicator-chart")[0];
     income_chart(affordableChartData, affordableContainer, yearly_percent['Affordable Range']);
 
-    // $("#income-over-time .indicator-metric").hide();
-    // const dmiddleContainer = $("#middle-income-over-time .indicator-chart");
-    // income_chart(indigentChartData, "householdIndigentChart", yearly_percent['Indigent HH receiving FBS']);
+    $("#indigent-income-over-time .indicator-metric").hide();
+    const indigentContainer = $("#indigent-income-over-time .indicator-chart")[0];
+    income_chart(indigentChartData, indigentContainer, yearly_percent['Indigent HH receiving FBS']);
   }
 
 }
