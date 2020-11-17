@@ -1,3 +1,5 @@
+browserWidth = document.documentElement.clientWidth;
+
 /*
  * A class that loads geography boundary information from
  * mapit.code4sa.org.
@@ -35,12 +37,11 @@ function MapItGeometryLoader() {
       url = url + '&simplify_tolerance=' + simplify;
     }
 
-    d3.json(this.mapit_url + url, function(error, geojson) {
-      if (error) return console.warn(error);
+    $.getJSON(this.mapit_url + url, function(geojson) {
       var features = _.values(geojson.features);
       _.each(features, self.decorateFeature);
       success({features: features});
-    });
+    }).fail((error) => console.warn(error));
   };
 
   this.loadGeometryForGeo = function(geo_level, geo_code, generation, success) {
@@ -49,11 +50,10 @@ function MapItGeometryLoader() {
     var url = "/area/MDB:" + geo_code + "/feature.geojson?generation=" + generation + "&simplify_tolerance=" + mapit_simplify +
       "&type=" + mapit_type;
 
-    d3.json(this.mapit_url + url, function(error, feature) {
-      if (error) return console.warn(error);
+    $.getJSON(this.mapit_url + url, function(feature) {
       self.decorateFeature(feature);
       success(feature);
-    });
+    }).fail((error) => console.warn(error));
   };
 }
 GeometryLoader = new MapItGeometryLoader();
@@ -111,7 +111,7 @@ var Maps = function() {
 
   this.drawMapForHomepage = function(centre, zoom) {
     // draw a homepage map, but only for big displays
-    if (browserWidth < 768 || $('#slippy-map').length === 0) return;
+    if (browserWidth < 768 || $('.profile-map').length === 0) return;
 
     this.createMap();
     this.addImagery();
@@ -126,7 +126,7 @@ var Maps = function() {
   this.createMap = function() {
     var allowMapDrag = (browserWidth > 480) ? true : false;
 
-    this.map = L.map('slippy-map', {
+    this.map = L.map($(".profile-map")[0], {
       scrollWheelZoom: false,
       zoomControl: false,
       doubleClickZoom: false,

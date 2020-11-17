@@ -226,9 +226,6 @@ PIPELINE = {
             "source_filenames": (
                 "stylesheets/vendor/leaflet-0.6.4.css",
                 "stylesheets/vendor/leaflet.label.css",
-                "bower_components/fontawesome/css/font-awesome.css",
-                "stylesheets/icomoon.css",
-                "stylesheets/scorecard.scss",
             ),
             "output_filename": "scorecard.css",
         },

@@ -19,6 +19,7 @@ exports.transformDOM = function(window, $) {
     '<meta name="twitter:card" content="summary">',
     '<meta name="twitter:site" content="@MunicipalMoney">',
     '<meta property="og:description" content="{{ page_description }}">',
+    '{% stylesheet "scorecard" %}'
   ].forEach(html => $("head").append(html + "\n"));
 
   // Body scripts

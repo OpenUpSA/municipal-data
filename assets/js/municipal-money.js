@@ -9,6 +9,9 @@ class ProfilePage {
   constructor() {
     const pageData = JSON.parse(document.getElementById('page-data').textContent);
 
+    const maps = new Maps();
+    maps.drawMapsForProfile(pageData.geography, pageData.demarcation);
+
     new ProfileHeader(pageData.geography, pageData.total_population, pageData.population_density);
 
     const municipality = {
