@@ -1,0 +1,24 @@
+
+.leaflet-objects-pane {
+    position: relative;
+    top: 15px;
+}
+
+.indicator-chart {
+    .axis path,
+    .axis .tick line,
+    .grid path {
+
+        display: none
+    }
+
+    .grid .tick {
+        opacity: 0.1
+    }
+
+    text.label {
+        filter: url('#labelBackground');
+    }
+
+
+}

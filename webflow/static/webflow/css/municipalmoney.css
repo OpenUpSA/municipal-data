@@ -25,6 +25,7 @@ h1 {
 h2 {
   margin-top: 20px;
   margin-bottom: 10px;
+  color: #000;
   font-size: 28px;
   font-weight: 700;
 }
@@ -32,6 +33,7 @@ h2 {
 h3 {
   margin-top: 20px;
   margin-bottom: 10px;
+  color: #000;
   font-size: 22px;
   line-height: 1.2;
   font-weight: 500;
@@ -1166,8 +1168,6 @@ figure {
   -webkit-align-items: stretch;
   -ms-flex-align: stretch;
   align-items: stretch;
-  color: #fff;
-  text-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
 }
 
 .section.section--grey {
@@ -1186,9 +1186,18 @@ figure {
   min-height: 350px;
 }
 
+.section.section--last {
+  padding-bottom: 128px;
+}
+
 .page-heading__title {
   margin-top: 0px;
   margin-bottom: 0px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  background-color: #000;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.12);
+  color: #fff;
 }
 
 .dummy-block {
@@ -1622,14 +1631,35 @@ figure {
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+  -ms-flex-align: start;
+  align-items: flex-start;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
 }
 
-.page-heading__local-muni {
-  margin-top: 6px;
+.page-heading__muni-info {
+  margin-top: 12px;
+  padding: 4px 12px;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.12);
+  color: #4d4d4d;
+}
+
+.page-heading__muni-info.page-heading__muni-info--local {
+  display: none;
+}
+
+.page-heading__muni-info.page-heading__muni-info--district {
+  display: none;
+}
+
+.page-heading__muni-info.page-heading__muni-info--metro {
+  display: none;
 }
 
 .page-nav__trigger_label {
@@ -1824,6 +1854,13 @@ figure {
   opacity: 1;
 }
 
+.profile-map.demo {
+  background-image: url('../images/dummy-map-2.jpg'), -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.08)), to(rgba(0, 0, 0, 0.08))), url('../images/topography.png');
+  background-image: url('../images/dummy-map-2.jpg'), linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.08)), url('../images/topography.png');
+  background-position: 0px 0px, 0px 0px, 50% 50%;
+  background-size: cover, auto, auto;
+}
+
 .profile-metrics {
   z-index: 1;
   display: -webkit-box;
@@ -1841,14 +1878,9 @@ figure {
 
 .page-heading__subtitle_link {
   display: inline-block;
-  margin-left: 4px;
-  padding: 3px 6px;
-  border-radius: 4px;
-  background-color: #fff;
   -webkit-transition: color 200ms ease, background-color 200ms ease;
   transition: color 200ms ease, background-color 200ms ease;
-  color: #666;
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 .page-heading__subtitle_link:hover {
@@ -1875,6 +1907,7 @@ figure {
 
 .profile-metric__label {
   position: relative;
+  text-shadow: none;
 }
 
 .profile-metrics__wrapper {
@@ -3619,6 +3652,9 @@ figure {
 
 .page-heading__district-muni {
   margin-top: 6px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 12px;
 }
 
 .page-heading__metro {
@@ -4069,6 +4105,14 @@ figure {
   z-index: 1;
 }
 
+.div-block-7 {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  width: 30%;
+  margin-left: -5%;
+}
+
 @media screen and (max-width: 991px) {
   h1 {
     font-size: 32px;
@@ -4110,6 +4154,10 @@ figure {
 
   .section.section--padding-top {
     padding-top: 40px;
+  }
+
+  .section.section--last {
+    padding-bottom: 80px;
   }
 
   .layout-grid {
@@ -4294,10 +4342,7 @@ figure {
   }
 
   .mobile-menu {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
+    display: none;
   }
 
   .mobile-menu__toggle {
@@ -4337,9 +4382,18 @@ figure {
     padding-top: 24px;
   }
 
+  .section.section--last {
+    padding-bottom: 48px;
+  }
+
   .layout-grid {
     grid-column-gap: 24px;
     grid-row-gap: 24px;
+  }
+
+  .layout-grid.layout-grid--sidebar-right {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
   }
 
   .layout-grid.layout-grid--1-4-3-4 {
@@ -5445,10 +5499,10 @@ figure {
     grid-row-start: span 1;
     -ms-grid-row-span: 1;
     grid-row-end: span 1;
-    -ms-grid-column: span 4;
-    grid-column-start: span 4;
-    -ms-grid-column-span: 4;
-    grid-column-end: span 4;
+    -ms-grid-column: span 1;
+    grid-column-start: span 1;
+    -ms-grid-column-span: 1;
+    grid-column-end: span 1;
   }
 
   #w-node-332542d0088c-9c35b7a0 {
@@ -5456,10 +5510,10 @@ figure {
     grid-row-start: span 1;
     -ms-grid-row-span: 1;
     grid-row-end: span 1;
-    -ms-grid-column: span 4;
-    grid-column-start: span 4;
-    -ms-grid-column-span: 4;
-    grid-column-end: span 4;
+    -ms-grid-column: span 1;
+    grid-column-start: span 1;
+    -ms-grid-column-span: 1;
+    grid-column-end: span 1;
   }
 
   #w-node-b226023c783c-9c35b7a0 {
@@ -5508,6 +5562,17 @@ figure {
     grid-column-end: span 2;
   }
 
+  #w-node-ec500838a616-9c35b7a0 {
+    -ms-grid-row: span 1;
+    grid-row-start: span 1;
+    -ms-grid-row-span: 1;
+    grid-row-end: span 1;
+    -ms-grid-column: span 1;
+    grid-column-start: span 1;
+    -ms-grid-column-span: 1;
+    grid-column-end: span 1;
+  }
+
   #w-node-b226023c7846-9c35b7a0 {
     -ms-grid-column: 1;
     grid-column-start: 1;
@@ -5519,4 +5584,3 @@ figure {
     grid-row-end: 3;
   }
 }
-

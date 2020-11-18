@@ -1,5 +1,5 @@
 import { logIfUnequal, formatFinancialYear, ratingColor, formatForType } from '../utils.js';
-
+import { ColumnChart } from './charts/column.js';
 
 const indicatorMetricClass = {
   "good": ".indicator-metric--status-green",
@@ -17,7 +17,10 @@ class IndicatorSection {
     this.latestItem = sectionData.values[0];
 
     this.municipality = municipality;
-    console.debug(`\n${selector}\n\n\`\`\`json\n${JSON.stringify(this.chartData(), null, 2)}\n\`\`\`\n`);
+
+    const chartContainer = this.$element.find()[0];
+    this.chart = new ColumnChart(`${selector} .indicator-chart`, [this.chartData()]);
+
     this.initSectionPeriod();
     this.initMetric();
   }

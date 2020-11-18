@@ -1,6 +1,6 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Tue Nov 17 2020 11:36:50 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f869e42151dc3fb9c35b7a0" data-wf-site="5f742e794e922c13375e7183"><head>
+<!DOCTYPE html><!--  Last Published: Wed Nov 18 2020 08:18:35 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f869e42151dc3fb9c35b7a0" data-wf-site="5f742e794e922c13375e7183"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_title }}" property="og:title">
@@ -311,9 +311,9 @@
       <div class="profile-header__inner">
         <div class="profile-heading">
           <h1 class="page-heading__title">Loading...</h1>
-          <div class="page-heading__local-muni hidden"><span class="page-heading__muni-type">Local municipality</span> in <a href="#" class="page-heading__subtitle_link"><span class="page-heading__geo-parent-1">...</span></a> , <span class="page-heading__geo-parent-3">...</span></div>
-          <div class="page-heading__district-muni hidden"><span class="page-heading__muni-type">District municipality</span> in <span class="page-heading__geo-parent-3">...</span></div>
-          <div class="page-heading__metro hidden"><span class="page-heading__muni-type">Metro</span> in <span class="page-heading__geo-parent-3">...</span></div>
+          <div class="page-heading__muni-info page-heading__muni-info--local"><span class="page-heading__muni-type">Local municipality</span> in <a href="#" class="page-heading__subtitle_link"><span class="page-heading__geo-parent-1">...</span></a> , <span class="page-heading__geo-parent-3">...</span></div>
+          <div class="page-heading__muni-info page-heading__muni-info--district"><span class="page-heading__muni-type">District municipality</span> in <span class="page-heading__geo-parent-3">...</span></div>
+          <div class="page-heading__muni-info page-heading__muni-info--metro"><span class="page-heading__muni-type">Metro</span> in <span class="page-heading__geo-parent-3">...</span></div>
         </div>
         <div class="profile-metrics">
           <div class="profile-metrics__block">
@@ -416,7 +416,7 @@
           </div>
         </div>
         <div id="w-node-17003541d290-9c35b7a0" class="layout-grid layout-grid--sidebar-right">
-          <div class="layout-grid__col">
+          <div id="w-node-ec500838a616-9c35b7a0" class="layout-grid__col">
             <div class="expand-blocks expand-blocks--m-bottom"></div>
           </div>
           <div class="layout-grid__col layout-grid__col--padding-left">
@@ -439,7 +439,7 @@
       </div>
     </div>
   </div>
-  <div class="section section--padding-top section--grey">
+  <div id="tutorial-video" class="section section--padding-top section--grey">
     <div class="container">
       <div class="tutorial-video">
         <a href="#" class="tutorial-video__main w-inline-block w-lightbox">
@@ -827,7 +827,7 @@
             </div>
             <div class="layout-grid__col">
               <div class="grid grid--24px">
-                <div class="icon-label-dropdown">
+                <div class="icon-label-dropdown muni-compare">
                   <div class="icon-label-dropdown__inner">
                     <div class="icon icon--32px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
@@ -945,7 +945,7 @@
             </div>
             <div class="layout-grid__col">
               <div class="grid grid--24px">
-                <div class="icon-label-dropdown">
+                <div class="icon-label-dropdown muni-compare">
                   <div class="icon-label-dropdown__inner">
                     <div class="icon icon--32px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
@@ -1064,7 +1064,7 @@
             </div>
             <div class="layout-grid__col">
               <div class="grid grid--24px">
-                <div class="icon-label-dropdown">
+                <div class="icon-label-dropdown muni-compare">
                   <div class="icon-label-dropdown__inner">
                     <div class="icon icon--32px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
@@ -1183,7 +1183,7 @@
             </div>
             <div class="layout-grid__col">
               <div class="grid grid--24px">
-                <div class="icon-label-dropdown">
+                <div class="icon-label-dropdown muni-compare">
                   <div class="icon-label-dropdown__inner">
                     <div class="icon icon--32px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
@@ -1334,7 +1334,7 @@
             </div>
             <div class="layout-grid__col">
               <div class="grid grid--24px">
-                <div class="icon-label-dropdown">
+                <div class="icon-label-dropdown muni-compare">
                   <div class="icon-label-dropdown__inner">
                     <div class="icon icon--32px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
@@ -1444,7 +1444,7 @@
             </div>
             <div class="layout-grid__col">
               <div class="grid grid--24px">
-                <div class="icon-label-dropdown">
+                <div class="icon-label-dropdown muni-compare">
                   <div class="icon-label-dropdown__inner">
                     <div class="icon icon--32px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
@@ -1562,7 +1562,7 @@
             </div>
             <div class="layout-grid__col">
               <div class="grid grid--24px">
-                <div class="icon-label-dropdown">
+                <div class="icon-label-dropdown muni-compare">
                   <div class="icon-label-dropdown__inner">
                     <div class="icon icon--32px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
@@ -1673,7 +1673,7 @@
             </div>
             <div class="layout-grid__col">
               <div class="grid grid--24px">
-                <div class="icon-label-dropdown">
+                <div class="icon-label-dropdown muni-compare">
                   <div class="icon-label-dropdown__inner">
                     <div class="icon icon--32px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
@@ -1783,7 +1783,7 @@
             </div>
             <div class="layout-grid__col">
               <div class="grid grid--24px">
-                <div class="icon-label-dropdown">
+                <div class="icon-label-dropdown muni-compare">
                   <div class="icon-label-dropdown__inner">
                     <div class="icon icon--32px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
@@ -2025,7 +2025,7 @@
             </div>
             <div class="layout-grid__col">
               <div class="grid grid--24px">
-                <div class="icon-label-dropdown">
+                <div class="icon-label-dropdown muni-compare">
                   <div class="icon-label-dropdown__inner">
                     <div class="icon icon--32px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
@@ -2133,7 +2133,7 @@
             </div>
             <div class="layout-grid__col">
               <div class="grid grid--24px">
-                <div class="icon-label-dropdown">
+                <div class="icon-label-dropdown muni-compare">
                   <div class="icon-label-dropdown__inner">
                     <div class="icon icon--32px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
@@ -2402,7 +2402,7 @@
       </section>
     </div>
   </div>
-  <div class="section">
+  <div class="section section--last">
     <div class="container container--grid">
       <section class="grid grid--32px">
         <div class="section-header section-header--clear section-header--icon-left">
@@ -2508,7 +2508,7 @@
   <div class="footer">
     <div class="container container--grid">
       <div class="layout-grid layout-grid--4-col">
-        <div id="w-node-a2e6e9d831a0-e9d8319d" class="layout-grid__col">
+        <div id="w-node-a2e6e9d831a0-e9d8319d" class="layout-grid__col layout-grid__col--padding-right">
           <a href="http://www.treasury.gov.za" target="_blank" class="footer-logo w-inline-block"><img src="/static/webflow/images/national-treasury-logo.png" loading="eager" alt="" class="logo"></a>
           <p class="footer-description">Municipal Money is an initiative of the National Treasury, which has collected extensive municipal financial data over several years and would like to share this information with the public.</p>
         </div>
@@ -2877,6 +2877,43 @@
       .menu-items::-webkit-scrollbar-thumb {
         background: rgb(220, 220, 220);
         border-radius: 2px;
+      }
+    </style>
+  <style>
+      @media print {
+        body {
+          -moz-transform: scale(0.6, 0.6);
+          /* Moz-browsers */
+          zoom: 0.6;
+          /* Other non-webkit browsers */
+          zoom: 60%;
+          /* Webkit browsers */
+          color: #000;
+          filter: grayscale(100%), contrast (200%);
+        }
+        .layout-grid {
+          break-inside: avoid !important;
+        }
+        #tutorial-video {
+          display: none !important;
+        }
+        .page-nav {
+          display: none !important;
+        }
+        .nav {
+          display: none !important;
+        }
+        .expand-block__content {
+          height: auto !important;
+          overflow: visible !important;
+          opacity: 100% !important;
+        }
+        .muni-compare {
+          display: none !important;
+        }
+        .w-richtext-align-fullwidth .w-richtext-figure-type-video {
+          display: none !important;
+        }
       }
     </style>
 
