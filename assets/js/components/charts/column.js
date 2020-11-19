@@ -5,6 +5,7 @@ import { max as d3Max } from 'd3-array';
 import { select as d3Select } from 'd3-selection';
 import { transition } from 'd3-transition';
 
+const TICKS = 5;
 
 const formatRand = (x, decimals, randSpace) => {
   decimals = decimals === undefined ? 1 : decimals;
@@ -63,7 +64,7 @@ export class ColumnChart {
   }
 
   x_gridlines() {
-    return axisLeft(this.y).ticks(10);
+    return axisLeft(this.y).ticks(TICKS);
   }
 
   _drawMuniChart(container, muniData) {
@@ -79,7 +80,7 @@ export class ColumnChart {
 
     this.yAxis = axisLeft()
       .scale(this.y)
-      .ticks(10)
+      .ticks(TICKS)
       .tickFormat(function(d) {
         return formatter(d, muniData[0].resultType);
       });
@@ -192,14 +193,14 @@ export class ColumnChart {
   }
 
   loadMedians(medians) {
-    medians.forEach(function(median, i) {
+    medians.forEach((function(median, i) {
       this.svg.select('line.median[period="' + median.period + '"]')
         .transition().delay( i * 200 ).duration(500)
         .attr('y1', this.y(median.value))
         .attr('y2', this.y(median.value))
         .attr('opacity',1)
         .attr('value', median.value);
-    });
+    }).bind(this));
 
 
   }
@@ -216,13 +217,13 @@ export class ColumnChart {
 
   removeMedians() {
     let medians = this.svg.selectAll('line.median');
-    medians._groups[0].forEach(function(median, index) {
+    medians._groups[0].forEach((function(median, index) {
       this.svg.select('line.median[period="' + median.attributes['period'].value +'"]')
         .transition().duration(500)
-        .attr('y1', y(0))
-        .attr('y2', y(0))
-        .attr('opacity',0);
-    });
+        .attr('y1', this.y(0))
+        .attr('y2', this.y(0))
+        .attr('opacity', 0);
+    }).bind(this));
   }
 
   loadData(muniData) {

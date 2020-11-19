@@ -19,17 +19,25 @@ class ProfilePage {
       name: pageData.geography.short_name,
     };
 
-    new AnnualSection("#cash-balance", pageData.indicators.cash_at_year_end, municipality);
-    new AnnualSection("#cash-coverage", pageData.indicators.cash_coverage, municipality);
-    new OverUnderSection("#operating-budget", pageData.indicators.op_budget_diff, municipality);
-    new OverUnderSection("#capital-budget", pageData.indicators.cap_budget_diff, municipality);
-    new AnnualSection("#repairs-maintenance", pageData.indicators.rep_maint_perc_ppe, municipality);
-    new AnnualSection("#wasteful-expenditure", pageData.indicators.wasteful_exp, municipality);
-    new QuarterlySection("#current-ratio", pageData.indicators.current_ratio, municipality);
-    new QuarterlySection("#liquidity-ratio", pageData.indicators.liquidity_ratio, municipality);
-    new QuarterlySection("#collection-rate", pageData.indicators.current_debtors_collection_rate, municipality);
-    new AnnualSection("#wages-salaries", pageData.indicators.expenditure_trends_staff, municipality);
-    new AnnualSection("#contractor-services", pageData.indicators.expenditure_trends_contracting, municipality);
+    const initSection = (className, selector, key) => {
+      new className(
+        selector,
+        pageData.indicators[key],
+        pageData.medians[key],
+        municipality
+      );
+    };
+    initSection(AnnualSection, "#cash-balance", "cash_at_year_end");
+    initSection(AnnualSection, "#cash-coverage", "cash_coverage");
+    initSection(OverUnderSection, "#operating-budget", "op_budget_diff");
+    initSection(OverUnderSection, "#capital-budget", "cap_budget_diff");
+    initSection(AnnualSection, "#repairs-maintenance", "rep_maint_perc_ppe");
+    initSection(AnnualSection, "#wasteful-expenditure", "wasteful_exp");
+    initSection(QuarterlySection, "#current-ratio", "current_ratio");
+    initSection(QuarterlySection, "#liquidity-ratio", "liquidity_ratio");
+    initSection(QuarterlySection, "#collection-rate", "current_debtors_collection_rate");
+    initSection(AnnualSection, "#wages-salaries", "expenditure_trends_staff");
+    initSection(AnnualSection, "#contractor-services", "expenditure_trends_contracting");
 
 
 

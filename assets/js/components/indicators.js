@@ -8,18 +8,51 @@ const indicatorMetricClass = {
   "": ".indicator-metric--no-status",
 };
 
+function comparePeriod( a, b ) {
+  if ( a.period < b.period ){
+    return -1;
+  }
+  if ( a.period > b.period ){
+    return 1;
+  }
+  return 0;
+}
+
 class IndicatorSection {
-  constructor(selector, sectionData, municipality) {
+  constructor(selector, sectionData, medians, municipality) {
     this.selector = selector;
     this.sectionData = sectionData;
+    this.medians = medians;
     this.$element = $(selector);
     logIfUnequal(1, this.$element.length);
     this.latestItem = sectionData.values[0];
 
     this.municipality = municipality;
 
-    const chartContainer = this.$element.find()[0];
-    this.chart = new ColumnChart(`${selector} .indicator-chart`, [this.chartData()]);
+    const chartContainerSelector = `${selector} .indicator-chart`;
+    this.chart = new ColumnChart(chartContainerSelector, [this.chartData()]);
+    const chartContainerParent = $(chartContainerSelector).parent();
+
+    const $provinceButton = $("<button>in province</button>");
+    $provinceButton.on("click", (function() {
+      this.chart.removeMedians();
+      this.chart.loadMedians(this.formatMedians().provincial);
+    }).bind(this));
+
+    const $nationalButton = $("<button>nationally</button>");
+    $nationalButton.on("click", (function() {
+      this.chart.removeMedians();
+      this.chart.loadMedians(this.formatMedians().national);
+    }).bind(this));
+
+    chartContainerParent.append(
+      $("<p></p>").append([
+        "Show average for similar municipalities",
+        $provinceButton,
+        $nationalButton,
+      ])
+    );
+
 
     this.initSectionPeriod();
     this.initMetric();
@@ -59,6 +92,25 @@ class IndicatorSection {
       municipality: this.municipality,
       data: items,
       resultType: this.resultType(),
+    };
+  }
+
+  formatMedians() {
+    const national = Object.entries(this.medians.national.dev_cat).map(([key, value]) => {
+      return {
+        period: this.formatPeriod(key),
+        value: value,
+      };});
+    const provincial = Object.entries(this.medians.provincial.dev_cat).map(([key, value]) => {
+      return {
+        period: this.formatPeriod(key),
+        value: value,
+      };});
+    national.sort(comparePeriod);
+    provincial.sort(comparePeriod);
+    return {
+      national: national,
+      provincial: provincial,
     };
   }
 

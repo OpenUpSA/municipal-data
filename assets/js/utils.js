@@ -26,6 +26,7 @@ export function ratingColor(rating) {
     "good": "#34A853",
     "ave": "#FBBC05",
     "bad": "#F00",
+    "": "F17becf",
   }[rating];
 }
 
