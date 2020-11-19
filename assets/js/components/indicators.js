@@ -35,13 +35,11 @@ class IndicatorSection {
 
     const $provinceButton = $("<button>in province</button>");
     $provinceButton.on("click", (function() {
-      this.chart.removeMedians();
       this.chart.loadMedians(this.formatMedians().provincial);
     }).bind(this));
 
     const $nationalButton = $("<button>nationally</button>");
     $nationalButton.on("click", (function() {
-      this.chart.removeMedians();
       this.chart.loadMedians(this.formatMedians().national);
     }).bind(this));
 
