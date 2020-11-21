@@ -104,7 +104,6 @@ class GeographyDetailView(TemplateView):
         page_json.update(profile)
 
         profile["geography"] = self.geo.as_dict()
-        page_json["profile_data"] = profile
         page_json["geography"] = self.geo
         page_json["pdf_url"] = self.pdf_url()
 
