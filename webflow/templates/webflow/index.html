@@ -1,6 +1,6 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Fri Nov 20 2020 11:27:55 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb5208501c5c19" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Sat Nov 21 2020 10:41:16 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb5208501c5c19" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="An initiative of the National Treasury, which has collected extensive municipal financial data over several years and aims to share it with the public." name="description">
@@ -578,28 +578,7 @@
           <h5 class="footer-heading heading heading--clear">Jump to a metro</h5>
           <div class="footer__links">
             <a href="#" class="footer-link w-inline-block">
-              <div>Buffalo City</div>
-            </a>
-            <a href="#" class="footer-link w-inline-block">
-              <div>Cape Town</div>
-            </a>
-            <a href="#" class="footer-link w-inline-block">
-              <div>Ekurhuleni</div>
-            </a>
-            <a href="#" class="footer-link w-inline-block">
-              <div>eThekwini</div>
-            </a>
-            <a href="#" class="footer-link w-inline-block">
-              <div>Johannesburg</div>
-            </a>
-            <a href="#" class="footer-link w-inline-block">
-              <div>Mangaung</div>
-            </a>
-            <a href="#" class="footer-link w-inline-block">
-              <div>Nelson Mandela Bay</div>
-            </a>
-            <a href="#" class="footer-link w-inline-block">
-              <div>Tswane</div>
+              <div>Loading metros...</div>
             </a>
           </div>
         </div>
@@ -952,7 +931,7 @@
 
 <script id="page-data" type="application/json">{{ page_data_json|json_script_escape:True }}</script>
 <script>var API_URL = '{{ API_URL }}'</script>
-{% javascript 'scorecard' %}<script src="{% static 'household/js/plotly.js' %}"></script>
+{% javascript 'scorecard' %}<script src="{% static 'household/js/plotly-1.52.3.min.js' %}"></script>
 <script src="{% static 'household/js/household.js' %}"></script>
 <script src="{% static 'js/municipal-money.js' %}"></script>
 </body></html>
