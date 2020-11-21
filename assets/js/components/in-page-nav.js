@@ -1,11 +1,12 @@
-import { logIfUnequal, locale, capFirst } from '../utils.js';
+import { logIfUnequal, locale } from '../utils.js';
 import { TextField, LinkedTextField, LinkField } from './common.js';
 
 export class InPageNav {
-  constructor(geography, pdfUrl) {
+  constructor(geography, population, pdfUrl) {
     this.$element = $(".page-nav");
 
-    // new TextField(".page-heading__title", geography.short_name);
+    new TextField(".page-nav__muni-name", geography.short_name);
+    new TextField(".page-nav__muni-type", `Population: ${ locale.format(",")(population) }`);
 
     new LinkField(".page-options__link-download-pdf", pdfUrl);
 

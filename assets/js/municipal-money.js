@@ -14,7 +14,7 @@ class ProfilePage {
     maps.drawMapsForProfile(pageData.geography, pageData.demarcation);
 
     new ProfileHeader(pageData.geography, pageData.total_population, pageData.population_density);
-    new InPageNav(pageData.geography, pageData.pdf_url);
+    new InPageNav(pageData.geography, pageData.total_population, pageData.pdf_url);
 
     const municipality = {
       code: pageData.geography.geo_code,
