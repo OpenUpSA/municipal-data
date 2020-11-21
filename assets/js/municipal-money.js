@@ -5,6 +5,7 @@ import { AnnualSection, QuarterlySection, OverUnderSection } from './components/
 import { AuditOpinions } from './components/audit-opinions.js';
 import { ProfileHeader } from './components/profile-header.js';
 import { InPageNav } from './components/in-page-nav.js';
+import { CapitalProjectList } from './components/capital-projects.js';
 
 class ProfilePage {
   constructor() {
@@ -36,7 +37,7 @@ class ProfilePage {
     initSection(AnnualSection, "#wages-salaries", "expenditure_trends_staff");
     initSection(AnnualSection, "#contractor-services", "expenditure_trends_contracting");
 
-
+    new CapitalProjectList(pageData.infrastructure, pageData.infrastructure_count, pageData.geography);
 
 
     new ContactSection(pageData.muni_contact, pageData.mayoral_staff, pageData.geography);

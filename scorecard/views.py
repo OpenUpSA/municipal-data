@@ -23,6 +23,14 @@ class GeographyViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.GeographySerializer
 
 
+def infra_dict(project):
+    return {
+        "description": project.project_description,
+        "expenditure_amount": project.expenditure.first().amount,
+        "url": reverse('project-detail-view', args=[project.id]),
+    }
+
+
 class LocateView(TemplateView):
     template_name = "locate.html"
 
@@ -136,10 +144,10 @@ class GeographyDetailView(TemplateView):
                 expenditure__budget_phase__name="Budget year",
                 expenditure__financial_year__budget_year="2019/2020",
             )
-            .order_by("-expenditure__amount")[:5]
-            .values("project_description", "expenditure__amount", "id")
+            .order_by("-expenditure__amount")
         )
-        # page_json["infrastructure"] = infrastructure
+        page_json["infrastructure"] = [infra_dict(p) for p in infrastructure[:5]]
+        page_json["infrastructure_count"] = infrastructure.count()
 
         households = HouseholdBillTotal.summary.bill_totals(self.geo_code)
         page_json["household_percent"] = percent_increase(households)
