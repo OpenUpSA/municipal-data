@@ -19,7 +19,6 @@ class OfficeContact {
     this.makeItem("fas fa-envelope", office.secretary.email, "mailto").insertAfter($innerHeading);
     this.makeItem("fas fa-phone", office.secretary.office_phone, "tel").insertAfter($innerHeading);
     this.makeItem("fas fa-user-alt", office.secretary.name).insertAfter($innerHeading);
-
   }
 
   makeItem(iconClasses, value, linkType) {
@@ -41,12 +40,37 @@ class OfficeContact {
 }
 
 export class ContactSection {
-  constructor(staff) {
+  constructor(muniContact, staff, geography) {
     this.$element = $("#contacts");
     this.$contactContainer = this.$element.find(".expand-blocks");
     staff.officials.forEach((office) => {
       const contact = new OfficeContact(office);
       this.$contactContainer.append(contact.render());
     });
+
+    const officials = staff.officials;
+    const emails = [];
+    if (officials[0].email) emails.push(officials[0].email);
+    if (officials[0].secretary.email) emails.push(officials[0].secretary.email);
+    if (officials[1].email) emails.push(officials[1].email);
+    if (officials[1].secretary.email) emails.push(officials[1].secretary.email);
+    if (officials[2].email) emails.push(officials[2].email);
+    if (officials[2].secretary.email) emails.push(officials[2].secretary.email);
+    if (emails.length >= 2) {
+      const body = `You can explore Municipal Finance for ${geography.name}  at ${window.location}`;
+      const url = ('mailto:' +
+                 emails.slice(0,2).join(';') +
+                 '?cc=feedback@municipalmoney.gov.za' +
+                 '&subject=' + encodeURIComponent('Feedback via Municipal Money') +
+                 '&body=\n\n\n' + encodeURIComponent(body));
+      this.$element.find(".button--email-muni")
+        .attr("href", url)
+        .css("display", "grid");
+    }
+
+    if (muniContact.phone_number) {
+    }
+
+
   }
 }

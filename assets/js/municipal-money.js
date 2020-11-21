@@ -44,7 +44,7 @@ class ProfilePage {
 
 
 
-    new ContactSection(pageData.mayoral_staff);
+    new ContactSection(pageData.muni_contact, pageData.mayoral_staff, pageData.geography);
 
     new AuditOpinions(pageData.audit_opinions);
 
