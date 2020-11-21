@@ -17,6 +17,10 @@ class ProfilePage {
     new ProfileHeader(pageData.geography, pageData.total_population, pageData.population_density);
     new InPageNav(pageData.geography, pageData.total_population, pageData.pdf_url);
 
+    new ContactSection(pageData.muni_contact, pageData.mayoral_staff, pageData.geography);
+
+    new AuditOpinions(pageData.audit_opinions);
+
     const initSection = (className, selector, key) => {
       new className(
         selector,
@@ -39,10 +43,13 @@ class ProfilePage {
 
     new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
 
+    $("#income-sources .indicator-chart")
+      .addClass("chart-container")
+      .attr("data-chart", "grouped-bar-revenue_breakdown")
+      .attr("data-unit", "currency");
+    new HorizontalGroupedBarChart().discover(pageData);
 
-    new ContactSection(pageData.muni_contact, pageData.mayoral_staff, pageData.geography);
 
-    new AuditOpinions(pageData.audit_opinions);
 
     this.initHouseholdBills(pageData);
 
