@@ -9,12 +9,13 @@ export class ProfileHeader {
     new TextField(".profile-metric__density", locale.format(",.1f")(populationDensity));
 
     if (geography.category_name === "metro municipality") {
-      const $container = $(".page-heading__metro");
-      $container.removeClass("hidden");
+      const $container = $(".page-heading__muni-info--metro");
+      $container.css("display", "unset");
+      $container.find(".page-heading__muni-type").text("Metro municipality");
       new TextField($container.find(".page-heading__geo-parent-3"), geography.province_name);
     } else if (geography.category_name === "local municipality") {
-      const $container = $(".page-heading__local-muni");
-      $container.removeClass("hidden");
+      const $container = $(".page-heading__muni-info--local");
+      $container.css("display", "unset");
       new LinkedTextField(
         $container.find(".page-heading__geo-parent-1"),
         geography.ancestors[0].short_name,
@@ -22,8 +23,8 @@ export class ProfileHeader {
       );
       new TextField($container.find(".page-heading__geo-parent-3"), geography.province_name);
     } else if (geography.category_name === "district municipality") {
-      const $container = $(".page-heading__district-muni");
-      $container.removeClass("hidden");
+      const $container = $(".page-heading__muni-info--district");
+      $container.css("display", "unset");
       new TextField($container.find(".page-heading__geo-parent-3"), geography.province_name);
     }
 

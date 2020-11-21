@@ -34,7 +34,7 @@ exports.transformDOM = function(window, $) {
     )
   );
 
-  addScriptToBody(window, {src: "{% static 'household/js/plotly-1.52.3.min.js' %}"});
+  addScriptToBody(window, {src: "{% static 'household/js/plotly.js' %}"});
   addScriptToBody(window, {src: "{% static 'household/js/household.js' %}"});
   addScriptToBody(window, {src: "{% static 'js/municipal-money.js' %}"});
   addScriptToBody(window, {}, "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\
