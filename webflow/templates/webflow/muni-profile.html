@@ -1,6 +1,6 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Sat Nov 21 2020 12:29:04 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb52ccb71c5c1e" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Sat Nov 21 2020 15:13:53 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb52ccb71c5c1e" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_title }}" property="og:title">
@@ -402,7 +402,7 @@
             <div class="plate plate--white plate--rounded plate--shadow-large"></div>
           </div>
         </a>
-        <a href="#" class="page-options__link tooltip-on-hover page-options__link-share-twitter w-inline-block">
+        <a href="#" class="page-options__link tooltip-on-hover page-options__link-share-facebook w-inline-block">
           <div class="page-options__icon">
             <div class="fab fa-facebook-f"></div>
           </div>
@@ -2968,4 +2968,5 @@
 {% javascript 'scorecard' %}<script src="{% static 'household/js/plotly-1.52.3.min.js' %}"></script>
 <script src="{% static 'household/js/household.js' %}"></script>
 <script src="{% static 'js/municipal-money.js' %}"></script>
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');{% if GOOGLE_ANALYTICS_ID %}ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');{% endif %}ga('send', 'pageview');</script>
 </body></html>

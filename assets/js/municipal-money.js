@@ -49,6 +49,12 @@ class ProfilePage {
     new AuditOpinions(pageData.audit_opinions);
 
     this.initHouseholdBills(pageData);
+
+    // track outbound links
+    $('a[href^=http]').on('click', function(e) {
+      ga('send', 'event', 'outbound-click', e.target.href);
+    });
+
   }
 
   initHouseholdBills(pageData) {
@@ -76,7 +82,9 @@ class ProfilePage {
 
 }
 
-new ProfilePage();
+$(function() {
+  new ProfilePage();
 
-// Re-initialise webflow interactions so that cloned elements respond to interactions
-Webflow.require('ix2').init();
+  // Re-initialise webflow interactions so that cloned elements respond to interactions
+  Webflow.require('ix2').init();
+});

@@ -7,12 +7,29 @@ export class InPageNav {
 
     // new TextField(".page-heading__title", geography.short_name);
 
-    const tweetQueryParams = new URLSearchParams([
-      ["url", window.location],
-      ["related", "MoneyMunicipal"],
-    ]);
-    const tweetUrl = `https://twitter.com/share?${ tweetQueryParams.toString() }`;
-    new LinkField(".page-options__link-share-twitter", tweetUrl, {target: "_blank"});
     new LinkField(".page-options__link-download-pdf", pdfUrl);
+
+    var url = window.location.toString();
+
+    // social buttons
+    $('.page-options__link-share-facebook').on('click', function(e) {
+      e.preventDefault();
+
+      window.open(`https://www.facebook.com/dialog/share?app_id=670170087018628&href=${encodeURIComponent(url)}`,
+                  "share", "width=600, height=400, scrollbars=no");
+      ga('send', 'social', 'facebook', 'share', url);
+    });
+
+    $('.page-options__link-share-twitter').on('click', function(e) {
+      e.preventDefault();
+      var tweet = $(this).data('tweet') || '';
+
+      window.open("https://twitter.com/intent/tweet?" +
+                  "text=" + encodeURIComponent(tweet) +
+                  "&url=" + encodeURIComponent(url),
+                  "share", "width=364, height=250, scrollbars=no");
+      ga('send', 'social', 'twitter', 'share', url);
+    });
+
   }
 }
