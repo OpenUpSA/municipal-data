@@ -47,6 +47,10 @@ class ProfilePage {
       .addClass("chart-container")
       .attr("data-chart", "grouped-bar-revenue_breakdown")
       .attr("data-unit", "currency");
+    $("#what-is-money-spent-on .indicator-chart")
+      .addClass("chart-container")
+      .attr("data-chart", "grouped-bar-expenditure_functional_breakdown")
+      .attr("data-unit", "currency");
     new HorizontalGroupedBarChart().discover(pageData);
 
 
