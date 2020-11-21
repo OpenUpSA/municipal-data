@@ -16,9 +16,13 @@ export class LinkedTextField extends TextField {
 }
 
 export class LinkField {
-  constructor(selectorOrElement, url) {
+  constructor(selectorOrElement, url, options) {
     this.$element = $(selectorOrElement);
-    logIfUnequal(1, this.$element.length);
     this.$element.attr("href", url);
+    if (options) {
+      Object.entries(options).forEach(([key, value]) => {
+        this.$element.attr(key, value);
+      });
+    }
   }
 }
