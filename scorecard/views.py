@@ -132,6 +132,7 @@ class GeographyDetailView(TemplateView):
                     .first()
                     .as_dict()
                 )
+        infrastructure_financial_year = "2019/2020"
         infrastructure = (
             Project.objects.prefetch_related(
                 "geography",
@@ -142,12 +143,15 @@ class GeographyDetailView(TemplateView):
             .filter(
                 geography__geo_code=self.geo_code,
                 expenditure__budget_phase__name="Budget year",
-                expenditure__financial_year__budget_year="2019/2020",
+                expenditure__financial_year__budget_year=infrastructure_financial_year,
             )
             .order_by("-expenditure__amount")
         )
-        page_json["infrastructure"] = [infra_dict(p) for p in infrastructure[:5]]
-        page_json["infrastructure_count"] = infrastructure.count()
+        page_json["infrastructure_summary"] = {
+            "projects": [infra_dict(p) for p in infrastructure[:5]],
+            "project_count": infrastructure.count(),
+            "financial_year": infrastructure_financial_year[5:9]
+        }
 
         households = HouseholdBillTotal.summary.bill_totals(self.geo_code)
         page_json["household_percent"] = percent_increase(households)

@@ -37,7 +37,7 @@ class ProfilePage {
     initSection(AnnualSection, "#wages-salaries", "expenditure_trends_staff");
     initSection(AnnualSection, "#contractor-services", "expenditure_trends_contracting");
 
-    new CapitalProjectList(pageData.infrastructure, pageData.infrastructure_count, pageData.geography);
+    new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
 
 
     new ContactSection(pageData.muni_contact, pageData.mayoral_staff, pageData.geography);
