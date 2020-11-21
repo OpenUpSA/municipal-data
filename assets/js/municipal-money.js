@@ -58,21 +58,31 @@ class ProfilePage {
     var middleChartData = pageData.household_chart_middle;
     var affordableChartData = pageData.household_chart_affordable;
     var indigentChartData = pageData.household_chart_indigent;
+    const householdPercent = pageData.household_percent;
 
     $("#income-over-time .indicator-metric").hide();
-    overall_chart($("#income-over-time .indicator-chart")[0], chartData);
 
-    $("#middle-income-over-time .indicator-metric").hide();
-    const middleContainer = $("#middle-income-over-time .indicator-chart")[0];
-    income_chart(middleChartData, middleContainer, yearly_percent['Middle Income Range']);
+    if (householdPercent.Middle) {
+      overall_chart($("#income-over-time .indicator-chart")[0], chartData);
 
-    $("#affordable-income-over-time .indicator-metric").hide();
-    const affordableContainer = $("#affordable-income-over-time .indicator-chart")[0];
-    income_chart(affordableChartData, affordableContainer, yearly_percent['Affordable Range']);
+      $("#middle-income-over-time .indicator-metric__value").text(`${householdPercent.Middle}%`);
+      const middleContainer = $("#middle-income-over-time .indicator-chart")[0];
+      income_chart(middleChartData, middleContainer, yearly_percent['Middle Income Range']);
 
-    $("#indigent-income-over-time .indicator-metric").hide();
-    const indigentContainer = $("#indigent-income-over-time .indicator-chart")[0];
-    income_chart(indigentChartData, indigentContainer, yearly_percent['Indigent HH receiving FBS']);
+      $("#affordable-income-over-time .indicator-metric__value").text(`${householdPercent.Affordable}%`);
+      const affordableContainer = $("#affordable-income-over-time .indicator-chart")[0];
+      income_chart(affordableChartData, affordableContainer, yearly_percent['Affordable Range']);
+
+      $("#indigent-income-over-time .indicator-metric__value").text(`${householdPercent.Indigent}%`);
+      const indigentContainer = $("#indigent-income-over-time .indicator-chart")[0];
+      income_chart(indigentChartData, indigentContainer, yearly_percent['Indigent HH receiving FBS']);
+    } else {
+      $("<p>Household bills data not available for this municipality.</p>").insertBefore($("#income-over-time"));
+      $("#income-over-time").remove();
+      $("#middle-income-over-time").remove();
+      $("#affordable-income-over-time").remove();
+      $("#indigent-income-over-time").remove();
+    }
   }
 
 }

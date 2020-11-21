@@ -13,12 +13,15 @@ class OfficeContact {
     const $innerHeading = this.$element.find(".profile-info__heading");
     $innerHeading.text(office.secretary.role);
 
-    this.makeItem("fas fa-user-alt", office.name).insertBefore($innerHeading);
+    this.makeItem("fas fa-user-alt", `${office.title} ${office.name}`).insertBefore($innerHeading);
     this.makeItem("fas fa-phone", office.office_phone, "tel").insertBefore($innerHeading);
     this.makeItem("fas fa-envelope", office.email, "mailto").insertBefore($innerHeading);
     this.makeItem("fas fa-envelope", office.secretary.email, "mailto").insertAfter($innerHeading);
     this.makeItem("fas fa-phone", office.secretary.office_phone, "tel").insertAfter($innerHeading);
-    this.makeItem("fas fa-user-alt", office.secretary.name).insertAfter($innerHeading);
+    this.makeItem(
+      "fas fa-user-alt",
+      `${office.secretary.title} ${office.secretary.name}`
+    ).insertAfter($innerHeading);
   }
 
   makeItem(iconClasses, value, linkType) {
