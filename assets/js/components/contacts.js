@@ -72,6 +72,38 @@ export class ContactSection {
     }
 
     if (muniContact.phone_number) {
+      this.$element.find(".button--phone-muni")
+        .attr("href", `tel:${muniContact.phone_number}`)
+        .css("display", "grid")
+        .find("div:eq(2)")
+        .text(muniContact.phone_number);
+    }
+
+    if (muniContact.url) {
+      this.$element.find(".button--muni-site")
+        .attr("href", muniContact.url)
+        .css("display", "grid")
+        .find("div:eq(2)")
+        .text(muniContact.url);
+    }
+
+    let address = "";
+    [
+      muniContact.street_address_1,
+      muniContact.street_address_2,
+      muniContact.street_address_3,
+      muniContact.street_address_4,
+    ].forEach((line) => {if (line) address += `${line}\n`;});
+    if (address) {
+      const addressBlock = this.$element.find(".muni-address");
+      addressBlock.css("display", "block");
+      addressBlock.find(".button__icon")
+        .css("display", "inline")
+        .css("height", "auto");
+      addressBlock.find("div:eq(2)")
+        .text(address)
+        .css("white-space", "pre-wrap")
+        .css("display", "inline");
     }
 
 
