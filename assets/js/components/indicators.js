@@ -19,7 +19,7 @@ function comparePeriod( a, b ) {
 }
 
 class IndicatorSection {
-  constructor(selector, sectionData, medians, municipality) {
+  constructor(selector, sectionData, medians, geography) {
     this.selector = selector;
     this.sectionData = sectionData;
     this.medians = medians;
@@ -27,13 +27,14 @@ class IndicatorSection {
     logIfUnequal(1, this.$element.length);
     this.latestItem = sectionData.values[0];
 
-    this.municipality = municipality;
+    this.geography = geography;
 
     const chartContainerSelector = `${selector} .indicator-chart`;
     this.chart = new ColumnChart(chartContainerSelector, [this.chartData()]);
     const chartContainerParent = $(chartContainerSelector).parent();
 
-    const $provinceButton = $("<button>in province</button>");
+    const $provinceButton = $("<button></button>");
+    $provinceButton.text(` in ${geography.province_name}`);
     $provinceButton.on("click", (function() {
       this.chart.loadMedians(this.formatMedians().provincial);
     }).bind(this));
@@ -43,13 +44,17 @@ class IndicatorSection {
       this.chart.loadMedians(this.formatMedians().national);
     }).bind(this));
 
-    chartContainerParent.append(
-      $("<p></p>").append([
-        "Show average for similar municipalities",
+
+    const averageControls = $("<p></p>");
+    averageControls.append('Show average for <a href="/help>">similar municipalities</a>');
+    if (geography.category_name !== "metro municipality") {
+      averageControls.append([
         $provinceButton,
-        $nationalButton,
-      ])
-    );
+        " or"
+      ]);
+    }
+    averageControls.append($nationalButton);
+    chartContainerParent.append(averageControls);
 
 
     this.initSectionPeriod();
@@ -87,7 +92,10 @@ class IndicatorSection {
     });
     items.reverse();
     return {
-      municipality: this.municipality,
+      municipality: {
+        code: this.geography.geo_code,
+        name: this.geography.short_name,
+      },
       data: items,
       resultType: this.resultType(),
     };

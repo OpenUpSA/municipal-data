@@ -16,17 +16,12 @@ class ProfilePage {
     new ProfileHeader(pageData.geography, pageData.total_population, pageData.population_density);
     new InPageNav(pageData.geography, pageData.total_population, pageData.pdf_url);
 
-    const municipality = {
-      code: pageData.geography.geo_code,
-      name: pageData.geography.short_name,
-    };
-
     const initSection = (className, selector, key) => {
       new className(
         selector,
         pageData.indicators[key],
         pageData.medians[key],
-        municipality
+        pageData.geography,
       );
     };
     initSection(AnnualSection, "#cash-balance", "cash_at_year_end");
