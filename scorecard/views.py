@@ -82,6 +82,13 @@ class GeographyDetailView(TemplateView):
 
         return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
+    def pdf_url(self):
+        return "/profiles/%s-%s-%s.pdf" % (
+            self.geo_level,
+            self.geo_code,
+            self.geo.slug,
+        )
+
     def get_context_data(self, *args, **kwargs):
         page_json = {}
 
@@ -91,6 +98,7 @@ class GeographyDetailView(TemplateView):
         profile["geography"] = self.geo.as_dict()
         page_json["profile_data"] = profile
         page_json["geography"] = self.geo
+        page_json["pdf_url"] = self.pdf_url()
 
         profile["demarcation"]["disestablished_to_geos"] = [
             Geography.objects.filter(geo_code=code).first().as_dict()

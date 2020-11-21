@@ -4,6 +4,7 @@ import { TextField } from './components/common.js';
 import { AnnualSection, QuarterlySection, OverUnderSection } from './components/indicators.js';
 import { AuditOpinions } from './components/audit-opinions.js';
 import { ProfileHeader } from './components/profile-header.js';
+import { InPageNav } from './components/in-page-nav.js';
 
 class ProfilePage {
   constructor() {
@@ -13,6 +14,7 @@ class ProfilePage {
     maps.drawMapsForProfile(pageData.geography, pageData.demarcation);
 
     new ProfileHeader(pageData.geography, pageData.total_population, pageData.population_density);
+    new InPageNav(pageData.geography, pageData.pdf_url);
 
     const municipality = {
       code: pageData.geography.geo_code,

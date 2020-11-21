@@ -1,4 +1,4 @@
-import { logIfUnequal, locale, capFirst } from '../utils.js';
+import { logIfUnequal, locale } from '../utils.js';
 import { TextField, LinkedTextField } from './common.js';
 
 export class ProfileHeader {

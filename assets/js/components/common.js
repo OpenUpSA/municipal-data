@@ -14,3 +14,11 @@ export class LinkedTextField extends TextField {
     this.$element.parent().attr("href", url);
   }
 }
+
+export class LinkField {
+  constructor(selectorOrElement, url) {
+    this.$element = $(selectorOrElement);
+    logIfUnequal(1, this.$element.length);
+    this.$element.attr("href", url);
+  }
+}
