@@ -1,5 +1,5 @@
 var geocodingAPI = 'https://maps.googleapis.com/maps/api/geocode/json?address=%QUERY&components=country:ZA&region=ZA',
-    geoSelect = $('#municipality-search-2, #geography-select-home');
+    geoSelect = $('#municipality-search-2, #municipality-search');
 
 function resultTemplate(info) {
     return '<p class="result-name"><span class="result-type">' + info.geo_level + '</span>' + info.full_name + '</p>';
@@ -111,8 +111,3 @@ function makeGeoSelectWidget(element, selected) {
 }
 
 makeGeoSelectWidget(geoSelect);
-makeGeoSelectWidget($('#compare-place-select'), function(event, datum) {
-    var geoId = [profileData.geography.geo_level, profileData.geography.geo_code].join('-');
-    event.stopPropagation();
-    window.location = '/compare/' + geoId + '/vs/' + datum.full_geoid + '/';
-});
