@@ -2,10 +2,22 @@ services:
   - docker
 
 before_script:
-  - docker-compose up -d
+  # Start dependencies and initialise dev DB which we'll later use for demodata fixture check
+  - docker-compose run --rm scorecard bin/wait-for-postgres.sh python manage.py migrate
+  - docker-compose run --rm web yarn build
+  - docker-compose run --rm web python manage.py collectstatic --no-input
+
 
 script:
   - docker-compose run --rm scorecard python manage.py test municipal_finance scorecard
 
+  # Ensure that the demodata fixture can be loaded and the data is available in the API
+  # - smoke test
+  # - ensure development environment setup is maintained.
+  - docker-compose run --rm web bin/wait-for-postgres.sh python manage.py loaddata demo-data
+  - docker-compose up -d
+  - wget --retry-connrefused --waitretry=1 --read-timeout=10 --timeout=10 --tries=10 -O-  "http://localhost:8001/profiles/municipality-TSH-city-of-tshwane/" | grep "Gauteng"
+
 after_script:
-  - docker-compose down
+  # Log DB output in case issues occurred where this can help us debug quicly
+  - docker-compose logs db
