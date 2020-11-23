@@ -18,24 +18,34 @@ a database and not upgraded during deployment - potentially leading to downtime.
 By keeping this script separate from the Municipal Money website django app,
 this data can be recalculated without more-complex environment setup.
 """
+import sys
 import json
+
+from itertools import groupby
+from collections import defaultdict
+from urllib.parse import urlparse
+
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
+from requests_futures.sessions import FuturesSession
+from concurrent.futures import ThreadPoolExecutor
+from django.conf import settings
+
+from .models import (
+    MunicipalityProfile,
+    MedianGroup,
+    RatingCountGroup,
+)
+
 from scorecard.profile_data import (
-    APIData,
-    MuniApiClient,
+    ApiData,
+    ApiClient,
     Demarcation,
     get_indicators,
     get_indicator_calculators,
 )
-from itertools import groupby
-from collections import defaultdict
-import sys
-from .models import MunicipalityProfile, MedianGroup, RatingCountGroup
-
 
 sys.path.append('.')
-
-
-API_URL = 'https://municipaldata.treasury.gov.za/api'
 
 
 def get_munis(api_client):
@@ -196,13 +206,11 @@ def calc_provincial_rating_counts(munis):
     return prov_rating_counts
 
 
-def compile_profiles(api_url):
-    api_client = MuniApiClient(api_url)
+def compile_profiles(api_client):
     munis = get_munis(api_client)
     for muni in munis:
         demarcation_code = muni.get('municipality.demarcation_code')
-        api_data = APIData(api_client.API_URL,
-                           demarcation_code, client=api_client)
+        api_data = ApiData(api_client, demarcation_code)
         api_data.fetch_data()
         indicators = get_indicators(api_data)
         profile = {
@@ -219,8 +227,7 @@ def compile_profiles(api_url):
         ).save()
 
 
-def compile_medians(api_url):
-    api_client = MuniApiClient(api_url)
+def compile_medians(api_client):
     # Retrieve profiles and use indicators
     munis = get_munis(api_client)
     for muni in munis:
@@ -244,8 +251,7 @@ def compile_medians(api_url):
     ).save()
 
 
-def compile_rating_counts(api_url):
-    api_client = MuniApiClient(api_url)
+def compile_rating_counts(api_client):
     munis = get_munis(api_client)
     # Retrieve profiles and use indicators
     for muni in munis:
@@ -270,6 +276,26 @@ def compile_rating_counts(api_url):
 
 
 def compile_data(api_url):
-    compile_profiles(api_url)
-    compile_medians(api_url)
-    compile_rating_counts(api_url)
+    # Setup the client
+    http_client = FuturesSession(
+        executor=ThreadPoolExecutor(max_workers=10)
+    )
+    http_client.mount(
+        f'{urlparse(api_url).scheme}://',
+        HTTPAdapter(
+            max_retries=Retry(
+                total=5,
+                backoff_factor=1,
+                status_forcelist=[500]
+            ),
+        ),
+    )
+
+    def get(url, params):
+        return http_client.get(url, params=params, verify=False)
+
+    api_client = ApiClient(get, api_url)
+    # Compile data
+    compile_profiles(api_client)
+    compile_medians(api_client)
+    compile_rating_counts(api_client)

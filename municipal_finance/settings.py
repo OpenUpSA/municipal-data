@@ -359,7 +359,8 @@ Q_CLUSTER = {
     "queue_limit": 100,
     "bulk": 50,
     "orm": "default",
-    "poll": 10,  # Check for queued tasks this frequently (seconds)
+    "poll": 10,
+    "max_attempts": 1,
 }
 
 if not DEBUG:

@@ -10,13 +10,20 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 DUMP_FORMATS = ['csv', 'xlsx']
 FORMATS = DUMP_FORMATS + ['json']
+HIDDEN_CUBES = ['bsheet_v2', 'cflow_v2', 'incexp_v2']
 
 
-def get_format(request):
-    format = request.GET.get('format', 'json')
-    if format in FORMATS:
-        return format
-    raise Http404()
+def list_cube_names(manager):
+    cube_names = manager.list_cubes()
+    # Filter out hidden cubes
+    cube_names = list(
+        filter(
+            lambda name: name not in HIDDEN_CUBES,
+            cube_names
+        )
+    )
+    # Return the list of cube names
+    return cube_names
 
 
 def get_cube(name):
@@ -26,14 +33,21 @@ def get_cube(name):
     return get_manager().get_cube(name)
 
 
+def get_format(request):
+    format = request.GET.get('format', 'json')
+    if format in FORMATS:
+        return format
+    raise Http404()
+
+
 @xframe_options_exempt
 def index(request):
-    mgr = get_manager()
-    cube_names = mgr.list_cubes()
-    cubes = [(c, mgr.get_cube(c).model.to_dict()) for c in cube_names]
+    manager = get_manager()
+    cube_names = list_cube_names(manager)
+    # Collect details for all cubes
+    cubes = [(c, manager.get_cube(c).model.to_dict()) for c in cube_names]
     cubes = sorted(cubes, key=lambda p: p[1]['label'])
-
-    # group into rows of four
+    # Group into rows of four
     cubes = [cubes[i:i + 4] for i in range(0, len(cubes), 4)]
     return render(request, 'index.html', {
         'cubes': cubes,
@@ -43,9 +57,10 @@ def index(request):
 
 @xframe_options_exempt
 def docs(request):
+    manager = get_manager()
     cubes = []
-    for cube_name in get_manager().list_cubes():
-        cube = get_manager().get_cube(cube_name)
+    for cube_name in list_cube_names(manager):
+        cube = manager.get_cube(cube_name)
         (model,) = cube.model.to_dict(),
         if 'item' in model['dimensions'].keys():
             if 'position_in_return_form' \
@@ -101,9 +116,10 @@ def api_root(request):
 @xframe_options_exempt
 def cubes(request):
     """ Get a listing of all publicly available cubes. """
+    manager = get_manager()
     cubes = []
-    for name in get_manager().list_cubes():
-        cube = get_manager().get_cube(name)
+    for name in list_cube_names(manager):
+        cube = manager.get_cube(name)
         cubes.append({
             'name': name,
             'label': cube.model.spec['label'],
@@ -200,6 +216,7 @@ def members_root(request, cube_name):
         'documentation': 'https://municipaldata.treasury.gov.za/docs',
     })
 
+
 @xframe_options_exempt
 def members(request, cube_name, member_ref):
     """ List the members of a specific dimension or the distinct values of a
@@ -221,15 +238,15 @@ def members(request, cube_name, member_ref):
 
 @xframe_options_exempt
 def table(request, cube_name):
+    manager = get_manager()
     cubes = {}
-    for name in get_manager().list_cubes():
+    for name in list_cube_names(manager):
         if name not in ['municipalities', 'officials']:
             cubes[name] = {
-                'model': get_manager().get_cube(name).model.to_dict(),
+                'model': manager.get_cube(name).model.to_dict(),
                 'name': name,
             }
-
-    cube = get_manager().get_cube(cube_name).model.to_dict()
+    cube = manager.get_cube(cube_name).model.to_dict()
     return render(request, 'table.html', {
         'cube_name': cube_name,
         'cube_model': cube,

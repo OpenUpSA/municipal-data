@@ -4,22 +4,25 @@ BEGIN;
 
 \echo Create import table...
 
-CREATE TEMPORARY TABLE cflow_upsert
+CREATE TEMPORARY TABLE incexp_upsert
 (
         demarcation_code TEXT,
         period_code TEXT,
+        function_code TEXT,
         item_code TEXT,
         amount DECIMAL
 ) ON COMMIT DROP;
+CREATE INDEX incexp_upsert_demarcation_code on incexp_upsert (demarcation_code);
+CREATE INDEX incexp_upsert_period_code on incexp_upsert (period_code);
 
 \echo Read data...
 
-\copy cflow_upsert (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/projects/municipal-money/data/treasury-snapshots/2019q4/S71 Q4 2018-19/cflow_2019q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy incexp_upsert (demarcation_code, period_code, function_code, item_code, amount) FROM '' DELIMITER ',' CSV HEADER;
 
 \echo Delete demarcation_code-period_code pairs that are in the update
 
-DELETE FROM cflow_facts f WHERE EXISTS (
-        SELECT 1 FROM cflow_upsert i
+DELETE FROM incexp_facts f WHERE EXISTS (
+        SELECT 1 FROM incexp_upsert i
         WHERE f.demarcation_code = i.demarcation_code
         AND f.period_code = i.period_code
         LIMIT 1
@@ -27,10 +30,11 @@ DELETE FROM cflow_facts f WHERE EXISTS (
 
 \echo Insert new values...
 
-INSERT INTO cflow_facts
+INSERT INTO incexp_facts
 (
     demarcation_code,
     period_code,
+    function_code,
     item_code,
     amount,
     financial_year,
@@ -40,6 +44,7 @@ INSERT INTO cflow_facts
 )
 SELECT demarcation_code,
        period_code,
+       function_code,
        item_code,
        amount,
        cast(left(period_code, 4) as int),
@@ -58,6 +63,6 @@ SELECT demarcation_code,
             when period_code ~ '^\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD)$'
                 then cast(left(period_code, 4) as int)
        end
-FROM cflow_upsert i;
+FROM incexp_upsert i;
 
 COMMIT;
