@@ -1,11 +1,10 @@
 import { format as d3Format } from 'd3-format';
 import { axisLeft, axisBottom } from 'd3-axis';
 import { scaleBand, scaleLinear } from 'd3-scale';
-import { max as d3Max } from 'd3-array';
-import { select as d3Select } from 'd3-selection';
+import { max as d3Max, thresholdSturges } from 'd3-array';
+import { min as d3Min } from 'd3-array';
+import { select as d3Select, selectAll } from 'd3-selection';
 import { transition } from 'd3-transition';
-
-const TICKS = 5;
 
 const formatRand = (x, decimals, randSpace) => {
   decimals = decimals === undefined ? 1 : decimals;
@@ -51,315 +50,302 @@ const formatter = (d, resultType) => {
 
 export class ColumnChart {
   constructor(container, muniData) {
-    this.svg = undefined;
-    this.margin = {top: 50, right: 20, bottom: 50, left: 50};
-    this.x = {};
-    this.y = {};
-    this.height = undefined;
-    this.width = undefined;
-    this.xAxis = undefined;
-    this.yAxis = undefined;
+     this.chart = {
+        config: {
+            bindto: container,
+            margin: { top: 50, right: 20, bottom: 50, left: 50 },
+            x: {},
+            y: {},
+            height: 0,
+            width: 0,
+            xAxis: 0,
+            yAxis: 0
+        },
+        c: {},
+        data: muniData,
+        medians: []
+    }
 
-    this._drawMuniChart(container, muniData);
+    this._drawMuniChart();
   }
 
   x_gridlines() {
-    return axisLeft(this.y).ticks(TICKS);
+    return axisLeft(this.chart.config.y).ticks(10);
   }
 
   _drawMuniChart(container, muniData) {
 
-    this.width = document.querySelector(container).offsetWidth - this.margin.left - this.margin.right,
-    this.height = 300 - this.margin.top - this.margin.bottom;
+    this.chart.config.width = document.querySelector(this.chart.config.bindto).offsetWidth - this.chart.config.margin.left - this.chart.config.margin.right,
+    this.chart.config.height = 500 - this.chart.config.margin.top - this.chart.config.margin.bottom;
 
-    this.x = scaleBand().range([0, this.width]).paddingInner(0.2);
-    this.y = scaleLinear().range([this.height, 0]);
+    this.chart.config.x = scaleBand().range([0, this.chart.config.width]).paddingInner(0.2)
+    this.chart.config.y = scaleLinear().range([this.chart.config.height, 0])
 
-    this.xAxis = axisBottom()
-      .scale(this.x);
+    this.chart.config.xAxis = axisBottom()
+        .scale(this.chart.config.x)
 
-    this.yAxis = axisLeft()
-      .scale(this.y)
-      .ticks(TICKS)
-      .tickFormat(function(d) {
-        return formatter(d, muniData[0].resultType);
-      });
+    this.chart.config.yAxis = axisLeft()
+        .scale(this.chart.config.y)
+        .ticks(10)
+        .tickFormat((d) => {
+            return formatter(d, this.chart.data[0].resultType)
+        })
 
-    this.svg = d3Select(container).append("svg")
-      .attr("width", this.width + this.margin.left + this.margin.right)
-      .attr("height", this.height + this.margin.top + this.margin.bottom)
-      .append("g")
-      .attr('class','muniChart')
-      .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+    this.chart.c = d3Select(this.chart.config.bindto).append("svg")
+        .attr("width", this.chart.config.width + this.chart.config.margin.left + this.chart.config.margin.right)
+        .attr("height", this.chart.config.height + this.chart.config.margin.top + this.chart.config.margin.bottom)
+        .append("g")
+        .attr('class','muniChart')
+        .attr("transform", "translate(" + this.chart.config.margin.left + "," + this.chart.config.margin.top + ")")
 
-    this._setAxes(muniData);
 
-    this.svg.append('g').attr('class', 'chartData');
+    this._setAxes()
 
-    this.svg.append('g').attr('class', 'medians');
+    this.chart.c.append('g')
+      .attr('class', 'chartData')
+      .attr('width', this.chart.config.width)
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('height', this.chart.config.height)
 
-    this._addMedians(muniData);
+    this.chart.c.append('g').attr('class', 'medians')
 
-    this.loadData(muniData);
+    this._loadFilters()
+
+    this.loadData(this.chart.data)
+
+
   }
 
-  _setAxes(muniData) {
+  _setAxes() {
 
-    this.x.domain(muniData[0].data.map(function(d) { return d.period; }));
+    let periodArray = this.chart.data[0].data.map(function(d) { return d.period } )
 
-    this.muniMaxes = muniData.map(function(d) { return d3Max(d.data, function(e) { return e.value; }); } );
+    this.chart.config.x.domain(periodArray)
 
-    this.y.domain([0, d3Max(this.muniMaxes, function(d) { return d; })]);
+    let muniMaxes = this.chart.data.map(function(d) { return d3Max(d.data, function(e) { return e.value }) } )
 
-    this.svg.append("g")
-      .datum(muniData[0].data.map(function(d) { return d.period; }))
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + this.height + ")")
-      .call(this.xAxis);
+    this.chart.config.y.domain([0, d3Max(muniMaxes, function(d) { return d })])
 
-    this.svg.append("g")
-      .attr("class", "y axis")
-      .call(this.yAxis)
-      .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 10);
 
-    this.svg.append("g")
-      .attr("class", "grid")
-      .call(this.x_gridlines()
-            .tickSize(- this.width)
+    this.chart.c.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + this.chart.config.height + ")")
+        .call(this.chart.config.xAxis)
+
+    this.chart.c.append("g")
+        .attr("class", "y axis")
+        .call(this.chart.config.yAxis)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 10)
+
+    this.chart.c.append("g")
+        .attr("class", "grid")
+        .call(this.x_gridlines()
+        .tickSize(-this.chart.config.width)
+        .tickFormat("")
+        )
+
+    let medianArray = []
+
+    periodArray.forEach(p => medianArray.push({period: p, value: 0}))
+
+    this.chart.medians = medianArray
+
+    this.loadMedians(this.chart.medians, true)
+
+
+  }
+
+  _adjustY() {
+
+
+	let dataMax = d3Max(this.chart.data.map(d => d3Max(d.data.map(e => e.value))))
+	let dataMin = d3Min(this.chart.data.map(d => d3Min(d.data.map(e => e.value))))
+
+  let medianMax = d3Max(this.chart.medians.map(d => d.value))
+  let medianMin = d3Min(this.chart.medians.map(d => d.value))
+
+  let max = d3Max([dataMax, medianMax])
+  let min = d3Min([dataMin, medianMin])
+
+	min = min > 0 ? 0 : min
+
+    this.chart.config.y.domain([min, max]);
+
+    this.chart.c.select('.y')
+      	.transition().duration(1500)
+      	.call(this.chart.config.yAxis);
+
+    this.chart.c.select('.grid')
+      	.transition().duration(1500)
+      	.call(this.x_gridlines()
+        	.tickSize(- this.chart.config.width)
             .tickFormat("")
-           );
+        )
+
   }
 
-  _adjustY(max) {
+	loadData(incomingData) {
 
-    this.y.domain([0, max]);
+    let self = this;
 
-    this.svg.select('.y')
+    self.chart.data = incomingData
+
+	  self._adjustY()
+
+    let newData = []
+
+    self.chart.data.forEach(function(d) {
+      	d.data.forEach(function(muniData) {
+        	newData.push({
+          		municipality: d.municipality,
+          		value: muniData.value,
+          		fillColor: muniData.fillColor,
+          		period: muniData.period
+        	})
+      	})
+    })
+
+
+    let chartData = d3Select('.chartData')
+
+	  let colGroups = chartData.selectAll('.colGroup')
+    	.data(newData);
+
+    colGroups.exit().remove()
+
+    let col = colGroups.enter().append('g')
+        .attr('class','colGroup')
+        .attr('muni', d => d.municipality.code)
+        .attr('value',d =>  d.value)
+        .on('mouseover',self._colMouseOver)
+        .on('mouseout',self._colMouseOut)
+
+    col.append('rect')
+        .attr('class','rect')
+
+    col.append('rect')
+        .attr('class','labelBack')
+
+    col.append('text')
+      .attr('class','label')
+
+    colGroups = colGroups.merge(col)
+
+    colGroups.select('.rect')
+      .attr('fill', d => d.fillColor)
+      .attr('y', self.chart.config.y(0))
+      .attr('x', function(d,i,a) {
+          let periodArray =  newData.filter( obj => obj.period === d.period ).map( obj => obj.municipality.code );
+          let elementIndex = periodArray.findIndex( o => o == d.municipality.code)
+          return self.chart.config.x(d.period) + (self.chart.config.x.bandwidth() / self.chart.data.length) * elementIndex
+      })
+      .attr('width', self.chart.config.x.bandwidth() / self.chart.data.length - 10)
+      .attr('height', 0)
       .transition().duration(1500)
-      .call(this.yAxis);
+      .attr('y', d => self.chart.config.y(Math.max(0,d.value)))
+      .attr('height', d => Math.abs(self.chart.config.y(d.value) - self.chart.config.y(0)))
 
-    this.svg.select('.grid')
-      .transition().duration(1500)
-      .call(this.x_gridlines()
-            .tickSize(- this.width)
-            .tickFormat("")
-           );
-
-  }
-
-  adjustBars(muniCount) {
-
-    this.svg.selectAll('.bar')
-      .transition().delay(function(i) { return i * 50; }).duration(1000)
-      .attr('height', function(d) { return this.height - this.y(d); })
-      .attr('width', this.x.bandwidth() / muniCount)
-      .attr("y", function(d) { return this.y(d) });
-
-    // svg.selectAll('.label')
-    //     .transition().delay(function(i) { return i * 200 }).duration(1500)
-    //     .attr("y", function(d) { return y(d) - 40 })
-
-    // svg.selectAll('.label rect')
-    //     .transition().delay(function(i) { return i * 200 }).duration(1500)
-    //     .attr("y", function(d) { return y(d) - 40 -5 })
-
-    // svg.selectAll('.label text')
-    //     .transition().delay(function(i) { return i * 200 }).duration(1500)
-    //     .attr("y", function(d) { return y(d) - 40 })
+    colGroups.select('.label')
+      .text(d => d.value)
+      .attr('x', function(d,i,a) {
+          let periodArray =  newData.filter( obj => obj.period === d.period ).map( obj => obj.municipality.code );
+          let elementIndex = periodArray.findIndex( o => o == d.municipality.code)
+          return self.chart.config.x(d.period) + (self.chart.config.x.bandwidth() / self.chart.data.length) * elementIndex + (self.chart.config.x.bandwidth() / self.chart.data.length) / 2
+      })
+      .attr('y', d => self.chart.config.y(d.value) - 20)
+      .attr('fill','#000')
+      .attr('opacity', 0)
 
   }
 
-  _addMedians(muniData) {
-    const categoryCount = muniData[0].data.map(function(d) { return d.period; });
 
-    for(let i = 0; i < categoryCount.length; i++) {
+  _colMouseOver(d) {
 
-      this.svg.select('g.medians')
-        .append('line')
-        .attr('period',categoryCount[i])
-        .attr('value',0)
-        .attr('class','median')
+    let allColumns = document.querySelectorAll('.colGroup')
+    allColumns.forEach(el => el.classList.remove('focus'))
+
+    let colId = d.target.parentElement.attributes['muni'].value
+
+    let selectedCols = document.querySelectorAll('.colGroup[muni="'+colId+'"]')
+    selectedCols.forEach(el => el.classList.add('focus'))
+
+  }
+
+  _colMouseOut(d) {
+      let allColumns = document.querySelectorAll('.colGroup')
+      allColumns.forEach(el => el.classList.remove('focus'))
+
+  }
+
+
+  loadMedians(medians, hide = false) {
+
+    let self = this;
+
+    self.chart.medians = medians
+
+    self._adjustY()
+
+    let mediansContainer = d3Select('.medians')
+
+    let medianLines = mediansContainer.selectAll('.median')
+        .data(self.chart.medians)
+
+    medianLines.exit().remove()
+
+    let medianLinesSelect = medianLines.enter().append('line')
+      .attr('class', 'median')
+
+    medianLines = medianLines.merge(medianLinesSelect)
+
+    mediansContainer.selectAll('.median')
         .attr('stroke','#000')
-        .attr("x1", this.x(categoryCount[i]) )
-        .attr("x2", this.x(categoryCount[i]) + this.x.bandwidth())
-        .attr("y1", this.y(0))
-        .attr("y2", this.y(0))
-        .attr("height", 1)
+        .attr("x1", d => self.chart.config.x(d.period))
+        .attr("x2", d => self.chart.config.x(d.period) + self.chart.config.x.bandwidth())
+        .attr("y1", d => self.chart.config.y(Math.max(0, d.value)))
+        .attr("y2", d => self.chart.config.y(Math.max(0, d.value)))
         .attr('stroke-dasharray','5px')
-        .attr('opacity',0);
-    }
-  }
-
-  loadMedians(medians) {
-    medians.forEach((function(median, i) {
-      this.svg.select('line.median[period="' + median.period + '"]')
-        .transition().delay( i * 200 ).duration(500)
-        .attr('y1', this.y(median.value))
-        .attr('y2', this.y(median.value))
-        .attr('opacity',1)
-        .attr('value', median.value);
-    }).bind(this));
-
-
-  }
-
-  adjustMedians() {
-    let medians = this.svg.selectAll('line.median');
-    medians._groups[0].forEach(function(median, index) {
-      this.svg.select('line.median[period="' + median.attributes['period'].value +'"]')
-        .transition().duration(500)
-        .attr('y1', this.y(median.attributes['value'].value))
-        .attr('y2', this.y(median.attributes['value'].value));
-    });
+        .attr('opacity', function() { if(hide == true) { return 0 } else { return 1 } })
   }
 
   removeMedians() {
-    let medians = this.svg.selectAll('line.median');
-    medians._groups[0].forEach((function(median, index) {
-      this.svg.select('line.median[period="' + median.attributes['period'].value +'"]')
-        .transition().duration(500)
-        .attr('y1', this.y(0))
-        .attr('y2', this.y(0))
-        .attr('opacity', 0);
-    }).bind(this));
+    this.loadMedians(this.chart.medians, true)
   }
 
-  loadData(muniData) {
-    let activeMunis = 0;
-    if (this.svg.selectAll('g.chartData > g')._groups[0].length > 0) {
 
-      activeMunis = this.svg.selectAll('g.chartData > g')._groups[0].length;
-      let muniMax = d3Max(muniData.map(function(d) {
-        return d3Max(d.data, function(e) { return e.value; });
-      }));
-      this.adjustY(muniMax);
-      this.adjustBars(activeMunis + muniData.length);
-      this.adjustMedians();
-    }
-
-
-    // Resize activeMunis
-
-    // svg.selectAll('.bar')
-    //     .transition().delay(function(i) { return i * 200 }).duration(500)
-    //     .attr('width', x.bandwidth() / (muniData.length + activeMunis))
-
-    // svg.selectAll('.label')
-    //     .transition().delay(function(i) { return i * 200 }).duration(1500)
-    //     .attr("x", function(d) { return y(d) - 40 })
-
-    // svg.selectAll('.label rect')
-    //     .transition().delay(function(i) { return i * 200 }).duration(1500)
-    //     .attr("x", x.bandwidth() / (muniData.length + activeMunis) )
-
-    // svg.selectAll('.label text')
-    //     .transition().delay(function(i) { return i * 200 }).duration(1500)
-    //     .attr("x", function(d) { return y(d) - 40 })
-
-
-    muniData.forEach((function(muni ,muniIndex) {
-
-      this.svg.selectAll('.chartData')
-        .append('g')
-        .attr('id', 'data-' + muni.municipality.code)
-        .attr('muni', muni.municipality.code);
-
-      muni.data.forEach((function(data, dataIndex) {
-
-        this.svg.selectAll('#data-' + muni.municipality.code)
-          .append('g')
-          .attr('class', 'barGroup')
-          .attr('muni', muni.municipality.code)
-          .attr('period', data.period)
-          .attr('value', data.value)
-          .attr('index', dataIndex);
-
-        this.svg.select('#data-' + muni.municipality.code + ' g[index="' + dataIndex + '"]')
-          .append('rect')
-          .datum(data.value)
-          .attr('class','bar')
-          .attr('fill',data.fillColor)
-          .attr("x", this.x(data.period) + ((muniIndex + activeMunis) * this.x.bandwidth() / (muniData.length + activeMunis)) + (dataIndex + 1 * 5) )
-          .attr("width", (this.x.bandwidth()) / (muniData.length + activeMunis) - 5)
-          .attr("y", this.y(0))
-          .attr("height", 0 )
-          .transition().delay( dataIndex * 200 ).duration(500)
-          .attr("y", this.y(data.value))
-          .attr("height", this.height - this.y(data.value));
-
-        // let relatedRect = svg.select('#data-' + muni.municipality.code + ' g[index="' + dataIndex + '"] rect.bar')
-        // let labelX = parseInt(relatedRect.attr('x')) + parseInt(relatedRect.attr('width')/2)
-        // let labelY = y(data.value) - 40
-
-        // svg.select('#data-' + muni.municipality.code + ' g[index="' + dataIndex + '"]')
-        //     .append('g')
-        //         .datum(data.value)
-        //         .attr('class','label')
-        //         .attr('x', labelX)
-        //         .attr('y', labelY)
-        //         .attr('opacity', 0)
-
-        // svg.select('#data-' + muni.municipality.code + ' g[index="' + dataIndex + '"] g.label')
-        //     .append('rect')
-        //         .attr('x', labelX - 5)
-        //         .attr('y', labelY - 4)
-        //         .attr('ry', 5)
-        //         .attr('rx', 5)
-        //         .attr('fill','#ccc')
-        //         .attr('width', 0)
-        //         .attr('height', 0)
-
-
-        // svg.select('#data-' + muni.municipality.code + ' g[index="' + dataIndex + '"] g.label')
-        //     .append('text')
-        //         .attr("dy", ".75em")
-        //         .attr('x',labelX)
-        //         .attr('y', labelY)
-        //         .text(data.value)
-
-        // svg.select('#data-' + muni.municipality.code + ' g[index="' + dataIndex + '"] g.label rect')
-        //     .attr('width', svg.select('#data-' + muni.municipality.code + ' g[index="' + dataIndex + '"] g.label text').attr('width') + 20)
-        //     .attr('height', svg.select('#data-' + muni.municipality.code + ' g[index="' + dataIndex + '"] g.label text').attr('height') + 20)
-
-        // svg.select('#data-' + muni.municipality.code + ' g[index="' + dataIndex + '"] g')
-        //     .transition().delay(dataIndex * 100).duration(500)
-        //     .attr('opacity',1)
-
-      }).bind(this));
-    }).bind(this));
-
-    return;
+  highlightCol(id) {
+    let cols = document.querySelectorAll('g[muni="'+id+'"]')
+	  cols.forEach(el => el.classList.add('focus'))
   }
 
-  removeData(ids) {
-    let max = this.y.domain()[1];
 
-    ids.forEach(function(muni, i) {
-      this.svg.selectAll('#data-' + muni + ' .label')
-        .transition().duration(500)
-        .attr("opacity", 0)
-        .remove();
+  _loadFilters() {
 
-      this.svg.selectAll('#data-' + muni + ' .bar')
-        .transition().duration(500)
-        .attr("y", this.y(0))
-        .attr("height", 0 );
+    let labelBackground = document.createElement('div')
+    labelBackground.innerHTML = `
+      <svg>
+      <defs>
+        <filter id="labelBackground" x="-70%" width="250%" y="-20%" height="150%">
+            <feFlood flood-color="#ccc"/>
+            <feGaussianBlur stdDeviation="2"/>
 
-      this.svg.select('#data-' + muni)
-        .remove();
-    });
+            <feComponentTransfer>
+                <feFuncA type="table"tableValues="0 0 0 1"/>
+            </feComponentTransfer>
 
-    let currentMaxes = [];
+            <feComponentTransfer>
+                <feFuncA type="table"tableValues="0 1 1 1 1 1 1 1"/>
+            </feComponentTransfer>
+            <feComposite operator="over" in="SourceGraphic"/>
+        </filter>
+        <filter id="dropShadow"><feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="black" flood/></filter>
+      </defs>
+      </svg>`
+    document.body.appendChild(labelBackground)
 
-    let currentMunis = this.svg.selectAll('g.barGroup[muni]');
-    currentMunis._groups[0].forEach(function(muni) {
-      currentMaxes.push(muni.attributes['value'].value);
-    });
-
-    this.adjustY(d3Max(currentMaxes));
-    this.adjustBars(this.svg.selectAll('g.chartData > g')._groups[0].length);
-    this.adjustMedians();
   }
-};
+
+}
