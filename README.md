@@ -48,6 +48,26 @@ docker-compose -f docker-compose.yml -f docker-compose.portal.yml up portal scor
 ```
 
 
+### maintaining demodata
+
+Ensure you only have the demo data municipalities and only their data in the database.
+
+Run a profile rebuild.
+
+Run
+
+```
+docker-compose run --rm scorecard python manage.py dumpdata --indent 2 \
+    scorecard.geography \
+    municipal_finance.municipalityprofile \
+    municipal_finance.mediangroup \
+    municipal_finance.ratingcountgroup \
+    > demo-data.json
+```
+
+Commit the changes to git.
+
+
 ### Updating municipality profile data in Docker
 
 Run the portal service using `gunicorn` instead of django's `runserver`:
