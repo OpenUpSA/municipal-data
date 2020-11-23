@@ -1,11 +1,11 @@
 services:
-- docker
+  - docker
 
 before_script:
-- docker-compose up -d
+  - docker-compose up -d
 
 script:
-- docker-compose exec scorecard python manage.py test municipal_finance.tests
+  - docker-compose run --rm scorecard python manage.py test municipal_finance scorecard
 
 after_script:
-- docker-compose down
+  - docker-compose down

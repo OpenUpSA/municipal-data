@@ -16,11 +16,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Geography',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('geo_level', models.CharField(max_length=15)),
                 ('geo_code', models.CharField(max_length=10)),
                 ('name', models.CharField(db_index=True, max_length=100)),
-                ('long_name', models.CharField(db_index=True, max_length=100, null=True)),
+                ('long_name', models.CharField(
+                    db_index=True, max_length=100, null=True)),
                 ('year', models.IntegerField(db_index=True, null=True)),
                 ('square_kms', models.FloatField(null=True)),
                 ('parent_level', models.CharField(max_length=15, null=True)),
@@ -28,6 +30,16 @@ class Migration(migrations.Migration):
                 ('province_name', models.CharField(max_length=100)),
                 ('province_code', models.CharField(max_length=5)),
                 ('category', models.CharField(max_length=2)),
+                ('fax_number', models.TextField(null=True)),
+                ('phone_number', models.TextField(null=True)),
+                ('postal_address_1', models.TextField(null=True)),
+                ('postal_address_2', models.TextField(null=True)),
+                ('postal_address_3', models.TextField(null=True)),
+                ('street_address_1', models.TextField(null=True)),
+                ('street_address_2', models.TextField(null=True)),
+                ('street_address_3', models.TextField(null=True)),
+                ('street_address_4', models.TextField(null=True)),
+                ('url', models.TextField(null=True)),
             ],
             options={
                 'abstract': False,

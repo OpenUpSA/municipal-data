@@ -50,8 +50,20 @@ class Geography(models.Model):
     miif_category = models.TextField(null=True)
     population = models.IntegerField(null=True)
 
+    postal_address_1 = models.TextField(null=True)
+    postal_address_2 = models.TextField(null=True)
+    postal_address_3 = models.TextField(null=True)
+    street_address_1 = models.TextField(null=True)
+    street_address_2 = models.TextField(null=True)
+    street_address_3 = models.TextField(null=True)
+    street_address_4 = models.TextField(null=True)
+    phone_number = models.TextField(null=True)
+    fax_number = models.TextField(null=True)
+    url = models.TextField(null=True)
+
     class Meta:
         unique_together = ('geo_level', 'geo_code')
+
     def __str__(self):
         return f'{self.name}'
 
@@ -80,7 +92,8 @@ class Geography(models.Model):
         """
         if not hasattr(self, '_parent'):
             if self.parent_level and self.parent_code:
-                self._parent = self.__class__.objects.filter(geo_level=self.parent_level, geo_code=self.parent_code).first()
+                self._parent = self.__class__.objects.filter(
+                    geo_level=self.parent_level, geo_code=self.parent_code).first()
             else:
                 self._parent = None
 
@@ -117,7 +130,8 @@ class Geography(models.Model):
 
     @property
     def bbox(self):
-        url = settings.MAPIT['url'] + '/area/MDB:%s/geometry?generation=%s' % (self.geo_code, settings.MAPIT['generation'])
+        url = settings.MAPIT['url'] + '/area/MDB:%s/geometry?generation=%s' % (
+            self.geo_code, settings.MAPIT['generation'])
         resp = requests.get(url)
         js = resp.json()
         return [js[x] for x in ["min_lon", "min_lat", "max_lon", "max_lat"]]
@@ -127,9 +141,11 @@ class Geography(models.Model):
 
     @classmethod
     def find(cls, geo_code, geo_level):
-        geo = cls.objects.filter(geo_level=geo_level, geo_code=geo_code).first()
+        geo = cls.objects.filter(
+            geo_level=geo_level, geo_code=geo_code).first()
         if not geo:
-            raise LocationNotFound("Invalid level, code: %s-%s" % (geo_level, geo_code))
+            raise LocationNotFound(
+                "Invalid level, code: %s-%s" % (geo_level, geo_code))
         return geo
 
     @classmethod
@@ -137,18 +153,21 @@ class Geography(models.Model):
         """
         Returns a list of geographies containing this point.
         """
-        url = settings.MAPIT['url'] + '/point/4326/%s,%s?generation=%s' % (longitude, latitude, settings.MAPIT['generation'])
+        url = settings.MAPIT['url'] + '/point/4326/%s,%s?generation=%s' % (
+            longitude, latitude, settings.MAPIT['generation'])
         resp = requests.get(url)
         resp.raise_for_status()
 
         geos = []
         for feature in resp.json().values():
             try:
-                geo = cls.find(feature['codes']['MDB'], feature['type_name'].lower())
+                geo = cls.find(feature['codes']['MDB'],
+                               feature['type_name'].lower())
 
                 if geo.geo_level in ['municipality', 'district']:
                     geos.append(geo)
             except LocationNotFound as e:
-                log.warn("Couldn't find geo that Mapit gave us: %s" % feature, exc_info=e)
+                log.warn("Couldn't find geo that Mapit gave us: %s" %
+                         feature, exc_info=e)
 
         return geos

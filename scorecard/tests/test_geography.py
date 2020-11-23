@@ -45,6 +45,16 @@ fixtures = {
         "miif_category": "my miff_category",
         "population":  2000,
         "population":  2000,
+        "postal_address_1": None,
+        "postal_address_2": None,
+        "postal_address_3": None,
+        "street_address_1": None,
+        "street_address_2": None,
+        "street_address_3": None,
+        "street_address_4": None,
+        "phone_number": None,
+        "fax_number": None,
+        "url": None,
     },
 
     "child_map": {
@@ -60,6 +70,16 @@ fixtures = {
         "category": "m2",
         "miif_category": "my miff_categorys2",
         "population":  2000,
+        "postal_address_1": None,
+        "postal_address_2": None,
+        "postal_address_3": None,
+        "street_address_1": None,
+        "street_address_2": None,
+        "street_address_3": None,
+        "street_address_4": None,
+        "phone_number": None,
+        "fax_number": None,
+        "url": None,
     }
 }
 
