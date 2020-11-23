@@ -1,6 +1,10 @@
 services:
   - docker
 
+install:
+  # Allow the container user to write to this directory
+  - export USER_ID=$(id -u) && export GROUP_ID=$(id -g)
+
 before_script:
   - docker-compose run --rm scorecard python manage.py collectstatic --no-input
   # Initialise dev DB which we'll later use for demodata fixture check
