@@ -86,8 +86,8 @@ def formatvalue(n, typ):
 
 
 @register.inclusion_tag("profile/_comparative_list.html", takes_context=True)
-def render_comparatives(context, indicator_name):
-    indicator = context["indicators"][indicator_name]
+def render_comparatives(context, name):
+    indicator = context["indicators"][name]
     values = [v for v in indicator["values"] if v["result"] is not None]
 
     if values:

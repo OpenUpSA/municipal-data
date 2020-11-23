@@ -3,6 +3,7 @@ import dateutil.parser
 
 from collections import defaultdict, OrderedDict
 
+from .indicators import get_indicator_calculators
 from .api_client import ApiClient
 
 
@@ -108,6 +109,12 @@ class ApiData(object):
             url = response.url
             raise Exception(
                 "Page is full: should check next page for %s " % url)
+
+    def indicators(self):
+        indicators = {}
+        for indicator in get_indicator_calculators():
+            indicators[indicator.name] = indicator.get_muni_specifics(self)
+        return indicators
 
     def mayoral_staff(self):
         roles = [
@@ -241,7 +248,269 @@ class ApiData(object):
 
     def get_queries(self):
         return {
-            # monthly values for in-year calculations from bsheet
+            "uifw_expenditure": {
+                "cube": "uifwexp",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": [
+                        "irregular",
+                        "fruitless",
+                        "unauthorised",
+                    ],
+                    "demarcation.code": [self.geo_code],
+                    "financial_year_end.year": self.uifw_years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "repairs_maintenance_v1": {
+                "cube": "capital",
+                "aggregate": "repairs_maintenance.sum",
+                "cut": {
+                    "item.code": ["4100"],
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "property_plant_equipment_v1": {
+                "cube": "bsheet",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": ["1300"],
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "investment_property_v1": {
+                "cube": "bsheet",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": ["1401"],
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "repairs_maintenance_v2": {
+                "cube": "capital_v2",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "capital_type.code": ["REPAIR_MNT"],
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "property_plant_equipment_v2": {
+                "cube": "bsheet_v2",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": ["0240"],
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "investment_property_v2": {
+                "cube": "bsheet_v2",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": ["0220"],
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "capital_expenditure_actual_v1": {
+                "cube": "capital",
+                "aggregate": "total_assets.sum",
+                "cut": {
+                    "item.code": ["4100"],
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "capital_expenditure_budget_v1": {
+                "cube": "capital",
+                "aggregate": "total_assets.sum",
+                "cut": {
+                    "item.code": ["4100"],
+                    "amount_type.code": ["ADJB"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "capital_expenditure_actual_v2": {
+                "cube": "capital_v2",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "capital_expenditure_budget_v2": {
+                "cube": "capital_v2",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "amount_type.code": ["ADJB"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "operating_expenditure_budget_v1": {
+                "cube": "incexp",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": ["4600"],
+                    "amount_type.code": ["ADJB"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "operating_expenditure_budget_v2": {
+                "cube": "incexp_v2",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": [
+                        "2000", "2100", "2200", "2300", "2400",
+                        "2500", "2600", "2700", "2800", "2900",
+                        "3000",
+                    ],
+                    "amount_type.code": ["ADJB"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "operating_expenditure_actual_v1": {
+                "cube": "incexp",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": ["4600"],
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "operating_expenditure_actual_v2": {
+                "cube": "incexp_v2",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": [
+                        "2000", "2100", "2200", "2300", "2400",
+                        "2500", "2600", "2700", "2800", "2900",
+                        "3000",
+                    ],
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "cash_flow_v1": {
+                "cube": "cflow",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": ["4200"],
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "cash_flow_v2": {
+                "cube": "cflow_v2",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": ["0430"],
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
             "bsheet_auda_years": {
                 "cube": "bsheet",
                 "aggregate": "amount.sum",
@@ -358,129 +627,6 @@ class ApiData(object):
                 "order": "financial_year_end.year:desc",
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
-            },
-            "op_exp_actual": {
-                "cube": "incexp",
-                "aggregate": "amount.sum",
-                "cut": {
-                    "item.code": ["4600"],
-                    "amount_type.code": ["AUDA"],
-                    "demarcation.code": [self.geo_code],
-                    "period_length.length": ["year"],
-                    "financial_year_end.year": self.years,
-                },
-                "drilldown": YEAR_ITEM_DRILLDOWN,
-                "query_type": "aggregate",
-                "results_structure": self.item_code_year_aggregate,
-            },
-            "op_exp_budget": {
-                "cube": "incexp",
-                "aggregate": "amount.sum",
-                "cut": {
-                    "item.code": ["4600"],
-                    "amount_type.code": ["ADJB"],
-                    "demarcation.code": [self.geo_code],
-                    "period_length.length": ["year"],
-                    "financial_year_end.year": self.years,
-                },
-                "drilldown": YEAR_ITEM_DRILLDOWN,
-                "query_type": "aggregate",
-                "results_structure": self.item_code_year_aggregate,
-            },
-            "cash_flow": {
-                "cube": "cflow",
-                "aggregate": "amount.sum",
-                "cut": {
-                    "item.code": ["4200"],
-                    "amount_type.code": ["AUDA"],
-                    "demarcation.code": [self.geo_code],
-                    "period_length.length": ["year"],
-                    "financial_year_end.year": self.years,
-                },
-                "drilldown": YEAR_ITEM_DRILLDOWN,
-                "query_type": "aggregate",
-                "results_structure": self.item_code_year_aggregate,
-            },
-            "cap_exp_actual": {
-                "cube": "capital",
-                "aggregate": "total_assets.sum",
-                "cut": {
-                    "item.code": ["4100"],
-                    "amount_type.code": ["AUDA"],
-                    "demarcation.code": [self.geo_code],
-                    "period_length.length": ["year"],
-                    "financial_year_end.year": self.years,
-                },
-                "drilldown": YEAR_ITEM_DRILLDOWN,
-                "query_type": "aggregate",
-                "results_structure": self.item_code_year_aggregate,
-            },
-            "cap_exp_budget": {
-                "cube": "capital",
-                "aggregate": "total_assets.sum",
-                "cut": {
-                    "item.code": ["4100"],
-                    "amount_type.code": ["ADJB"],
-                    "demarcation.code": [self.geo_code],
-                    "financial_year_end.year": self.years,
-                },
-                "drilldown": YEAR_ITEM_DRILLDOWN,
-                "query_type": "aggregate",
-                "results_structure": self.item_code_year_aggregate,
-            },
-            "rep_maint": {
-                "cube": "capital",
-                "aggregate": "repairs_maintenance.sum",
-                "cut": {
-                    "item.code": ["4100"],
-                    "amount_type.code": ["AUDA"],
-                    "demarcation.code": [self.geo_code],
-                    "period_length.length": ["year"],
-                    "financial_year_end.year": self.years,
-                },
-                "drilldown": YEAR_ITEM_DRILLDOWN,
-                "query_type": "aggregate",
-                "results_structure": self.item_code_year_aggregate,
-            },
-            "ppe": {
-                "cube": "bsheet",
-                "aggregate": "amount.sum",
-                "cut": {
-                    "item.code": ["1300"],
-                    "amount_type.code": ["AUDA"],
-                    "demarcation.code": [self.geo_code],
-                    "period_length.length": ["year"],
-                    "financial_year_end.year": self.years,
-                },
-                "drilldown": YEAR_ITEM_DRILLDOWN,
-                "query_type": "aggregate",
-                "results_structure": self.item_code_year_aggregate,
-            },
-            "invest_prop": {
-                "cube": "bsheet",
-                "aggregate": "amount.sum",
-                "cut": {
-                    "item.code": ["1401"],
-                    "amount_type.code": ["AUDA"],
-                    "demarcation.code": [self.geo_code],
-                    "period_length.length": ["year"],
-                    "financial_year_end.year": self.years,
-                },
-                "drilldown": YEAR_ITEM_DRILLDOWN,
-                "query_type": "aggregate",
-                "results_structure": self.item_code_year_aggregate,
-            },
-            "wasteful_exp": {
-                "cube": "uifwexp",
-                "aggregate": "amount.sum",
-                "cut": {
-                    "item.code": ["irregular", "fruitless", "unauthorised"],
-                    "demarcation.code": [self.geo_code],
-                    "financial_year_end.year": self.uifw_years,
-                },
-                "drilldown": YEAR_ITEM_DRILLDOWN,
-                "query_type": "aggregate",
-                "results_structure": self.item_code_year_aggregate,
             },
             "revenue_breakdown": {
                 "cube": "incexp",

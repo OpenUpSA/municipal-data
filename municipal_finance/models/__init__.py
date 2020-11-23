@@ -38,6 +38,13 @@ from .financial_position import (
 from .municipality_profiles_compilation import (
     MunicipalityProfilesCompilation,
 )
+from .capital import (
+    CapitalTypeV2,
+    CapitalItemsV1,
+    CapitalItemsV2,
+    CapitalFactsV1,
+    CapitalFactsV2,
+)
 
 
 class AgedCreditorFacts(models.Model):
@@ -144,64 +151,6 @@ class AuditOpinionFacts(models.Model):
 
     class Meta:
         db_table = 'audit_opinion_facts'
-
-
-class AuditOpinions(models.Model):
-    demarcation_code = models.TextField()
-    financial_year = models.TextField()
-    opinion_code = models.TextField()
-    opinion_label = models.TextField()
-
-    class Meta:
-        db_table = 'audit_opinions'
-        unique_together = (('demarcation_code', 'financial_year'),)
-
-
-class CapitalFacts(models.Model):
-    demarcation_code = models.TextField()
-    period_code = models.TextField()
-    function_code = models.ForeignKey(
-        GovernmentFunctionsV1,
-        models.DO_NOTHING,
-        db_column='function_code'
-    )
-    item_code = models.ForeignKey(
-        'CapitalItems', models.DO_NOTHING, db_column='item_code')
-    new_assets = models.BigIntegerField(null=True)
-    renewal_of_existing = models.BigIntegerField(null=True)
-    total_assets = models.BigIntegerField(null=True)
-    repairs_maintenance = models.BigIntegerField(null=True)
-    asset_register_summary = models.BigIntegerField(null=True)
-    financial_year = models.IntegerField()
-    period_length = models.TextField()
-    financial_period = models.IntegerField()
-    amount_type_code = models.TextField()
-
-    class Meta:
-        db_table = 'capital_facts'
-        unique_together = (
-            ('demarcation_code', 'period_code', 'function_code', 'item_code'),
-            (
-                'amount_type_code',
-                'demarcation_code',
-                'financial_period',
-                'financial_year',
-                'function_code',
-                'item_code',
-                'period_length',
-            ),
-        )
-
-
-class CapitalItems(models.Model):
-    code = models.TextField(primary_key=True)
-    label = models.TextField()
-    position_in_return_form = models.IntegerField(null=True)
-    return_form_structure = models.TextField(null=True)
-    composition = models.TextField(null=True)
-
-    class Meta:
-        db_table = 'capital_items'
 
 
 class ConditionalGrants(models.Model):

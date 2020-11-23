@@ -1,0 +1,160 @@
+{
+    "fact_table": "capital_facts_v2",
+    "label": "Capital Acquisition",
+    "description": "Purchase, repair and renewal of capital assets. The assets, liabilities and capital of a municipality at a specific point in time. Section 71-level aggregation of mSCOA data from 2019-20 onwards replacing the original capital cube.",
+    "return_forms": ["CA", "CAR", "CAA", "CAAA"],
+    "update_cycle": "quarter",
+    "last_updated": "2020-10",
+    "dimensions": {
+        "demarcation": {
+            "attributes": {
+                "code": {
+                    "column": "scorecard_geography.geo_code",
+                    "label": "Demarcation Code",
+                    "type": "string",
+                    "description": "Municipality code assigned by the Municipal Demarcation Board"
+                },
+                "label": {
+                    "column": "scorecard_geography.name",
+                    "label": "Name",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "label",
+            "description": "Municipality demarcation details",
+            "label": "Municipality",
+            "join_column": "demarcation_code"
+        },
+        "function": {
+            "attributes": {
+                "code": {
+                    "column": "government_functions_v2.code",
+                    "type": "string",
+                    "description": "Code used by treasury",
+                    "label": "Code"
+                },
+                "label": {
+                    "column": "government_functions_v2.label",
+                    "label": "Label",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "label",
+            "description": "Function of government classification adapted from International Monetary Fund's Government Financial Statistics manual.",
+            "label": "Function",
+            "join_column": ["function_id", "id"]
+        },
+        "item": {
+            "attributes": {
+                "code": {
+                    "column": "capital_items_v2.code",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "Code used by treasury"
+                },
+                "label": {
+                    "column": "capital_items_v2.label",
+                    "label": "Label",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "label",
+            "description": "",
+            "label": "Item",
+            "join_column": ["item_id", "id"]
+        },
+        "capital_type": {
+            "attributes": {
+                "code": {
+                    "column": "capital_type_v2.code",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "Code used by treasury"
+                },
+                "label": {
+                    "column": "capital_type_v2.label",
+                    "label": "Label",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "label",
+            "description": "",
+            "label": "Capital Type",
+            "join_column": ["capital_type_id", "id"]
+        },
+        "financial_year_end": {
+            "attributes": {
+                "year": {
+                    "column": "financial_year",
+                    "label": "Year End",
+                    "type": "integer",
+                    "description": ""
+                }
+            },
+            "key_attribute": "year",
+            "description": "The calendar year falling at the end of the financial year",
+            "label": "Financial Year"
+        },
+        "period_length": {
+            "attributes": {
+                "length": {
+                    "column": "period_length",
+                    "label": "Length",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "length",
+            "description": "The length of the period this figure corresponds to",
+            "label": "Period Length"
+        },
+        "financial_period": {
+            "attributes": {
+                "period": {
+                    "column": "financial_period",
+                    "label": "Period",
+                    "type": "integer",
+                    "description": ""
+                }
+            },
+            "key_attribute": "period",
+            "description": "The period this figure corresponds to, e.g. the month number of a month within the financial year or the calendar year end of a financial year.",
+            "label": "Financial Period"
+        },
+        "amount_type": {
+            "attributes": {
+                "code": {
+                    "column": "amount_type_v2.code",
+                    "label": "Code",
+                    "type": "string",
+                    "description": ""
+                },
+                "label": {
+                    "column": "amount_type_v2.label",
+                    "label": "Label",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "code",
+            "description": "Whether this figure is actual, budgeted, audited etc.",
+            "label_attribute": "label",
+            "label": "Amount Type",
+            "join_column": ["amount_type_id", "id"]
+        }
+    },
+    "measures": {
+        "amount": {
+            "column": "amount",
+            "label": "Amount"
+        }
+    }
+}
