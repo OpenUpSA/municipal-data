@@ -241,7 +241,78 @@ class ApiData(object):
 
     def get_queries(self):
         return {
-            # monthly values for in-year calculations from bsheet
+            "operating_expenditure_v1": {
+                "cube": "incexp",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": ["4600"],
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": [
+                    "financial_year_end.year",
+                ],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "operating_expenditure_v2": {
+                "cube": "incexp_v2",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": [
+                        "2000", "2100", "2200", "2300", "2400",
+                        "2500", "2600", "2700", "2800", "2900",
+                        "3000",
+                    ],
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": [
+                    "financial_year_end.year",
+                ],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "cash_flow_v1": {
+                "cube": "cflow",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": ["4200"],
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": [
+                    "financial_year_end.year",
+                ],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "cash_flow_v2": {
+                "cube": "cflow_v2",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": ["0430"],
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": [
+                    "financial_year_end.year",
+                ],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
             "bsheet_auda_years": {
                 "cube": "bsheet",
                 "aggregate": "amount.sum",
@@ -379,20 +450,6 @@ class ApiData(object):
                 "cut": {
                     "item.code": ["4600"],
                     "amount_type.code": ["ADJB"],
-                    "demarcation.code": [self.geo_code],
-                    "period_length.length": ["year"],
-                    "financial_year_end.year": self.years,
-                },
-                "drilldown": YEAR_ITEM_DRILLDOWN,
-                "query_type": "aggregate",
-                "results_structure": self.item_code_year_aggregate,
-            },
-            "cash_flow": {
-                "cube": "cflow",
-                "aggregate": "amount.sum",
-                "cut": {
-                    "item.code": ["4200"],
-                    "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
                     "financial_year_end.year": self.years,

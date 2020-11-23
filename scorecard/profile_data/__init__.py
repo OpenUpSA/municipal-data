@@ -27,6 +27,8 @@ from .indicator_calculator import IndicatorCalculator
 from .current_ratio import CurrentRatio
 from .liquidity_ratio import LiquidityRatio
 from .current_debtors_collection_rate import CurrentDebtorsCollectionRate
+from .cash_balance import CashBalance
+from .cash_coverage import CashCoverage
 
 
 def get_indicator_calculators(has_comparisons=None):
@@ -43,7 +45,7 @@ def get_indicator_calculators(has_comparisons=None):
         ExpenditureFunctionalBreakdown,
         ExpenditureTrendsContracting,
         ExpenditureTrendsStaff,
-        CashAtYearEnd,
+        CashBalance,
         FruitlWastefIrregUnauth,
     ]
     if has_comparisons is None:
@@ -59,38 +61,6 @@ def get_indicators(api_data):
             api_data
         )
     return indicators
-
-
-class CashCoverage(IndicatorCalculator):
-    indicator_name = "cash_coverage"
-    result_type = "months"
-    noun = "coverage"
-    has_comparisons = True
-
-    @classmethod
-    def get_muni_specifics(cls, api_data):
-        values = []
-        for year in api_data.years:
-            try:
-                cash = api_data.results["cash_flow"]["4200"][year]
-                monthly_expenses = api_data.results["op_exp_actual"]["4600"][year] / 12
-                result = max(ratio(cash, monthly_expenses, 1), 0)
-                if result > 3:
-                    rating = "good"
-                elif result <= 1:
-                    rating = "bad"
-                else:
-                    rating = "ave"
-            except KeyError:
-                result = None
-                rating = None
-            values.append({"date": year, "result": result, "rating": rating})
-
-        return {
-            "values": values,
-            "ref": api_data.references["solgf"],
-            "result_type": cls.result_type,
-        }
 
 
 class OperatingBudgetDifference(IndicatorCalculator):
@@ -470,6 +440,9 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         return {"values": grouped_results}
 
 
+<< << << < HEAD
+
+
 class CashAtYearEnd(IndicatorCalculator):
     indicator_name = "cash_at_year_end"
     result_type = "R"
@@ -499,6 +472,10 @@ class CashAtYearEnd(IndicatorCalculator):
             "ref": api_data.references["solgf"],
             "result_type": cls.result_type,
         }
+
+
+== == == =
+>>>>>> > 65c6be7c... Adapted 'Cash Balance' and 'Cash Coverage' indicators to include v2 data
 
 
 class FruitlWastefIrregUnauth(IndicatorCalculator):

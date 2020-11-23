@@ -33,7 +33,7 @@ export default class ProfilePage {
         );
       });
     };
-    initSection(IndicatorSection, "#cash-balance", "cash_at_year_end");
+    initSection(IndicatorSection, "#cash-balance", "cash_balance");
     initSection(IndicatorSection, "#cash-coverage", "cash_coverage");
     initSection(OverUnderSection, "#operating-budget", "op_budget_diff");
     initSection(OverUnderSection, "#capital-budget", "cap_budget_diff");
