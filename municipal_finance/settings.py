@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import dj_database_url
 import os
 import environ
+import logging
+
+logger = logging.getLogger("municipal_finance")
+
 
 TESTING = False
 
@@ -411,7 +415,7 @@ if SENTRY_DSN:
     )
 
 DEBUG_TOOLBAR = os.environ.get("DJANGO_DEBUG_TOOLBAR", "false").lower() == "true"
-print("Django Debug Toolbar %s." % "enabled" if DEBUG_TOOLBAR else "disabled")
+logger.info("Django Debug Toolbar %s." % "enabled" if DEBUG_TOOLBAR else "disabled")
 DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": "municipal_finance.settings.show_toolbar_check"
 }
