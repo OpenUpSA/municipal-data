@@ -209,7 +209,7 @@ export class ColumnChart {
     })
 
 
-    let chartData = d3Select('.chartData')
+    let chartData = d3Select(`${this.chart.config.bindto } .chartData`)
 
 	  let colGroups = chartData.selectAll('.colGroup')
     	.data(newData);
@@ -289,7 +289,7 @@ export class ColumnChart {
 
     self._adjustY()
 
-    let mediansContainer = d3Select('.medians')
+    let mediansContainer = d3Select(`${this.chart.config.bindto } .medians`)
 
     let medianLines = mediansContainer.selectAll('.median')
         .data(self.chart.medians)
