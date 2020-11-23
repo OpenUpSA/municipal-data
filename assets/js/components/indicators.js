@@ -18,7 +18,7 @@ function comparePeriod( a, b ) {
   return 0;
 }
 
-class IndicatorSection {
+export class IndicatorSection {
   constructor(selector, sectionData, medians, geography) {
     this.selector = selector;
     this.sectionData = sectionData;
@@ -136,21 +136,13 @@ class IndicatorSection {
   formatValue(value) {
     return locale.format(this.formatSpecifier())(value);
   }
-}
 
-export class AnnualSection extends IndicatorSection {
   formatPeriod(period) {
     return formatFinancialYear(period);
   }
 }
 
-export class QuarterlySection extends IndicatorSection {
-  formatPeriod(period) {
-    return period;
-  }
-}
-
-export class OverUnderSection extends AnnualSection {
+export class OverUnderSection extends IndicatorSection {
   formatMetric(value) {
     const overunder = value > 0 ? "overspent" : "underspent";
     return `${super.formatMetric(value)} ${overunder}`;
