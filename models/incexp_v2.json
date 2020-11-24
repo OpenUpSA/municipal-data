@@ -1,0 +1,169 @@
+{
+    "fact_table": "incexp_facts_v2",
+    "label": "Income and Expenditure (V2)",
+    "description": "Statement of Financial Performance. How a municipality has spent money and received income. Section 71-level aggregation of mSCOA data from 2019-20 onwards replacing the original incexp cube.",
+    "return_forms": ["OSB", "OSR", "OSA", "OSAA"],
+    "update_cycle": "quarter",
+    "last_updated": "2020-10",
+    "dimensions": {
+        "demarcation": {
+            "attributes": {
+                "code": {
+                    "column": "scorecard_geography.geo_code",
+                    "label": "Demarcation Code",
+                    "type": "string",
+                    "description": "Municipality code assigned by the Municipal Demarcation Board"
+                },
+                "label": {
+                    "column": "scorecard_geography.name",
+                    "label": "Name",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "label",
+            "description": "Municipality demarcation details",
+            "label": "Municipality",
+            "join_column": "demarcation_code"
+        },
+        "function": {
+            "attributes": {
+                "code": {
+                    "column": "government_functions_v2.code",
+                    "type": "string",
+                    "description": "Code used by treasury",
+                    "label": "Code"
+                },
+                "label": {
+                    "column": "government_functions_v2.label",
+                    "label": "Label",
+                    "type": "string",
+                    "description": ""
+                },
+                "category_label": {
+                    "column": "government_functions_v2.category_label",
+                    "label": "Category Label",
+                    "type": "string",
+                    "description": ""
+                },
+                "subcategory_label": {
+                    "column": "government_functions_v2.subcategory_label",
+                    "label": "Subcategory Label",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "label",
+            "description": "Function of government classification adapted from International Monetary Fund's (IMF) Government Financial Statistics (GFS) manual",
+            "label": "Government Function",
+            "join_column": ["function_id", "id"]
+        },
+        "item": {
+            "attributes": {
+                "code": {
+                    "column": "incexp_items_v2.code",
+                    "label": "Code",
+                    "type": "string",
+                    "description": "Code used by treasury"
+                },
+                "label": {
+                    "column": "incexp_items_v2.label",
+                    "label": "Label",
+                    "type": "string",
+                    "description": ""
+                },
+                "position_in_return_form": {
+                    "column": "incexp_items_v2.position_in_return_form",
+                    "label": "Position in Return Form",
+                    "type": "integer",
+                    "description": "The position of this item in the Section 71 Return form - useful for sorting line items to be ordered as they are in the return form to group related items and place them below the section headings and above section totals."
+                },
+                "return_form_structure": {
+                    "column": "incexp_items_v2.return_form_structure",
+                    "label": "Return Form Structure",
+                    "type": "string",
+                    "description": "What structural role this line item has in the return form"
+                },
+                "composition": {
+                    "column": "incexp_items_v2.composition",
+                    "label": "Composition",
+                    "type": "string",
+                    "description": "The composition of this item. Indicates how this item is composed of other items in this cube for the same mnuicipality, financial year and period, and amount type using item codes."
+                }
+            },
+            "key_attribute": "code",
+            "label_attribute": "label",
+            "description": "",
+            "label": "Item",
+            "join_column": ["item_id", "id"]
+        },
+        "financial_year_end": {
+            "attributes": {
+                "year": {
+                    "column": "financial_year",
+                    "label": "Year End",
+                    "type": "integer",
+                    "description": ""
+                }
+            },
+            "key_attribute": "year",
+            "description": "The calendar year falling at the end of the financial year",
+            "label": "Financial Year"
+        },
+        "period_length": {
+            "attributes": {
+                "length": {
+                    "column": "period_length",
+                    "label": "Length",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "length",
+            "description": "The lenfth of the period this figure corresponds to",
+            "label": "Period Length"
+        },
+        "financial_period": {
+            "attributes": {
+                "period": {
+                    "column": "financial_period",
+                    "label": "Period",
+                    "type": "integer",
+                    "description": ""
+                }
+            },
+            "key_attribute": "period",
+            "description": "The period this figure corresponds to, e.g. the month number of a month within the financial year or the calendar year end of a financial year.",
+            "label": "Financial Period"
+        },
+        "amount_type": {
+            "attributes": {
+                "code": {
+                    "column": "amount_type_v2.code",
+                    "label": "Code",
+                    "type": "string",
+                    "description": ""
+                },
+                "label": {
+                    "column": "amount_type_v2.label",
+                    "label": "Label",
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "key_attribute": "code",
+            "description": "Whether this figure is actual, budgeted, audited etc.",
+            "label_attribute": "label",
+            "label": "Amount Type",
+            "join_column": ["amount_type_id", "id"]
+        }
+    },
+    "measures": {
+        "amount": {
+            "column": "amount",
+            "label": "Amount"
+        }
+    }
+}

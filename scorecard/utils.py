@@ -30,7 +30,8 @@ RELATIVE_PHRASE_MAP = {
     8: ["about 10 percent", "of the {0} for"],
     0: ["less than 10 percent", "of the {0} for"],
 }
-RELATIVE_PHRASE_THRESHOLDS = sorted([k for k, v in RELATIVE_PHRASE_MAP.items()])
+RELATIVE_PHRASE_THRESHOLDS = sorted(
+    [k for k, v in RELATIVE_PHRASE_MAP.items()])
 
 
 # about two thirds of similar municipalities nationally [in Gauteng] have a positive cash balance
@@ -53,21 +54,8 @@ PERCENTAGE_PHRASE_MAP = {
     1: ["less than 10 percent", "of"],
     0: ["no", ""],
 }
-PERCENTAGE_PHRASE_THRESHOLDS = sorted([k for k, v in PERCENTAGE_PHRASE_MAP.items()])
-
-
-def percent(num, denom, places=2):
-    if denom == 0:
-        return 0
-    else:
-        return round(num / denom * 100, places)
-
-
-def ratio(num, denom, places=2):
-    if denom == 0:
-        return 0
-    else:
-        return round(num / denom, places)
+PERCENTAGE_PHRASE_THRESHOLDS = sorted(
+    [k for k, v in PERCENTAGE_PHRASE_MAP.items()])
 
 
 def comparison_relative_words(a, b, noun):
@@ -95,7 +83,8 @@ def comparison_relative_words(a, b, noun):
 
         phrase_bits = RELATIVE_PHRASE_MAP[phrase_key]
 
-    phrase = "<strong>%s</strong> %s" % (phrase_bits[0], phrase_bits[1].format(noun))
+    phrase = "<strong>%s</strong> %s" % (
+        phrase_bits[0], phrase_bits[1].format(noun))
     return mark_safe(phrase)
 
 

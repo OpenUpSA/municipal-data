@@ -9,6 +9,33 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import JSONField
 
+from .amount_type import (
+    AmountType,
+    AmountTypeV2,
+)
+from .government_functions import (
+    GovernmentFunctionsV1,
+    GovernmentFunctionsV2,
+)
+from .cash_flow import (
+    CflowItemsV1,
+    CflowFactsV1,
+    CflowItemsV2,
+    CflowFactsV2,
+)
+from .income_expenditure import (
+    IncexpItemsV1,
+    IncexpFactsV1,
+    IncexpItemsV2,
+    IncexpFactsV2,
+)
+from .financial_position import (
+    BsheetItemsV1,
+    BsheetFactsV1,
+    BsheetItemsV2,
+    BsheetFactsV2,
+)
+
 
 class AgedCreditorFacts(models.Model):
     demarcation_code = models.TextField()
@@ -105,14 +132,6 @@ class AgedDebtorItems(models.Model):
         db_table = 'aged_debtor_items'
 
 
-class AmountType(models.Model):
-    code = models.TextField(primary_key=True)
-    label = models.TextField()
-
-    class Meta:
-        db_table = 'amount_type'
-
-
 class AuditOpinionFacts(models.Model):
     demarcation_code = models.TextField()
     financial_year = models.IntegerField()
@@ -135,48 +154,14 @@ class AuditOpinions(models.Model):
         unique_together = (('demarcation_code', 'financial_year'),)
 
 
-class BsheetFacts(models.Model):
-    demarcation_code = models.TextField()
-    period_code = models.TextField()
-    item_code = models.ForeignKey(
-        'BsheetItems', models.DO_NOTHING, db_column='item_code')
-    amount = models.BigIntegerField(null=True)
-    financial_year = models.IntegerField()
-    period_length = models.TextField()
-    financial_period = models.IntegerField()
-    amount_type_code = models.TextField()
-
-    class Meta:
-        db_table = 'bsheet_facts'
-        unique_together = (
-            ('demarcation_code', 'period_code', 'item_code'),
-            (
-                'amount_type_code',
-                'demarcation_code',
-                'financial_period',
-                'financial_year',
-                'item_code',
-                'period_length',
-            ),
-        )
-
-
-class BsheetItems(models.Model):
-    code = models.TextField(primary_key=True)
-    label = models.TextField()
-    position_in_return_form = models.IntegerField(null=True)
-    return_form_structure = models.TextField(null=True)
-    composition = models.TextField(null=True)
-
-    class Meta:
-        db_table = 'bsheet_items'
-
-
 class CapitalFacts(models.Model):
     demarcation_code = models.TextField()
     period_code = models.TextField()
     function_code = models.ForeignKey(
-        'GovernmentFunctions', models.DO_NOTHING, db_column='function_code')
+        GovernmentFunctionsV1,
+        models.DO_NOTHING,
+        db_column='function_code'
+    )
     item_code = models.ForeignKey(
         'CapitalItems', models.DO_NOTHING, db_column='item_code')
     new_assets = models.BigIntegerField(null=True)
@@ -216,43 +201,6 @@ class CapitalItems(models.Model):
         db_table = 'capital_items'
 
 
-class CflowFacts(models.Model):
-    demarcation_code = models.TextField()
-    period_code = models.TextField()
-    item_code = models.ForeignKey(
-        'CflowItems', models.DO_NOTHING, db_column='item_code')
-    amount = models.BigIntegerField(null=True)
-    amount_type_code = models.TextField()
-    financial_year = models.IntegerField()
-    period_length = models.TextField()
-    financial_period = models.IntegerField()
-
-    class Meta:
-        db_table = 'cflow_facts'
-        unique_together = (
-            ('demarcation_code', 'period_code', 'item_code'),
-            (
-                'amount_type_code',
-                'demarcation_code',
-                'financial_period',
-                'financial_year',
-                'item_code',
-                'period_length',
-            ),
-        )
-
-
-class CflowItems(models.Model):
-    code = models.TextField(primary_key=True)
-    label = models.TextField()
-    position_in_return_form = models.IntegerField(null=True)
-    return_form_structure = models.TextField(null=True)
-    composition = models.TextField(null=True)
-
-    class Meta:
-        db_table = 'cflow_items'
-
-
 class ConditionalGrants(models.Model):
     code = models.TextField(null=True)
     name = models.TextField(null=True)
@@ -284,54 +232,6 @@ class ConditionalGrantsFacts(models.Model):
                 'period_length',
             ),
         )
-
-
-class GovernmentFunctions(models.Model):
-    code = models.TextField(primary_key=True)
-    label = models.TextField()
-    category_label = models.TextField()
-    subcategory_label = models.TextField()
-
-    class Meta:
-        db_table = 'government_functions'
-
-
-class IncexpFacts(models.Model):
-    demarcation_code = models.TextField()
-    period_code = models.TextField()
-    function_code = models.TextField()
-    item_code = models.TextField()
-    amount = models.BigIntegerField(null=True)
-    financial_year = models.IntegerField()
-    period_length = models.TextField()
-    financial_period = models.IntegerField()
-    amount_type_code = models.TextField()
-
-    class Meta:
-        db_table = 'incexp_facts'
-        unique_together = (
-            ('demarcation_code', 'period_code', 'function_code', 'item_code'),
-            (
-                'amount_type_code',
-                'demarcation_code',
-                'financial_period',
-                'financial_year',
-                'function_code',
-                'item_code',
-                'period_length',
-            ),
-        )
-
-
-class IncexpItems(models.Model):
-    code = models.TextField(primary_key=True)
-    label = models.TextField()
-    position_in_return_form = models.IntegerField(null=True)
-    return_form_structure = models.TextField(null=True)
-    composition = models.TextField(null=True)
-
-    class Meta:
-        db_table = 'incexp_items'
 
 
 class MunicipalityStaffContacts(models.Model):

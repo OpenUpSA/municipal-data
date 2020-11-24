@@ -10,17 +10,10 @@ In production, the two sites are served by one Django instance, using the hostna
 | Public-friendly site                 | https://municipalmoney.gov.za/         | scorecard                   | 2               |
 | Data exploration/download UI and API | https://municipaldata.treasury.gov.za/ | portal                      | 3               |
 
-
 ## Local development quick start (with docker-compose)
 
-
-### Scorecard site only
-
-If you only want to work on the Scorecard website.
-
-The site will use pre-calculated data for a
-[small number of municipalities](#maintaining-demo-data-fixture)
-and link to the production data/API site for detail.
+If you only want to work on the Scorecard website. The site will use pre-calculated
+financials and link to the production data/API site for detail.
 
 In one terminal, run
 
@@ -35,14 +28,8 @@ docker-compose run --rm scorecard python manage.py loaddata demo-data
 docker-compose up scorecard
 ```
 
-You can login to admin using username `admin` and password `password`.
-
-See [maintaining demo-data fixture](#maintaining-demo-data-fixture).
-
-
-### Scorecard and data portal/API
-
 If you want to run the API and data portal locally using docker-compose you also need to:
+
 
 1. Dump the production database.
 2. Load the production database dump into your docker-compose postgres instance
@@ -61,30 +48,42 @@ docker-compose -f docker-compose.yml -f docker-compose.portal.yml up portal scor
 ```
 
 
-### Maintaining demo data fixture
+### maintaining demodata
 
-Only the following municipalities are included, to try and get as little data as possible for convenient maintenance, but enough to be able to try out key features quickly.
+Ensure you only have the demo data municipalities and only their data in the database.
 
-- 2 metros
-- 3 districts, two in one province, one in another
-- 4 locals, two in two provinces
+Run a profile rebuild.
 
-that should give us enough data to do
+Run
 
-- metro -> compare to similar nationally
-- district and local -> compare to similar nearby, similar in province, similar nationally
-- median for similar in province, median for similar nationally
-- navigation between locals, districts and neighbours
+```
+docker-compose run --rm scorecard python manage.py dumpdata --indent 2 \
+    scorecard.geography \
+    municipal_finance.municipalityprofile \
+    municipal_finance.mediangroup \
+    municipal_finance.ratingcountgroup \
+    > demo-data.json
+```
 
-The chosen municipalities are in demo-munis.txt, one on each line to be able to use with `grep --file`
+Commit the changes to git.
 
-    docker-compose run --rm scorecard python manage.py dumpdata --indent 2 \
-      scorecard.geography \
-      municipal_finance.municipalityprofile \
-      municipal_finance.mediangroup \
-      municipal_finance.ratingcountgroup \
-      auth.user \
-      > demo-data.json
+
+### Updating municipality profile data in Docker
+
+Run the portal service using `gunicorn` instead of django's `runserver`:
+
+```
+docker-compose -f docker-compose.yml -f docker-compose.portal.yml -f docker-compose.portal-gunicorn.yml up portal
+```
+
+Run the update scripts against the portal service:
+
+```
+docker-compose -f docker-compose.yml run --rm scorecard python bin/materialised_views.py --api-url http://portal:8000/api --profiles-from-api
+```
+
+Any changes should be written to the JSON files in the container, which are mapped into the container from the repository directory.
+
 
 ## Local development (without docker)
 

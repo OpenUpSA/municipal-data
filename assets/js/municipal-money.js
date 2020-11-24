@@ -1,7 +1,7 @@
 import { logIfUnequal, locale, capFirst, formatFinancialYear, ratingColor } from './utils.js';
 import { ContactSection } from './components/contacts.js';
 import { TextField } from './components/common.js';
-import { AnnualSection, QuarterlySection, OverUnderSection } from './components/indicators.js';
+import { IndicatorSection, OverUnderSection } from './components/indicators.js';
 import { AuditOpinions } from './components/audit-opinions.js';
 import { ProfileHeader } from './components/profile-header.js';
 import { InPageNav } from './components/in-page-nav.js';
@@ -29,17 +29,17 @@ class ProfilePage {
         pageData.geography,
       );
     };
-    initSection(AnnualSection, "#cash-balance", "cash_at_year_end");
-    initSection(AnnualSection, "#cash-coverage", "cash_coverage");
+    initSection(IndicatorSection, "#cash-balance", "cash_at_year_end");
+    initSection(IndicatorSection, "#cash-coverage", "cash_coverage");
     initSection(OverUnderSection, "#operating-budget", "op_budget_diff");
     initSection(OverUnderSection, "#capital-budget", "cap_budget_diff");
-    initSection(AnnualSection, "#repairs-maintenance", "rep_maint_perc_ppe");
-    initSection(AnnualSection, "#wasteful-expenditure", "wasteful_exp");
-    initSection(QuarterlySection, "#current-ratio", "current_ratio");
-    initSection(QuarterlySection, "#liquidity-ratio", "liquidity_ratio");
-    initSection(QuarterlySection, "#collection-rate", "current_debtors_collection_rate");
-    initSection(AnnualSection, "#wages-salaries", "expenditure_trends_staff");
-    initSection(AnnualSection, "#contractor-services", "expenditure_trends_contracting");
+    initSection(IndicatorSection, "#repairs-maintenance", "rep_maint_perc_ppe");
+    initSection(IndicatorSection, "#wasteful-expenditure", "wasteful_exp");
+    initSection(IndicatorSection, "#current-ratio", "current_ratio");
+    initSection(IndicatorSection, "#liquidity-ratio", "liquidity_ratio");
+    initSection(IndicatorSection, "#collection-rate", "current_debtors_collection_rate");
+    initSection(IndicatorSection, "#wages-salaries", "expenditure_trends_staff");
+    initSection(IndicatorSection, "#contractor-services", "expenditure_trends_contracting");
 
     new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
 

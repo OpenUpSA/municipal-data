@@ -1,16 +1,26 @@
 services:
   - docker
 
+install:
+  # Allow the container user to write to this directory
+  - export USER_ID=$(id -u) && export GROUP_ID=$(id -g)
+
 before_script:
-  - docker-compose up -d postgres
+  - docker-compose run --rm scorecard python manage.py collectstatic --no-input
+  # Initialise dev DB which we'll later use for demodata fixture check
+  - docker-compose run --rm scorecard bin/wait-for-postgres.sh python manage.py migrate
+
 
 script:
-  - docker-compose run --rm scorecard python manage.py test municipal_finance.tests
+  - docker-compose run --rm scorecard python manage.py test municipal_finance scorecard
 
-  # Ensure that the demo-data fixture can be loaded and a municipality profile is shown
+  # Ensure that the demodata fixture can be loaded and the data is available in the API
   # - smoke test
   # - ensure development environment setup is maintained.
-  - docker-compose run --rm scorecard bin/wait-for-postgres.sh python manage.py migrate
-  - docker-compose run --rm scorecard python manage.py loaddata demo-data
+  - docker-compose run --rm scorecard bin/wait-for-postgres.sh python manage.py loaddata demo-data
   - docker-compose up -d
-  - wget --retry-connrefused --waitretry=1 --read-timeout=10 --timeout=10 --tries=10 -O-  "http://localhost:8001/profiles/municipality-TSH-city-of-tshwane/" | grep "City of Tshwane"
+  - wget --retry-connrefused --waitretry=1 --read-timeout=10 --timeout=10 --tries=10 -O-  "http://localhost:8001/profiles/municipality-TSH-city-of-tshwane/" | grep "Gauteng"
+
+after_script:
+  # Log DB output in case issues occurred where this can help us debug quicly
+  - docker-compose logs db
