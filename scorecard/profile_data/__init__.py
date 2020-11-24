@@ -23,12 +23,14 @@ import dateutil.parser
 from .utils import *
 from .api_client import ApiClient
 from .api_data import ApiData
-from .indicator_calculator import IndicatorCalculator
-from .current_ratio import CurrentRatio
-from .liquidity_ratio import LiquidityRatio
-from .current_debtors_collection_rate import CurrentDebtorsCollectionRate
-from .cash_balance import CashBalance
-from .cash_coverage import CashCoverage
+
+from .indicators.utils import *
+from .indicators.indicator_calculator import IndicatorCalculator
+from .indicators.current_ratio import CurrentRatio
+from .indicators.liquidity_ratio import LiquidityRatio
+from .indicators.current_debtors_collection_rate import CurrentDebtorsCollectionRate
+from .indicators.cash_balance import CashBalance
+from .indicators.cash_coverage import CashCoverage
 
 
 def get_indicator_calculators(has_comparisons=None):
@@ -438,44 +440,6 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         grouped_results = sorted(
             grouped_results, key=lambda r: (r["date"], r["item"]))
         return {"values": grouped_results}
-
-
-<< << << < HEAD
-
-
-class CashAtYearEnd(IndicatorCalculator):
-    indicator_name = "cash_at_year_end"
-    result_type = "R"
-    noun = "cash balance"
-    has_comparisons = True
-
-    @classmethod
-    def get_muni_specifics(cls, api_data):
-        values = []
-        for year in api_data.years:
-            try:
-                result = api_data.results["cash_flow"]["4200"][year]
-
-                if result > 0:
-                    rating = "good"
-                elif result <= 0:
-                    rating = "bad"
-                else:
-                    rating = None
-
-                values.append(
-                    {"date": year, "result": result, "rating": rating})
-            except KeyError:
-                values.append({"date": year, "result": None, "rating": "bad"})
-        return {
-            "values": values,
-            "ref": api_data.references["solgf"],
-            "result_type": cls.result_type,
-        }
-
-
-== == == =
->>>>>> > 65c6be7c... Adapted 'Cash Balance' and 'Cash Coverage' indicators to include v2 data
 
 
 class FruitlWastefIrregUnauth(IndicatorCalculator):
