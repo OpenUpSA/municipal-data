@@ -27,6 +27,7 @@ from .utils import (
 )
 class TestCurrentDebtorsCollectionRate(TransactionTestCase):
     serialized_rollback = True
+    maxDiff = None
 
     def tearDown(self):
         get_manager().engine.dispose()
@@ -70,6 +71,7 @@ class TestCurrentDebtorsCollectionRate(TransactionTestCase):
         self.assertEqual(
             result,
             {
+                "result_type": "%",
                 "values": [
                     {
                         "year": 2019,

@@ -5,6 +5,10 @@
 }
 
 .indicator-chart {
+    .axis {
+        font: 16px sans-serif;
+    }
+
     .axis path,
     .axis .tick line,
     .grid path {
@@ -16,8 +20,18 @@
         opacity: 0.1
     }
 
-    text.label {
-        filter: url('#labelBackground');
+
+    .focus .rect {
+        fill: rgba(0,0,0,0.5)
+    }
+
+    .focus .label {
+        opacity: 1
+    }
+
+    .focus .label {
+        filter: url(#labelBackground)
+
     }
 
 
