@@ -10,7 +10,7 @@ const formatRand = (x, decimals, randSpace) => {
   decimals = decimals === undefined ? 1 : decimals;
   randSpace = randSpace === undefined ? ' ' : '';
   return `R${randSpace}${d3Format(`,.${decimals}f`)(x)}`;
-};
+}
 
 const humaniseRand = (x, longForm) => {
   longForm = longForm === undefined ? true : longForm;
@@ -28,7 +28,7 @@ const humaniseRand = (x, longForm) => {
     return formatRand(x / 1000, decimals, randSpace) + suffixThousand;
   }
   return formatRand(x, 0);
-};
+}
 
 const formatter = (d, resultType) => {
   if(resultType == 'currency') {
@@ -46,14 +46,14 @@ const formatter = (d, resultType) => {
   else {
     return d;
   }
-};
+}
 
-export class ColumnChart {
+export default class ColumnChart {
   constructor(container, muniData) {
      this.chart = {
         config: {
             bindto: container,
-            margin: { top: 50, right: 20, bottom: 50, left: 50 },
+            margin: { top: 50, right: 20, bottom: 50, left: 70 },
             x: {},
             y: {},
             height: 0,
@@ -66,14 +66,14 @@ export class ColumnChart {
         medians: []
     }
 
-    this._drawMuniChart();
+    this._drawColumnChart();
   }
 
   x_gridlines() {
     return axisLeft(this.chart.config.y).ticks(10);
   }
 
-  _drawMuniChart(container, muniData) {
+  _drawColumnChart(container, muniData) {
 
     this.chart.config.width = document.querySelector(this.chart.config.bindto).offsetWidth - this.chart.config.margin.left - this.chart.config.margin.right,
     this.chart.config.height = 500 - this.chart.config.margin.top - this.chart.config.margin.bottom;
@@ -98,9 +98,6 @@ export class ColumnChart {
         .attr('class','muniChart')
         .attr("transform", "translate(" + this.chart.config.margin.left + "," + this.chart.config.margin.top + ")")
 
-
-    this._setAxes()
-
     this.chart.c.append('g')
       .attr('class', 'chartData')
       .attr('width', this.chart.config.width)
@@ -108,7 +105,10 @@ export class ColumnChart {
       .attr('y', 0)
       .attr('height', this.chart.config.height)
 
-    this.chart.c.append('g').attr('class', 'medians')
+    this.chart.c.append('g')
+      .attr('class', 'medians')
+
+    this._setAxes()
 
     this._loadFilters()
 
@@ -155,8 +155,9 @@ export class ColumnChart {
 
     this.loadMedians(this.chart.medians, true)
 
-
   }
+
+
 
   _adjustY() {
 
@@ -209,7 +210,7 @@ export class ColumnChart {
     })
 
 
-    let chartData = d3Select(`${this.chart.config.bindto } .chartData`)
+    let chartData = d3Select(this.chart.config.bindto + ' .chartData')
 
 	  let colGroups = chartData.selectAll('.colGroup')
     	.data(newData);
@@ -218,35 +219,54 @@ export class ColumnChart {
 
     let col = colGroups.enter().append('g')
         .attr('class','colGroup')
-        .attr('muni', d => d.municipality.code)
+        .attr('colid', d => d.municipality.code)
         .attr('value',d =>  d.value)
-        .on('mouseover',self._colMouseOver)
-        .on('mouseout',self._colMouseOut)
+        .on('mouseover',self._colMouseOver.bind(self))
+        .on('mouseout',self._colMouseOut.bind(self))
+
+    // col.append('path')
+    //     .attr('class','rect')
 
     col.append('rect')
         .attr('class','rect')
 
-    col.append('rect')
-        .attr('class','labelBack')
-
     col.append('text')
-      .attr('class','label')
+        .attr('class','label')
 
     colGroups = colGroups.merge(col)
 
     colGroups.select('.rect')
       .attr('fill', d => d.fillColor)
-      .attr('y', self.chart.config.y(0))
+      // .attr('y', self.chart.config.y(0))
       .attr('x', function(d,i,a) {
           let periodArray =  newData.filter( obj => obj.period === d.period ).map( obj => obj.municipality.code );
           let elementIndex = periodArray.findIndex( o => o == d.municipality.code)
-          return self.chart.config.x(d.period) + (self.chart.config.x.bandwidth() / self.chart.data.length) * elementIndex
+          return self.chart.config.x(d.period) + (self.chart.config.x.bandwidth() / 8) + ((self.chart.config.x.bandwidth() - (self.chart.config.x.bandwidth() / 4))  / self.chart.data.length) * elementIndex
       })
-      .attr('width', self.chart.config.x.bandwidth() / self.chart.data.length - 10)
-      .attr('height', 0)
+      // .attr('rx', 5)
+      // .attr('height', 0)
       .transition().duration(1500)
+      .attr('width', (self.chart.config.x.bandwidth() - (self.chart.config.x.bandwidth() / 4)) / self.chart.data.length - 5)
+
       .attr('y', d => self.chart.config.y(Math.max(0,d.value)))
       .attr('height', d => Math.abs(self.chart.config.y(d.value) - self.chart.config.y(0)))
+
+
+  // colGroups.select('.rect')
+  //     .attr('fill', d => d.fillColor)
+  //     .transition()
+  //     .attr('d', function(d, i, a) {
+  //         let periodArray =  newData.filter( obj => obj.period === d.period ).map( obj => obj.municipality.code );
+  //         let elementIndex = periodArray.findIndex( o => o == d.municipality.code)
+  //         // return self.chart.config.x(d.period) + (self.chart.config.x.bandwidth() / 8) + ((self.chart.config.x.bandwidth() - (self.chart.config.x.bandwidth() / 4))  / self.chart.data.length) * elementIndex
+
+  //         return 'M' + (self.chart.config.x(d.period) + (self.chart.config.x.bandwidth() / 8) + ((self.chart.config.x.bandwidth() - (self.chart.config.x.bandwidth() / 4))  / self.chart.data.length) * elementIndex) + ',' + self.chart.config.y(Math.max(0,d.value)) +
+  //         ' v' + (Math.abs(self.chart.config.y(d.value) - self.chart.config.y(0))) + ' q5,0 5,5 h' + ((self.chart.config.x.bandwidth() - (self.chart.config.x.bandwidth() / 4)) / self.chart.data.length - 5) + ' q0,5 -5,5 v-' +  (Math.abs(self.chart.config.y(d.value) - self.chart.config.y(0))) + ' z'
+
+
+  //     })
+
+
 
     colGroups.select('.label')
       .text(d => d.value)
@@ -259,23 +279,26 @@ export class ColumnChart {
       .attr('fill','#000')
       .attr('opacity', 0)
 
+    self.loadMedians(self.chart.medians)
+
   }
 
 
   _colMouseOver(d) {
 
-    let allColumns = document.querySelectorAll('.colGroup')
+    let allColumns = document.querySelectorAll(this.chart.config.bindto + ' .colGroup')
     allColumns.forEach(el => el.classList.remove('focus'))
 
-    let colId = d.target.parentElement.attributes['muni'].value
+    let colId = d.target.parentElement.attributes['colid'].value
 
-    let selectedCols = document.querySelectorAll('.colGroup[muni="'+colId+'"]')
+    let selectedCols = document.querySelectorAll(this.chart.config.bindto + ' .colGroup[colid="'+colId+'"]')
     selectedCols.forEach(el => el.classList.add('focus'))
 
   }
 
   _colMouseOut(d) {
-      let allColumns = document.querySelectorAll('.colGroup')
+
+      let allColumns = document.querySelectorAll(this.chart.config.bindto + ' .colGroup')
       allColumns.forEach(el => el.classList.remove('focus'))
 
   }
@@ -289,35 +312,47 @@ export class ColumnChart {
 
     self._adjustY()
 
-    let mediansContainer = d3Select(`${this.chart.config.bindto } .medians`)
+    let mediansContainer = d3Select(self.chart.config.bindto + ' .medians')
 
     let medianLines = mediansContainer.selectAll('.median')
         .data(self.chart.medians)
 
+    medianLines.enter().append('line')
+      .attr('class', 'median')
+      .attr('stroke','#000')
+      .attr('stroke-dasharray','3px')
+
+    medianLines
+      .transition()
+      .attr("x1", d => self.chart.config.x(d.period))
+      .attr("x2", d => self.chart.config.x(d.period) + self.chart.config.x.bandwidth() - 10)
+      .attr("y1", d => self.chart.config.y(Math.max(0, d.value)))
+      .attr("y2", d => self.chart.config.y(Math.max(0, d.value)))
+      .attr('opacity', hide == true ? 0 : 1)
+
+
     medianLines.exit().remove()
 
-    let medianLinesSelect = medianLines.enter().append('line')
-      .attr('class', 'median')
-
-    medianLines = medianLines.merge(medianLinesSelect)
-
-    mediansContainer.selectAll('.median')
-        .attr('stroke','#000')
-        .attr("x1", d => self.chart.config.x(d.period))
-        .attr("x2", d => self.chart.config.x(d.period) + self.chart.config.x.bandwidth())
-        .attr("y1", d => self.chart.config.y(Math.max(0, d.value)))
-        .attr("y2", d => self.chart.config.y(Math.max(0, d.value)))
-        .attr('stroke-dasharray','5px')
-        .attr('opacity', function() { if(hide == true) { return 0 } else { return 1 } })
   }
 
   removeMedians() {
+
+    let periodArray = this.chart.data[0].data.map(function(d) { return d.period } )
+
+    let medianArray = []
+
+    periodArray.forEach(p => medianArray.push({period: p, value: 0}))
+
+    this.chart.medians = medianArray
+
     this.loadMedians(this.chart.medians, true)
+
   }
 
 
+
   highlightCol(id) {
-    let cols = document.querySelectorAll('g[muni="'+id+'"]')
+    let cols = document.querySelectorAll(this.chart.config.bindto + ' g[colid="'+id+'"]')
 	  cols.forEach(el => el.classList.add('focus'))
   }
 
@@ -345,6 +380,8 @@ export class ColumnChart {
       </defs>
       </svg>`
     document.body.appendChild(labelBackground)
+
+
 
   }
 

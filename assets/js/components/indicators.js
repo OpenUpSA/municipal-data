@@ -1,5 +1,5 @@
 import { logIfUnequal, formatFinancialYear, ratingColor, formatForType } from '../utils.js';
-import { ColumnChart } from './charts/column.js';
+import ColumnChart from './charts/column.js';
 
 const indicatorMetricClass = {
   "good": ".indicator-metric--status-green",
@@ -30,6 +30,7 @@ export class IndicatorSection {
     this.geography = geography;
 
     const chartContainerSelector = `${selector} .indicator-chart`;
+    console.log(selector, this.chartData(), this.formatMedians());
     this.chart = new ColumnChart(chartContainerSelector, [this.chartData()]);
     const chartContainerParent = $(chartContainerSelector).parent();
 
