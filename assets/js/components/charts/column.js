@@ -176,11 +176,11 @@ export default class ColumnChart {
     this.chart.config.y.domain([min, max]);
 
     this.chart.c.select('.y')
-      	.transition().duration(1500)
+      	.transition().duration(500)
       	.call(this.chart.config.yAxis);
 
     this.chart.c.select('.grid')
-      	.transition().duration(1500)
+      	.transition().duration(500)
       	.call(this.x_gridlines()
         	.tickSize(- this.chart.config.width)
             .tickFormat("")
@@ -245,7 +245,7 @@ export default class ColumnChart {
       })
       // .attr('rx', 5)
       // .attr('height', 0)
-      .transition().duration(1500)
+      .transition().duration(500)
       .attr('width', (self.chart.config.x.bandwidth() - (self.chart.config.x.bandwidth() / 4)) / self.chart.data.length - 5)
 
       .attr('y', d => self.chart.config.y(Math.max(0,d.value)))
@@ -279,7 +279,8 @@ export default class ColumnChart {
       .attr('fill','#000')
       .attr('opacity', 0)
 
-    self.loadMedians(self.chart.medians)
+
+      // self.loadMedians(self.chart.medians)
 
   }
 
@@ -326,12 +327,13 @@ export default class ColumnChart {
       .transition()
       .attr("x1", d => self.chart.config.x(d.period))
       .attr("x2", d => self.chart.config.x(d.period) + self.chart.config.x.bandwidth() - 10)
-      .attr("y1", d => self.chart.config.y(Math.max(0, d.value)))
-      .attr("y2", d => self.chart.config.y(Math.max(0, d.value)))
+      .attr("y1", d => self.chart.config.y(d.value))
+      .attr("y2", d => self.chart.config.y(d.value))
       .attr('opacity', hide == true ? 0 : 1)
 
-
     medianLines.exit().remove()
+
+    this.loadData(self.chart.data)
 
   }
 
