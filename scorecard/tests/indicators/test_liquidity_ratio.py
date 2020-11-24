@@ -25,6 +25,7 @@ from .utils import (
 )
 class TestLiquidityRatio(TransactionTestCase):
     serialized_rollback = True
+    maxDiff = None
 
     def tearDown(self):
         get_manager().engine.dispose()
@@ -57,6 +58,7 @@ class TestLiquidityRatio(TransactionTestCase):
         self.assertEqual(
             result,
             {
+                "result_type": "ratio",
                 "values": [
                     {
                         "date": "2019",
