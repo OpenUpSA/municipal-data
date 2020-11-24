@@ -1,6 +1,4 @@
-from django.test import TransactionTestCase, override_settings
 
-from municipal_finance.cubes import get_manager
 from municipal_finance.resources import (
     CashflowFactsV1Resource,
     CashflowFactsV2Resource,
@@ -10,27 +8,17 @@ from municipal_finance.resources import (
 
 from ...resources import GeographyResource
 from ...profile_data import (
-    ApiClient,
     ApiData,
     CurrentDebtorsCollectionRate,
 )
 
 from .utils import (
     import_data,
-    DjangoConnectionThreadPoolExecutor,
+    IndicatorTestCase,
 )
 
 
-@override_settings(
-    SITE_ID=3,
-    STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage",
-)
-class TestCurrentDebtorsCollectionRate(TransactionTestCase):
-    serialized_rollback = True
-    maxDiff = None
-
-    def tearDown(self):
-        get_manager().engine.dispose()
+class TestCurrentDebtorsCollectionRate(IndicatorTestCase):
 
     def test_result(self):
         # Load sample data
@@ -54,14 +42,8 @@ class TestCurrentDebtorsCollectionRate(TransactionTestCase):
             IncexpFactsV2Resource,
             'current_debtors_collection_rate/incexp_facts_v2.csv'
         )
-        # Setup the API client
-        executor = DjangoConnectionThreadPoolExecutor(max_workers=1)
-        client = ApiClient(
-            lambda u, p: executor.submit(self.client.get, u, data=p),
-            "/api",
-        )
         # Fetch data from API
-        api_data = ApiData(client, "CPT", 2019, 2019, 2019, "2019q4")
+        api_data = ApiData(self.client, "CPT", 2019, 2019, 2019, "2019q4")
         api_data.fetch_data([
             "cflow_auda_years", "cflow_auda_years_v2",
             "incexp_auda_years", "incexp_auda_years_v2",

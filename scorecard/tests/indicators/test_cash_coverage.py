@@ -1,6 +1,4 @@
-from django.test import TransactionTestCase, override_settings
 
-from municipal_finance.cubes import get_manager
 from municipal_finance.resources import (
     CashflowFactsV1Resource,
     CashflowFactsV2Resource,
@@ -10,26 +8,17 @@ from municipal_finance.resources import (
 
 from ...resources import GeographyResource
 from ...profile_data import (
-    ApiClient,
     ApiData,
     CashCoverage,
 )
 
 from .utils import (
     import_data,
-    DjangoConnectionThreadPoolExecutor,
+    IndicatorTestCase,
 )
 
 
-@override_settings(
-    SITE_ID=3,
-    STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage",
-)
-class TestCashCoverage(TransactionTestCase):
-    serialized_rollback = True
-
-    def tearDown(self):
-        get_manager().engine.dispose()
+class TestCashCoverage(IndicatorTestCase):
 
     def test_result(self):
         # Load sample data
@@ -53,14 +42,8 @@ class TestCashCoverage(TransactionTestCase):
             IncexpFactsV2Resource,
             'cash_coverage/income_expenditure_facts_v2.csv'
         )
-        # Setup the API client
-        executor = DjangoConnectionThreadPoolExecutor(max_workers=1)
-        client = ApiClient(
-            lambda u, p: executor.submit(self.client.get, u, data=p),
-            "/api"
-        )
         # Fetch data from API
-        api_data = ApiData(client, "CPT")
+        api_data = ApiData(self.api_client, "CPT")
         api_data.fetch_data([
             "operating_expenditure_v1",
             "operating_expenditure_v2",

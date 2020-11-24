@@ -1,6 +1,4 @@
-from django.test import TransactionTestCase, override_settings
 
-from municipal_finance.cubes import get_manager
 from municipal_finance.resources import (
     BsheetFactsV2Resource,
     BsheetFactsV1Resource,
@@ -8,41 +6,25 @@ from municipal_finance.resources import (
 
 from ...resources import GeographyResource
 from ...profile_data import (
-    ApiClient,
     ApiData,
     CurrentRatio,
 )
 
 from .utils import (
     import_data,
-    DjangoConnectionThreadPoolExecutor,
+    IndicatorTestCase,
 )
 
 
-@override_settings(
-    SITE_ID=3,
-    STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage",
-)
-class TestCurrentRatio(TransactionTestCase):
-    serialized_rollback = True
-    maxDiff = None
-
-    def tearDown(self):
-        get_manager().engine.dispose()
+class TestCurrentRatio(IndicatorTestCase):
 
     def test_result(self):
         # Load sample data
         import_data(GeographyResource, 'current_ratio/scorecard_geography.csv')
         import_data(BsheetFactsV1Resource, 'current_ratio/bsheet_facts_v1.csv')
         import_data(BsheetFactsV2Resource, 'current_ratio/bsheet_facts_v2.csv')
-        # Setup the API client
-        executor = DjangoConnectionThreadPoolExecutor(max_workers=1)
-        client = ApiClient(
-            lambda u, p: executor.submit(self.client.get, u, data=p),
-            "/api"
-        )
         # Fetch data from API
-        api_data = ApiData(client, "CPT", 2019, 2019, 2019, "2019q4")
+        api_data = ApiData(self.client, "CPT", 2019, 2019, 2019, "2019q4")
         api_data.fetch_data(["bsheet_auda_years", "bsheet_auda_years_v2"])
         # Provide data to indicator
         result = CurrentRatio.get_muni_specifics(api_data)
