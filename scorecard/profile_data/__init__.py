@@ -31,12 +31,13 @@ from .indicators.liquidity_ratio import LiquidityRatio
 from .indicators.current_debtors_collection_rate import CurrentDebtorsCollectionRate
 from .indicators.cash_balance import CashBalance
 from .indicators.cash_coverage import CashCoverage
+from .indicators.operating_budget_spending import OperatingBudgetSpending
 
 
 def get_indicator_calculators(has_comparisons=None):
     calculators = [
         CashCoverage,
-        OperatingBudgetDifference,
+        OperatingBudgetSpending,
         CapitalBudgetDifference,
         RepairsMaintenance,
         RevenueSources,
@@ -63,50 +64,6 @@ def get_indicators(api_data):
             api_data
         )
     return indicators
-
-
-class OperatingBudgetDifference(IndicatorCalculator):
-    indicator_name = "op_budget_diff"
-    result_type = "%"
-    noun = "underspending or overspending"
-    has_comparisons = True
-
-    @classmethod
-    def get_muni_specifics(cls, api_data):
-        values = []
-        for year in api_data.years:
-            try:
-                op_ex_budget = api_data.results["op_exp_budget"]["4600"][year]
-                op_ex_actual = api_data.results["op_exp_actual"]["4600"][year]
-                result = percent(
-                    (op_ex_actual - op_ex_budget), op_ex_budget, 1)
-                overunder = "under" if result < 0 else "over"
-                if abs(result) <= 5:
-                    rating = "good"
-                elif abs(result) <= 15:
-                    rating = "ave"
-                elif abs(result) > 15:
-                    rating = "bad"
-                else:
-                    rating = None
-            except KeyError:
-                result = None
-                rating = None
-                overunder = None
-            values.append(
-                {
-                    "date": year,
-                    "result": result,
-                    "overunder": overunder,
-                    "rating": rating,
-                }
-            )
-
-        return {
-            "values": values,
-            "ref": api_data.references["overunder"],
-            "result_type": cls.result_type,
-        }
 
 
 class CapitalBudgetDifference(IndicatorCalculator):

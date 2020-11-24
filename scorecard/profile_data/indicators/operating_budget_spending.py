@@ -1,20 +1,21 @@
 
-from .indicator_calculator import IndicatorCalculator
 from .utils import (
-    ratio,
-    group_items_by_year,
-    filter_for_all_keys,
+    percent,
     populate_periods,
+    filter_for_all_keys,
 )
+from .indicator_calculator import IndicatorCalculator
 
 
-def determine_rating(result):
-    if result > 3:
+def translate_rating(result):
+    if abs(result) <= 5:
         return "good"
-    elif result <= 1:
+    elif abs(result) <= 15:
+        return "ave"
+    elif abs(result) > 15:
         return "bad"
     else:
-        return "ave"
+        return None
 
 
 def generate_data(year, values):
@@ -22,26 +23,28 @@ def generate_data(year, values):
         "date": year,
     }
     if values:
-        cash_at_year_end = values["cash_at_year_end"]
-        monthly_expenses = values["operating_expenditure"] / 12
-        calculated_ratio = ratio(cash_at_year_end, monthly_expenses, 1)
-        result = max(calculated_ratio, 0)
+        actual = values["operating_expenditure_actual"]
+        budget = values["operating_expenditure_budget"]
+        diffirence = actual - budget
+        result = percent(diffirence, budget, 1)
         data.update({
             "result": result,
-            "rating": determine_rating(result),
+            "rating": translate_rating(result),
+            "overunder": "under" if result < 0 else "over",
         })
     else:
         data.update({
             "result": None,
             "rating": None,
+            "overunder": None,
         })
     return data
 
 
-class CashCoverage(IndicatorCalculator):
-    indicator_name = "cash_coverage"
-    result_type = "months"
-    noun = "coverage"
+class OperatingBudgetSpending(IndicatorCalculator):
+    indicator_name = "operating_budget_spending"
+    result_type = "%"
+    noun = "underspending or overspending"
     has_comparisons = True
 
     @classmethod
@@ -51,28 +54,29 @@ class CashCoverage(IndicatorCalculator):
         # Populate periods with v1 data
         populate_periods(
             periods,
-            results["cash_flow_v1"],
-            "cash_at_year_end",
+            results["operating_expenditure_actual_v1"],
+            "operating_expenditure_actual",
         )
         populate_periods(
             periods,
-            results["operating_expenditure_actual_v1"],
-            "operating_expenditure",
+            results["operating_expenditure_budget_v1"],
+            "operating_expenditure_budget",
         )
         # Populate periods with v2 data
         populate_periods(
             periods,
-            results["cash_flow_v2"],
-            "cash_at_year_end",
+            results["operating_expenditure_actual_v2"],
+            "operating_expenditure_actual",
         )
         populate_periods(
             periods,
-            results["operating_expenditure_actual_v2"],
-            "operating_expenditure",
+            results["operating_expenditure_budget_v2"],
+            "operating_expenditure_budget",
         )
         # Filter out periods that don't have all the required data
         periods = filter_for_all_keys(periods, [
-            "cash_at_year_end", "operating_expenditure",
+            "operating_expenditure_actual",
+            "operating_expenditure_budget",
         ])
         # Convert periods into dictionary
         periods = dict(periods)
@@ -86,5 +90,5 @@ class CashCoverage(IndicatorCalculator):
         # Return the compiled data
         return {
             "values": values,
-            "ref": api_data.references["solgf"],
+            "ref": api_data.references["overunder"],
         }

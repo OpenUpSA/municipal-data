@@ -241,7 +241,41 @@ class ApiData(object):
 
     def get_queries(self):
         return {
-            "operating_expenditure_v1": {
+            "operating_expenditure_budget_v1": {
+                "cube": "incexp",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": ["4600"],
+                    "amount_type.code": ["ADJB"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "operating_expenditure_budget_v2": {
+                "cube": "incexp_v2",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": [
+                        "2000", "2100", "2200", "2300", "2400",
+                        "2500", "2600", "2700", "2800", "2900",
+                        "3000",
+                    ],
+                    "amount_type.code": ["ADJB"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "operating_expenditure_actual_v1": {
                 "cube": "incexp",
                 "aggregate": "amount.sum",
                 "cut": {
@@ -251,14 +285,12 @@ class ApiData(object):
                     "period_length.length": ["year"],
                     "financial_year_end.year": self.years,
                 },
-                "drilldown": [
-                    "financial_year_end.year",
-                ],
+                "drilldown": ["financial_year_end.year"],
                 "order": "financial_year_end.year:desc",
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
             },
-            "operating_expenditure_v2": {
+            "operating_expenditure_actual_v2": {
                 "cube": "incexp_v2",
                 "aggregate": "amount.sum",
                 "cut": {
@@ -272,9 +304,7 @@ class ApiData(object):
                     "period_length.length": ["year"],
                     "financial_year_end.year": self.years,
                 },
-                "drilldown": [
-                    "financial_year_end.year",
-                ],
+                "drilldown": ["financial_year_end.year"],
                 "order": "financial_year_end.year:desc",
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
@@ -289,9 +319,7 @@ class ApiData(object):
                     "period_length.length": ["year"],
                     "financial_year_end.year": self.years,
                 },
-                "drilldown": [
-                    "financial_year_end.year",
-                ],
+                "drilldown": ["financial_year_end.year"],
                 "order": "financial_year_end.year:desc",
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
@@ -306,9 +334,7 @@ class ApiData(object):
                     "period_length.length": ["year"],
                     "financial_year_end.year": self.years,
                 },
-                "drilldown": [
-                    "financial_year_end.year",
-                ],
+                "drilldown": ["financial_year_end.year"],
                 "order": "financial_year_end.year:desc",
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
