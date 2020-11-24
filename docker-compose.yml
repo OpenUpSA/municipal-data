@@ -11,6 +11,7 @@ services:
     volumes:
       - ".:/app"
     environment:
+      - DJANGO_DEBUG
       - DATABASE_URL=postgres://municipal_finance:municipal_finance@postgres/municipal_finance
       - DJANGO_SECRET_KEY=not-so-secret
       - SITE_ID=2

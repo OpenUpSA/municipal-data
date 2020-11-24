@@ -74,8 +74,8 @@ INSTALLED_APPS = (
 # 2: Scorecard
 # 3: API
 
-if DEBUG:
-    SITE_ID = int(os.environ.get("SITE_ID", "2"))
+if os.environ.get("SITE_ID", None):
+    SITE_ID = int(os.environ.get("SITE_ID"))
 
 API_BASE = "https://municipaldata.treasury.gov.za"
 API_URL = os.environ.get("API_URL", API_BASE + "/api")
