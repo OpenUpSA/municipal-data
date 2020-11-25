@@ -12,6 +12,8 @@ In production, the two sites are served by one Django instance, using the hostna
 
 ## Local development quick start (with docker-compose)
 
+### Scorecard website
+
 If you only want to work on the Scorecard website. The site will use pre-calculated
 financials and link to the production data/API site for detail.
 
@@ -25,11 +27,15 @@ docker-compose run --rm scorecard yarn dev
 docker-compose up -d postgres
 docker-compose run --rm scorecard python manage.py migrate
 docker-compose run --rm scorecard python manage.py loaddata demo-data
-docker-compose up scorecard
+docker-compose up scorecard portal
 ```
 
-If you want to run the API and data portal locally using docker-compose you also need to:
+If you are working on the javascript or CSS on the site also run `yarn dev` in another terminal.
 
+
+### Data portal website
+
+If you want to run the API and data portal locally using docker-compose you also need to:
 
 1. Dump the production database.
 2. Load the production database dump into your docker-compose postgres instance
@@ -48,7 +54,7 @@ docker-compose -f docker-compose.yml -f docker-compose.portal.yml up portal scor
 ```
 
 
-### maintaining demodata
+### Maintaining demodata
 
 Ensure you only have the demo data municipalities and only their data in the database.
 
@@ -64,6 +70,9 @@ docker-compose run --rm scorecard python manage.py dumpdata --indent 2 \
     municipal_finance.ratingcountgroup \
     > demo-data.json
 ```
+
+Run git diff and check that the diff looks sensible - that you're only adding/modifying
+what you intend to.
 
 Commit the changes to git.
 
