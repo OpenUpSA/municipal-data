@@ -1,9 +1,10 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Wed Nov 25 2020 21:40:03 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb5208501c5c19" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Wed Nov 25 2020 21:40:03 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fbb6496a8f88a1b1f2243b1" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
-  <meta content="An initiative of the National Treasury, which has collected extensive municipal financial data over several years and aims to share it with the public." name="description">
+  <meta content="{{ page_title }}" property="og:title">
+  <meta content="Terms of use" property="twitter:title">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <link href="/static/webflow/css/normalize.css" rel="stylesheet" type="text/css">
   <link href="/static/webflow/css/components.css" rel="stylesheet" type="text/css">
@@ -215,15 +216,15 @@
 <meta property="og:description" content="{{ page_description }}">
 {% stylesheet "scorecard" %}
 </head>
-<body data-page="home">
+<body data-page="terms">
   <div class="navigation">
     <div data-collapse="medium" data-animation="default" data-duration="400" role="banner" class="nav w-nav">
       <div class="plate plate--shadow-large"></div>
       <div class="container">
         <div class="nav-inner">
-          <a id="w-node-133d4c7ba194-4c7ba190" href="/" aria-current="page" class="home-link w-inline-block w--current"><img src="/static/webflow/images/munimoney-logo-colour-red.svg" loading="eager" height="39" alt="" class="nav-logo"></a>
+          <a id="w-node-133d4c7ba194-4c7ba190" href="/" class="home-link w-inline-block"><img src="/static/webflow/images/munimoney-logo-colour-red.svg" loading="eager" height="39" alt="" class="nav-logo"></a>
           <div class="nav-items">
-            <a href="/" aria-current="page" class="nav-link w-inline-block w--current">
+            <a href="/" class="nav-link w-inline-block">
               <div class="link-text link-text--site-nav">Home</div>
               <div class="plate plate--rounded plate--hover-grey"></div>
             </a>
@@ -302,7 +303,7 @@
       <div class="menu-items">
         <h6 class="small-heading">Site navigation</h6>
         <div class="menu-items__inner">
-          <a href="/" aria-current="page" class="nav-link nav-link--mobile w-inline-block w--current">
+          <a href="/" class="nav-link nav-link--mobile w-inline-block">
             <div class="link-text link-text--site-nav">Home</div>
             <div class="plate plate--black-trans-4 plate--rounded"></div>
           </a>
@@ -332,7 +333,7 @@
           </a>
         </div>
         <div class="menu-footer__links">
-          <a href="/terms" class="link link--inline w-inline-block">
+          <a href="/terms" aria-current="page" class="link link--inline w-inline-block w--current">
             <div class="link-text truncate">Terms of use</div>
             <div class="plate plate--black-trans-4 plate--rounded"></div>
           </a>
@@ -377,267 +378,270 @@
       </div>
     </div>
   </div>
-  <div class="section section--home-hero">
+  <div class="section section--hero">
+    <div class="plate plate--dots plate--gradient"></div>
     <div class="container">
-      <div class="layout-grid layout-grid--2-col">
-        <div class="layout-grid__col">
-          <div class="home-hero__inner">
-            <h1 class="heading heading--clear">How well is your municipality managing its money?</h1>
-            <div class="div-block-9">
-              <h5 class="heading heading--clear">Get started</h5>
-            </div>
-            <div class="hero-search__wrap">
-              <div class="hero-search">
-                <div class="hero-search___input w-form">
-                  <form id="wf-form-Navigation-Search" name="wf-form-Navigation-Search" data-name="Navigation Search" class="search-input">
-                    <div class="search-input__icon">
-                      <div class="fas fa-search"></div>
-                    </div><input type="text" class="search-input__field search-input__field--hero w-input" maxlength="256" name="Municipality-Search-Hero" data-name="Municipality Search Hero" placeholder="Find a municipality..." id="Municipality-Search-Hero">
-                    <div class="plate plate--rounded plate--black-trans-4"></div>
-                  </form>
-                  <div class="w-form-done">
-                    <div>Thank you! Your submission has been received!</div>
-                  </div>
-                  <div class="w-form-fail">
-                    <div>Oops! Something went wrong while submitting the form.</div>
-                  </div>
-                </div>
-                <div class="nav-search__menu">
-                  <div class="plate plate--white plate--rounded plate--shadow-large"></div>
-                  <div class="nav-search__menu_panels">
-                    <div class="nav-search__menu_panel">
-                      <div class="menu-items">
-                        <h6 class="small-heading"><span class="search__result-value">0</span> Results</h6>
-                        <div class="menu-items__inner">
-                          <div class="info-block pre-search-block">
-                            <div class="plate plate--black-trans-4 plate--rounded plate--no-hover"></div>
-                            <div>Start typing to see results...</div>
-                          </div>
-                          <div class="info-block no-results-block hidden">
-                            <div>No results matching your search...</div>
-                            <div class="plate plate--black-trans-4 plate--rounded plate--no-hover"></div>
-                          </div>
-                          <div class="loading-block search-results-loading hidden"><img src="/static/webflow/images/loading.gif" loading="lazy" alt="" class="loading-gif"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div id="w-node-b6481327a003-501c5c19" class="hero-search__button">
-                <a id="w-node-b6481327a004-501c5c19" href="#" class="button button--icon-left button--align-left button--primary w-inline-block">
-                  <div class="button__icon button__icon--white">
-                    <div class="fas fa-street-view"></div>
-                  </div>
-                  <div id="w-node-b6481327a007-501c5c19">Use your location</div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="section section--home-map">
-    <div class="home-map"></div>
-    <div class="container container--position-none container--align-top">
-      <div class="home-map__inner">
-        <h2 class="home-map__title">South Africa's Municipalities</h2>
-      </div>
-    </div>
-  </div>
-  <div class="section section--padding-top section--grey">
-    <div class="container">
-      <div class="cta-block">
-        <div class="cta-block__inner">
-          <div class="layout-grid layout-grid--1-5-4-5">
-            <div class="layout-grid__col layout-grid__col--v layout-grid__col--justify-center"><img src="/static/webflow/images/national-treasury-logo.png" loading="lazy" alt="" class="cta-block__image-left"></div>
-            <div class="layout-grid__col layout-grid__col--v layout-grid__col--justify-center layout-grid__col--padding-left layout-grid__col--border-left">
-              <h5 class="clear--top">An initiative by National Treasury</h5>
-              <p class="clear">Municipal Money is an initiative of the National Treasury, which has collected extensive municipal financial data over several years and would like to share this information with the public. The aim is to make this data widely available in order to increase transparency, strengthen civic oversight and promote accountability.</p>
-            </div>
-          </div>
-        </div>
-        <div class="plate plate--white plate--rounded plate--shadow-large"></div>
-      </div>
-    </div>
-  </div>
-  <div class="section section--padding-top">
-    <div class="container">
-      <div class="layout-grid layout-grid--2-col">
-        <div class="layout-grid__col layout-grid__col--padding-right">
-          <div class="tutorial-video">
-            <a href="#" class="tutorial-video__main w-inline-block w-lightbox">
-              <div class="video-lightbox__label">
-                <div>An introduction to municipal finance</div>
-              </div>
-              <div class="video-thumb">
-                <div class="video-thumb__bg-image"></div>
-              </div>
-              <div class="video-lightbox__play">
-                <div class="fas fa-play"></div>
-              </div>
-              <div class="plate plate--rounded plate--shadow-large"></div>
-              <script type="application/json" class="w-json">
-                  {
-                    "items": [{
-                      "type": "video",
-                      "originalUrl": "https://www.youtube.com/watch?v=HeQiX_e8ubg",
-                      "url": "https://www.youtube.com/watch?v=HeQiX_e8ubg",
-                      "html": "<iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FHeQiX_e8ubg%3Ffeature%3Doembed&display_name=YouTube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DHeQiX_e8ubg&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FHeQiX_e8ubg%2Fhqdefault.jpg&key=c4e54deccf4d4ec997a64902e9a30300&type=text%2Fhtml&schema=youtube\" width=\"940\" height=\"528\" scrolling=\"no\" title=\"YouTube embed\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen=\"true\"></iframe>",
-                      "thumbnailUrl": "https://i.ytimg.com/vi/HeQiX_e8ubg/hqdefault.jpg",
-                      "width": 940,
-                      "height": 528
-                    }]
-                  }
-                </script>
-            </a>
-            <div class="tutorial-video__alt-languages">
-              <a href="#" class="tutorial-video__language w-inline-block w-lightbox">
-                <div>Afrikaans</div>
-                <script type="application/json" class="w-json">
-                    {
-                      "items": [{
-                        "type": "video",
-                        "originalUrl": "https://www.youtube.com/watch?v=41tSx8TbSfI",
-                        "url": "https://www.youtube.com/watch?v=41tSx8TbSfI",
-                        "html": "<iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2F41tSx8TbSfI%3Ffeature%3Doembed&display_name=YouTube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D41tSx8TbSfI&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2F41tSx8TbSfI%2Fhqdefault.jpg&key=96f1f04c5f4143bcb0f2e68c87d65feb&type=text%2Fhtml&schema=youtube\" width=\"940\" height=\"528\" scrolling=\"no\" title=\"YouTube embed\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen=\"true\"></iframe>",
-                        "thumbnailUrl": "https://i.ytimg.com/vi/41tSx8TbSfI/hqdefault.jpg",
-                        "width": 940,
-                        "height": 528
-                      }]
-                    }
-                  </script>
-              </a>
-              <a href="#" class="tutorial-video__language w-inline-block w-lightbox">
-                <div>Sesotho</div>
-                <script type="application/json" class="w-json">
-                    {
-                      "items": [{
-                        "type": "video",
-                        "originalUrl": "https://www.youtube.com/watch?v=lhRjlU_ng18",
-                        "url": "https://www.youtube.com/watch?v=lhRjlU_ng18",
-                        "html": "<iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FlhRjlU_ng18%3Ffeature%3Doembed&display_name=YouTube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DlhRjlU_ng18&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FlhRjlU_ng18%2Fhqdefault.jpg&key=96f1f04c5f4143bcb0f2e68c87d65feb&type=text%2Fhtml&schema=youtube\" width=\"940\" height=\"528\" scrolling=\"no\" title=\"YouTube embed\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen=\"true\"></iframe>",
-                        "thumbnailUrl": "https://i.ytimg.com/vi/lhRjlU_ng18/hqdefault.jpg",
-                        "width": 940,
-                        "height": 528
-                      }]
-                    }
-                  </script>
-              </a>
-              <a href="#" class="tutorial-video__language w-inline-block w-lightbox">
-                <div>isiXhosa</div>
-                <script type="application/json" class="w-json">
-                    {
-                      "items": [{
-                        "type": "video",
-                        "originalUrl": "https://www.youtube.com/watch?v=KPmRJ9PGfV8&feature=emb_logo",
-                        "url": "https://www.youtube.com/watch?v=KPmRJ9PGfV8&feature=emb_logo",
-                        "html": "<iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FKPmRJ9PGfV8%3Ffeature%3Doembed&display_name=YouTube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DKPmRJ9PGfV8&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FKPmRJ9PGfV8%2Fhqdefault.jpg&key=96f1f04c5f4143bcb0f2e68c87d65feb&type=text%2Fhtml&schema=youtube\" width=\"940\" height=\"528\" scrolling=\"no\" title=\"YouTube embed\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen=\"true\"></iframe>",
-                        "thumbnailUrl": "https://i.ytimg.com/vi/KPmRJ9PGfV8/hqdefault.jpg",
-                        "width": 940,
-                        "height": 528
-                      }]
-                    }
-                  </script>
-              </a>
-              <a href="#" class="tutorial-video__language w-inline-block w-lightbox">
-                <div>isiZulu</div>
-                <script type="application/json" class="w-json">
-                    {
-                      "items": [{
-                        "type": "video",
-                        "originalUrl": "https://www.youtube.com/watch?v=ykTHwL41cg0&feature=emb_logo",
-                        "url": "https://www.youtube.com/watch?v=ykTHwL41cg0&feature=emb_logo",
-                        "html": "<iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FykTHwL41cg0%3Ffeature%3Doembed&display_name=YouTube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DykTHwL41cg0&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FykTHwL41cg0%2Fhqdefault.jpg&key=96f1f04c5f4143bcb0f2e68c87d65feb&type=text%2Fhtml&schema=youtube\" width=\"940\" height=\"528\" scrolling=\"no\" title=\"YouTube embed\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen=\"true\"></iframe>",
-                        "thumbnailUrl": "https://i.ytimg.com/vi/ykTHwL41cg0/hqdefault.jpg",
-                        "width": 940,
-                        "height": 528
-                      }]
-                    }
-                  </script>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div id="w-node-4db17d075bb2-501c5c19" class="layout-grid__col layout-grid__col--v layout-grid__col--justify-center">
-          <h3 class="heading heading--clear-bottom heading--clear-top">Municipal Money is our money, spent in our name.</h3>
-          <p class="paragraph-large">As citizens, we should know how this money has been spent and also have a say in how money is spent in the future to better our lives.</p>
-          <div class="button-wrap button-wrap--margin-top">
-            <a id="w-node-7ad7223a4871-501c5c19" href="/help" class="button button--icon-left button--align-left button--primary w-inline-block">
-              <div class="button__icon button__icon--white">
-                <div class="fas fa-info"></div>
-              </div>
-              <div id="w-node-3df19d1689bb-501c5c19">Learn more</div>
-            </a>
-            <link rel="prefetch" href="/help">
-          </div>
-        </div>
+      <div class="profile-heading">
+        <h1 class="page-heading__title">Terms of use</h1>
       </div>
     </div>
   </div>
   <div class="section section--padding-top">
     <div class="container container--grid">
-      <section class="grid grid--32px">
-        <section id="wages-salaries" class="sub-section">
-          <div class="sub-section__link"></div>
-          <div class="section-header section-header--underline">
-            <h3 class="heading heading--clear">Finding a municipality</h3>
-          </div>
-          <div class="layout-grid layout-grid--2-col">
-            <div class="layout-grid__col">
-              <div class="tutorial-block"><img src="/static/webflow/images/search.png" loading="lazy" alt="" class="tutorial-image">
-                <div class="tutorial-instruction w-richtext">
-                  <p>Start typing the name of the municipality.<br>Then select the correct municipality from the dropdown.</p>
-                </div>
-              </div>
-            </div>
-            <div class="layout-grid__col">
-              <div class="tutorial-block"><img src="/static/webflow/images/map-search.png" loading="lazy" alt="" class="tutorial-image">
-                <div class="tutorial-instruction w-richtext">
-                  <p>Alternatively, select the municipality on the map.<br>Use the + and - buttons to zoom in and out.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section id="contractor-services" class="sub-section">
-          <div class="sub-section__link"></div>
-          <div class="section-header section-header--underline">
-            <h3 class="heading heading--clear">Exploring the data</h3>
-          </div>
-          <div class="layout-grid layout-grid--3-col">
-            <div class="layout-grid__col">
-              <div class="tutorial-block"><img src="/static/webflow/images/indicator-text.960e996b61ad.png" loading="lazy" alt="" class="tutorial-image">
-                <div class="tutorial-instruction w-richtext">
-                  <p><strong>Each indicator includes:</strong></p>
-                  <ul role="list">
-                    <li>the name of the indicator and the year of the most recent value</li>
-                    <li>the most recent indicator value</li>
-                    <li>a text description</li>
-                    <li>a key</li>
-                    <li>a link that shows an explanation of how the value is calculated</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="layout-grid__col">
-              <div class="tutorial-block"><img src="/static/webflow/images/indicator-chart.64bca9d68225.png" loading="lazy" alt="" class="tutorial-image">
-                <div class="tutorial-instruction w-richtext">
-                  <p>A chart is shown visualising the value over the last few years.</p>
-                </div>
-              </div>
-            </div>
-            <div class="layout-grid__col">
-              <div class="tutorial-block"><img src="/static/webflow/images/indicator-didyouknow.680706ee8ed0.png" loading="lazy" alt="" class="tutorial-image">
-                <div class="tutorial-instruction w-richtext">
-                  <p>Many indicators include a <strong>DID YOU KNOW?</strong> box providing additional information or explanations.</p>
+      <div class="layout-grid layout-grid--1-4-3-4">
+        <div class="sidebar-wrapper sidebar-wrapper--left">
+          <div class="sidebar">
+            <div class="sidebar-section">
+              <div class="grid grid--8px">
+                <div class="sidebar-link__wrapper">
+                  <a href="#terms-of-use-summary" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Summary</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                  <a href="#terms-of-use-intro" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Introduction</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                  <a href="#terms-of-use-usage" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Usage</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                  <a href="#terms-of-use-intellectual-property" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Usage and intellectual property</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                  <a href="#terms-of-use-disclaimer" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Disclaimer</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                  <a href="#terms-of-use-warranty" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Warranty</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                  <a href="#terms-of-use-privacy" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Privacy</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                  <a href="#terms-of-use-updating" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Updating these terms of use</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                  <a href="#terms-of-use-feedback" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Feedback and requests</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                  <a href="#terms-of-use-choice-of-law" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Choice of law</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
-        </section>
-      </section>
+        </div>
+        <div class="content-sections__wrapper">
+          <section id="faqs" class="grid grid--32px">
+            <section class="sub-section">
+              <div id="terms-of-use-summary" class="sub-section__link"></div>
+              <div class="section-header section-header--underline">
+                <h3 class="heading heading--clear">Summary</h3>
+              </div>
+              <div class="grid grid--32px">
+                <div class="rich-text__default w-richtext">
+                  <p>As part of its commitment to good governance, National Treasury (NT) is making available the extensive municipal financial data it has been collecting since 2003/4.</p>
+                  <p>Users are encouraged to utilise this data to leverage public participation in governance, create value for developers, business, researchers and others.</p>
+                  <p>Subject to certain limitations summarized below, you are free to use the data on this website and published through our APIs (Application Programming Interface) freely and flexibly, for both commercial and non-commercial purposes, at no cost.</p>
+                </div>
+                <div class="highlight-block highlight-block--disclaimer">
+                  <div class="highlight-block__inner">
+                    <div class="highlight-block__icon">
+                      <div class="fas fa-exclamation-triangle"></div>
+                    </div>
+                    <div class="rich-text__default w-richtext">
+                      <p><strong>This is only a summary of the Terms of Use Policy. Please see the full policy below.</strong></p>
+                      <ul role="list">
+                        <li>Users should also be aware of the <a href="https://municipalmoney.gov.za/faq#limitations">potential limitations</a> of the datasets.</li>
+                        <li>NT gives no warranties and makes no representations with respect to the data and you agree that NT shall not be liable to you in connection with your use of this website or the data or your inability to access the website or use the data.</li>
+                        <li>Access and use of this website is entirely at the User’s own risk.</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="plate plate--black-trans-4 plate--rounded plate--no-hover"></div>
+                </div>
+                <div class="highlight-block highlight-block--do">
+                  <div class="highlight-block__inner">
+                    <div class="highlight-block__icon highlight-block__icon--green">
+                      <div class="fas fa-check-circle"></div>
+                    </div>
+                    <div class="rich-text__default w-richtext">
+                      <p><strong>You MAY:</strong></p>
+                      <ul role="list">
+                        <li>Download, copy, publish, distribute and transmit the data</li>
+                        <li>Adapt and extract the data</li>
+                        <li>Use the data commercially and non-commercially for example, by combining it with other data, or by including it in your own product or application</li>
+                        <li>‍<a href="https://municipalmoney.gov.za/terms#contact-information">Contact us</a> if you find an inconsistencies in the data</li>
+                        <li>‍<a href="https://municipalmoney.gov.za/terms#contact-information">Contact us</a> if personal data is discovered in any of the data sets</li>
+                        <li>Suggest additional data sets to be uploaded provided it is in the legislative framework in which the National Treasury operates</li>
+                        <li>Provide feedback on your experience of using the website</li>
+                        <li>Share how you have used the data</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="plate plate--status-green plate--rounded"></div>
+                </div>
+                <div class="highlight-block highlight-block--dont">
+                  <div class="highlight-block__inner">
+                    <div class="highlight-block__icon highlight-block__icon--red">
+                      <div class="fas fa-times-circle"></div>
+                    </div>
+                    <div class="rich-text__default w-richtext">
+                      <p><strong>You MAY&nbsp;NOT:</strong></p>
+                      <ul role="list">
+                        <li>Use the data in any form without acknowledging the source of the data and the date of publication</li>
+                        <li>Use the data to mislead others or distort documents from their sources</li>
+                        <li>Use any personal data that may be found in the datasets</li>
+                        <li>Use the website or the data in any manner inconsistent with any law, including committing a criminal office, gaining unauthorised access to other computer systems or transmitting unlawful material</li>
+                        <li>Reference the provider of the data in any other manner within your work other than as the supplier of the data</li>
+                        <li>Claim or imply that NT endorses your product, services, analysis or interpretation of the data</li>
+                        <li>Use the trademarks or logos of NT, without prior written consent</li>
+                        <li>Upload, transmit, or distribute any computer viruses, worms, or any software intended to damage or alter a computer system or data</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="plate plate--status-red plate--rounded"></div>
+                </div>
+              </div>
+            </section>
+            <section class="sub-section">
+              <div id="terms-of-use-intro" class="sub-section__link"></div>
+              <div class="section-header section-header--underline">
+                <h3 class="heading heading--clear">Introduction</h3>
+              </div>
+              <div class="rich-text__default w-richtext">
+                <p>NT is committed to enabling good governance, through increasing transparency to strengthen citizen oversight and promote accountability. Therefore, it is making available the extensive municipal financial data it has been collecting since 2003/4.</p>
+                <p>The purpose of this Terms of Use policy is primarily to indicate how this website and data may be used, and what limitations are placed on the use thereof. You are encouraged to use and re-use the data that is available on this website and published through our APIs freely and flexibly, subject to the conditions set out herein.</p>
+                <p>Users are encouraged to utilise this data to leverage public participation in governance, create value for developers, business, researchers and others. Users should also be aware of the <a href="https://municipalmoney.gov.za/faq#limitations">potential limitations</a> of the datasets.</p>
+              </div>
+            </section>
+            <section class="sub-section">
+              <div id="terms-of-use-usage" class="sub-section__link"></div>
+              <div class="section-header section-header--underline">
+                <h3 class="heading heading--clear">Usage</h3>
+              </div>
+              <div class="rich-text__default w-richtext">
+                <ul role="list">
+                  <li>By using this website or API, you acknowledge that you have read, understood, and agree to be bound by the Terms of Use. If the user does not wish to be bound by these Terms of Use, the user may not access, display, use or download and/or otherwise copy or distribute data obtained from this website.</li>
+                  <li>Users may use, download, copy, publish, distribute and transmit the data obtained from this website and API freely and flexibly, including for commercial and non-commercial purposes, subject to the following conditions. Users must:</li>
+                  <li>~Acknowledge and reference the source of the data as National Treasury and the date of publication.</li>
+                  <li>~Ensure that the data is not used to mislead others or distort documents from their sources</li>
+                  <li>~Ensure that the use of the data does not affect the level of protection of individuals and their personal information provided for in legislation</li>
+                  <li>~Not use the website or the data in an unlawful way or to commit unlawful acts including committing a criminal office, gaining unauthorised access to other computer systems or transmitting unlawful material</li>
+                  <li>~Not claim or imply that NT endorses their products, services, analysis or interpretation of the data</li>
+                  <li>~Adhere to all sections of this Terms of Use policy</li>
+                  <li>While Users may not claim association with NT or endorsement of their product, services, analysis or interpretation of the data - you may use the hyperlink below to link to the website homepage.</li>
+                </ul>
+              </div>
+            </section>
+            <section class="sub-section">
+              <div id="terms-of-use-intellectual-property" class="sub-section__link"></div>
+              <div class="section-header section-header--underline">
+                <h3 class="heading heading--clear">Usage and intellectual property</h3>
+              </div>
+              <div class="rich-text__default w-richtext">
+                <ul role="list">
+                  <li>The trademarks and logos on this website are not subject to the Usage terms in the section above. These remain the property of NT and any other third party whose marks or logos may appear on the website or in the datasets, and may only be used with the NT prior written consent.</li>
+                  <li>NT will not make claims to any intellectual property arising from applications or analysis of the data, unless indicated as part of a specific event or work commissioned by the NT or one of its partners.</li>
+                </ul>
+              </div>
+            </section>
+            <section class="sub-section">
+              <div id="terms-of-use-disclaimer" class="sub-section__link"></div>
+              <div class="section-header section-header--underline">
+                <h3 class="heading heading--clear">Disclaimer</h3>
+              </div>
+              <div class="rich-text__default w-richtext">
+                <ul role="list">
+                  <li>NT will endeavour to ensure that the data available on this website is complete, validated and updated regularly. However, NT cannot be held responsible for any incorrect data reported by a municipality. The quality of the data is primarily assured by the Chief Accounting Officer of the municipality. Reliance on any data displayed on this website is at the user’s own risk.</li>
+                  <li>NT accepts no liability whatsoever arising from or connected to, the accuracy, reliability, currency or completeness of any material contained on this website or on any linked site. Users are reminded to pay particular attention to the status of annual financial reports, which will be accompanied by one of the following audit opinions:</li>
+                  <li>~Unqualified opinion with no findings outstanding</li>
+                  <li>~Unqualified opinion with emphasis of matter items</li>
+                  <li>~Qualified opinion</li>
+                  <li>~Adverse opinion</li>
+                  <li>~Disclaimer of opinion</li>
+                  <li>Each category has different levels of reliability and accuracy, with an ‘Unqualified opinion with no findings outstanding’ report being the most reliable and accurate.<br></li>
+                </ul>
+              </div>
+            </section>
+            <section class="sub-section">
+              <div id="terms-of-use-warranty" class="sub-section__link"></div>
+              <div class="section-header section-header--underline">
+                <h3 class="heading heading--clear">Warranty</h3>
+              </div>
+              <div class="rich-text__default w-richtext">
+                <ul role="list">
+                  <li>The use of this website, its data and APIs is at your sole risk. NT makes no warranties or representations that the website, its data or APIs will meet the Users’ requirements; will be available on an uninterrupted, timely secure, or error-free basis; will be accurate, reliable, free of viruses or other harmful codes; or will be complete, free from errors or omissions.</li>
+                  <li>The data provided on this website and published through our APIs is made available on an “as is” basis and NT expressly disclaims all warranties of any kind related to the website, its data and APIs, including warranties of merchantability, title, fitness for a particular purpose, non-infringement, compatibility, security, and accuracy and makes no express or implied representations or warranties regarding the content of the website and that the website has been compiled or supplied to meet the user's individual requirements. Users are encouraged to report any possible errors, malfunctions or offensive material by using the feedback link.</li>
+                  <li>NT does not monitor or endorse any works derived from open data sets provided on this site, or any links to associated websites or entities, unless indicated otherwise.</li>
+                  <li>NT does not vouch for any analyses conducted with data retrieved from this site or through our APIs.</li>
+                  <li>Where there are links on the website to resources maintained by third parties, NT makes no representations or warranties as to the accuracy of, or any other aspect relating to those resources, including but not limited to the security or trustworthiness of such resources.</li>
+                </ul>
+              </div>
+            </section>
+            <section class="sub-section">
+              <div id="terms-of-use-privacy" class="sub-section__link"></div>
+              <div class="section-header section-header--underline">
+                <h3 class="heading heading--clear">Privacy</h3>
+              </div>
+              <div class="rich-text__default w-richtext">
+                <ul role="list">
+                  <li>NT may electronically collect, store and use the information including the User’s names, contact details, surfing patterns, e-mail and IP address for statistical purposes. This information will be used to measure the number of visits, average time spent at the website, and determine the use of the website in order to improve content.</li>
+                  <li>NT may also request personal information for limited purposes, such as when you complete a feedback or request for further information form.</li>
+                  <li>NT may use the information you submit to create a personal profile to customize its response to further requests or inquiries and to improve the website. In addition, the web administrator(s) may, where necessary, use your information for various site related tasks. NT will ensure that any marketing activities comply with applicable law and that it is implemented with procedures to obtain the necessary consent before sending you e-mail containing information about NT’s services. You may at any time request that we discontinue sending you such materials.</li>
+                  <li>Although NT may provide Users’ information to service providers that handle information on its behalf, it will usually not share the information with third parties or other public entities for secondary or unrelated purposes unless otherwise disclosed at the point of collection. By providing information to NT through this website, you are consenting to such transfers.</li>
+                  <li>If personal information has been submitted to this website, and/or if you have concerns regarding your privacy while using this website, please contact us at <a href="mailto:feedback@municipalmoney.gov.za">feedback@municipalmoney.gov.za</a>.</li>
+                  <li>Users may choose to unsubscribe at any time by clicking the unsubscribe link.</li>
+                  <li>The User acknowledges that it is possible for internet-based communications to be intercepted. Without the use of encryption, the internet is not a secure medium and privacy cannot be ensured. NT will not be responsible for any damages that the user or any third party may suffer as a result of the transmission of confidential information or disclosed information that you make to NT, or that you expressly or implicitly authorise NT to make, or for any errors or any changes made to any transmitted information.</li>
+                </ul>
+              </div>
+            </section>
+            <section class="sub-section">
+              <div id="terms-of-use-updating" class="sub-section__link"></div>
+              <div class="section-header section-header--underline">
+                <h3 class="heading heading--clear">Updating these Terms of Use</h3>
+              </div>
+              <div class="rich-text__default w-richtext">
+                <ul role="list">
+                  <li>This is version of 1.0 of the Terms of Use policy.</li>
+                  <li>NT reserves the right to change, modify, add to or remove from portions or the whole of these terms and conditions of use from time to time. Changes to these terms and conditions of use will take effect upon such changes being posted to this website. It is the User’s obligation to periodically check these terms and conditions of use at this website for changes or updates. The User’s continued use of this website following the posting of changes or updates will be considered notice of the User’s acceptance to abide by and be bound by these terms and conditions of use, including such changes or updates.</li>
+                  <li>Should NT make any substantial changes, it may notify Users by placing a notice on the website.</li>
+                </ul>
+              </div>
+            </section>
+            <section class="sub-section">
+              <div id="terms-of-use-feedback" class="sub-section__link"></div>
+              <div class="section-header section-header--underline">
+                <h3 class="heading heading--clear">Contact information for feedback and requests</h3>
+              </div>
+              <div class="rich-text__default w-richtext">
+                <p>Should you come across any inconsistencies in the data or any problematic data on this website that may need to be corrected, please do let us know by contacting us at <a href="mailto:helpdesk@municipalmoney.gov.za">helpdesk@municipalmoney.gov.za</a>. We will endeavour to respond to all queries and comments as soon as possible.</p>
+              </div>
+            </section>
+            <section class="sub-section">
+              <div id="terms-of-use-choice-of-law" class="sub-section__link"></div>
+              <div class="section-header section-header--underline">
+                <h3 class="heading heading--clear">Choice of law</h3>
+              </div>
+              <div class="rich-text__default w-richtext">
+                <ul role="list">
+                  <li>These Terms of Use will be governed by the laws of the Republic of South Africa, and the user consents to the jurisdiction of the North Gauteng High Court, Pretoria in the event of any dispute.</li>
+                  <li>If any of the provisions of the Terms of Use are found by a court of competent jurisdiction to be invalid or unenforceable, that provision will be enforced to the maximum extent permissible so as to give effect to the intent of the Terms of use and the remainder of the Terms of Use will continue in full force.</li>
+                  <li>The Terms of Use constitutes the entire agreement between NT and the user with regard to the use of the data and this website.</li>
+                </ul>
+              </div>
+            </section>
+          </section>
+        </div>
+      </div>
     </div>
   </div>
   <div class="footer">
@@ -656,7 +660,7 @@
             <a href="https://municipaldata.treasury.gov.za/" target="_blank" class="footer-link w-inline-block">
               <div>Municipal Money API</div>
             </a>
-            <a href="/terms" class="footer-link w-inline-block">
+            <a href="/terms" aria-current="page" class="footer-link w-inline-block w--current">
               <div>Terms of use</div>
             </a>
           </div>
@@ -884,7 +888,7 @@
           </div>
           <div class="bar-chart">
             <div class="bar-chart__row">
-              <div id="w-node-12d9c7607429-501c5c19" class="label label--small truncate">Chart label</div>
+              <div id="w-node-e706fee7d0d3-1f2243b1" class="label label--small truncate">Chart label</div>
               <div class="bar-chart__hover-label">
                 <div class="label label--small">Chart label that shows on hover of the label</div>
               </div>
@@ -896,7 +900,7 @@
               </div>
             </div>
             <div class="bar-chart__row">
-              <div id="w-node-12d9c7607435-501c5c19" class="label label--small truncate">Chart label that is too long to fit on one line</div>
+              <div id="w-node-e706fee7d0df-1f2243b1" class="label label--small truncate">Chart label that is too long to fit on one line</div>
               <div class="bar-chart__hover-label">
                 <div class="label label--small">Chart label that is too long to fit on one line</div>
               </div>
