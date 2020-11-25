@@ -6,6 +6,9 @@ import { min as d3Min } from 'd3-array';
 import { select as d3Select, selectAll } from 'd3-selection';
 import { transition } from 'd3-transition';
 
+const HEIGHT = 300;
+const TICKS = 5;
+
 const formatRand = (x, decimals, randSpace) => {
   decimals = decimals === undefined ? 1 : decimals;
   randSpace = randSpace === undefined ? ' ' : '';
@@ -53,7 +56,7 @@ export default class ColumnChart {
      this.chart = {
         config: {
             bindto: container,
-            margin: { top: 50, right: 20, bottom: 50, left: 70 },
+            margin: { top: 10, right: 10, bottom: 20, left: 50 },
             x: {},
             y: {},
             height: 0,
@@ -70,13 +73,13 @@ export default class ColumnChart {
   }
 
   x_gridlines() {
-    return axisLeft(this.chart.config.y).ticks(10);
+    return axisLeft(this.chart.config.y).ticks(TICKS);
   }
 
   _drawColumnChart(container, muniData) {
 
     this.chart.config.width = document.querySelector(this.chart.config.bindto).offsetWidth - this.chart.config.margin.left - this.chart.config.margin.right,
-    this.chart.config.height = 500 - this.chart.config.margin.top - this.chart.config.margin.bottom;
+    this.chart.config.height = HEIGHT - this.chart.config.margin.top - this.chart.config.margin.bottom;
 
     this.chart.config.x = scaleBand().range([0, this.chart.config.width]).paddingInner(0.2)
     this.chart.config.y = scaleLinear().range([this.chart.config.height, 0])
@@ -86,7 +89,7 @@ export default class ColumnChart {
 
     this.chart.config.yAxis = axisLeft()
         .scale(this.chart.config.y)
-        .ticks(10)
+        .ticks(TICKS)
         .tickFormat((d) => {
             return formatter(d, this.chart.data[0].resultType)
         })
