@@ -1,25 +1,23 @@
 from .indicator_calculator import IndicatorCalculator
 from .utils import (
-    group_by_year,
-    populate_periods,
-    filter_for_all_keys,
     percent,
+    populate_periods,
+    group_by_year,
+    filter_for_all_keys,
 )
 
 
-class CapitalBudgetSpending(IndicatorCalculator):
-    indicator_name = "capital_budget_spending"
+class RepairsMaintenanceSpending(IndicatorCalculator):
+    indicator_name = "repairs_maintenance_spending"
     result_type = "%"
-    noun = "underspending or overspending"
+    noun = "spending"
     has_comparisons = True
 
     @classmethod
     def determine_rating(cls, result):
-        if abs(result) <= 5:
+        if abs(result) >= 8:
             return "good"
-        elif abs(result) <= 15:
-            return "ave"
-        elif abs(result) > 15:
+        elif abs(result) < 8:
             return "bad"
         else:
             return None
@@ -30,18 +28,20 @@ class CapitalBudgetSpending(IndicatorCalculator):
             "date": year,
         }
         if values:
-            budget = values["budget"]
-            actual = values["actual"]
-            result = percent((actual - budget), budget)
+            repairs_maintenance = values["repairs_maintenance"]
+            property_plant_equipment = values["property_plant_equipment"]
+            investment_property = values["investment_property"]
+            result = percent(
+                repairs_maintenance,
+                (property_plant_equipment + investment_property),
+            )
             data.update({
                 "result": result,
-                "overunder": "under" if result < 0 else "over",
                 "rating": cls.determine_rating(result),
             })
         else:
             data.update({
                 "result": None,
-                "overunder": None,
                 "rating": None,
             })
         return data
@@ -54,33 +54,42 @@ class CapitalBudgetSpending(IndicatorCalculator):
         populate_periods(
             periods,
             group_by_year(
-                results["capital_expenditure_budget_v1"],
-                "total_assets",
+                results["repairs_maintenance_v1"],
+                "repairs_maintenance",
             ),
-            "budget",
+            "repairs_maintenance",
         )
         populate_periods(
             periods,
-            group_by_year(
-                results["capital_expenditure_actual_v1"],
-                "total_assets",
-            ),
-            "actual",
+            group_by_year(results["property_plant_equipment_v1"]),
+            "property_plant_equipment",
+        )
+        populate_periods(
+            periods,
+            group_by_year(results["investment_property_v1"]),
+            "investment_property",
         )
         # Populate periods with v2 data
         populate_periods(
             periods,
-            group_by_year(results["capital_expenditure_budget_v2"]),
-            "budget",
+            group_by_year(results["repairs_maintenance_v2"]),
+            "repairs_maintenance",
         )
         populate_periods(
             periods,
-            group_by_year(results["capital_expenditure_actual_v2"]),
-            "actual",
+            group_by_year(results["property_plant_equipment_v2"]),
+            "property_plant_equipment",
+        )
+        populate_periods(
+            periods,
+            group_by_year(results["investment_property_v2"]),
+            "investment_property",
         )
         # Filter out periods that don't have all the required data
         periods = filter_for_all_keys(periods, [
-            "budget", "actual",
+            "repairs_maintenance",
+            "property_plant_equipment",
+            "investment_property",
         ])
         # Convert periods into dictionary
         periods = dict(periods)
@@ -94,5 +103,5 @@ class CapitalBudgetSpending(IndicatorCalculator):
         # Return the compiled data
         return {
             "values": values,
-            "ref": api_data.references["overunder"],
+            "ref": api_data.references["circular71"],
         }

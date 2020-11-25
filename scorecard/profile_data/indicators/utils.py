@@ -146,12 +146,14 @@ def year_assets_key(result):
     )
 
 
-def group_amount_by_year(results):
-    return map(year_amount_key, results)
-
-
-def group_assets_by_year(results):
-    return map(year_assets_key, results)
+def group_by_year(results, key="amount"):
+    return map(
+        lambda result: (
+            result["financial_year_end.year"],
+            result[f"{key}.sum"],
+        ),
+        results,
+    )
 
 
 def populate_periods(periods, years, key):

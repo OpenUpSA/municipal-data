@@ -37,7 +37,7 @@ export default class ProfilePage {
     initSection(IndicatorSection, "#cash-coverage", "cash_coverage");
     initSection(OverUnderSection, "#operating-budget", "operating_budget_spending");
     initSection(OverUnderSection, "#capital-budget", "capital_budget_spending");
-    initSection(IndicatorSection, "#repairs-maintenance", "rep_maint_perc_ppe");
+    initSection(IndicatorSection, "#repairs-maintenance", "repairs_maintenance_spending");
     initSection(IndicatorSection, "#wasteful-expenditure", "wasteful_exp");
     initSection(IndicatorSection, "#current-ratio", "current_ratio");
     initSection(IndicatorSection, "#liquidity-ratio", "liquidity_ratio");

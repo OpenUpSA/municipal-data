@@ -33,6 +33,7 @@ from .indicators.cash_balance import CashBalance
 from .indicators.cash_coverage import CashCoverage
 from .indicators.operating_budget_spending import OperatingBudgetSpending
 from .indicators.capital_budget_spending import CapitalBudgetSpending
+from .indicators.repairs_maintenance_spending import RepairsMaintenanceSpending
 
 
 def get_indicator_calculators(has_comparisons=None):
@@ -40,7 +41,7 @@ def get_indicator_calculators(has_comparisons=None):
         CashCoverage,
         OperatingBudgetSpending,
         CapitalBudgetSpending,
-        RepairsMaintenance,
+        RepairsMaintenanceSpending,
         RevenueSources,
         RevenueBreakdown,
         CurrentRatio,
@@ -65,40 +66,6 @@ def get_indicators(api_data):
             api_data
         )
     return indicators
-
-
-class RepairsMaintenance(IndicatorCalculator):
-    indicator_name = "rep_maint_perc_ppe"
-    result_type = "%"
-    noun = "spending"
-    has_comparisons = True
-
-    @classmethod
-    def get_muni_specifics(cls, api_data):
-        values = []
-        for year in api_data.years:
-            try:
-                rep_maint = api_data.results["rep_maint"]["4100"][year]
-                ppe = api_data.results["ppe"]["1300"][year]
-                invest_prop = api_data.results["invest_prop"]["1401"][year]
-                result = percent(rep_maint, (ppe + invest_prop))
-                if abs(result) >= 8:
-                    rating = "good"
-                elif abs(result) < 8:
-                    rating = "bad"
-                else:
-                    rating = None
-            except KeyError:
-                result = None
-                rating = None
-
-            values.append({"date": year, "result": result, "rating": rating})
-
-        return {
-            "values": values,
-            "ref": api_data.references["circular71"],
-            "result_type": cls.result_type,
-        }
 
 
 class RevenueSources(IndicatorCalculator):
