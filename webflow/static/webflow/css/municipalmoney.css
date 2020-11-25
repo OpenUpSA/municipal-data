@@ -73,8 +73,19 @@ a {
 
 ul {
   margin-top: 0px;
+  margin-bottom: 0px;
+  padding-left: 30px;
+}
+
+ol {
+  margin-top: 0px;
   margin-bottom: 10px;
-  padding-left: 24px;
+  padding-left: 30px;
+}
+
+li {
+  margin-bottom: 10px;
+  padding-left: 10px;
 }
 
 img {
@@ -508,7 +519,7 @@ figure {
 }
 
 .components.hidden {
-  display: block;
+  display: none;
 }
 
 .components-buttons {
@@ -941,7 +952,6 @@ figure {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  margin-bottom: -8px;
 }
 
 .fab {
@@ -1773,8 +1783,8 @@ figure {
   grid-row-gap: 48px;
   -ms-grid-columns: 1fr;
   grid-template-columns: 1fr;
-  -ms-grid-rows: auto auto;
-  grid-template-rows: auto auto;
+  -ms-grid-rows: auto;
+  grid-template-rows: auto;
 }
 
 .table {
@@ -1796,6 +1806,10 @@ figure {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
+}
+
+.div-block-4 {
+  display: none;
 }
 
 .page-nav {
@@ -2666,11 +2680,11 @@ figure {
   display: none;
 }
 
-.rich-text__small {
+.rich-text__default {
   margin-bottom: -10px;
 }
 
-.rich-text__small figure {
+.rich-text__default figure {
   overflow: hidden;
   margin-top: 24px;
   border-radius: 4px;
@@ -4608,6 +4622,77 @@ figure {
   display: none;
 }
 
+.highlight-block {
+  position: relative;
+  padding: 24px;
+}
+
+.highlight-block__inner {
+  position: relative;
+  z-index: 1;
+  display: -ms-grid;
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-column-gap: 24px;
+  -ms-grid-columns: -webkit-max-content 1fr;
+  -ms-grid-columns: max-content 1fr;
+  grid-template-columns: -webkit-max-content 1fr;
+  grid-template-columns: max-content 1fr;
+  -ms-grid-rows: auto;
+  grid-template-rows: auto;
+}
+
+.highlight-block__heading {
+  margin-top: 0px;
+  margin-bottom: 24px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.highlight-block__icon {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 48px;
+  min-height: 48px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.04);
+  font-size: 24px;
+}
+
+.highlight-block__icon.highlight-block__icon--green {
+  background-color: rgba(0, 166, 81, 0.1);
+  color: #00a651;
+}
+
+.highlight-block__icon.highlight-block__icon--red {
+  background-color: rgba(237, 28, 36, 0.1);
+  color: #ed1c24;
+}
+
+.rich-text__highlight-block {
+  margin-bottom: -5px;
+}
+
+.rich-text__highlight-block figure {
+  overflow: hidden;
+  margin-top: 24px;
+  border-radius: 4px;
+}
+
+.rich-text__highlight-block li {
+  margin-bottom: 5px;
+}
+
 @media screen and (max-width: 991px) {
   h1 {
     font-size: 32px;
@@ -5298,6 +5383,24 @@ figure {
 
   .page-options__label {
     display: block;
+  }
+
+  .highlight-block {
+    padding: 16px;
+  }
+
+  .highlight-block__inner {
+    grid-row-gap: 16px;
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+    -ms-grid-rows: -webkit-max-content auto;
+    -ms-grid-rows: max-content auto;
+    grid-template-rows: -webkit-max-content auto;
+    grid-template-rows: max-content auto;
+  }
+
+  .highlight-block__icon {
+    height: 32px;
   }
 }
 
@@ -6294,7 +6397,7 @@ figure {
   grid-column-end: span 1;
 }
 
-#w-node-14ba0d6c7e1b-b71c5c1e {
+#w-node-1bdd81590a68-b71c5c1e {
   -ms-grid-row: span 1;
   grid-row-start: span 1;
   -ms-grid-row-span: 1;
@@ -6469,19 +6572,18 @@ figure {
   justify-self: stretch;
 }
 
+#w-node-e706fee7d0d3-1f2243b1 {
+  -ms-grid-column-align: stretch;
+  justify-self: stretch;
+}
+
+#w-node-e706fee7d0df-1f2243b1 {
+  -ms-grid-column-align: stretch;
+  justify-self: stretch;
+}
+
 @media screen and (max-width: 991px) {
   #w-node-a2e6e9d831a0-e9d8319d {
-    -ms-grid-row: span 1;
-    grid-row-start: span 1;
-    -ms-grid-row-span: 1;
-    grid-row-end: span 1;
-    -ms-grid-column: span 2;
-    grid-column-start: span 2;
-    -ms-grid-column-span: 2;
-    grid-column-end: span 2;
-  }
-
-  #w-node-a2e6e9d831a5-e9d8319d {
     -ms-grid-row: span 1;
     grid-row-start: span 1;
     -ms-grid-row-span: 1;
