@@ -17,6 +17,11 @@ from .models import (
     BsheetItemsV2,
     BsheetFactsV1,
     BsheetFactsV2,
+    CapitalTypeV2,
+    CapitalItemsV1,
+    CapitalItemsV2,
+    CapitalFactsV1,
+    CapitalFactsV2,
 )
 
 
@@ -139,4 +144,44 @@ class BsheetFactsV2Resource(resources.ModelResource):
             'demarcation_code',
             'period_code',
             'item',
+        ]
+
+
+class CapitalTypeV2Resource(resources.ModelResource):
+    class Meta:
+        model = CapitalTypeV2
+        import_id_fields = ['code']
+
+
+class CapitalItemsV1Resource(resources.ModelResource):
+    class Meta:
+        model = CapitalItemsV1
+        import_id_fields = ['code']
+
+
+class CapitalItemsV2Resource(resources.ModelResource):
+    class Meta:
+        model = CapitalItemsV2
+        import_id_fields = ['code']
+
+
+class CapitalFactsV1Resource(resources.ModelResource):
+    class Meta:
+        model = CapitalFactsV1
+        import_id_fields = [
+            'demarcation_code',
+            'period_code',
+            'item_code',
+            'function_code',
+        ]
+
+
+class CapitalFactsV2Resource(resources.ModelResource):
+    class Meta:
+        model = CapitalFactsV2
+        import_id_fields = [
+            'demarcation_code',
+            'period_code',
+            'item',
+            'function',
         ]

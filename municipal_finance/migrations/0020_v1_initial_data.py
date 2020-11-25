@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import tablib
+from django.db import migrations
 
-from django.db import migrations, models
+from . import run_data_import
 
 from ..resources import (
     CashflowItemsV1Resource,
@@ -11,19 +11,6 @@ from ..resources import (
     IncexpItemsV1Resource,
     GovernmentFunctionsV1Resource,
 )
-
-
-def run_data_import(resource, filename):
-
-    def import_initial_data(apps, schema_editor):
-        dataset = tablib.Dataset().load(
-            open(f'municipal_finance/fixtures/initial/{filename}'),
-            format='csv',
-            headers=True,
-        )
-        resource().import_data(dataset, raise_errors=True)
-
-    return migrations.RunPython(import_initial_data)
 
 
 class Migration(migrations.Migration):
