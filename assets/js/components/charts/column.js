@@ -91,12 +91,16 @@ export default class ColumnChart {
             return formatter(d, this.chart.data[0].resultType)
         })
 
+    this._loadFilters()
+
     this.chart.c = d3Select(this.chart.config.bindto).append("svg")
         .attr("width", this.chart.config.width + this.chart.config.margin.left + this.chart.config.margin.right)
         .attr("height", this.chart.config.height + this.chart.config.margin.top + this.chart.config.margin.bottom)
         .append("g")
         .attr('class','muniChart')
         .attr("transform", "translate(" + this.chart.config.margin.left + "," + this.chart.config.margin.top + ")")
+
+    this._setAxes()
 
     this.chart.c.append('g')
       .attr('class', 'chartData')
@@ -108,9 +112,6 @@ export default class ColumnChart {
     this.chart.c.append('g')
       .attr('class', 'medians')
 
-    this._setAxes()
-
-    this._loadFilters()
 
     this.loadData(this.chart.data)
 
@@ -172,6 +173,7 @@ export default class ColumnChart {
   let min = d3Min([dataMin, medianMin])
 
 	min = min > 0 ? 0 : min
+  max = max < 0 ? 0 : max
 
     this.chart.config.y.domain([min, max]);
 
@@ -188,7 +190,7 @@ export default class ColumnChart {
 
   }
 
-	loadData(incomingData) {
+	loadData(incomingData, adjustMedians = true) {
 
     let self = this;
 
@@ -230,6 +232,9 @@ export default class ColumnChart {
     col.append('rect')
         .attr('class','rect')
 
+    col.append('rect')
+        .attr('class','labelBackground')
+
     col.append('text')
         .attr('class','label')
 
@@ -270,17 +275,33 @@ export default class ColumnChart {
 
     colGroups.select('.label')
       .text(d => d.value)
-      .attr('x', function(d,i,a) {
-          let periodArray =  newData.filter( obj => obj.period === d.period ).map( obj => obj.municipality.code );
-          let elementIndex = periodArray.findIndex( o => o == d.municipality.code)
-          return self.chart.config.x(d.period) + (self.chart.config.x.bandwidth() / self.chart.data.length) * elementIndex + (self.chart.config.x.bandwidth() / self.chart.data.length) / 2
+      .attr('x', (d,i,a) => {
+        let labelWidth = d3Select(a[i]).node().getBBox().width
+        let colWidth = (self.chart.config.x.bandwidth() - (self.chart.config.x.bandwidth() / 4)) / self.chart.data.length;
+        return d3Select(a[i].parentNode).select('.rect').node().getBBox().x + (colWidth / 2) - labelWidth
       })
-      .attr('y', d => self.chart.config.y(d.value) - 20)
+      .attr('y', function(d) {
+        return self.chart.config.y(d.value) - 20
+      })
       .attr('fill','#000')
       .attr('opacity', 0)
 
 
-      // self.loadMedians(self.chart.medians)
+      if(adjustMedians == true) {
+        self.loadMedians(self.chart.medians)
+      }
+
+
+    colGroups.select('.labelBackground')
+      .attr('x', (d,i,a) => { return d3Select(a[i].parentNode).select('.label').node().getBBox().x - 8} )
+      .attr('y', (d,i,a) => { return d3Select(a[i].parentNode).select('.label').node().getBBox().y - 4 } )
+      .attr('fill','#fff')
+      .attr('rx', 5)
+      .attr('height', (d,i,a) => { return d3Select(a[i].parentNode).select('.label').node().getBBox().height + 8 } )
+      .attr('width', (d,i,a) => { return d3Select(a[i].parentNode).select('.label').node().getBBox().width + 16 } )
+      .attr('opacity', 0)
+
+
 
   }
 
@@ -333,7 +354,7 @@ export default class ColumnChart {
 
     medianLines.exit().remove()
 
-    this.loadData(self.chart.data)
+    this.loadData(self.chart.data, false)
 
   }
 
@@ -365,20 +386,9 @@ export default class ColumnChart {
     labelBackground.innerHTML = `
       <svg>
       <defs>
-        <filter id="labelBackground" x="-70%" width="250%" y="-20%" height="150%">
-            <feFlood flood-color="#ccc"/>
-            <feGaussianBlur stdDeviation="2"/>
-
-            <feComponentTransfer>
-                <feFuncA type="table"tableValues="0 0 0 1"/>
-            </feComponentTransfer>
-
-            <feComponentTransfer>
-                <feFuncA type="table"tableValues="0 1 1 1 1 1 1 1"/>
-            </feComponentTransfer>
-            <feComposite operator="over" in="SourceGraphic"/>
+        <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+          <feDropShadow stdDeviation="5" flood-color="#000" flood-opacity="0.5" />
         </filter>
-        <filter id="dropShadow"><feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="black" flood/></filter>
       </defs>
       </svg>`
     document.body.appendChild(labelBackground)
