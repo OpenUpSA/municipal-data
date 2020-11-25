@@ -1,6 +1,7 @@
 
 from .utils import (
     percent,
+    group_amount_by_year,
     populate_periods,
     filter_for_all_keys,
 )
@@ -54,23 +55,23 @@ class OperatingBudgetSpending(IndicatorCalculator):
         # Populate periods with v1 data
         populate_periods(
             periods,
-            results["operating_expenditure_actual_v1"],
+            group_amount_by_year(results["operating_expenditure_actual_v1"]),
             "operating_expenditure_actual",
         )
         populate_periods(
             periods,
-            results["operating_expenditure_budget_v1"],
+            group_amount_by_year(results["operating_expenditure_budget_v1"]),
             "operating_expenditure_budget",
         )
         # Populate periods with v2 data
         populate_periods(
             periods,
-            results["operating_expenditure_actual_v2"],
+            group_amount_by_year(results["operating_expenditure_actual_v2"]),
             "operating_expenditure_actual",
         )
         populate_periods(
             periods,
-            results["operating_expenditure_budget_v2"],
+            group_amount_by_year(results["operating_expenditure_budget_v2"]),
             "operating_expenditure_budget",
         )
         # Filter out periods that don't have all the required data

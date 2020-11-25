@@ -2,7 +2,7 @@
 from .indicator_calculator import IndicatorCalculator
 from .utils import (
     ratio,
-    group_items_by_year,
+    group_amount_by_year,
     filter_for_all_keys,
     populate_periods,
 )
@@ -51,23 +51,23 @@ class CashCoverage(IndicatorCalculator):
         # Populate periods with v1 data
         populate_periods(
             periods,
-            results["cash_flow_v1"],
+            group_amount_by_year(results["cash_flow_v1"]),
             "cash_at_year_end",
         )
         populate_periods(
             periods,
-            results["operating_expenditure_actual_v1"],
+            group_amount_by_year(results["operating_expenditure_actual_v1"]),
             "operating_expenditure",
         )
         # Populate periods with v2 data
         populate_periods(
             periods,
-            results["cash_flow_v2"],
+            group_amount_by_year(results["cash_flow_v2"]),
             "cash_at_year_end",
         )
         populate_periods(
             periods,
-            results["operating_expenditure_actual_v2"],
+            group_amount_by_year(results["operating_expenditure_actual_v2"]),
             "operating_expenditure",
         )
         # Filter out periods that don't have all the required data

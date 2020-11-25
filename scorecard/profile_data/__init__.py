@@ -32,13 +32,14 @@ from .indicators.current_debtors_collection_rate import CurrentDebtorsCollection
 from .indicators.cash_balance import CashBalance
 from .indicators.cash_coverage import CashCoverage
 from .indicators.operating_budget_spending import OperatingBudgetSpending
+from .indicators.capital_budget_spending import CapitalBudgetSpending
 
 
 def get_indicator_calculators(has_comparisons=None):
     calculators = [
         CashCoverage,
         OperatingBudgetSpending,
-        CapitalBudgetDifference,
+        CapitalBudgetSpending,
         RepairsMaintenance,
         RevenueSources,
         RevenueBreakdown,
@@ -64,50 +65,6 @@ def get_indicators(api_data):
             api_data
         )
     return indicators
-
-
-class CapitalBudgetDifference(IndicatorCalculator):
-    indicator_name = "cap_budget_diff"
-    result_type = "%"
-    noun = "underspending or overspending"
-    has_comparisons = True
-
-    @classmethod
-    def get_muni_specifics(cls, api_data):
-        values = []
-        for year in api_data.years:
-            try:
-                cap_ex_budget = api_data.results["cap_exp_budget"]["4100"][year]
-                cap_ex_actual = api_data.results["cap_exp_actual"]["4100"][year]
-                result = percent(
-                    (cap_ex_actual - cap_ex_budget), cap_ex_budget)
-                overunder = "under" if result < 0 else "over"
-                if abs(result) <= 5:
-                    rating = "good"
-                elif abs(result) <= 15:
-                    rating = "ave"
-                elif abs(result) > 15:
-                    rating = "bad"
-                else:
-                    rating = None
-            except KeyError:
-                result = None
-                rating = None
-                overunder = None
-            values.append(
-                {
-                    "date": year,
-                    "result": result,
-                    "overunder": overunder,
-                    "rating": rating,
-                }
-            )
-
-        return {
-            "values": values,
-            "ref": api_data.references["overunder"],
-            "result_type": cls.result_type,
-        }
 
 
 class RepairsMaintenance(IndicatorCalculator):

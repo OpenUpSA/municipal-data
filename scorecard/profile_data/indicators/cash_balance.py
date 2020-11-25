@@ -1,6 +1,7 @@
 
 from .indicator_calculator import IndicatorCalculator
 from .utils import (
+    group_amount_by_year,
     populate_periods,
 )
 
@@ -43,9 +44,17 @@ class CashBalance(IndicatorCalculator):
         results = api_data.results
         periods = {}
         # Populate periods with v1 data
-        populate_periods(periods, results["cash_flow_v1"], "cash_at_year_end")
+        populate_periods(
+            periods,
+            group_amount_by_year(results["cash_flow_v1"]),
+            "cash_at_year_end",
+        )
         # Populate periods with v2 data
-        populate_periods(periods, results["cash_flow_v2"], "cash_at_year_end")
+        populate_periods(
+            periods,
+            group_amount_by_year(results["cash_flow_v2"]),
+            "cash_at_year_end",
+        )
         # Generate data for the requested years
         values = list(
             map(

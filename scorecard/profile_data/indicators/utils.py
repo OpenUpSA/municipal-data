@@ -71,13 +71,6 @@ def year_key(result):
     return result["financial_year_end.year"]
 
 
-def year_amount_key(result):
-    return (
-        result["financial_year_end.year"],
-        result["amount.sum"],
-    )
-
-
 def item_amount_pair(item):
     return (item["item.code"], item["amount.sum"])
 
@@ -139,8 +132,29 @@ def filter_for_all_keys(obj, keys):
     )
 
 
-def populate_periods(periods, results, key):
-    years = map(year_amount_key, results)
+def year_amount_key(result):
+    return (
+        result["financial_year_end.year"],
+        result["amount.sum"],
+    )
+
+
+def year_assets_key(result):
+    return (
+        result["financial_year_end.year"],
+        result["total_assets.sum"],
+    )
+
+
+def group_amount_by_year(results):
+    return map(year_amount_key, results)
+
+
+def group_assets_by_year(results):
+    return map(year_assets_key, results)
+
+
+def populate_periods(periods, years, key):
     for year, result in years:
         periods.setdefault(year, {})
         periods[year][key] = result

@@ -184,4 +184,5 @@ class CapitalFactsV2Resource(resources.ModelResource):
             'period_code',
             'item',
             'function',
+            'capital_type',
         ]
