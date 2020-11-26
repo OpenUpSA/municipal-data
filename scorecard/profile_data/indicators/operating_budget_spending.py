@@ -8,45 +8,45 @@ from .utils import (
 from .indicator_calculator import IndicatorCalculator
 
 
-def translate_rating(result):
-    if abs(result) <= 5:
-        return "good"
-    elif abs(result) <= 15:
-        return "ave"
-    elif abs(result) > 15:
-        return "bad"
-    else:
-        return None
-
-
-def generate_data(year, values):
-    data = {
-        "date": year,
-    }
-    if values:
-        actual = values["operating_expenditure_actual"]
-        budget = values["operating_expenditure_budget"]
-        diffirence = actual - budget
-        result = percent(diffirence, budget, 1)
-        data.update({
-            "result": result,
-            "rating": translate_rating(result),
-            "overunder": "under" if result < 0 else "over",
-        })
-    else:
-        data.update({
-            "result": None,
-            "rating": None,
-            "overunder": None,
-        })
-    return data
-
-
 class OperatingBudgetSpending(IndicatorCalculator):
     indicator_name = "operating_budget_spending"
     result_type = "%"
     noun = "underspending or overspending"
     has_comparisons = True
+
+    @classmethod
+    def determine_rating(cls, result):
+        if abs(result) <= 5:
+            return "good"
+        elif abs(result) <= 15:
+            return "ave"
+        elif abs(result) > 15:
+            return "bad"
+        else:
+            return None
+
+    @classmethod
+    def generate_data(cls, year, values):
+        data = {
+            "date": year,
+        }
+        if values:
+            actual = values["operating_expenditure_actual"]
+            budget = values["operating_expenditure_budget"]
+            diffirence = actual - budget
+            result = percent(diffirence, budget, 1)
+            data.update({
+                "result": result,
+                "rating": cls.determine_rating(result),
+                "overunder": "under" if result < 0 else "over",
+            })
+        else:
+            data.update({
+                "result": None,
+                "rating": None,
+                "overunder": None,
+            })
+        return data
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -84,7 +84,7 @@ class OperatingBudgetSpending(IndicatorCalculator):
         # Generate data for the requested years
         values = list(
             map(
-                lambda year: generate_data(year, periods.get(year)),
+                lambda year: cls.generate_data(year, periods.get(year)),
                 api_data.years,
             )
         )

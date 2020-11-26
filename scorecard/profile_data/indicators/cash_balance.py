@@ -6,38 +6,38 @@ from .utils import (
 )
 
 
-def translate_rating(result):
-    if result > 0:
-        return "good"
-    elif result <= 0:
-        return "bad"
-    else:
-        return None
-
-
-def generate_data(year, values):
-    data = {
-        "date": year,
-    }
-    if values:
-        cash_at_year_end = values["cash_at_year_end"]
-        data.update({
-            "result": cash_at_year_end,
-            "rating": translate_rating(cash_at_year_end),
-        })
-    else:
-        data.update({
-            "result": None,
-            "rating": "bad",
-        })
-    return data
-
-
 class CashBalance(IndicatorCalculator):
     indicator_name = "cash_balance"
     result_type = "R"
     noun = "cash balance"
     has_comparisons = True
+
+    @classmethod
+    def determine_rating(cls, result):
+        if result > 0:
+            return "good"
+        elif result <= 0:
+            return "bad"
+        else:
+            return None
+
+    @classmethod
+    def generate_data(cls, year, values):
+        data = {
+            "date": year,
+        }
+        if values:
+            cash_at_year_end = values["cash_at_year_end"]
+            data.update({
+                "result": cash_at_year_end,
+                "rating": cls.determine_rating(cash_at_year_end),
+            })
+        else:
+            data.update({
+                "result": None,
+                "rating": "bad",
+            })
+        return data
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -58,7 +58,7 @@ class CashBalance(IndicatorCalculator):
         # Generate data for the requested years
         values = list(
             map(
-                lambda year: generate_data(year, periods.get(year)),
+                lambda year: cls.generate_data(year, periods.get(year)),
                 api_data.years,
             )
         )

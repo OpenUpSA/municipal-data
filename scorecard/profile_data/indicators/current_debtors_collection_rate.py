@@ -7,35 +7,39 @@ from .utils import (
 from .indicator_calculator import IndicatorCalculator
 
 
-def generate_data(year, values):
-    data = {
-        "year": year,
-        "date": "%s" % (year),
-    }
-    if values:
-        collected_revenue = values["collected_revenue"]
-        billed_revenue = values["billed_revenue"]
-        result = percent(collected_revenue, billed_revenue)
-        data.update({
-            "amount_type": "AUDA",
-            "result": result,
-            "rating": "good" if round(result) >= 95 else "bad",
-        })
-    else:
-        data.update({
-            "result": None,
-            "rating": "bad",
-            "receipts": None,
-            "billing": None,
-        })
-    return data
-
-
 class CurrentDebtorsCollectionRate(IndicatorCalculator):
     indicator_name = "current_debtors_collection_rate"
     result_type = "%"
     noun = "rate"
     has_comparisons = True
+
+    @classmethod
+    def detemine_rating(cls, result):
+        return "good" if round(result) >= 95 else "bad"
+
+    @classmethod
+    def generate_data(cls, year, values):
+        data = {
+            "year": year,
+            "date": "%s" % (year),
+        }
+        if values:
+            collected_revenue = values["collected_revenue"]
+            billed_revenue = values["billed_revenue"]
+            result = percent(collected_revenue, billed_revenue)
+            data.update({
+                "amount_type": "AUDA",
+                "result": result,
+                "rating": cls.detemine_rating(result),
+            })
+        else:
+            data.update({
+                "result": None,
+                "rating": "bad",
+                "receipts": None,
+                "billing": None,
+            })
+        return data
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -79,7 +83,7 @@ class CurrentDebtorsCollectionRate(IndicatorCalculator):
         # Compile the data for the expected quarters, starting with the latest
         values = list(
             map(
-                lambda year: generate_data(year, periods.get(year)),
+                lambda year: cls.generate_data(year, periods.get(year)),
                 api_data.years,
             )
         )

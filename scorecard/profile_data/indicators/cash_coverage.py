@@ -8,41 +8,41 @@ from .utils import (
 )
 
 
-def determine_rating(result):
-    if result > 3:
-        return "good"
-    elif result <= 1:
-        return "bad"
-    else:
-        return "ave"
-
-
-def generate_data(year, values):
-    data = {
-        "date": year,
-    }
-    if values:
-        cash_at_year_end = values["cash_at_year_end"]
-        monthly_expenses = values["operating_expenditure"] / 12
-        calculated_ratio = ratio(cash_at_year_end, monthly_expenses, 1)
-        result = max(calculated_ratio, 0)
-        data.update({
-            "result": result,
-            "rating": determine_rating(result),
-        })
-    else:
-        data.update({
-            "result": None,
-            "rating": None,
-        })
-    return data
-
-
 class CashCoverage(IndicatorCalculator):
     indicator_name = "cash_coverage"
     result_type = "months"
     noun = "coverage"
     has_comparisons = True
+
+    @classmethod
+    def determine_rating(cls, result):
+        if result > 3:
+            return "good"
+        elif result <= 1:
+            return "bad"
+        else:
+            return "ave"
+
+    @classmethod
+    def generate_data(cls, year, values):
+        data = {
+            "date": year,
+        }
+        if values:
+            cash_at_year_end = values["cash_at_year_end"]
+            monthly_expenses = values["operating_expenditure"] / 12
+            calculated_ratio = ratio(cash_at_year_end, monthly_expenses, 1)
+            result = max(calculated_ratio, 0)
+            data.update({
+                "result": result,
+                "rating": cls.determine_rating(result),
+            })
+        else:
+            data.update({
+                "result": None,
+                "rating": None,
+            })
+        return data
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -79,7 +79,7 @@ class CashCoverage(IndicatorCalculator):
         # Generate data for the requested years
         values = list(
             map(
-                lambda year: generate_data(year, periods.get(year)),
+                lambda year: cls.generate_data(year, periods.get(year)),
                 api_data.years,
             )
         )

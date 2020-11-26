@@ -7,44 +7,44 @@ from .utils import (
 from .indicator_calculator import IndicatorCalculator
 
 
-def translate_rating(value):
-    if value >= 1.5:
-        return "good"
-    elif value >= 1:
-        return "ave"
-    else:
-        return "bad"
-
-
-def generate_data(year, values):
-    data = {
-        "date": year,
-        "year": year,
-    }
-    if values:
-        assets = values["assets"]
-        liabilities = values["liabilities"]
-        result = ratio(assets, liabilities)
-        data.update({
-            "amount_type": "AUDA",
-            "assets": assets,
-            "liabilities": liabilities,
-            "result": result,
-            "rating": translate_rating(result),
-        })
-    else:
-        data.update({
-            "result": None,
-            "rating": "bad",
-        })
-    return data
-
-
 class CurrentRatio(IndicatorCalculator):
     indicator_name = "current_ratio"
     result_type = "ratio"
     noun = "ratio"
     has_comparisons = True
+
+    @classmethod
+    def determine_rating(cls, value):
+        if value >= 1.5:
+            return "good"
+        elif value >= 1:
+            return "ave"
+        else:
+            return "bad"
+
+    @classmethod
+    def generate_data(cls, year, values):
+        data = {
+            "date": year,
+            "year": year,
+        }
+        if values:
+            assets = values["assets"]
+            liabilities = values["liabilities"]
+            result = ratio(assets, liabilities)
+            data.update({
+                "amount_type": "AUDA",
+                "assets": assets,
+                "liabilities": liabilities,
+                "result": result,
+                "rating": cls.determine_rating(result),
+            })
+        else:
+            data.update({
+                "result": None,
+                "rating": "bad",
+            })
+        return data
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -75,7 +75,7 @@ class CurrentRatio(IndicatorCalculator):
         # Generate data for the requested years
         values = list(
             map(
-                lambda year: generate_data(year, periods.get(year)),
+                lambda year: cls.generate_data(year, periods.get(year)),
                 api_data.years,
             )
         )
