@@ -112,6 +112,7 @@ class Geography(models.Model):
 
     def as_dict(self):
         return {
+            'ancestors': [a.as_dict() for a in self.ancestors()],
             'full_geoid': self.geoid,
             'full_name': self.long_name,
             'name': self.long_name,

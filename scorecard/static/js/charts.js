@@ -85,16 +85,16 @@ function hideTooltip() {
 var HorizontalGroupedBarChart = function() {
   var self = this;
 
-  self.discover = function() {
+  self.discover = function(profileData) {
     // find all charts
     $('.chart-container[data-chart^=grouped-bar-]').each(function() {
       var chart = new HorizontalGroupedBarChart();
-      chart.init(this);
+      chart.init(this, profileData);
       $(window).on('resize', _.debounce(chart.drawChart, 300));
     });
   };
 
-  self.init = function(container) {
+  self.init = function(container, profileData) {
     self.container = $(container);
     self.name = self.container.data('chart').substring(12);
 
@@ -419,6 +419,5 @@ var IncomeSplitPieChart = function() {
 
 $(function() {
   new VerticalBarChart().discover();
-  new HorizontalGroupedBarChart().discover();
   new IncomeSplitPieChart().discover();
 });

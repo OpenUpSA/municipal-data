@@ -83,4 +83,5 @@ class CurrentRatio(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["circular71"],
+            "result_type": cls.result_type,
         }

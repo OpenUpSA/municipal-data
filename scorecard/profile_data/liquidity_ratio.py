@@ -80,4 +80,5 @@ class LiquidityRatio(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["mbrr"],
+            "result_type": cls.result_type,
         }

@@ -90,6 +90,7 @@ class CashCoverage(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["solgf"],
+            "result_type": cls.result_type,
         }
 
 
@@ -133,6 +134,7 @@ class OperatingBudgetDifference(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["overunder"],
+            "result_type": cls.result_type,
         }
 
 
@@ -176,6 +178,7 @@ class CapitalBudgetDifference(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["overunder"],
+            "result_type": cls.result_type,
         }
 
 
@@ -209,6 +212,7 @@ class RepairsMaintenance(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["circular71"],
+            "result_type": cls.result_type,
         }
 
 
@@ -367,7 +371,10 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
                 {"date": year, "result": contracting, "rating": "", }
             )
 
-        return {"values": values}
+        return {
+            "values": values,
+            "result_type": cls.result_type,
+        }
 
 
 class ExpenditureTrendsStaff(IndicatorCalculator):
@@ -399,7 +406,10 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
                 {"date": year, "result": staff, "rating": "", }
             )
 
-        return {"values": values}
+        return {
+            "values": values,
+            "result_type": cls.result_type,
+        }
 
 
 class ExpenditureFunctionalBreakdown(IndicatorCalculator):
@@ -488,6 +498,7 @@ class CashAtYearEnd(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["solgf"],
+            "result_type": cls.result_type,
         }
 
 
@@ -526,6 +537,7 @@ class FruitlWastefIrregUnauth(IndicatorCalculator):
         return {
             "values": values,
             "ref": api_data.references["circular71"],
+            "result_type": cls.result_type,
         }
 
 

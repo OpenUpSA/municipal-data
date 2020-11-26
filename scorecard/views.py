@@ -1,9 +1,7 @@
 from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.urls import reverse
-from wkhtmltopdf.views import PDFResponse
-from wkhtmltopdf.utils import wkhtmltopdf
 
 from scorecard.profiles import get_profile
 from scorecard.models import Geography, LocationNotFound
@@ -11,10 +9,14 @@ from infrastructure.models import Project
 from household.models import HouseholdServiceTotal, HouseholdBillTotal
 from household.chart import stack_chart, chart_data, percent_increase, yearly_percent
 
+import json
 
 from . import models
 from . import serializers
 from rest_framework import viewsets
+
+import subprocess
+from django.conf import settings
 
 
 class GeographyViewSet(viewsets.ReadOnlyModelViewSet):
@@ -22,8 +24,16 @@ class GeographyViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.GeographySerializer
 
 
+def infra_dict(project):
+    return {
+        "description": project.project_description,
+        "expenditure_amount": project.expenditure.first().amount,
+        "url": reverse('project-detail-view', args=[project.id]),
+    }
+
+
 class LocateView(TemplateView):
-    template_name = "locate.html"
+    template_name = "webflow/locate.html"
 
     def get(self, request, *args, **kwargs):
         self.lat = self.request.GET.get("lat", None)
@@ -53,11 +63,17 @@ class LocateView(TemplateView):
         return super(LocateView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
-        return {"nope": self.nope, "lat": self.lat, "lon": self.lon}
-
+        return {
+            "page_data_json": json.dumps(
+                {"nope": self.nope},
+                cls=serializers.JSONEncoder,
+                sort_keys=True,
+                indent=4 if settings.DEBUG else None
+            ),
+        }
 
 class GeographyDetailView(TemplateView):
-    template_name = "profile/profile_detail.html"
+    template_name = "webflow/muni-profile.html"
 
     def dispatch(self, *args, **kwargs):
         self.geo_id = self.kwargs.get("geography_id", None)
@@ -81,15 +97,22 @@ class GeographyDetailView(TemplateView):
 
         return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
+    def pdf_url(self):
+        return "/profiles/%s-%s-%s.pdf" % (
+            self.geo_level,
+            self.geo_code,
+            self.geo.slug,
+        )
+
     def get_context_data(self, *args, **kwargs):
-        page_context = {}
+        page_json = {}
 
         profile = get_profile(self.geo)
-        page_context.update(profile)
+        page_json.update(profile)
 
         profile["geography"] = self.geo.as_dict()
-        page_context["profile_data"] = profile
-        page_context["geography"] = self.geo
+        page_json["geography"] = self.geo
+        page_json["pdf_url"] = self.pdf_url()
 
         profile["demarcation"]["disestablished_to_geos"] = [
             Geography.objects.filter(geo_code=code).first().as_dict()
@@ -115,6 +138,7 @@ class GeographyDetailView(TemplateView):
                     .first()
                     .as_dict()
                 )
+        infrastructure_financial_year = "2019/2020"
         infrastructure = (
             Project.objects.prefetch_related(
                 "geography",
@@ -125,20 +149,23 @@ class GeographyDetailView(TemplateView):
             .filter(
                 geography__geo_code=self.geo_code,
                 expenditure__budget_phase__name="Budget year",
-                expenditure__financial_year__budget_year="2019/2020",
+                expenditure__financial_year__budget_year=infrastructure_financial_year,
             )
-            .order_by("-expenditure__amount")[:5]
-            .values("project_description", "expenditure__amount", "id")
+            .order_by("-expenditure__amount")
         )
-        page_context["infrastructure"] = infrastructure
+        page_json["infrastructure_summary"] = {
+            "projects": [infra_dict(p) for p in infrastructure[:5]],
+            "project_count": infrastructure.count(),
+            "financial_year": infrastructure_financial_year[5:9]
+        }
 
         households = HouseholdBillTotal.summary.bill_totals(self.geo_code)
-        page_context["household_percent"] = percent_increase(households)
-        page_context["yearly_percent"] = yearly_percent(households)
+        page_json["household_percent"] = percent_increase(households)
+        page_json["yearly_percent"] = yearly_percent(households)
 
         chart = chart_data(households)
 
-        page_context["household_chart_overall"] = chart
+        page_json["household_chart_overall"] = chart
 
         service_middle = (
             HouseholdServiceTotal.summary.active(self.geo_code)
@@ -160,58 +187,49 @@ class GeographyDetailView(TemplateView):
         chart_affordable = stack_chart(service_affordable, households)
         chart_indigent = stack_chart(service_indigent, households)
 
-        page_context["household_chart_middle"] = chart_middle
-        page_context["household_chart_affordable"] = chart_affordable
-        page_context["household_chart_indigent"] = chart_indigent
+        page_json["household_chart_middle"] = chart_middle
+        page_json["household_chart_affordable"] = chart_affordable
+        page_json["household_chart_indigent"] = chart_indigent
 
-        page_context["is_metro"] = self.geo_code in [
-            " BUF",
-            "NMA",
-            "MAN",
-            "EKU",
-            "JHB",
-            "TSH",
-            "ETH",
-            "CPT",
-        ]
-        # is this a head-to-head view?
-        if "head2head" in self.request.GET:
-            page_context["head2head"] = "head2head"
-
+        page_context = {
+            "page_data_json": json.dumps(
+                page_json,
+                cls=serializers.JSONEncoder,
+                sort_keys=True,
+                indent=4 if settings.DEBUG else None
+            ),
+            "page_title": f"{ self.geo.name} - Municipal Money",
+            "page_description": f"Financial Performance for { self.geo.name }, and other information.",
+        }
         return page_context
 
 
 class GeographyPDFView(GeographyDetailView):
     def get(self, request, *args, **kwargs):
         # render as pdf
-        url = "/profiles/%s-%s-%s?print=1" % (
+        path = "/profiles/%s-%s-%s?print=1" % (
             self.geo_level,
             self.geo_code,
             self.geo.slug,
         )
-        url = request.build_absolute_uri(url)
-        pdf = wkhtmltopdf(url, zoom=0.7)
-        filename = "%s-%s-%s.pdf" % (self.geo_level, self.geo_code, self.geo.slug)
-
-        return PDFResponse(pdf, filename=filename)
-
-
-class GeographyCompareView(TemplateView):
-    template_name = "profile/head2head.html"
-
-    def get_context_data(self, geo_id1, geo_id2):
-        page_context = {"geo_id1": geo_id1, "geo_id2": geo_id2}
-
+        url = request.build_absolute_uri(path)
+        # !!! This relies on GeographyDetailView validating the user-provided
+        # input to the path to avoid arbitraty command execution
+        command = ["node", "makepdf.js", url]
         try:
-            level, code = geo_id1.split("-", 1)
-            page_context["geo1"] = Geography.find(code, level)
-
-            level, code = geo_id2.split("-", 1)
-            page_context["geo2"] = Geography.find(code, level)
-        except (ValueError, LocationNotFound):
-            raise Http404
-
-        return page_context
+            completed_process = subprocess.run(
+                command,
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT
+            )
+        except subprocess.CalledProcessError as e:
+            print(e.output)
+            raise e
+        filename = "%s-%s-%s.pdf" % (self.geo_level, self.geo_code, self.geo.slug)
+        response = HttpResponse(completed_process.stdout, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{ filename }"'
+        return response
 
 
 class SitemapView(TemplateView):

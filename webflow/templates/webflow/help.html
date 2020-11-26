@@ -1,0 +1,1184 @@
+{% load static %}
+{% load staticfiles pipeline json_script_escape %}
+<!DOCTYPE html><!--  Last Published: Thu Nov 26 2020 13:55:41 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb5281f51c5c1c" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+  <meta charset="utf-8">
+  <title>{{ page_title }}</title>
+  <meta content="Learn about Municipal Money, the municipal budget process and our budget data" name="description">
+  <meta content="{{ page_title }}" property="og:title">
+  <meta content="Learn about Municipal Money, the municipal budget process and our budget data" property="og:description">
+  <meta content="Help Center | Municipal Money" property="twitter:title">
+  <meta content="Learn about Municipal Money, the municipal budget process and our budget data" property="twitter:description">
+  <meta property="og:type" content="website">
+  <meta content="summary_large_image" name="twitter:card">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="/static/webflow/css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="/static/webflow/css/components.css" rel="stylesheet" type="text/css">
+  <link href="/static/webflow/css/municipalmoney.css" rel="stylesheet" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">
+      WebFont.load({
+        google: {
+          families: ["Rubik:300,regular,500,600"]
+        }
+      });
+    </script>
+  <!-- [if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" type="text/javascript"></script><![endif] -->
+  <script type="text/javascript">
+      ! function(o, c) {
+        var n = c.documentElement,
+          t = " w-mod-";
+        n.className += t + "js", ("ontouchstart" in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch")
+      }(window, document);
+    </script>
+  <link href="/static/webflow/images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="/static/webflow/images/webclip.png" rel="apple-touch-icon">
+  <script src="https://kit.fontawesome.com/95e41092af.js" crossorigin="anonymous"></script>
+  <script>
+      var ytdefer_ic_w = 73;
+      var ytdefer_ic_h = 52;
+      var yt_icon = '<svg height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 68 48" width="100%"><path class="ytp-large-play-button-bg" d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#eb3223"></path><path d="M 45,24 27,14 27,34" fill="#fff"></path></svg>';
+      var yt_dark_icon = '<svg height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 68 48" width="100%"><path class="ytp-large-play-button-bg" d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#212121" fill-opacity="0.8"></path><path d="M 45,24 27,14 27,34" fill="#fff"></path></svg>';
+      function ytdefer_setup() {
+        var d = document;
+        var els = d.getElementsByClassName('ytdefer');
+        for (var i = 0; i < els.length; i++) {
+          var e = els[i];
+          var ds = e.getAttribute('data-src');
+          if (!ds) {
+            alert("data-src missing for video");
+            return;
+          }
+          var w = e.clientWidth;
+          var h = e.clientHeight;
+          var dv = d.createElement('div');
+          dv.id = 'ytdefer_vid' + i;
+          dv.style.width = w + 'px';
+          dv.style.height = h + 'px';
+          dv.style.position = 'relative';
+          dv.onresize = ytdefer_resize;
+          e.appendChild(dv);
+          var im = d.createElement('img');
+          var res = '0';
+          if (w > 480) {
+            res = 'maxresdefault';
+          }
+          im.src = 'https://img.youtube.com/vi/' + ds + '/' + res + '.jpg';
+          im.id = 'ytdefer_img' + i;
+          im.style.width = '100%';
+          im.style.height = '100%';
+          im.style.objectFit = 'cover';
+          im.style.position = 'absolute';
+          im.onclick = gen_ytdefer_clk(i);
+          dv.appendChild(im);
+          var bt = d.createElement('button');
+          bt.style.backgroundImage = "url(data:image/svg+xml;base64," + window.btoa(yt_dark_icon) + ")";
+          bt.id = 'ytdefer_icon' + i;
+          bt.style.position = 'absolute';
+          bt.style.border = '0';
+          bt.style.backgroundColor = 'transparent';
+          bt.style.left = (w / 2 - ytdefer_ic_w / 2) + 'px';
+          bt.style.top = (h / 2 - ytdefer_ic_h / 2) + 'px';
+          bt.style.width = ytdefer_ic_w + 'px';
+          bt.style.height = ytdefer_ic_h + 'px';
+          bt.style.pointerEvents = 'none';
+          dv.appendChild(bt);
+          im.onmouseover = gen_mouseover(bt);
+          im.onmouseout = gen_mouseout(bt);
+        }
+        if (typeof(YT) == 'undefined') {
+          var js = d.createElement("script");
+          js.type = "text/javascript";
+          js.src = "https://www.youtube.com/player_api";
+          d.body.appendChild(js);
+        }
+        window.addEventListener('resize', ytdefer_resize);
+      }
+      function ytdefer_resize() {
+        var d = document;
+        var els = d.getElementsByClassName('ytdefer');
+        for (var i = 0; i < els.length; i++) {
+          var e = els[i];
+          var w = e.clientWidth;
+          var h = e.clientHeight;
+          var dv = d.getElementById('ytdefer_vid' + i);
+          dv.style.width = w + 'px';
+          dv.style.height = h + 'px';
+          var ic = d.getElementById('ytdefer_icon' + i);
+          if (null != ic) {
+            ic.style.left = (w / 2 - ytdefer_ic_w / 2) + 'px';
+            ic.style.top = (h / 2 - ytdefer_ic_h / 2) + 'px';
+          }
+        }
+      }
+      function gen_mouseout(bt) {
+        return function() {
+          bt.style.backgroundImage = "url(data:image/svg+xml;base64," + window.btoa(yt_dark_icon) + ")";
+        }
+      }
+      function gen_mouseover(bt) {
+        return function() {
+          bt.style.backgroundImage = "url(data:image/svg+xml;base64," + window.btoa(yt_icon) + ")";
+        }
+      }
+      function gen_ytdefer_clk(i) {
+        return function() {
+          var d = document;
+          var el = d.getElementById('ytdefer_vid' + i);
+          var vid_id = el.parentNode.getAttribute('data-src');
+          var player = new YT.Player(el.id, {
+            height: el.style.height,
+            width: el.style.width,
+            videoId: vid_id,
+            events: {
+              'onReady': function(ev) {
+                ev.target.playVideo()
+              }
+            }
+          });
+        }
+      }
+      window.addEventListener('load', ytdefer_setup);
+    </script>
+  <style>
+      .custom-sub-bullet {
+        margin-left: 20px;
+      }
+      .custom-sub-bullet-2 {
+        margin-left: 40px;
+      }
+      @media (max-width: 767px) {
+        .custom-sub-bullet {
+          margin-left: 10px;
+        }
+        .custom-sub-bullet-2 {
+          margin-left: 20px;
+        }
+      }
+      .truncate {
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      /*hide horizontal scroll*/
+      .menu-items {
+        overflow-x: hidden
+      }
+      /*width*/
+      .menu-items::-webkit-scrollbar {
+        width: 4px;
+      }
+      /*track*/
+      .menu-items::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0);
+      }
+      /*thumb*/
+      .menu-items::-webkit-scrollbar-thumb {
+        background: rgb(220, 220, 220);
+        border-radius: 2px;
+      }
+      @media print {
+        body {
+          -moz-transform: scale(0.6, 0.6);
+          /* Moz-browsers */
+          zoom: 0.6;
+          /* Other non-webkit browsers */
+          zoom: 60%;
+          /* Webkit browsers */
+          color: #000;
+        }
+        #tutorial-video {
+          display: none !important;
+        }
+        .page-nav {
+          display: none !important;
+        }
+        .nav {
+          display: none !important;
+        }
+        .expand-block__content {
+          height: auto !important;
+          overflow: visible !important;
+          opacity: 100% !important;
+        }
+        .muni-compare {
+          display: none !important;
+        }
+        .w-richtext-align-fullwidth .w-richtext-figure-type-video {
+          display: none !important;
+        }
+        .sub-section {
+          break-inside: avoid !important;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="{% static 'scss/municipal-money.css' %}">
+<meta name="description" content="{{ page_description }}">
+<meta name="twitter:title" content="{{ page_title }}">
+<meta name="twitter:description" content="{{ page_description }}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@MunicipalMoney">
+<meta property="og:description" content="{{ page_description }}">
+{% stylesheet "scorecard" %}
+</head>
+<body data-page="help">
+  <div class="navigation">
+    <div data-collapse="medium" data-animation="default" data-duration="400" role="banner" class="nav w-nav">
+      <div class="plate plate--shadow-large"></div>
+      <div class="container">
+        <div class="nav-inner">
+          <a id="w-node-133d4c7ba194-4c7ba190" href="/" class="home-link w-inline-block"><img src="/static/webflow/images/munimoney-logo-colour-red.svg" loading="eager" height="39" alt="" class="nav-logo"></a>
+          <div class="nav-items">
+            <a href="/" class="nav-link w-inline-block">
+              <div class="link-text link-text--site-nav">Home</div>
+              <div class="plate plate--rounded plate--hover-grey"></div>
+            </a>
+            <a href="#" class="nav-link hidden w-inline-block">
+              <div class="link-text link-text--site-nav">Municipalities</div>
+              <div class="plate plate--rounded plate--hover-grey"></div>
+            </a>
+            <a href="/help" aria-current="page" class="nav-link w-inline-block w--current">
+              <div class="link-text link-text--site-nav">Help centre</div>
+              <div class="plate plate--rounded plate--hover-grey"></div>
+            </a>
+            
+          </div>
+          <div id="w-node-133d4c7ba1a7-4c7ba190" class="nav-search">
+            <div class="nav-search___input w-form">
+              <form id="wf-form-Navigation-Search" name="wf-form-Navigation-Search" data-name="Navigation Search" class="search-input">
+                <div class="search-input__icon">
+                  <div class="fas fa-search"></div>
+                </div><input type="text" class="search-input__field w-input" maxlength="256" name="municipality-search-2" data-name="Municipality Search 2" placeholder="Find a municipality..." id="municipality-search-2">
+                <div class="plate plate--rounded plate--black-trans-4"></div>
+              </form>
+              <div class="w-form-done">
+                <div>Thank you! Your submission has been received!</div>
+              </div>
+              <div class="w-form-fail">
+                <div>Oops! Something went wrong while submitting the form.</div>
+              </div>
+            </div>
+            <div class="nav-search__menu">
+              <div class="plate plate--white plate--rounded plate--shadow-large"></div>
+              <div class="nav-search__menu_panels">
+                <div class="nav-search__menu_panel">
+                  <div class="menu-items">
+                    <h6 class="small-heading"><span class="search__result-value">0</span> Results</h6>
+                    <div class="menu-items__inner">
+                      <div class="info-block pre-search-block">
+                        <div class="plate plate--black-trans-4 plate--rounded plate--no-hover"></div>
+                        <div>Start typing to see results...</div>
+                      </div>
+                      <div class="info-block no-results-block hidden">
+                        <div>No results matching your search...</div>
+                        <div class="plate plate--black-trans-4 plate--rounded plate--no-hover"></div>
+                      </div>
+                      <div class="loading-block search-results-loading hidden"><img src="/static/webflow/images/loading.gif" loading="lazy" alt="" class="loading-gif"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="w-node-133d4c7ba1c8-4c7ba190" class="nav-mobile">
+            <div id="nav-mobile-open-icon" data-w-id="54ec1572-a19d-23ac-5a5a-133d4c7ba1c9" class="mobile-search__toggle">
+              <div class="mobile-search__open-icon">
+                <div class="fas fa-search"></div>
+              </div>
+              <div class="mobile-search__close-icon">
+                <div class="fas fa-times"></div>
+              </div>
+              <div class="plate plate--rounded plate--hover-grey"></div>
+            </div>
+            <div id="nav-mobile-open-icon" data-w-id="54ec1572-a19d-23ac-5a5a-133d4c7ba1cf" class="mobile-menu__toggle">
+              <div class="mobile-menu__open-icon">
+                <div class="fas fa-bars"></div>
+              </div>
+              <div class="mobile-menu__close-icon">
+                <div class="fas fa-times"></div>
+              </div>
+              <div class="plate plate--rounded plate--hover-grey"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-menu div-block-4">
+      <div class="plate plate--white plate--shadow"></div>
+      <div class="menu-items">
+        <h6 class="small-heading">Site navigation</h6>
+        <div class="menu-items__inner">
+          <a href="/" class="nav-link nav-link--mobile w-inline-block">
+            <div class="link-text link-text--site-nav">Home</div>
+            <div class="plate plate--black-trans-4 plate--rounded"></div>
+          </a>
+          <a href="/help" aria-current="page" class="nav-link nav-link--mobile w-inline-block w--current">
+            <div class="link-text link-text--site-nav">Help centre</div>
+            <div class="plate plate--black-trans-4 plate--rounded"></div>
+          </a>
+          <a href="#" class="nav-link nav-link--mobile hidden w-inline-block">
+            <div class="link-text link-text--site-nav">Contact</div>
+            <div class="plate plate--black-trans-4 plate--rounded"></div>
+          </a>
+        </div>
+      </div>
+      <div class="menu-footer">
+        <div class="menu-footer__social">
+          <a href="https://twitter.com/moneymunicipal" target="_blank" class="icon icon--m-8px w-inline-block">
+            <div class="fab fa-twitter"></div>
+            <div class="plate plate--rounded plate--grey"></div>
+          </a>
+          <a href="https://www.facebook.com/MunicipalMoneySA/" target="_blank" class="icon icon--m-8px w-inline-block">
+            <div class="fab fa-facebook-square"></div>
+            <div class="plate plate--rounded plate--grey"></div>
+          </a>
+          <a href="https://github.com/OpenUpSA/municipal-data" target="_blank" class="icon icon--m-8px w-inline-block">
+            <div class="fab fa-github"></div>
+            <div class="plate plate--rounded plate--grey"></div>
+          </a>
+        </div>
+        <div class="menu-footer__links">
+          <a href="/terms" class="link link--inline w-inline-block">
+            <div class="link-text truncate">Terms of use</div>
+            <div class="plate plate--black-trans-4 plate--rounded"></div>
+          </a>
+          <a href="https://municipaldata.treasury.gov.za/" target="_blank" class="link link--inline w-inline-block">
+            <div class="link-text truncate">Municipal Money API</div>
+            <div class="plate plate--black-trans-4 plate--rounded"></div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-search">
+      <div class="plate plate--white plate--shadow"></div>
+      <div class="menu-items">
+        <div class="nav-search nav-search--mobile">
+          <div class="nav-search___input w-form">
+            <form id="email-form" name="email-form" data-name="Email Form" class="search-input">
+              <div class="search-input__icon">
+                <div class="fas fa-search"></div>
+              </div><input type="text" class="search-input__field search-input__field--mobile w-input" maxlength="256" name="Municipality-Search" data-name="Municipality Search" placeholder="Find a municipality..." id="municipality-search">
+              <div class="plate plate--rounded plate--black-trans-4"></div>
+            </form>
+            <div class="w-form-done">
+              <div>Thank you! Your submission has been received!</div>
+            </div>
+            <div class="w-form-fail">
+              <div>Oops! Something went wrong while submitting the form.</div>
+            </div>
+          </div>
+        </div>
+        <h6 class="small-heading"><span class="search__result-value">0</span> Results</h6>
+        <div class="menu-items__inner">
+          <div class="info-block pre-search-block">
+            <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+            <div>Start typing to see results...</div>
+          </div>
+          <div class="info-block no-results-block hidden">
+            <div>No results matching your search...</div>
+            <div class="plate plate--rounded plate--grey plate--no-hover"></div>
+          </div>
+          <div class="loading-block search-results-loading hidden"><img src="/static/webflow/images/loading.gif" loading="lazy" alt="" class="loading-gif"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section section--hero">
+    <div class="plate plate--dots plate--gradient"></div>
+    <div class="container">
+      <div class="profile-heading">
+        <h1 class="page-heading__title">Discover and learn</h1>
+        <div class="page-heading__subtitle">Learn about Municipal Money, the municipal budget process and our budget data</div>
+      </div>
+    </div>
+  </div>
+  <div class="section section--padding-top">
+    <div class="container container--grid">
+      <div class="layout-grid layout-grid--1-4-3-4">
+        <div class="sidebar-wrapper sidebar-wrapper--left">
+          <div class="sidebar">
+            <div class="sidebar-section">
+              <div class="grid grid--8px">
+                <div class="sidebar-heading">FAQs</div>
+                <div class="sidebar-link__wrapper">
+                  <a href="#municipal-money" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Municipal Money</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                  <a href="#municipal-budgets" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Municipal budgets</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                  <a href="#using-the-data" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Using the data</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                  <a href="#understanding-the-data" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Understanding the data</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                  <a href="#how-to-contribute" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">How to contribute</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="sidebar-section">
+              <div class="grid grid--8px">
+                <div class="sidebar-heading">Features</div>
+                <div class="sidebar-link__wrapper">
+                  <a href="#household-bills" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Household Bills</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-sections__wrapper">
+          <section id="faqs" class="grid grid--32px">
+            <div class="section-heading__wrapper">
+              <div class="section-heading__icon">
+                <div class="fas fa-question-circle"></div>
+              </div>
+              <h2 class="section__heading">FAQs</h2>
+            </div>
+            <section class="sub-section">
+              <div id="municipal-money" class="sub-section__link"></div>
+              <h3 class="heading">Municipal Money</h3>
+              <div id="what-is-municipal-money" class="expand-block">
+                <div data-w-id="bd7d46cd-ba7f-21e5-cf45-54bfb8a5242e" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">What is Municipal Money?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>Municipal Money is a web-based tool designed to inform citizens on their local authority’s financial performance and allows comparisons between municipalities.</p>
+                      <p>The website is designed to present key municipal financial information to a general audience, who do not necessarily have any financial background or knowledge. This is done by using a variety of visual elements and tools - including interactive maps, charts, graphs and short videos. We have also provided different levels of detail in explaining key financial concepts, so our audience can select the amount and level of information they want access to.</p>
+                      <p>This tool draws on the raw data from the Municipal Money API website – <a href="http://www.treasury.data.gov.za" target="_blank">www.treasury.data.gov.za</a> and is a clear example of how that raw data can be utilised to enhance civic education and oversight.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="why-does-municipal-money-exist" class="expand-block">
+                <div data-w-id="e284d3d0-dfb0-b6df-3ac6-ed0950cd0bc2" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">Why does Municipal Money exist?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>Municipal Money is an initiative of the National Treasury, which has collected extensive municipal financial data over several years and would like to share this information with the public. The aim is to make this data widely available in order to increase transparency, strengthen civic oversight and promote accountability.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="why-is-municipal-money-important" class="expand-block">
+                <div data-w-id="fe40f603-3a9f-4925-615e-332c5fd87965" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">Why is Municipal Money important?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>The South African system of local government is contingent on active citizens and organised civil society vigilantly exercising oversight and holding their municipalities accountable. Municipal Money aims to promote transparency and citizen engagement through the visualization and ‘demystification’ of information about municipal spending.</p>
+                      <p>In sharing one of its most strategic datasets through Municipal Money, National Treasury is demonstrating its commitment to improving transparency and to the cause of open data.</p>
+                      <p>While there is already a vast amount of municipal financial data available through various sources, the reliability and consistency of that data may be questionable. In addition, the time and effort required to learn where to look for different pieces of information, and how to interpret what is found, may be substantial, and potentially off-putting. Municipal Money empowers financial and non-financial audiences alike, by taking complex amounts of financial and non-financial data, extracting pertinent information, summarizing that information and presenting it in a user-friendly manner.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="who-is-behind-municipal-money" class="expand-block">
+                <div data-w-id="ea257e73-6177-6fb9-d779-b0bd83ff95a4" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">Who is behind Municipal Money?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>Municipal Money is an initiative of the National Treasury, which hosts extensive amounts of municipal financial data, submitted by municipalities. In order to share this data with the public, National Treasury has enlisted the help of an external partner, Code for South Africa – an NGO that promotes informed public decision-making using technology.</p>
+                      <p>Municipal Money is a free, impartial, politically neutral, online tool to find out about how municipal funds are spent. Our aim is to help citizens understand where public money is spent and whether this is within acceptable norms, not to comment on how it is spent. In doing so we hope to empower our citizens, strengthen civic oversight and promote accountability. We hope that Municipal Money will be a useful tool for everyone, regardless of their political persuasion and their views on public spending.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="sub-section">
+              <div id="municipal-budgets" class="sub-section__link"></div>
+              <h3 class="heading">Municipal Budgets</h3>
+              <div id="what-is-a-municipal-financial-year" class="expand-block">
+                <div data-w-id="88725385-345e-e98d-91f1-c27d0ccd72f6" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">What is a municipal financial year?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>A financial year is an organisation’s accounting period of 12 consecutive months, at the end of which the accounting books or records for that period are closed. The financial year is used as a basis for planning, budgeting, measuring financial performance and financial reporting.</p>
+                      <p>The financial year for South African municipalities runs from 1 July of each year to 30 June of the following year. Budgets need to be prepared and approved for each financial year. At the close of the financial year, reporting against the approved or adjusted (if any) budget is required in the form of Annual Financial Statements and an Annual report.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="what-is-a-financial-quarter" class="expand-block">
+                <div data-w-id="78dd8b05-01d7-cb46-b10f-0fd5d8ce87ec" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">What is a financial quarter?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>A "quarter" is a 3-month period in a financial year and is often expressed as q1, q2, q3 or q4. A quarter is usually accompanied by the year it relates to. For example, "2016 q1" refers to the first quarter of the 2016 financial year (2015-2016). Since the municipal financial year begins in July of one year and ends in June of the following year, the period being referred to here is July-Sep 2015.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="why-is-budget-data-presented-quarterly" class="expand-block">
+                <div data-w-id="9eb5ed56-a160-d934-aefb-e8692ccb426a" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">Why is some budget data presented quarterly?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>While most of the financial data provided to National Treasury by the municipalities is submitted annually, some data is refreshed and submitted on a quarterly basis. Quarterly updates are important for planning and monitoring purposes and acts as an early warning system. For example, quarterly figures could show that the municipality was not collecting nearly enough of the money owed to it in order to cover its debts. Rather than waiting for annual financial figures to reveal this, the quarterly information allows the municipality to identify a problem and take corrective action sooner.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="sub-section">
+              <div id="using-the-data" class="sub-section__link"></div>
+              <h3 class="heading">Using the data</h3>
+              <div id="using-the-data" class="expand-block">
+                <div data-w-id="78bd6104-f332-520f-836c-b49fd1dc74c5" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">How can I use the data?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>You may use the data freely and flexibly for both commercial and non-commercial purposes.</p>
+                      <p>You may download, copy, publish, distribute and transmit the data. You may also adapt and extract the data.</p>
+                      <p>Your use of the data is subject to some basic <a href="#">Terms of Use</a>.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="is-there-any-charge" class="expand-block">
+                <div data-w-id="205023a6-b600-f6c6-6c51-b5f8028f7497" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">Is there a charge for using the data?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>No. The data is provided free of charge on this website.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="commercial-rights" class="expand-block">
+                <div data-w-id="a4dc8064-15cd-43e6-74ca-dab4a3c44cd1" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">Can I use the data for commercial purposes?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>You may use the data for commercial purposes, however you may not claim or imply that NT endorses your product, services, analysis or interpretation of the data. NT will not make claims to any intellectual property arising from applications or analysis of the data.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="data-formats" class="expand-block">
+                <div data-w-id="7f01b156-f7dc-6610-ada3-3d5fbad7571b" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">What form is the data available in?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>The data on the API is available in an open format, is machine-readable, available in bulk and unprocessed. You may download the data in either Excel or CSV format.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="sub-section">
+              <div id="understanding-the-data" class="sub-section__link"></div>
+              <h3 class="heading">Understanding the data</h3>
+              <div id="data-collection" class="expand-block">
+                <div data-w-id="91e29c83-c407-b433-74f3-cb9a6ecb30c6" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">How was the data collected?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>The data is provided at regular intervals by all the individual municipalities in South Africa to National Treasury and housed on their Local Government Database and Reporting System (LGDRS).</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="personal-information" class="expand-block">
+                <div data-w-id="f0e1c78f-6f8a-0617-87fa-a93f8062da35" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">Is there personal information in the data?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>No. The data does not identify or provide ways to identify individuals, unless that information is already published (for example, the names of municipal managers and mayors).</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="info-not-available" class="expand-block">
+                <div data-w-id="e2882a40-d1ff-c074-82d9-bce74cf2f666" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">What does it mean if data is "Not Available"?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>When something is listed as ‘Not Available’, one or more of the things needed to show the indicator for that date was missing from National Treasury's local government database. This usually happens when the relevant municipality has not submitted the data to the National Treasury in an acceptable form in time. It might have been submitted late and will be available in the next quarter. It might also be available directly from the municipality but without the vetting done by National Treasury before inclusion in their local government database.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="limitations" class="expand-block">
+                <div data-w-id="bd8cfd0e-0393-017b-d7fb-6b23739e60fa" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">What are the potential limitations of the datasets and their interpretation?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>Users should be aware that the data is submitted to National Treasury directly from the individual municipalities and while National Treasury endeavours to ensure that the datasets are complete and validated regularly, ultimately the quality of the data is primarily assured by the Chief Accounting Officer of the municipality.</p>
+                      <p>National Treasury has developed standard indicators and norms based on the Section 71 submissions of municipalities, and these indicators and norms have been used as a basis to compare the financial performance of different municipalities on the Municipal Money website. However, there are occasions when municipal financial performance cannot clearly be classified within these accepted norms and where deviations from the norms are not necessarily a negative reflection on the municipality’s financial performance.</p>
+                      <p>For example, some metropolitan municipalities, with their large populations and substantive budgets, may opt to adopt different strategies of service delivery as compared with their counterparts. This in turn, may involve more outsourcing, less capital expenditure and lower staff costs - all of which, may then fall outside of the generally accepted norms and standards identified by National Treasury.</p>
+                      <p>While we acknowledge these limitations, National Treasury believes that these comparisons are still useful and appropriate as they allow users to identify and explore the differences between municipalities – bringing them closer to understanding the sometimes subtle nuances between municipalities and between categories of municipalities.</p>
+                      <p>To assist users in querying the results of a municipality’s financial indicators, Municipal Money provides a direct email link to the municipal management, where the Municipal Manager and Mayor may respond directly and provide clarification to users.</p>
+                      <p>This level of interest and understanding will no doubt contribute to enhanced civic oversight, greater transparency and increased accountability.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="similar-munis" class="expand-block">
+                <div data-w-id="5a09a0c1-432f-6645-4c53-42de83886426" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">What is meant by 'similar municipalities'?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>There are three categories of municipalities in South Africa:</p>
+                      <ul role="list">
+                        <li>Category A: Metropolitan Municipalities</li>
+                        <li>Category B: Local Municipalities</li>
+                        <li>Category C: District Municipalities</li>
+                      </ul>
+                      <p>Within these categories, there may be significantly different circumstances between municipalities across the country. Hence, a further set of subcategories have been developed for analytical and statistical purposes. These subcategories have been widely-used in assessments and previous policy initiatives by the Department of Cooperative Governance (DCOG), National Treasury, the Municipal Demarcation Board and others.</p>
+                      <p>For examples of how the subcategories are used, please see:</p>
+                      <ul role="list">
+                        <li>
+                          <a href="#" target="_blank">State Municipal Capacity Assessment 2010/2011 National Trends in Municipal Capacity</a> by the Municipal Demarcation Board, p.3
+                        </li>
+                        <li>
+                          <a href="#" target="_blank">The Municipal Infrastructure and Investment Framework (MIIF 7) for South Africa. Round 7 (2009-2010): A capital investment perspective</a> by the the Department of Cooperative Governance (DCOG) and the Development Bank Southern Africa, p.10
+                        </li>
+                        <li>
+                          <a href="#" target="_blank">Delivering municipal services in rural areas</a> by National Treasury of South Africa, p.3
+                        </li>
+                      </ul>
+                      <p>When referring to <em>similar municipalities</em>, we are then referring to municipalities in the same subcategory as per the table below.</p>
+                      <p>When we calculate an indicator comparison for similar municipalities, we use the <a href="#" target="_blank">median value</a> of the municipalities in the same subcategory.</p>
+                      <figure style="max-width:732px" id="w-node-fe6edf823155-f51c5c1c" class="w-richtext-align-fullwidth w-richtext-figure-type-image">
+                        <div><img src="/static/webflow/images/similar-munis.png" loading="lazy" alt=""></div>
+                      </figure>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="mashups" class="expand-block">
+                <div data-w-id="d6f41126-5ff7-9b9c-7105-7dbe5742395a" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">What is a mashup?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>A mashup is a web page or application created by combining data or functionality from different sources to create a single new service. This new service or functionality usually falls outside of envisaged use of the original applications. Mashups also typically utilize visualisations – pictures that show the data in clear, imaginative ways and tell a story about the underlying information.</p>
+                      <p>For example, a mashup combining data sources such as electoral lists and a mapping tool could show where votes are being cast and for which political parties. This would be of interest to voters and political representatives.</p>
+                      <p>We hope that the data from the Municipal Money API will be used in mashups with other data sources to create innovative, new, interesting and valuable applications for municipal financial data.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="sub-section">
+              <div id="how-to-contribute" class="sub-section__link"></div>
+              <h3 class="heading">How to contribute</h3>
+              <div id="contact-us" class="expand-block">
+                <div data-w-id="5b142c50-c8e7-ac9a-49a3-0f81b6683d62" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">How can I make contact?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>Should you come across any inconsistencies in the data or any problematic data on this website that may need to be corrected, please do let us know by contacting us at <a href="#">helpdesk@municipalmoney.gov.za</a>.</p>
+                      <p>If you would like to provide feedback on your experience of using this website and the data contained therein, or if you would like to share with us how you have used the data - please contact us at: <a href="#">feedback@municipalmoney.gov.za</a>.</p>
+                      <p>We will endeavour to respond to all queries and comments as soon as possible.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="developers" class="expand-block">
+                <div data-w-id="46d53a4e-b3af-b799-c905-34fdc54fd81a" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">Is there a place for developers to discuss ideas, applications and using the data?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>We realise that you may want to ask us and each other questions and we’ll try and help as best we can. We will be using our Facebook account as a point for discussion.</p>
+                      <p>Should you come across any inconsistencies in the data or any problematic data that may need to be corrected, please do contact us at <a href="#">helpdesk@municipalmoney.gov.za</a>.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="suggestions" class="expand-block">
+                <div data-w-id="48d445fe-f994-5971-f728-382d1bc55492" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">How can I request data that I am interested in?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>You may suggest additional data sets to be uploaded provided it is in the legislative framework in which the National Treasury operates. To do so, please send a request to <a href="#">feedback@municipalmoney.gov.za</a>.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </section>
+          <section id="features" class="grid grid--32px">
+            <div class="section-heading__wrapper">
+              <div class="section-heading__icon">
+                <div class="fas fa-shapes"></div>
+              </div>
+              <h2 class="section__heading">Features</h2>
+            </div>
+            <section class="sub-section">
+              <div id="household-bills" class="sub-section__link"></div>
+              <h3 class="heading">Household bills</h3>
+              <div id="households" class="expand-block">
+                <div data-w-id="01f98719-1461-ab74-ba75-9e2dc9250175" class="expand-block__trigger">
+                  <h5 class="expand-block__heading">What is this feature?</h5>
+                  <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0DEG) skew(0, 0)" class="expand-block__trigger_icon">
+                    <div class="fas fa-plus"></div>
+                  </div>
+                </div>
+                <div style="height:0PX;opacity:0" class="expand-block__content">
+                  <div class="expand-block__content_inner">
+                    <div class="w-richtext">
+                      <p>You may suggest additional data sets to be uploaded provided it is in the legislative framework in which the National Treasury operates. To do so, please send a request to The prescribed Municipal Budget and Reporting Regulations promulgated on 17 April 2009, includes supporting table SA14 which requires that each municipality supply data on household bills based on some generalised statistical parameters. The statistical standards wherein the municipalities must present the application of their tariffs are shown in the following table:</p>
+                      <figure style="max-width:731px" id="w-node-49ee3e8c5508-f51c5c1c" class="w-richtext-align-fullwidth w-richtext-figure-type-image">
+                        <div><img src="/static/webflow/images/household-bills.png" loading="lazy" alt=""></div>
+                      </figure>
+                      <p>The bills considered are property rates, basic electricity levy, electricity consumption charge, basic water levy, water consumption charge, sanitation, refuse removal and ‘other’.</p>
+                      <p>In these circumstances, specifying ‘standard’ households is a pragmatic approach. It is fine when comparing the bill in a municipality over time. Be careful when comparing these bills between municipalities. The property values, water consumption and electricity consumption of a household in an income category may differ from municipality to municipality. The representative bills shown are useful for tracking the size the household bill in a municipality over time but less useful for comparing the bills between municipalities. The increase is a function of the composition of the bill and the increases in the different elements of the bill..</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="container container--grid">
+      <div class="layout-grid layout-grid--4-col">
+        <div id="w-node-a2e6e9d831a0-e9d8319d" class="layout-grid__col layout-grid__col--padding-right">
+          <a href="http://www.treasury.gov.za" target="_blank" class="footer-logo w-inline-block"><img src="/static/webflow/images/national-treasury-logo.png" loading="eager" alt="" class="logo"></a>
+          <p class="footer-description">Municipal Money is an initiative of the National Treasury, which has collected extensive municipal financial data over several years and would like to share this information with the public.</p>
+        </div>
+        <div id="w-node-a2e6e9d831c1-e9d8319d" class="grid grid--16px">
+          <h5 class="footer-heading heading heading--clear">Useful links</h5>
+          <div class="footer__links">
+            <a href="/help" aria-current="page" class="footer-link w-inline-block w--current">
+              <div>Help center</div>
+            </a>
+            <a href="https://municipaldata.treasury.gov.za/" target="_blank" class="footer-link w-inline-block">
+              <div>Municipal Money API</div>
+            </a>
+            <a href="/terms" class="footer-link w-inline-block">
+              <div>Terms of use</div>
+            </a>
+          </div>
+        </div>
+        <div id="w-node-a2e6e9d831ce-e9d8319d" class="grid grid--16px">
+          <h5 class="footer-heading heading heading--clear">Feedback</h5>
+          <div class="footer__links">
+            <a href="mailto: feedback@municipalmoney.gov.za" class="footer-link w-inline-block">
+              <div>feedback@municipalmoney.gov.za</div>
+            </a>
+            <a href="https://www.facebook.com/MunicipalMoneySA/" target="_blank" class="footer-link w-inline-block">
+              <div class="icon icon--16px icon--margin-right-8px">
+                <div class="fab fa-facebook-f"></div>
+              </div>
+              <div>Facebook</div>
+            </a>
+            <a href="https://twitter.com/moneymunicipal" target="_blank" class="footer-link w-inline-block">
+              <div class="icon icon--16px icon--margin-right-8px">
+                <div class="fab fa-twitter"></div>
+              </div>
+              <div>Twitter</div>
+            </a>
+            <a href="https://github.com/OpenUpSA/municipal-data" target="_blank" class="footer-link w-inline-block">
+              <div class="icon icon--16px icon--margin-right-8px">
+                <div class="fab fa-github"></div>
+              </div>
+              <div>Github</div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-meta">
+        <div id="w-node-a2e6e9d831e8-e9d8319d">A project by <a href="http://www.treasury.gov.za" target="_blank">National Treasury</a>, created under The MIT License (MIT). </div>
+        <div id="w-node-a2e6e9d831ed-e9d8319d" class="footer-meta__partner">
+          <div>In partnership with:</div>
+          <a href="http://www.openup.org.za" target="_blank" class="footer__partner-logo w-inline-block"><img src="/static/webflow/images/openup-logo.svg" loading="eager" alt="" class="logo"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="components hidden">
+    <div class="container">
+      <div class="components__wrapper">
+        <div class="components-utility">
+          <div class="truncate"></div>
+          <div class="component-block"></div>
+        </div>
+        <div class="components-swatches">
+          <div class="component-block">
+            <div class="colour colour--primary"></div>
+          </div>
+          <div class="component-block">
+            <div class="colour"></div>
+          </div>
+          <div class="component-block">
+            <div class="colour colour--1"></div>
+          </div>
+          <div class="component-block">
+            <div class="colour colour--2"></div>
+          </div>
+        </div>
+        <div class="components-plates">
+          <div class="component-block">
+            <div class="plate plate--white plate--rounded plate--shadow"></div>
+          </div>
+          <div class="component-block">
+            <div class="plate plate--white plate--rounded plate--shadow-large"></div>
+          </div>
+          <div class="component-block">
+            <div class="plate"></div>
+          </div>
+          <div class="component-block">
+            <div class="plate plate--rounded plate--white"></div>
+          </div>
+          <div class="component-block">
+            <div class="plate plate--rounded plate--hover-grey"></div>
+          </div>
+          <div class="component-block">
+            <div class="plate plate--rounded plate--hover-blue"></div>
+          </div>
+          <div class="component-block">
+            <div class="plate plate--rounded plate--hover-blue"></div>
+          </div>
+        </div>
+        <div class="components-icons">
+          <div class="component-block">
+            <div class="icon">
+              <div class="fas fa-search"></div>
+              <div class="plate plate--rounded plate--hover-grey"></div>
+            </div>
+          </div>
+        </div>
+        <div class="components-elements">
+          <div class="question-block">
+            <a href="#" class="question-block__trigger w-inline-block">
+              <div id="w-node-0c6d18356ae9-18356ae7" class="icon icon--32px">
+                <div class="fas fa-info"></div>
+              </div>
+              <div>Question goes here</div>
+              <div class="question-block__trigger_icon">
+                <div class="fas fa-plus"></div>
+              </div>
+            </a>
+            <div class="question-block__content">
+              <div class="question-block__content_inner">
+                <div class="w-richtext">
+                  <p>The rich text element allows you to create and format headings, paragraphs, blockquotes, images, and video all in one place instead of having to add and format them individually. Just double-click and easily create content.</p>
+                </div>
+              </div>
+            </div>
+            <div class="plate plate--white plate--rounded plate--shadow"></div>
+          </div>
+          <div class="info-block">
+            <div>Start searching to see results...</div>
+            <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+          </div>
+          <div class="loading-block"><img src="/static/webflow/images/loading.gif" loading="lazy" alt="" class="loading-gif"></div>
+          <div class="expand-block">
+            <div data-w-id="4ab9be59-915e-a81f-32a8-9396febe45ac" class="expand-block__trigger">
+              <h5 class="expand-block__heading"></h5>
+              <div class="expand-block__trigger_icon">
+                <div class="fas fa-plus"></div>
+              </div>
+            </div>
+            <div class="expand-block__content">
+              <div class="expand-block__content_inner">
+                <div class="w-richtext">
+                  <p>Municipal Money is an initiative of the National Treasury, which hosts extensive amounts of municipal financial data, submitted by municipalities. In order to share this data with the public, National Treasury has enlisted the help of an external partner, Code for South Africa – an NGO that promotes informed public decision-making using technology.</p>
+                  <p>Municipal Money is a free, impartial, politically neutral, online tool to find out about how municipal funds are spent. Our aim is to help citizens understand where public money is spent and whether this is within acceptable norms, not to comment on how it is spent. In doing so we hope to empower our citizens, strengthen civic oversight and promote accountability. We hope that Municipal Money will be a useful tool for everyone, regardless of their political persuasion and their views on public spending.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a href="#" class="page-nav__link w-inline-block">
+            <div class="page-nav__icon">
+              <div class="fas fa-question-circle"></div>
+            </div>
+            <div class="link-text link-text--site-nav">Financial performance</div>
+            <div class="plate plate--rounded plate--hover-grey"></div>
+          </a>
+          <div class="indicator-metric indicator-metric--no-status">
+            <div class="indicator-metric__value">Calculating...</div>
+            <div class="icon">
+              <div class="far"></div>
+            </div>
+          </div>
+          <div class="indicator-metric indicator-metric--status-green">
+            <div class="indicator-metric__value">Calculating...</div>
+            <div class="icon">
+              <div class="fas fa-smile"></div>
+            </div>
+          </div>
+          <div class="indicator-metric indicator-metric--status-yellow">
+            <div class="indicator-metric__value">Calculating...</div>
+            <div class="icon">
+              <div class="fas fa-meh"></div>
+            </div>
+          </div>
+          <div class="indicator-metric indicator-metric--status-red">
+            <div class="indicator-metric__value">Calculating...</div>
+            <div class="icon">
+              <div class="fas fa-frown"></div>
+            </div>
+          </div>
+          <div class="audit-outcome">
+            <h4 class="audit-outcome__year">...</h4>
+            <div class="audit-outcome__icons hidden">
+              <div class="audit-outcome__icon audit-outcome__icon--green">
+                <div class="fas fa-thumbs-up"></div>
+              </div>
+              <div class="audit-outcome__icon audit-outcome__icon--yellow">
+                <div class="fas fa-trophy"></div>
+              </div>
+            </div>
+            <h5 class="audit-outcome__heading"></h5>
+            <div class="audit-outcome__subheading"></div>
+            <div class="audit-outcome__button-wrapper">
+              <a href="#" class="audit-outcome__download w-inline-block">
+                <div class="plate plate--black-trans-4 plate--rounded"></div>
+                <div class="audit-outcome__download_icon">
+                  <div class="fas fa-file-pdf"></div>
+                </div>
+                <div>Read report</div>
+              </a>
+            </div>
+          </div>
+          <div class="audit-outcome">
+            <div class="audit-outcome__icons">
+              <div class="audit-outcome__icon audit-outcome__icon--green">
+                <div class="fas fa-thumbs-up"></div>
+              </div>
+              <div class="audit-outcome__icon audit-outcome__icon--yellow">
+                <div class="fas fa-trophy"></div>
+              </div>
+            </div>
+            <h5 class="audit-outcome__heading"></h5>
+            <div class="audit-outcome__subheading"></div>
+            <p class="audit-outcome__definition"></p>
+          </div>
+          <div class="section-header section-header--clear section-header--item-right section-header--gap">
+            <h4 class="heading heading--clear">Local income sources</h4>
+            <div class="gap gap--underline"></div>
+            <div class="value value--medium">R100 million</div>
+          </div>
+          <div class="expand-block expand-block-with-list">
+            <div class="expand-block__trigger">
+              <h5 class="expand-block__heading">Loading...</h5>
+              <div class="expand-block__trigger_icon">
+                <div class="fas fa-plus"></div>
+              </div>
+            </div>
+            <div class="expand-block__content">
+              <div class="expand-block__content_inner">
+                <div class="grid grid--16px">
+                  <div class="profile-info__item">
+                    <div class="profile-item__item_icon">
+                      <div class="fas fa-user-alt"></div>
+                    </div>
+                    <div class="profile-item__item-value">...</div>
+                  </div>
+                  <div class="profile-info__heading">Loading...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bar-chart">
+            <div class="bar-chart__row">
+              <div id="w-node-b73a9fe7aaf3-f51c5c1c" class="label label--small truncate">Chart label</div>
+              <div class="bar-chart__hover-label">
+                <div class="label label--small">Chart label that shows on hover of the label</div>
+              </div>
+              <div class="bar-chart__bar-wrapper">
+                <div class="bar-chart__bar colour">
+                  <div class="bar-chart__bar_value label label--small">R123 456 789</div>
+                  <div class="bar-chart__bar_percentage label label--small">2%</div>
+                </div>
+              </div>
+            </div>
+            <div class="bar-chart__row">
+              <div id="w-node-b73a9fe7aaff-f51c5c1c" class="label label--small truncate">Chart label that is too long to fit on one line</div>
+              <div class="bar-chart__hover-label">
+                <div class="label label--small">Chart label that is too long to fit on one line</div>
+              </div>
+              <div class="bar-chart__bar-wrapper">
+                <div class="bar-chart__bar colour colour--primary">
+                  <div class="bar-chart__bar_value label label--small">R123 456 789</div>
+                  <div class="bar-chart__bar_percentage label label--small">2%</div>
+                </div>
+              </div>
+            </div>
+            <div class="bar-chart__legend">
+              <div class="legend-item">
+                <div class="legend-item__block colour colour--primary"></div>
+                <div class="label label--small label--light">Legend label</div>
+              </div>
+            </div>
+          </div>
+          <a id="w-node-d7309853ccab-9853ccab" href="#" class="button w-inline-block">
+            <div id="w-node-d7309853ccae-9853ccab">Loading...</div>
+          </a>
+          <a id="w-node-08d68630fc3e-8630fc3e" href="#" class="button button--icon-left button--align-left w-inline-block">
+            <div class="button__icon">
+              <div class="fas fa-envelope"></div>
+            </div>
+            <div id="w-node-08d68630fc41-8630fc3e">Loading...</div>
+          </a>
+          <a href="#" class="search-result w-inline-block">
+            <div class="search-result__muni-name truncate">Loading...</div>
+            <div class="search-result__muni-type">Loading...</div>
+            <div class="plate plate--black-trans-4 plate--rounded"></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=5fb612add2bb520fe31c5c1a" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="/static/webflow/js/municipalmoney.js" type="text/javascript"></script>
+  <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
+  <script>
+      // when the DOM is ready
+      $(document).ready(function() {
+        // get the li items
+        const listItems = $('li');
+        // for each li item
+        listItems.each(function(index, item) {
+          // check for '~' character
+          // it's recommended to start with the deepest level of sub bullet
+          // to ensure only the relevant classes are applied
+          // if the li item text starts with '~~'
+          if ($(item).text().startsWith('~~')) {
+            // run indentText() function
+            indentText(this, 'custom-sub-bullet-2');
+          } // else if the li item starts with '~'
+          else if ($(item).text().startsWith('~')) {
+            // run indentText() function
+            indentText(this, 'custom-sub-bullet');
+          }
+        });
+        // indentText function
+        function indentText(li, className) {
+          // add relevant className to li item
+          // if the li item text starts with '~~' add the sub-bullet-2 class
+          // else if the li item starts with '~' add the sub-bullet class
+          $(li).addClass(className);
+          // remove the '~' from the li items
+          // the regex /~+/g 
+          // matches any one or more ~ characters
+          const reformatedText = $(li).html().replace(/~+/g, '');
+          // replace the li item's html text that has ~ tags
+          // with the new text that removed the ~ character(s)
+          $(li).html(reformatedText);
+        }
+      });
+    </script>
+
+<script id="page-data" type="application/json">{{ page_data_json|json_script_escape:True }}</script>
+<script>var API_URL = '{{ API_URL }}'</script>
+{% javascript 'scorecard' %}<script src="{% static 'household/js/plotly.js' %}"></script>
+<script src="{% static 'household/js/household.js' %}"></script>
+<script src="{% static 'js/municipal-money.js' %}"></script>
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');{% if GOOGLE_ANALYTICS_ID %}ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');{% endif %}ga('send', 'pageview');</script>
+</body></html>

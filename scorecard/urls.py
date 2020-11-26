@@ -5,7 +5,8 @@ from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 from rest_framework import routers
 from django.contrib import admin
-
+import debug_toolbar
+from django.shortcuts import redirect
 import scorecard.views as views
 import infrastructure.views
 
@@ -21,12 +22,12 @@ def trigger_error(request):
 
 urlpatterns = [
     url("admin/", admin.site.urls),
-    url(r"^$", TemplateView.as_view(template_name="homepage.html"), name="homepage"),
-    url(r"^about", TemplateView.as_view(
-        template_name="about.html"), name="about"),
-    url(r"^faq", TemplateView.as_view(template_name="faq.html"), name="faq"),
-    url(r"^terms", TemplateView.as_view(
-        template_name="terms.html"), name="terms"),
+    url(r"^$", TemplateView.as_view(template_name="webflow/index.html"), name="homepage"),
+    url(r"^about", lambda request: redirect("/")),
+    url(r"^faq", lambda request: redirect("/help")),
+    url(r"^help$", TemplateView.as_view(template_name="webflow/help.html"), name="help"),
+    url(r"^terms$", TemplateView.as_view(
+        template_name="webflow/terms.html"), name="terms"),
     url(r"^sitemap.txt", views.SitemapView.as_view(), name="sitemap"),
     # e.g. /profiles/province-GT/
     url(
@@ -40,13 +41,6 @@ urlpatterns = [
         view=cache_page(CACHE_SECS)(views.GeographyPDFView.as_view()),
         kwargs={},
         name="geography_pdf",
-    ),
-    # e.g. /compare/province-GT/vs/province-WC/
-    url(
-        regex="^compare/(?P<geo_id1>\w+-\w+)/vs/(?P<geo_id2>\w+-\w+)/$",
-        view=cache_page(CACHE_SECS)(views.GeographyCompareView.as_view()),
-        kwargs={},
-        name="geography_compare",
     ),
     url(
         regex="^locate/$",
@@ -67,4 +61,6 @@ urlpatterns = [
     url("^api/geography/", include(router.urls)),
 
     url("^sentry-debug/", trigger_error),
+
+    url('__debug__/', include(debug_toolbar.urls)),
 ]

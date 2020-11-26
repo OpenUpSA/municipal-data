@@ -52,7 +52,7 @@ def stack_chart(services_queryset, bill_totals_queryset):
     Function to format the household service totals data to present a stack chart
     We need to check if the bill totals for this income level are within range for a particular year,
     If so we can show the break down of the services for that year.
-    
+
     """
     service_total_data = {}
     if services_queryset:
@@ -77,15 +77,14 @@ def stack_chart(services_queryset, bill_totals_queryset):
                     service_total_data[result["service__name"]]["y"].append(
                         str(result["total"])
                     )
-        service_total_data = OrderedDict(
-            sorted(
-                service_total_data.items(),
-                key=lambda item: len(item[1]["x"]),
-                reverse=True,
-            )
+        service_total_data = sorted(
+            service_total_data.items(),
+            key=lambda item: len(item[1]["x"]),
+            reverse=True,
         )
-        return json.dumps(service_total_data)
-    return json.dumps({})
+
+        return service_total_data
+    return {}
 
 
 def percent_increase(queryset):

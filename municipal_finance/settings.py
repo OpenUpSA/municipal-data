@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import dj_database_url
 import os
 import environ
+import logging
+
+logger = logging.getLogger("municipal_finance")
+
 
 TESTING = False
 
@@ -19,6 +23,7 @@ env = environ.Env()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+ROOT_DIR = environ.Path(__file__) - 2
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -49,6 +54,7 @@ INSTALLED_APPS = (
     "scorecard",
     "infrastructure",
     "household",
+    "webflow",
     "django.contrib.sites",
     "django.contrib.contenttypes",
     "django.contrib.humanize",
@@ -61,14 +67,15 @@ INSTALLED_APPS = (
     "rest_framework",
     "django_q",
     "storages",
+    "debug_toolbar",
 )
 
 # Sites
 # 2: Scorecard
 # 3: API
 
-if DEBUG:
-    SITE_ID = int(os.environ.get("SITE_ID", "2"))
+if os.environ.get("SITE_ID", None):
+    SITE_ID = int(os.environ.get("SITE_ID"))
 
 API_BASE = "https://municipaldata.treasury.gov.za"
 API_URL = os.environ.get("API_URL", API_BASE + "/api")
@@ -77,6 +84,7 @@ MAPIT = {"url": "https://mapit.code4sa.org", "generation": "2"}
 
 MIDDLEWARE = [
     "django.middleware.gzip.GZipMiddleware",
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     "municipal_finance.middleware.RedirectsMiddleware",
     "municipal_finance.middleware.SiteMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -173,7 +181,9 @@ ASSETS_URL_EXPIRE = False
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # the URL for assets
 STATIC_URL = "/static/"
-
+STATICFILES_DIRS = [
+    str(ROOT_DIR.path("assets/bundles")),
+]
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
@@ -220,9 +230,6 @@ PIPELINE = {
             "source_filenames": (
                 "stylesheets/vendor/leaflet-0.6.4.css",
                 "stylesheets/vendor/leaflet.label.css",
-                "bower_components/fontawesome/css/font-awesome.css",
-                "stylesheets/icomoon.css",
-                "stylesheets/scorecard.scss",
             ),
             "output_filename": "scorecard.css",
         },
@@ -278,24 +285,15 @@ PIPELINE = {
         },
         "scorecard": {
             "source_filenames": (
-                "bower_components/jquery/dist/jquery.min.js",
-                "bower_components/d3/d3.min.js",
                 "bower_components/underscore/underscore-min.js",
+                "bower_components/d3/d3.min.js",
                 "js/vendor/d3-format.min.js",
-                "js/vendor/bootstrap-3.3.2/affix.js",
-                "js/vendor/bootstrap-3.3.2/scrollspy.js",
-                "js/vendor/bootstrap-3.3.2/transition.js",
-                "js/vendor/bootstrap-3.3.2/collapse.js",
-                "js/vendor/bootstrap-3.3.2/modal.js",
                 "js/vendor/typeahead-0.11.1.js",
-                "js/vendor/spin.min.js",
                 "js/vendor/leaflet-0.6.4.js",
                 "js/vendor/leaflet.label.js",
                 "js/charts.js",
                 "js/place-finder.js",
                 "js/maps.js",
-                "js/head2head.js",
-                "js/scorecard.js",
             ),
             "output_filename": "scorecard.js",
         },
@@ -319,11 +317,14 @@ PIPELINE = {
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = "municipal_finance.pipeline.GzipManifestPipelineStorage"
 
+WHITENOISE_MIMETYPES = {
+    '.map': 'application/octet-stream',
+}
 
 # Logging
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": True,
+    "disable_existing_loggers": False,
     "formatters": {
         "simple": {
             "format": "%(asctime)s %(levelname)s %(module)s %(process)d %(thread)d %(message)s"
@@ -411,3 +412,11 @@ if SENTRY_DSN:
         # django.contrib.auth) you may enable sending PII data.
         send_default_pii=True
     )
+
+DEBUG_TOOLBAR = os.environ.get("DJANGO_DEBUG_TOOLBAR", "false").lower() == "true"
+logger.info("Django Debug Toolbar %s." % "enabled" if DEBUG_TOOLBAR else "disabled")
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": "municipal_finance.settings.show_toolbar_check"
+}
+def show_toolbar_check(request):
+    return DEBUG and DEBUG_TOOLBAR
