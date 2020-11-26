@@ -56,7 +56,7 @@ export default class ColumnChart {
      this.chart = {
         config: {
             bindto: container,
-            margin: { top: 10, right: 10, bottom: 20, left: 50 },
+            margin: { top: 50, right: 10, bottom: 20, left: 50 },
             x: {},
             y: {},
             height: 0,
@@ -281,7 +281,7 @@ export default class ColumnChart {
       .attr('x', (d,i,a) => {
         let labelWidth = d3Select(a[i]).node().getBBox().width
         let colWidth = (self.chart.config.x.bandwidth() - (self.chart.config.x.bandwidth() / 4)) / self.chart.data.length
-        return self.chart.config.x(d.period) + (colWidth / 2) + (labelWidth / 2) 
+        return self.chart.config.x(d.period) + (colWidth / 2) + (labelWidth / 2)
       })
       .attr('y', function(d) {
         return self.chart.config.y(d.value) - 20
