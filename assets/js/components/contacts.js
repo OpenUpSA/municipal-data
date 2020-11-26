@@ -45,6 +45,9 @@ class OfficeContact {
 export class ContactSection {
   constructor(muniContact, staff, geography) {
     this.$element = $("#contacts");
+
+    this.$element.find(".date-updated").text(`Last updated  ${staff.updated_date}`);
+
     this.$contactContainer = this.$element.find(".expand-blocks");
     staff.officials.forEach((office) => {
       const contact = new OfficeContact(office);
