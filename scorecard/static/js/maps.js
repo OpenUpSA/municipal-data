@@ -86,9 +86,10 @@ var Maps = function() {
     "fillOpacity": 0.7,
   };
 
-  this.drawMapsForProfile = function(geo, demarcation) {
+  this.drawMapsForProfile = function(container, geo, demarcation) {
     this.geo = geo;
-    this.createMap();
+    var allowMapDrag = (browserWidth > 480) ? true : false;
+    this.createMap(container, allowMapDrag);
     this.addImagery();
 
     // for 2011 munis, we load generation 1 maps, otherwise we load 2016 (generation 2) maps
@@ -109,11 +110,8 @@ var Maps = function() {
     this.drawMunicipalities();
   };
 
-  this.drawMapForHomepage = function(centre, zoom) {
-    // draw a homepage map, but only for big displays
-    if (browserWidth < 768 || $('.profile-map').length === 0) return;
-
-    this.createMap();
+  this.drawMapForHomepage = function(container, centre, zoom) {
+    this.createMap(container, true);
     this.addImagery();
 
     if (centre) {
@@ -123,10 +121,9 @@ var Maps = function() {
     this.drawMunicipalities();
   };
 
-  this.createMap = function() {
-    var allowMapDrag = (browserWidth > 480) ? true : false;
+  this.createMap = function(container, allowMapDrag) {
 
-    this.map = L.map($(".profile-map")[0], {
+    this.map = L.map($(container)[0], {
       scrollWheelZoom: false,
       zoomControl: false,
       doubleClickZoom: false,
