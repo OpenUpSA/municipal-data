@@ -280,8 +280,8 @@ export default class ColumnChart {
       .text(d => d.value)
       .attr('x', (d,i,a) => {
         let labelWidth = d3Select(a[i]).node().getBBox().width
-        let colWidth = (self.chart.config.x.bandwidth() - (self.chart.config.x.bandwidth() / 4)) / self.chart.data.length;
-        return d3Select(a[i].parentNode).select('.rect').node().getBBox().x + (colWidth / 2) - labelWidth
+        let colWidth = (self.chart.config.x.bandwidth() - (self.chart.config.x.bandwidth() / 4)) / self.chart.data.length
+        return self.chart.config.x(d.period) + (colWidth / 2) + (labelWidth / 2) 
       })
       .attr('y', function(d) {
         return self.chart.config.y(d.value) - 20
