@@ -30,7 +30,6 @@ export class IndicatorSection {
     this.geography = geography;
 
     const chartContainerSelector = `${selector} .indicator-chart`;
-    console.log(selector, this.chartData(), this.formatMedians());
     this.chart = new ColumnChart(chartContainerSelector, [this.chartData()]);
     const chartContainerParent = $(chartContainerSelector).parent();
 

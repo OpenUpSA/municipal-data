@@ -294,7 +294,6 @@ PIPELINE = {
                 "js/charts.js",
                 "js/place-finder.js",
                 "js/maps.js",
-                # "js/scorecard.js",
             ),
             "output_filename": "scorecard.js",
         },
