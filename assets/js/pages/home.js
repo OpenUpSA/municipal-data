@@ -1,5 +1,5 @@
 export default class HomePage {
-  constructor() {
+  constructor(pageData) {
     const maps = new Maps();
     var centre = [-28.5, 25];
     var zoom = 5;

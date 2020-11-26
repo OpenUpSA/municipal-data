@@ -8,9 +8,7 @@ import { InPageNav } from '../components/in-page-nav.js';
 import { CapitalProjectList } from '../components/capital-projects.js';
 
 export default class ProfilePage {
-  constructor() {
-    const pageData = JSON.parse(document.getElementById('page-data').textContent);
-
+  constructor(pageData) {
     const maps = new Maps();
     maps.drawMapsForProfile(".profile-map", pageData.geography, pageData.demarcation);
 

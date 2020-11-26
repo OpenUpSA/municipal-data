@@ -4,6 +4,7 @@ exports.transformHTML = function(html) {
   newHtml = newHtml.replace(/"index.html"/g, '"/"');
   newHtml = newHtml.replace(/"help.html"/g, '"/help"');
   newHtml = newHtml.replace(/"terms.html"/g, '"/terms"');
+  newHtml = newHtml.replace(/"locate.html"/g, '"/locate"');
   return newHtml;
 };
 

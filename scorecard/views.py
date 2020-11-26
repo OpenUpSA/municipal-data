@@ -16,6 +16,7 @@ from . import serializers
 from rest_framework import viewsets
 
 import subprocess
+from django.conf import settings
 
 
 class GeographyViewSet(viewsets.ReadOnlyModelViewSet):
@@ -62,8 +63,14 @@ class LocateView(TemplateView):
         return super(LocateView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
-        return {"nope": self.nope, "lat": self.lat, "lon": self.lon}
-
+        return {
+            "page_data_json": json.dumps(
+                {"nope": self.nope},
+                cls=serializers.JSONEncoder,
+                sort_keys=True,
+                indent=4 if settings.DEBUG else None
+            ),
+        }
 
 class GeographyDetailView(TemplateView):
     template_name = "webflow/muni-profile.html"
@@ -185,7 +192,12 @@ class GeographyDetailView(TemplateView):
         page_json["household_chart_indigent"] = chart_indigent
 
         page_context = {
-            "page_data_json": json.dumps(page_json, cls=serializers.JSONEncoder, sort_keys=True, indent=4),
+            "page_data_json": json.dumps(
+                page_json,
+                cls=serializers.JSONEncoder,
+                sort_keys=True,
+                indent=4 if settings.DEBUG else None
+            ),
             "page_title": f"{ self.geo.name} - Municipal Money",
             "page_description": f"Financial Performance for { self.geo.name }, and other information.",
         }
