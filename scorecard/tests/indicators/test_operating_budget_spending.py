@@ -10,13 +10,13 @@ from ...profile_data import (
     OperatingBudgetSpending,
 )
 
-from .utils import (
+from . import (
     import_data,
-    IndicatorTestCase,
+    _IndicatorTestCase,
 )
 
 
-class TestOperatingBudgetSpending(IndicatorTestCase):
+class TestOperatingBudgetSpending(_IndicatorTestCase):
 
     def test_result(self):
         # Load sample data

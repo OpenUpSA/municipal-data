@@ -10,13 +10,13 @@ from ...profile_data import (
     CashBalance,
 )
 
-from .utils import (
+from . import (
     import_data,
-    IndicatorTestCase,
+    _IndicatorTestCase,
 )
 
 
-class TestCashBalance(IndicatorTestCase):
+class TestCashBalance(_IndicatorTestCase):
 
     def test_result(self):
         # Load sample data

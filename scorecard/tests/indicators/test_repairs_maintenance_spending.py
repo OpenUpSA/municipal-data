@@ -12,13 +12,13 @@ from ...profile_data import (
     RepairsMaintenanceSpending,
 )
 
-from .utils import (
+from . import (
     import_data,
-    IndicatorTestCase,
+    _IndicatorTestCase,
 )
 
 
-class TestRepairsMaintenanceSpending(IndicatorTestCase):
+class TestRepairsMaintenanceSpending(_IndicatorTestCase):
 
     def test_result(self):
         # Load sample data

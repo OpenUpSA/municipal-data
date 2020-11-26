@@ -11,13 +11,13 @@ from ...profile_data import (
     UIFWExpenditure,
 )
 
-from .utils import (
+from . import (
     import_data,
-    IndicatorTestCase,
+    _IndicatorTestCase,
 )
 
 
-class TestUIFWExpenditure(IndicatorTestCase):
+class TestUIFWExpenditure(_IndicatorTestCase):
 
     def test_result(self):
         # Load sample data

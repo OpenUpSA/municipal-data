@@ -10,13 +10,13 @@ from ...profile_data import (
     LiquidityRatio,
 )
 
-from .utils import (
+from . import (
     import_data,
-    IndicatorTestCase,
+    _IndicatorTestCase,
 )
 
 
-class TestLiquidityRatio(IndicatorTestCase):
+class TestLiquidityRatio(_IndicatorTestCase):
 
     def test_result(self):
         # Load sample data

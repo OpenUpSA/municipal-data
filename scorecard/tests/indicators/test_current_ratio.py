@@ -10,13 +10,13 @@ from ...profile_data import (
     CurrentRatio,
 )
 
-from .utils import (
+from . import (
     import_data,
-    IndicatorTestCase,
+    _IndicatorTestCase,
 )
 
 
-class TestCurrentRatio(IndicatorTestCase):
+class TestCurrentRatio(_IndicatorTestCase):
 
     def test_result(self):
         # Load sample data

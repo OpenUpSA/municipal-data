@@ -12,13 +12,13 @@ from ...profile_data import (
     CurrentDebtorsCollectionRate,
 )
 
-from .utils import (
+from . import (
     import_data,
-    IndicatorTestCase,
+    _IndicatorTestCase,
 )
 
 
-class TestCurrentDebtorsCollectionRate(IndicatorTestCase):
+class TestCurrentDebtorsCollectionRate(_IndicatorTestCase):
 
     def test_result(self):
         # Load sample data
