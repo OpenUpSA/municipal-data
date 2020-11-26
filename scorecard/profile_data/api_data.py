@@ -241,6 +241,23 @@ class ApiData(object):
 
     def get_queries(self):
         return {
+            "uifw_expenditure": {
+                "cube": "uifwexp",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": [
+                        "irregular",
+                        "fruitless",
+                        "unauthorised",
+                    ],
+                    "demarcation.code": [self.geo_code],
+                    "financial_year_end.year": self.uifw_years,
+                },
+                "drilldown": ["financial_year_end.year"],
+                "order": "financial_year_end.year:desc",
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
             "repairs_maintenance_v1": {
                 "cube": "capital",
                 "aggregate": "repairs_maintenance.sum",
@@ -603,46 +620,6 @@ class ApiData(object):
                 "order": "financial_year_end.year:desc",
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
-            },
-            "op_exp_actual": {
-                "cube": "incexp",
-                "aggregate": "amount.sum",
-                "cut": {
-                    "item.code": ["4600"],
-                    "amount_type.code": ["AUDA"],
-                    "demarcation.code": [self.geo_code],
-                    "period_length.length": ["year"],
-                    "financial_year_end.year": self.years,
-                },
-                "drilldown": YEAR_ITEM_DRILLDOWN,
-                "query_type": "aggregate",
-                "results_structure": self.item_code_year_aggregate,
-            },
-            "op_exp_budget": {
-                "cube": "incexp",
-                "aggregate": "amount.sum",
-                "cut": {
-                    "item.code": ["4600"],
-                    "amount_type.code": ["ADJB"],
-                    "demarcation.code": [self.geo_code],
-                    "period_length.length": ["year"],
-                    "financial_year_end.year": self.years,
-                },
-                "drilldown": YEAR_ITEM_DRILLDOWN,
-                "query_type": "aggregate",
-                "results_structure": self.item_code_year_aggregate,
-            },
-            "wasteful_exp": {
-                "cube": "uifwexp",
-                "aggregate": "amount.sum",
-                "cut": {
-                    "item.code": ["irregular", "fruitless", "unauthorised"],
-                    "demarcation.code": [self.geo_code],
-                    "financial_year_end.year": self.uifw_years,
-                },
-                "drilldown": YEAR_ITEM_DRILLDOWN,
-                "query_type": "aggregate",
-                "results_structure": self.item_code_year_aggregate,
             },
             "revenue_breakdown": {
                 "cube": "incexp",

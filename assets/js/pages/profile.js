@@ -38,7 +38,7 @@ export default class ProfilePage {
     initSection(OverUnderSection, "#operating-budget", "operating_budget_spending");
     initSection(OverUnderSection, "#capital-budget", "capital_budget_spending");
     initSection(IndicatorSection, "#repairs-maintenance", "repairs_maintenance_spending");
-    initSection(IndicatorSection, "#wasteful-expenditure", "wasteful_exp");
+    initSection(IndicatorSection, "#wasteful-expenditure", "uifw_expenditure");
     initSection(IndicatorSection, "#current-ratio", "current_ratio");
     initSection(IndicatorSection, "#liquidity-ratio", "liquidity_ratio");
     initSection(IndicatorSection, "#collection-rate", "current_debtors_collection_rate");

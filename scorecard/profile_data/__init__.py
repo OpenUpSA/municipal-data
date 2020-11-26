@@ -34,6 +34,7 @@ from .indicators.cash_coverage import CashCoverage
 from .indicators.operating_budget_spending import OperatingBudgetSpending
 from .indicators.capital_budget_spending import CapitalBudgetSpending
 from .indicators.repairs_maintenance_spending import RepairsMaintenanceSpending
+from .indicators.uifw_expenditure import UIFWExpenditure
 
 
 def get_indicator_calculators(has_comparisons=None):
@@ -51,7 +52,7 @@ def get_indicator_calculators(has_comparisons=None):
         ExpenditureTrendsContracting,
         ExpenditureTrendsStaff,
         CashBalance,
-        FruitlWastefIrregUnauth,
+        UIFWExpenditure,
     ]
     if has_comparisons is None:
         return calculators
@@ -321,45 +322,6 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         grouped_results = sorted(
             grouped_results, key=lambda r: (r["date"], r["item"]))
         return {"values": grouped_results}
-
-
-class FruitlWastefIrregUnauth(IndicatorCalculator):
-    indicator_name = "wasteful_exp"
-    result_type = "%"
-    noun = "expenditure"
-    has_comparisons = True
-
-    @classmethod
-    def get_muni_specifics(cls, api_data):
-        values = []
-        aggregate = {}
-        for item, results in api_data.results["wasteful_exp"].items():
-            for year, amount in results.items():
-                if year in aggregate:
-                    aggregate[year] += amount
-                else:
-                    aggregate[year] = amount
-
-        for year in api_data.uifw_years:
-            try:
-                op_ex_actual = api_data.results["op_exp_actual"]["4600"][year]
-                result = percent(aggregate[year], op_ex_actual)
-                rating = None
-                if result == 0:
-                    rating = "good"
-                else:
-                    rating = "bad"
-            except KeyError:
-                result = None
-                rating = None
-
-            values.append({"date": year, "result": result, "rating": rating})
-
-        return {
-            "values": values,
-            "ref": api_data.references["circular71"],
-            "result_type": cls.result_type,
-        }
 
 
 class Demarcation(object):

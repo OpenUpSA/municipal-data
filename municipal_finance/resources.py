@@ -22,6 +22,7 @@ from .models import (
     CapitalItemsV2,
     CapitalFactsV1,
     CapitalFactsV2,
+    UifwexpFacts,
 )
 
 
@@ -185,4 +186,14 @@ class CapitalFactsV2Resource(resources.ModelResource):
             'item',
             'function',
             'capital_type',
+        ]
+
+
+class UIFWExpenditureFactsResource(resources.ModelResource):
+    class Meta:
+        model = UifwexpFacts
+        import_id_fields = [
+            'demarcation_code',
+            'financial_year',
+            'item_code',
         ]
