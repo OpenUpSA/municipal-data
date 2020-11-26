@@ -32,7 +32,7 @@ def infra_dict(project):
 
 
 class LocateView(TemplateView):
-    template_name = "locate.html"
+    template_name = "webflow/locate.html"
 
     def get(self, request, *args, **kwargs):
         self.lat = self.request.GET.get("lat", None)
