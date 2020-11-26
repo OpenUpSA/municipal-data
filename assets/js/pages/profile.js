@@ -41,10 +41,13 @@ export default class ProfilePage {
 
     new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
 
+    $("#income-sources .financial-period").empty();
     $("#income-sources .indicator-chart")
       .addClass("chart-container")
       .attr("data-chart", "grouped-bar-revenue_breakdown")
       .attr("data-unit", "currency");
+
+    $("#what-is-money-spent-on .financial-period").empty();
     $("#what-is-money-spent-on .indicator-chart")
       .addClass("chart-container")
       .attr("data-chart", "grouped-bar-expenditure_functional_breakdown")
@@ -73,16 +76,20 @@ export default class ProfilePage {
     $("#income-over-time .indicator-metric").hide();
 
     if (householdPercent.Middle) {
+      $("#income-over-time .financial-period").empty();
       overall_chart($("#income-over-time .indicator-chart")[0], chartData);
 
+      $("#middle-income-over-time .financial-period").empty();
       $("#middle-income-over-time .indicator-metric__value").text(`${householdPercent.Middle}%`);
       const middleContainer = $("#middle-income-over-time .indicator-chart")[0];
       income_chart(middleChartData, middleContainer, yearly_percent['Middle Income Range']);
 
+      $("#affordable-income-over-time .financial-period").empty();
       $("#affordable-income-over-time .indicator-metric__value").text(`${householdPercent.Affordable}%`);
       const affordableContainer = $("#affordable-income-over-time .indicator-chart")[0];
       income_chart(affordableChartData, affordableContainer, yearly_percent['Affordable Range']);
 
+      $("#indigent-income-over-time .financial-period").empty();
       $("#indigent-income-over-time .indicator-metric__value").text(`${householdPercent.Indigent}%`);
       const indigentContainer = $("#indigent-income-over-time .indicator-chart")[0];
       income_chart(indigentChartData, indigentContainer, yearly_percent['Indigent HH receiving FBS']);
