@@ -10,8 +10,6 @@ ADD packages.txt /packages.txt
 RUN set -ex; \
   apt-get update; \
   cat /packages.txt | grep -v \# | xargs apt-get install -y; \
-  # Chrome dependencies for puppeteer
-  apt-get install `apt-cache depends pkgname | awk '/Depends:/{print$2}'`; \
   # cleaning up unused files \
   apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
   rm -rf /var/lib/apt/lists/*

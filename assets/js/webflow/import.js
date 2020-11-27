@@ -26,6 +26,17 @@ exports.transformDOM = function(window, $) {
 
   // Body scripts
   addScriptToBody(window, {
+    src: "https://browser.sentry-cdn.com/5.27.6/bundle.tracing.min.js",
+    integrity: "sha384-9Z8PxByVWP+gIm/rTMPn9BWwknuJR5oJcLj+Nr9mvzk8nJVkVXgQvlLGZ9SIFEJF",
+    crossorigin: "anonymous",
+  });
+  addScriptToBody(window, {}, '\
+  Sentry.init({\
+  dsn: "{{ SENTRY_DSN }}",\
+  integrations: [new Sentry.Integrations.BrowserTracing()],\
+  tracesSampleRate: 0.1,\
+})');
+  addScriptToBody(window, {
     id: "page-data",
     type: "application/json"
   }, "{{ page_data_json|json_script_escape:True }}");

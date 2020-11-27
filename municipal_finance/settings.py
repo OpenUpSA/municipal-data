@@ -163,6 +163,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
                 "municipal_finance.context_processors.google_analytics",
+                "municipal_finance.context_processors.sentry_dsn",
                 "municipal_finance.context_processors.api_details",
             ],
         },
@@ -356,7 +357,7 @@ REST_FRAMEWORK = {
 
 Q_CLUSTER = {
     "name": "DjangORM",
-    "workers": 2,
+    "workers": 1,
     "timeout": 3600,
     "retry": 700,
     "queue_limit": 100,
