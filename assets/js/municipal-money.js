@@ -27,3 +27,4 @@ $(function() {
 });
 
 window.testSentry = () => nonExistentFunction("Something");
+testSentry();

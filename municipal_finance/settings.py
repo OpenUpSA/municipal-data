@@ -163,6 +163,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
                 "municipal_finance.context_processors.google_analytics",
+                "municipal_finance.context_processors.sentry_dsn",
                 "municipal_finance.context_processors.api_details",
             ],
         },

@@ -17,6 +17,13 @@ def google_analytics(request):
     return {'GOOGLE_ANALYTICS_ID': ga_id}
 
 
+def sentry_dsn(request):
+    """
+    Add the Sentry DSN to the context for use when rendering error reporting code.
+    """
+    return {'SENTRY_DSN': settings.SENTRY_DSN}
+
+
 def api_details(request):
     return {
         'API_URL': settings.API_URL
