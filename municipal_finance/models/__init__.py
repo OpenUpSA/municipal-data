@@ -153,17 +153,6 @@ class AuditOpinionFacts(models.Model):
         db_table = 'audit_opinion_facts'
 
 
-class AuditOpinions(models.Model):
-    demarcation_code = models.TextField()
-    financial_year = models.TextField()
-    opinion_code = models.TextField()
-    opinion_label = models.TextField()
-
-    class Meta:
-        db_table = 'audit_opinions'
-        unique_together = (('demarcation_code', 'financial_year'),)
-
-
 class ConditionalGrants(models.Model):
     code = models.TextField(null=True)
     name = models.TextField(null=True)
