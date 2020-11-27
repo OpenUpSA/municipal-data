@@ -121,6 +121,11 @@ var Maps = function() {
   };
 
   this.createMap = function(container) {
+    /* Disable map drag on narrow, probably-touch-screen devices
+       so that they can scroll the page when the map is a large
+       part of their device screen, and so that tapping on the map
+       registers as selecting a feature (visiting a muni) rather
+       than as a map scroll attempt */
     var allowMapDrag = (browserWidth > 480) ? true : false;
 
     this.map = L.map($(container)[0], {
