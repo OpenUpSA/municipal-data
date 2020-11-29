@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from . import models
+import municipal_finance
 import decimal
 
 import json
@@ -18,6 +19,13 @@ class GeographySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Geography
         exclude = ["id"]
+
+
+class MunicipalityProfileSerializer(serializers.BaseSerializer):
+    def to_representation(self, instance):
+        data = instance.data
+        data["demarcation"]["code"] = instance.demarcation_code
+        return data
 
 
 class JSONEncoder(json.JSONEncoder):

@@ -12,6 +12,7 @@ import infrastructure.views
 
 router = routers.DefaultRouter()
 router.register(r"geography", views.GeographyViewSet)
+router.register(r"municipality-profile", views.MunicipalityProfileViewSet)
 
 # This cache is reset on each deployment. Corresponding caching headers are
 # sent to the client, too.
@@ -58,7 +59,8 @@ urlpatterns = [
     ),
     url("^api/v1/infrastructure/", include("infrastructure.urls.api")),
     url("^infrastructure/", include("infrastructure.urls.templates")),
-    url("^api/geography/", include(router.urls)),
+
+    url("^api/", include(router.urls)),
 
     url("^sentry-debug/", trigger_error),
 
