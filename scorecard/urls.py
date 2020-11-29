@@ -11,7 +11,7 @@ import scorecard.views as views
 import infrastructure.views
 
 router = routers.DefaultRouter()
-router.register(r"geography", views.GeographyViewSet)
+router.register(r"geography/geography", views.GeographyViewSet)
 router.register(r"municipality-profile", views.MunicipalityProfileViewSet)
 
 # This cache is reset on each deployment. Corresponding caching headers are
