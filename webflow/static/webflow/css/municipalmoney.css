@@ -1261,6 +1261,10 @@ figure {
   padding-bottom: 0px;
 }
 
+.section.section--padding-bottom-more {
+  padding-bottom: 90px;
+}
+
 .page-heading__title {
   margin-top: 0px;
   margin-bottom: 0px;
@@ -3260,6 +3264,15 @@ figure {
   color: #000;
 }
 
+.footer-link.footer-link--primary {
+  background-color: rgba(165, 43, 48, 0.16);
+  color: #791719;
+}
+
+.footer-link.footer-link--primary:hover {
+  background-color: rgba(165, 43, 48, 0.32);
+}
+
 .footer__links {
   display: -webkit-box;
   display: -webkit-flex;
@@ -4369,7 +4382,6 @@ figure {
   display: -ms-grid;
   display: grid;
   margin-top: 8px;
-  margin-bottom: 24px;
   -webkit-box-align: center;
   -webkit-align-items: center;
   -ms-flex-align: center;
@@ -5270,6 +5282,8 @@ figure {
 
   .tutorial-video__language {
     padding: 6px 8px;
+    background-color: #4d4d4d;
+    color: #fff;
   }
 
   .page-nav__trigger {
