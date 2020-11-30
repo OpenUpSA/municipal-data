@@ -63,6 +63,7 @@ export default class ProfilePage {
       ga('send', 'event', 'outbound-click', e.target.href);
     });
 
+    Webflow.require('ix2').init();
   }
 
   initHouseholdBills(pageData) {

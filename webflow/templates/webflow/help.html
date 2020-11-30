@@ -1,6 +1,6 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Thu Nov 26 2020 13:55:41 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb5281f51c5c1c" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Fri Nov 27 2020 06:55:25 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb5281f51c5c1c" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="Learn about Municipal Money, the municipal budget process and our budget data" name="description">
@@ -210,6 +210,21 @@
         .sub-section {
           break-inside: avoid !important;
         }
+      }
+      .dont-break-out {
+        /* These are technically the same, but use both */
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        -ms-word-break: break-all;
+        /* This is the dangerous one in WebKit, as it breaks things wherever */
+        word-break: break-all;
+        /* Instead use this non-standard one: */
+        word-break: break-word;
+        /* Adds a hyphen where the word breaks, if supported (No Blink) */
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
       }
     </style>
 <link rel="stylesheet" href="{% static 'scss/municipal-money.css' %}">
@@ -849,6 +864,12 @@
         <div id="w-node-a2e6e9d831a0-e9d8319d" class="layout-grid__col layout-grid__col--padding-right">
           <a href="http://www.treasury.gov.za" target="_blank" class="footer-logo w-inline-block"><img src="/static/webflow/images/national-treasury-logo.png" loading="eager" alt="" class="logo"></a>
           <p class="footer-description">Municipal Money is an initiative of the National Treasury, which has collected extensive municipal financial data over several years and would like to share this information with the public.</p>
+          <a href="/help" aria-current="page" class="footer-link footer-link--primary w-inline-block w--current">
+            <div class="icon icon--16px icon--margin-right-8px icon--primary">
+              <div class="fas fa-info"></div>
+            </div>
+            <div>Learn more</div>
+          </a>
         </div>
         <div id="w-node-a2e6e9d831c1-e9d8319d" class="grid grid--16px">
           <h5 class="footer-heading heading heading--clear">Useful links</h5>

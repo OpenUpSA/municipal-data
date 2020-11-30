@@ -1,6 +1,6 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Thu Nov 26 2020 13:55:41 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb52ccb71c5c1e" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Fri Nov 27 2020 06:55:25 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb52ccb71c5c1e" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_title }}" property="og:title">
@@ -205,6 +205,21 @@
         .sub-section {
           break-inside: avoid !important;
         }
+      }
+      .dont-break-out {
+        /* These are technically the same, but use both */
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        -ms-word-break: break-all;
+        /* This is the dangerous one in WebKit, as it breaks things wherever */
+        word-break: break-all;
+        /* Instead use this non-standard one: */
+        word-break: break-word;
+        /* Adds a hyphen where the word breaks, if supported (No Blink) */
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
       }
     </style>
 <link rel="stylesheet" href="{% static 'scss/municipal-money.css' %}">
@@ -523,19 +538,19 @@
                 <div class="button__icon">
                   <div class="fas fa-phone-alt"></div>
                 </div>
-                <div id="w-node-b01f7852b163-b71c5c1e">Loading...</div>
+                <div id="w-node-b01f7852b163-b71c5c1e" class="dont-break-out">Loading...</div>
               </a>
               <a id="w-node-09a0e8c9c610-b71c5c1e" href="#" class="button button--icon-left button--align-left button--email-muni w-inline-block">
                 <div class="button__icon">
                   <div class="fas fa-envelope"></div>
                 </div>
-                <div id="w-node-09a0e8c9c613-b71c5c1e">Email municipality</div>
+                <div id="w-node-09a0e8c9c613-b71c5c1e" class="dont-break-out">Email municipality</div>
               </a>
               <a id="w-node-ecdf5e07da7b-b71c5c1e" href="#" class="button button--icon-left button--align-left button--muni-site w-inline-block">
                 <div class="button__icon">
                   <div class="fas fa-globe-africa"></div>
                 </div>
-                <div id="w-node-ecdf5e07da7e-b71c5c1e">Municipality website</div>
+                <div id="w-node-ecdf5e07da7e-b71c5c1e" class="dont-break-out">Municipality website</div>
               </a>
               <div class="muni-address">
                 <div class="button__icon">
@@ -2544,6 +2559,12 @@
         <div id="w-node-a2e6e9d831a0-e9d8319d" class="layout-grid__col layout-grid__col--padding-right">
           <a href="http://www.treasury.gov.za" target="_blank" class="footer-logo w-inline-block"><img src="/static/webflow/images/national-treasury-logo.png" loading="eager" alt="" class="logo"></a>
           <p class="footer-description">Municipal Money is an initiative of the National Treasury, which has collected extensive municipal financial data over several years and would like to share this information with the public.</p>
+          <a href="/help" class="footer-link footer-link--primary w-inline-block">
+            <div class="icon icon--16px icon--margin-right-8px icon--primary">
+              <div class="fas fa-info"></div>
+            </div>
+            <div>Learn more</div>
+          </a>
         </div>
         <div id="w-node-a2e6e9d831c1-e9d8319d" class="grid grid--16px">
           <h5 class="footer-heading heading heading--clear">Useful links</h5>
