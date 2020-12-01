@@ -45,7 +45,7 @@ export class IndicatorSection {
     this.initSectionPeriod();
     this.initMetric();
 
-    this.comparisonMenu = new ComparisonMenu(selector);
+    this.comparisonMenu = new ComparisonMenu(selector, this.key);
     this.comparisonMenu.$element.on("option-select", ((e) => {
       this.updateChartComparison(e.detail.option);
     }).bind(this));
@@ -153,11 +153,13 @@ export class IndicatorSection {
     $provinceButton.text(` in ${this.geography.province_name}`);
     $provinceButton.on("click", (function() {
       this.chart.loadMedians(this.formatMedians().provincial);
+      ga('send', 'event', 'chart-averages', `${this.key} provincial`);
     }).bind(this));
 
     const $nationalButton = $(' <button class="button" style="display: unset">nationally</button>');
     $nationalButton.on("click", (function() {
       this.chart.loadMedians(this.formatMedians().national);
+      ga('send', 'event', 'chart-averages', `${this.key} national`);
     }).bind(this));
 
 
@@ -187,6 +189,7 @@ export class IndicatorSection {
       button.click(() => {
         this.chart.resetHighlight();
         this.chart.highlightCol(comparison.municipality.code);
+        ga('send', 'event', 'chart-compare-highlight', `${this.key} ${comparison.municipality.code}`);
       });
       button.text(`${comparison.municipality.name}, ${comparison.municipality.province_code}`);
       this.comparisonButtonsContainer.append(button);
