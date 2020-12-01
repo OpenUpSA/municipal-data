@@ -85,11 +85,11 @@ export class IndicatorSection {
       resultType: this.resultType(),
     };
   }
-  comparisonChartData(profile) {
+  comparisonChartData(profile, muni) {
     return {
       "municipality": {
         "code": profile.demarcation.code,
-        "name": "",
+        "name": muni["municipality.name"],
       },
       "data": profile.indicators[this.key].values.map(period => {
         return {
@@ -212,7 +212,8 @@ export class IndicatorSection {
     } else {
       this.getSimilarMunis().then((similarGroup) => {
         if (similarGroup.length > 0) {
-          const deferreds = _.sample(similarGroup, 3).map((muni) => {
+          const sampleMunis = _.sample(similarGroup, 3);
+          const deferreds = sampleMunis.map((muni) => {
             const demarcationCode = muni["municipality.demarcation_code"];
             const url = `/api/municipality-profile/${demarcationCode}/`;
             return $.get(url);
@@ -220,8 +221,8 @@ export class IndicatorSection {
 
           $.when(...deferreds).then(
             (...results) => {
-              this.comparisons = results.map(([result, textStatus, jqXHR]) => {
-                return this.comparisonChartData(result);
+              this.comparisons = results.map(([result, textStatus, jqXHR], index) => {
+                return this.comparisonChartData(result, sampleMunis[index]);
               });
               this.chart.loadData([this.chartData(), ...this.comparisons]);
               this._updateComparisonButtons();
