@@ -2559,7 +2559,15 @@ figure {
 }
 
 .icon-label-dropdown.muni-compare {
-  display: none;
+  display: -ms-grid;
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-column-gap: 10px;
+  grid-row-gap: 16px;
+  -ms-grid-columns: 1fr minmax(auto, 200px);
+  grid-template-columns: 1fr minmax(auto, 200px);
+  -ms-grid-rows: auto;
+  grid-template-rows: auto;
 }
 
 .indicator-compare__icon {

@@ -1,6 +1,7 @@
 import ProfilePage from './pages/profile.js';
 import HomePage from './pages/home.js';
 import LocatePage from './pages/locate.js';
+import './polyfills/custom-event';
 
 $(function() {
   const pageType = $("body").data("page");

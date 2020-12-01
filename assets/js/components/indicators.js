@@ -1,5 +1,6 @@
 import { logIfUnequal, formatFinancialYear, ratingColor, formatForType } from '../utils.js';
 import ColumnChart from './charts/column.js';
+import ComparisonMenu from './comparison-menu';
 
 const indicatorMetricClass = {
   "good": ".indicator-metric--status-green",
@@ -59,6 +60,11 @@ export class IndicatorSection {
 
     this.initSectionPeriod();
     this.initMetric();
+
+    this.comparisonMenu = new ComparisonMenu(selector);
+    this.comparisonMenu.$element.on("option-select", ((e) => {
+      this.updateChartComparison(e.detail.option);
+    }).bind(this));
   }
 
   formatMetric(value) {
@@ -139,6 +145,10 @@ export class IndicatorSection {
 
   formatPeriod(period) {
     return formatFinancialYear(period);
+  }
+
+  updateChartComparison(selection) {
+    console.log(selection);
   }
 }
 
