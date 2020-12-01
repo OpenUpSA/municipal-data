@@ -20,8 +20,9 @@ function comparePeriod( a, b ) {
 }
 
 export class IndicatorSection {
-  constructor(selector, sectionData, medians, geography) {
+  constructor(selector, key, sectionData, medians, geography) {
     this.selector = selector;
+    this.key = key;
     this.sectionData = sectionData;
     this.medians = medians;
     this.$element = $(selector);
@@ -149,6 +150,42 @@ export class IndicatorSection {
 
   updateChartComparison(selection) {
     console.log(selection);
+    if (selection === "none") {
+      console.log("should remove comparison munis");
+    } else {
+      $.get(API_URL + '/cubes/municipalities/facts', (data) => {
+        const miifGrouped  = _.groupBy(data.data, "municipality.miif_category");
+        let similarGroup = miifGrouped[this.geography.miif_category];
+        similarGroup = similarGroup.filter(
+          muni => muni["municipality.demarcation_code"] !== this.geography.geo_code
+        );
+        if (similarGroup) {
+          console.log(similarGroup);
+          similarGroup.slice(0,3).forEach((muni) => {
+            const demarcationCode = muni["municipality.demarcation_code"];
+            const url = `/api/municipality-profile/${demarcationCode}/`;
+            $.get(url, (data) => {
+              const chartData = {
+                "municipality": {
+                  "code": demarcationCode,
+                  "name": muni["municipality.name"],
+                },
+                "data": data.indicators[this.key].values.map(period => {
+                  return {
+                    "period": this.formatPeriod(period.date),
+                    "fillColor": "#ccc",
+                    "value": period.result,
+                  };
+                }),
+              };
+              this.chart.loadData([this.chartData(), chartData]);
+            });
+          });
+        } else {
+          alert("Unfortunately there are no similar municipalities");
+        }
+      });
+    }
   }
 }
 

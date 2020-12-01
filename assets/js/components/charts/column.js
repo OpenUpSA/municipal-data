@@ -166,17 +166,17 @@ export default class ColumnChart {
   _adjustY() {
 
 
-	let dataMax = d3Max(this.chart.data.map(d => d3Max(d.data.map(e => e.value))))
-	let dataMin = d3Min(this.chart.data.map(d => d3Min(d.data.map(e => e.value))))
+    let dataMax = d3Max(this.chart.data.map(d => d3Max(d.data.map(e => e.value))))
+    let dataMin = d3Min(this.chart.data.map(d => d3Min(d.data.map(e => e.value))))
 
-  let medianMax = d3Max(this.chart.medians.map(d => d.value))
-  let medianMin = d3Min(this.chart.medians.map(d => d.value))
+    let medianMax = d3Max(this.chart.medians.map(d => d.value))
+    let medianMin = d3Min(this.chart.medians.map(d => d.value))
 
-  let max = d3Max([dataMax, medianMax])
-  let min = d3Min([dataMin, medianMin])
+    let max = d3Max([dataMax, medianMax])
+    let min = d3Min([dataMin, medianMin])
 
-	min = min > 0 ? 0 : min
-  max = max < 0 ? 0 : max
+    min = min > 0 ? 0 : min
+    max = max < 0 ? 0 : max
 
     this.chart.config.y.domain([min, max]);
 
@@ -277,7 +277,7 @@ export default class ColumnChart {
 
 
     colGroups.select('.label')
-      .text(d => d.value)
+      .html(d => `${d.municipality.name} ${d.value}`)
       .attr('x', (d,i,a) => {
         let labelWidth = d3Select(a[i]).node().getBBox().width
         let colWidth = (self.chart.config.x.bandwidth() - (self.chart.config.x.bandwidth() / 4)) / self.chart.data.length
