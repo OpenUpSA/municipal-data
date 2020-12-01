@@ -12,6 +12,7 @@ from household.chart import stack_chart, chart_data, percent_increase, yearly_pe
 import json
 
 from . import models
+import municipal_finance
 from . import serializers
 from rest_framework import viewsets
 
@@ -22,6 +23,11 @@ from django.conf import settings
 class GeographyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Geography.objects.all()
     serializer_class = serializers.GeographySerializer
+
+
+class MunicipalityProfileViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = municipal_finance.models.MunicipalityProfile.objects.all()
+    serializer_class = serializers.MunicipalityProfileSerializer
 
 
 def infra_dict(project):

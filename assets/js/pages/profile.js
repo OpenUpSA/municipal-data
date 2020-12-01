@@ -22,6 +22,7 @@ export default class ProfilePage {
     const initSection = (className, selector, key) => {
       new className(
         selector,
+        key,
         pageData.indicators[key],
         pageData.medians[key],
         pageData.geography,
