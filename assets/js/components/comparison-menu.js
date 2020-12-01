@@ -7,6 +7,8 @@ export default class ComparisonMenu {
     this.$dropdown = this.$element.find(".dropdown");
     logIfUnequal(1, this.$dropdown.length);
 
+    this.$element.find(".w-dropdown-list a[data-option=similar-nearby]").hide();
+
     this.$element.find(".w-dropdown-list a").click((function(e) {
       const selectedOptionElement = $(e.target);
       this.$element.find(".dropdown__current-select").text(selectedOptionElement.text());

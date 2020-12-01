@@ -85,6 +85,7 @@ export class IndicatorSection {
       municipality: {
         code: this.geography.geo_code,
         name: this.geography.short_name,
+        province_code: this.geography.province_code
       },
       data: items,
       resultType: this.resultType(),
@@ -94,7 +95,8 @@ export class IndicatorSection {
     return {
       "municipality": {
         "code": profile.demarcation.code,
-        "name": muni["municipality.name"],
+        "name": muni.name,
+        "province_code": muni.province_code,
       },
       "data": profile.indicators[this.key].values.map(period => {
         return {
@@ -173,35 +175,52 @@ export class IndicatorSection {
   }
 
   _initComparisonButtons() {
-    this.comparisonButtonsContainer = $("<div></div>");
+    this.comparisonButtonsContainer = $("<p></p>");
     this.comparisonButtonsContainer.insertBefore(this.chartContainer);
   }
 
   _updateComparisonButtons() {
     this.comparisonButtonsContainer.empty();
     this.comparisonButtonsContainer.append("Comparing ");
-    [this.chartData(), ...this.comparisons].forEach((comparison) => {
+    [this.chartData(), ...(this.comparisons)].forEach((comparison) => {
       const button = $(' <button class="button" style="display: unset; margin: 2px 2px"></button> ');
       button.click(() => {
         this.chart.resetHighlight();
         this.chart.highlightCol(comparison.municipality.code);
       });
-      button.text(comparison.municipality.name);
+      button.text(`${comparison.municipality.name}, ${comparison.municipality.province_code}`);
       this.comparisonButtonsContainer.append(button);
     });
   }
 
-  async getSimilarMunis() {
+  async getSimilarMunis(comparisonOption) {
     try {
       const response = await $.ajax({
-        url: API_URL + '/cubes/municipalities/facts'
+        url: '/api/geography/geography/'
       });
-      const miifGrouped  = _.groupBy(response.data, "municipality.miif_category");
+      const miifGrouped  = _.groupBy(response.results, "miif_category");
       let similarGroup = miifGrouped[this.geography.miif_category];
+
+      // Remove current muni from selection
       similarGroup = similarGroup.filter(
-        muni => muni["municipality.demarcation_code"] !== this.geography.geo_code
+        muni => muni["geo_code"] !== this.geography.geo_code
       );
-      return similarGroup;
+      console.log(similarGroup);
+
+      let groups;
+      if (comparisonOption === "similar-nearby") {
+        groups = _.groupBy(_.toArray(similarGroup), "parent_code");
+        similarGroup = groups[this.geography.parent_code];
+      } else if (comparisonOption === "similar-same-province") {
+        groups = _.groupBy(similarGroup, "province_code");
+        similarGroup = groups[this.geography.province_code];
+      } else if (comparisonOption === "similar-nationally") {
+        console.log(comparisonOption);
+      } else {
+        console.error("unsupported comparisonOption", comparisonOption);
+      }
+      console.log(similarGroup);
+      return similarGroup || [];
     } catch (error) {
       console.log(error);
       alert("Error looking up similar municipalities. Please try again.");
@@ -213,29 +232,29 @@ export class IndicatorSection {
     if (comparisonOption === "none") {
       this.chart.loadData([this.chartData()]);
     } else {
-      this.getSimilarMunis().then((similarGroup) => {
+      this.getSimilarMunis(comparisonOption).then((similarGroup) => {
         if (similarGroup.length > 0) {
           const sampleMunis = _.sample(similarGroup, 3);
           const deferreds = sampleMunis.map((muni) => {
-            const demarcationCode = muni["municipality.demarcation_code"];
+            const demarcationCode = muni.geo_code;
             const url = `/api/municipality-profile/${demarcationCode}/`;
             return $.get(url);
           });
 
-          $.when(...deferreds).then(
-            (...results) => {
-              this.comparisons = results.map(([result, textStatus, jqXHR], index) => {
+          Promise.all(deferreds)
+            .then((results) => {
+              this.comparisons = results.map((result, index) => {
                 return this.comparisonChartData(result, sampleMunis[index]);
               });
-              this.chart.loadData([this.chartData(), ...this.comparisons]);
+              this.chart.loadData([this.chartData(), ...(this.comparisons)]);
               this._updateComparisonButtons();
-            },
-            (...details) => {
-              console.error("Error fetching comparison data", ...details);
+            })
+            .catch((details) => {
+              console.error("Error fetching comparison data: ", details);
               alert("Error loading comparison data. Please try again.");
             });
         } else {
-          alert("Unfortunately there are no similar municipalities");
+          alert("Unfortunately there are no similar municipalities for the selection. Please try again.");
         }
       });
     }
