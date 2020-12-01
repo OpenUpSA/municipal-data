@@ -107,6 +107,21 @@ export class IndicatorSection {
       resultType: this.resultType(),
     };
   }
+  comparisonChartData(profile) {
+    return {
+      "municipality": {
+        "code": profile.demarcation.code,
+        "name": "",
+      },
+      "data": profile.indicators[this.key].values.map(period => {
+        return {
+          "period": this.formatPeriod(period.date),
+          "fillColor": "#ccc",
+          "value": period.result,
+        };
+      }),
+    };
+  }
 
   formatMedians() {
     const national = Object.entries(this.medians.national.dev_cat).map(([key, value]) => {
@@ -151,36 +166,34 @@ export class IndicatorSection {
   updateChartComparison(selection) {
     console.log(selection);
     if (selection === "none") {
-      console.log("should remove comparison munis");
+      this.chart.loadData([this.chartData()]);
     } else {
       $.get(API_URL + '/cubes/municipalities/facts', (data) => {
         const miifGrouped  = _.groupBy(data.data, "municipality.miif_category");
+        console.log(miifGrouped);
         let similarGroup = miifGrouped[this.geography.miif_category];
         similarGroup = similarGroup.filter(
           muni => muni["municipality.demarcation_code"] !== this.geography.geo_code
         );
         if (similarGroup) {
           console.log(similarGroup);
-          similarGroup.slice(0,3).forEach((muni) => {
+          const deferreds = _.sample(similarGroup, 3).map((muni) => {
             const demarcationCode = muni["municipality.demarcation_code"];
             const url = `/api/municipality-profile/${demarcationCode}/`;
-            $.get(url, (data) => {
-              const chartData = {
-                "municipality": {
-                  "code": demarcationCode,
-                  "name": muni["municipality.name"],
-                },
-                "data": data.indicators[this.key].values.map(period => {
-                  return {
-                    "period": this.formatPeriod(period.date),
-                    "fillColor": "#ccc",
-                    "value": period.result,
-                  };
-                }),
-              };
-              this.chart.loadData([this.chartData(), chartData]);
-            });
+            return $.get(url);
           });
+
+          $.when(...deferreds).then(
+            (...results) => {
+              const comparisons = results.map(([result, textStatus, jqXHR]) => {
+                return this.comparisonChartData(result);
+              });
+              this.chart.loadData([this.chartData(), ...comparisons]);
+            },
+            (...details) => {
+              console.error("Error fetching comparison data", ...details);
+              alert("Error loading comparison data. Please try again.");
+            });
         } else {
           alert("Unfortunately there are no similar municipalities");
         }
