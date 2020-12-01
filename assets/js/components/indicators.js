@@ -34,6 +34,11 @@ export class IndicatorSection {
 
     this.geography = geography;
 
+    const chartContainerSelector = `${this.selector} .indicator-chart`;
+    this.chart = new ColumnChart(chartContainerSelector, [this.chartData()]);
+    this.chartContainer = $(chartContainerSelector);
+    this.chartContainerParent = $(chartContainerSelector).parent();
+
     this._initAverageButtons();
     this._initComparisonButtons();
 
@@ -142,10 +147,6 @@ export class IndicatorSection {
   }
 
   _initAverageButtons() {
-    const chartContainerSelector = `${this.selector} .indicator-chart`;
-    this.chart = new ColumnChart(chartContainerSelector, [this.chartData()]);
-    this.chartContainerParent = $(chartContainerSelector).parent();
-
     const $provinceButton = $(' <button class="button" style="display: unset"></button>');
     $provinceButton.text(` in ${this.geography.province_name}`);
     $provinceButton.on("click", (function() {
@@ -173,17 +174,19 @@ export class IndicatorSection {
 
   _initComparisonButtons() {
     this.comparisonButtonsContainer = $("<div></div>");
-    this.chartContainerParent.prepend(this.comparisonButtonContainer);
+    this.comparisonButtonsContainer.insertBefore(this.chartContainer);
   }
 
   _updateComparisonButtons() {
     this.comparisonButtonsContainer.empty();
-    this.comparisons.forEach((comparison) => {
-      const button = $('<button class="button" style="display: unset"></button>');
+    this.comparisonButtonsContainer.append("Comparing ");
+    [this.chartData(), ...this.comparisons].forEach((comparison) => {
+      const button = $(' <button class="button" style="display: unset; margin: 2px 2px"></button> ');
       button.click(() => {
+        this.chart.resetHighlight();
         this.chart.highlightCol(comparison.municipality.code);
       });
-      button.text(comparison.municipality.code);
+      button.text(comparison.municipality.name);
       this.comparisonButtonsContainer.append(button);
     });
   }

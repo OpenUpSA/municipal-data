@@ -277,7 +277,7 @@ export default class ColumnChart {
 
 
     colGroups.select('.label')
-      .html(d => `${d.municipality.name} ${d.value}`)
+      .text(d => d.value)
       .attr('x', (d,i,a) => {
         let labelWidth = d3Select(a[i]).node().getBBox().width
         let colWidth = (self.chart.config.x.bandwidth() - (self.chart.config.x.bandwidth() / 4)) / self.chart.data.length
@@ -380,6 +380,11 @@ export default class ColumnChart {
   highlightCol(id) {
     let cols = document.querySelectorAll(this.chart.config.bindto + ' g[colid="'+id+'"]')
 	  cols.forEach(el => el.classList.add('focus'))
+  }
+
+  resetHighlight() {
+    let cols = document.querySelectorAll(".focus");
+    cols.forEach(el => el.classList.remove('focus'));
   }
 
 
