@@ -205,7 +205,6 @@ export class IndicatorSection {
       similarGroup = similarGroup.filter(
         muni => muni["geo_code"] !== this.geography.geo_code
       );
-      console.log(similarGroup);
 
       let groups;
       if (comparisonOption === "similar-nearby") {
@@ -215,14 +214,12 @@ export class IndicatorSection {
         groups = _.groupBy(similarGroup, "province_code");
         similarGroup = groups[this.geography.province_code];
       } else if (comparisonOption === "similar-nationally") {
-        console.log(comparisonOption);
       } else {
         console.error("unsupported comparisonOption", comparisonOption);
       }
-      console.log(similarGroup);
       return similarGroup || [];
     } catch (error) {
-      console.log(error);
+      console.error(error);
       alert("Error looking up similar municipalities. Please try again.");
       return [];
     }
