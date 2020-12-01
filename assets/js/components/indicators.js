@@ -1,6 +1,8 @@
 import { logIfUnequal, formatFinancialYear, ratingColor, formatForType } from '../utils.js';
 import ColumnChart from './charts/column.js';
 import ComparisonMenu from './comparison-menu';
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 
 const indicatorMetricClass = {
   "good": ".indicator-metric--status-green",
@@ -28,36 +30,12 @@ export class IndicatorSection {
     this.$element = $(selector);
     logIfUnequal(1, this.$element.length);
     this.latestItem = sectionData.values[0];
+    this.comparisons = [];
 
     this.geography = geography;
 
-    const chartContainerSelector = `${selector} .indicator-chart`;
-    this.chart = new ColumnChart(chartContainerSelector, [this.chartData()]);
-    const chartContainerParent = $(chartContainerSelector).parent();
-
-    const $provinceButton = $(' <button class="button" style="display: unset"></button>');
-    $provinceButton.text(` in ${geography.province_name}`);
-    $provinceButton.on("click", (function() {
-      this.chart.loadMedians(this.formatMedians().provincial);
-    }).bind(this));
-
-    const $nationalButton = $(' <button class="button" style="display: unset">nationally</button>');
-    $nationalButton.on("click", (function() {
-      this.chart.loadMedians(this.formatMedians().national);
-    }).bind(this));
-
-
-    const averageControls = $("<p></p>");
-    averageControls.append('Show average for <a href="/help">similar municipalities</a> ');
-    if (geography.category_name !== "metro municipality") {
-      averageControls.append([
-        $provinceButton,
-        " or "
-      ]);
-    }
-    averageControls.append($nationalButton);
-    chartContainerParent.append(averageControls);
-
+    this._initAverageButtons();
+    this._initComparisonButtons();
 
     this.initSectionPeriod();
     this.initMetric();
@@ -163,22 +141,77 @@ export class IndicatorSection {
     return formatFinancialYear(period);
   }
 
-  updateComparisonButtons() {
+  _initAverageButtons() {
+    const chartContainerSelector = `${this.selector} .indicator-chart`;
+    this.chart = new ColumnChart(chartContainerSelector, [this.chartData()]);
+    this.chartContainerParent = $(chartContainerSelector).parent();
+
+    const $provinceButton = $(' <button class="button" style="display: unset"></button>');
+    $provinceButton.text(` in ${this.geography.province_name}`);
+    $provinceButton.on("click", (function() {
+      this.chart.loadMedians(this.formatMedians().provincial);
+    }).bind(this));
+
+    const $nationalButton = $(' <button class="button" style="display: unset">nationally</button>');
+    $nationalButton.on("click", (function() {
+      this.chart.loadMedians(this.formatMedians().national);
+    }).bind(this));
+
+
+    const averageControls = $("<p></p>");
+    averageControls.append('Show average for <a href="/help">similar municipalities</a> ');
+    if (this.geography.category_name !== "metro municipality") {
+      averageControls.append([
+        $provinceButton,
+        " or "
+      ]);
+    }
+    averageControls.append($nationalButton);
+    this.chartContainerParent.append(averageControls);
+
+  }
+
+  _initComparisonButtons() {
+    this.comparisonButtonsContainer = $("<div></div>");
+    this.chartContainerParent.prepend(this.comparisonButtonContainer);
+  }
+
+  _updateComparisonButtons() {
+    this.comparisonButtonsContainer.empty();
+    this.comparisons.forEach((comparison) => {
+      const button = $('<button class="button" style="display: unset"></button>');
+      button.click(() => {
+        this.chart.highlightCol(comparison.municipality.code);
+      });
+      button.text(comparison.municipality.code);
+      this.comparisonButtonsContainer.append(button);
+    });
+  }
+
+  async getSimilarMunis() {
+    try {
+      const response = await $.ajax({
+        url: API_URL + '/cubes/municipalities/facts'
+      });
+      const miifGrouped  = _.groupBy(response.data, "municipality.miif_category");
+      let similarGroup = miifGrouped[this.geography.miif_category];
+      similarGroup = similarGroup.filter(
+        muni => muni["municipality.demarcation_code"] !== this.geography.geo_code
+      );
+      return similarGroup;
+    } catch (error) {
+      console.log(error);
+      alert("Error looking up similar municipalities. Please try again.");
+      return [];
+    }
   }
 
   updateChartComparison(comparisonOption) {
     if (comparisonOption === "none") {
       this.chart.loadData([this.chartData()]);
     } else {
-      $.get(API_URL + '/cubes/municipalities/facts', (data) => {
-        const miifGrouped  = _.groupBy(data.data, "municipality.miif_category");
-        console.log(miifGrouped);
-        let similarGroup = miifGrouped[this.geography.miif_category];
-        similarGroup = similarGroup.filter(
-          muni => muni["municipality.demarcation_code"] !== this.geography.geo_code
-        );
-        if (similarGroup) {
-          console.log(similarGroup);
+      this.getSimilarMunis().then((similarGroup) => {
+        if (similarGroup.length > 0) {
           const deferreds = _.sample(similarGroup, 3).map((muni) => {
             const demarcationCode = muni["municipality.demarcation_code"];
             const url = `/api/municipality-profile/${demarcationCode}/`;
@@ -187,10 +220,11 @@ export class IndicatorSection {
 
           $.when(...deferreds).then(
             (...results) => {
-              const comparisons = results.map(([result, textStatus, jqXHR]) => {
+              this.comparisons = results.map(([result, textStatus, jqXHR]) => {
                 return this.comparisonChartData(result);
               });
-              this.chart.loadData([this.chartData(), ...comparisons]);
+              this.chart.loadData([this.chartData(), ...this.comparisons]);
+              this._updateComparisonButtons();
             },
             (...details) => {
               console.error("Error fetching comparison data", ...details);
