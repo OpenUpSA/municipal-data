@@ -35,24 +35,24 @@ export class IndicatorSection {
     this.chart = new ColumnChart(chartContainerSelector, [this.chartData()]);
     const chartContainerParent = $(chartContainerSelector).parent();
 
-    const $provinceButton = $("<button></button>");
+    const $provinceButton = $(' <button class="button" style="display: unset"></button>');
     $provinceButton.text(` in ${geography.province_name}`);
     $provinceButton.on("click", (function() {
       this.chart.loadMedians(this.formatMedians().provincial);
     }).bind(this));
 
-    const $nationalButton = $("<button>nationally</button>");
+    const $nationalButton = $(' <button class="button" style="display: unset">nationally</button>');
     $nationalButton.on("click", (function() {
       this.chart.loadMedians(this.formatMedians().national);
     }).bind(this));
 
 
     const averageControls = $("<p></p>");
-    averageControls.append('Show average for <a href="/help">similar municipalities</a>');
+    averageControls.append('Show average for <a href="/help">similar municipalities</a> ');
     if (geography.category_name !== "metro municipality") {
       averageControls.append([
         $provinceButton,
-        " or"
+        " or "
       ]);
     }
     averageControls.append($nationalButton);
@@ -163,9 +163,11 @@ export class IndicatorSection {
     return formatFinancialYear(period);
   }
 
-  updateChartComparison(selection) {
-    console.log(selection);
-    if (selection === "none") {
+  updateComparisonButtons() {
+  }
+
+  updateChartComparison(comparisonOption) {
+    if (comparisonOption === "none") {
       this.chart.loadData([this.chartData()]);
     } else {
       $.get(API_URL + '/cubes/municipalities/facts', (data) => {
