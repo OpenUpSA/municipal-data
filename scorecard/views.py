@@ -218,11 +218,10 @@ class GeographyPDFView(GeographyDetailView):
             self.geo_code,
             self.geo.slug,
         )
-        #url = f"http://localhost:9000{path}"
         url = request.build_absolute_uri(path)
         # !!! This relies on GeographyDetailView validating the user-provided
         # input to the path to avoid arbitraty command execution
-        command = ["node", "makepdf.js", url]
+        command = ["node", "assets/js/makepdf.js", url]
         try:
             completed_process = subprocess.run(
                 command,
