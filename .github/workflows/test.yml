@@ -1,0 +1,29 @@
+name: Test
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 0 * * 0" # weekly
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure variables to run container under host user ID
+        run: export USER_ID=$(id -u) && export GROUP_ID=$(id -g)
+      # Rebuild static files because we mount to /app overriding those in the image
+      - run: docker-compose run --rm scorecard yarn
+      - run: docker-compose run --rm scorecard yarn build
+      - run: docker-compose run --rm scorecard python manage.py collectstatic --no-input
+      - run: docker-compose run --rm scorecard bin/wait-for-postgres.sh python manage.py migrate
+      - name: Run tests
+        run: docker-compose run --rm scorecard python manage.py test municipal_finance scorecard
+      # Ensure that the demodata fixture can be loaded and the data is available in the API
+      # - smoke test
+      # - ensure development environment setup is maintained.
+      - name: Load demo data fixture
+        run: docker-compose run --rm scorecard bin/wait-for-postgres.sh python manage.py loaddata demo-data
+      - name: Start server
+        run: docker-compose up -d
+      - name: "Smoke test: Check that demo data is returned by typical request to server"
+        run: wget --retry-connrefused --waitretry=1 --read-timeout=10 --timeout=10 --tries=10 -O-  "http://localhost:8001/profiles/municipality-TSH-city-of-tshwane/" | grep "Gauteng"
