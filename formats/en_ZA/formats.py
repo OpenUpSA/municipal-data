@@ -1,1 +1,0 @@
-THOUSAND_SEPARATOR = ' '
