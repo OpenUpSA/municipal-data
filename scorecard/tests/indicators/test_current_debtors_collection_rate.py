@@ -43,7 +43,7 @@ class TestCurrentDebtorsCollectionRate(_IndicatorTestCase):
             'current_debtors_collection_rate/incexp_facts_v2.csv'
         )
         # Fetch data from API
-        api_data = ApiData(self.client, "CPT", 2019, 2019, 2019, "2019q4")
+        api_data = ApiData(self.api_client, "CPT", 2019, 2019, 2019, "2019q4")
         api_data.fetch_data([
             "cflow_auda_years", "cflow_auda_years_v2",
             "incexp_auda_years", "incexp_auda_years_v2",

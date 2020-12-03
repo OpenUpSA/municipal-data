@@ -33,7 +33,7 @@ class TestCashBalance(_IndicatorTestCase):
             'cash_balance/cash_flow_facts_v2.csv'
         )
         # Fetch data from API
-        api_data = ApiData(self.api_client, "CPT")
+        api_data = ApiData(self.api_client, "CPT", 2019, 2019, 2019, '2019q4')
         api_data.fetch_data([
             "cash_flow_v1",
             "cash_flow_v2",

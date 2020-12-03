@@ -33,7 +33,7 @@ class TestCapitalBudgetSpending(_IndicatorTestCase):
             'capital_budget_spending/capital_facts_v2.csv'
         )
         # Fetch data from API
-        api_data = ApiData(self.api_client, "CPT")
+        api_data = ApiData(self.api_client, "CPT", 2019, 2019, 2019, '2019q4')
         api_data.fetch_data([
             "capital_expenditure_budget_v1",
             "capital_expenditure_actual_v1",

@@ -38,7 +38,7 @@ class TestUIFWExpenditure(_IndicatorTestCase):
             'uifw_expenditure/income_expenditure_facts_v2.csv',
         )
         # Fetch data from API
-        api_data = ApiData(self.api_client, "CPT")
+        api_data = ApiData(self.api_client, "CPT", 2019, 2019, 2019, '2019q4')
         api_data.fetch_data([
             "uifw_expenditure",
             "operating_expenditure_actual_v1",

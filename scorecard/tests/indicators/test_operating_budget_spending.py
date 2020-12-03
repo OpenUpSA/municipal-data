@@ -33,7 +33,7 @@ class TestOperatingBudgetSpending(_IndicatorTestCase):
             'operating_budget_spending/income_expenditure_facts_v2.csv'
         )
         # Fetch data from API
-        api_data = ApiData(self.api_client, "CPT")
+        api_data = ApiData(self.api_client, "CPT", 2019, 2019, 2019, '2019q4')
         api_data.fetch_data([
             "operating_expenditure_actual_v1",
             "operating_expenditure_budget_v1",
