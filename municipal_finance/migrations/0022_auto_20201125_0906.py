@@ -10,7 +10,7 @@ import municipal_finance.models.small_auto_field
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('municipal_finance', '0021_auto_20201113_0610'),
+        ('municipal_finance', '0021_auto_20201203_0951'),
     ]
 
     operations = [
