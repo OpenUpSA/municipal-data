@@ -11,6 +11,8 @@ exports.transformHTML = function(html) {
 exports.transformDOM = function(window, $) {
   $("title").text("{{ page_title }}");
   $('meta[property="og:title"]').attr("content", "{{ page_title }}");
+  $('meta[property="og:image"]').attr("content", '{% static \'webflow/images/municipal-money-opengraph-wide.png\' %}');
+  $('meta[property="twitter:image"]').attr("content", '{% static \'webflow/images/municipal-money-opengraph-wide.png\' %}');
   $('a[href="contact.html"]').remove();
 
   [
