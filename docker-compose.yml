@@ -36,6 +36,8 @@ services:
       - minio
     stdin_open: true
     tty: true
+    extra_hosts:
+      - "testserver:127.0.0.1"
 
   postgres:
     image: postgres:11.5
