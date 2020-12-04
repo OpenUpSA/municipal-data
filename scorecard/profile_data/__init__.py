@@ -21,7 +21,6 @@ from itertools import groupby
 import dateutil.parser
 
 from .utils import *
-from .year_settings import LAST_AUDIT_QUARTER
 from .api_client import ApiClient
 from .api_data import ApiData
 from .indicator_calculator import IndicatorCalculator
@@ -570,7 +569,7 @@ class Demarcation(object):
                 year, month = calendar_to_financial(
                     datetime.year, datetime.month)
                 quarter = quarter_string(year, month)
-                if quarter > LAST_AUDIT_QUARTER:
+                if quarter > api_data.last_audit_quarter:
                     self.established_after_last_audit = True
                 if datetime.year in api_data.years:
                     self.established_within_audit_years = True

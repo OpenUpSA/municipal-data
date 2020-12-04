@@ -7,6 +7,8 @@ from ..update import update_municipal_staff_contacts
 
 
 class UpdateMunicipalContactsTestCase(TransactionTestCase):
+    serialized_rollback = True
+
     def setUp(self):
         self.user = User.objects.create_user(
             username="sample", email="sample@some.co", password="testpass",

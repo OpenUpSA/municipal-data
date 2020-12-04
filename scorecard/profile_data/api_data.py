@@ -4,12 +4,6 @@ import dateutil.parser
 from collections import defaultdict, OrderedDict
 
 from .api_client import ApiClient
-from .year_settings import (
-    UIFW_YEARS,
-    IN_YEAR_YEARS,
-    YEARS,
-    AUDIT_OPINION_YEARS,
-)
 
 
 YEAR_ITEM_DRILLDOWN = [
@@ -18,15 +12,22 @@ YEAR_ITEM_DRILLDOWN = [
 ]
 
 
+def generate_target_years(origin_year):
+    return list(reversed(range(origin_year - 3, origin_year + 1)))
+
+
 class APIOverloadedException(BaseException):
     pass
 
 
 class ApiData(object):
-    def __init__(self, client, geo_code, years=YEARS):
+
+    def __init__(self, client, geo_code, last_audit_year, last_opinion_year, last_uifw_year, last_audit_quarter):
         self.client = client
-        self.years = list(years)
-        self.uifw_years = list(UIFW_YEARS)
+        self.years = generate_target_years(last_audit_year)
+        self.audit_opinion_years = generate_target_years(last_opinion_year)
+        self.uifw_years = generate_target_years(last_uifw_year)
+        self.last_audit_quarter = last_audit_quarter
         self.geo_code = str(geo_code)
         self.budget_year = self.years[0] + 1
 
@@ -593,7 +594,7 @@ class ApiData(object):
                 "cube": "audit_opinions",
                 "cut": {
                     "demarcation.code": [self.geo_code],
-                    "financial_year_end.year": AUDIT_OPINION_YEARS[:4],
+                    "financial_year_end.year": self.audit_opinion_years[:4],
                 },
                 "fields": [
                     "opinion.code",

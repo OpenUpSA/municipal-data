@@ -58,10 +58,10 @@ class TestCurrentDebtorsCollectionRate(TransactionTestCase):
         executor = DjangoConnectionThreadPoolExecutor(max_workers=1)
         client = ApiClient(
             lambda u, p: executor.submit(self.client.get, u, data=p),
-            "/api"
+            "/api",
         )
         # Fetch data from API
-        api_data = ApiData(client, "CPT")
+        api_data = ApiData(client, "CPT", 2019, 2019, 2019, "2019q4")
         api_data.fetch_data([
             "cflow_auda_years", "cflow_auda_years_v2",
             "incexp_auda_years", "incexp_auda_years_v2",

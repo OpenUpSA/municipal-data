@@ -35,6 +35,9 @@ from .financial_position import (
     BsheetItemsV2,
     BsheetFactsV2,
 )
+from .municipality_profiles_compilation import (
+    MunicipalityProfilesCompilation,
+)
 
 
 class AgedCreditorFacts(models.Model):
@@ -251,7 +254,7 @@ class MunicipalityStaffContacts(models.Model):
 
 class MunicipalityStaffContactsUpload(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, models.DO_NOTHING)
     datetime = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to='uploads/contacts/')
 
@@ -316,15 +319,6 @@ class DemarcationChanges(models.Model):
         blank=False, null=False, db_index=True)
     new_code_transition = models.TextField(
         blank=False, null=False, db_index=True)
-
-
-class MunicipalityProfilesRebuild(models.Model):
-    id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User)
-    datetime = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        db_table = 'municipality_profiles_rebuild'
 
 
 class MunicipalityProfile(models.Model):

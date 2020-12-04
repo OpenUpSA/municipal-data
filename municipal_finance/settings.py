@@ -68,6 +68,8 @@ INSTALLED_APPS = (
     "django_q",
     "storages",
     "debug_toolbar",
+    "constance",
+    "constance.backends.database",
 )
 
 # Sites
@@ -96,6 +98,37 @@ MIDDLEWARE = [
     "municipal_finance.middleware.ApiErrorHandler",
 ]
 
+CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
+
+CONSTANCE_CONFIG = {
+    "LAST_AUDIT_YEAR": [
+        2019,
+        "The last financial year that should be included when compiling "
+        "fiscal indicators for municipal profiles",
+        int,
+    ],
+    "LAST_OPINION_YEAR": [
+        2019,
+        "The last financial year that should be included when gathering "
+        "audit opinions for municipal profiles",
+        int,
+    ],
+    "LAST_UIFW_YEAR": [
+        2019,
+        "The last financial year that should be included when compiling "
+        "indicators that make use Unautherised, Irregular, Fruitless and "
+        "Wasteful expenditure data for municipal profiles"
+        "expenditure data",
+        int,
+    ],
+    "LAST_AUDIT_QUARTER": [
+        "2019q4",
+        "The last quarter for which an audit is expected, used for "
+        "determining if a demarcation was established before or after "
+        "the last qudit tok place",
+        str,
+    ]
+}
 
 ROOT_URLCONF = "municipal_finance.urls"
 
@@ -414,10 +447,14 @@ if SENTRY_DSN:
         send_default_pii=True
     )
 
-DEBUG_TOOLBAR = os.environ.get("DJANGO_DEBUG_TOOLBAR", "false").lower() == "true"
-logger.info("Django Debug Toolbar %s." % "enabled" if DEBUG_TOOLBAR else "disabled")
+DEBUG_TOOLBAR = os.environ.get(
+    "DJANGO_DEBUG_TOOLBAR", "false").lower() == "true"
+logger.info("Django Debug Toolbar %s." %
+            "enabled" if DEBUG_TOOLBAR else "disabled")
 DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": "municipal_finance.settings.show_toolbar_check"
 }
+
+
 def show_toolbar_check(request):
     return DEBUG and DEBUG_TOOLBAR
