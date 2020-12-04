@@ -42,11 +42,14 @@ export default class ProfilePage {
 
     new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
 
-    $("#income-sources .financial-period").empty();
-    $("#income-sources .indicator-chart")
-      .addClass("chart-container")
-      .attr("data-chart", "grouped-bar-revenue_breakdown")
-      .attr("data-unit", "currency");
+    $("#income-sources").remove();
+    console.log("here");
+    $("#income-summary .indicator-chart").html('<img src="/static/img/income-summary.png" />');
+    $("#local-income-sources .indicator-chart").html('<img src="/static/img/income-local-sources.png" />');
+    $("#types-of-transfers .indicator-chart").html('<img src="/static/img/income-transfers-types.png" />');
+    $("#equitable-share .indicator-chart").html('<img src="/static/img/income" />');
+    $("#national-conditional-grants .indicator-chart").html('<img src="/static/img/income-transfers-national.png" />');
+    $("#provincial-transfers .indicator-chart").html('<img src="/static/img/income-transfers-provincial.png" />');
 
     $("#what-is-money-spent-on .financial-period").empty();
     $("#what-is-money-spent-on .indicator-chart")
