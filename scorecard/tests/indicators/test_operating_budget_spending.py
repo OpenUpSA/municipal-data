@@ -45,6 +45,7 @@ class TestOperatingBudgetSpending(_IndicatorTestCase):
         self.assertEqual(
             result,
             {
+                "result_type": "%",
                 "values": [
                     {
                         "date": 2019,

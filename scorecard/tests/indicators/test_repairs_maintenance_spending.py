@@ -57,6 +57,7 @@ class TestRepairsMaintenanceSpending(_IndicatorTestCase):
         self.assertEqual(
             result,
             {
+                "result_type": "%",
                 "values": [
                     {
                         "date": 2019,

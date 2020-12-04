@@ -43,6 +43,7 @@ class TestCashBalance(_IndicatorTestCase):
         self.assertEqual(
             result,
             {
+                "result_type": "R",
                 "values": [
                     {
                         "date": 2019,

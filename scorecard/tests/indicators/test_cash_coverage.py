@@ -55,6 +55,7 @@ class TestCashCoverage(_IndicatorTestCase):
         self.assertEqual(
             result,
             {
+                "result_type": "months",
                 "values": [
                     {
                         "date": 2019,

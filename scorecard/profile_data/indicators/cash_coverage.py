@@ -85,6 +85,7 @@ class CashCoverage(IndicatorCalculator):
         )
         # Return the compiled data
         return {
+            "result_type": cls.result_type,
             "values": values,
             "ref": api_data.references["solgf"],
         }
