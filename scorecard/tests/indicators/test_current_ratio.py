@@ -5,8 +5,8 @@ from municipal_finance.resources import (
 )
 
 from ...resources import GeographyResource
-from ...profile_data import (
-    ApiData,
+from ...profile_data import ApiData
+from ...profile_data.indicators import (
     CurrentRatio,
 )
 

@@ -8,7 +8,7 @@ from .indicator_calculator import IndicatorCalculator
 
 
 class CurrentRatio(IndicatorCalculator):
-    indicator_name = "current_ratio"
+    name = "current_ratio"
     result_type = "ratio"
     noun = "ratio"
     has_comparisons = True

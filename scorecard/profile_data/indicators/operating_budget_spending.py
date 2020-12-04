@@ -9,7 +9,7 @@ from .indicator_calculator import IndicatorCalculator
 
 
 class OperatingBudgetSpending(IndicatorCalculator):
-    indicator_name = "operating_budget_spending"
+    name = "operating_budget_spending"
     result_type = "%"
     noun = "underspending or overspending"
     has_comparisons = True

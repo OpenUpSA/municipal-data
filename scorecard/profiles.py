@@ -1,11 +1,12 @@
 from collections import defaultdict
 from django.conf import settings
-from .profile_data import get_indicator_calculators
 
 import json
 
-from scorecard.utils import comparison_relative_words
 from municipal_finance.models import MunicipalityProfile, MedianGroup, RatingCountGroup
+
+from .utils import comparison_relative_words
+from .profile_data.indicators import get_indicator_calculators
 
 
 def get_profile(geo):
@@ -35,10 +36,10 @@ def build_comparisons(geo, indicators, medians, rating_counts):
 
 def build_comparison(geo, indicators, medians, rating_counts, calculator):
     comparisons = {}
-    ratings = rating_counts[calculator.indicator_name]
-    medians = medians[calculator.indicator_name]
+    ratings = rating_counts[calculator.name]
+    medians = medians[calculator.name]
 
-    for entry in indicators[calculator.indicator_name]['values']:
+    for entry in indicators[calculator.name]['values']:
         val = entry['result']
         if val is None:
             continue
@@ -64,7 +65,7 @@ def build_comparison(geo, indicators, medians, rating_counts, calculator):
                     'comparison': comparison_relative_words(val, median, calculator.noun),
                 })
 
-    indicators[calculator.indicator_name]['comparisons'] = comparisons
+    indicators[calculator.name]['comparisons'] = comparisons
 
 
 def get_precalculated_profile(geo_code):
@@ -91,7 +92,7 @@ def get_muni_comparison(geo, objects):
     provincial_group = objects.get(group_id='provincial').data
     comparisons = defaultdict(lambda: defaultdict(dict))
     for calculator in get_indicator_calculators(has_comparisons=True):
-        name = calculator.indicator_name
+        name = calculator.name
         objects.get(group_id='national')
         national = national_group[name][geo.miif_category]
         comparisons[name]['national']['dev_cat'] = national

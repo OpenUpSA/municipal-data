@@ -8,7 +8,7 @@ from .utils import (
 
 
 class RepairsMaintenanceSpending(IndicatorCalculator):
-    indicator_name = "repairs_maintenance_spending"
+    name = "repairs_maintenance_spending"
     result_type = "%"
     noun = "spending"
     has_comparisons = True

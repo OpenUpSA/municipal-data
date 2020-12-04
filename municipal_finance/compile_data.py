@@ -41,7 +41,8 @@ from scorecard.profile_data import (
     ApiData,
     ApiClient,
     Demarcation,
-    get_indicators,
+)
+from scorecard.profile_data.indicators import (
     get_indicator_calculators,
 )
 
@@ -83,7 +84,7 @@ def get_national_miif_sets(munis):
     def dev_cat_key(muni): return muni['municipality.miif_category']
     dev_cat_sorted = sorted(munis, key=dev_cat_key)
     for calculator in get_indicator_calculators(has_comparisons=True):
-        name = calculator.indicator_name
+        name = calculator.name
         for dev_cat, dev_cat_group in groupby(dev_cat_sorted, dev_cat_key):
             for muni in dev_cat_group:
                 for period in muni[name]['values']:
@@ -112,7 +113,7 @@ def get_provincial_miif_sets(munis):
     dev_cat_sorted = sorted(munis, key=dev_cat_key)
     def prov_key(muni): return muni['municipality.province_code']
     for calculator in get_indicator_calculators(has_comparisons=True):
-        name = calculator.indicator_name
+        name = calculator.name
         for dev_cat, dev_cat_group in groupby(dev_cat_sorted, dev_cat_key):
             prov_sorted = sorted(dev_cat_group, key=prov_key)
             for prov_code, prov_group in groupby(prov_sorted, prov_key):
@@ -225,12 +226,11 @@ def compile_profiles(
             last_audit_quarter,
         )
         api_data.fetch_data()
-        indicators = get_indicators(api_data)
         profile = {
             'mayoral_staff': api_data.mayoral_staff(),
             'muni_contact': api_data.muni_contact(),
             'audit_opinions': api_data.audit_opinions(),
-            'indicators': indicators,
+            'indicators': api_data.indicators(),
             'demarcation': Demarcation(api_data).as_dict(),
         }
         # Save profile to database

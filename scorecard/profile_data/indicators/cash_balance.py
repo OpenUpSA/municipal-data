@@ -7,7 +7,7 @@ from .utils import (
 
 
 class CashBalance(IndicatorCalculator):
-    indicator_name = "cash_balance"
+    name = "cash_balance"
     result_type = "R"
     noun = "cash balance"
     has_comparisons = True

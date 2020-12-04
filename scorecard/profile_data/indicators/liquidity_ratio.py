@@ -8,7 +8,7 @@ from .indicator_calculator import IndicatorCalculator
 
 
 class LiquidityRatio(IndicatorCalculator):
-    indicator_name = "liquidity_ratio"
+    name = "liquidity_ratio"
     result_type = "ratio"
     noun = "ratio"
     has_comparisons = True

@@ -9,7 +9,7 @@ from .utils import (
 
 
 class CashCoverage(IndicatorCalculator):
-    indicator_name = "cash_coverage"
+    name = "cash_coverage"
     result_type = "months"
     noun = "coverage"
     has_comparisons = True

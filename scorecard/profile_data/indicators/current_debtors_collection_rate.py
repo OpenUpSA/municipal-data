@@ -8,7 +8,7 @@ from .indicator_calculator import IndicatorCalculator
 
 
 class CurrentDebtorsCollectionRate(IndicatorCalculator):
-    indicator_name = "current_debtors_collection_rate"
+    name = "current_debtors_collection_rate"
     result_type = "%"
     noun = "rate"
     has_comparisons = True

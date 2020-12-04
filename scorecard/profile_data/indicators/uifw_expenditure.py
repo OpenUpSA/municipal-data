@@ -8,7 +8,7 @@ from .utils import (
 
 
 class UIFWExpenditure(IndicatorCalculator):
-    indicator_name = "uifw_expenditure"
+    name = "uifw_expenditure"
     result_type = "%"
     noun = "expenditure"
     has_comparisons = True

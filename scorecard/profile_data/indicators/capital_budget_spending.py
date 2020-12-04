@@ -8,7 +8,7 @@ from .utils import (
 
 
 class CapitalBudgetSpending(IndicatorCalculator):
-    indicator_name = "capital_budget_spending"
+    name = "capital_budget_spending"
     result_type = "%"
     noun = "underspending or overspending"
     has_comparisons = True

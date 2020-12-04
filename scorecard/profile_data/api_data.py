@@ -3,6 +3,7 @@ import dateutil.parser
 
 from collections import defaultdict, OrderedDict
 
+from .indicators import get_indicator_calculators
 from .api_client import ApiClient
 
 
@@ -108,6 +109,12 @@ class ApiData(object):
             url = response.url
             raise Exception(
                 "Page is full: should check next page for %s " % url)
+
+    def indicators(self):
+        indicators = {}
+        for indicator in get_indicator_calculators():
+            indicators[indicator.name] = indicator.get_muni_specifics(self)
+        return indicators
 
     def mayoral_staff(self):
         roles = [
