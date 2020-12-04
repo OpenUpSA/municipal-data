@@ -61,12 +61,12 @@ class TestRepairsMaintenanceSpending(_IndicatorTestCase):
                 "values": [
                     {
                         "date": 2019,
-                        "result": 2.24,
+                        "result": 0.98,
                         "rating": "bad"
                     },
                     {
                         "date": 2018,
-                        "result": 3.44,
+                        "result": 1.08,
                         "rating": "bad"
                     },
                     {
