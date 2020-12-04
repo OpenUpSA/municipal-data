@@ -755,7 +755,8 @@
     </script>
 
 <script src="https://browser.sentry-cdn.com/5.27.6/bundle.tracing.min.js" integrity="sha384-9Z8PxByVWP+gIm/rTMPn9BWwknuJR5oJcLj+Nr9mvzk8nJVkVXgQvlLGZ9SIFEJF" crossorigin="anonymous"></script>
-<script>  Sentry.init({  dsn: "{{ SENTRY_DSN }}",  integrations: [new Sentry.Integrations.BrowserTracing()],  tracesSampleRate: 0.1,})</script>
+<script src="https://browser.sentry-cdn.com/5.27.6/captureconsole.min.js" integrity="sha384-F9eVzZTC8N8+p6mvSqBoTIuFHbKq2XFPn6ZtNKPkUBslMACSFOHy3/1XkET00hnC" crossorigin="anonymous"></script>
+<script>  Sentry.init({  dsn: "{{ SENTRY_DSN }}",  integrations: [    new Sentry.Integrations.CaptureConsole({      levels: ["error"]    }),    new Sentry.Integrations.BrowserTracing(),  ],  tracesSampleRate: 0.1,})</script>
 <script id="page-data" type="application/json">{{ page_data_json|json_script_escape:True }}</script>
 <script>var API_URL = '{{ API_URL }}'</script>
 {% javascript 'scorecard' %}<script src="{% static 'household/js/plotly.js' %}"></script>

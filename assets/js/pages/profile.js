@@ -1,4 +1,4 @@
-import { logIfUnequal, locale, capFirst, formatFinancialYear, ratingColor } from '../utils.js';
+import { logIfUnequal, locale, capFirst, formatFinancialYear, ratingColor, errorBoundary } from '../utils.js';
 import { ContactSection } from '../components/contacts.js';
 import { TextField } from '../components/common.js';
 import { IndicatorSection, OverUnderSection } from '../components/indicators.js';
@@ -15,18 +15,23 @@ export default class ProfilePage {
     new ProfileHeader(pageData.geography, pageData.total_population, pageData.population_density);
     new InPageNav(pageData.geography, pageData.total_population, pageData.pdf_url);
 
-    new ContactSection(pageData.muni_contact, pageData.mayoral_staff, pageData.geography);
-
-    new AuditOpinions(pageData.audit_opinions);
+    errorBoundary(() => {
+      new ContactSection(pageData.muni_contact, pageData.mayoral_staff, pageData.geography);
+    });
+    errorBoundary(() => {
+      new AuditOpinions(pageData.audit_opinions);
+    });
 
     const initSection = (className, selector, key) => {
-      new className(
-        selector,
-        key,
-        pageData.indicators[key],
-        pageData.medians[key],
-        pageData.geography,
-      );
+      errorBoundary(() => {
+        new className(
+          selector,
+          key,
+          pageData.indicators[key],
+          pageData.medians[key],
+          pageData.geography,
+        );
+      });
     };
     initSection(IndicatorSection, "#cash-balance", "cash_at_year_end");
     initSection(IndicatorSection, "#cash-coverage", "cash_coverage");
@@ -40,8 +45,9 @@ export default class ProfilePage {
     initSection(IndicatorSection, "#wages-salaries", "expenditure_trends_staff");
     initSection(IndicatorSection, "#contractor-services", "expenditure_trends_contracting");
 
-    new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
-
+    errorBoundary(() => {
+      new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
+    });
     $("#income-sources .financial-period").empty();
     $("#income-sources .indicator-chart")
       .addClass("chart-container")
@@ -56,8 +62,9 @@ export default class ProfilePage {
     new HorizontalGroupedBarChart().discover(pageData);
 
 
-
-    this.initHouseholdBills(pageData);
+    errorBoundary(() => {
+      this.initHouseholdBills(pageData);
+    });
 
     // track outbound links
     $('a[href^=http]').on('click', function(e) {
