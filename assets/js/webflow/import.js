@@ -1,6 +1,6 @@
 exports.transformHTML = function(html) {
   let newHtml = "{% load static %}\n{% load staticfiles pipeline json_script_escape %}\n" + html;
-  newHtml = newHtml.replace(/"(js|css|images|fonts)\//g, "\"/static/webflow/$1/");
+  newHtml = newHtml.replace(/"(?:\.\.\/)*(js|css|images|fonts)([^"]+)"/g, "\"{% static 'webflow/$1$2' %}\"");
   newHtml = newHtml.replace(/"index.html"/g, '"/"');
   newHtml = newHtml.replace(/"help.html"/g, '"/help"');
   newHtml = newHtml.replace(/"terms.html"/g, '"/terms"');
