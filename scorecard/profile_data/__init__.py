@@ -20,7 +20,6 @@ to indicate in the page that it is missing.
 from itertools import groupby
 import dateutil.parser
 
-from .utils import *
 from .api_client import ApiClient
 from .api_data import ApiData
 
