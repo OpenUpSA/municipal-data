@@ -15,9 +15,12 @@ export default class ProfilePage {
     new ProfileHeader(pageData.geography, pageData.total_population, pageData.population_density);
     new InPageNav(pageData.geography, pageData.total_population, pageData.pdf_url);
 
-    new ContactSection(pageData.muni_contact, pageData.mayoral_staff, pageData.geography);
-
-    new AuditOpinions(pageData.audit_opinions);
+    errorBoundary(() => {
+      new ContactSection(pageData.muni_contact, pageData.mayoral_staff, pageData.geography);
+    });
+    errorBoundary(() => {
+      new AuditOpinions(pageData.audit_opinions);
+    });
 
     const initSection = (className, selector, key) => {
       errorBoundary(() => {
@@ -42,8 +45,9 @@ export default class ProfilePage {
     initSection(IndicatorSection, "#wages-salaries", "expenditure_trends_staff");
     initSection(IndicatorSection, "#contractor-services", "expenditure_trends_contracting");
 
-    new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
-
+    errorBoundary(() => {
+      new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
+    });
     $("#income-sources .financial-period").empty();
     $("#income-sources .indicator-chart")
       .addClass("chart-container")

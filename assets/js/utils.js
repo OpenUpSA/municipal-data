@@ -41,7 +41,7 @@ export function formatForType(type, value) {
   case "ratio":
     return locale.format(".2f")(value);
   default:
-    console.warn(`Don't know how to format for type ${type}`);
+    console.error(`Don't know how to format for type ${type}`);
     return ""; // Rather show nothing than something that could be misinterpreted
   }
 }
