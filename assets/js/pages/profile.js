@@ -6,7 +6,7 @@ import { AuditOpinions } from '../components/audit-opinions.js';
 import { ProfileHeader } from '../components/profile-header.js';
 import { InPageNav } from '../components/in-page-nav.js';
 import { CapitalProjectList } from '../components/capital-projects.js';
-import { IncomeSummarySection } from '../components/income.js';
+import { IncomeSummarySection, LocalIncomeSourcesSection } from '../components/income.js';
 
 export default class ProfilePage {
   constructor(pageData) {
@@ -50,12 +50,14 @@ export default class ProfilePage {
       new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
     });
 
-    $("#income-sources").remove();
+    //$("#income-sources").remove();
     errorBoundary(() => {
-      console.log("here");
       new IncomeSummarySection("#income-summary", pageData.indicators.revenue_sources);
     });
-    // "#local-income-sources"
+    errorBoundary(() => {
+      new LocalIncomeSourcesSection("#local-income-sources", pageData.indicators.revenue_breakdown);
+    });
+
     // "#types-of-transfers:"
     // "#equitable-share"
     // "#national-conditional-grants"

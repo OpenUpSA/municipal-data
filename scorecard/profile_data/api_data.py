@@ -637,7 +637,7 @@ class ApiData(object):
                         "1100", "1300", "1400", "1500", "1600", "1610",
                         "1700", "1800", "1900",
                     ],
-                    "amount_type.code": ["AUDA", "ORGB"],
+                    "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
                     "financial_year_end.year": self.years + [self.budget_year],

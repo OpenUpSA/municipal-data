@@ -43,8 +43,8 @@ class RevenueSources(IndicatorCalculator):
     def get_muni_specifics(cls, api_data):
         year = api_data.years[0]
         results = {
-            "local": {"amount": 0, "items": [], },
-            "government": {"amount": 0, "items": [], },
+            "local": {"amount": 0, },
+            "government": {"amount": 0, },
             "year": year,
             "ref": api_data.references["lges"],
         }
@@ -75,7 +75,6 @@ class RevenueSources(IndicatorCalculator):
                 continue
             amount = item["amount.sum"]
             results[code_to_source[item["item.code"]]]["amount"] += amount
-            results[code_to_source[item["item.code"]]]["items"].append(item)
         if total is None:
             results["government"]["percent"] = None
             results["government"]["value"] = None

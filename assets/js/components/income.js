@@ -1,14 +1,27 @@
-import { logIfUnequal, formatFinancialYear, ratingColor, formatForType } from '../utils.js';
+import { logIfUnequal, formatFinancialYear, ratingColor, formatForType, locale } from '../utils.js';
 import PercentageStackedChart  from 'municipal-money-charts/src/components/MunicipalCharts/PercentageStackedChart';
+import BarChart  from 'municipal-money-charts/src/components/MunicipalCharts/BarChart';
 
-export class IncomeSummarySection {
+const localColor = "#23728B";
+const transfersColor = "#54298B";
+
+class IncomeSection {
   constructor(selector, sectionData) {
     this.$element = $(selector);
     logIfUnequal(1, this.$element.length);
     this.sectionData = sectionData;
     this.$chartContainer = this.$element.find(".indicator-chart");
+  }
 
-    this._initSectionPeriod();
+  _initSectionPeriod(year) {
+    this.$element.find(".section-header__info-right").text(formatFinancialYear(year));
+  }
+}
+
+export class IncomeSummarySection extends IncomeSection {
+  constructor(selector, sectionData) {
+    super(selector, sectionData);
+    this._initSectionPeriod(this.sectionData.year);
     this._initChart();
   }
 
@@ -20,7 +33,7 @@ export class IncomeSummarySection {
         formatForType("R", d.amount),
       ])
       .subLabel((d) => [
-        `${ d.label }: ${ formatForType("R", d.amount) }`
+        `${ d.label }: ${ formatForType("%", d.percent) } or ${ formatForType("R", d.amount) }`
       ]);
   }
 
@@ -30,19 +43,38 @@ export class IncomeSummarySection {
         "label": "Locally generated",
         "amount": this.sectionData.local.amount,
         "percent": this.sectionData.local.percent,
-        "color": "#23728B",
+        "color": localColor,
       },
       {
         "label": "Locally generated",
         "amount": this.sectionData.government.amount,
         "percent": this.sectionData.government.percent,
-        "color": "#54298B",
+        "color": transfersColor,
       }
     ];
   }
+}
 
-  _initSectionPeriod() {
-    this.$element.find(".section-header__info-right").text(formatFinancialYear(this.sectionData.year));
+export class LocalIncomeSourcesSection extends IncomeSection {
+  constructor(selector, sectionData) {
+
+    super(selector, sectionData);
+    this._initChartData();
+    this._initSectionPeriod(this._year);
+    this._initChart();
   }
 
+  _initChart() {
+    this.chart = new BarChart(this.$chartContainer[0]);
+    this.chart.data(this._chartData)
+      .format(locale.format("$,"));
+  }
+
+  _initChartData() {
+    const items = this.sectionData.values.filter(item => item.amount_type === "AUDA");
+    items.forEach(item => item.color = localColor);
+    const yearGroups = _.groupBy(items, "date");
+    this._year = _.max(_.keys(yearGroups));
+    this._chartData = yearGroups[this._year];
+  }
 }
