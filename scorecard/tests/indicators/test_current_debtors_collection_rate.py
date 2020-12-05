@@ -1,12 +1,4 @@
 
-from municipal_finance.resources import (
-    CashflowFactsV1Resource,
-    CashflowFactsV2Resource,
-    IncexpFactsV1Resource,
-    IncexpFactsV2Resource,
-)
-
-from ...resources import GeographyResource
 from ...profile_data import ApiData
 from ...profile_data.indicators import (
     CurrentDebtorsCollectionRate,
@@ -15,6 +7,13 @@ from ...profile_data.indicators import (
 from . import (
     import_data,
     _IndicatorTestCase,
+)
+from .resources import (
+    GeographyResource,
+    CashflowFactsV1Resource,
+    CashflowFactsV2Resource,
+    IncexpFactsV1Resource,
+    IncexpFactsV2Resource,
 )
 
 

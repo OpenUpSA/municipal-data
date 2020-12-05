@@ -1,11 +1,4 @@
 
-from municipal_finance.resources import (
-    IncexpFactsV2Resource,
-    IncexpFactsV1Resource,
-    UIFWExpenditureFactsResource,
-)
-
-from ...resources import GeographyResource
 from ...profile_data import ApiData
 from ...profile_data.indicators import (
     UIFWExpenditure,
@@ -14,6 +7,12 @@ from ...profile_data.indicators import (
 from . import (
     import_data,
     _IndicatorTestCase,
+)
+from .resources import (
+    GeographyResource,
+    IncexpFactsV2Resource,
+    IncexpFactsV1Resource,
+    UIFWExpenditureFactsResource,
 )
 
 

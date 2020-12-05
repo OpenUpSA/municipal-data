@@ -1,10 +1,4 @@
 
-from municipal_finance.resources import (
-    CapitalFactsV1Resource,
-    CapitalFactsV2Resource,
-)
-
-from ...resources import GeographyResource
 from ...profile_data import ApiData
 from ...profile_data.indicators import (
     CapitalBudgetSpending,
@@ -13,6 +7,11 @@ from ...profile_data.indicators import (
 from . import (
     import_data,
     _IndicatorTestCase,
+)
+from .resources import (
+    GeographyResource,
+    CapitalFactsV1Resource,
+    CapitalFactsV2Resource,
 )
 
 
