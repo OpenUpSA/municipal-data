@@ -6,6 +6,7 @@ import { AuditOpinions } from '../components/audit-opinions.js';
 import { ProfileHeader } from '../components/profile-header.js';
 import { InPageNav } from '../components/in-page-nav.js';
 import { CapitalProjectList } from '../components/capital-projects.js';
+import { IncomeSummarySection } from '../components/income.js';
 
 export default class ProfilePage {
   constructor(pageData) {
@@ -48,11 +49,17 @@ export default class ProfilePage {
     errorBoundary(() => {
       new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
     });
-    $("#income-sources .financial-period").empty();
-    $("#income-sources .indicator-chart")
-      .addClass("chart-container")
-      .attr("data-chart", "grouped-bar-revenue_breakdown")
-      .attr("data-unit", "currency");
+
+    $("#income-sources").remove();
+    errorBoundary(() => {
+      console.log("here");
+      new IncomeSummarySection("#income-summary", pageData.indicators.revenue_sources);
+    });
+    // "#local-income-sources"
+    // "#types-of-transfers:"
+    // "#equitable-share"
+    // "#national-conditional-grants"
+    // "#provincial-transfers"
 
     $("#what-is-money-spent-on .financial-period").empty();
     $("#what-is-money-spent-on .indicator-chart")
