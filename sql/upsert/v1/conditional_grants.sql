@@ -2,7 +2,7 @@ BEGIN;
 
 \echo Create import table...
 
-CREATE TEMPORARY TABLE conditional_grants_upsert
+CREATE TEMPORARY TABLE conditional_grant_upsert
 (
         demarcation_code TEXT,
         period_code TEXT,
@@ -12,12 +12,12 @@ CREATE TEMPORARY TABLE conditional_grants_upsert
 
 \echo Read data...
 
-\copy conditional_grants_upsert (demarcation_code, period_code, grant_code, amount) FROM '/home/jdb/projects/municipal-money/data/treasury-snapshots/2019q4/S71 Q4 2018-19/grants_2019q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy conditional_grant_upsert (demarcation_code, period_code, grant_code, amount) FROM '' DELIMITER ',' CSV HEADER;
 
 \echo Delete demarcation_code-period_code pairs that are in the update
 
-DELETE FROM conditional_grants_facts f WHERE EXISTS (
-        SELECT 1 FROM conditional_grants_upsert i
+DELETE FROM conditional_grant_facts f WHERE EXISTS (
+        SELECT 1 FROM conditional_grant_upsert i
         WHERE f.demarcation_code = i.demarcation_code
         AND f.period_code = i.period_code
         LIMIT 1
@@ -25,7 +25,7 @@ DELETE FROM conditional_grants_facts f WHERE EXISTS (
 
 \echo Insert new values...
 
-INSERT INTO conditional_grants_facts
+INSERT INTO conditional_grant_facts
 (
     demarcation_code,
     period_code,
@@ -56,6 +56,6 @@ SELECT demarcation_code,
             when period_code ~ '^\d{4}(ADJB|ORGB|SCHD|TRFR)$'
                 then cast(left(period_code, 4) as int)
        end
-FROM conditional_grants_upsert i;
+FROM conditional_grant_upsert i;
 
 COMMIT;
