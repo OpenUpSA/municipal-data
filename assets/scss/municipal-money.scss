@@ -1,3 +1,6 @@
+@import 'municipal-money-charts/src/components/MunicipalCharts/BarChart.scss';
+@import 'municipal-money-charts/src/components/MunicipalCharts/PercentageStackedChart.scss';
+
 
 .leaflet-objects-pane {
     position: relative;
@@ -101,4 +104,8 @@ p .button {
   margin: .17em .33em 0 1em;
   font-size: .83em;
   font-style: italic;
+}
+
+.percentage-stacked-chart .item-label-body {
+    white-space: nowrap;
 }
