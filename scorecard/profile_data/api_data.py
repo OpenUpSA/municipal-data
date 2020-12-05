@@ -647,6 +647,20 @@ class ApiData(object):
                 "results_structure": self.noop_structure,
                 "split_on_budget": True,
             },
+            "grants_v1": {
+                "cube": "conditional_grants",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "amount_type.code": ["ACT", "ORGB", "TRFR"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year", "month"],
+                    "financial_year_end.year": self.years + [self.budget_year],
+                },
+                "drilldown": ["grant.code", "grant.label", "financial_year_end.year", "amount_type.code"],
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+                "order": "grant.code:asc",
+            },
             "expenditure_breakdown": {
                 "cube": "incexp",
                 "aggregate": "amount.sum",

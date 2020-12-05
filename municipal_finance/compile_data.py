@@ -214,7 +214,7 @@ def compile_profiles(
     last_uifw_year,
     last_audit_quarter,
 ):
-    munis = get_munis(api_client)
+    munis = get_munis(api_client)[:2]
     for muni in munis:
         demarcation_code = muni.get('municipality.demarcation_code')
         api_data = ApiData(

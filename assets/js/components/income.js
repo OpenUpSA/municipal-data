@@ -46,7 +46,7 @@ export class IncomeSummarySection extends IncomeSection {
         "color": localColor,
       },
       {
-        "label": "Locally generated",
+        "label": "Transfers",
         "amount": this.sectionData.government.amount,
         "percent": this.sectionData.government.percent,
         "color": transfersColor,
