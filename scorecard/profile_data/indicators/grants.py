@@ -6,4 +6,7 @@ class Grants(IndicatorCalculator):
 
     @classmethod
     def get_muni_specifics(cls, api_data):
-        return [d for d in api_data.results["grants_v1"] if d["amount.sum"] != 0]
+        values = [d for d in api_data.results["grants_v1"] if d["amount.sum"] != 0]
+        return {
+            "values": values,
+        }
