@@ -103,7 +103,7 @@ CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 CONSTANCE_ADDITIONAL_FIELDS = {
     'quarter_select': ['django.forms.fields.ChoiceField', {
         'widget': 'django.forms.Select',
-        'choices': (("1", "1"), ("2", "2"), ("3", "3"), ("4", "4"),)
+        'choices': ((1, "1"), (2, "2"), (3, "3"), (4, "4"),)
     }],
 }
 
