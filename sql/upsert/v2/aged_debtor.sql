@@ -23,11 +23,11 @@ CREATE TEMPORARY TABLE aged_debtor_upsert
 
 \echo Read data...
 
-\copy aged_debtor_upsert (demarcation_code, period_code, customer_group_code, item_code, bad_amount, badi_amount, g1_amount, l1_amount, l120_amount, l150_amount, l180_amount, l30_amount, l60_amount, l90_amount, total_amount) FROM '/home/jdb/projects/municipal-money/data/treasury-snapshots/2019q4/S71 Q4 2018-19/debt_2019q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy aged_debtor_upsert (demarcation_code, period_code, customer_group_code, item_code, bad_amount, badi_amount, g1_amount, l1_amount, l120_amount, l150_amount, l180_amount, l30_amount, l60_amount, l90_amount, total_amount) FROM '' DELIMITER ',' CSV HEADER;
 
 \echo Delete demarcation_code-period_code pairs that are in the update
 
-DELETE FROM aged_debtor_facts f WHERE EXISTS (
+DELETE FROM aged_debtor_facts_v2 f WHERE EXISTS (
         SELECT 1 FROM aged_debtor_upsert i
         WHERE f.demarcation_code = i.demarcation_code
         AND f.period_code = i.period_code
@@ -36,12 +36,12 @@ DELETE FROM aged_debtor_facts f WHERE EXISTS (
 
 \echo Insert new values...
 
-INSERT INTO aged_debtor_facts
+INSERT INTO aged_debtor_facts_v2
 (
     demarcation_code,
     period_code,
     customer_group_code,
-    item_code,
+    item_id,
     bad_amount,
     badi_amount,
     g1_amount,
@@ -54,14 +54,14 @@ INSERT INTO aged_debtor_facts
     l90_amount,
     total_amount,
     financial_year,
-    amount_type_code,
+    amount_type_id,
     period_length,
     financial_period
 )
 SELECT demarcation_code,
        period_code,
        customer_group_code,
-       item_code,
+       (select id from aged_debtor_items_v2 where aged_debtor_items_v2.code = item_code),
        bad_amount,
        badi_amount,
        g1_amount,
@@ -74,19 +74,19 @@ SELECT demarcation_code,
        l90_amount,
        total_amount,
        cast(left(period_code, 4) as int),
-       case when substr(period_code, 5) in ('IBY1', 'IBY2', 'ADJB', 'ORGB', 'AUDA', 'PAUD')
-               then substr(period_code, 5)
+       case when period_code ~ '^\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD|ITY1|ITY2|TABB)(M\d{2})?$'
+               then (select id from amount_type_v2 where amount_type_v2.code = substr(period_code, 5, 4))
            when period_code ~ '^\d{4}M\d{2}$'
-               then 'ACT'
+               then (select id from amount_type_v2 where amount_type_v2.code = 'ACT')
        end,
        case when period_code ~ '^\d{4}M\d{2}$'
                 then 'month'
-            when period_code ~ '^\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD)$'
+            when period_code ~ '^\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD|ITY1|ITY2|TABB)$'
                 then 'year'
        end,
        case when period_code ~ '^\d{4}M\d{2}$'
                 then cast(right(period_code, 2) as int)
-            when period_code ~ '^\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD)$'
+            when period_code ~ '^\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD|ITY1|ITY2|TABB)$'
                 then cast(left(period_code, 4) as int)
        end
 FROM aged_debtor_upsert i

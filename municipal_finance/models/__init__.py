@@ -57,6 +57,12 @@ from .repairs_maintenance import (
     RepairsMaintenanceItemsV2,
     RepairsMaintenanceFactsV2,
 )
+from .aged_debtor import (
+    AgedDebtorItemsV1,
+    AgedDebtorFactsV1,
+    AgedDebtorItemsV2,
+    AgedDebtorFactsV2,
+)
 
 
 class AgedCreditorFacts(models.Model):
@@ -102,56 +108,6 @@ class AgedCreditorItems(models.Model):
 
     class Meta:
         db_table = 'aged_creditor_items'
-
-
-class AgedDebtorFacts(models.Model):
-    demarcation_code = models.TextField()
-    period_code = models.TextField()
-    customer_group_code = models.TextField()
-    item_code = models.ForeignKey(
-        'AgedDebtorItems', models.DO_NOTHING, db_column='item_code')
-    bad_amount = models.BigIntegerField(null=True)
-    badi_amount = models.BigIntegerField(null=True)
-    g1_amount = models.BigIntegerField(null=True)
-    l1_amount = models.BigIntegerField(null=True)
-    l120_amount = models.BigIntegerField(null=True)
-    l150_amount = models.BigIntegerField(null=True)
-    l180_amount = models.BigIntegerField(null=True)
-    l30_amount = models.BigIntegerField(null=True)
-    l60_amount = models.BigIntegerField(null=True)
-    l90_amount = models.BigIntegerField(null=True)
-    total_amount = models.BigIntegerField(null=True)
-    financial_year = models.IntegerField()
-    period_length = models.TextField()
-    financial_period = models.IntegerField()
-    amount_type_code = models.TextField()
-
-    class Meta:
-        db_table = 'aged_debtor_facts'
-        unique_together = (
-            ('demarcation_code', 'period_code',
-             'customer_group_code', 'item_code'),
-            (
-                'amount_type_code',
-                'customer_group_code',
-                'demarcation_code',
-                'financial_period',
-                'financial_year',
-                'item_code',
-                'period_length',
-            ),
-        )
-
-
-class AgedDebtorItems(models.Model):
-    code = models.TextField(primary_key=True)
-    label = models.TextField()
-    position_in_return_form = models.IntegerField(null=True)
-    return_form_structure = models.TextField(null=True)
-    composition = models.TextField(null=True)
-
-    class Meta:
-        db_table = 'aged_debtor_items'
 
 
 class AuditOpinionFacts(models.Model):
