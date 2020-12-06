@@ -16,6 +16,8 @@ from .models import (
     CapitalItemsV2,
     ConditionalGrantTypesV1,
     GrantTypesV2,
+    RepairsMaintenanceItemsV1,
+    RepairsMaintenanceItemsV2,
 )
 
 
@@ -106,4 +108,16 @@ class ConditionalGrantTypesV1Resource(resources.ModelResource):
 class GrantTypesV2Resource(resources.ModelResource):
     class Meta:
         model = GrantTypesV2
+        import_id_fields = ['code']
+
+
+class RepairsMaintenanceItemsV1Resource(resources.ModelResource):
+    class Meta:
+        model = RepairsMaintenanceItemsV1
+        import_id_fields = ['code']
+
+
+class RepairsMaintenanceItemsV2Resource(resources.ModelResource):
+    class Meta:
+        model = RepairsMaintenanceItemsV2
         import_id_fields = ['code']
