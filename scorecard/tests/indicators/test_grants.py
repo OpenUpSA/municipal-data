@@ -81,7 +81,7 @@ class GrantsTests(TestCase):
                     },
                 ],
             },
-            result["values"],
+            result["national_conditional_grants"],
         )
 
     def test_exclude_zeros(self):
@@ -93,15 +93,15 @@ class GrantsTests(TestCase):
                         "amount.sum": 1484790000.0,
                         "amount_type.code": "ORGB",
                         "financial_year_end.year": 2019,
-                        "grant.code": "USDG",
-                        "grant.label": "Urban Settlement Development Grant",
+                        "grant.code": "0001",
+                        "grant.label": "Health",
                     },
                     {
                         "amount.sum": 0.0,
                         "amount_type.code": "ACT",
                         "financial_year_end.year": 2019,
-                        "grant.code": "USDG",
-                        "grant.label": "Urban Settlement Development Grant",
+                        "grant.code": "0001",
+                        "grant.label": "Health",
                     },
                 ]
             }
@@ -114,14 +114,13 @@ class GrantsTests(TestCase):
                         "amount.sum": 1484790000.0,
                         "amount_type.code": "ORGB",
                         "financial_year_end.year": 2019,
-                        "grant.code": "USDG",
-                        "grant.label": "Urban Settlement Development Grant",
+                        "grant.code": "0001",
+                        "grant.label": "Health",
                     },
-                ]
+                ],
             },
-            result["values"],
+            result["provincial_transfers"],
         )
-
 
     @override_config(GRANTS_LATEST_YEAR=2040, GRANTS_LATEST_QUARTER=2)
     def test_data_date(self):
@@ -133,5 +132,5 @@ class GrantsTests(TestCase):
                 "year": 2040,
                 "quarter": 2,
             },
-            result["snapshot_date"]
+            result["snapshot_date"],
         )
