@@ -7,39 +7,47 @@ from .utils import (
 from .indicator_calculator import IndicatorCalculator
 
 
-def generate_data(year, values):
-    data = {
-        "date": "%s" % (year),
-        "year": year,
-    }
-    if values:
-        cash = values["cash"]
-        call_investment_deposits = values["call_investment_deposits"]
-        total_current_liabilities = values["total_current_liabilities"]
-        result = ratio(
-            cash + call_investment_deposits, total_current_liabilities
-        )
-        data.update({
-            "amount_type": "ACT",
-            "cash": cash,
-            "call_investment_deposits": call_investment_deposits,
-            "liabilities": total_current_liabilities,
-            "result": result,
-            "rating": "good" if result >= 1 else "bad",
-        })
-    else:
-        data.update({
-            "result": None,
-            "rating": "bad",
-        })
-    return data
-
-
 class LiquidityRatio(IndicatorCalculator):
-    indicator_name = "liquidity_ratio"
+    """
+    The municipality's immediate ability to pay its current liabilities.
+    """
+
+    name = "liquidity_ratio"
     result_type = "ratio"
     noun = "ratio"
     has_comparisons = True
+
+    @classmethod
+    def determine_rating(cls, result):
+        return "good" if result >= 1 else "bad"
+
+    @classmethod
+    def generate_data(cls, year, values):
+        data = {
+            "date": "%s" % (year),
+            "year": year,
+        }
+        if values:
+            cash = values["cash"]
+            call_investment_deposits = values["call_investment_deposits"]
+            total_current_liabilities = values["total_current_liabilities"]
+            result = ratio(
+                cash + call_investment_deposits, total_current_liabilities
+            )
+            data.update({
+                "amount_type": "ACT",
+                "cash": cash,
+                "call_investment_deposits": call_investment_deposits,
+                "liabilities": total_current_liabilities,
+                "result": result,
+                "rating": cls.determine_rating(result),
+            })
+        else:
+            data.update({
+                "result": None,
+                "rating": "bad",
+            })
+        return data
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -72,13 +80,13 @@ class LiquidityRatio(IndicatorCalculator):
         # Generate data for the reuqested years
         values = list(
             map(
-                lambda year: generate_data(year, periods.get(year)),
+                lambda year: cls.generate_data(year, periods.get(year)),
                 api_data.years,
             )
         )
         # Return the compiled data
         return {
+            "result_type": cls.result_type,
             "values": values,
             "ref": api_data.references["mbrr"],
-            "result_type": cls.result_type,
         }
