@@ -6,7 +6,7 @@ import { AuditOpinions } from '../components/audit-opinions.js';
 import { ProfileHeader } from '../components/profile-header.js';
 import { InPageNav } from '../components/in-page-nav.js';
 import { CapitalProjectList } from '../components/capital-projects.js';
-import { IncomeSummarySection, LocalIncomeSourcesSection } from '../components/income.js';
+import { IncomeSummarySection, LocalIncomeSourcesSection, NationalConditionalGrantsSection } from '../components/income.js';
 
 export default class ProfilePage {
   constructor(pageData) {
@@ -56,6 +56,9 @@ export default class ProfilePage {
     });
     errorBoundary(() => {
       new LocalIncomeSourcesSection("#local-income-sources", pageData.indicators.revenue_breakdown);
+    });
+    errorBoundary(() => {
+      new NationalConditionalGrantsSection("#national-conditional-grants", pageData.indicators.grants);
     });
 
     // "#types-of-transfers:"
