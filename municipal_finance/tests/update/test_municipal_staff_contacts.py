@@ -2,8 +2,14 @@ from django.test import TransactionTestCase
 from django.contrib.auth.models import User
 from django.core.files import File
 
-from ..models import MunicipalityStaffContactsUpload, MunicipalityStaffContacts
-from ..update import update_municipal_staff_contacts
+from ...models import MunicipalStaffContactsUpdate, MunicipalStaffContacts
+from ...update import (
+    update_municipal_staff_contacts,
+)
+
+
+FIXTURE_PATH = ("municipal_finance/fixtures/tests/update/"
+                "municipal_staff_contacts")
 
 
 class UpdateMunicipalContactsTestCase(TransactionTestCase):
@@ -13,32 +19,22 @@ class UpdateMunicipalContactsTestCase(TransactionTestCase):
         self.user = User.objects.create_user(
             username="sample", email="sample@some.co", password="testpass",
         )
-        self.initial_upload = MunicipalityStaffContactsUpload.objects.create(
+        self.initial_upload = MunicipalStaffContactsUpdate.objects.create(
             user=self.user,
-            file=File(
-                open(
-                    'municipal_finance/fixtures/municipal_contacts/initial.csv',
-                    'rb',
-                ),
-            ),
+            file=File(open(f"{FIXTURE_PATH}/initial.csv", "rb")),
         )
-        self.update_upload = MunicipalityStaffContactsUpload.objects.create(
+        self.update_upload = MunicipalStaffContactsUpdate.objects.create(
             user=self.user,
-            file=File(
-                open(
-                    'municipal_finance/fixtures/municipal_contacts/update.csv',
-                    'rb',
-                ),
-            ),
+            file=File(open(f"{FIXTURE_PATH}/update.csv", "rb")),
         )
 
     def test_initial_and_update(self):
         # Upload the initial data
         result = update_municipal_staff_contacts(self.initial_upload)
-        records = MunicipalityStaffContacts.objects.all()
+        records = MunicipalStaffContacts.objects.all()
         self.assertEquals(result, {"updated": 0, "created": 4})
         self.assertQuerysetEqual(records, [repr(o) for o in [
-            MunicipalityStaffContacts(
+            MunicipalStaffContacts(
                 id=1,
                 demarcation_code="AAA",
                 role="Role A",
@@ -48,7 +44,7 @@ class UpdateMunicipalContactsTestCase(TransactionTestCase):
                 fax_number="081 123 1111",
                 email_address="one@some.co",
             ),
-            MunicipalityStaffContacts(
+            MunicipalStaffContacts(
                 id=2,
                 demarcation_code="AAA",
                 role="Role B",
@@ -58,7 +54,7 @@ class UpdateMunicipalContactsTestCase(TransactionTestCase):
                 fax_number="081 123 2222",
                 email_address="two@some.co",
             ),
-            MunicipalityStaffContacts(
+            MunicipalStaffContacts(
                 id=3,
                 demarcation_code="BBB",
                 role="Role A",
@@ -68,7 +64,7 @@ class UpdateMunicipalContactsTestCase(TransactionTestCase):
                 fax_number="081 123 3333",
                 email_address="three@some.co",
             ),
-            MunicipalityStaffContacts(
+            MunicipalStaffContacts(
                 id=4,
                 demarcation_code="BBB",
                 role="Role B",
@@ -81,10 +77,10 @@ class UpdateMunicipalContactsTestCase(TransactionTestCase):
         ]], ordered=False)
         # Upload an update
         result = update_municipal_staff_contacts(self.update_upload)
-        records = MunicipalityStaffContacts.objects.all()
+        records = MunicipalStaffContacts.objects.all()
         self.assertEquals(result, {"updated": 2, "created": 1})
         self.assertQuerysetEqual(records, [repr(o) for o in [
-            MunicipalityStaffContacts(
+            MunicipalStaffContacts(
                 id=1,
                 demarcation_code="AAA",
                 role="Role A",
@@ -94,7 +90,7 @@ class UpdateMunicipalContactsTestCase(TransactionTestCase):
                 fax_number="081 321 1111",
                 email_address="one@updated.co",
             ),
-            MunicipalityStaffContacts(
+            MunicipalStaffContacts(
                 id=2,
                 demarcation_code="AAA",
                 role="Role B",
@@ -104,7 +100,7 @@ class UpdateMunicipalContactsTestCase(TransactionTestCase):
                 fax_number="081 123 2222",
                 email_address="two@some.co",
             ),
-            MunicipalityStaffContacts(
+            MunicipalStaffContacts(
                 id=3,
                 demarcation_code="BBB",
                 role="Role A",
@@ -114,7 +110,7 @@ class UpdateMunicipalContactsTestCase(TransactionTestCase):
                 fax_number="081 123 3333",
                 email_address="three@some.co",
             ),
-            MunicipalityStaffContacts(
+            MunicipalStaffContacts(
                 id=4,
                 demarcation_code="BBB",
                 role="Role B",
@@ -124,7 +120,7 @@ class UpdateMunicipalContactsTestCase(TransactionTestCase):
                 fax_number="081 321 4444",
                 email_address="four@updated.co",
             ),
-            MunicipalityStaffContacts(
+            MunicipalStaffContacts(
                 id=5,
                 demarcation_code="CCC",
                 role="Role A",

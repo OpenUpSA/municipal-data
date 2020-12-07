@@ -6,7 +6,6 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.contrib.auth.models import User
 from django.contrib.postgres.fields import JSONField
 
 from .amount_type import (
@@ -69,6 +68,10 @@ from .aged_creditor import (
     AgedCreditorItemsV2,
     AgedCreditorFactsV2,
 )
+from .municipal_staff_contacts import (
+    MunicipalStaffContacts,
+)
+from .updates import *
 
 
 class AuditOpinionFacts(models.Model):
@@ -80,31 +83,6 @@ class AuditOpinionFacts(models.Model):
 
     class Meta:
         db_table = 'audit_opinion_facts'
-
-
-class MunicipalityStaffContacts(models.Model):
-    id = models.AutoField(primary_key=True)
-    demarcation_code = models.TextField()
-    role = models.TextField()
-    title = models.TextField(null=True)
-    name = models.TextField(null=True)
-    office_number = models.TextField(null=True)
-    fax_number = models.TextField(null=True)
-    email_address = models.TextField(null=True)
-
-    class Meta:
-        db_table = 'municipality_staff_contacts'
-        unique_together = (('demarcation_code', 'role'),)
-
-
-class MunicipalityStaffContactsUpload(models.Model):
-    id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, models.DO_NOTHING)
-    datetime = models.DateTimeField(auto_now_add=True)
-    file = models.FileField(upload_to='uploads/contacts/')
-
-    class Meta:
-        db_table = 'municipality_staff_contacts_uploads'
 
 
 class UifwexpFacts(models.Model):

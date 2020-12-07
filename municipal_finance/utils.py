@@ -6,12 +6,14 @@ from django.http import StreamingHttpResponse, Http404, HttpResponse
 from django.http import JsonResponse
 from io import BytesIO
 
+import tablib
 import xlsxwriter
 import unicodecsv as csv
 
 
 class BabbageJSONEncoder(DjangoJSONEncoder):
     """ Custom JSONificaton to support obj.to_dict protocol. """
+
     def default(self, obj):
         if isinstance(obj, date):
             return obj.isoformat()
@@ -33,6 +35,7 @@ class EchoBuffer(object):
     interface.
     https://docs.djangoproject.com/en/1.9/howto/outputting-csv/#streaming-large-csv-files
     """
+
     def write(self, value):
         """Write the value by returning it, instead of storing in a buffer."""
         return value
@@ -83,3 +86,10 @@ def serialize(format, name_base, fields, rows):
 
 def check_page_size(page_size):
     return int(page_size or 10000)
+
+
+def import_data(resource, path):
+    resource().import_data(
+        tablib.Dataset().load(open(path), format='csv', headers=True),
+        raise_errors=True,
+    )
