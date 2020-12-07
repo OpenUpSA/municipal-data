@@ -45,6 +45,12 @@ from .capital import (
     CapitalFactsV1,
     CapitalFactsV2,
 )
+from .grants import (
+    ConditionalGrantTypesV1,
+    ConditionalGrantFactsV1,
+    GrantTypesV2,
+    GrantFactsV2,
+)
 
 
 class AgedCreditorFacts(models.Model):
@@ -151,39 +157,6 @@ class AuditOpinionFacts(models.Model):
 
     class Meta:
         db_table = 'audit_opinion_facts'
-
-
-class ConditionalGrants(models.Model):
-    code = models.TextField(null=True)
-    name = models.TextField(null=True)
-
-    class Meta:
-        db_table = 'conditional_grants'
-
-
-class ConditionalGrantsFacts(models.Model):
-    demarcation_code = models.TextField()
-    period_code = models.TextField()
-    grant_code = models.TextField()
-    amount = models.BigIntegerField(null=True)
-    amount_type_code = models.TextField()
-    financial_year = models.IntegerField()
-    period_length = models.TextField()
-    financial_period = models.IntegerField()
-
-    class Meta:
-        db_table = 'conditional_grants_facts'
-        unique_together = (
-            ('demarcation_code', 'period_code', 'grant_code'),
-            (
-                'amount_type_code',
-                'demarcation_code',
-                'financial_period',
-                'financial_year',
-                'grant_code',
-                'period_length',
-            ),
-        )
 
 
 class MunicipalityStaffContacts(models.Model):
