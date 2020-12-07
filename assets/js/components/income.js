@@ -99,20 +99,6 @@ export class NationalConditionalGrantsSection extends IncomeSection {
     this._chartData = this.sectionData.national_conditional_grants;
 
 
-    const comparator = (first, second) => {
-      if (first["amount_type.code"] === "ORGB")
-        return -1;
-      if (first["amount_type.code"] === "ACT")
-        return 1;
-      if (first["amount_type.code"] === "TRFR" && second["amount_type.code"] === "ACT")
-        return -1;
-      if (first["amount_type.code"] === "TRFR" && second["amount_type.code"] === "ORGB")
-        return 1;
-      if (first["amount_type.code"] === "TRFR" && second["amount_type.code"] === "TRFR")
-        return 0;
-      console.warn("Unexpected", first, second);
-      return 0;
-    };
     for (let year in this._chartData) {
 
       // Add dummy data for missing year groups because chart assumes there's
@@ -130,14 +116,12 @@ export class NationalConditionalGrantsSection extends IncomeSection {
               "grant.code": grantGroups[grantLabel][0]["grant.code"],
               "financial_year_end.year": grantGroups[grantLabel][0]["financial_year_end.year"],
             };
-            console.log("fake", fake);
             this._chartData[year].push(fake);
           }
         });
       }
 
-      // sort since data order is used to assume series when seriesOrder is not provided
-      this._chartData[year].sort(comparator);
+      // Map keys to the keys assumed by the chart
       this._chartData[year].forEach((item) => {
         item.item = item["grant.label"];
         delete item["grant.label"];
