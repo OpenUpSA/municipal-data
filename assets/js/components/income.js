@@ -9,7 +9,16 @@ const transfersColor = "#54298B";
 const transferredColor = "#A26CE8";
 const spentColor = "#91899C";
 
-class IncomeSection {
+export class LegendItem {
+  constructor(template, color, label) {
+    this.$element = template.clone();
+    logIfUnequal(1, this.$element.length);
+    this.$element.find("div:eq(1)").text(label);
+    this.$element.find(".legend-block__colour").css("background-color", color);
+  }
+}
+
+class AbstractIncomeSection {
   constructor(selector, sectionData) {
     this.$element = $(selector);
     logIfUnequal(1, this.$element.length);
@@ -19,7 +28,7 @@ class IncomeSection {
 
 }
 
-export class IncomeSummarySection extends IncomeSection {
+export class IncomeSection extends AbstractIncomeSection {
   constructor(selector, sectionData) {
     super(selector, sectionData);
     this._initIndicator();
@@ -32,8 +41,8 @@ export class IncomeSummarySection extends IncomeSection {
   }
 
   _initChart() {
-    this.chart = new PercentageStackedChart(this.$chartContainer[0]);
-    this.chart.data(this.chartData())
+    this.chart = new PercentageStackedChart(this.$chartContainer[0])
+      .data(this.chartData())
       .mainLabel((d) => [
         formatForType("%", d.percent),
         formatForType("R", d.amount),
@@ -61,7 +70,7 @@ export class IncomeSummarySection extends IncomeSection {
   }
 }
 
-export class LocalIncomeSourcesSection extends IncomeSection {
+export class LocalIncomeSection extends AbstractIncomeSection {
   constructor(selector, sectionData) {
     super(selector, sectionData);
     this._initIndicator();
@@ -96,16 +105,79 @@ export class LocalIncomeSourcesSection extends IncomeSection {
   }
 }
 
-export class LegendItem {
-  constructor(template, color, label) {
-    this.$element = template.clone();
-    logIfUnequal(1, this.$element.length);
-    this.$element.find("div:eq(1)").text(label);
-    this.$element.find(".legend-block__colour").css("background-color", color);
+export class TransfersSection extends AbstractIncomeSection {
+  constructor(selector, sectionData) {
+    super(selector, sectionData);
+    this._initChart();
+    const initialPeriodOption = this._initDropdown();
+    this.selectData(initialPeriodOption[1]);
+  }
+
+  _initChart() {
+    this.chart = new PercentageStackedChart(this.$chartContainer[0])
+      .mainLabel((d) => [
+        formatForType("R", d.amount),
+        d.label,
+      ])
+      .subLabel((d) => [
+        `${ d.label }: ${ formatForType("R", d.amount) }`
+      ]);
+}
+  _initDropdown() {
+    const options = [];
+    for (let year in this.sectionData.totals) {
+      const phases = this.sectionData.totals[year];
+      for (let phase in phases) {
+        const types = phases[phase];
+        if ("national_conditional_grants" in types &&
+            "provincial_transfers" in types &&
+            "equitable_share" in types) {
+          options.push([
+            `${formatFinancialYear(year)} ${phase}`,
+            {
+              year: year,
+              phase: phase,
+            }
+          ]);
+        }
+      }
+    }
+    const initialOption = options[0];
+    this.dropdown = new Dropdown(this.$element.find(".fy-select"), options, initialOption[0]);
+    this.dropdown.$element.on("option-select", (e) => this.selectData(e.detail));
+    return initialOption;
+  }
+
+  selectData(selection) {
+    const types = this.sectionData.totals[selection.year][selection.phase];
+    const data = [
+      {
+        label: "Equitable share",
+        amount: types.equitable_share,
+        color: transfersColor,
+      },
+      {
+        label: "National conditional grants",
+        amount: types.national_conditional_grants,
+        color: transfersColor,
+      },
+      {
+        label: "Provincial transfers",
+        amount: types.provincial_transfers,
+        color: transfersColor,
+      },
+    ];
+    this.chart.data(data);
   }
 }
 
-export class NationalConditionalGrantsSection extends IncomeSection {
+export class EquitableShareSection extends AbstractIncomeSection {
+  constructor(selector, sectionData) {
+    super(selector, sectionData);
+  }
+}
+
+export class NationalConditionalGrantsSection extends AbstractIncomeSection {
   constructor(selector, sectionData) {
     super(selector, sectionData);
     this._initChartData();
@@ -160,7 +232,7 @@ export class NationalConditionalGrantsSection extends IncomeSection {
   }
 }
 
-export class ProvincialTransfersSection extends IncomeSection {
+export class ProvincialTransfersSection extends AbstractIncomeSection {
   constructor(selector, sectionData) {
     super(selector, sectionData);
     this._initChartData();
@@ -195,17 +267,19 @@ export class ProvincialTransfersSection extends IncomeSection {
         delete item["grant.label"];
       });
     }
-    this._year = _.max(_.keys(this._chartData));
   }
 
   _initDropdown() {
     const options = [];
     for (let year in this._chartData) {
       for (let phase in this._chartData[year]) {
-        options.push([`${formatFinancialYear(year)} ${phase}`, {
-          year: year,
-          phase: phase,
-        }]);
+        options.push([
+          `${formatFinancialYear(year)} ${phase}`,
+          {
+            year: year,
+            phase: phase,
+          }
+        ]);
       }
     }
     options.reverse();

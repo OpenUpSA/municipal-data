@@ -212,3 +212,96 @@ class GrantsTests(TestCase):
             },
             result["equitable_share"],
         )
+
+    def test_totals(self):
+        result = Grants.totals({
+            "national_conditional_grants": {
+                2030: [
+                    {
+                        "amount.sum": 1,
+                        "amount_type.code": "A",
+                    },
+                    {
+                        "amount.sum": 2,
+                        "amount_type.code": "A",
+                    },
+                    {
+                        "amount.sum": 3,
+                        "amount_type.code": "B",
+                    },
+                ],
+                2031: [
+                    {
+                        "amount.sum": 4,
+                        "amount_type.code": "A",
+                    },
+                    {
+                        "amount.sum": 5,
+                        "amount_type.code": "A",
+                    },
+                ],
+            },
+            "provincial_transfers": {
+                2030: [
+                    {
+                        "amount.sum": 6,
+                        "amount_type.code": "A",
+                    },
+                ],
+                2031: [
+                    {
+                        "amount.sum": 7,
+                        "amount_type.code": "B",
+                    },
+                    {
+                        "amount.sum": 8,
+                        "amount_type.code": "B",
+                    },
+                ],
+            },
+            "equitable_share": {
+                2030: [
+                    {
+                        "amount.sum": 9,
+                        "amount_type.code": "A",
+                    },
+                ],
+                2029: [
+                    {
+                        "amount.sum": 10,
+                        "amount_type.code": "C",
+                    },
+                ],
+            },
+        })
+        expected = {
+            2029: {
+                "C": {
+                    "equitable_share": 10,
+                },
+            },
+            2030: {
+                "A": {
+                    "national_conditional_grants": 3,
+                    "provincial_transfers":  6,
+                    "equitable_share": 9,
+                },
+                "B": {
+                    "national_conditional_grants": 3,
+                },
+            },
+            2031: {
+                "A": {
+                    "national_conditional_grants": 9,
+                },
+                "B": {
+                    "provincial_transfers": 15,
+                },
+            },
+        }
+        # assertEqual also compares types so we use assertTrue. pretty is for presentation.
+        pretty = {k: dict(v) for k, v in result.items()}
+        self.assertTrue(
+            expected == result,
+            f"\n{expected}\n\n!=\n\n{pretty}"
+        )

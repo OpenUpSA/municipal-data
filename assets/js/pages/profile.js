@@ -7,8 +7,10 @@ import { ProfileHeader } from '../components/profile-header.js';
 import { InPageNav } from '../components/in-page-nav.js';
 import { CapitalProjectList } from '../components/capital-projects.js';
 import {
-  IncomeSummarySection,
-  LocalIncomeSourcesSection,
+  IncomeSection,
+  LocalIncomeSection,
+  TransfersSection,
+  EquitableShareSection,
   NationalConditionalGrantsSection,
   ProvincialTransfersSection,
 } from '../components/income.js';
@@ -51,18 +53,25 @@ export default class ProfilePage {
     initSection(IndicatorSection, "#wages-salaries", "expenditure_trends_staff");
     initSection(IndicatorSection, "#contractor-services", "expenditure_trends_contracting");
 
+    // Income
     errorBoundary(() => {
       new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
     });
 
     errorBoundary(() => {
-      new IncomeSummarySection("#income-summary", pageData.indicators.revenue_sources);
+      new IncomeSection("#income-summary", pageData.indicators.revenue_sources);
     });
     errorBoundary(() => {
-      new LocalIncomeSourcesSection("#local-income-sources", {
+      new LocalIncomeSection("#local-income-sources", {
         "revenueSources": pageData.indicators.revenue_sources,
         "revenueBreakdown": pageData.indicators.revenue_breakdown,
       });
+    });
+    errorBoundary(() => {
+      new TransfersSection("#types-of-transfers", pageData.indicators.grants);
+    });
+    errorBoundary(() => {
+      new EquitableShareSection("#equitable-share", pageData.indicators.grants);
     });
     errorBoundary(() => {
       new NationalConditionalGrantsSection("#national-conditional-grants", pageData.indicators.grants);
@@ -71,9 +80,7 @@ export default class ProfilePage {
       new ProvincialTransfersSection("#provincial-transfers", pageData.indicators.grants);
     });
 
-    // "#types-of-transfers"
-    // "#equitable-share"
-
+    // Spending
     $("#what-is-money-spent-on .financial-period").empty();
     $("#what-is-money-spent-on .indicator-chart")
       .addClass("chart-container")
@@ -82,6 +89,7 @@ export default class ProfilePage {
     new HorizontalGroupedBarChart().discover(pageData);
 
 
+    // Household bills
     errorBoundary(() => {
       this.initHouseholdBills(pageData);
     });
