@@ -1,7 +1,7 @@
 {
-    "fact_table": "repairs_maintenance_facts",
+    "fact_table": "repairs_maintenance_facts_v2",
     "label": "Repairs and Maintenance",
-    "description": "Money spent on repairs and maintenance of assets.",
+    "description": "Money spent on repairs and maintenance of assets. How a municipality has spent money and received income. Section 71-level aggregation of mSCOA data from 2019-20 onwards replacing the original repmaint cube.",
     "update_cycle": "quarter",
     "last_updated": "2020-10",
     "dimensions": {
@@ -29,31 +29,31 @@
         "item": {
             "attributes": {
                 "code": {
-                    "column": "repairs_maintenance_items.code",
+                    "column": "repairs_maintenance_items_v2.code",
                     "label": "Code",
                     "type": "string",
                     "description": "Code used by treasury"
                 },
                 "label": {
-                    "column": "repairs_maintenance_items.label",
+                    "column": "repairs_maintenance_items_v2.label",
                     "label": "Label",
                     "type": "string",
                     "description": ""
                 },
                 "position_in_return_form": {
-                    "column": "repairs_maintenance_items.position_in_return_form",
+                    "column": "repairs_maintenance_items_v2.position_in_return_form",
                     "label": "Position in Return Form",
                     "type": "integer",
                     "description": "The position of this item in the Section 71 Return form - useful for sorting line items to be ordered as they are in the return form to group related items and place them below the section headings and above section totals."
                 },
                 "return_form_structure": {
-                    "column": "repairs_maintenance_items.return_form_structure",
+                    "column": "repairs_maintenance_items_v2.return_form_structure",
                     "label": "Return Form Structure",
                     "type": "string",
                     "description": "What structural role this line item has in the return form"
                 },
                 "composition": {
-                    "column": "repairs_maintenance_items.composition",
+                    "column": "repairs_maintenance_items_v2.composition",
                     "label": "Composition",
                     "type": "string",
                     "description": "The composition of this item. Indicates how this item is composed of other items in this cube for the same mnuicipality, financial year and period, and amount type using item codes."
@@ -63,7 +63,7 @@
             "label_attribute": "label",
             "description": "",
             "label": "Item",
-            "join_column": "item_code"
+            "join_column": ["item_id", "id"]
         },
         "financial_year_end": {
             "attributes": {
@@ -107,13 +107,13 @@
         "amount_type": {
             "attributes": {
                 "code": {
-                    "column": "amount_type.code",
+                    "column": "amount_type_v2.code",
                     "label": "Code",
                     "type": "string",
                     "description": ""
                 },
                 "label": {
-                    "column": "amount_type.label",
+                    "column": "amount_type_v2.label",
                     "label": "Label",
                     "type": "string",
                     "description": ""
@@ -123,7 +123,7 @@
             "description": "Whether this figure is actual, budgeted, audited etc.",
             "label_attribute": "label",
             "label": "Amount Type",
-            "join_column": "amount_type_code"
+            "join_column": ["amount_type_id", "id"]
         }
     },
     "measures": {

@@ -4,7 +4,7 @@ BEGIN;
 
 \echo Create import table...
 
-CREATE TEMPORARY TABLE repmaint_upsert
+CREATE TEMPORARY TABLE repairs_maintenance_upsert
 (
         demarcation_code TEXT,
         period_code TEXT,
@@ -14,12 +14,12 @@ CREATE TEMPORARY TABLE repmaint_upsert
 
 \echo Read data...
 
-\copy repmaint_upsert (demarcation_code, period_code, item_code, amount) FROM '/home/jdb/projects/municipal-money/data/treasury-snapshots/2019q4/S71 Q4 2018-19/rm_2019q4_acrmun.csv' DELIMITER ',' CSV HEADER;
+\copy repairs_maintenance_upsert (demarcation_code, period_code, item_code, amount) FROM '' DELIMITER ',' CSV HEADER;
 
 \echo Delete demarcation_code-period_code pairs that are in the update
 
-DELETE FROM repmaint_facts f WHERE EXISTS (
-        SELECT 1 FROM repmaint_upsert i
+DELETE FROM repairs_maintenance_facts f WHERE EXISTS (
+        SELECT 1 FROM repairs_maintenance_upsert i
         WHERE f.demarcation_code = i.demarcation_code
         AND f.period_code = i.period_code
         LIMIT 1
@@ -27,7 +27,7 @@ DELETE FROM repmaint_facts f WHERE EXISTS (
 
 \echo Insert new values...
 
-INSERT INTO repmaint_facts
+INSERT INTO repairs_maintenance_facts
 (
     demarcation_code,
     period_code,
@@ -58,6 +58,6 @@ SELECT demarcation_code,
             when period_code ~ '\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD)'
                 then cast(left(period_code, 4) as int)
        end
-FROM repmaint_upsert i;
+FROM repairs_maintenance_upsert i;
 
 COMMIT;
