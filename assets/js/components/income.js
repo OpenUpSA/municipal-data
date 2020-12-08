@@ -73,6 +73,7 @@ export class LocalIncomeSourcesSection extends IncomeSection {
     const value = this.sectionData.revenueSources["local"].amount;
     this.$element.find(".indicator-metric__value").text(formatForType("R", value));
   }
+
   _initChart() {
     this.chart = new BarChart(this.$chartContainer[0])
       .data(this._chartData[this._year])
@@ -133,29 +134,7 @@ export class NationalConditionalGrantsSection extends IncomeSection {
   _initChartData() {
     this._chartData = this.sectionData.national_conditional_grants;
 
-
     for (let year in this._chartData) {
-
-      // Add dummy data for missing year groups because chart assumes there's
-      // a datum for each series in each item, and shows data in the wrong series
-      // when a series is missing from an item
-      const grantGroups = _.groupBy(this._chartData[year], "grant.label");
-      for (let grantLabel in grantGroups) {
-        const typeGroups = _.groupBy(grantGroups[grantLabel], "amount_type.code");
-        ["ORGB", "TRFR", "ACT"].forEach((typeCode) => {
-          if (!(typeCode in typeGroups)) {
-            const fake = {
-              "amount_type.code": typeCode,
-              "amount.sum": null,
-              "grant.label": grantLabel,
-              "grant.code": grantGroups[grantLabel][0]["grant.code"],
-              "financial_year_end.year": grantGroups[grantLabel][0]["financial_year_end.year"],
-            };
-            this._chartData[year].push(fake);
-          }
-        });
-      }
-
       // Map keys to the keys assumed by the chart
       this._chartData[year].forEach((item) => {
         item.item = item["grant.label"];
@@ -178,4 +157,41 @@ export class NationalConditionalGrantsSection extends IncomeSection {
     this._seriesOrder = ["Amount budgeted", "Transferred up to", "Spent up to"] ;
     this._year = _.max(_.keys(this._chartData));
   }
+}
+
+export class ProvincialTransfersSection extends IncomeSection {
+  constructor(selector, sectionData) {
+    super(selector, sectionData);
+    this._initChartData();
+    this._initChart();
+    this._initLegend();
+  }
+
+  _initChart() {
+    this.chart = new BarChart(this.$chartContainer[0])
+      .data(this._chartData[this._year])
+      .format(locale.format("$,"));
+  }
+
+  _initLegend() {
+    this.$element.find(".legend-block div:eq(1)").text("Amount budgeted");
+    this.$element.find(".legend-block__colour").css("background-color", transfersColor);
+    this.$element.find(".indicator-chart__legend").css("display", "block");
+  }
+
+  _initChartData() {
+    const years = this.sectionData.provincial_transfers;
+    for (let year in years) {
+      years[year].forEach(item => {
+        item.color = transfersColor;
+        item.amount = item["amount.sum"];
+        delete item["amount.sum"];
+        item.item = item["grant.label"];
+        delete item["grant.label"];
+      });
+    }
+    this._chartData = years;
+    this._year = _.max(_.keys(this._chartData));
+  }
+
 }

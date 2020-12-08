@@ -6,7 +6,12 @@ import { AuditOpinions } from '../components/audit-opinions.js';
 import { ProfileHeader } from '../components/profile-header.js';
 import { InPageNav } from '../components/in-page-nav.js';
 import { CapitalProjectList } from '../components/capital-projects.js';
-import { IncomeSummarySection, LocalIncomeSourcesSection, NationalConditionalGrantsSection } from '../components/income.js';
+import {
+  IncomeSummarySection,
+  LocalIncomeSourcesSection,
+  NationalConditionalGrantsSection,
+  ProvincialTransfersSection,
+} from '../components/income.js';
 
 export default class ProfilePage {
   constructor(pageData) {
@@ -62,11 +67,12 @@ export default class ProfilePage {
     errorBoundary(() => {
       new NationalConditionalGrantsSection("#national-conditional-grants", pageData.indicators.grants);
     });
+    errorBoundary(() => {
+      new ProvincialTransfersSection("#provincial-transfers", pageData.indicators.grants);
+    });
 
-    // "#types-of-transfers:"
+    // "#types-of-transfers"
     // "#equitable-share"
-    // "#national-conditional-grants"
-    // "#provincial-transfers"
 
     $("#what-is-money-spent-on .financial-period").empty();
     $("#what-is-money-spent-on .indicator-chart")
