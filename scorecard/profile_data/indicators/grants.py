@@ -33,11 +33,6 @@ class Grants(IndicatorCalculator):
         prov_year_groups.update(group_list_by_year(provincial_transfers_v2))
         esg_year_groups.update(group_list_by_year(equitable_share_v2))
 
-        # Equitable Share should only be one value per year
-        for year, items in esg_year_groups.items():
-            assert len(list(items)) == 1
-        esg_year_groups = {year: items[0] for year, items in esg_year_groups.items()}
-
         return {
             "national_conditional_grants": nat_year_groups,
             "provincial_transfers": prov_year_groups,

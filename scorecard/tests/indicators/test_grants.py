@@ -200,13 +200,15 @@ class GrantsTests(TestCase):
         )
         self.assertEqual(
             {
-                2019: {
-                    "amount.sum": 1484790000.0,
-                    "amount_type.code": "ORGB",
-                    "financial_year_end.year": 2019,
-                    "grant.code": "ESG",
-                    "grant.label": "Equitable Share Grant",
-                },
+                2019: [
+                    {
+                        "amount.sum": 1484790000.0,
+                        "amount_type.code": "ORGB",
+                        "financial_year_end.year": 2019,
+                        "grant.code": "ESG",
+                        "grant.label": "Equitable Share Grant",
+                    },
+                ],
             },
             result["equitable_share"],
         )
