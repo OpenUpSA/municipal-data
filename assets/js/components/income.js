@@ -2,6 +2,7 @@ import { logIfUnequal, formatFinancialYear, ratingColor, formatForType, locale }
 import PercentageStackedChart  from 'municipal-money-charts/src/components/MunicipalCharts/PercentageStackedChart';
 import BarChart  from 'municipal-money-charts/src/components/MunicipalCharts/BarChart';
 import OverlayBarChart from 'municipal-money-charts/src/components/MunicipalCharts/OverlayBarChart';
+import Dropdown from './dropdown.js';
 
 const localColor = "#23728B";
 const transfersColor = "#54298B";
@@ -165,11 +166,12 @@ export class ProvincialTransfersSection extends IncomeSection {
     this._initChartData();
     this._initChart();
     this._initLegend();
+    const initialPeriodOption = this._initDropdown();
+    this.selectData(initialPeriodOption[1]);
   }
 
   _initChart() {
     this.chart = new BarChart(this.$chartContainer[0])
-      .data(this._chartData[this._year])
       .format(locale.format("$,"));
   }
 
@@ -181,7 +183,10 @@ export class ProvincialTransfersSection extends IncomeSection {
 
   _initChartData() {
     const years = this.sectionData.provincial_transfers;
+    this._chartData = {};
     for (let year in years) {
+      this._chartData[year] = _.groupBy(years[year], "amount_type.code");
+
       years[year].forEach(item => {
         item.color = transfersColor;
         item.amount = item["amount.sum"];
@@ -190,8 +195,28 @@ export class ProvincialTransfersSection extends IncomeSection {
         delete item["grant.label"];
       });
     }
-    this._chartData = years;
     this._year = _.max(_.keys(this._chartData));
   }
 
+  _initDropdown() {
+    const options = [];
+    for (let year in this._chartData) {
+      for (let phase in this._chartData[year]) {
+        options.push([`${formatFinancialYear(year)} ${phase}`, {
+          year: year,
+          phase: phase,
+        }]);
+      }
+    }
+    options.reverse();
+
+    const initialOption = options[0];
+    this.dropdown = new Dropdown(this.$element.find(".fy-select"), options, initialOption[0]);
+    this.dropdown.$element.on("option-select", (e) => this.selectData(e.detail));
+    return initialOption;
+  }
+
+  selectData(selection) {
+    this.chart.data(this._chartData[selection.year][selection.phase]);
+  }
 }
