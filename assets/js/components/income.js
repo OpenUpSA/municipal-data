@@ -8,6 +8,7 @@ const localColor = "#23728B";
 const transfersColor = "#54298B";
 const transferredColor = "#A26CE8";
 const spentColor = "#91899C";
+const defocusedColor = "#d3e3e8";
 
 export class LegendItem {
   constructor(template, color, label) {
@@ -168,12 +169,39 @@ export class TransfersSection extends AbstractIncomeSection {
       },
     ];
     this.chart.data(data);
+    const indicatorValue = types.equitable_share +
+          types.national_conditional_grants + types.provincial_transfers;
+    this.$element.find(".indicator-metric__value").text(formatForType("R", indicatorValue));
   }
 }
 
-export class EquitableShareSection extends AbstractIncomeSection {
+export class EquitableShareSection extends TransfersSection {
   constructor(selector, sectionData) {
     super(selector, sectionData);
+  }
+
+  selectData(selection) {
+    const types = this.sectionData.totals[selection.year][selection.phase];
+    const data = [
+      {
+        label: "Equitable share",
+        amount: types.equitable_share,
+        color: transfersColor,
+      },
+      {
+        label: "National conditional grants",
+        amount: types.national_conditional_grants,
+        color: defocusedColor,
+      },
+      {
+        label: "Provincial transfers",
+        amount: types.provincial_transfers,
+        color: defocusedColor,
+      },
+    ];
+    this.chart.data(data);
+    const indicatorValue = types.equitable_share;
+    this.$element.find(".indicator-metric__value").text(formatForType("R", indicatorValue));
   }
 }
 
@@ -292,5 +320,8 @@ export class ProvincialTransfersSection extends AbstractIncomeSection {
 
   selectData(selection) {
     this.chart.data(this._chartData[selection.year][selection.phase]);
+    const types = this.sectionData.totals[selection.year][selection.phase];
+    const indicatorValue = types.provincial_transfers;
+    this.$element.find(".indicator-metric__value").text(formatForType("R", indicatorValue));
   }
 }
