@@ -5,6 +5,8 @@ import OverlayBarChart from 'municipal-money-charts/src/components/MunicipalChar
 
 const localColor = "#23728B";
 const transfersColor = "#54298B";
+const transferredColor = "#A26CE8";
+const spentColor = "#91899C";
 
 class IncomeSection {
   constructor(selector, sectionData) {
@@ -14,16 +16,12 @@ class IncomeSection {
     this.$chartContainer = this.$element.find(".indicator-chart");
   }
 
-  _initSectionPeriod(year) {
-    this.$element.find(".section-header__info-right").text(formatFinancialYear(year));
-  }
 }
 
 export class IncomeSummarySection extends IncomeSection {
   constructor(selector, sectionData) {
     super(selector, sectionData);
     this._initIndicator();
-    this._initSectionPeriod(this.sectionData.year);
     this._initChart();
   }
 
@@ -67,8 +65,8 @@ export class LocalIncomeSourcesSection extends IncomeSection {
     super(selector, sectionData);
     this._initIndicator();
     this._initChartData();
-    this._initSectionPeriod(this._year);
     this._initChart();
+    this._initLegend();
   }
 
   _initIndicator() {
@@ -81,6 +79,12 @@ export class LocalIncomeSourcesSection extends IncomeSection {
       .format(locale.format("$,"));
   }
 
+  _initLegend() {
+    this.$element.find(".legend-block div:eq(1)").text("Amount received");
+    this.$element.find(".legend-block__colour").css("background-color", localColor);
+    this.$element.find(".indicator-chart__legend").css("display", "block");
+  }
+
   _initChartData() {
     const items = this.sectionData.revenueBreakdown.values.filter(item => item.amount_type === "AUDA");
     items.forEach(item => item.color = localColor);
@@ -90,12 +94,32 @@ export class LocalIncomeSourcesSection extends IncomeSection {
   }
 }
 
+export class LegendItem {
+  constructor(template, color, label) {
+    this.$element = template.clone();
+    logIfUnequal(1, this.$element.length);
+    this.$element.find("div:eq(1)").text(label);
+    this.$element.find(".legend-block__colour").css("background-color", color);
+  }
+}
+
 export class NationalConditionalGrantsSection extends IncomeSection {
   constructor(selector, sectionData) {
     super(selector, sectionData);
     this._initChartData();
-    this._initSectionPeriod(this._year);
     this._initChart();
+    this._initLegend();
+  }
+
+  _initLegend() {
+    const container = this.$element.find(".legend-block__wrapper");
+    logIfUnequal(1, container.length);
+    const template = this.$element.find(".legend-block");
+    template.remove();
+    container.append(new LegendItem(template, transfersColor, "Budgeted amount").$element);
+    container.append(new LegendItem(template, transferredColor, "Amount transferred up to ").$element);
+    container.append(new LegendItem(template, spentColor, "Amount spent up to ").$element);
+    this.$element.find(".indicator-chart__legend").css("display", "block");
   }
 
   _initChart() {
