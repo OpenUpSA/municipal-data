@@ -79,7 +79,7 @@ class LocateView(TemplateView):
         }
 
 class GeographyDetailView(TemplateView):
-    template_name = "webflow/feature-previews/municipality-profile-income-sections.html"
+    template_name = "webflow/feature-previews/municipality-profile-income-sources-labels.html"
 
     def dispatch(self, *args, **kwargs):
         self.geo_id = self.kwargs.get("geography_id", None)

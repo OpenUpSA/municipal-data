@@ -1,6 +1,6 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Wed Dec 02 2020 10:43:25 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb5208501c5c19" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Tue Dec 08 2020 07:45:35 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb5208501c5c19" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="An initiative of the National Treasury, which has collected extensive municipal financial data over several years and aims to share it with the public." name="description">
@@ -649,8 +649,8 @@
   </div>
   <div class="footer">
     <div class="container container--grid">
-      <div class="layout-grid layout-grid--4-col">
-        <div id="w-node-a2e6e9d831a0-e9d8319d" class="layout-grid__col layout-grid__col--padding-right">
+      <div class="layout-grid layout-grid--footer">
+        <div id="w-node-a2e6e9d831a0-e9d8319d" class="layout-grid__col layout-grid__col--padding-right layout-grid__col--flex">
           <a href="http://www.treasury.gov.za" target="_blank" class="footer-logo w-inline-block"><img src="{% static 'webflow/images/national-treasury-logo.png' %}" loading="eager" alt="" class="logo"></a>
           <p class="footer-description">Municipal Money is an initiative of the National Treasury, which has collected extensive municipal financial data over several years and would like to share this information with the public.</p>
           <a href="/help" class="footer-link footer-link--primary w-inline-block">
@@ -660,44 +660,79 @@
             <div>Learn more</div>
           </a>
         </div>
-        <div id="w-node-a2e6e9d831c1-e9d8319d" class="grid grid--16px">
-          <h5 class="footer-heading heading heading--clear">Useful links</h5>
-          <div class="footer__links">
-            <a href="/help" class="footer-link w-inline-block">
-              <div>Help center</div>
-            </a>
-            <a href="https://municipaldata.treasury.gov.za/" target="_blank" class="footer-link w-inline-block">
-              <div>Municipal Money API</div>
-            </a>
-            <a href="/terms" class="footer-link w-inline-block">
-              <div>Terms of use</div>
-            </a>
+        <div id="w-node-f3c3c09a3b33-e9d8319d" class="layout-grid__col">
+          <div class="grid grid--16px">
+            <h5 class="footer-heading heading heading--clear">Jump to a metro</h5>
+            <div class="footer__links">
+              <a href="/profiles/municipality-BUF-buffalo-city/" class="footer-link w-inline-block">
+                <div class="truncate">Buffalo City</div>
+              </a>
+              <a href="/profiles/municipality-CPT-city-of-cape-town/" class="footer-link w-inline-block">
+                <div class="truncate">City of Cape Town</div>
+              </a>
+              <a href="/profiles/municipality-EKU-ekurhuleni/" class="footer-link w-inline-block">
+                <div class="truncate">Ekurhuleni Municipality</div>
+              </a>
+              <a href="/profiles/municipality-ETH-ethekwini/" class="footer-link w-inline-block">
+                <div class="truncate">City of eThekwini</div>
+              </a>
+              <a href="/municipality-JHB-city-of-johannesburg/" class="footer-link w-inline-block">
+                <div class="truncate">City of Johannesburg</div>
+              </a>
+              <a href="/profiles/municipality-MAN-mangaung/" class="footer-link w-inline-block">
+                <div class="truncate">Mangaung Municipality<br></div>
+              </a>
+              <a href="/profiles/municipality-NMA-nelson-mandela-bay/" class="footer-link w-inline-block">
+                <div class="truncate">Nelson Mandela Bay Municipality</div>
+              </a>
+              <a href="/profiles/municipality-TSH-city-of-tshwane/" class="footer-link w-inline-block">
+                <div class="truncate">City of Tshwane</div>
+              </a>
+            </div>
           </div>
         </div>
-        <div id="w-node-a2e6e9d831ce-e9d8319d" class="grid grid--16px">
-          <h5 class="footer-heading heading heading--clear">Feedback</h5>
-          <div class="footer__links">
-            <a href="mailto: feedback@municipalmoney.gov.za" class="footer-link w-inline-block">
-              <div>feedback@municipalmoney.gov.za</div>
-            </a>
-            <a href="https://www.facebook.com/MunicipalMoneySA/" target="_blank" class="footer-link w-inline-block">
-              <div class="icon icon--16px icon--margin-right-8px">
-                <div class="fab fa-facebook-f"></div>
-              </div>
-              <div>Facebook</div>
-            </a>
-            <a href="https://twitter.com/moneymunicipal" target="_blank" class="footer-link w-inline-block">
-              <div class="icon icon--16px icon--margin-right-8px">
-                <div class="fab fa-twitter"></div>
-              </div>
-              <div>Twitter</div>
-            </a>
-            <a href="https://github.com/OpenUpSA/municipal-data" target="_blank" class="footer-link w-inline-block">
-              <div class="icon icon--16px icon--margin-right-8px">
-                <div class="fab fa-github"></div>
-              </div>
-              <div>Github</div>
-            </a>
+        <div id="w-node-8256086774ae-e9d8319d" class="layout-grid__col">
+          <div class="grid grid--16px">
+            <h5 class="footer-heading heading heading--clear">Useful links</h5>
+            <div class="footer__links">
+              <a href="/help" class="footer-link w-inline-block">
+                <div>Help center</div>
+              </a>
+              <a href="https://municipaldata.treasury.gov.za/" target="_blank" class="footer-link w-inline-block">
+                <div>Municipal Money API</div>
+              </a>
+              <a href="/terms" class="footer-link w-inline-block">
+                <div>Terms of use</div>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div id="w-node-63b947cbfc57-e9d8319d" class="layout-grid__col">
+          <div class="grid grid--16px">
+            <h5 class="footer-heading heading heading--clear">Feedback</h5>
+            <div class="footer__links">
+              <a href="mailto: feedback@municipalmoney.gov.za" class="footer-link w-inline-block">
+                <div>feedback@municipalmoney.gov.za</div>
+              </a>
+              <a href="https://www.facebook.com/MunicipalMoneySA/" target="_blank" class="footer-link w-inline-block">
+                <div class="icon icon--16px icon--margin-right-8px">
+                  <div class="fab fa-facebook-f"></div>
+                </div>
+                <div>Facebook</div>
+              </a>
+              <a href="https://twitter.com/moneymunicipal" target="_blank" class="footer-link w-inline-block">
+                <div class="icon icon--16px icon--margin-right-8px">
+                  <div class="fab fa-twitter"></div>
+                </div>
+                <div>Twitter</div>
+              </a>
+              <a href="https://github.com/OpenUpSA/municipal-data" target="_blank" class="footer-link w-inline-block">
+                <div class="icon icon--16px icon--margin-right-8px">
+                  <div class="fab fa-github"></div>
+                </div>
+                <div>Github</div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
