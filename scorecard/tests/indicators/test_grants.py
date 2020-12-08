@@ -42,7 +42,8 @@ class GrantsTests(TestCase):
                         "grant.code": "INEG",
                         "grant.label": "Integrated National Electrification Programme (Municipal) Grant",
                     },
-                ]
+                ],
+                "grants_v2": [],
             }
         )
         result = Grants.get_muni_specifics(api_data)
@@ -103,7 +104,8 @@ class GrantsTests(TestCase):
                         "grant.code": "0001",
                         "grant.label": "Health",
                     },
-                ]
+                ],
+                "grants_v2": [],
             }
         )
         result = Grants.get_muni_specifics(api_data)
@@ -126,7 +128,10 @@ class GrantsTests(TestCase):
     def test_data_date(self):
         """The configured date of the recency of the grant data is included"""
 
-        result = Grants.get_muni_specifics(MockAPIData({"grants_v1": []}))
+        result = Grants.get_muni_specifics(MockAPIData({
+            "grants_v1": [],
+            "grants_v2": [],
+        }))
         self.assertEqual(
             {
                 "year": 2040,
@@ -160,7 +165,8 @@ class GrantsTests(TestCase):
                         "grant.code": "ABC",
                         "grant.label": "ABC grant",
                     },
-                ]
+                ],
+                "grants_v2": [],
             }
         )
         result = Grants.get_muni_specifics(api_data)
@@ -171,10 +177,36 @@ class GrantsTests(TestCase):
                         "amount.sum": 1484790000.0,
                         "amount_type.code": "ORGB",
                         "financial_year_end.year": 2019,
-                        "grant.code": "USDG",
-                        "grant.label": "Urban Settlement Development Grant",
+                        "grant.code": "0012",
+                        "grant.label": "Education",
+                    },
+                ],
+            },
+            result["provincial_transfers"],
+        )
+        self.assertEqual(
+            {
+                2019: [
+                    {
+                        "amount.sum": 1484790000.0,
+                        "amount_type.code": "ORGB",
+                        "financial_year_end.year": 2019,
+                        "grant.code": "ABC",
+                        "grant.label": "ABC grant",
                     },
                 ],
             },
             result["national_conditional_grants"],
+        )
+        self.assertEqual(
+            {
+                2019: {
+                    "amount.sum": 1484790000.0,
+                    "amount_type.code": "ORGB",
+                    "financial_year_end.year": 2019,
+                    "grant.code": "ESG",
+                    "grant.label": "Equitable Share Grant",
+                },
+            },
+            result["equitable_share"],
         )

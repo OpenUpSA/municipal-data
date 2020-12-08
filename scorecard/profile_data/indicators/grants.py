@@ -9,30 +9,39 @@ import re
 PROVINCIAL_CODE = re.compile("^00\d\d$")
 
 
+def group_list_by_year(items):
+    """Returns dictionary of lists"""
+    grouper = groupby(sorted(items, key=year_key), key=year_key)
+    return dict(map(lambda g: (g[0], list(g[1])), grouper))
+
+
 class Grants(IndicatorCalculator):
     name = "grants"
     has_comparisons = False
 
     @classmethod
     def get_muni_specifics(cls, api_data):
-        values = cls.exclude_zeros(api_data.results["grants_v1"])
-        national_grants, provincial_transfers, equitable_share = cls.split_nat_prov(values)
+        values_v1 = cls.exclude_zeros(api_data.results["grants_v1"])
+        values_v2 = cls.exclude_zeros(api_data.results["grants_v2"])
+        national_grants_v1, provincial_transfers_v1, equitable_share_v1 = cls.split(values_v1)
+        national_grants_v2, provincial_transfers_v2, equitable_share_v2 = cls.split(values_v2)
 
-        nat_year_groups = groupby(sorted(national_grants, key=year_key), key=year_key)
-        prov_year_groups = groupby(sorted(provincial_transfers, key=year_key), key=year_key)
-        esg_year_groups = groupby(sorted(equitable_share, key=year_key), key=year_key)
-        for year, items in esg_year_groups:
-            assert len(items) == 1
+        nat_year_groups = group_list_by_year(national_grants_v1)
+        prov_year_groups = group_list_by_year(provincial_transfers_v1)
+        esg_year_groups =  group_list_by_year(equitable_share_v1)
+        nat_year_groups.update(group_list_by_year(national_grants_v2))
+        prov_year_groups.update(group_list_by_year(provincial_transfers_v2))
+        esg_year_groups.update(group_list_by_year(equitable_share_v2))
 
-        nat_years_dictionary = dict(map(lambda g: (g[0], list(g[1])), nat_year_groups))
-        prov_years_dictionary = dict(map(lambda g: (g[0], list(g[1])), prov_year_groups))
         # Equitable Share should only be one value per year
-        esg_years_dictionary = dict(map(lambda g: (g[0], list(g[1][0])), esg_year_groups))
+        for year, items in esg_year_groups.items():
+            assert len(list(items)) == 1
+        esg_year_groups = {year: items[0] for year, items in esg_year_groups.items()}
 
         return {
-            "national_conditional_grants": nat_years_dictionary,
-            "provincial_transfers": prov_years_dictionary,
-            "equitable_share": esg_years_dictionary,
+            "national_conditional_grants": nat_year_groups,
+            "provincial_transfers": prov_year_groups,
+            "equitable_share": esg_year_groups,
             "snapshot_date": {
                 "year": config.GRANTS_LATEST_YEAR,
                 "quarter": config.GRANTS_LATEST_QUARTER,
@@ -44,7 +53,7 @@ class Grants(IndicatorCalculator):
         return [d for d in values if d["amount.sum"] != 0]
 
     @classmethod
-    def nat_prov_reducer(cls, accumulator, current_value):
+    def nat_prov_esg_reducer(cls, accumulator, current_value):
         nat, prov, esg = accumulator
         if current_value["grant.code"] == "ESG":
             esg.append(current_value)
@@ -55,5 +64,5 @@ class Grants(IndicatorCalculator):
         return nat, prov, esg
 
     @classmethod
-    def split_nat_prov(cls, values):
-        return reduce(cls.nat_prov_reducer, values, ([], [], []))
+    def split(cls, values):
+        return reduce(cls.nat_prov_esg_reducer, values, ([], [], []))
