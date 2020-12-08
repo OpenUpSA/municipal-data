@@ -22,8 +22,14 @@ class IncomeSection {
 export class IncomeSummarySection extends IncomeSection {
   constructor(selector, sectionData) {
     super(selector, sectionData);
+    this._initIndicator();
     this._initSectionPeriod(this.sectionData.year);
     this._initChart();
+  }
+
+  _initIndicator() {
+    const value = this.sectionData["government"].amount + this.sectionData["local"].amount;
+    this.$element.find(".indicator-metric__value").text(formatForType("R", value));
   }
 
   _initChart() {
@@ -59,11 +65,16 @@ export class IncomeSummarySection extends IncomeSection {
 export class LocalIncomeSourcesSection extends IncomeSection {
   constructor(selector, sectionData) {
     super(selector, sectionData);
+    this._initIndicator();
     this._initChartData();
     this._initSectionPeriod(this._year);
     this._initChart();
   }
 
+  _initIndicator() {
+    const value = this.sectionData.revenueSources["local"].amount;
+    this.$element.find(".indicator-metric__value").text(formatForType("R", value));
+  }
   _initChart() {
     this.chart = new BarChart(this.$chartContainer[0])
       .data(this._chartData[this._year])
@@ -71,7 +82,7 @@ export class LocalIncomeSourcesSection extends IncomeSection {
   }
 
   _initChartData() {
-    const items = this.sectionData.values.filter(item => item.amount_type === "AUDA");
+    const items = this.sectionData.revenueBreakdown.values.filter(item => item.amount_type === "AUDA");
     items.forEach(item => item.color = localColor);
     const yearGroups = _.groupBy(items, "date");
     this._year = _.max(_.keys(yearGroups));

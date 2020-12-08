@@ -16,14 +16,23 @@ class Grants(IndicatorCalculator):
     @classmethod
     def get_muni_specifics(cls, api_data):
         values = cls.exclude_zeros(api_data.results["grants_v1"])
-        national_grants, provincial_transfers = cls.split_nat_prov(values)
+        national_grants, provincial_transfers, equitable_share = cls.split_nat_prov(values)
+
         nat_year_groups = groupby(sorted(national_grants, key=year_key), key=year_key)
         prov_year_groups = groupby(sorted(provincial_transfers, key=year_key), key=year_key)
+        esg_year_groups = groupby(sorted(equitable_share, key=year_key), key=year_key)
+        for year, items in esg_year_groups:
+            assert len(items) == 1
+
         nat_years_dictionary = dict(map(lambda g: (g[0], list(g[1])), nat_year_groups))
         prov_years_dictionary = dict(map(lambda g: (g[0], list(g[1])), prov_year_groups))
+        # Equitable Share should only be one value per year
+        esg_years_dictionary = dict(map(lambda g: (g[0], list(g[1][0])), esg_year_groups))
+
         return {
             "national_conditional_grants": nat_years_dictionary,
             "provincial_transfers": prov_years_dictionary,
+            "equitable_share": esg_years_dictionary,
             "snapshot_date": {
                 "year": config.GRANTS_LATEST_YEAR,
                 "quarter": config.GRANTS_LATEST_QUARTER,
@@ -36,13 +45,15 @@ class Grants(IndicatorCalculator):
 
     @classmethod
     def nat_prov_reducer(cls, accumulator, current_value):
-        nat, prov = accumulator
-        if PROVINCIAL_CODE.match(current_value["grant.code"]):
+        nat, prov, esg = accumulator
+        if current_value["grant.code"] == "ESG":
+            esg.append(current_value)
+        elif PROVINCIAL_CODE.match(current_value["grant.code"]):
             prov.append(current_value)
         else:
             nat.append(current_value)
-        return nat, prov
+        return nat, prov, esg
 
     @classmethod
     def split_nat_prov(cls, values):
-        return reduce(cls.nat_prov_reducer, values, ([], []))
+        return reduce(cls.nat_prov_reducer, values, ([], [], []))

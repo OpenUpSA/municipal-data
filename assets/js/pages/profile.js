@@ -50,12 +50,14 @@ export default class ProfilePage {
       new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
     });
 
-    //$("#income-sources").remove();
     errorBoundary(() => {
       new IncomeSummarySection("#income-summary", pageData.indicators.revenue_sources);
     });
     errorBoundary(() => {
-      new LocalIncomeSourcesSection("#local-income-sources", pageData.indicators.revenue_breakdown);
+      new LocalIncomeSourcesSection("#local-income-sources", {
+        "revenueSources": pageData.indicators.revenue_sources,
+        "revenueBreakdown": pageData.indicators.revenue_breakdown,
+      });
     });
     errorBoundary(() => {
       new NationalConditionalGrantsSection("#national-conditional-grants", pageData.indicators.grants);

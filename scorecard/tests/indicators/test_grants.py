@@ -134,3 +134,47 @@ class GrantsTests(TestCase):
             },
             result["snapshot_date"],
         )
+
+    def test_splitting(self):
+        api_data = MockAPIData(
+            {
+                "grants_v1": [
+                    {
+                        "amount.sum": 1484790000.0,
+                        "amount_type.code": "ORGB",
+                        "financial_year_end.year": 2019,
+                        "grant.code": "ESG",
+                        "grant.label": "Equitable Share Grant",
+                    },
+                    {
+                        "amount.sum": 1484790000.0,
+                        "amount_type.code": "ORGB",
+                        "financial_year_end.year": 2019,
+                        "grant.code": "0012",
+                        "grant.label": "Education",
+                    },
+                    {
+                        "amount.sum": 1484790000.0,
+                        "amount_type.code": "ORGB",
+                        "financial_year_end.year": 2019,
+                        "grant.code": "ABC",
+                        "grant.label": "ABC grant",
+                    },
+                ]
+            }
+        )
+        result = Grants.get_muni_specifics(api_data)
+        self.assertEqual(
+            {
+                2019: [
+                    {
+                        "amount.sum": 1484790000.0,
+                        "amount_type.code": "ORGB",
+                        "financial_year_end.year": 2019,
+                        "grant.code": "USDG",
+                        "grant.label": "Urban Settlement Development Grant",
+                    },
+                ],
+            },
+            result["national_conditional_grants"],
+        )
