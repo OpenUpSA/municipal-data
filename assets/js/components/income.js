@@ -1,4 +1,11 @@
-import { logIfUnequal, formatFinancialYear, ratingColor, formatForType, locale } from '../utils.js';
+import {
+  logIfUnequal,
+  formatFinancialYear,
+  ratingColor,
+  formatForType,
+  locale,
+  formatPhase,
+} from '../utils.js';
 import PercentageStackedChart  from 'municipal-money-charts/src/components/MunicipalCharts/PercentageStackedChart';
 import BarChart  from 'municipal-money-charts/src/components/MunicipalCharts/BarChart';
 import OverlayBarChart from 'municipal-money-charts/src/components/MunicipalCharts/OverlayBarChart';
@@ -34,6 +41,7 @@ export class IncomeSection extends AbstractIncomeSection {
     super(selector, sectionData);
     this._initIndicator();
     this._initChart();
+    this._initDropdown();
   }
 
   _initIndicator() {
@@ -69,6 +77,28 @@ export class IncomeSection extends AbstractIncomeSection {
       }
     ];
   }
+
+  _initDropdown() {
+    this._year = this.sectionData["year"];
+    const options = [
+      [
+        `${formatFinancialYear(this._year)} ${formatPhase("AUDA")}`,
+        {
+          year: this._year,
+          phase: "AUDA",
+        },
+      ],
+    ];
+
+    const initialOption = options[0];
+    this.dropdown = new Dropdown(this.$element.find(".fy-select"), options, initialOption[0]);
+    this.dropdown.$element.on("option-select", (e) => this.selectData(e.detail));
+    return initialOption;
+  }
+
+  selectData(selection) {
+    console.log("Not implemented");
+  }
 }
 
 export class LocalIncomeSection extends AbstractIncomeSection {
@@ -78,6 +108,7 @@ export class LocalIncomeSection extends AbstractIncomeSection {
     this._initChartData();
     this._initChart();
     this._initLegend();
+    this._initDropdown();
   }
 
   _initIndicator() {
@@ -103,6 +134,23 @@ export class LocalIncomeSection extends AbstractIncomeSection {
     const yearGroups = _.groupBy(items, "date");
     this._year = _.max(_.keys(yearGroups));
     this._chartData = yearGroups;
+  }
+
+  _initDropdown() {
+    const options = [
+      [
+        `${formatFinancialYear(this._year)} ${formatPhase("AUDA")}`,
+        {
+          year: this._year,
+          phase: "AUDA",
+        },
+      ],
+    ];
+
+    const initialOption = options[0];
+    this.dropdown = new Dropdown(this.$element.find(".fy-select"), options, initialOption[0]);
+    this.dropdown.$element.on("option-select", (e) => this.selectData(e.detail));
+    return initialOption;
   }
 }
 
@@ -134,7 +182,7 @@ export class TransfersSection extends AbstractIncomeSection {
             "provincial_transfers" in types &&
             "equitable_share" in types) {
           options.push([
-            `${formatFinancialYear(year)} ${phase}`,
+            `${formatFinancialYear(year)} ${formatPhase(phase)}`,
             {
               year: year,
               phase: phase,
@@ -211,6 +259,12 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
     this._initChartData();
     this._initChart();
     this._initLegend();
+    this._initDropdown();
+
+    const types = this.sectionData.totals[this._year]["ORGB"];
+    const indicatorValue = types.national_conditional_grants;
+    this.$element.find(".indicator-metric__value").text(formatForType("R", indicatorValue));
+
   }
 
   _initLegend() {
@@ -258,6 +312,23 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
     this._seriesOrder = ["Amount budgeted", "Transferred up to", "Spent up to"] ;
     this._year = _.max(_.keys(this._chartData));
   }
+
+  _initDropdown() {
+    const options = [
+      [
+        `${formatFinancialYear(this._year)} ${formatPhase("ORGB")}`,
+        {
+          year: this._year,
+          phase: "AUDA",
+        },
+      ],
+    ];
+
+    const initialOption = options[0];
+    this.dropdown = new Dropdown(this.$element.find(".fy-select"), options, initialOption[0]);
+    this.dropdown.$element.on("option-select", (e) => this.selectData(e.detail));
+    return initialOption;
+  }
 }
 
 export class ProvincialTransfersSection extends AbstractIncomeSection {
@@ -302,7 +373,7 @@ export class ProvincialTransfersSection extends AbstractIncomeSection {
     for (let year in this._chartData) {
       for (let phase in this._chartData[year]) {
         options.push([
-          `${formatFinancialYear(year)} ${phase}`,
+          `${formatFinancialYear(year)} ${formatPhase(phase)}`,
           {
             year: year,
             phase: phase,
@@ -319,7 +390,7 @@ export class ProvincialTransfersSection extends AbstractIncomeSection {
   }
 
   selectData(selection) {
-    this.chart.data(this._chartData[selection.year][selection.phase]);
+    this.chart.data(_.sortBy(this._chartData[selection.year][selection.phase], "item"));
     const types = this.sectionData.totals[selection.year][selection.phase];
     const indicatorValue = types.provincial_transfers;
     this.$element.find(".indicator-metric__value").text(formatForType("R", indicatorValue));
