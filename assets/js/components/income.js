@@ -272,9 +272,10 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
     logIfUnequal(1, container.length);
     const template = this.$element.find(".legend-block");
     template.remove();
+
     container.append(new LegendItem(template, transfersColor, "Budgeted amount").$element);
-    container.append(new LegendItem(template, transferredColor, "Amount transferred up to ").$element);
-    container.append(new LegendItem(template, spentColor, "Amount spent up to ").$element);
+    container.append(new LegendItem(template, transferredColor, this._transferredLabel[this._year]).$element);
+    container.append(new LegendItem(template, spentColor, this._spentLabel[this._year]).$element);
     this.$element.find(".indicator-chart__legend").css("display", "block");
   }
 
@@ -289,7 +290,21 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
   _initChartData() {
     this._chartData = this.sectionData.national_conditional_grants;
 
+    this._year = _.max(_.keys(this._chartData));
+    this._transferredLabel = {};
+    this._spentLabel = {};
     for (let year in this._chartData) {
+      let legendYear, legendQuarter = null;
+      if (year === this.sectionData.snapshot_date.year) {
+        legendYear = this.sectionData.snapshot_date.year;
+        legendQuarter = this.sectionData.snapshot_date.quarter;
+      } else if (year < this.sectionData.snapshot_date.year) {
+        legendYear = year;
+        legendQuarter = 4;
+      }
+      this._transferredLabel[year] = `Amount transferred up to ${legendYear} Q${legendQuarter}`;
+      this._spentLabel[year] = `Amount spent up to ${legendYear} Q${legendQuarter}`;
+
       // Map keys to the keys assumed by the chart
       this._chartData[year].forEach((item) => {
         item.item = item["grant.label"];
@@ -302,15 +317,19 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
           item.phase = "Amount budgeted";
           break;
         case "TRFR":
-          item.phase = "Transferred up to";
+          item.phase = this._transferredLabel[year];
           break;
         case "ACT":
-          item.phase = "Spent up to";
+          item.phase = this._spentLabel[year];
         }
       });
     }
-    this._seriesOrder = ["Amount budgeted", "Transferred up to", "Spent up to"] ;
-    this._year = _.max(_.keys(this._chartData));
+    this._seriesOrder = [
+      "Amount budgeted",
+      this._transferredLabel[this._year],
+      this._spentLabel[this._year],
+    ];
+
   }
 
   _initDropdown() {
