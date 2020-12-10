@@ -48,14 +48,12 @@ export function formatForType(type, value) {
 
 export function formatPhase(code) {
   switch (code) {
-  case "ORGB":
-    return "Original budget";
-  case "ADJB":
-    return "Adjusted budget";
-  case "AUDA":
-    return "Audited actual";
-  case "ACT":
-    return "Actual";
+  case "ORGB": return "Original budget";
+  case "ADJB": return "Adjusted budget";
+  case "AUDA": return "Audited actual";
+  case "ACT": return "Actual";
+  case "IBY1": return "Forecast budget";
+  case "IBY2": return "Forecast budget";
   default:
     console.error("unknown phase", code);
     return "Phase unknown";
@@ -65,7 +63,7 @@ export function formatPhase(code) {
 export const humaniseRand = (x, longForm) => {
   longForm = longForm === undefined ? true : longForm;
   const randSpace = longForm ? ' ' : '';
-  const decimals = longForm ? 1 : 0;
+  const decimals = 1;
   const suffixBillion = longForm === true ? ' billion' : 'bn';
   const suffixMillion = longForm === true ? ' million' : 'm';
   const suffixThousand = longForm === true ? '  thousand' : 'k';
