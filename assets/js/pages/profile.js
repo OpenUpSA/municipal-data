@@ -14,6 +14,7 @@ import {
   NationalConditionalGrantsSection,
   ProvincialTransfersSection,
 } from '../components/income.js';
+import { TimeSeriesSection } from '../components/budget-actual.js';
 
 export default class ProfilePage {
   constructor(pageData) {
@@ -78,6 +79,9 @@ export default class ProfilePage {
     });
     errorBoundary(() => {
       new ProvincialTransfersSection("#provincial-transfers", pageData.indicators.grants);
+    });
+    errorBoundary(() => {
+      new TimeSeriesSection("#income-budget-actual-time", pageData.indicators.income_time_series);
     });
 
     // Spending

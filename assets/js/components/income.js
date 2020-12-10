@@ -10,21 +10,13 @@ import PercentageStackedChart  from 'municipal-money-charts/src/components/Munic
 import BarChart  from 'municipal-money-charts/src/components/MunicipalCharts/BarChart';
 import OverlayBarChart from 'municipal-money-charts/src/components/MunicipalCharts/OverlayBarChart';
 import Dropdown from './dropdown.js';
+import LegendItem from './legend.js';
 
 const localColor = "#23728B";
 const transfersColor = "#54298B";
 const transferredColor = "#A26CE8";
 const spentColor = "#91899C";
 const defocusedColor = "#d3e3e8";
-
-export class LegendItem {
-  constructor(template, color, label) {
-    this.$element = template.clone();
-    logIfUnequal(1, this.$element.length);
-    this.$element.find("div:eq(1)").text(label);
-    this.$element.find(".legend-block__colour").css("background-color", color);
-  }
-}
 
 class AbstractIncomeSection {
   constructor(selector, sectionData) {
