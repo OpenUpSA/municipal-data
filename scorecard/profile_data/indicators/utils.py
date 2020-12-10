@@ -134,3 +134,12 @@ def populate_periods(periods, years, key):
     for year, result in years:
         periods.setdefault(year, {})
         periods[year][key] = result
+
+
+def group_by(items, key):
+    """
+    Returns dictionary of lists
+    [{"a": 1}, {"b": 2}] -> {"a": [{"a": 1}], "b": [{"b": 2}]}
+    """
+    grouper = groupby(sorted(items, key=key), key=key)
+    return dict(map(lambda g: (g[0], list(g[1])), grouper))

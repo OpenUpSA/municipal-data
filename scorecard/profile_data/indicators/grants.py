@@ -1,6 +1,6 @@
 from .indicator_calculator import IndicatorCalculator
 from itertools import groupby
-from .utils import year_key
+from .utils import year_key, group_by
 from constance import config
 from functools import reduce
 import re
@@ -8,12 +8,6 @@ from collections import defaultdict
 
 
 PROVINCIAL_CODE = re.compile("^00\d\d$")
-
-
-def group_by(items, key):
-    """Returns dictionary of lists"""
-    grouper = groupby(sorted(items, key=key), key=key)
-    return dict(map(lambda g: (g[0], list(g[1])), grouper))
 
 
 class Grants(IndicatorCalculator):

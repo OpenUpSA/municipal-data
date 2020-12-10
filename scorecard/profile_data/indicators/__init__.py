@@ -10,6 +10,7 @@ from .capital_budget_spending import CapitalBudgetSpending
 from .repairs_maintenance_spending import RepairsMaintenanceSpending
 from .uifw_expenditure import UIFWExpenditure
 from .grants import Grants
+from .income_budget_actual import IncomeTimeSeries
 
 
 def get_indicator_calculators(has_comparisons=None):
@@ -29,6 +30,7 @@ def get_indicator_calculators(has_comparisons=None):
         CashBalance,
         UIFWExpenditure,
         Grants,
+        IncomeTimeSeries,
     ]
     if has_comparisons is None:
         return calculators
@@ -66,7 +68,7 @@ class RevenueSources(IndicatorCalculator):
             "1800": "local",
         }
         total = None
-        for item in api_data.results["revenue_breakdown"]:
+        for item in api_data.results["local_revenue_breakdown"]:
             if item["financial_year_end.year"] != year:
                 continue
             if item["amount_type.code"] != "AUDA":
@@ -117,7 +119,7 @@ class LocalRevenueBreakdown(IndicatorCalculator):
         ]
         results = {}
         # Structure as {'2015': {'1900': {'AUDA': ..., 'ORGB': ...}, '0200': ...}, '2016': ...}
-        for item in api_data.results["revenue_breakdown"]:
+        for item in api_data.results["local_revenue_breakdown"]:
             if item["financial_year_end.year"] not in results:
                 results[item["financial_year_end.year"]] = {}
             if item["item.code"] not in results[item["financial_year_end.year"]]:
