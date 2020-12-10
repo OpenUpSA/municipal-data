@@ -1,6 +1,6 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Wed Dec 09 2020 00:15:03 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb52ccb71c5c1e" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Thu Dec 10 2020 16:15:21 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb52ccb71c5c1e" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_title }}" property="og:title">
@@ -454,7 +454,7 @@
           </div>
           <div class="link-text link-text--site-nav">Financial Performance</div>
         </a>
-        <a href="#income" class="page-nav__link w-inline-block">
+        <a href="#" class="page-nav__link w-inline-block">
           <div class="page-nav__icon">
             <div class="fas fa-hand-holding-usd"></div>
           </div>
@@ -2050,18 +2050,44 @@
           </div>
           <h2 class="heading heading--clear">Income</h2>
         </div>
-        <section id="income-sources" class="sub-section">
+        <section id="income-summary" class="sub-section">
           <div class="sub-section__link"></div>
           <div class="section-header section-header--underline section-header--item-right">
-            <h3 class="heading heading--clear">Where money comes from</h3>
+            <h3 class="heading heading--clear">Where does the municipality get money from?</h3>
             <div class="section-header__info-right">
-              <div><span class="financial-period">Loading...</span></div>
+              <div class="icon-label-dropdown fy-select">
+                <div class="icon-label-dropdown__inner">
+                  <div class="icon icon--24px icon--primary">
+                    <div class="fas fa-calendar-alt"></div>
+                  </div>
+                  <div class="label">Financial year:</div>
+                </div>
+                <div data-hover="" data-delay="0" id="w-node-3d44a4687607-b71c5c1e" class="dropdown w-dropdown">
+                  <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
+                    <div class="dropdown-icon w-icon-dropdown-toggle"></div>
+                    <div class="dropdown__current-select">Loading...</div>
+                    <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                  </div>
+                  <nav class="dropdown-list w-dropdown-list">
+                    <a href="#" data-option="none" class="dropdown-link dropdown-link--current w-dropdown-link">Loading...</a>
+                    <a href="#" data-option="similar-nearby" class="dropdown-link w-dropdown-link">Loading...</a>
+                    <div class="plate plate--white plate--rounded plate--shadow-large"></div>
+                  </nav>
+                </div>
+                <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+              </div>
             </div>
           </div>
           <div class="layout-grid layout-grid--1-3-2-3">
             <div class="layout-grid__col layout-grid__col--padding-right layout-grid__col--border-right">
+              <div class="indicator-metric indicator-metric--no-status">
+                <div class="indicator-metric__value">Calculating...</div>
+                <div class="icon">
+                  <div class="far"></div>
+                </div>
+              </div>
               <div class="indicator-detail w-richtext">
-                <p>This shows how much of a municipality's income it is able to generate itself (through property rates, service charges, etc), compared with how much it receives as transfers and grants from national government. &nbsp;The more a municipality is able to generate its own income, the more self-sufficient it is.</p>
+                <p>Total income for this municipality</p>
               </div>
               <div class="expand-blocks">
                 <div class="expand-block">
@@ -2070,7 +2096,7 @@
                       <div class="expand-block__content_icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-1bdd81590a68-b71c5c1e" class="expand-block__heading">Learn more</h5>
+                      <h5 id="w-node-3d44a4687620-b71c5c1e" class="expand-block__heading">Learn more</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -2078,8 +2104,442 @@
                   </div>
                   <div class="expand-block__content">
                     <div class="expand-block__content_inner">
-                      <div class="rich-text__default w-richtext"></div>
-                      <div class="w-embed w-iframe"><iframe src="https://www.youtube.com/embed/zb2Wph6Mbpo?rel=0&amp;controls=1&amp;autoplay=0&amp;mute=0&amp;start=0" style="width:100%;height:200px;pointer-events:auto" allow="autoplay; encrypted-media" srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/zb2Wph6Mbpo?autoplay=1><img src=https://img.youtube.com/vi/-sGcopgP4u0/hqdefault.jpg><span>▶</span></a>" allowfullscreen="" frameborder="0"></iframe></div>
+                      <div class="rich-text__default w-richtext">
+                        <p>This shows how much of this municipality's income is from its own activities that it bills for, and how much is paid to it by national and provincial government.</p>
+                        <p>Municipalities are supposed to be able to support themselves financially - to fund the services they provide from the rates paid by the local residents.</p>
+                        <p>A heavy reliance on outside funding is a cause for concern.</p>
+                      </div>
+                      <div class="indicator-detail__video w-embed w-iframe"><iframe src="https://www.youtube.com/embed/zb2Wph6Mbpo?rel=0&amp;controls=1&amp;autoplay=0&amp;mute=0&amp;start=0" style="width:100%;height:200px;pointer-events:auto" allow="autoplay; encrypted-media" srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/zb2Wph6Mbpo?autoplay=1><img src=https://img.youtube.com/vi/-sGcopgP4u0/hqdefault.jpg><span>▶</span></a>" allowfullscreen="" frameborder="0"></iframe></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="layout-grid__col">
+              <div class="grid grid--24px">
+                <div class="indicator-chart"></div>
+                <div class="indicator-chart__labels">
+                  <div class="indicator-chart__label-lines"></div>
+                  <div id="w-node-3d44a4687633-b71c5c1e" class="indicator-chart__label indicator-chart__label--left w-richtext">
+                    <h4>Locally generated</h4>
+                    <p>From residents paying for water &amp; electricity, rates, licenses &amp; fines, and from interest and investments.</p>
+                  </div>
+                  <div id="w-node-3d44a4687638-b71c5c1e" class="indicator-chart__label indicator-chart__label--right w-richtext">
+                    <h4>Transfers</h4>
+                    <p>From the Equitable Share of taxes, and Grants from national and provincial Government.</p>
+                  </div>
+                </div>
+                <div class="indicator-chart__legend">
+                  <div class="legend-block__heading">
+                    <h6 class="heading heading--fullwidth heading--clear">Legend:</h6>
+                  </div>
+                  <div class="legend-block__wrapper">
+                    <div class="legend-block">
+                      <div class="legend-block__colour"></div>
+                      <div>Loading...</div>
+                      <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="local-income-sources" class="sub-section">
+          <div class="sub-section__link"></div>
+          <div class="section-header section-header--underline section-header--item-right">
+            <h3 class="heading heading--clear">Local income sources</h3>
+            <div class="section-header__info-right">
+              <div class="icon-label-dropdown fy-select">
+                <div class="icon-label-dropdown__inner">
+                  <div class="icon icon--24px icon--primary">
+                    <div class="fas fa-calendar-alt"></div>
+                  </div>
+                  <div class="label">Financial year:</div>
+                </div>
+                <div data-hover="" data-delay="0" id="w-node-3d44a468764f-b71c5c1e" class="dropdown w-dropdown">
+                  <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
+                    <div class="dropdown-icon w-icon-dropdown-toggle"></div>
+                    <div class="dropdown__current-select">Loading...</div>
+                    <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                  </div>
+                  <nav class="dropdown-list w-dropdown-list">
+                    <a href="#" data-option="none" class="dropdown-link dropdown-link--current w-dropdown-link">Loading...</a>
+                    <a href="#" data-option="similar-nearby" class="dropdown-link w-dropdown-link">Loading...</a>
+                    <div class="plate plate--white plate--rounded plate--shadow-large"></div>
+                  </nav>
+                </div>
+                <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+              </div>
+            </div>
+          </div>
+          <div class="layout-grid layout-grid--1-3-2-3">
+            <div class="layout-grid__col layout-grid__col--padding-right layout-grid__col--border-right">
+              <div class="indicator-metric indicator-metric--no-status">
+                <div class="indicator-metric__value">Calculating...</div>
+                <div class="icon">
+                  <div class="far"></div>
+                </div>
+              </div>
+              <div class="indicator-detail w-richtext">
+                <p>Total locally-generated income</p>
+              </div>
+              <div class="expand-blocks">
+                <div class="expand-block">
+                  <div class="expand-block__trigger">
+                    <div class="expand-block__trigger_content">
+                      <div class="expand-block__content_icon">
+                        <div class="fas fa-info"></div>
+                      </div>
+                      <h5 id="w-node-3d44a4687668-b71c5c1e" class="expand-block__heading">Learn more</h5>
+                    </div>
+                    <div class="expand-block__trigger_icon">
+                      <div class="fas fa-plus"></div>
+                    </div>
+                  </div>
+                  <div class="expand-block__content">
+                    <div class="expand-block__content_inner">
+                      <div class="rich-text__default w-richtext">
+                        <p>This shows how much income this municipality receives from each local source.</p>
+                      </div>
+                      <div class="indicator-detail__video w-embed w-iframe"><iframe src="https://www.youtube.com/embed/zb2Wph6Mbpo?rel=0&amp;controls=1&amp;autoplay=0&amp;mute=0&amp;start=0" style="width:100%;height:200px;pointer-events:auto" allow="autoplay; encrypted-media" srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/zb2Wph6Mbpo?autoplay=1><img src=https://img.youtube.com/vi/-sGcopgP4u0/hqdefault.jpg><span>▶</span></a>" allowfullscreen="" frameborder="0"></iframe></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="layout-grid__col">
+              <div class="grid grid--24px">
+                <div class="indicator-chart"></div>
+                <div class="indicator-chart__legend">
+                  <div class="legend-block__heading">
+                    <h6 class="heading heading--fullwidth heading--clear">Legend:</h6>
+                  </div>
+                  <div class="legend-block__wrapper">
+                    <div class="legend-block">
+                      <div class="legend-block__colour"></div>
+                      <div>Loading...</div>
+                      <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="types-of-transfers" class="sub-section">
+          <div class="sub-section__link"></div>
+          <div class="section-header section-header--underline section-header--item-right">
+            <h3 class="heading heading--clear">Types of transfers</h3>
+            <div class="section-header__info-right">
+              <div class="icon-label-dropdown fy-select">
+                <div class="icon-label-dropdown__inner">
+                  <div class="icon icon--24px icon--primary">
+                    <div class="fas fa-calendar-alt"></div>
+                  </div>
+                  <div class="label">Financial year:</div>
+                </div>
+                <div data-hover="" data-delay="0" id="w-node-3d44a4687687-b71c5c1e" class="dropdown w-dropdown">
+                  <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
+                    <div class="dropdown-icon w-icon-dropdown-toggle"></div>
+                    <div class="dropdown__current-select">Loading...</div>
+                    <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                  </div>
+                  <nav class="dropdown-list w-dropdown-list">
+                    <a href="#" data-option="none" class="dropdown-link dropdown-link--current w-dropdown-link">Loading...</a>
+                    <a href="#" data-option="similar-nearby" class="dropdown-link w-dropdown-link">Loading...</a>
+                    <div class="plate plate--white plate--rounded plate--shadow-large"></div>
+                  </nav>
+                </div>
+                <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+              </div>
+            </div>
+          </div>
+          <div class="layout-grid layout-grid--1-3-2-3">
+            <div class="layout-grid__col layout-grid__col--padding-right layout-grid__col--border-right">
+              <div class="indicator-metric indicator-metric--no-status">
+                <div class="indicator-metric__value">Calculating...</div>
+                <div class="icon">
+                  <div class="far"></div>
+                </div>
+              </div>
+              <div class="indicator-detail w-richtext">
+                <p>Total transfers to this municipality</p>
+              </div>
+              <div class="expand-blocks">
+                <div class="expand-block">
+                  <div class="expand-block__trigger">
+                    <div class="expand-block__trigger_content">
+                      <div class="expand-block__content_icon">
+                        <div class="fas fa-info"></div>
+                      </div>
+                      <h5 id="w-node-3d44a46876a0-b71c5c1e" class="expand-block__heading">Learn more</h5>
+                    </div>
+                    <div class="expand-block__trigger_icon">
+                      <div class="fas fa-plus"></div>
+                    </div>
+                  </div>
+                  <div class="expand-block__content">
+                    <div class="expand-block__content_inner">
+                      <div class="rich-text__default w-richtext">
+                        <p>Transfers is income that the municipality receives from other parts of government.</p>
+                        <p>This shows how much income this municipality receives from each type of transfer.</p>
+                        <p>Each type of transfer is intended for an express purpose, and should not be used for anything else.</p>
+                      </div>
+                      <div class="indicator-detail__video w-embed w-iframe"><iframe src="https://www.youtube.com/embed/zb2Wph6Mbpo?rel=0&amp;controls=1&amp;autoplay=0&amp;mute=0&amp;start=0" style="width:100%;height:200px;pointer-events:auto" allow="autoplay; encrypted-media" srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/zb2Wph6Mbpo?autoplay=1><img src=https://img.youtube.com/vi/-sGcopgP4u0/hqdefault.jpg><span>▶</span></a>" allowfullscreen="" frameborder="0"></iframe></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="layout-grid__col">
+              <div class="grid grid--24px">
+                <div class="indicator-chart"></div>
+                <div class="indicator-chart__legend">
+                  <div class="legend-block__heading">
+                    <h6 class="heading heading--fullwidth heading--clear">Legend:</h6>
+                  </div>
+                  <div class="legend-block__wrapper">
+                    <div class="legend-block">
+                      <div class="legend-block__colour"></div>
+                      <div>Loading...</div>
+                      <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="equitable-share" class="sub-section">
+          <div class="sub-section__link"></div>
+          <div class="section-header section-header--underline section-header--item-right">
+            <h3 class="heading heading--clear">Equitable share</h3>
+            <div class="section-header__info-right">
+              <div class="icon-label-dropdown fy-select">
+                <div class="icon-label-dropdown__inner">
+                  <div class="icon icon--24px icon--primary">
+                    <div class="fas fa-calendar-alt"></div>
+                  </div>
+                  <div class="label">Financial year:</div>
+                </div>
+                <div data-hover="" data-delay="0" id="w-node-3d44a46876c3-b71c5c1e" class="dropdown w-dropdown">
+                  <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
+                    <div class="dropdown-icon w-icon-dropdown-toggle"></div>
+                    <div class="dropdown__current-select">Loading...</div>
+                    <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                  </div>
+                  <nav class="dropdown-list w-dropdown-list">
+                    <a href="#" data-option="none" class="dropdown-link dropdown-link--current w-dropdown-link">Loading...</a>
+                    <a href="#" data-option="similar-nearby" class="dropdown-link w-dropdown-link">Loading...</a>
+                    <div class="plate plate--white plate--rounded plate--shadow-large"></div>
+                  </nav>
+                </div>
+                <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+              </div>
+            </div>
+          </div>
+          <div class="layout-grid layout-grid--1-3-2-3">
+            <div class="layout-grid__col layout-grid__col--padding-right layout-grid__col--border-right">
+              <div class="indicator-metric indicator-metric--no-status">
+                <div class="indicator-metric__value">Calculating...</div>
+                <div class="icon">
+                  <div class="far"></div>
+                </div>
+              </div>
+              <div class="indicator-detail w-richtext">
+                <p>Total equitable share allocated to this municipality</p>
+              </div>
+              <div class="expand-blocks">
+                <div class="expand-block">
+                  <div class="expand-block__trigger">
+                    <div class="expand-block__trigger_content">
+                      <div class="expand-block__content_icon">
+                        <div class="fas fa-info"></div>
+                      </div>
+                      <h5 id="w-node-3d44a46876dc-b71c5c1e" class="expand-block__heading">Learn more</h5>
+                    </div>
+                    <div class="expand-block__trigger_icon">
+                      <div class="fas fa-plus"></div>
+                    </div>
+                  </div>
+                  <div class="expand-block__content">
+                    <div class="expand-block__content_inner">
+                      <div class="rich-text__default w-richtext">
+                        <p>This shows how much income this municipality receives as their equitable share.</p>
+                        <p>Equitable share comes from the taxes paid to national government, and is intended to ensure that no one in South Africa shall go without their basic needs being met.</p>
+                        <p>Provincial and national government also receive equitable share to fund the services that are provided by those spheres of government.</p>
+                      </div>
+                      <div class="indicator-detail__video w-embed w-iframe"><iframe src="https://www.youtube.com/embed/zb2Wph6Mbpo?rel=0&amp;controls=1&amp;autoplay=0&amp;mute=0&amp;start=0" style="width:100%;height:200px;pointer-events:auto" allow="autoplay; encrypted-media" srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/zb2Wph6Mbpo?autoplay=1><img src=https://img.youtube.com/vi/-sGcopgP4u0/hqdefault.jpg><span>▶</span></a>" allowfullscreen="" frameborder="0"></iframe></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="layout-grid__col">
+              <div class="grid grid--24px">
+                <div class="indicator-chart"></div>
+                <div class="indicator-chart__legend">
+                  <div class="legend-block__heading">
+                    <h6 class="heading heading--fullwidth heading--clear">Legend:</h6>
+                  </div>
+                  <div class="legend-block__wrapper">
+                    <div class="legend-block">
+                      <div class="legend-block__colour"></div>
+                      <div>Loading...</div>
+                      <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="national-conditional-grants" class="sub-section">
+          <div class="sub-section__link"></div>
+          <div class="section-header section-header--underline section-header--item-right">
+            <h3 class="heading heading--clear">National conditional grants</h3>
+            <div class="section-header__info-right">
+              <div class="icon-label-dropdown fy-select">
+                <div class="icon-label-dropdown__inner">
+                  <div class="icon icon--24px icon--primary">
+                    <div class="fas fa-calendar-alt"></div>
+                  </div>
+                  <div class="label">Financial year:</div>
+                </div>
+                <div data-hover="" data-delay="0" id="w-node-3d44a46876ff-b71c5c1e" class="dropdown w-dropdown">
+                  <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
+                    <div class="dropdown-icon w-icon-dropdown-toggle"></div>
+                    <div class="dropdown__current-select">Loading...</div>
+                    <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                  </div>
+                  <nav class="dropdown-list w-dropdown-list">
+                    <a href="#" data-option="none" class="dropdown-link dropdown-link--current w-dropdown-link">Loading...</a>
+                    <a href="#" data-option="similar-nearby" class="dropdown-link w-dropdown-link">Loading...</a>
+                    <div class="plate plate--white plate--rounded plate--shadow-large"></div>
+                  </nav>
+                </div>
+                <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+              </div>
+            </div>
+          </div>
+          <div class="layout-grid layout-grid--1-3-2-3">
+            <div class="layout-grid__col layout-grid__col--padding-right layout-grid__col--border-right">
+              <div class="indicator-metric indicator-metric--no-status">
+                <div class="indicator-metric__value">Calculating...</div>
+                <div class="icon">
+                  <div class="far"></div>
+                </div>
+              </div>
+              <div class="indicator-detail w-richtext">
+                <p>Total income from conditional grants from national departments for this municipality.</p>
+              </div>
+              <div class="expand-blocks">
+                <div class="expand-block">
+                  <div class="expand-block__trigger">
+                    <div class="expand-block__trigger_content">
+                      <div class="expand-block__content_icon">
+                        <div class="fas fa-info"></div>
+                      </div>
+                      <h5 id="w-node-3d44a4687718-b71c5c1e" class="expand-block__heading">Learn more</h5>
+                    </div>
+                    <div class="expand-block__trigger_icon">
+                      <div class="fas fa-plus"></div>
+                    </div>
+                  </div>
+                  <div class="expand-block__content">
+                    <div class="expand-block__content_inner">
+                      <div class="rich-text__default w-richtext">
+                        <p>Conditional grants are money paid to municipalities and provinces to achieve specific outcomes.</p>
+                        <p>This might be to ensure money is available for building infrastructure, or ensuring staff at the municipality receive the training needed to perform their job.</p>
+                        <p>This shows how much money has been allocated to the municipality for each grant that they are receiving, how much has been paid to the municipality so far, and how much they have spent.</p>
+                      </div>
+                      <div class="indicator-detail__video w-embed w-iframe"><iframe src="https://www.youtube.com/embed/zb2Wph6Mbpo?rel=0&amp;controls=1&amp;autoplay=0&amp;mute=0&amp;start=0" style="width:100%;height:200px;pointer-events:auto" allow="autoplay; encrypted-media" srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/zb2Wph6Mbpo?autoplay=1><img src=https://img.youtube.com/vi/-sGcopgP4u0/hqdefault.jpg><span>▶</span></a>" allowfullscreen="" frameborder="0"></iframe></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="layout-grid__col">
+              <div class="grid grid--24px">
+                <div class="indicator-chart"></div>
+                <div class="indicator-chart__legend">
+                  <div class="legend-block__heading">
+                    <h6 class="heading heading--fullwidth heading--clear">Legend:</h6>
+                  </div>
+                  <div class="legend-block__wrapper">
+                    <div class="legend-block">
+                      <div class="legend-block__colour"></div>
+                      <div>Loading...</div>
+                      <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="provincial-transfers" class="sub-section">
+          <div class="sub-section__link"></div>
+          <div class="section-header section-header--underline section-header--item-right">
+            <h3 class="heading heading--clear">Provincial transfers</h3>
+            <div class="section-header__info-right">
+              <div class="icon-label-dropdown fy-select">
+                <div class="icon-label-dropdown__inner">
+                  <div class="icon icon--24px icon--primary">
+                    <div class="fas fa-calendar-alt"></div>
+                  </div>
+                  <div class="label">Financial year:</div>
+                </div>
+                <div data-hover="" data-delay="0" id="w-node-3d44a468773b-b71c5c1e" class="dropdown w-dropdown">
+                  <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
+                    <div class="dropdown-icon w-icon-dropdown-toggle"></div>
+                    <div class="dropdown__current-select">Loading...</div>
+                    <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                  </div>
+                  <nav class="dropdown-list w-dropdown-list">
+                    <a href="#" data-option="none" class="dropdown-link dropdown-link--current w-dropdown-link">Loading...</a>
+                    <a href="#" data-option="similar-nearby" class="dropdown-link w-dropdown-link">Loading...</a>
+                    <div class="plate plate--white plate--rounded plate--shadow-large"></div>
+                  </nav>
+                </div>
+                <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+              </div>
+            </div>
+          </div>
+          <div class="layout-grid layout-grid--1-3-2-3">
+            <div class="layout-grid__col layout-grid__col--padding-right layout-grid__col--border-right">
+              <div class="indicator-metric indicator-metric--no-status">
+                <div class="indicator-metric__value">Calculating...</div>
+                <div class="icon">
+                  <div class="far"></div>
+                </div>
+              </div>
+              <div class="indicator-detail w-richtext">
+                <p>Total transfers from provincial government to this municipality.</p>
+              </div>
+              <div class="expand-blocks">
+                <div class="expand-block">
+                  <div class="expand-block__trigger">
+                    <div class="expand-block__trigger_content">
+                      <div class="expand-block__content_icon">
+                        <div class="fas fa-info"></div>
+                      </div>
+                      <h5 id="w-node-3d44a4687754-b71c5c1e" class="expand-block__heading">Learn more</h5>
+                    </div>
+                    <div class="expand-block__trigger_icon">
+                      <div class="fas fa-plus"></div>
+                    </div>
+                  </div>
+                  <div class="expand-block__content">
+                    <div class="expand-block__content_inner">
+                      <div class="rich-text__default w-richtext">
+                        <p>Provincial transfers are income from the government of the province where this municipality is located.</p>
+                        <p>This income could be for services that are provided by the municipality under an agreement with the province, when it is actually the provincial government's responsibility. This can happen when the municipality is better-placed to provide that service.</p>
+                        <p>It could also be for conditional grants paid by the province for disaster relief or other purposes.</p>
+                        <p>This shows how much income the municipality receives from each provincial department.</p>
+                      </div>
+                      <div class="indicator-detail__video w-embed w-iframe"><iframe src="https://www.youtube.com/embed/zb2Wph6Mbpo?rel=0&amp;controls=1&amp;autoplay=0&amp;mute=0&amp;start=0" style="width:100%;height:200px;pointer-events:auto" allow="autoplay; encrypted-media" srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/zb2Wph6Mbpo?autoplay=1><img src=https://img.youtube.com/vi/-sGcopgP4u0/hqdefault.jpg><span>▶</span></a>" allowfullscreen="" frameborder="0"></iframe></div>
                     </div>
                   </div>
                 </div>
