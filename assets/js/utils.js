@@ -46,6 +46,22 @@ export function formatForType(type, value) {
   }
 }
 
+export function formatPhase(code) {
+  switch (code) {
+  case "ORGB":
+    return "Original budget";
+  case "ADJB":
+    return "Adjusted budget";
+  case "AUDA":
+    return "Audited actual";
+  case "ACT":
+    return "Actual";
+  default:
+    console.error("unknown phase", code);
+    return "Phase unknown";
+  }
+}
+
 export function errorBoundary(f) {
   try {
     f();

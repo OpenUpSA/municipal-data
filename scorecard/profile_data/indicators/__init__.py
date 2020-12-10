@@ -1,4 +1,3 @@
-
 from .utils import *
 from .indicator_calculator import IndicatorCalculator
 from .current_ratio import CurrentRatio
@@ -10,6 +9,7 @@ from .operating_budget_spending import OperatingBudgetSpending
 from .capital_budget_spending import CapitalBudgetSpending
 from .repairs_maintenance_spending import RepairsMaintenanceSpending
 from .uifw_expenditure import UIFWExpenditure
+from .grants import Grants
 
 
 def get_indicator_calculators(has_comparisons=None):
@@ -28,6 +28,7 @@ def get_indicator_calculators(has_comparisons=None):
         ExpenditureTrendsStaff,
         CashBalance,
         UIFWExpenditure,
+        Grants,
     ]
     if has_comparisons is None:
         return calculators
@@ -43,8 +44,8 @@ class RevenueSources(IndicatorCalculator):
     def get_muni_specifics(cls, api_data):
         year = api_data.years[0]
         results = {
-            "local": {"amount": 0, "items": [], },
-            "government": {"amount": 0, "items": [], },
+            "local": {"amount": 0, },
+            "government": {"amount": 0, },
             "year": year,
             "ref": api_data.references["lges"],
         }
@@ -75,12 +76,12 @@ class RevenueSources(IndicatorCalculator):
                 continue
             amount = item["amount.sum"]
             results[code_to_source[item["item.code"]]]["amount"] += amount
-            results[code_to_source[item["item.code"]]]["items"].append(item)
+        results["total"] = total
         if total is None:
             results["government"]["percent"] = None
-            results["government"]["value"] = None
+            results["government"]["amount"] = None
             results["local"]["percent"] = None
-            results["local"]["value"] = None
+            results["local"]["amount"] = None
             results["rating"] = "bad"
         else:
             results["government"]["percent"] = percent(
@@ -103,6 +104,7 @@ class RevenueBreakdown(IndicatorCalculator):
 
     @classmethod
     def get_muni_specifics(cls, api_data):
+        # Excluding transfers so that this only includes locally-generated revenue
         groups = [
             ("Property rates", ["0200", "0300"]),
             ("Service Charges", ["0400"]),
@@ -111,8 +113,6 @@ class RevenueBreakdown(IndicatorCalculator):
             ("Fines", ["1300"]),
             ("Licenses and Permits", ["1400"]),
             ("Agency services", ["1500"]),
-            ("Government Transfers for Operating Expenses", ["1600"]),
-            ("Government Transfers for Capital Expenses", ["1610"]),
             ("Other", ["1700", "1800"]),
         ]
         results = {}

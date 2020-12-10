@@ -6,6 +6,14 @@ import { AuditOpinions } from '../components/audit-opinions.js';
 import { ProfileHeader } from '../components/profile-header.js';
 import { InPageNav } from '../components/in-page-nav.js';
 import { CapitalProjectList } from '../components/capital-projects.js';
+import {
+  IncomeSection,
+  LocalIncomeSection,
+  TransfersSection,
+  EquitableShareSection,
+  NationalConditionalGrantsSection,
+  ProvincialTransfersSection,
+} from '../components/income.js';
 
 export default class ProfilePage {
   constructor(pageData) {
@@ -48,12 +56,31 @@ export default class ProfilePage {
     errorBoundary(() => {
       new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
     });
-    $("#income-sources .financial-period").empty();
-    $("#income-sources .indicator-chart")
-      .addClass("chart-container")
-      .attr("data-chart", "grouped-bar-revenue_breakdown")
-      .attr("data-unit", "currency");
 
+    // Income
+    errorBoundary(() => {
+      new IncomeSection("#income-summary", pageData.indicators.revenue_sources);
+    });
+    errorBoundary(() => {
+      new LocalIncomeSection("#local-income-sources", {
+        "revenueSources": pageData.indicators.revenue_sources,
+        "revenueBreakdown": pageData.indicators.revenue_breakdown,
+      });
+    });
+    errorBoundary(() => {
+      new TransfersSection("#types-of-transfers", pageData.indicators.grants);
+    });
+    errorBoundary(() => {
+      new EquitableShareSection("#equitable-share", pageData.indicators.grants);
+    });
+    errorBoundary(() => {
+      new NationalConditionalGrantsSection("#national-conditional-grants", pageData.indicators.grants);
+    });
+    errorBoundary(() => {
+      new ProvincialTransfersSection("#provincial-transfers", pageData.indicators.grants);
+    });
+
+    // Spending
     $("#what-is-money-spent-on .financial-period").empty();
     $("#what-is-money-spent-on .indicator-chart")
       .addClass("chart-container")
@@ -62,6 +89,7 @@ export default class ProfilePage {
     new HorizontalGroupedBarChart().discover(pageData);
 
 
+    // Household bills
     errorBoundary(() => {
       this.initHouseholdBills(pageData);
     });

@@ -100,6 +100,13 @@ MIDDLEWARE = [
 
 CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 
+CONSTANCE_ADDITIONAL_FIELDS = {
+    'quarter_select': ['django.forms.fields.ChoiceField', {
+        'widget': 'django.forms.Select',
+        'choices': ((1, "1"), (2, "2"), (3, "3"), (4, "4"),)
+    }],
+}
+
 CONSTANCE_CONFIG = {
     "LAST_AUDIT_YEAR": [
         2019,
@@ -127,7 +134,21 @@ CONSTANCE_CONFIG = {
         "determining if a demarcation was established before or after "
         "the last qudit tok place",
         str,
-    ]
+    ],
+    "GRANTS_LATEST_YEAR": [
+        2019,
+        "The last year for which grant spending data is available. "
+        "This is used to show \"Spent up to 2020-21 Q3\" or whatever is "
+        "the selected year and quarter.",
+        int,
+    ],
+    "GRANTS_LATEST_QUARTER": [
+        4,
+        "The last quarter for which grant spending data is available. "
+        "This is used to show \"Spent up to 2020-21 Q3\" or whatever is "
+        "the selected year and quarter.",
+        "quarter_select",
+    ],
 }
 
 ROOT_URLCONF = "municipal_finance.urls"
@@ -396,8 +417,9 @@ Q_CLUSTER = {
     "queue_limit": 100,
     "bulk": 50,
     "orm": "default",
-    "poll": 10,
+    "poll": 5,
     "max_attempts": 1,
+    "ack_failures": True,  # Dequeue failed tasks
 }
 
 if not DEBUG:
