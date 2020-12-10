@@ -34,7 +34,7 @@ def make_time_series_reducer(budget_year):
             current_value["financial_year"] = reporting_year + 2
         else:
             current_value["financial_year"] = reporting_year
-        delete current_value["financial_year_end.year"]
+        del current_value["financial_year_end.year"]
         current_value["budget_phase"] = current_value.pop("amount_type.label")
         current_value["amount"] = current_value.pop("amount.sum")
 
