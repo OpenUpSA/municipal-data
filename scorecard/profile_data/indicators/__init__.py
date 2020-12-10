@@ -76,11 +76,12 @@ class RevenueSources(IndicatorCalculator):
                 continue
             amount = item["amount.sum"]
             results[code_to_source[item["item.code"]]]["amount"] += amount
+        results["total"] = total
         if total is None:
             results["government"]["percent"] = None
-            results["government"]["value"] = None
+            results["government"]["amount"] = None
             results["local"]["percent"] = None
-            results["local"]["value"] = None
+            results["local"]["amount"] = None
             results["rating"] = "bad"
         else:
             results["government"]["percent"] = percent(

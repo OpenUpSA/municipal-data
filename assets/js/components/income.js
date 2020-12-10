@@ -45,20 +45,28 @@ export class IncomeSection extends AbstractIncomeSection {
   }
 
   _initIndicator() {
-    const value = this.sectionData["government"].amount + this.sectionData["local"].amount;
-    this.$element.find(".indicator-metric__value").text(formatForType("R", value));
+    let value;
+    if (this.sectionData["total"] === null)
+      value = "Not available";
+    else
+      value = formatForType("R", this.sectionData["total"]);
+    this.$element.find(".indicator-metric__value").text(value);
   }
 
   _initChart() {
-    this.chart = new PercentageStackedChart(this.$chartContainer[0])
-      .data(this.chartData())
-      .mainLabel((d) => [
-        formatForType("%", d.percent),
-        formatForType("R", d.amount),
-      ])
-      .subLabel((d) => [
-        `${ d.label }: ${ formatForType("%", d.percent) } or ${ formatForType("R", d.amount) }`
-      ]);
+    if (this.sectionData["total"] === null) {
+      this.$chartContainer.text("Data not available yet.");
+    } else {
+      this.chart = new PercentageStackedChart(this.$chartContainer[0])
+        .data(this.chartData())
+        .mainLabel((d) => [
+          formatForType("%", d.percent),
+          formatForType("R", d.amount),
+        ])
+        .subLabel((d) => [
+          `${ d.label }: ${ formatForType("%", d.percent) } or ${ formatForType("R", d.amount) }`
+        ]);
+    }
   }
 
   chartData() {
@@ -112,14 +120,22 @@ export class LocalIncomeSection extends AbstractIncomeSection {
   }
 
   _initIndicator() {
-    const value = this.sectionData.revenueSources["local"].amount;
-    this.$element.find(".indicator-metric__value").text(formatForType("R", value));
+    let value;
+    if (this.sectionData.revenueSources["local"].amount === null)
+      value = "Not available";
+    else
+      value = formatForType("R", this.sectionData.revenueSources["local"].amount);
+    this.$element.find(".indicator-metric__value").text(value);
   }
 
   _initChart() {
-    this.chart = new BarChart(this.$chartContainer[0])
-      .data(this._chartData[this._year])
-      .format(locale.format("$,"));
+    if (this.sectionData.revenueSources["local"].amount === null) {
+      this.$chartContainer.text("Data not available yet");
+    } else {
+      this.chart = new BarChart(this.$chartContainer[0])
+        .data(this._chartData[this._year])
+        .format(locale.format("$,"));
+    }
   }
 
   _initLegend() {
@@ -171,9 +187,11 @@ export class TransfersSection extends AbstractIncomeSection {
       .subLabel((d) => [
         `${ d.label }: ${ formatForType("R", d.amount) }`
       ]);
-}
+  }
+
   _initDropdown() {
     const options = [];
+    // Create an option for every year/phase combination with a value for each source.
     for (let year in this.sectionData.totals) {
       const phases = this.sectionData.totals[year];
       for (let phase in phases) {
@@ -191,6 +209,9 @@ export class TransfersSection extends AbstractIncomeSection {
         }
       }
     }
+    if (options.length === 0) {
+      options.push(["Not available", {year: null, phase: null}]);
+    }
     const initialOption = options[0];
     this.dropdown = new Dropdown(this.$element.find(".fy-select"), options, initialOption[0]);
     this.dropdown.$element.on("option-select", (e) => this.selectData(e.detail));
@@ -198,28 +219,33 @@ export class TransfersSection extends AbstractIncomeSection {
   }
 
   selectData(selection) {
-    const types = this.sectionData.totals[selection.year][selection.phase];
-    const data = [
-      {
-        label: "Equitable share",
-        amount: types.equitable_share,
-        color: transfersColor,
-      },
-      {
-        label: "National conditional grants",
-        amount: types.national_conditional_grants,
-        color: transfersColor,
-      },
-      {
-        label: "Provincial transfers",
-        amount: types.provincial_transfers,
-        color: transfersColor,
-      },
-    ];
-    this.chart.data(data);
-    const indicatorValue = types.equitable_share +
-          types.national_conditional_grants + types.provincial_transfers;
-    this.$element.find(".indicator-metric__value").text(formatForType("R", indicatorValue));
+    if (selection.year === null) {
+      this.$chartContainer.text("Data not available yet.");
+      this.$element.find(".indicator-metric__value").text("Not available");
+    } else {
+      const types = this.sectionData.totals[selection.year][selection.phase];
+      const data = [
+        {
+          label: "Equitable share",
+          amount: types.equitable_share,
+          color: transfersColor,
+        },
+        {
+          label: "National conditional grants",
+          amount: types.national_conditional_grants,
+          color: transfersColor,
+        },
+        {
+          label: "Provincial transfers",
+          amount: types.provincial_transfers,
+          color: transfersColor,
+        },
+      ];
+      this.chart.data(data);
+      const indicatorValue = types.equitable_share +
+            types.national_conditional_grants + types.provincial_transfers;
+      this.$element.find(".indicator-metric__value").text(formatForType("R", indicatorValue));
+    }
   }
 }
 
