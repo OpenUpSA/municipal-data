@@ -255,27 +255,32 @@ export class EquitableShareSection extends TransfersSection {
   }
 
   selectData(selection) {
-    const types = this.sectionData.totals[selection.year][selection.phase];
-    const data = [
-      {
-        label: "Equitable share",
-        amount: types.equitable_share,
-        color: transfersColor,
-      },
-      {
-        label: "National conditional grants",
-        amount: types.national_conditional_grants,
-        color: defocusedColor,
-      },
-      {
-        label: "Provincial transfers",
-        amount: types.provincial_transfers,
-        color: defocusedColor,
-      },
-    ];
-    this.chart.data(data);
-    const indicatorValue = types.equitable_share;
-    this.$element.find(".indicator-metric__value").text(formatForType("R", indicatorValue));
+    if (selection.year === null) {
+      this.$chartContainer.text("Data not available yet.");
+      this.$element.find(".indicator-metric__value").text("Not available");
+    } else {
+      const types = this.sectionData.totals[selection.year][selection.phase];
+      const data = [
+        {
+          label: "Equitable share",
+          amount: types.equitable_share,
+          color: transfersColor,
+        },
+        {
+          label: "National conditional grants",
+          amount: types.national_conditional_grants,
+          color: defocusedColor,
+        },
+        {
+          label: "Provincial transfers",
+          amount: types.provincial_transfers,
+          color: defocusedColor,
+        },
+      ];
+      this.chart.data(data);
+      const indicatorValue = types.equitable_share;
+      this.$element.find(".indicator-metric__value").text(formatForType("R", indicatorValue));
+    }
   }
 }
 
@@ -287,87 +292,102 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
     this._initLegend();
     this._initDropdown();
 
-    const types = this.sectionData.totals[this._year]["ORGB"];
-    const indicatorValue = types.national_conditional_grants;
-    this.$element.find(".indicator-metric__value").text(formatForType("R", indicatorValue));
-
+    if (this._year === null) {
+      this.$element.find(".indicator-metric__value").text("Not available");
+    } else {
+      const types = this.sectionData.totals[this._year]["ORGB"];
+      const indicatorValue = types.national_conditional_grants;
+      this.$element.find(".indicator-metric__value").text(formatForType("R", indicatorValue));
+    }
   }
 
   _initLegend() {
-    const container = this.$element.find(".legend-block__wrapper");
-    logIfUnequal(1, container.length);
-    const template = this.$element.find(".legend-block");
-    template.remove();
+    if (this._year !== null) {
+      const container = this.$element.find(".legend-block__wrapper");
+      logIfUnequal(1, container.length);
+      const template = this.$element.find(".legend-block");
+      template.remove();
 
-    container.append(new LegendItem(template, transfersColor, "Budgeted amount").$element);
-    container.append(new LegendItem(template, transferredColor, this._transferredLabel[this._year]).$element);
-    container.append(new LegendItem(template, spentColor, this._spentLabel[this._year]).$element);
-    this.$element.find(".indicator-chart__legend").css("display", "block");
+      container.append(new LegendItem(template, transfersColor, "Budgeted amount").$element);
+      container.append(new LegendItem(template, transferredColor, this._transferredLabel[this._year]).$element);
+      container.append(new LegendItem(template, spentColor, this._spentLabel[this._year]).$element);
+      this.$element.find(".indicator-chart__legend").css("display", "block");
+    }
   }
 
   _initChart() {
-    this.chart = new OverlayBarChart(this.$chartContainer[0])
-      .data(this._chartData[this._year])
-      .seriesOrder(this._seriesOrder)
-      .width(this.$chartContainer.width())
-      .format(locale.format("$,"));
+    if (this._chartData === null) {
+      this.$chartContainer.text("Data not available yet");
+    } else {
+      this.chart = new OverlayBarChart(this.$chartContainer[0])
+        .data(this._chartData[this._year])
+        .seriesOrder(this._seriesOrder)
+        .width(this.$chartContainer.width())
+        .format(locale.format("$,"));
+    }
   }
 
   _initChartData() {
     this._chartData = this.sectionData.national_conditional_grants;
-
-    this._year = _.max(_.keys(this._chartData));
-    this._transferredLabel = {};
-    this._spentLabel = {};
-    for (let year in this._chartData) {
-      let legendYear, legendQuarter = null;
-      if (year === this.sectionData.snapshot_date.year) {
-        legendYear = this.sectionData.snapshot_date.year;
-        legendQuarter = this.sectionData.snapshot_date.quarter;
-      } else if (year < this.sectionData.snapshot_date.year) {
-        legendYear = year;
-        legendQuarter = 4;
-      }
-      this._transferredLabel[year] = `Amount transferred up to ${legendYear} Q${legendQuarter}`;
-      this._spentLabel[year] = `Amount spent up to ${legendYear} Q${legendQuarter}`;
-
-      // Map keys to the keys assumed by the chart
-      this._chartData[year].forEach((item) => {
-        item.item = item["grant.label"];
-        delete item["grant.label"];
-        item.amount = item["amount.sum"];
-        delete item["amount.sum"];
-
-        switch (item["amount_type.code"]) {
-        case "ORGB":
-          item.phase = "Amount budgeted";
-          break;
-        case "TRFR":
-          item.phase = this._transferredLabel[year];
-          break;
-        case "ACT":
-          item.phase = this._spentLabel[year];
+    if (_.keys(this._chartData).length === 0) {
+      this._year = null;
+      this._chartData = null;
+    } else {
+      this._year = _.max(_.keys(this._chartData));
+      this._transferredLabel = {};
+      this._spentLabel = {};
+      for (let year in this._chartData) {
+        let legendYear, legendQuarter = null;
+        if (year === this.sectionData.snapshot_date.year) {
+          legendYear = this.sectionData.snapshot_date.year;
+          legendQuarter = this.sectionData.snapshot_date.quarter;
+        } else if (year < this.sectionData.snapshot_date.year) {
+          legendYear = year;
+          legendQuarter = 4;
         }
-      });
-    }
-    this._seriesOrder = [
-      "Amount budgeted",
-      this._transferredLabel[this._year],
-      this._spentLabel[this._year],
-    ];
+        this._transferredLabel[year] = `Amount transferred up to ${legendYear} Q${legendQuarter}`;
+        this._spentLabel[year] = `Amount spent up to ${legendYear} Q${legendQuarter}`;
 
+        // Map keys to the keys assumed by the chart
+        this._chartData[year].forEach((item) => {
+          item.item = item["grant.label"];
+          delete item["grant.label"];
+          item.amount = item["amount.sum"];
+          delete item["amount.sum"];
+
+          switch (item["amount_type.code"]) {
+          case "ORGB":
+            item.phase = "Amount budgeted";
+            break;
+          case "TRFR":
+            item.phase = this._transferredLabel[year];
+            break;
+          case "ACT":
+            item.phase = this._spentLabel[year];
+          }
+        });
+      }
+      this._seriesOrder = [
+        "Amount budgeted",
+        this._transferredLabel[this._year],
+        this._spentLabel[this._year],
+      ];
+    }
   }
 
   _initDropdown() {
-    const options = [
-      [
+    const options = [];
+    if (this._year === null) {
+      options.push(["Not available", {}]);
+    } else {
+      options.push([
         `${formatFinancialYear(this._year)} ${formatPhase("ORGB")}`,
         {
           year: this._year,
           phase: "AUDA",
         },
-      ],
-    ];
+      ]);
+    }
 
     const initialOption = options[0];
     this.dropdown = new Dropdown(this.$element.find(".fy-select"), options, initialOption[0]);
@@ -427,6 +447,8 @@ export class ProvincialTransfersSection extends AbstractIncomeSection {
       }
     }
     options.reverse();
+    if (options.length === 0)
+      options.push(["Not available", {year: null, quarter: null}]);
 
     const initialOption = options[0];
     this.dropdown = new Dropdown(this.$element.find(".fy-select"), options, initialOption[0]);
@@ -435,9 +457,14 @@ export class ProvincialTransfersSection extends AbstractIncomeSection {
   }
 
   selectData(selection) {
-    this.chart.data(_.sortBy(this._chartData[selection.year][selection.phase], "item"));
-    const types = this.sectionData.totals[selection.year][selection.phase];
-    const indicatorValue = types.provincial_transfers;
-    this.$element.find(".indicator-metric__value").text(formatForType("R", indicatorValue));
+    if (selection.year === null) {
+      this.$chartContainer.text("Data not available yet.");
+      this.$element.find(".indicator-metric__value").text("Not available");
+    } else {
+      this.chart.data(_.sortBy(this._chartData[selection.year][selection.phase], "item"));
+      const types = this.sectionData.totals[selection.year][selection.phase];
+      const indicatorValue = types.provincial_transfers;
+      this.$element.find(".indicator-metric__value").text(formatForType("R", indicatorValue));
+    }
   }
 }
