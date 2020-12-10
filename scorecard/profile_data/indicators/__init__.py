@@ -19,7 +19,7 @@ def get_indicator_calculators(has_comparisons=None):
         CapitalBudgetSpending,
         RepairsMaintenanceSpending,
         RevenueSources,
-        RevenueBreakdown,
+        LocalRevenueBreakdown,
         CurrentRatio,
         LiquidityRatio,
         CurrentDebtorsCollectionRate,
@@ -98,8 +98,8 @@ class RevenueSources(IndicatorCalculator):
         return results
 
 
-class RevenueBreakdown(IndicatorCalculator):
-    name = "revenue_breakdown"
+class LocalRevenueBreakdown(IndicatorCalculator):
+    name = "local_revenue_breakdown"
     has_comparisons = False
 
     @classmethod
@@ -127,15 +127,10 @@ class RevenueBreakdown(IndicatorCalculator):
                 item["amount_type.code"]
             ] = item
         values = []
-        for year in api_data.years + [api_data.budget_year]:
-            if year == api_data.budget_year:
-                year_name = "%s budget" % year
-                amount_type = "ORGB"
-            else:
-                year_name = "%d" % year
-                amount_type = "AUDA"
+        for year in api_data.years:
+            year_name = "%d" % year
+            amount_type = "AUDA"
             try:
-                total = results[year]["1900"][amount_type]["amount.sum"]
                 for (label, codes) in groups:
                     amount = 0
                     for code in codes:
@@ -144,7 +139,6 @@ class RevenueBreakdown(IndicatorCalculator):
                         {
                             "item": label,
                             "amount": amount,
-                            "percent": percent(amount, total) if amount else 0,
                             "date": year_name,
                             "amount_type": amount_type,
                         }
@@ -154,7 +148,6 @@ class RevenueBreakdown(IndicatorCalculator):
                     {
                         "item": None,
                         "amount": None,
-                        "percent": None,
                         "date": year_name,
                         "amount_type": amount_type,
                     }

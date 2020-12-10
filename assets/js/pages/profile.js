@@ -64,7 +64,7 @@ export default class ProfilePage {
     errorBoundary(() => {
       new LocalIncomeSection("#local-income-sources", {
         "revenueSources": pageData.indicators.revenue_sources,
-        "revenueBreakdown": pageData.indicators.revenue_breakdown,
+        "revenueBreakdown": pageData.indicators.local_revenue_breakdown,
       });
     });
     errorBoundary(() => {
