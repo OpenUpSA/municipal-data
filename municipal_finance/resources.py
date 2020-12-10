@@ -18,6 +18,8 @@ from .models import (
     GrantTypesV2,
     RepairsMaintenanceItemsV1,
     RepairsMaintenanceItemsV2,
+    AgedDebtorItemsV1,
+    AgedDebtorItemsV2,
 )
 
 
@@ -120,4 +122,16 @@ class RepairsMaintenanceItemsV1Resource(resources.ModelResource):
 class RepairsMaintenanceItemsV2Resource(resources.ModelResource):
     class Meta:
         model = RepairsMaintenanceItemsV2
+        import_id_fields = ['code']
+
+
+class AgedDebtorItemsV1Resource(resources.ModelResource):
+    class Meta:
+        model = AgedDebtorItemsV1
+        import_id_fields = ['code']
+
+
+class AgedDebtorItemsV2Resource(resources.ModelResource):
+    class Meta:
+        model = AgedDebtorItemsV2
         import_id_fields = ['code']
