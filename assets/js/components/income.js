@@ -399,6 +399,7 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
 export class ProvincialTransfersSection extends AbstractIncomeSection {
   constructor(selector, sectionData) {
     super(selector, sectionData);
+    this.analyticsName = "provincial-transfers-section";
     this._initChartData();
     this._initChart();
     this._initLegend();
@@ -452,7 +453,11 @@ export class ProvincialTransfersSection extends AbstractIncomeSection {
 
     const initialOption = options[0];
     this.dropdown = new Dropdown(this.$element.find(".fy-select"), options, initialOption[0]);
-    this.dropdown.$element.on("option-select", (e) => this.selectData(e.detail));
+    this.dropdown.$element.on("option-select", (e) => {
+      this.selectData(e.detail);
+      const gaLabel = `${this.analyticsName} ${e.detail.year} ${e.detail.phase}`;
+      ga('send', 'event', 'section-year-select', 'change', gaLabel);
+    });
     return initialOption;
   }
 
