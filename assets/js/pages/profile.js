@@ -53,11 +53,11 @@ export default class ProfilePage {
     initSection(IndicatorSection, "#wages-salaries", "expenditure_trends_staff");
     initSection(IndicatorSection, "#contractor-services", "expenditure_trends_contracting");
 
-    // Income
     errorBoundary(() => {
       new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
     });
 
+    // Income
     errorBoundary(() => {
       new IncomeSection("#income-summary", pageData.indicators.revenue_sources);
     });
