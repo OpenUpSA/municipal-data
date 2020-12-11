@@ -14,6 +14,7 @@ from .budget_actual import (
     IncomeTimeSeries,
     IncomeAdjustments,
     SpendingTimeSeries,
+    SpendingAdjustments,
 )
 
 
@@ -37,6 +38,7 @@ def get_indicator_calculators(has_comparisons=None):
         IncomeTimeSeries,
         SpendingTimeSeries,
         IncomeAdjustments,
+        SpendingAdjustments,
     ]
     if has_comparisons is None:
         return calculators

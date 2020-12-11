@@ -92,6 +92,9 @@ export default class ProfilePage {
     errorBoundary(() => {
       new TimeSeriesSection("#spending-budget-actual-time", pageData.indicators.spending_time_series);
     });
+    errorBoundary(() => {
+      new AdjustmentsSection("#spending-adjustments", pageData.indicators.spending_adjustments);
+    });
 
     // Spending
     $("#what-is-money-spent-on .financial-period").empty();
