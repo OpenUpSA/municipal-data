@@ -20,6 +20,8 @@ from .models import (
     RepairsMaintenanceItemsV2,
     AgedDebtorItemsV1,
     AgedDebtorItemsV2,
+    AgedCreditorItemsV1,
+    AgedCreditorItemsV2,
 )
 
 
@@ -134,4 +136,16 @@ class AgedDebtorItemsV1Resource(resources.ModelResource):
 class AgedDebtorItemsV2Resource(resources.ModelResource):
     class Meta:
         model = AgedDebtorItemsV2
+        import_id_fields = ['code']
+
+
+class AgedCreditorItemsV1Resource(resources.ModelResource):
+    class Meta:
+        model = AgedCreditorItemsV1
+        import_id_fields = ['code']
+
+
+class AgedCreditorItemsV2Resource(resources.ModelResource):
+    class Meta:
+        model = AgedCreditorItemsV2
         import_id_fields = ['code']
