@@ -118,5 +118,6 @@ export class AdjustmentsSection {
     container.append(percentageLegendItem);
     this.$element.find(".indicator-chart__legend").css("display", "block");
 
+    this.$element.find(".section-header__info-right").text(formatFinancialYear(this._year));
   }
 }
