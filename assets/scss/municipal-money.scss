@@ -1,6 +1,7 @@
 @import 'municipal-money-charts/src/components/MunicipalCharts/BarChart.scss';
 @import 'municipal-money-charts/src/components/MunicipalCharts/PercentageStackedChart.scss';
 @import 'municipal-money-charts/src/components/MunicipalCharts/GroupedBarChart.scss';
+@import 'municipal-money-charts/src/components/MunicipalCharts/GroupedIntensityBarChart.scss';
 
 
 .leaflet-objects-pane {
@@ -114,7 +115,8 @@ p .button {
 .overlay-bar-chart .item,
 .grouped-bar-chart,
 .bar-chart .item,
-.percentage-stacked-chart .items .item .item-label.sub {
+.percentage-stacked-chart .items .item .item-label.sub,
+.grouped-intencity-bar-chart {
     font-size: 12px;
 }
 

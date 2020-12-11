@@ -81,7 +81,7 @@ export const humaniseRand = (x, longForm) => {
 const formatRand = (x, decimals, randSpace) => {
   decimals = decimals === undefined ? 1 : decimals;
   randSpace = randSpace === undefined ? ' ' : '';
-  return `R${randSpace}${d3Format(`,.${decimals}f`)(x)}`;
+  return locale.format(`$,.${decimals}f`)(x);
 };
 
 export function errorBoundary(f) {

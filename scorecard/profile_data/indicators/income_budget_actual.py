@@ -85,13 +85,13 @@ class IncomeAdjustments(IndicatorCalculator):
                     "item": group_label,
                     "comparison": "Original to adjusted budget",
                     "amount": adjusted - budget,
-                    "percent_changed": percent(adjusted-budget, budget, 4) if budget else None
+                    "percent_changed": percent(adjusted-budget, budget) if budget else None
                 })
                 audited = year_phase_group[year]["AUDA"][group_label]
                 results[year].append({
                     "item": group_label,
-                    "comparison": "Original to audited outcome",
+                    "comparison": "Original budget to audited outcome",
                     "amount": audited - budget,
-                    "percent_changed": percent(audited-budget, budget, 4) if budget else None
+                    "percent_changed": percent(audited-budget, budget) if budget else None
                 })
         return results
