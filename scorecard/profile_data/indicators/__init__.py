@@ -10,7 +10,7 @@ from .capital_budget_spending import CapitalBudgetSpending
 from .repairs_maintenance_spending import RepairsMaintenanceSpending
 from .uifw_expenditure import UIFWExpenditure
 from .grants import Grants
-from .income_budget_actual import IncomeTimeSeries
+from .income_budget_actual import IncomeTimeSeries, IncomeAdjustments
 
 
 def get_indicator_calculators(has_comparisons=None):
@@ -31,6 +31,7 @@ def get_indicator_calculators(has_comparisons=None):
         UIFWExpenditure,
         Grants,
         IncomeTimeSeries,
+        IncomeAdjustments,
     ]
     if has_comparisons is None:
         return calculators
