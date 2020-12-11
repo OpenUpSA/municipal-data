@@ -22,6 +22,8 @@ V1_INCOME_ITEMS = [
     *V1_INCOME_TRANSFERS_CODES,
     V1_INCOME_TOTAL_CODE
 ]
+V1_SPENDING_TOTAL_CODE = "4600"
+
 
 def generate_target_years(origin_year):
     return list(reversed(range(origin_year - 3, origin_year + 1)))
@@ -671,7 +673,22 @@ class ApiData(object):
                 "cube": "incexp",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "item.code": [*V1_INCOME_LOCAL_CODES, *V1_INCOME_TRANSFERS_CODES],
+                    "item.code": [V1_INCOME_TOTAL_CODE],
+                    "amount_type.code": ["ORGB", "ADJB", "AUDA", "IBY1", "IBY2"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years + [self.budget_year],
+                },
+                "drilldown": ["financial_year_end.year", "amount_type.code", "amount_type.label"],
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+                "order": "amount_type.code:asc",
+            },
+            "expenditure_annual_totals": {
+                "cube": "incexp",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": [V1_SPENDING_TOTAL_CODE],
                     "amount_type.code": ["ORGB", "ADJB", "AUDA", "IBY1", "IBY2"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],

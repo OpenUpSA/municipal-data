@@ -50,15 +50,26 @@ def year_phase_group_key(d):
     )
 
 
-class IncomeTimeSeries(IndicatorCalculator):
-    name = "income_time_series"
+class TimeSeries(IndicatorCalculator):
     has_comparisons = False
 
     @classmethod
     def get_muni_specifics(cls, api_data):
-        reducer = make_time_series_reducer(api_data.budget_year-1)
-        items = reduce(reducer, api_data.results["revenue_annual_totals"], [])
+        # budget_year - 1 temporarily because IBY1 and 2 are not available for budget year
+        # at the moment with the mSCOA transition
+        reducer = make_time_series_reducer(api_data.budget_year - 1)
+        items = reduce(reducer, api_data.results[cls.api_data_key], [])
         return items
+
+
+class IncomeTimeSeries(TimeSeries):
+    name = "income_time_series"
+    api_data_key = "revenue_annual_totals"
+
+
+class SpendingTimeSeries(TimeSeries):
+    name = "spending_time_series"
+    api_data_key = "expenditure_annual_totals"
 
 
 class IncomeAdjustments(IndicatorCalculator):
