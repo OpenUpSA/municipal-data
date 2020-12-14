@@ -1,6 +1,6 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Thu Dec 10 2020 16:33:37 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb52ccb71c5c1e" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Fri Dec 11 2020 12:18:51 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb52ccb71c5c1e" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_title }}" property="og:title">
@@ -486,7 +486,7 @@
             <div class="fab fa-twitter"></div>
           </div>
           <div class="page-options__label">Share on Twitter</div>
-          <div class="tooltip">
+          <div class="ou-tooltip">
             <div class="tooltip__label">Share to Twitter</div>
             <div class="tooltip__notch"></div>
             <div class="plate plate--white plate--rounded plate--shadow-large"></div>
@@ -497,7 +497,7 @@
             <div class="fab fa-facebook-f"></div>
           </div>
           <div class="page-options__label">Share on Facebook</div>
-          <div class="tooltip">
+          <div class="ou-tooltip">
             <div class="tooltip__label">Share to Facebook</div>
             <div class="tooltip__notch"></div>
             <div class="plate plate--white plate--rounded plate--shadow-large"></div>
@@ -508,7 +508,7 @@
             <div class="fas fa-file-export"></div>
           </div>
           <div class="page-options__label">Export to .pdf</div>
-          <div class="tooltip">
+          <div class="ou-tooltip">
             <div class="tooltip__label">Export PDF</div>
             <div class="tooltip__notch"></div>
             <div class="plate plate--white plate--rounded plate--shadow-large"></div>
@@ -2564,6 +2564,116 @@
             </div>
           </div>
         </section>
+        <section id="income-budget-actual-time" class="sub-section">
+          <div class="sub-section__link"></div>
+          <div class="section-header section-header--underline section-header--item-right">
+            <h3 class="heading heading--clear">Planned and actual income over time</h3>
+            <div class="section-header__info-right"></div>
+          </div>
+          <div class="layout-grid layout-grid--1-3-2-3">
+            <div class="layout-grid__col layout-grid__col--padding-right layout-grid__col--border-right">
+              <div class="indicator-detail w-richtext">
+                <p>How much income is planned for, and how much is actually received?</p>
+              </div>
+              <div class="expand-blocks">
+                <div class="expand-block">
+                  <div class="expand-block__trigger">
+                    <div class="expand-block__trigger_content">
+                      <div class="expand-block__content_icon">
+                        <div class="fas fa-info"></div>
+                      </div>
+                      <h5 id="w-node-71e53513a87e-b71c5c1e" class="expand-block__heading">Learn more</h5>
+                    </div>
+                    <div class="expand-block__trigger_icon">
+                      <div class="fas fa-plus"></div>
+                    </div>
+                  </div>
+                  <div class="expand-block__content">
+                    <div class="expand-block__content_inner">
+                      <div class="rich-text__default w-richtext">
+                        <p>Municipalities must plan for the income they can realistically receive.</p>
+                        <p>Unrealistic plans result in disappointing service delivery.</p>
+                        <p>On the time series we can see whether the municipality regularly over- or under-estimates how much money it will receive.</p>
+                      </div>
+                      <div class="indicator-detail__video w-embed w-iframe"><iframe src="https://www.youtube.com/embed/zb2Wph6Mbpo?rel=0&amp;controls=1&amp;autoplay=0&amp;mute=0&amp;start=0" style="width:100%;height:200px;pointer-events:auto" allow="autoplay; encrypted-media" srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/zb2Wph6Mbpo?autoplay=1><img src=https://img.youtube.com/vi/-sGcopgP4u0/hqdefault.jpg><span>▶</span></a>" allowfullscreen="" frameborder="0"></iframe></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="layout-grid__col">
+              <div class="grid grid--24px">
+                <div class="indicator-chart"></div>
+                <div class="indicator-chart__legend">
+                  <div class="legend-block__heading">
+                    <h6 class="heading heading--fullwidth heading--clear">Legend:</h6>
+                  </div>
+                  <div class="legend-block__wrapper">
+                    <div class="legend-block">
+                      <div class="legend-block__colour"></div>
+                      <div>Loading...</div>
+                      <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="income-adjustments" class="sub-section">
+          <div class="sub-section__link"></div>
+          <div class="section-header section-header--underline section-header--item-right">
+            <h3 class="heading heading--clear">Where did the differences in planned income occur?</h3>
+            <div class="section-header__info-right"></div>
+          </div>
+          <div class="layout-grid layout-grid--1-3-2-3">
+            <div class="layout-grid__col layout-grid__col--padding-right layout-grid__col--border-right">
+              <div class="indicator-detail w-richtext">
+                <p>Which sources provided more or less income than planned?</p>
+              </div>
+              <div class="expand-blocks">
+                <div class="expand-block">
+                  <div class="expand-block__trigger">
+                    <div class="expand-block__trigger_content">
+                      <div class="expand-block__content_icon">
+                        <div class="fas fa-info"></div>
+                      </div>
+                      <h5 id="w-node-7c34ec64e144-b71c5c1e" class="expand-block__heading">Learn more</h5>
+                    </div>
+                    <div class="expand-block__trigger_icon">
+                      <div class="fas fa-plus"></div>
+                    </div>
+                  </div>
+                  <div class="expand-block__content">
+                    <div class="expand-block__content_inner">
+                      <div class="rich-text__default w-richtext">
+                        <p>By looking at where the differences in planned and actual income occurred, we can start seeing whether it was bad planning on unforeseeable circumstances.</p>
+                      </div>
+                      <div class="indicator-detail__video w-embed w-iframe"><iframe src="https://www.youtube.com/embed/zb2Wph6Mbpo?rel=0&amp;controls=1&amp;autoplay=0&amp;mute=0&amp;start=0" style="width:100%;height:200px;pointer-events:auto" allow="autoplay; encrypted-media" srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/zb2Wph6Mbpo?autoplay=1><img src=https://img.youtube.com/vi/-sGcopgP4u0/hqdefault.jpg><span>▶</span></a>" allowfullscreen="" frameborder="0"></iframe></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="layout-grid__col">
+              <div class="grid grid--24px">
+                <div class="indicator-chart"></div>
+                <div class="indicator-chart__legend">
+                  <div class="legend-block__heading">
+                    <h6 class="heading heading--fullwidth heading--clear">Legend:</h6>
+                  </div>
+                  <div class="legend-block__wrapper">
+                    <div class="legend-block">
+                      <div class="legend-block__colour"></div>
+                      <div>Loading...</div>
+                      <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </section>
     </div>
   </div>
@@ -2829,6 +2939,117 @@
             <div class="layout-grid__col layout-grid__col--padding-right layout-grid__col--border-right">
               <div class="indicator-detail w-richtext">
                 <p>Municipalities spend money on providing services and maintaining facilities for their residents.</p>
+              </div>
+            </div>
+            <div class="layout-grid__col">
+              <div class="grid grid--24px">
+                <div class="indicator-chart"></div>
+                <div class="indicator-chart__legend">
+                  <div class="legend-block__heading">
+                    <h6 class="heading heading--fullwidth heading--clear">Legend:</h6>
+                  </div>
+                  <div class="legend-block__wrapper">
+                    <div class="legend-block">
+                      <div class="legend-block__colour"></div>
+                      <div>Loading...</div>
+                      <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="spending-budget-actual-time" class="sub-section">
+          <div class="sub-section__link"></div>
+          <div class="section-header section-header--underline section-header--item-right">
+            <h3 class="heading heading--clear">Planned and actual spending over time</h3>
+            <div class="section-header__info-right"></div>
+          </div>
+          <div class="layout-grid layout-grid--1-3-2-3">
+            <div class="layout-grid__col layout-grid__col--padding-right layout-grid__col--border-right">
+              <div class="indicator-detail w-richtext">
+                <p>How much did the municipality plan on spending, and how much did they actually spend?</p>
+              </div>
+              <div class="expand-blocks">
+                <div class="expand-block">
+                  <div class="expand-block__trigger">
+                    <div class="expand-block__trigger_content">
+                      <div class="expand-block__content_icon">
+                        <div class="fas fa-info"></div>
+                      </div>
+                      <h5 id="w-node-14e8b0e18d96-b71c5c1e" class="expand-block__heading">Learn more</h5>
+                    </div>
+                    <div class="expand-block__trigger_icon">
+                      <div class="fas fa-plus"></div>
+                    </div>
+                  </div>
+                  <div class="expand-block__content">
+                    <div class="expand-block__content_inner">
+                      <div class="rich-text__default w-richtext">
+                        <p>Running a municipality and delivering services costs money.</p>
+                        <p>By looking at how much money a municipality planned to spend, and how much they actually spent, we can understand more of what happened during the year and what challenges they might have had.</p>
+                        <p>A municipality might underspend - spend less than planned - if they did not get as much income as they planned, or if they did not manage their work properly. There might also have been other external disruptions.</p>
+                      </div>
+                      <div class="indicator-detail__video w-embed w-iframe"><iframe src="https://www.youtube.com/embed/zb2Wph6Mbpo?rel=0&amp;controls=1&amp;autoplay=0&amp;mute=0&amp;start=0" style="width:100%;height:200px;pointer-events:auto" allow="autoplay; encrypted-media" srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/zb2Wph6Mbpo?autoplay=1><img src=https://img.youtube.com/vi/-sGcopgP4u0/hqdefault.jpg><span>▶</span></a>" allowfullscreen="" frameborder="0"></iframe></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="layout-grid__col">
+              <div class="grid grid--24px">
+                <div class="indicator-chart"></div>
+                <div class="indicator-chart__legend">
+                  <div class="legend-block__heading">
+                    <h6 class="heading heading--fullwidth heading--clear">Legend:</h6>
+                  </div>
+                  <div class="legend-block__wrapper">
+                    <div class="legend-block">
+                      <div class="legend-block__colour"></div>
+                      <div>Loading...</div>
+                      <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="spending-adjustments" class="sub-section">
+          <div class="sub-section__link"></div>
+          <div class="section-header section-header--underline section-header--item-right">
+            <h3 class="heading heading--clear">Where did the changes to planned spending occur?</h3>
+            <div class="section-header__info-right"></div>
+          </div>
+          <div class="layout-grid layout-grid--1-3-2-3">
+            <div class="layout-grid__col layout-grid__col--padding-right layout-grid__col--border-right">
+              <div class="indicator-detail w-richtext">
+                <p>What did the municipality spend more on, and where did they spend less than planned?</p>
+              </div>
+              <div class="expand-blocks">
+                <div class="expand-block">
+                  <div class="expand-block__trigger">
+                    <div class="expand-block__trigger_content">
+                      <div class="expand-block__content_icon">
+                        <div class="fas fa-info"></div>
+                      </div>
+                      <h5 id="w-node-8f00393e4615-b71c5c1e" class="expand-block__heading">Learn more</h5>
+                    </div>
+                    <div class="expand-block__trigger_icon">
+                      <div class="fas fa-plus"></div>
+                    </div>
+                  </div>
+                  <div class="expand-block__content">
+                    <div class="expand-block__content_inner">
+                      <div class="rich-text__default w-richtext">
+                        <p>By looking at which items the municipality spent more on, and which they spent less on, we can get a sense of which services might have had funding challenges, or disruptions that slowed work in that area.</p>
+                        <p>Some kinds of spending is also more flexible than others - if the municipality has less money than planned and has payment that can not be adapted to circumstances, the more flexible spending areas will have to suffer.</p>
+                      </div>
+                      <div class="indicator-detail__video w-embed w-iframe"><iframe src="https://www.youtube.com/embed/zb2Wph6Mbpo?rel=0&amp;controls=1&amp;autoplay=0&amp;mute=0&amp;start=0" style="width:100%;height:200px;pointer-events:auto" allow="autoplay; encrypted-media" srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/zb2Wph6Mbpo?autoplay=1><img src=https://img.youtube.com/vi/-sGcopgP4u0/hqdefault.jpg><span>▶</span></a>" allowfullscreen="" frameborder="0"></iframe></div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="layout-grid__col">

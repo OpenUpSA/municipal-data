@@ -14,6 +14,10 @@ import {
   NationalConditionalGrantsSection,
   ProvincialTransfersSection,
 } from '../components/income.js';
+import {
+  TimeSeriesSection,
+  AdjustmentsSection,
+} from '../components/budget-actual.js';
 
 export default class ProfilePage {
   constructor(pageData) {
@@ -64,7 +68,7 @@ export default class ProfilePage {
     errorBoundary(() => {
       new LocalIncomeSection("#local-income-sources", {
         "revenueSources": pageData.indicators.revenue_sources,
-        "revenueBreakdown": pageData.indicators.revenue_breakdown,
+        "revenueBreakdown": pageData.indicators.local_revenue_breakdown,
       });
     });
     errorBoundary(() => {
@@ -78,6 +82,18 @@ export default class ProfilePage {
     });
     errorBoundary(() => {
       new ProvincialTransfersSection("#provincial-transfers", pageData.indicators.grants);
+    });
+    errorBoundary(() => {
+      new TimeSeriesSection("#income-budget-actual-time", pageData.indicators.income_time_series);
+    });
+    errorBoundary(() => {
+      new AdjustmentsSection("#income-adjustments", pageData.indicators.income_adjustments);
+    });
+    errorBoundary(() => {
+      new TimeSeriesSection("#spending-budget-actual-time", pageData.indicators.spending_time_series);
+    });
+    errorBoundary(() => {
+      new AdjustmentsSection("#spending-adjustments", pageData.indicators.spending_adjustments);
     });
 
     // Spending

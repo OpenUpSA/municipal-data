@@ -10,6 +10,12 @@ from .capital_budget_spending import CapitalBudgetSpending
 from .repairs_maintenance_spending import RepairsMaintenanceSpending
 from .uifw_expenditure import UIFWExpenditure
 from .grants import Grants
+from .budget_actual import (
+    IncomeTimeSeries,
+    IncomeAdjustments,
+    SpendingTimeSeries,
+    SpendingAdjustments,
+)
 
 
 def get_indicator_calculators(has_comparisons=None):
@@ -19,7 +25,7 @@ def get_indicator_calculators(has_comparisons=None):
         CapitalBudgetSpending,
         RepairsMaintenanceSpending,
         RevenueSources,
-        RevenueBreakdown,
+        LocalRevenueBreakdown,
         CurrentRatio,
         LiquidityRatio,
         CurrentDebtorsCollectionRate,
@@ -29,6 +35,10 @@ def get_indicator_calculators(has_comparisons=None):
         CashBalance,
         UIFWExpenditure,
         Grants,
+        IncomeTimeSeries,
+        SpendingTimeSeries,
+        IncomeAdjustments,
+        SpendingAdjustments,
     ]
     if has_comparisons is None:
         return calculators
@@ -66,7 +76,7 @@ class RevenueSources(IndicatorCalculator):
             "1800": "local",
         }
         total = None
-        for item in api_data.results["revenue_breakdown"]:
+        for item in api_data.results["local_revenue_breakdown"]:
             if item["financial_year_end.year"] != year:
                 continue
             if item["amount_type.code"] != "AUDA":
@@ -98,8 +108,8 @@ class RevenueSources(IndicatorCalculator):
         return results
 
 
-class RevenueBreakdown(IndicatorCalculator):
-    name = "revenue_breakdown"
+class LocalRevenueBreakdown(IndicatorCalculator):
+    name = "local_revenue_breakdown"
     has_comparisons = False
 
     @classmethod
@@ -117,7 +127,7 @@ class RevenueBreakdown(IndicatorCalculator):
         ]
         results = {}
         # Structure as {'2015': {'1900': {'AUDA': ..., 'ORGB': ...}, '0200': ...}, '2016': ...}
-        for item in api_data.results["revenue_breakdown"]:
+        for item in api_data.results["local_revenue_breakdown"]:
             if item["financial_year_end.year"] not in results:
                 results[item["financial_year_end.year"]] = {}
             if item["item.code"] not in results[item["financial_year_end.year"]]:
@@ -127,15 +137,10 @@ class RevenueBreakdown(IndicatorCalculator):
                 item["amount_type.code"]
             ] = item
         values = []
-        for year in api_data.years + [api_data.budget_year]:
-            if year == api_data.budget_year:
-                year_name = "%s budget" % year
-                amount_type = "ORGB"
-            else:
-                year_name = "%d" % year
-                amount_type = "AUDA"
+        for year in api_data.years:
+            year_name = "%d" % year
+            amount_type = "AUDA"
             try:
-                total = results[year]["1900"][amount_type]["amount.sum"]
                 for (label, codes) in groups:
                     amount = 0
                     for code in codes:
@@ -144,7 +149,6 @@ class RevenueBreakdown(IndicatorCalculator):
                         {
                             "item": label,
                             "amount": amount,
-                            "percent": percent(amount, total) if amount else 0,
                             "date": year_name,
                             "amount_type": amount_type,
                         }
@@ -154,7 +158,6 @@ class RevenueBreakdown(IndicatorCalculator):
                     {
                         "item": None,
                         "amount": None,
-                        "percent": None,
                         "date": year_name,
                         "amount_type": amount_type,
                     }

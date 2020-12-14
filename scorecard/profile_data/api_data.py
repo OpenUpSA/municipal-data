@@ -11,7 +11,22 @@ YEAR_ITEM_DRILLDOWN = [
     "item.code",
     "financial_year_end.year",
 ]
-
+V1_INCOME_TOTAL_CODE = "1900"
+V1_INCOME_LOCAL_CODES = [
+    "0200", "0300", "0400", "0700", "0800", "1000",
+    "1100", "1300", "1400", "1500", "1700", "1800"
+]
+V1_INCOME_TRANSFERS_CODES = ["1600", "1610"]
+V1_INCOME_ITEMS = [
+    *V1_INCOME_LOCAL_CODES,
+    *V1_INCOME_TRANSFERS_CODES,
+    V1_INCOME_TOTAL_CODE
+]
+V1_SPENDING_TOTAL_CODE = "4600"
+V1_SPENDING_CODES = [
+    "3000", "3100", "3200", "3300", "3400", "3600", "3900", "4000", "4100",
+    "4200", "4300", "3500", "3700", "4110", "4400", "4500", "4550",
+]
 
 def generate_target_years(origin_year):
     return list(reversed(range(origin_year - 3, origin_year + 1)))
@@ -628,24 +643,78 @@ class ApiData(object):
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
             },
-            "revenue_breakdown": {
+            "local_revenue_breakdown": {
                 "cube": "incexp",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "item.code": [
-                        "0200", "0300", "0400", "0700", "0800", "1000",
-                        "1100", "1300", "1400", "1500", "1600", "1610",
-                        "1700", "1800", "1900",
-                    ],
+                    "item.code": V1_INCOME_ITEMS,
                     "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
-                    "financial_year_end.year": self.years + [self.budget_year],
+                    "financial_year_end.year": self.years,
                 },
                 "drilldown": YEAR_ITEM_DRILLDOWN + ["item.label", "amount_type.code"],
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
                 "split_on_budget": True,
+            },
+            "revenue_budget_actual": {
+                "cube": "incexp",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": [*V1_INCOME_LOCAL_CODES, *V1_INCOME_TRANSFERS_CODES],
+                    "amount_type.code": ["ORGB", "ADJB", "AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": YEAR_ITEM_DRILLDOWN + ["item.label", "amount_type.code"],
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "revenue_annual_totals": {
+                "cube": "incexp",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": [V1_INCOME_TOTAL_CODE],
+                    "amount_type.code": ["ORGB", "ADJB", "AUDA", "IBY1", "IBY2"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years + [self.budget_year],
+                },
+                "drilldown": ["financial_year_end.year", "amount_type.code", "amount_type.label"],
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+                "order": "amount_type.code:asc",
+            },
+            "expenditure_annual_totals": {
+                "cube": "incexp",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": [V1_SPENDING_TOTAL_CODE],
+                    "amount_type.code": ["ORGB", "ADJB", "AUDA", "IBY1", "IBY2"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years + [self.budget_year],
+                },
+                "drilldown": ["financial_year_end.year", "amount_type.code", "amount_type.label"],
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+                "order": "amount_type.code:asc",
+            },
+            "expenditure_budget_actual": {
+                "cube": "incexp",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": [*V1_SPENDING_CODES],
+                    "amount_type.code": ["ORGB", "ADJB", "AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": YEAR_ITEM_DRILLDOWN + ["item.label", "amount_type.code"],
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
             },
             "grants_v1": {
                 "cube": "conditional_grants",
