@@ -7,10 +7,9 @@ from django.contrib import admin
 from . import views
 
 
-# Used to cache expensive API calls, since our data only changes occasionally
 # This cache is reset on each deployment. Corresponding caching headers are
 # sent to the client, too.
-API_CACHE_SECS = 12 * 60 * 60
+API_CACHE_SECS = 5 * 60 # 5 minutes
 
 urlpatterns = [
     url('admin/', admin.site.urls),
