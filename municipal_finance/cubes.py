@@ -21,12 +21,15 @@ class PreloadingJSONCubeManager(JSONCubeManager):
         self._cubes = {}
         self._models = {}
         self._cube_names = set(
-            super(PreloadingJSONCubeManager, self).list_cubes())
+            super(PreloadingJSONCubeManager, self).list_cubes()
+        )
         for name in self._cube_names:
             self._models[name] = super(
-                PreloadingJSONCubeManager, self).get_cube_model(name)
+                PreloadingJSONCubeManager, self
+            ).get_cube_model(name)
             self._cubes[name] = super(
-                PreloadingJSONCubeManager, self).get_cube(name)
+                PreloadingJSONCubeManager, self
+            ).get_cube(name)
             # Hack to cheaply force babbage to read and cache tables
             # Do some query that hits all tables in the cube but cut on
             # something that probably doesn't exist to minimize the rows

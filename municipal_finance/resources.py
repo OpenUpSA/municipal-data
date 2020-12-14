@@ -10,7 +10,7 @@ from .models import (
     IncexpItemsV1,
     IncexpItemsV2,
     BsheetItemsV1,
-    BsheetItemsV2,
+    FinancialPositionItemsV2,
     CapitalTypeV2,
     CapitalItemsV1,
     CapitalItemsV2,
@@ -81,7 +81,7 @@ class BsheetItemsV1Resource(resources.ModelResource):
 
 class FinancialPositionItemsV2Resource(resources.ModelResource):
     class Meta:
-        model = BsheetItemsV2
+        model = FinancialPositionItemsV2
         import_id_fields = ['code']
 
 

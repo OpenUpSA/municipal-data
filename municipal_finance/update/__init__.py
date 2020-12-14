@@ -3,3 +3,10 @@ from .municipal_staff_contacts import update_municipal_staff_contacts
 from .income_expenditure_v2 import update_income_expenditure_v2
 from .cash_flow_v2 import update_cash_flow_v2
 from .repairs_maintenance_v2 import update_repairs_maintenance_v2
+from .aged_debtor_facts_v2 import update_aged_debtor_facts_v2
+from .aged_creditor_facts_v2 import update_aged_creditor_facts_v2
+from .capital_facts_v2 import update_capital_facts_v2
+from .grant_facts_v2 import update_grant_facts_v2
+from .financial_position_facts_v2 import update_financial_position_facts_v2
+from .uifw_expense_facts import update_uifw_expense_facts
+from .audit_opinion_facts import update_audit_opinion_facts

@@ -10,20 +10,6 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 DUMP_FORMATS = ['csv', 'xlsx']
 FORMATS = DUMP_FORMATS + ['json']
-HIDDEN_CUBES = ['bsheet_v2', 'cflow_v2', 'incexp_v2']
-
-
-def list_cube_names(manager):
-    cube_names = manager.list_cubes()
-    # Filter out hidden cubes
-    cube_names = list(
-        filter(
-            lambda name: name not in HIDDEN_CUBES,
-            cube_names
-        )
-    )
-    # Return the list of cube names
-    return cube_names
 
 
 def get_cube(name):
@@ -40,15 +26,36 @@ def get_format(request):
     raise Http404()
 
 
+def get_cube_with_last_updated(connection, manager, name):
+    model = manager.get_cube(name).model.to_dict()
+    updates_table = model.get("updates_table")
+    if updates_table:
+        result = connection.execute(
+            f"SELECT datetime FROM {updates_table} ORDER BY datetime DESC LIMIT 1"
+        ).first()
+        if result is not None:
+            model["last_updated"] = result[0].strftime("%Y-%m")
+    return model
+
+
 @xframe_options_exempt
 def index(request):
     manager = get_manager()
-    cube_names = list_cube_names(manager)
-    # Collect details for all cubes
-    cubes = [(c, manager.get_cube(c).model.to_dict()) for c in cube_names]
-    cubes = sorted(cubes, key=lambda p: p[1]['label'])
-    # Group into rows of four
-    cubes = [cubes[i:i + 4] for i in range(0, len(cubes), 4)]
+    cube_names = manager.list_cubes()
+    with manager.get_engine().connect() as connection:
+        # Collect details for all cubes
+        cubes = list(
+            map(
+                lambda name: (
+                    name,
+                    get_cube_with_last_updated(connection, manager, name),
+                ),
+                cube_names,
+            )
+        )
+        cubes = sorted(cubes, key=lambda p: p[1]['label'])
+        # Group into rows of four
+        cubes = [cubes[i:i + 4] for i in range(0, len(cubes), 4)]
     return render(request, 'index.html', {
         'cubes': cubes,
         'cube_count': len(cube_names),
@@ -59,7 +66,7 @@ def index(request):
 def docs(request):
     manager = get_manager()
     cubes = []
-    for cube_name in list_cube_names(manager):
+    for cube_name in manager.list_cubes():
         cube = manager.get_cube(cube_name)
         (model,) = cube.model.to_dict(),
         if 'item' in model['dimensions'].keys():
@@ -118,7 +125,7 @@ def cubes(request):
     """ Get a listing of all publicly available cubes. """
     manager = get_manager()
     cubes = []
-    for name in list_cube_names(manager):
+    for name in manager.list_cubes():
         cube = manager.get_cube(name)
         cubes.append({
             'name': name,
@@ -153,11 +160,13 @@ def cube_root(request, cube_name):
 @xframe_options_exempt
 def model(request, cube_name):
     """ Get the model for the specified cube. """
-    cube = get_cube(cube_name)
+    manager = get_manager()
+    with manager.get_engine().connect() as connection:
+        model = get_cube_with_last_updated(connection, manager, cube_name)
     return jsonify({
         'status': 'ok',
         'name': cube_name,
-        'model': cube.model
+        'model': model
     })
 
 
@@ -240,7 +249,7 @@ def members(request, cube_name, member_ref):
 def table(request, cube_name):
     manager = get_manager()
     cubes = {}
-    for name in list_cube_names(manager):
+    for name in manager.list_cubes():
         if name not in ['municipalities', 'officials']:
             cubes[name] = {
                 'model': manager.get_cube(name).model.to_dict(),

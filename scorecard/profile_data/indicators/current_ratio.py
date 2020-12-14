@@ -62,7 +62,9 @@ class CurrentRatio(IndicatorCalculator):
             periods[key]["assets"] = result.get("2150")
             periods[key]["liabilities"] = result.get("1600")
         # Populate periods with v2 data
-        grouped_results = group_items_by_year(results["bsheet_auda_years_v2"])
+        grouped_results = group_items_by_year(
+            results["financial_position_auda_years_v2"]
+        )
         for key, result in grouped_results:
             periods.setdefault(key, {})
             periods[key]["assets"] = sum_item_amounts(result, [
