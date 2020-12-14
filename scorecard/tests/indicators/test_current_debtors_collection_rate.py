@@ -10,8 +10,8 @@ from . import (
 )
 from .resources import (
     GeographyResource,
-    CashflowFactsV1Resource,
-    CashflowFactsV2Resource,
+    CashFlowFactsV1Resource,
+    CashFlowFactsV2Resource,
     IncexpFactsV1Resource,
     IncexpFactsV2Resource,
 )
@@ -26,11 +26,11 @@ class TestCurrentDebtorsCollectionRate(_IndicatorTestCase):
             'current_debtors_collection_rate/scorecard_geography.csv'
         )
         import_data(
-            CashflowFactsV1Resource,
+            CashFlowFactsV1Resource,
             'current_debtors_collection_rate/cflow_facts_v1.csv'
         )
         import_data(
-            CashflowFactsV2Resource,
+            CashFlowFactsV2Resource,
             'current_debtors_collection_rate/cflow_facts_v2.csv'
         )
         import_data(
