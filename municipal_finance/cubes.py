@@ -1,9 +1,13 @@
+
+import os
+
 from django.conf import settings
 from django.db import connection
 from sqlalchemy import create_engine
 from sqlalchemy.engine.url import URL
 from babbage.manager import JSONCubeManager
 from dj_database_url import SCHEMES
+
 
 models_directory = 'models/'
 
@@ -66,9 +70,14 @@ def get_manager():
             port,
             config['NAME'],
         )
+        # Setup connection arguments
+        statement_timeout = os.environ.get('DB_STMT_TIMEOUT', 30000)
+        connect_args = {
+            "options": f"-c statement_timeout={statement_timeout}"
+        }
         # Create the cube manager
         _cube_manager = PreloadingJSONCubeManager(
-            create_engine(url),
+            create_engine(url, connect_args=connect_args),
             models_directory,
         )
     return _cube_manager
