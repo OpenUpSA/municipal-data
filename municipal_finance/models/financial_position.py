@@ -21,14 +21,6 @@ class BsheetItemsV1(BsheetItems):
         db_table = 'bsheet_items'
 
 
-class BsheetItemsV2(BsheetItems):
-    id = SmallAutoField(primary_key=True)
-    code = models.TextField(unique=True)
-
-    class Meta:
-        db_table = 'bsheet_items_v2'
-
-
 class BsheetFacts(models.Model):
     demarcation_code = models.TextField()
     period_code = models.TextField()
@@ -68,9 +60,17 @@ class BsheetFactsV1(BsheetFacts):
         )
 
 
-class BsheetFactsV2(BsheetFacts):
+class FinancialPositionItemsV2(BsheetItems):
+    id = SmallAutoField(primary_key=True)
+    code = models.TextField(unique=True)
+
+    class Meta:
+        db_table = 'financial_position_items_v2'
+
+
+class FinancialPositionFactsV2(BsheetFacts):
     item = models.ForeignKey(
-        BsheetItemsV2,
+        FinancialPositionItemsV2,
         models.DO_NOTHING,
     )
     amount_type = models.ForeignKey(
@@ -79,7 +79,7 @@ class BsheetFactsV2(BsheetFacts):
     )
 
     class Meta:
-        db_table = 'bsheet_facts_v2'
+        db_table = 'financial_position_facts_v2'
         unique_together = (
             (
                 'demarcation_code',

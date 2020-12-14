@@ -31,8 +31,8 @@ from .income_expenditure import (
 from .financial_position import (
     BsheetItemsV1,
     BsheetFactsV1,
-    BsheetItemsV2,
-    BsheetFactsV2,
+    FinancialPositionItemsV2,
+    FinancialPositionFactsV2,
 )
 from .municipality_profiles_compilation import (
     MunicipalityProfilesCompilation,

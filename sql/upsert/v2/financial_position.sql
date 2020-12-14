@@ -2,7 +2,7 @@ BEGIN;
 
 \echo Create import table...
 
-CREATE TEMPORARY TABLE bsheet_upsert
+CREATE TEMPORARY TABLE financial_position_upsert
 (
         demarcation_code TEXT,
         period_code TEXT,
@@ -12,19 +12,19 @@ CREATE TEMPORARY TABLE bsheet_upsert
 
 \echo Read data...
 
-\copy bsheet_upsert (demarcation_code, period_code, item_code, amount) FROM '' DELIMITER ',' CSV HEADER;
+\copy financial_position_upsert (demarcation_code, period_code, item_code, amount) FROM '' DELIMITER ',' CSV HEADER;
 
 \echo Delete demarcation_code-period_code pairs that are in the update
 
-DELETE FROM bsheet_facts_v2 f WHERE EXISTS (
-        SELECT 1 FROM bsheet_upsert i
+DELETE FROM financial_position_facts_v2 f WHERE EXISTS (
+        SELECT 1 FROM financial_position_upsert i
         WHERE f.demarcation_code = i.demarcation_code
         AND f.period_code = i.period_code
     );
 
 \echo Insert new and updated values...
 
-INSERT INTO bsheet_facts_v2
+INSERT INTO financial_position_facts_v2
 (
     demarcation_code,
     period_code,
@@ -37,7 +37,7 @@ INSERT INTO bsheet_facts_v2
 )
 SELECT demarcation_code,
        period_code,
-       (select id from bsheet_items_v2 where bsheet_items_v2.code = item_code),
+       (select id from financial_position_items_v2 where financial_position_items_v2.code = item_code),
        amount,
        cast(left(period_code, 4) as int),
        case when substr(period_code, 5) in ('IBY1', 'IBY2', 'ADJB', 'ORGB', 'AUDA', 'PAUD', 'ITY1', 'ITY2', 'TABB')
@@ -55,6 +55,6 @@ SELECT demarcation_code,
             when period_code ~ '^\d{4}(IBY1|IBY2|ADJB|ORGB|AUDA|PAUD|ITY1|ITY2|TABB)$'
                 then cast(left(period_code, 4) as int)
        end
-FROM bsheet_upsert i;
+FROM financial_position_upsert i;
 
 COMMIT;

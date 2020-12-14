@@ -8,7 +8,7 @@ from ..models import (
     IncexpFactsV2,
     RepairsMaintenanceFactsV2,
     BsheetFactsV1,
-    BsheetFactsV2,
+    FinancialPositionFactsV2,
     CapitalFactsV1,
     CapitalFactsV2,
     UifwexpFacts,
@@ -77,9 +77,9 @@ class BsheetFactsV1Resource(resources.ModelResource):
         ]
 
 
-class BsheetFactsV2Resource(resources.ModelResource):
+class FinancialPositionFactsV2Resource(resources.ModelResource):
     class Meta:
-        model = BsheetFactsV2
+        model = FinancialPositionFactsV2
         import_id_fields = [
             'demarcation_code',
             'period_code',

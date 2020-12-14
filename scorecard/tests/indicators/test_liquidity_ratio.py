@@ -10,8 +10,8 @@ from . import (
 )
 from .resources import (
     GeographyResource,
-    BsheetFactsV2Resource,
     BsheetFactsV1Resource,
+    FinancialPositionFactsV2Resource,
 )
 
 
@@ -28,12 +28,14 @@ class TestLiquidityRatio(_IndicatorTestCase):
             'liquidity_ratio/bsheet_facts_v1.csv',
         )
         import_data(
-            BsheetFactsV2Resource,
-            'liquidity_ratio/bsheet_facts_v2.csv',
+            FinancialPositionFactsV2Resource,
+            'liquidity_ratio/financial_position_facts_v2.csv',
         )
         # Fetch data from API
         api_data = ApiData(self.api_client, "CPT", 2019, 2019, 2019, "2019q4")
-        api_data.fetch_data(["bsheet_auda_years", "bsheet_auda_years_v2"])
+        api_data.fetch_data([
+            "bsheet_auda_years", "financial_position_auda_years_v2"
+        ])
         # Provide data to indicator
         result = LiquidityRatio.get_muni_specifics(api_data)
         self.assertEqual(

@@ -10,7 +10,7 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 DUMP_FORMATS = ['csv', 'xlsx']
 FORMATS = DUMP_FORMATS + ['json']
-HIDDEN_CUBES = ['bsheet_v2', 'cflow_v2', 'incexp_v2']
+HIDDEN_CUBES = ['financial_position_v2', 'cflow_v2', 'incexp_v2']
 
 
 def list_cube_names(manager):
