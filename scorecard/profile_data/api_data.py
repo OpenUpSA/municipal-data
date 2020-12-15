@@ -642,7 +642,7 @@ class ApiData(object):
                 "cube": "incexp",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "item.code": [*V1_INCOME_LOCAL_CODES, *V1_INCOME_TRANSFERS_CODES],
+                    "item.code": V1_INCOME_ITEMS,
                     "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
@@ -672,7 +672,7 @@ class ApiData(object):
                 "cube": "incexp",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "item.code": [*V1_INCOME_LOCAL_CODES, *V1_INCOME_TRANSFERS_CODES],
+                    "item.code": V1_INCOME_ITEMS,
                     "amount_type.code": ["ORGB", "ADJB", "AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
@@ -686,7 +686,7 @@ class ApiData(object):
                 "cube": "incexp_v2",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "item.code": [*V2_INCOME_LOCAL_CODES, *V2_INCOME_TRANSFERS_CODES],
+                    "item.code": V2_INCOME_ITEMS,
                     "amount_type.code": ["ORGB", "ADJB", "AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
@@ -774,7 +774,7 @@ class ApiData(object):
                 "cube": "incexp_v2",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "item.code": [*V2_SPENDING_CODES],
+                    "item.code": V2_SPENDING_CODES,
                     "amount_type.code": ["ORGB", "ADJB", "AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
@@ -812,20 +812,33 @@ class ApiData(object):
                 "results_structure": self.noop_structure,
                 "order": "grant.code:asc",
             },
-            "expenditure_breakdown": {
+            "expenditure_breakdown_v1": {
                 "cube": "incexp",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "item.code": ["3000", "3100", "4200", "4600", ],
-                    "amount_type.code": ["AUDA", "ORGB"],
+                    "item.code": V1_SPENDING_CODES,
+                    "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
                     "financial_year_end.year": self.years + [self.budget_year],
                 },
                 "drilldown": YEAR_ITEM_DRILLDOWN + ["amount_type.code"],
                 "query_type": "aggregate",
-                "results_structure": self.item_code_year_aggregate,
-                "split_on_budget": True,
+                "results_structure": self.noop_structure,
+            },
+            "expenditure_breakdown_v2": {
+                "cube": "incexp_v2",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": V2_SPENDING_CODES,
+                    "amount_type.code": ["AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years + [self.budget_year],
+                },
+                "drilldown": YEAR_ITEM_DRILLDOWN + ["amount_type.code"],
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
             },
             "expenditure_functional_breakdown": {
                 "cube": "incexp",

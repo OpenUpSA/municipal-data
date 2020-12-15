@@ -1,6 +1,7 @@
 from django.test import SimpleTestCase
 from ...profile_data.indicators import (
     RevenueSources,
+    ExpenditureTrendsContracting,
 )
 from collections import defaultdict
 
@@ -117,4 +118,95 @@ class RevenueSourcesTests(SimpleTestCase):
             "rating": "bad",
         }
         actual = RevenueSources.get_muni_specifics(api_data)
+        self.assertEqual(expected, actual)
+
+
+class ExpenditureTrendsTests(SimpleTestCase):
+    maxDiff = None
+
+    def test_empty(self):
+        api_data = MockAPIData(
+            {
+                "expenditure_breakdown_v1": [],
+                "expenditure_breakdown_v2": [],
+            },
+            [2030, 2029, 2028, 2027]
+        )
+        expected = [
+            {
+                "date": 2030,
+                "rating": "",
+                "result": None
+            },
+            {
+                "date": 2029,
+                "rating": "",
+                "result": None
+            },
+            {
+                "date": 2028,
+                "rating": "",
+                "result": None
+            },
+            {
+                "date": 2027,
+                "rating": "",
+                "result": None
+            }
+        ]
+        actual = ExpenditureTrendsContracting.get_muni_specifics(api_data)["values"]
+        self.assertEqual(expected, actual)
+
+    def test_v1_v2(self):
+        api_data = MockAPIData(
+            {
+                "expenditure_breakdown_v1": [
+                    {
+                        "item.code": "4200",
+                        "amount.sum": 10,
+                        "financial_year_end.year": 2030
+                    },
+                    {
+                        "item.code": "4200",
+                        "amount.sum": 10,
+                        "financial_year_end.year": 2027
+                    },
+                    {
+                        "item.code": "4200",
+                        "amount.sum": 10,
+                        "financial_year_end.year": 2028
+                    },
+                    {
+                        "item.code": "4200",
+                        "amount.sum": 10,
+                        "financial_year_end.year": 2029
+                    },
+                ],
+                "expenditure_breakdown_v2": [],
+            },
+            [2030, 2029, 2028, 2027]
+        )
+        expected = [
+            {
+                "date": 2030,
+                "rating": "",
+                "result": 100
+            },
+            {
+                "date": 2029,
+                "rating": "",
+                "result": 100
+            },
+            {
+                "date": 2028,
+                "rating": "",
+                "result": 100
+            },
+            {
+                "date": 2027,
+                "rating": "",
+                "result": 100
+            }
+        ]
+        actual = ExpenditureTrendsContracting.get_muni_specifics(api_data)["values"]
         self.assertEqual(expected, actual)

@@ -175,18 +175,26 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
 
     @classmethod
     def get_muni_specifics(cls, api_data):
+        v1_results = group_by(api_data.results["expenditure_breakdown_v1"], year_key)
+        v2_results = group_by(api_data.results["expenditure_breakdown_v2"], year_key)
+
         values = []
 
         for year in api_data.years:
             try:
-                total = api_data.results["expenditure_breakdown"]["4600"][year]
-            except KeyError:
-                total = None
+                if year in v2_results:
+                    results = v2_results[year]
+                    contracting_code = "2700"
+                else:
+                    results = v1_results[year]
+                    contracting_code = "4200"
 
-            try:
-                contracting = percent(
-                    api_data.results["expenditure_breakdown"]["4200"][year], total
-                )
+                total = sum(x["amount.sum"] for x in results)
+                contracting_items = [x["amount.sum"] for x in results if x["item.code"] == contracting_code]
+                contracting = percent(contracting_items[0], total)
+                # Prefer KeyError but crash before we use it in case we have more than expectexd
+                assert len(contracting_items) <= 1
+
             except KeyError:
                 contracting = None
 
