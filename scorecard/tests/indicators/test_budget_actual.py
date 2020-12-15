@@ -5,7 +5,6 @@ from ...profile_data.indicators.budget_actual import (
     combine_versions,
 )
 
-
 class MockAPIData:
     def __init__(self, results, budget_year):
         self.results = results
@@ -139,7 +138,6 @@ class TimeSeriesCalculatorTests(SimpleTestCase):
             ),
         )
         self.assertEqual(expected, actual)
-
 
 class AdjustmentsCalculatorTests(SimpleTestCase):
     maxDiff = None

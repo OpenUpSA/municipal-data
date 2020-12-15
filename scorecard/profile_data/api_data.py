@@ -93,7 +93,7 @@ class ApiData(object):
         # Transform queries to future requests
         requests = list(
             map(
-                lambda k: (k, queries[k], self.client.api_get(queries[k])),
+                lambda k: (k, queries[k], self.client.api_get(queries[k], k)),
                 queries
             )
         )
@@ -688,7 +688,7 @@ class ApiData(object):
                 "results_structure": self.noop_structure,
             },
             "revenue_budget_actual_v2": {
-                "cube": "incexp",
+                "cube": "incexp_v2",
                 "aggregate": "amount.sum",
                 "cut": {
                     "item.code": [*V2_INCOME_LOCAL_CODES, *V2_INCOME_TRANSFERS_CODES],

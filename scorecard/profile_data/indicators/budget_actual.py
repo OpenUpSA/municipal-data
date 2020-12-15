@@ -89,7 +89,6 @@ def make_year_group_phase_key(group_lookup):
             group_lookup[d["item.code"]],
             d["amount_type.code"],
         )
-
     return year_phase_group_key
 
 
@@ -161,6 +160,8 @@ class AdjustmentsCalculator(IndicatorCalculator):
     def get_muni_specifics(cls, api_data):
         year_grouplabel_phase_sum = cls.group_sum_items(api_data)
         results = cls.calculate_adjustments(year_grouplabel_phase_sum)
+        for list_ in results.values():
+            list_.sort(key=lambda x: x["item"])
         return results
 
 
