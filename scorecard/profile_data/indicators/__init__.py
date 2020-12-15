@@ -216,20 +216,28 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
 
     @classmethod
     def get_muni_specifics(cls, api_data):
+        v1_results = group_by(api_data.results["expenditure_breakdown_v1"], year_key)
+        v2_results = group_by(api_data.results["expenditure_breakdown_v2"], year_key)
+
         values = []
 
         for year in api_data.years:
             try:
-                total = api_data.results["expenditure_breakdown"]["4600"][year]
-            except KeyError:
-                total = None
+                if year in v2_results:
+                    results = v2_results[year]
+                    staff_codes = ["2000"]
+                else:
+                    results = v1_results[year]
+                    staff_codes = ["3000", "3100"]
 
-            try:
-                staff = percent(
-                    api_data.results["expenditure_breakdown"]["3000"][year]
-                    + api_data.results["expenditure_breakdown"]["3100"][year],
-                    total,
-                )
+                total = sum(x["amount.sum"] for x in results)
+                by_item = group_by(results, lambda x: x["item.code"])
+                staff_total = 0
+                for code in staff_codes:
+                    staff_total += by_item[code][0]["amount.sum"]
+                    assert len(by_item[code]) == 1
+
+                staff = percent(staff_total, total)
             except KeyError:
                 staff = None
 
