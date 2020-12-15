@@ -16,7 +16,13 @@ from .budget_actual import (
     SpendingTimeSeries,
     SpendingAdjustments,
 )
-
+from .codes import (
+    V1_INCOME_LOCAL_CODES,
+    V1_INCOME_TRANSFERS_CODES,
+    V2_INCOME_LOCAL_CODES,
+    V2_INCOME_TRANSFERS_CODES,
+)
+from collections import defaultdict
 
 def get_indicator_calculators(has_comparisons=None):
     calculators = [
@@ -53,39 +59,29 @@ class RevenueSources(IndicatorCalculator):
     @classmethod
     def get_muni_specifics(cls, api_data):
         year = api_data.years[0]
+        v1_data = group_by(api_data.results["revenue_breakdown_v1"], year_key)
+        v2_data = group_by(api_data.results["revenue_breakdown_v2"], year_key)
+
+        items = []
+        if year in v2_data:
+            local_code_list = V2_INCOME_LOCAL_CODES
+            items = v2_data[year]
+        elif year in v1_data:
+            local_code_list = V1_INCOME_LOCAL_CODES
+            items = v1_data[year]
+
         results = {
             "local": {"amount": 0, },
             "government": {"amount": 0, },
             "year": year,
             "ref": api_data.references["lges"],
         }
-        code_to_source = {
-            "0200": "local",
-            "0300": "local",
-            "0400": "local",
-            "0700": "local",
-            "0800": "local",
-            "1000": "local",
-            "1100": "local",
-            "1300": "local",
-            "1400": "local",
-            "1500": "local",
-            "1600": "government",
-            "1610": "government",
-            "1700": "local",
-            "1800": "local",
-        }
         total = None
-        for item in api_data.results["local_revenue_breakdown"]:
-            if item["financial_year_end.year"] != year:
-                continue
-            if item["amount_type.code"] != "AUDA":
-                continue
-            if item["item.code"] == "1900":
-                total = item["amount.sum"]
-                continue
+        for item in items:
             amount = item["amount.sum"]
-            results[code_to_source[item["item.code"]]]["amount"] += amount
+            total = add_none_as_zero(total, amount)
+            source = "local" if item["item.code"] in local_code_list else "government"
+            results[source]["amount"] += amount
         results["total"] = total
         if total is None:
             results["government"]["percent"] = None
@@ -114,8 +110,8 @@ class LocalRevenueBreakdown(IndicatorCalculator):
 
     @classmethod
     def get_muni_specifics(cls, api_data):
-        # Excluding transfers so that this only includes locally-generated revenue
-        groups = [
+
+        v1_groups = [
             ("Property rates", ["0200", "0300"]),
             ("Service Charges", ["0400"]),
             ("Rental income", ["0700"]),
@@ -125,44 +121,49 @@ class LocalRevenueBreakdown(IndicatorCalculator):
             ("Agency services", ["1500"]),
             ("Other", ["1700", "1800"]),
         ]
-        results = {}
-        # Structure as {'2015': {'1900': {'AUDA': ..., 'ORGB': ...}, '0200': ...}, '2016': ...}
-        for item in api_data.results["local_revenue_breakdown"]:
-            if item["financial_year_end.year"] not in results:
-                results[item["financial_year_end.year"]] = {}
-            if item["item.code"] not in results[item["financial_year_end.year"]]:
-                results[item["financial_year_end.year"]
-                        ][item["item.code"]] = {}
-            results[item["financial_year_end.year"]][item["item.code"]][
-                item["amount_type.code"]
-            ] = item
+        v2_groups = [
+            ("Property rates", ["0200"]),
+            ("Service Charges", ["0300", "0400", "0500", "0600"]),
+            ("Rental income", ["0800"]),
+            ("Interest and investments", ["0900", "1000", "1100"]),
+            ("Fines", ["1200"]),
+            ("Licenses and Permits", ["1300"]),
+            ("Agency services", ["1400"]),
+            ("Other", ["1600", "1700"]),
+        ]
+        v1_results = defaultdict(lambda: dict())
+        v2_results = defaultdict(lambda: dict())
+        for item in api_data.results["revenue_breakdown_v1"]:
+            v1_results[year_key(item)][item["item.code"]] = item
+        for item in api_data.results["revenue_breakdown_v2"]:
+            v2_results[year_key(item)][item["item.code"]] = item
+
+        year = api_data.years[0]
+        if year in v2_results:
+            results = v2_results
+            groups = v2_groups
+        else:
+            results = v1_results
+            groups = v1_groups
+
         values = []
-        for year in api_data.years:
-            year_name = "%d" % year
-            amount_type = "AUDA"
-            try:
-                for (label, codes) in groups:
-                    amount = 0
-                    for code in codes:
-                        amount += results[year][code][amount_type]["amount.sum"]
-                    values.append(
-                        {
-                            "item": label,
-                            "amount": amount,
-                            "date": year_name,
-                            "amount_type": amount_type,
-                        }
-                    )
-            except KeyError:
+        year_name = "%d" % year
+        amount_type = "AUDA"
+        try:
+            for (label, codes) in groups:
+                amount = 0
+                for code in codes:
+                    amount += results[year][code]["amount.sum"]
                 values.append(
                     {
-                        "item": None,
-                        "amount": None,
+                        "item": label,
+                        "amount": amount,
                         "date": year_name,
                         "amount_type": amount_type,
                     }
                 )
-
+        except KeyError:
+            pass
         return {"values": values}
 
 

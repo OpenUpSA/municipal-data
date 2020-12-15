@@ -68,6 +68,12 @@ def sum_item_amounts(result, codes):
     return reduce(lambda r, c: r + result.get(c, 0), codes, 0)
 
 
+def add_none_as_zero(a, b):
+    a_non_none = 0 if a is None else a
+    b_non_none = 0 if b is None else b
+    return a_non_none + b_non_none
+
+
 def year_quarter_key(item):
     key, _ = item
     year, month = key
@@ -136,10 +142,10 @@ def populate_periods(periods, years, key):
         periods[year][key] = result
 
 
-def group_by(items, key):
+def group_by(items, keyfunc):
     """
     Returns dictionary of lists
     [{"a": 1}, {"b": 2}] -> {"a": [{"a": 1}], "b": [{"b": 2}]}
     """
-    grouper = groupby(sorted(items, key=key), key=key)
+    grouper = groupby(sorted(items, key=keyfunc), key=keyfunc)
     return dict(map(lambda g: (g[0], list(g[1])), grouper))
