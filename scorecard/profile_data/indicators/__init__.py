@@ -269,9 +269,11 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         grouped_results = []
 
         for year, yeargroup in groupby(results, lambda r: r["financial_year_end.year"]):
+            yeargroup_list = list(yeargroup)
+            if len(yeargroup_list) == 0:
+                continue
+            total = sum(x["amount.sum"] for x in yeargroup_list)
             try:
-                # Skip an entire year if total is missing, suggesting the year is missing
-                total = api_data.results["expenditure_breakdown"]["4600"][year]
                 GAPD_total = 0.0
                 year_name = (
                     "%d" % year
@@ -279,7 +281,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                     else ("%s budget" % year)
                 )
 
-                for result in yeargroup:
+                for result in yeargroup_list:
                     # only do budget for budget year, use AUDA for others
                     if api_data.check_budget_actual(year, result["amount_type.code"]):
                         if result["function.category_label"] in GAPD_categories:
@@ -302,7 +304,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                         "date": year_name,
                     }
                 )
-            except KeyError:
+            except (KeyError, IndexError):
                 continue
 
         grouped_results = sorted(
