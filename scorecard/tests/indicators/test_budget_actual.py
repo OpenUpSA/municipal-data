@@ -261,3 +261,149 @@ class AdjustmentsCalculatorTests(SimpleTestCase):
             },
             result,
         )
+
+    def test_multiple_years(self):
+        class TestAdjustmentsCalculator(AdjustmentsCalculator):
+            v1_api_data_key = "v1_key"
+            v2_api_data_key = "v2_key"
+            v1_group_lookup = dict()
+            v2_group_lookup = {"9000": "A group"}
+
+        api_data = MockAPIData(
+            {
+                "v1_key": [],
+                "v2_key": [
+                    {
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2040,
+                        "amount.sum": 300,
+                        "item.code": "9000",
+                    },
+                    {
+                        "amount_type.code": "ORGB",
+                        "financial_year_end.year": 2040,
+                        "item.code": "9000",
+                        "amount.sum": 200,
+                    },
+                    {
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2041,
+                        "amount.sum": 3000,
+                        "item.code": "9000",
+                    },
+                    {
+                        "amount_type.code": "ORGB",
+                        "financial_year_end.year": 2041,
+                        "item.code": "9000",
+                        "amount.sum": 2000,
+                    },
+                ],
+            },
+            2040,
+        )
+        result = TestAdjustmentsCalculator.get_muni_specifics(api_data)
+        self.assertEqual(
+            {
+                2040: [
+                    {
+                        "amount": None,
+                        "comparison": "Original to adjusted budget",
+                        "item": "A group",
+                        "percent_changed": None,
+                    },
+                    {
+                        "amount": 100,
+                        "comparison": "Original budget to audited outcome",
+                        "item": "A group",
+                        "percent_changed": 50.0,
+                    },
+                ],
+                2041:[
+                    {
+                        "amount": None,
+                        "comparison": "Original to adjusted budget",
+                        "item": "A group",
+                        "percent_changed": None,
+                    },
+                    {
+                        "amount": 1000,
+                        "comparison": "Original budget to audited outcome",
+                        "item": "A group",
+                        "percent_changed": 50.0,
+                    },
+                ],
+            },
+            result,
+        )
+
+    def test_multiple_items(self):
+        class TestAdjustmentsCalculator(AdjustmentsCalculator):
+            v1_api_data_key = "v1_key"
+            v2_api_data_key = "v2_key"
+            v1_group_lookup = dict()
+            v2_group_lookup = {"8000": "Another group", "9000": "A group"}
+
+        api_data = MockAPIData(
+            {
+                "v1_key": [],
+                "v2_key": [
+                    {
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2040,
+                        "amount.sum": 300,
+                        "item.code": "8000",
+                    },
+                    {
+                        "amount_type.code": "ORGB",
+                        "financial_year_end.year": 2040,
+                        "item.code": "8000",
+                        "amount.sum": 200,
+                    },
+                    {
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2040,
+                        "amount.sum": 3000,
+                        "item.code": "9000",
+                    },
+                    {
+                        "amount_type.code": "ORGB",
+                        "financial_year_end.year": 2040,
+                        "item.code": "9000",
+                        "amount.sum": 2000,
+                    },
+                ],
+            },
+            2040,
+        )
+        result = TestAdjustmentsCalculator.get_muni_specifics(api_data)
+        self.assertEqual(
+            {
+                2040: [
+                    {
+                        "amount": None,
+                        "comparison": "Original to adjusted budget",
+                        "item": "A group",
+                        "percent_changed": None,
+                    },
+                    {
+                        "amount": 1000,
+                        "comparison": "Original budget to audited outcome",
+                        "item": "A group",
+                        "percent_changed": 50.0,
+                    },
+                    {
+                        "amount": None,
+                        "comparison": "Original to adjusted budget",
+                        "item": "Another group",
+                        "percent_changed": None,
+                    },
+                    {
+                        "amount": 100,
+                        "comparison": "Original budget to audited outcome",
+                        "item": "Another group",
+                        "percent_changed": 50.0,
+                    },
+                ],
+            },
+            result,
+        )

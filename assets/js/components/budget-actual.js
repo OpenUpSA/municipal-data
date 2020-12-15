@@ -53,7 +53,7 @@ export class TimeSeriesSection {
 
     this.chart = new GroupedBarChart(this.$chartContainer[0])
       .data(chartData)
-      .format(x => humaniseRand(x, false, true))
+      .format(x => x == null ? "N/A": humaniseRand(x, false, true))
       .seriesField("budget_phase")
       .groupBars("financial_year");
   }
@@ -100,7 +100,7 @@ export class AdjustmentsSection {
       .data(chartData)
       .intensityLabelField("percent_changed")
       .barGroupingField("item")
-      .format(x => humaniseRand(x, false, true))
+      .format(x => x == null ? "N/A" : humaniseRand(x, false, true))
       .labelFormat(x => x == null ? "N/A" : `${x}%`)
       .xAxisLabel("Original Budget");
 

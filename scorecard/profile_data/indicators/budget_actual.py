@@ -4,22 +4,6 @@ from functools import reduce
 from collections import defaultdict
 
 
-def none_subtract(a, b):
-    if a is None:
-        return None
-    if b is None:
-        return None
-    return a - b
-
-
-def none_percent(numerator, denominator):
-    if numerator is None:
-        return None
-    if denominator is None:
-        return None
-    return percent(numerator, denominator)
-
-
 def make_time_series_reducer(budget_year):
     def time_series_reducer(accumulator, current_value):
         reporting_year = current_value["financial_year_end.year"]
@@ -42,17 +26,6 @@ def make_time_series_reducer(budget_year):
         return [*accumulator, current_value]
 
     return time_series_reducer
-
-
-def make_year_phase_group_key(group_lookup):
-    def year_phase_group_key(d):
-        return (
-            d["financial_year_end.year"],
-            d["amount_type.code"],
-            group_lookup[d["item.code"]],
-        )
-
-    return year_phase_group_key
 
 
 def combine_versions(v1, v2):
@@ -93,6 +66,33 @@ class SpendingTimeSeries(TimeSeriesCalculator):
     v2_api_data_key = "expenditure_annual_totals_v2"
 
 
+def none_subtract(a, b):
+    if a is None:
+        return None
+    if b is None:
+        return None
+    return a - b
+
+
+def none_percent(numerator, denominator):
+    if numerator is None:
+        return None
+    if denominator is None:
+        return None
+    return percent(numerator, denominator)
+
+
+def make_year_group_phase_key(group_lookup):
+    def year_phase_group_key(d):
+        return (
+            d["financial_year_end.year"],
+            group_lookup[d["item.code"]],
+            d["amount_type.code"],
+        )
+
+    return year_phase_group_key
+
+
 class AdjustmentsCalculator(IndicatorCalculator):
     """
     For each year with at least some data, we should emit adjustment items for those items.
@@ -102,71 +102,65 @@ class AdjustmentsCalculator(IndicatorCalculator):
     has_comparisons = False
 
     @classmethod
-    def get_muni_specifics(cls, api_data):
-        v1_group_key = make_year_phase_group_key(cls.v1_group_lookup)
-        v2_group_key = make_year_phase_group_key(cls.v2_group_lookup)
+    def group_sum_items(cls, api_data):
+        v1_group_key = make_year_group_phase_key(cls.v1_group_lookup)
+        v2_group_key = make_year_group_phase_key(cls.v2_group_lookup)
         v1_grouped = group_by(api_data.results[cls.v1_api_data_key], v1_group_key)
         v2_grouped = group_by(api_data.results[cls.v2_api_data_key], v2_group_key)
 
         # Defaultdict to treat missing values as zero
-        v1_year_phase_group = defaultdict(
+        v1_year_grouplabel_phase = defaultdict(
             lambda: defaultdict(lambda: defaultdict(lambda: None))
         )
-        v2_year_phase_group = defaultdict(
+        v2_year_grouplabel_phase = defaultdict(
             lambda: defaultdict(lambda: defaultdict(lambda: None))
         )
-        year_group = defaultdict(lambda: set())
 
         # sum up items in a group
-        for (year, phase, group_label), items in v1_grouped.items():
-            v1_year_phase_group[year][phase][group_label] = sum(
+        for (year, group_label, phase), items in v1_grouped.items():
+            v1_year_grouplabel_phase[year][group_label][phase] = sum(
                 i["amount.sum"] for i in items
             )
-        for (year, phase, group_label), items in v2_grouped.items():
-            v2_year_phase_group[year][phase][group_label] = sum(
+        for (year, group_label, phase), items in v2_grouped.items():
+            v2_year_grouplabel_phase[year][group_label][phase] = sum(
                 i["amount.sum"] for i in items
             )
 
         # Combine v1 and v2 data.
         # Prefer entire year in v2 over that year in v1.
-        year_phase_group = v1_year_phase_group.copy()
-        year_phase_group.update(v2_year_phase_group)
+        year_grouplabel_phase = v1_year_grouplabel_phase.copy()
+        year_grouplabel_phase.update(v2_year_grouplabel_phase)
+        return year_grouplabel_phase
 
-        # track distinct group labels in each year
-        for year, phase_group in year_phase_group.items():
-            for phase, group_sum in phase_group.items():
-                for group in phase_group.keys():
-                    year_group[year].add(group_label)
-
+    @classmethod
+    def calculate_adjustments(cls, year_grouplabel_phase_sum):
         results = dict()
-        for year in year_group.keys():
+        for year, grouplabel_phase in year_grouplabel_phase_sum.items():
             results[year] = []
-            for group_label in year_group[year]:
-                budget = year_phase_group[year]["ORGB"][group_label]
-                adjusted = year_phase_group[year]["ADJB"][group_label]
-                adj_change = none_subtract(adjusted, budget)
-                results[year].append(
-                    {
-                        "item": group_label,
-                        "comparison": "Original to adjusted budget",
-                        "amount": adj_change,
-                        "percent_changed": none_percent(adj_change, budget)
-                        if budget
-                        else None,
-                    }
-                )
-                audited = year_phase_group[year]["AUDA"][group_label]
-                aud_change = none_subtract(audited, budget)
-                results[year].append(
-                    {
-                        "item": group_label,
-                        "comparison": "Original budget to audited outcome",
-                        "amount": aud_change,
-                        "percent_changed": none_percent(aud_change, budget)
-                        if budget
-                        else None,
-                    }
-                )
+            for group_label in grouplabel_phase.keys():
+                budget = year_grouplabel_phase_sum[year][group_label]["ORGB"]
+                adjusted = year_grouplabel_phase_sum[year][group_label]["ADJB"]
+                adjusted_change = none_subtract(adjusted, budget)
+                results[year].append({
+                    "item": group_label,
+                    "comparison": "Original to adjusted budget",
+                    "amount": adjusted_change,
+                    "percent_changed": none_percent(adjusted_change, budget),
+                })
+                audited = year_grouplabel_phase_sum[year][group_label]["AUDA"]
+                audited_change = none_subtract(audited, budget)
+                results[year].append({
+                    "item": group_label,
+                    "comparison": "Original budget to audited outcome",
+                    "amount": audited_change,
+                    "percent_changed": none_percent(audited_change, budget),
+                })
+        return results
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        year_grouplabel_phase_sum = cls.group_sum_items(api_data)
+        results = cls.calculate_adjustments(year_grouplabel_phase_sum)
         return results
 
 
@@ -211,7 +205,7 @@ class IncomeAdjustments(AdjustmentsCalculator):
 
 class SpendingAdjustments(AdjustmentsCalculator):
     name = "spending_adjustments"
-    v1_api_data_key = "expenditure_budget_actual_v2"
+    v1_api_data_key = "expenditure_budget_actual_v1"
     v2_api_data_key = "expenditure_budget_actual_v2"
     v1_group_lookup = {
         "3000": "Employee related costs",
