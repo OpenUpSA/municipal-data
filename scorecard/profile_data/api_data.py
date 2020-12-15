@@ -673,11 +673,25 @@ class ApiData(object):
                 "results_structure": self.noop_structure,
                 "split_on_budget": True,
             },
-            "revenue_budget_actual": {
+            "revenue_budget_actual_v1": {
                 "cube": "incexp",
                 "aggregate": "amount.sum",
                 "cut": {
                     "item.code": [*V1_INCOME_LOCAL_CODES, *V1_INCOME_TRANSFERS_CODES],
+                    "amount_type.code": ["ORGB", "ADJB", "AUDA"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years,
+                },
+                "drilldown": YEAR_ITEM_DRILLDOWN + ["item.label", "amount_type.code"],
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+            },
+            "revenue_budget_actual_v2": {
+                "cube": "incexp",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": [*V2_INCOME_LOCAL_CODES, *V2_INCOME_TRANSFERS_CODES],
                     "amount_type.code": ["ORGB", "ADJB", "AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],

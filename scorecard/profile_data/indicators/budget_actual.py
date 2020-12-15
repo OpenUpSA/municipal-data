@@ -4,6 +4,22 @@ from functools import reduce
 from collections import defaultdict
 
 
+def none_subtract(a, b):
+    if a is None:
+        return None
+    if b is None:
+        return None
+    return a - b
+
+
+def none_percent(numerator, denominator):
+    if numerator is None:
+        return None
+    if denominator is None:
+        return None
+    return percent(numerator, denominator)
+
+
 def make_time_series_reducer(budget_year):
     def time_series_reducer(accumulator, current_value):
         reporting_year = current_value["financial_year_end.year"]
@@ -78,22 +94,49 @@ class SpendingTimeSeries(TimeSeriesCalculator):
 
 
 class AdjustmentsCalculator(IndicatorCalculator):
+    """
+    For each year with at least some data, we should emit adjustment items for those items.
+    If ORGB is missing, all adjustments will be None - unknown.
+    If ADJB or ADUA is missing, those adjustments will be None - unknown.
+    """
     has_comparisons = False
 
     @classmethod
     def get_muni_specifics(cls, api_data):
-        group_key = make_year_phase_group_key(cls.group_lookup)
-        grouped = group_by(api_data.results[cls.api_data_key], group_key)
-        year_phase_group = defaultdict(
-            lambda: defaultdict(lambda: defaultdict(lambda: 0))
+        v1_group_key = make_year_phase_group_key(cls.v1_group_lookup)
+        v2_group_key = make_year_phase_group_key(cls.v2_group_lookup)
+        v1_grouped = group_by(api_data.results[cls.v1_api_data_key], v1_group_key)
+        v2_grouped = group_by(api_data.results[cls.v2_api_data_key], v2_group_key)
+
+        # Defaultdict to treat missing values as zero
+        v1_year_phase_group = defaultdict(
+            lambda: defaultdict(lambda: defaultdict(lambda: None))
+        )
+        v2_year_phase_group = defaultdict(
+            lambda: defaultdict(lambda: defaultdict(lambda: None))
         )
         year_group = defaultdict(lambda: set())
-        # sum up items in a group and track distinct group labels in each year
-        for (year, phase, group_label), items in grouped.items():
-            year_phase_group[year][phase][group_label] = sum(
+
+        # sum up items in a group
+        for (year, phase, group_label), items in v1_grouped.items():
+            v1_year_phase_group[year][phase][group_label] = sum(
                 i["amount.sum"] for i in items
             )
-            year_group[year].add(group_label)
+        for (year, phase, group_label), items in v2_grouped.items():
+            v2_year_phase_group[year][phase][group_label] = sum(
+                i["amount.sum"] for i in items
+            )
+
+        # Combine v1 and v2 data.
+        # Prefer entire year in v2 over that year in v1.
+        year_phase_group = v1_year_phase_group.copy()
+        year_phase_group.update(v2_year_phase_group)
+
+        # track distinct group labels in each year
+        for year, phase_group in year_phase_group.items():
+            for phase, group_sum in phase_group.items():
+                for group in phase_group.keys():
+                    year_group[year].add(group_label)
 
         results = dict()
         for year in year_group.keys():
@@ -101,23 +144,25 @@ class AdjustmentsCalculator(IndicatorCalculator):
             for group_label in year_group[year]:
                 budget = year_phase_group[year]["ORGB"][group_label]
                 adjusted = year_phase_group[year]["ADJB"][group_label]
+                adj_change = none_subtract(adjusted, budget)
                 results[year].append(
                     {
                         "item": group_label,
                         "comparison": "Original to adjusted budget",
-                        "amount": adjusted - budget,
-                        "percent_changed": percent(adjusted - budget, budget)
+                        "amount": adj_change,
+                        "percent_changed": none_percent(adj_change, budget)
                         if budget
                         else None,
                     }
                 )
                 audited = year_phase_group[year]["AUDA"][group_label]
+                aud_change = none_subtract(audited, budget)
                 results[year].append(
                     {
                         "item": group_label,
                         "comparison": "Original budget to audited outcome",
-                        "amount": audited - budget,
-                        "percent_changed": percent(audited - budget, budget)
+                        "amount": aud_change,
+                        "percent_changed": none_percent(aud_change, budget)
                         if budget
                         else None,
                     }
@@ -127,46 +172,76 @@ class AdjustmentsCalculator(IndicatorCalculator):
 
 class IncomeAdjustments(AdjustmentsCalculator):
     name = "income_adjustments"
-    api_data_key = "revenue_budget_actual"
-    groups = [
-        ("Property rates", ["0200", "0300"]),
-        ("Service Charges", ["0400"]),
-        ("Rental income", ["0700"]),
-        ("Interest and investments", ["0800", "1000", "1100"]),
-        ("Fines", ["1300"]),
-        ("Licenses and Permits", ["1400"]),
-        ("Other", ["1700", "1800", "1500"]),
-        ("Government Transfers", ["1600", "1610"]),
-    ]
-    group_lookup = dict()
-    for label, codes in groups:
-        for code in codes:
-            group_lookup[code] = label
+    v1_api_data_key = "revenue_budget_actual_v1"
+    v2_api_data_key = "revenue_budget_actual_v2"
+    v1_group_lookup = {
+        "0200": "Property rates",
+        "0300": "Property rates",
+        "0400": "Service Charges",
+        "0700": "Rental income",
+        "0800": "Interest and investments",
+        "1000": "Interest and investments",
+        "1100": "Interest and investments",
+        "1300": "Fines",
+        "1400": "Licenses and Permits",
+        "1700": "Other",
+        "1800": "Other",
+        "1500": "Other",
+        "1600": "Government Transfers",
+        "1610": "Government Transfers",
+    }
+    v2_group_lookup = {
+        "0200": "Property rates",
+        "0300": "Service Charges",
+        "0400": "Service Charges",
+        "0500": "Service Charges",
+        "0600": "Service Charges",
+        "0800": "Rental income",
+        "0900": "Interest and investments",
+        "1000": "Interest and investments",
+        "1100": "Interest and investments",
+        "1200": "Fines",
+        "1300": "Licenses and Permits",
+        "1400": "Other",
+        "1600": "Other",
+        "1700": "Other",
+        "1500": "Government Transfers",
+    }
 
 
 class SpendingAdjustments(AdjustmentsCalculator):
     name = "spending_adjustments"
-    api_data_key = "expenditure_budget_actual"
-    groups = [
-        ("Employee related costs", ["3000", "3100", "3200", "3300"]),
-        ("Remuneration of councillors", ["3400"]),
-        ("Finance charges", ["3600", "3900", "4000"]),
-        ("Bulk purchases", ["4100"]),
-        ("Contracted services", ["4200"]),
-        ("Transfers and subsidies", ["4300"]),
-        (
-            "Other",
-            [
-                "3500",
-                "3700",
-                "4110",
-                "4400",
-                "4500",
-                "4550",
-            ],
-        ),
-    ]
-    group_lookup = dict()
-    for label, codes in groups:
-        for code in codes:
-            group_lookup[code] = label
+    v1_api_data_key = "expenditure_budget_actual_v2"
+    v2_api_data_key = "expenditure_budget_actual_v2"
+    v1_group_lookup = {
+        "3000": "Employee related costs",
+        "3100": "Employee related costs",
+        "3200": "Employee related costs",
+        "3300": "Employee related costs",
+        "3400": "Remuneration of councillors",
+        "3600": "Finance charges",
+        "3900": "Finance charges",
+        "4000": "Finance charges",
+        "4100": "Bulk purchases",
+        "4200": "Contracted services",
+        "4300": "Transfers and subsidies",
+        "3500": "Other",
+        "3700": "Other",
+        "4110": "Other",
+        "4400": "Other",
+        "4500": "Other",
+        "4550": "Other",
+    }
+    v2_group_lookup = {
+        "2000": "Employee related costs",
+        "2100": "Remuneration of councillors",
+        "2400": "Finance charges",
+        "2500": "Bulk purchases",
+        "2700": "Contracted services",
+        "2800": "Transfers and subsidies",
+        "2200": "Other",
+        "2300": "Other",
+        "2600": "Other",
+        "2900": "Other",
+        "3000": "Other",
+    }
