@@ -39,26 +39,42 @@ def make_year_phase_group_key(group_lookup):
     return year_phase_group_key
 
 
+def combine_versions(v1, v2):
+    key =  lambda item: (item["financial_year_end.year"], item["amount_type.code"])
+    unique_year_phases = set()
+    for item in v2:
+        unique_year_phases.add(key(item))
+
+    def filter_function(item):
+        return key(item) not in unique_year_phases
+
+    return [*filter(filter_function, v1), *v2]
+
+
 class TimeSeriesCalculator(IndicatorCalculator):
     has_comparisons = False
 
     @classmethod
     def get_muni_specifics(cls, api_data):
-        # budget_year - 1 temporarily because IBY1 and 2 are not available for budget year
-        # at the moment with the mSCOA transition
-        reducer = make_time_series_reducer(api_data.budget_year - 1)
-        items = reduce(reducer, api_data.results[cls.api_data_key], [])
+        reducer = make_time_series_reducer(api_data.budget_year)
+        combined_data = combine_versions(
+            api_data.results[cls.v1_api_data_key],
+            api_data.results[cls.v2_api_data_key]
+        )
+        items = reduce(reducer, combined_data, [])
         return items
 
 
 class IncomeTimeSeries(TimeSeriesCalculator):
     name = "income_time_series"
-    api_data_key = "revenue_annual_totals"
+    v1_api_data_key = "revenue_annual_totals_v1"
+    v2_api_data_key = "revenue_annual_totals_v2"
 
 
 class SpendingTimeSeries(TimeSeriesCalculator):
     name = "spending_time_series"
-    api_data_key = "expenditure_annual_totals"
+    v1_api_data_key = "expenditure_annual_totals_v1"
+    v2_api_data_key = "expenditure_annual_totals_v2"
 
 
 class AdjustmentsCalculator(IndicatorCalculator):

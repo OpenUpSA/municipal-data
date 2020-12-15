@@ -11,6 +11,7 @@ YEAR_ITEM_DRILLDOWN = [
     "item.code",
     "financial_year_end.year",
 ]
+
 V1_INCOME_TOTAL_CODE = "1900"
 V1_INCOME_LOCAL_CODES = [
     "0200", "0300", "0400", "0700", "0800", "1000",
@@ -22,10 +23,24 @@ V1_INCOME_ITEMS = [
     *V1_INCOME_TRANSFERS_CODES,
     V1_INCOME_TOTAL_CODE
 ]
+V2_INCOME_LOCAL_CODES = [
+    "0200", "0300", "0400", "0500", "0600", "0800", "0900", "1000", "1100",
+    "1200", "1300", "1400", "1600", "1700",
+]
+V2_INCOME_TRANSFERS_CODES = ["1500"]
+V2_INCOME_ITEMS = [
+    *V2_INCOME_LOCAL_CODES,
+    *V2_INCOME_TRANSFERS_CODES,
+]
+
 V1_SPENDING_TOTAL_CODE = "4600"
 V1_SPENDING_CODES = [
     "3000", "3100", "3200", "3300", "3400", "3600", "3900", "4000", "4100",
     "4200", "4300", "3500", "3700", "4110", "4400", "4500", "4550",
+]
+V2_SPENDING_CODES = [
+    "2000", "2100", "2200", "2300", "2400", "2500", "2600", "2700", "2800",
+    "2900", "3000",
 ]
 
 def generate_target_years(origin_year):
@@ -672,7 +687,7 @@ class ApiData(object):
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
             },
-            "revenue_annual_totals": {
+            "revenue_annual_totals_v1": {
                 "cube": "incexp",
                 "aggregate": "amount.sum",
                 "cut": {
@@ -685,9 +700,24 @@ class ApiData(object):
                 "drilldown": ["financial_year_end.year", "amount_type.code", "amount_type.label"],
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
-                "order": "amount_type.code:asc",
+                "order": "amount_type.code:asc,financial_year_end.year:asc",
             },
-            "expenditure_annual_totals": {
+            "revenue_annual_totals_v2": {
+                "cube": "incexp_v2",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": V2_INCOME_ITEMS,
+                    "amount_type.code": ["ORGB", "ADJB", "AUDA", "IBY1", "IBY2"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years + [self.budget_year],
+                },
+                "drilldown": ["financial_year_end.year", "amount_type.code", "amount_type.label"],
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+                "order": "amount_type.code:asc,financial_year_end.year:asc",
+            },
+            "expenditure_annual_totals_v1": {
                 "cube": "incexp",
                 "aggregate": "amount.sum",
                 "cut": {
@@ -700,7 +730,22 @@ class ApiData(object):
                 "drilldown": ["financial_year_end.year", "amount_type.code", "amount_type.label"],
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
-                "order": "amount_type.code:asc",
+                "order": "amount_type.code:asc,financial_year_end.year:asc",
+            },
+            "expenditure_annual_totals_v2": {
+                "cube": "incexp_v2",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": V2_SPENDING_CODES,
+                    "amount_type.code": ["ORGB", "ADJB", "AUDA", "IBY1", "IBY2"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years + [self.budget_year],
+                },
+                "drilldown": ["financial_year_end.year", "amount_type.code", "amount_type.label"],
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+                "order": "amount_type.code:asc,financial_year_end.year:asc",
             },
             "expenditure_budget_actual": {
                 "cube": "incexp",
