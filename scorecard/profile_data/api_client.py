@@ -11,7 +11,7 @@ class ApiClient(object):
         self.get = get
         self.api_url = api_url + "/cubes/"
 
-    def api_get(self, query):
+    def api_get(self, query, debug_key=None):
         if query["query_type"] == "aggregate":
             url = self.api_url + query["cube"] + "/aggregate"
             params = {
@@ -39,7 +39,7 @@ class ApiClient(object):
 
         params["pagesize"] = 20000
 
-        logger.debug("API query %s?%s" % (url, urllib.parse.urlencode(params)))
+        logger.info("API query %s %s?%s" % (debug_key, url, urllib.parse.urlencode(params)))
         return self.get(url, params)
 
     def format_cut_param(self, cuts):
