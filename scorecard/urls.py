@@ -16,7 +16,7 @@ router.register(r"municipality-profile", views.MunicipalityProfileViewSet)
 
 # This cache is reset on each deployment. Corresponding caching headers are
 # sent to the client, too.
-CACHE_SECS = 12 * 60 * 60
+CACHE_SECS = 2 * 60 # 2 minutes
 
 def trigger_error(request):
     division_by_zero = 1 / 0

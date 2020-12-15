@@ -10,8 +10,8 @@ from . import (
 )
 from .resources import (
     GeographyResource,
-    CashflowFactsV1Resource,
-    CashflowFactsV2Resource,
+    CashFlowFactsV1Resource,
+    CashFlowFactsV2Resource,
 )
 
 
@@ -24,11 +24,11 @@ class TestCashBalance(_IndicatorTestCase):
             'cash_balance/scorecard_geography.csv'
         )
         import_data(
-            CashflowFactsV1Resource,
+            CashFlowFactsV1Resource,
             'cash_balance/cash_flow_facts_v1.csv'
         )
         import_data(
-            CashflowFactsV2Resource,
+            CashFlowFactsV2Resource,
             'cash_balance/cash_flow_facts_v2.csv'
         )
         # Fetch data from API
