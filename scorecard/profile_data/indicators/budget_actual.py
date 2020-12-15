@@ -56,9 +56,7 @@ class TimeSeriesCalculator(IndicatorCalculator):
 
     @classmethod
     def get_muni_specifics(cls, api_data):
-        # budget_year - 1 temporarily because IBY1 and 2 are not available for budget year
-        # at the moment with the mSCOA transition
-        reducer = make_time_series_reducer(api_data.budget_year - 1)
+        reducer = make_time_series_reducer(api_data.budget_year)
         combined_data = combine_versions(
             api_data.results[cls.v1_api_data_key],
             api_data.results[cls.v2_api_data_key]
@@ -75,7 +73,7 @@ class IncomeTimeSeries(TimeSeriesCalculator):
 
 class SpendingTimeSeries(TimeSeriesCalculator):
     name = "spending_time_series"
-    v1_api_data_key = "expenditure_annual_totals_v2"
+    v1_api_data_key = "expenditure_annual_totals_v1"
     v2_api_data_key = "expenditure_annual_totals_v2"
 
 

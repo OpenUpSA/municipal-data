@@ -700,7 +700,7 @@ class ApiData(object):
                 "drilldown": ["financial_year_end.year", "amount_type.code", "amount_type.label"],
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
-                "order": "amount_type.code:asc",
+                "order": "amount_type.code:asc,financial_year_end.year:asc",
             },
             "revenue_annual_totals_v2": {
                 "cube": "incexp_v2",
@@ -715,7 +715,7 @@ class ApiData(object):
                 "drilldown": ["financial_year_end.year", "amount_type.code", "amount_type.label"],
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
-                "order": "amount_type.code:asc",
+                "order": "amount_type.code:asc,financial_year_end.year:asc",
             },
             "expenditure_annual_totals_v1": {
                 "cube": "incexp",
@@ -730,7 +730,7 @@ class ApiData(object):
                 "drilldown": ["financial_year_end.year", "amount_type.code", "amount_type.label"],
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
-                "order": "amount_type.code:asc",
+                "order": "amount_type.code:asc,financial_year_end.year:asc",
             },
             "expenditure_annual_totals_v2": {
                 "cube": "incexp_v2",
@@ -745,7 +745,7 @@ class ApiData(object):
                 "drilldown": ["financial_year_end.year", "amount_type.code", "amount_type.label"],
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
-                "order": "amount_type.code:asc",
+                "order": "amount_type.code:asc,financial_year_end.year:asc",
             },
             "expenditure_budget_actual": {
                 "cube": "incexp",
