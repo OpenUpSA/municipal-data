@@ -175,18 +175,26 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
 
     @classmethod
     def get_muni_specifics(cls, api_data):
+        v1_results = group_by(api_data.results["expenditure_breakdown_v1"], year_key)
+        v2_results = group_by(api_data.results["expenditure_breakdown_v2"], year_key)
+
         values = []
 
         for year in api_data.years:
             try:
-                total = api_data.results["expenditure_breakdown"]["4600"][year]
-            except KeyError:
-                total = None
+                if year in v2_results:
+                    results = v2_results[year]
+                    contracting_code = "2700"
+                else:
+                    results = v1_results[year]
+                    contracting_code = "4200"
 
-            try:
-                contracting = percent(
-                    api_data.results["expenditure_breakdown"]["4200"][year], total
-                )
+                total = sum(x["amount.sum"] for x in results)
+                contracting_items = [x["amount.sum"] for x in results if x["item.code"] == contracting_code]
+                contracting = percent(contracting_items[0], total)
+                # Prefer KeyError but crash before we use it in case we have more than expectexd
+                assert len(contracting_items) <= 1
+
             except KeyError:
                 contracting = None
 
@@ -208,20 +216,28 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
 
     @classmethod
     def get_muni_specifics(cls, api_data):
+        v1_results = group_by(api_data.results["expenditure_breakdown_v1"], year_key)
+        v2_results = group_by(api_data.results["expenditure_breakdown_v2"], year_key)
+
         values = []
 
         for year in api_data.years:
             try:
-                total = api_data.results["expenditure_breakdown"]["4600"][year]
-            except KeyError:
-                total = None
+                if year in v2_results:
+                    results = v2_results[year]
+                    staff_codes = ["2000"]
+                else:
+                    results = v1_results[year]
+                    staff_codes = ["3000", "3100"]
 
-            try:
-                staff = percent(
-                    api_data.results["expenditure_breakdown"]["3000"][year]
-                    + api_data.results["expenditure_breakdown"]["3100"][year],
-                    total,
-                )
+                total = sum(x["amount.sum"] for x in results)
+                by_item = group_by(results, lambda x: x["item.code"])
+                staff_total = 0
+                for code in staff_codes:
+                    staff_total += by_item[code][0]["amount.sum"]
+                    assert len(by_item[code]) == 1
+
+                staff = percent(staff_total, total)
             except KeyError:
                 staff = None
 
@@ -253,9 +269,11 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         grouped_results = []
 
         for year, yeargroup in groupby(results, lambda r: r["financial_year_end.year"]):
+            yeargroup_list = list(yeargroup)
+            if len(yeargroup_list) == 0:
+                continue
+            total = sum(x["amount.sum"] for x in yeargroup_list)
             try:
-                # Skip an entire year if total is missing, suggesting the year is missing
-                total = api_data.results["expenditure_breakdown"]["4600"][year]
                 GAPD_total = 0.0
                 year_name = (
                     "%d" % year
@@ -263,7 +281,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                     else ("%s budget" % year)
                 )
 
-                for result in yeargroup:
+                for result in yeargroup_list:
                     # only do budget for budget year, use AUDA for others
                     if api_data.check_budget_actual(year, result["amount_type.code"]):
                         if result["function.category_label"] in GAPD_categories:
@@ -286,7 +304,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                         "date": year_name,
                     }
                 )
-            except KeyError:
+            except (KeyError, IndexError):
                 continue
 
         grouped_results = sorted(

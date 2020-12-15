@@ -4,10 +4,10 @@ V1_INCOME_LOCAL_CODES = [
     "1100", "1300", "1400", "1500", "1700", "1800"
 ]
 V1_INCOME_TRANSFERS_CODES = ["1600", "1610"]
+# Excludes total code for consistency with v2
 V1_INCOME_ITEMS = [
     *V1_INCOME_LOCAL_CODES,
     *V1_INCOME_TRANSFERS_CODES,
-    V1_INCOME_TOTAL_CODE
 ]
 V2_INCOME_LOCAL_CODES = [
     "0200", "0300", "0400", "0500", "0600", "0800", "0900", "1000", "1100",
