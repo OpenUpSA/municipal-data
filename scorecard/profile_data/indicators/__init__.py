@@ -22,6 +22,7 @@ from .codes import (
     V2_INCOME_LOCAL_CODES,
     V2_INCOME_TRANSFERS_CODES,
 )
+from collections import defaultdict
 
 def get_indicator_calculators(has_comparisons=None):
     calculators = [
@@ -120,17 +121,9 @@ class LocalRevenueBreakdown(IndicatorCalculator):
             ("Agency services", ["1500"]),
             ("Other", ["1700", "1800"]),
         ]
-        results = {}
-        # Structure as {'2015': {'1900': {'AUDA': ..., 'ORGB': ...}, '0200': ...}, '2016': ...}
+        results = defaultdict(lambda: dict())
         for item in api_data.results["revenue_breakdown_v1"]:
-            if item["financial_year_end.year"] not in results:
-                results[item["financial_year_end.year"]] = {}
-            if item["item.code"] not in results[item["financial_year_end.year"]]:
-                results[item["financial_year_end.year"]
-                        ][item["item.code"]] = {}
-            results[item["financial_year_end.year"]][item["item.code"]][
-                item["amount_type.code"]
-            ] = item
+            results[year_key(item)][item["item.code"]] = item
         values = []
         for year in api_data.years:
             year_name = "%d" % year
@@ -139,7 +132,7 @@ class LocalRevenueBreakdown(IndicatorCalculator):
                 for (label, codes) in groups:
                     amount = 0
                     for code in codes:
-                        amount += results[year][code][amount_type]["amount.sum"]
+                        amount += results[year][code]["amount.sum"]
                     values.append(
                         {
                             "item": label,
