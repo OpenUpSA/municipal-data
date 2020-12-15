@@ -776,7 +776,7 @@ class ApiData(object):
                 "results_structure": self.noop_structure,
             },
             "expenditure_budget_actual_v2": {
-                "cube": "incexp",
+                "cube": "incexp_v2",
                 "aggregate": "amount.sum",
                 "cut": {
                     "item.code": [*V2_SPENDING_CODES],
