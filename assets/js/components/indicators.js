@@ -37,6 +37,7 @@ export class IndicatorSection {
     const chartContainerSelector = `${this.selector} .indicator-chart`;
     this.chart = new ColumnChart(chartContainerSelector, [this.chartData()]);
     this.chartContainer = $(chartContainerSelector);
+    this.chartContainer.addClass("column-chart");
     this.chartContainerParent = $(chartContainerSelector).parent();
 
     this._initAverageButtons();
