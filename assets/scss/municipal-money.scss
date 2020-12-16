@@ -3,43 +3,12 @@
 @import 'municipal-money-charts/src/components/MunicipalCharts/PercentageStackedChart.scss';
 @import 'municipal-money-charts/src/components/MunicipalCharts/GroupedBarChart.scss';
 @import 'municipal-money-charts/src/components/MunicipalCharts/GroupedIntensityBarChart.scss';
+@import 'municipal-money-charts/src/components/MunicipalCharts/ColumnChart.css';
 
 
 .leaflet-objects-pane {
     position: relative;
     top: 15px;
-}
-
-.indicator-chart {
-
-    .axis path,
-    .axis .tick line,
-    .grid path {
-
-        display: none
-    }
-
-    .grid .tick {
-        opacity: 0.1
-    }
-
-
-    .focus .rect {
-        fill: rgba(0,0,0,0.5)
-    }
-
-    .focus .label {
-        opacity: 1
-    }
-
-
-    .focus .labelBackground {
-        opacity: 1;
-        filter:url(#shadow);
-    }
-
-    font-size: 12px;
-
 }
 
 p .button {
