@@ -4,18 +4,14 @@
 @import 'municipal-money-charts/src/components/MunicipalCharts/GroupedBarChart.scss';
 @import 'municipal-money-charts/src/components/MunicipalCharts/GroupedIntensityBarChart.scss';
 
-
-.leaflet-objects-pane {
-    position: relative;
-    top: 15px;
-}
-
-.indicator-chart {
+.column-chart {
+    .axis {
+        font: 13px sans-serif;
+    }
 
     .axis path,
     .axis .tick line,
     .grid path {
-
         display: none
     }
 
@@ -24,22 +20,34 @@
     }
 
 
-    .focus .rect {
+    .rect.focus  {
         fill: rgba(0,0,0,0.5)
     }
 
-    .focus .label {
+
+
+    .label.focus {
         opacity: 1
     }
 
+    .label {
+        font-size: 12px;
+        opacity: 0
+    }
 
-    .focus .labelBackground {
+    .labelBackground {
+        opacity: 0;
+    }
+
+    .labelBackground.focus  {
         opacity: 1;
         filter:url(#shadow);
     }
+}
 
-    font-size: 12px;
-
+.leaflet-objects-pane {
+    position: relative;
+    top: 15px;
 }
 
 p .button {

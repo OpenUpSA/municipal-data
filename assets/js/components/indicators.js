@@ -1,5 +1,5 @@
 import { logIfUnequal, formatFinancialYear, ratingColor, formatForType } from '../utils.js';
-import ColumnChart from './charts/column.js';
+import ColumnChart from 'municipal-money-charts/src/components/MunicipalCharts/ColumnChart.js';
 import ComparisonMenu from './comparison-menu';
 import "core-js/stable";
 import "regenerator-runtime/runtime";
@@ -37,6 +37,7 @@ export class IndicatorSection {
     const chartContainerSelector = `${this.selector} .indicator-chart`;
     this.chart = new ColumnChart(chartContainerSelector, [this.chartData()]);
     this.chartContainer = $(chartContainerSelector);
+    this.chartContainer.addClass("column-chart");
     this.chartContainerParent = $(chartContainerSelector).parent();
 
     this._initAverageButtons();
@@ -187,7 +188,6 @@ export class IndicatorSection {
     [this.chartData(), ...(this.comparisons)].forEach((comparison) => {
       const button = $(' <button class="button" style="display: unset; margin: 2px 2px"></button> ');
       button.click(() => {
-        this.chart.resetHighlight();
         this.chart.highlightCol(comparison.municipality.code);
         ga('send', 'event', 'chart-compare-highlight', `${this.key} ${comparison.municipality.code}`);
       });
