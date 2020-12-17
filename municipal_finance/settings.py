@@ -155,12 +155,6 @@ ROOT_URLCONF = "municipal_finance.urls"
 
 WSGI_APPLICATION = "municipal_finance.wsgi.application"
 
-
-# Database
-os.environ["PGOPTIONS"] = "-c statement_timeout=" + os.environ.get(
-    "DB_STMT_TIMEOUT", "30000"
-)
-
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASE_URL = os.environ.get(
