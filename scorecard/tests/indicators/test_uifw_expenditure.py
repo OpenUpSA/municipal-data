@@ -12,7 +12,7 @@ from .resources import (
     GeographyResource,
     IncexpFactsV2Resource,
     IncexpFactsV1Resource,
-    UIFWExpenditureFactsResource,
+    UIFWExpenseFactsResource,
 )
 
 
@@ -25,7 +25,7 @@ class TestUIFWExpenditure(_IndicatorTestCase):
             'uifw_expenditure/scorecard_geography.csv',
         )
         import_data(
-            UIFWExpenditureFactsResource,
+            UIFWExpenseFactsResource,
             'uifw_expenditure/uifw_expenditure_facts.csv',
         )
         import_data(

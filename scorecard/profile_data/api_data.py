@@ -336,7 +336,7 @@ class ApiData(object):
                 "results_structure": self.noop_structure,
             },
             "property_plant_equipment_v2": {
-                "cube": "bsheet_v2",
+                "cube": "financial_position_v2",
                 "aggregate": "amount.sum",
                 "cut": {
                     "item.code": ["0240"],
@@ -351,7 +351,7 @@ class ApiData(object):
                 "results_structure": self.noop_structure,
             },
             "investment_property_v2": {
-                "cube": "bsheet_v2",
+                "cube": "financial_position_v2",
                 "aggregate": "amount.sum",
                 "cut": {
                     "item.code": ["0220"],
@@ -539,8 +539,8 @@ class ApiData(object):
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
             },
-            "bsheet_auda_years_v2": {
-                "cube": "bsheet_v2",
+            "financial_position_auda_years_v2": {
+                "cube": "financial_position_v2",
                 "aggregate": "amount.sum",
                 "cut": {
                     "item.code": [

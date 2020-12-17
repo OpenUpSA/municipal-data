@@ -11,7 +11,7 @@ from . import (
 from .resources import (
     GeographyResource,
     BsheetFactsV1Resource,
-    BsheetFactsV2Resource,
+    FinancialPositionFactsV2Resource,
     CapitalFactsV1Resource,
     CapitalFactsV2Resource,
 )
@@ -30,8 +30,8 @@ class TestRepairsMaintenanceSpending(_IndicatorTestCase):
             'repairs_maintenance_spending/bsheet_facts_v1.csv'
         )
         import_data(
-            BsheetFactsV2Resource,
-            'repairs_maintenance_spending/bsheet_facts_v2.csv'
+            FinancialPositionFactsV2Resource,
+            'repairs_maintenance_spending/financial_position_facts_v2.csv'
         )
         import_data(
             CapitalFactsV1Resource,

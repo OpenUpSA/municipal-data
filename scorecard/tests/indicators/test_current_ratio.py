@@ -10,7 +10,7 @@ from . import (
 )
 from .resources import (
     GeographyResource,
-    BsheetFactsV2Resource,
+    FinancialPositionFactsV2Resource,
     BsheetFactsV1Resource,
 )
 
@@ -21,10 +21,15 @@ class TestCurrentRatio(_IndicatorTestCase):
         # Load sample data
         import_data(GeographyResource, 'current_ratio/scorecard_geography.csv')
         import_data(BsheetFactsV1Resource, 'current_ratio/bsheet_facts_v1.csv')
-        import_data(BsheetFactsV2Resource, 'current_ratio/bsheet_facts_v2.csv')
+        import_data(
+            FinancialPositionFactsV2Resource,
+            'current_ratio/financial_position_facts_v2.csv',
+        )
         # Fetch data from API
         api_data = ApiData(self.api_client, "CPT", 2019, 2019, 2019, "2019q4")
-        api_data.fetch_data(["bsheet_auda_years", "bsheet_auda_years_v2"])
+        api_data.fetch_data([
+            "bsheet_auda_years", "financial_position_auda_years_v2",
+        ])
         # Provide data to indicator
         result = CurrentRatio.get_muni_specifics(api_data)
         self.assertEqual(

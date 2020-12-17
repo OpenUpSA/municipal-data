@@ -1,15 +1,48 @@
+
 from datetime import date
 from argparse import Namespace
+
 from django.contrib import admin
 from django_q.tasks import async_task
+from import_export.admin import ImportExportModelAdmin
 from constance import config
 
 from .models import (
-    MunicipalStaffContactsUpdate,
     MunicipalityProfilesCompilation,
+    MunicipalStaffContactsUpdate,
     IncomeExpenditureV2Update,
     CashFlowV2Update,
     RepairsMaintenanceV2Update,
+    AgedDebtorFactsV2Update,
+    AgedCreditorFactsV2Update,
+    CapitalFactsV2Update,
+    GrantFactsV2Update,
+    FinancialPositionFactsV2Update,
+    UIFWExpenseFactsUpdate,
+    AuditOpinionFactsUpdate,
+    AgedCreditorItemsV2,
+    AgedDebtorItemsV2,
+    CflowItemsV2,
+    IncexpItemsV2,
+    FinancialPositionItemsV2,
+    RepairsMaintenanceItemsV2,
+    CapitalItemsV2,
+    GovernmentFunctionsV2,
+    GrantTypesV2,
+    CapitalTypeV2,
+    DemarcationChanges,
+)
+from .resources import (
+    AgedDebtorItemsV2Resource,
+    AgedCreditorItemsV2Resource,
+    CashflowItemsV2Resource,
+    IncexpItemsV2Resource,
+    CapitalItemsV2Resource,
+    FinancialPositionItemsV2Resource,
+    RepairsMaintenanceItemsV2Resource,
+    GovernmentFunctionsV2Resource,
+    GrantTypesV2Resource,
+    CapitalTypeV2Resource,
 )
 from .settings import API_URL
 
@@ -17,33 +50,33 @@ from .settings import API_URL
 @admin.register(MunicipalityProfilesCompilation)
 class MunicipalityProfilesCompilationAdmin(admin.ModelAdmin):
     list_display = (
-        'datetime',
-        'user',
-        'last_audit_year',
-        'last_opinion_year',
-        'last_uifw_year',
-        'last_audit_quarter',
+        "datetime",
+        "user",
+        "last_audit_year",
+        "last_opinion_year",
+        "last_uifw_year",
+        "last_audit_quarter",
     )
     readonly_fields = (
-        'user',
+        "user",
     )
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(MunicipalityProfilesCompilationAdmin,
                      self).get_form(request, obj, **kwargs)
-        form.base_fields['last_audit_year'].disabled = True
-        form.base_fields['last_opinion_year'].disabled = True
-        form.base_fields['last_uifw_year'].disabled = True
-        form.base_fields['last_audit_quarter'].disabled = True
-        form.base_fields['last_audit_year'].initial = config.LAST_AUDIT_YEAR
-        form.base_fields['last_opinion_year'].initial = config.LAST_OPINION_YEAR
-        form.base_fields['last_uifw_year'].initial = config.LAST_UIFW_YEAR
-        form.base_fields['last_audit_quarter'].initial = config.LAST_AUDIT_QUARTER
+        form.base_fields["last_audit_year"].disabled = True
+        form.base_fields["last_opinion_year"].disabled = True
+        form.base_fields["last_uifw_year"].disabled = True
+        form.base_fields["last_audit_quarter"].disabled = True
+        form.base_fields["last_audit_year"].initial = config.LAST_AUDIT_YEAR
+        form.base_fields["last_opinion_year"].initial = config.LAST_OPINION_YEAR
+        form.base_fields["last_uifw_year"].initial = config.LAST_UIFW_YEAR
+        form.base_fields["last_audit_quarter"].initial = config.LAST_AUDIT_QUARTER
         return form
 
     def get_exclude(self, request, obj=None):
         if obj is None:
-            return ('user',)
+            return ("user",)
         else:
             return super(MunicipalityProfilesCompilationAdmin, self).get_exclude(request, obj)
 
@@ -55,109 +88,156 @@ class MunicipalityProfilesCompilationAdmin(admin.ModelAdmin):
             request, obj, form, change)
         # Queue task
         async_task(
-            'municipal_finance.compile_data.compile_data',
+            "municipal_finance.compile_data.compile_data",
             API_URL,
             obj.last_audit_year,
             obj.last_opinion_year,
             obj.last_uifw_year,
             obj.last_audit_quarter,
-            task_name='Compile data'
+            task_name="Compile data"
         )
 
 
-@admin.register(MunicipalStaffContactsUpdate)
-class MunicipalStaffContactsUpdateAdmin(admin.ModelAdmin):
-    list_display = ('datetime',)
-    readonly_fields = ('user',)
+class BaseUpdateAdmin(admin.ModelAdmin):
+    list_display = ("user", "datetime", "deleted", "inserted",)
+    readonly_fields = ("user", "deleted", "inserted",)
+    task_function = None
+    task_name = None
 
     def get_exclude(self, request, obj=None):
         if obj is None:
-            return ('user',)
+            return ("user",)
         else:
-            return super(MunicipalStaffContactsUpdateAdmin, self).get_exclude(request, obj)
+            return super(BaseUpdateAdmin, self).get_exclude(request, obj)
 
     def save_model(self, request, obj, form, change):
         # Set the user to the current user
         obj.user = request.user
         # Process default save behavior
-        super(MunicipalStaffContactsUpdateAdmin, self).save_model(
+        super(BaseUpdateAdmin, self).save_model(
             request, obj, form, change
         )
         # Queue task
         if not change:
             async_task(
-                'municipal_finance.update.update_municipal_staff_contacts',
+                self.task_function,
                 obj,
-                task_name='Municipal staff contacts update',
+                task_name=self.task_name,
+                batch_size=10000,
             )
 
 
-class BaseUpdateAdmin(admin.ModelAdmin):
-    list_display = ('user', 'datetime', 'deleted', 'inserted',)
-    readonly_fields = ('user', 'deleted', 'inserted',)
+@admin.register(MunicipalStaffContactsUpdate)
+class MunicipalStaffContactsUpdateAdmin(BaseUpdateAdmin):
+    task_function = "municipal_finance.update.update_municipal_staff_contacts"
+    task_name = "Municipal staff contacts update"
 
-    def get_exclude(self, request, obj=None):
-        if obj is None:
-            return ('user',)
-        else:
-            return super(BaseUpdateAdmin, self).get_exclude(request, obj)
+
+@admin.register(UIFWExpenseFactsUpdate)
+class UIFWExpenseFactsUpdateAdmin(BaseUpdateAdmin):
+    task_function = "municipal_finance.update.update_uifw_expense_facts"
+    task_name = "UIFW Expense Facts update"
+
+
+@admin.register(AuditOpinionFactsUpdate)
+class AuditOpinionFactsUpdateAdmin(BaseUpdateAdmin):
+    task_function = "municipal_finance.update.update_audit_opinion_facts"
+    task_name = "Audit Opinion Facts update"
 
 
 @admin.register(IncomeExpenditureV2Update)
 class IncomeExpenditureV2UpdateAdmin(BaseUpdateAdmin):
-
-    def save_model(self, request, obj, form, change):
-        # Set the user to the current user
-        obj.user = request.user
-        # Process default save behavior
-        super(IncomeExpenditureV2UpdateAdmin, self).save_model(
-            request, obj, form, change
-        )
-        # Queue task
-        if not change:
-            async_task(
-                'municipal_finance.update.update_income_expenditure_v2',
-                obj,
-                task_name='Income & Expenditure v2 update',
-                batch_size=10000,
-            )
+    task_function = "municipal_finance.update.update_income_expenditure_v2"
+    task_name = "Income & Expenditure v2 update"
 
 
 @admin.register(CashFlowV2Update)
 class CashFlowV2UpdateAdmin(BaseUpdateAdmin):
-
-    def save_model(self, request, obj, form, change):
-        # Set the user to the current user
-        obj.user = request.user
-        # Process default save behavior
-        super(CashFlowV2UpdateAdmin, self).save_model(
-            request, obj, form, change
-        )
-        # Queue task
-        if not change:
-            async_task(
-                'municipal_finance.update.update_cash_flow_v2',
-                obj,
-                task_name='Cash flow v2 update',
-                batch_size=10000,
-            )
+    task_function = "municipal_finance.update.update_cash_flow_v2"
+    task_name = "Cash flow v2 update"
 
 
 @admin.register(RepairsMaintenanceV2Update)
 class RepairsMaintenanceV2UpdateAdmin(BaseUpdateAdmin):
+    task_function = "municipal_finance.update.update_repairs_maintenance_v2"
+    task_name = "Repairs & Maintenance v2 update"
 
-    def save_model(self, request, obj, form, change):
-        # Set the user to the current user
-        obj.user = request.user
-        # Process default save behavior
-        super(RepairsMaintenanceV2UpdateAdmin, self).save_model(
-            request, obj, form, change
-        )
-        # Queue task
-        if not change:
-            async_task(
-                'municipal_finance.update.update_repairs_maintenance_v2',
-                obj,
-                task_name='Repairs & Maintenance v2 update',
-                batch_size=10000,
-            )
+
+@admin.register(AgedDebtorFactsV2Update)
+class AgedDebtorFactsV2UpdateAdmin(BaseUpdateAdmin):
+    task_function = "municipal_finance.update.update_aged_debtor_facts_v2"
+    task_name = "Aged Debtor Facts v2 update"
+
+
+@admin.register(AgedCreditorFactsV2Update)
+class AgedCreditorFactsV2UpdateAdmin(BaseUpdateAdmin):
+    task_function = "municipal_finance.update.update_aged_creditor_facts_v2"
+    task_name = "Aged Creditor Facts v2 update"
+
+
+@admin.register(CapitalFactsV2Update)
+class CapitalFactsV2UpdateAdmin(BaseUpdateAdmin):
+    task_function = "municipal_finance.update.update_capital_facts_v2"
+    task_name = "Capital Facts v2 update"
+
+
+@admin.register(GrantFactsV2Update)
+class GrantFactsV2UpdateAdmin(BaseUpdateAdmin):
+    task_function = "municipal_finance.update.update_grant_facts_v2"
+    task_name = "Grant Facts v2 update"
+
+
+@admin.register(FinancialPositionFactsV2Update)
+class FinancialPositionFactsV2UpdateAdmin(BaseUpdateAdmin):
+    task_function = "municipal_finance.update.update_financial_position_facts_v2"
+    task_name = "FinancialPosition Facts v2 update"
+
+
+@admin.register(AgedCreditorItemsV2)
+class AgedCreditorItemsV2Admin(ImportExportModelAdmin):
+    resource_class = AgedCreditorItemsV2Resource
+
+
+@admin.register(AgedDebtorItemsV2)
+class AgedDebtorItemsV2Admin(ImportExportModelAdmin):
+    resource_class = AgedDebtorItemsV2Resource
+
+
+@admin.register(CflowItemsV2)
+class CashFlowItemsV2Admin(ImportExportModelAdmin):
+    resource_class = CashflowItemsV2Resource
+
+
+@admin.register(IncexpItemsV2)
+class IncexpItemsV2Admin(ImportExportModelAdmin):
+    resource_class = IncexpItemsV2Resource
+
+
+@admin.register(FinancialPositionItemsV2)
+class FinancialPositionItemsV2Admin(ImportExportModelAdmin):
+    resource_class = FinancialPositionItemsV2Resource
+
+
+@admin.register(RepairsMaintenanceItemsV2)
+class RepairsMaintenanceItemsV2Admin(ImportExportModelAdmin):
+    resource_class = RepairsMaintenanceItemsV2Resource
+
+
+@admin.register(GovernmentFunctionsV2)
+class GovernmentFunctionsV2Admin(ImportExportModelAdmin):
+    resource_class = GovernmentFunctionsV2Resource
+
+
+@admin.register(GrantTypesV2)
+class GrantTypesV2Admin(ImportExportModelAdmin):
+    resource_class = GrantTypesV2Resource
+
+
+@admin.register(CapitalTypeV2)
+class CapitalTypeV2Admin(ImportExportModelAdmin):
+    resource_class = CapitalTypeV2Resource
+
+
+@admin.register(DemarcationChanges)
+class DemarcationChangesAdmin(admin.ModelAdmin):
+    pass

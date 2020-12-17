@@ -70,6 +70,7 @@ INSTALLED_APPS = (
     "debug_toolbar",
     "constance",
     "constance.backends.database",
+    "import_export",
 )
 
 # Sites

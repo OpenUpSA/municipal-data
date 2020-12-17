@@ -6,10 +6,10 @@ from municipal_finance.tests.resources import (
     CashFlowFactsV1Resource,
     CashFlowFactsV2Resource,
     BsheetFactsV1Resource,
-    BsheetFactsV2Resource,
+    FinancialPositionFactsV2Resource,
     CapitalFactsV1Resource,
     CapitalFactsV2Resource,
-    UIFWExpenditureFactsResource,
+    UIFWExpenseFactsResource,
 )
 
 from ...models import Geography

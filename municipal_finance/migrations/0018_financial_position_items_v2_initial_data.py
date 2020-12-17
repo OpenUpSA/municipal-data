@@ -1,20 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import tablib
-
-from django.db import migrations, models
-
-from ..resources import FinancialPositionItemsV2Resource
-
-
-def import_initial_data(apps, schema_editor):
-    dataset = tablib.Dataset().load(
-        open('municipal_finance/fixtures/initial/financial_position_items_v2.csv'),
-        format='csv',
-        headers=True,
-    )
-    FinancialPositionItemsV2Resource().import_data(dataset, raise_errors=True)
+from django.db import migrations
 
 
 class Migration(migrations.Migration):
@@ -24,5 +11,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(import_initial_data)
     ]

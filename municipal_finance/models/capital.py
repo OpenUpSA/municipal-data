@@ -10,6 +10,9 @@ from .amount_type import AmountTypeV2
 
 class CapitalItems(models.Model):
     label = models.TextField()
+    position_in_return_form = models.IntegerField(null=True)
+    return_form_structure = models.TextField(null=True)
+    composition = models.TextField(null=True)
 
     class Meta:
         abstract = True
@@ -28,9 +31,6 @@ class CapitalFacts(models.Model):
 
 class CapitalItemsV1(CapitalItems):
     code = models.TextField(primary_key=True)
-    position_in_return_form = models.IntegerField(null=True)
-    return_form_structure = models.TextField(null=True)
-    composition = models.TextField(null=True)
 
     class Meta:
         db_table = 'capital_items'
