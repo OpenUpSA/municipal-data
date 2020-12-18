@@ -14,7 +14,7 @@ from ...profile_data import ApiClient
 def import_data(resource, filename):
     resource().import_data(
         tablib.Dataset().load(
-            open(f'scorecard/fixtures/tests/indicators/{filename}'),
+            open(f'scorecard/fixtures/tests/indicators/{filename}').read(),
             format='csv',
             headers=True,
         ),

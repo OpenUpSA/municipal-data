@@ -30,7 +30,8 @@ class RepairsMaintenanceItemsV1(RepairsMaintenanceItems):
     code = models.TextField(primary_key=True)
 
     class Meta:
-        db_table = 'repairs_maintenance_items'
+        db_table = "repairs_maintenance_items"
+        verbose_name_plural = "Repairs & Maintenance Items (v1)"
 
 
 class RepairsMaintenanceFactsV1(RepairsMaintenanceFacts):
@@ -38,20 +39,20 @@ class RepairsMaintenanceFactsV1(RepairsMaintenanceFacts):
     amount_type_code = models.TextField()
 
     class Meta:
-        db_table = 'repairs_maintenance_facts'
+        db_table = "repairs_maintenance_facts"
         unique_together = (
             (
-                'demarcation_code',
-                'period_code',
-                'item_code',
+                "demarcation_code",
+                "period_code",
+                "item_code",
             ),
             (
-                'amount_type_code',
-                'demarcation_code',
-                'financial_period',
-                'financial_year',
-                'item_code',
-                'period_length',
+                "amount_type_code",
+                "demarcation_code",
+                "financial_period",
+                "financial_year",
+                "item_code",
+                "period_length",
             ),
         )
 
@@ -61,7 +62,8 @@ class RepairsMaintenanceItemsV2(RepairsMaintenanceItems):
     code = models.TextField(unique=True)
 
     class Meta:
-        db_table = 'repairs_maintenance_items_v2'
+        db_table = "repairs_maintenance_items_v2"
+        verbose_name_plural = "Repairs & Maintenance Items (v2)"
 
 
 class RepairsMaintenanceFactsV2(RepairsMaintenanceFacts):
@@ -75,19 +77,19 @@ class RepairsMaintenanceFactsV2(RepairsMaintenanceFacts):
     )
 
     class Meta:
-        db_table = 'repairs_maintenance_facts_v2'
+        db_table = "repairs_maintenance_facts_v2"
         unique_together = (
             (
-                'demarcation_code',
-                'period_code',
-                'item',
+                "demarcation_code",
+                "period_code",
+                "item",
             ),
             (
-                'amount_type',
-                'demarcation_code',
-                'financial_period',
-                'financial_year',
-                'item',
-                'period_length',
+                "amount_type",
+                "demarcation_code",
+                "financial_period",
+                "financial_year",
+                "item",
+                "period_length",
             ),
         )

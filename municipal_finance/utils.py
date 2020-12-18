@@ -90,6 +90,6 @@ def check_page_size(page_size):
 
 def import_data(resource, path):
     resource().import_data(
-        tablib.Dataset().load(open(path), format='csv', headers=True),
+        tablib.Dataset().load(open(path).read(), format='csv', headers=True),
         raise_errors=True,
     )

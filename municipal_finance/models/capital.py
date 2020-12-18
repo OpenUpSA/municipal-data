@@ -33,7 +33,8 @@ class CapitalItemsV1(CapitalItems):
     code = models.TextField(primary_key=True)
 
     class Meta:
-        db_table = 'capital_items'
+        db_table = "capital_items"
+        verbose_name_plural = "Capital Items (v1)"
 
 
 class CapitalFactsV1(CapitalFacts):
@@ -41,12 +42,12 @@ class CapitalFactsV1(CapitalFacts):
     function_code = models.ForeignKey(
         GovernmentFunctionsV1,
         models.DO_NOTHING,
-        db_column='function_code'
+        db_column="function_code"
     )
     item_code = models.ForeignKey(
         CapitalItemsV1,
         models.DO_NOTHING,
-        db_column='item_code',
+        db_column="item_code",
     )
     new_assets = models.BigIntegerField(null=True)
     renewal_of_existing = models.BigIntegerField(null=True)
@@ -55,22 +56,22 @@ class CapitalFactsV1(CapitalFacts):
     asset_register_summary = models.BigIntegerField(null=True)
 
     class Meta:
-        db_table = 'capital_facts'
+        db_table = "capital_facts"
         unique_together = (
             (
-                'demarcation_code',
-                'function_code',
-                'item_code',
-                'period_code',
+                "demarcation_code",
+                "function_code",
+                "item_code",
+                "period_code",
             ),
             (
-                'demarcation_code',
-                'function_code',
-                'item_code',
-                'amount_type_code',
-                'financial_period',
-                'financial_year',
-                'period_length',
+                "demarcation_code",
+                "function_code",
+                "item_code",
+                "amount_type_code",
+                "financial_period",
+                "financial_year",
+                "period_length",
             ),
         )
 
@@ -81,7 +82,8 @@ class CapitalTypeV2(models.Model):
     label = models.TextField(unique=True)
 
     class Meta:
-        db_table = 'capital_type_v2'
+        db_table = "capital_type_v2"
+        verbose_name_plural = "Capital Items (v2)"
 
 
 class CapitalItemsV2(CapitalItems):
@@ -89,7 +91,7 @@ class CapitalItemsV2(CapitalItems):
     code = models.TextField(unique=True)
 
     class Meta:
-        db_table = 'capital_items_v2'
+        db_table = "capital_items_v2"
 
 
 class CapitalFactsV2(CapitalFacts):
@@ -113,23 +115,23 @@ class CapitalFactsV2(CapitalFacts):
     amount = models.BigIntegerField(null=True)
 
     class Meta:
-        db_table = 'capital_facts_v2'
+        db_table = "capital_facts_v2"
         unique_together = (
             (
-                'demarcation_code',
-                'function',
-                'item',
-                'capital_type',
-                'period_code',
+                "demarcation_code",
+                "function",
+                "item",
+                "capital_type",
+                "period_code",
             ),
             (
-                'demarcation_code',
-                'function',
-                'item',
-                'capital_type',
-                'amount_type',
-                'financial_period',
-                'financial_year',
-                'period_length',
+                "demarcation_code",
+                "function",
+                "item",
+                "capital_type",
+                "amount_type",
+                "financial_period",
+                "financial_year",
+                "period_length",
             ),
         )

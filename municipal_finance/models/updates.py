@@ -35,6 +35,7 @@ class MunicipalStaffContactsUpdate(BaseUpdate):
 
     class Meta:
         db_table = "municipal_staff_contacts_update"
+        verbose_name = "Municipal Staff Contacts Update"
 
 
 class IncomeExpenditureV2Update(BaseUpdate):
@@ -42,6 +43,7 @@ class IncomeExpenditureV2Update(BaseUpdate):
 
     class Meta:
         db_table = "income_expenditure_v2_update"
+        verbose_name = "Income & Expenditure Facts (v2) Update"
 
 
 class CashFlowV2Update(BaseUpdate):
@@ -49,6 +51,7 @@ class CashFlowV2Update(BaseUpdate):
 
     class Meta:
         db_table = "cash_flow_v2_update"
+        verbose_name = "Cash Flow Facts (v2) Update"
 
 
 class RepairsMaintenanceV2Update(BaseUpdate):
@@ -56,6 +59,7 @@ class RepairsMaintenanceV2Update(BaseUpdate):
 
     class Meta:
         db_table = "repairs_maintenance_v2_update"
+        verbose_name = "Repairs & Maintenance Facts (v2) Update"
 
 
 class AgedDebtorFactsV2Update(BaseUpdate):
@@ -63,6 +67,7 @@ class AgedDebtorFactsV2Update(BaseUpdate):
 
     class Meta:
         db_table = "aged_debtors_facts_v2_update"
+        verbose_name = "Aged Debtors Facts (v2) Update"
 
 
 class AgedCreditorFactsV2Update(BaseUpdate):
@@ -70,6 +75,7 @@ class AgedCreditorFactsV2Update(BaseUpdate):
 
     class Meta:
         db_table = "aged_creditors_facts_v2_update"
+        verbose_name = "Aged Creditors Facts (v2) Update"
 
 
 class CapitalFactsV2Update(BaseUpdate):
@@ -77,6 +83,7 @@ class CapitalFactsV2Update(BaseUpdate):
 
     class Meta:
         db_table = "capital_facts_v2_update"
+        verbose_name = "Capital Facts (v2) Update"
 
 
 class GrantFactsV2Update(BaseUpdate):
@@ -84,6 +91,7 @@ class GrantFactsV2Update(BaseUpdate):
 
     class Meta:
         db_table = "grant_facts_v2_update"
+        verbose_name = "Grant Facts (v2) Update"
 
 
 class FinancialPositionFactsV2Update(BaseUpdate):
@@ -91,6 +99,7 @@ class FinancialPositionFactsV2Update(BaseUpdate):
 
     class Meta:
         db_table = "financial_position_facts_v2_update"
+        verbose_name = "Financial Position Facts (v2) Update"
 
 
 class UIFWExpenseFactsUpdate(BaseUpdate):
@@ -98,6 +107,7 @@ class UIFWExpenseFactsUpdate(BaseUpdate):
 
     class Meta:
         db_table = "uifw_expense_facts_update"
+        verbose_name = "UIFW Expense Facts Update"
 
 
 class AuditOpinionFactsUpdate(BaseUpdate):
@@ -105,3 +115,4 @@ class AuditOpinionFactsUpdate(BaseUpdate):
 
     class Meta:
         db_table = "audit_opinion_facts_update"
+        verbose_name = "Audit Opinion Facts Update"

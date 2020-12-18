@@ -13,5 +13,5 @@ class MunicipalStaffContacts(models.Model):
     email_address = models.TextField(null=True)
 
     class Meta:
-        db_table = 'municipal_staff_contacts'
-        unique_together = (('demarcation_code', 'role'),)
+        db_table = "municipal_staff_contacts"
+        unique_together = (("demarcation_code", "role"),)
