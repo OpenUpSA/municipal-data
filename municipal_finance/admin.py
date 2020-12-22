@@ -94,7 +94,7 @@ class MunicipalityProfilesCompilationAdmin(admin.ModelAdmin):
             obj.last_opinion_year,
             obj.last_uifw_year,
             obj.last_audit_quarter,
-            task_name="Compile data"
+            task_name="Municipal Profile compilation"
         )
 
 
@@ -196,48 +196,57 @@ class FinancialPositionFactsV2UpdateAdmin(BaseUpdateAdmin):
 @admin.register(AgedCreditorItemsV2)
 class AgedCreditorItemsV2Admin(ImportExportModelAdmin):
     resource_class = AgedCreditorItemsV2Resource
+    list_display = ("code", "label",)
 
 
 @admin.register(AgedDebtorItemsV2)
 class AgedDebtorItemsV2Admin(ImportExportModelAdmin):
     resource_class = AgedDebtorItemsV2Resource
+    list_display = ("code", "label",)
 
 
 @admin.register(CflowItemsV2)
 class CashFlowItemsV2Admin(ImportExportModelAdmin):
     resource_class = CashflowItemsV2Resource
+    list_display = ("code", "label",)
 
 
 @admin.register(IncexpItemsV2)
 class IncexpItemsV2Admin(ImportExportModelAdmin):
     resource_class = IncexpItemsV2Resource
+    list_display = ("code", "label",)
 
 
 @admin.register(FinancialPositionItemsV2)
 class FinancialPositionItemsV2Admin(ImportExportModelAdmin):
     resource_class = FinancialPositionItemsV2Resource
+    list_display = ("code", "label",)
 
 
 @admin.register(RepairsMaintenanceItemsV2)
 class RepairsMaintenanceItemsV2Admin(ImportExportModelAdmin):
     resource_class = RepairsMaintenanceItemsV2Resource
+    list_display = ("code", "label",)
 
 
 @admin.register(GovernmentFunctionsV2)
 class GovernmentFunctionsV2Admin(ImportExportModelAdmin):
     resource_class = GovernmentFunctionsV2Resource
+    list_display = ("code", "label",)
 
 
 @admin.register(GrantTypesV2)
 class GrantTypesV2Admin(ImportExportModelAdmin):
     resource_class = GrantTypesV2Resource
+    list_display = ("code", "name",)
 
 
 @admin.register(CapitalTypeV2)
 class CapitalTypeV2Admin(ImportExportModelAdmin):
     resource_class = CapitalTypeV2Resource
+    list_display = ("code", "label",)
 
 
 @admin.register(DemarcationChanges)
 class DemarcationChangesAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("date", "old_code", "new_code",)

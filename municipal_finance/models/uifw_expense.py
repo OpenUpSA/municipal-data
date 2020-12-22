@@ -10,11 +10,11 @@ class UIFWExpenseFacts(models.Model):
     amount = models.BigIntegerField(null=True)
 
     class Meta:
-        db_table = 'uifwexp_facts'
+        db_table = "uifwexp_facts"
         unique_together = (
             (
-                'demarcation_code',
-                'financial_year',
-                'item_code',
+                "demarcation_code",
+                "financial_year",
+                "item_code",
             ),
         )

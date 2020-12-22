@@ -42,6 +42,7 @@ class AgedDebtorItemsV1(AgedDebtorItems):
 
     class Meta:
         db_table = 'aged_debtor_items'
+        verbose_name_plural = 'Aged Debtor Items (v1)'
 
 
 class AgedDebtorFactsV1(AgedDebtorFacts):
@@ -79,6 +80,7 @@ class AgedDebtorItemsV2(AgedDebtorItems):
 
     class Meta:
         db_table = 'aged_debtor_items_v2'
+        verbose_name_plural = 'Aged Debtor Items (v2)'
 
 
 class AgedDebtorFactsV2(AgedDebtorFacts):

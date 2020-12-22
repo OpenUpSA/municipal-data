@@ -18,7 +18,8 @@ class BsheetItemsV1(BsheetItems):
     code = models.TextField(primary_key=True)
 
     class Meta:
-        db_table = 'bsheet_items'
+        db_table = "bsheet_items"
+        verbose_name_plural = "Balance Sheet Items (v1)"
 
 
 class BsheetFacts(models.Model):
@@ -37,25 +38,25 @@ class BsheetFactsV1(BsheetFacts):
     item_code = models.ForeignKey(
         BsheetItemsV1,
         models.DO_NOTHING,
-        db_column='item_code',
+        db_column="item_code",
     )
     amount_type_code = models.TextField()
 
     class Meta:
-        db_table = 'bsheet_facts'
+        db_table = "bsheet_facts"
         unique_together = (
             (
-                'demarcation_code',
-                'period_code',
-                'item_code',
+                "demarcation_code",
+                "period_code",
+                "item_code",
             ),
             (
-                'amount_type_code',
-                'demarcation_code',
-                'financial_period',
-                'financial_year',
-                'item_code',
-                'period_length',
+                "amount_type_code",
+                "demarcation_code",
+                "financial_period",
+                "financial_year",
+                "item_code",
+                "period_length",
             ),
         )
 
@@ -65,7 +66,8 @@ class FinancialPositionItemsV2(BsheetItems):
     code = models.TextField(unique=True)
 
     class Meta:
-        db_table = 'financial_position_items_v2'
+        db_table = "financial_position_items_v2"
+        verbose_name_plural = "Balance Sheet Items (v2)"
 
 
 class FinancialPositionFactsV2(BsheetFacts):
@@ -79,19 +81,19 @@ class FinancialPositionFactsV2(BsheetFacts):
     )
 
     class Meta:
-        db_table = 'financial_position_facts_v2'
+        db_table = "financial_position_facts_v2"
         unique_together = (
             (
-                'demarcation_code',
-                'period_code',
-                'item',
+                "demarcation_code",
+                "period_code",
+                "item",
             ),
             (
-                'amount_type',
-                'demarcation_code',
-                'financial_period',
-                'financial_year',
-                'item',
-                'period_length',
+                "amount_type",
+                "demarcation_code",
+                "financial_period",
+                "financial_year",
+                "item",
+                "period_length",
             ),
         )

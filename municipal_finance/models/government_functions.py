@@ -16,7 +16,8 @@ class GovernmentFunctionsV1(GovernmentFunctions):
     code = models.TextField(primary_key=True)
 
     class Meta:
-        db_table = 'government_functions'
+        db_table = "government_functions"
+        verbose_name_plural = "Goverment Functions (v1)"
 
 
 class GovernmentFunctionsV2(GovernmentFunctions):
@@ -24,4 +25,5 @@ class GovernmentFunctionsV2(GovernmentFunctions):
     code = models.TextField(unique=True)
 
     class Meta:
-        db_table = 'government_functions_v2'
+        db_table = "government_functions_v2"
+        verbose_name_plural = "Goverment Functions (v2)"

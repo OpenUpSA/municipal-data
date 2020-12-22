@@ -19,7 +19,8 @@ class IncexpItemsV1(IncexpItems):
     code = models.TextField(primary_key=True)
 
     class Meta:
-        db_table = 'incexp_items'
+        db_table = "incexp_items"
+        verbose_name_plural = "Income & Expenditure Items (v1)"
 
 
 class IncexpItemsV2(IncexpItems):
@@ -27,7 +28,8 @@ class IncexpItemsV2(IncexpItems):
     code = models.TextField(unique=True)
 
     class Meta:
-        db_table = 'incexp_items_v2'
+        db_table = "incexp_items_v2"
+        verbose_name_plural = "Income & Expenditure Items (v2)"
 
 
 class IncexpFacts(models.Model):
@@ -48,22 +50,22 @@ class IncexpFactsV1(IncexpFacts):
     function_code = models.TextField()
 
     class Meta:
-        db_table = 'incexp_facts'
+        db_table = "incexp_facts"
         unique_together = (
             (
-                'demarcation_code',
-                'period_code',
-                'function_code',
-                'item_code',
+                "demarcation_code",
+                "period_code",
+                "function_code",
+                "item_code",
             ),
             (
-                'amount_type_code',
-                'demarcation_code',
-                'financial_period',
-                'financial_year',
-                'function_code',
-                'item_code',
-                'period_length',
+                "amount_type_code",
+                "demarcation_code",
+                "financial_period",
+                "financial_year",
+                "function_code",
+                "item_code",
+                "period_length",
             ),
         )
 
@@ -83,21 +85,21 @@ class IncexpFactsV2(IncexpFacts):
     )
 
     class Meta:
-        db_table = 'incexp_facts_v2'
+        db_table = "incexp_facts_v2"
         unique_together = (
             (
-                'demarcation_code',
-                'period_code',
-                'function',
-                'item',
+                "demarcation_code",
+                "period_code",
+                "function",
+                "item",
             ),
             (
-                'amount_type',
-                'demarcation_code',
-                'financial_period',
-                'financial_year',
-                'function',
-                'item',
-                'period_length',
+                "amount_type",
+                "demarcation_code",
+                "financial_period",
+                "financial_year",
+                "function",
+                "item",
+                "period_length",
             ),
         )

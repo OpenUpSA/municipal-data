@@ -38,32 +38,33 @@ class AgedCreditorItemsV1(AgedCreditorItems):
     code = models.TextField(primary_key=True)
 
     class Meta:
-        db_table = 'aged_creditor_items'
+        db_table = "aged_creditor_items"
+        verbose_name_plural = "Aged Creditor Items (v1)"
 
 
 class AgedCreditorFactsV1(AgedCreditorFacts):
     item_code = models.ForeignKey(
         AgedCreditorItemsV1,
         models.DO_NOTHING,
-        db_column='item_code',
+        db_column="item_code",
     )
     amount_type_code = models.TextField()
 
     class Meta:
-        db_table = 'aged_creditor_facts'
+        db_table = "aged_creditor_facts"
         unique_together = (
             (
-                'demarcation_code',
-                'period_code',
-                'item_code',
+                "demarcation_code",
+                "period_code",
+                "item_code",
             ),
             (
-                'amount_type_code',
-                'demarcation_code',
-                'financial_period',
-                'financial_year',
-                'item_code',
-                'period_length',
+                "amount_type_code",
+                "demarcation_code",
+                "financial_period",
+                "financial_year",
+                "item_code",
+                "period_length",
             ),
         )
 
@@ -73,7 +74,8 @@ class AgedCreditorItemsV2(AgedCreditorItems):
     code = models.TextField(unique=True)
 
     class Meta:
-        db_table = 'aged_creditor_items_v2'
+        db_table = "aged_creditor_items_v2"
+        verbose_name_plural = "Aged Creditor Items (v2)"
 
 
 class AgedCreditorFactsV2(AgedCreditorFacts):
@@ -87,19 +89,19 @@ class AgedCreditorFactsV2(AgedCreditorFacts):
     )
 
     class Meta:
-        db_table = 'aged_creditor_facts_v2'
+        db_table = "aged_creditor_facts_v2"
         unique_together = (
             (
-                'demarcation_code',
-                'period_code',
-                'item',
+                "demarcation_code",
+                "period_code",
+                "item",
             ),
             (
-                'amount_type',
-                'demarcation_code',
-                'financial_period',
-                'financial_year',
-                'item',
-                'period_length',
+                "amount_type",
+                "demarcation_code",
+                "financial_period",
+                "financial_year",
+                "item",
+                "period_length",
             ),
         )

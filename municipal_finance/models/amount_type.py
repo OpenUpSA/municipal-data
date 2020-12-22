@@ -8,7 +8,8 @@ class AmountType(models.Model):
     label = models.TextField()
 
     class Meta:
-        db_table = 'amount_type'
+        db_table = "amount_type"
+        verbose_name_plural = "Amount Type (v1)"
 
 
 class AmountTypeV2(models.Model):
@@ -17,4 +18,5 @@ class AmountTypeV2(models.Model):
     label = models.TextField()
 
     class Meta:
-        db_table = 'amount_type_v2'
+        db_table = "amount_type_v2"
+        verbose_name_plural = "Amount Type (v2)"

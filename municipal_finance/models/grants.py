@@ -27,7 +27,8 @@ class ConditionalGrantTypesV1(GrantTypes):
     code = models.TextField(primary_key=True)
 
     class Meta:
-        db_table = 'conditional_grant_types'
+        db_table = "conditional_grant_types"
+        verbose_name_plural = "Conditional Grant Types (v1)"
 
 
 class ConditionalGrantFactsV1(GrantFacts):
@@ -35,20 +36,20 @@ class ConditionalGrantFactsV1(GrantFacts):
     amount_type_code = models.TextField()
 
     class Meta:
-        db_table = 'conditional_grant_facts'
+        db_table = "conditional_grant_facts"
         unique_together = (
             (
-                'demarcation_code',
-                'period_code',
-                'grant_code',
+                "demarcation_code",
+                "period_code",
+                "grant_code",
             ),
             (
-                'amount_type_code',
-                'demarcation_code',
-                'financial_period',
-                'financial_year',
-                'grant_code',
-                'period_length',
+                "amount_type_code",
+                "demarcation_code",
+                "financial_period",
+                "financial_year",
+                "grant_code",
+                "period_length",
             ),
         )
 
@@ -58,7 +59,8 @@ class GrantTypesV2(GrantTypes):
     code = models.TextField(unique=True)
 
     class Meta:
-        db_table = 'grant_types_v2'
+        db_table = "grant_types_v2"
+        verbose_name_plural = "Grant Types (v2)"
 
 
 class GrantFactsV2(GrantFacts):
@@ -72,19 +74,19 @@ class GrantFactsV2(GrantFacts):
     )
 
     class Meta:
-        db_table = 'grant_facts_v2'
+        db_table = "grant_facts_v2"
         unique_together = (
             (
-                'demarcation_code',
-                'period_code',
-                'grant_type',
+                "demarcation_code",
+                "period_code",
+                "grant_type",
             ),
             (
-                'demarcation_code',
-                'grant_type',
-                'amount_type',
-                'financial_period',
-                'financial_year',
-                'period_length',
+                "demarcation_code",
+                "grant_type",
+                "amount_type",
+                "financial_period",
+                "financial_year",
+                "period_length",
             ),
         )

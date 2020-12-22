@@ -6,4 +6,4 @@ from .models import Geography
 
 @admin.register(Geography)
 class GeographyAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("geo_code", "geo_level", "name",)

@@ -1,20 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import tablib
-
 from django.db import migrations, models
 
+from . import run_data_import
+
 from ..resources import CashflowItemsV2Resource
-
-
-def import_initial_data(apps, schema_editor):
-    dataset = tablib.Dataset().load(
-        open('municipal_finance/fixtures/initial/cash_flow_items_v2.csv'),
-        format='csv',
-        headers=True,
-    )
-    CashflowItemsV2Resource().import_data(dataset, raise_errors=True)
 
 
 class Migration(migrations.Migration):
@@ -24,5 +15,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(import_initial_data)
+        run_data_import(CashflowItemsV2Resource, 'cash_flow_items_v2.csv'),
     ]
