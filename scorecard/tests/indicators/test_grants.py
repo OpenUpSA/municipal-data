@@ -16,7 +16,7 @@ class GrantsTests(TestCase):
                 "grants_v1": [
                     {
                         "amount.sum": 1484790000.0,
-                        "amount_type.code": "ORGB",
+                        "amount_type.code": "SCHD",
                         "financial_year_end.year": 2019,
                         "grant.code": "USDG",
                         "grant.label": "Urban Settlement Development Grant",
@@ -37,7 +37,7 @@ class GrantsTests(TestCase):
                     },
                     {
                         "amount.sum": 5000000.0,
-                        "amount_type.code": "ORGB",
+                        "amount_type.code": "SCHD",
                         "financial_year_end.year": 2018,
                         "grant.code": "INEG",
                         "grant.label": "Integrated National Electrification Programme (Municipal) Grant",
@@ -52,7 +52,7 @@ class GrantsTests(TestCase):
                 2019: [
                     {
                         "amount.sum": 1484790000.0,
-                        "amount_type.code": "ORGB",
+                        "amount_type.code": "SCHD",
                         "financial_year_end.year": 2019,
                         "grant.code": "USDG",
                         "grant.label": "Urban Settlement Development Grant",
@@ -75,7 +75,7 @@ class GrantsTests(TestCase):
                     },
                     {
                         "amount.sum": 5000000.0,
-                        "amount_type.code": "ORGB",
+                        "amount_type.code": "SCHD",
                         "financial_year_end.year": 2018,
                         "grant.code": "INEG",
                         "grant.label": "Integrated National Electrification Programme (Municipal) Grant",
@@ -92,7 +92,7 @@ class GrantsTests(TestCase):
                 "grants_v1": [
                     {
                         "amount.sum": 1484790000.0,
-                        "amount_type.code": "ORGB",
+                        "amount_type.code": "SCHD",
                         "financial_year_end.year": 2019,
                         "grant.code": "0001",
                         "grant.label": "Health",
@@ -114,7 +114,7 @@ class GrantsTests(TestCase):
                 2019: [
                     {
                         "amount.sum": 1484790000.0,
-                        "amount_type.code": "ORGB",
+                        "amount_type.code": "SCHD",
                         "financial_year_end.year": 2019,
                         "grant.code": "0001",
                         "grant.label": "Health",
@@ -146,21 +146,21 @@ class GrantsTests(TestCase):
                 "grants_v1": [
                     {
                         "amount.sum": 1484790000.0,
-                        "amount_type.code": "ORGB",
+                        "amount_type.code": "SCHD",
                         "financial_year_end.year": 2019,
                         "grant.code": "ESG",
                         "grant.label": "Equitable Share Grant",
                     },
                     {
                         "amount.sum": 1484790000.0,
-                        "amount_type.code": "ORGB",
+                        "amount_type.code": "SCHD",
                         "financial_year_end.year": 2019,
                         "grant.code": "0012",
                         "grant.label": "Education",
                     },
                     {
                         "amount.sum": 1484790000.0,
-                        "amount_type.code": "ORGB",
+                        "amount_type.code": "SCHD",
                         "financial_year_end.year": 2019,
                         "grant.code": "ABC",
                         "grant.label": "ABC grant",
@@ -175,7 +175,7 @@ class GrantsTests(TestCase):
                 2019: [
                     {
                         "amount.sum": 1484790000.0,
-                        "amount_type.code": "ORGB",
+                        "amount_type.code": "SCHD",
                         "financial_year_end.year": 2019,
                         "grant.code": "0012",
                         "grant.label": "Education",
@@ -189,7 +189,7 @@ class GrantsTests(TestCase):
                 2019: [
                     {
                         "amount.sum": 1484790000.0,
-                        "amount_type.code": "ORGB",
+                        "amount_type.code": "SCHD",
                         "financial_year_end.year": 2019,
                         "grant.code": "ABC",
                         "grant.label": "ABC grant",
@@ -203,7 +203,7 @@ class GrantsTests(TestCase):
                 2019: [
                     {
                         "amount.sum": 1484790000.0,
-                        "amount_type.code": "ORGB",
+                        "amount_type.code": "SCHD",
                         "financial_year_end.year": 2019,
                         "grant.code": "ESG",
                         "grant.label": "Equitable Share Grant",
