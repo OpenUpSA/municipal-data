@@ -68,6 +68,18 @@ class TestCashBalance(_IndicatorTestCase):
                 "ref": {
                     "title": "State of Local Government Finances",
                     "url": "http://mfma.treasury.gov.za/Media_Releases/The%20state%20of%20local%20government%20finances/Pages/default.aspx"
-                }
+                },
+                "last_year": 2019,
+                "formula": {
+                    "text": "= Cash available at year end",
+                    "actual": [
+                        "=", 
+                        {
+                            "cube": "cflow",
+                            "item_codes": ["4200"],
+                            "amount_type": "AUDA",
+                        }
+                    ],
+                },
             }
         )

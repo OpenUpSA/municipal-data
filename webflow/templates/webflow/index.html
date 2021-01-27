@@ -1,6 +1,6 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Tue Dec 15 2020 23:36:59 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb5208501c5c19" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Thu Jan 28 2021 10:10:05 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb5208501c5c19" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="An initiative of the National Treasury, which has collected extensive municipal financial data over several years and aims to share it with the public." name="description">
@@ -20,7 +20,7 @@
   <script type="text/javascript">
       WebFont.load({
         google: {
-          families: ["Rubik:300,regular,500,600"]
+          families: ["Inconsolata:400,700", "Rubik:300,regular,500,600"]
         }
       });
     </script>
@@ -824,7 +824,7 @@
           <div class="loading-block"><img src="{% static 'webflow/images/loading.gif' %}" loading="lazy" alt="" class="loading-gif"></div>
           <div class="expand-block">
             <div data-w-id="4ab9be59-915e-a81f-32a8-9396febe45ac" class="expand-block__trigger">
-              <h5 class="expand-block__heading"></h5>
+              <h5 class="expand-block__trigger_heading"></h5>
               <div class="expand-block__trigger_icon">
                 <div class="fas fa-plus"></div>
               </div>
@@ -847,26 +847,26 @@
           </a>
           <div class="indicator-metric indicator-metric--no-status">
             <div class="indicator-metric__value">Calculating...</div>
-            <div class="icon">
-              <div class="far"></div>
+            <div class="indicator-metric__icon">
+              <div class="fa-icon"></div>
             </div>
           </div>
           <div class="indicator-metric indicator-metric--status-green">
             <div class="indicator-metric__value">Calculating...</div>
-            <div class="icon">
-              <div class="fas fa-smile"></div>
+            <div class="indicator-metric__icon">
+              <div class="fa-icon fas fa-smile"></div>
             </div>
           </div>
           <div class="indicator-metric indicator-metric--status-yellow">
             <div class="indicator-metric__value">Calculating...</div>
-            <div class="icon">
-              <div class="fas fa-meh"></div>
+            <div class="indicator-metric__icon">
+              <div class="fa-icon fas fa-meh"></div>
             </div>
           </div>
           <div class="indicator-metric indicator-metric--status-red">
             <div class="indicator-metric__value">Calculating...</div>
-            <div class="icon">
-              <div class="fas fa-frown"></div>
+            <div class="indicator-metric__icon">
+              <div class="fa-icon fas fa-frown"></div>
             </div>
           </div>
           <div class="audit-outcome">
@@ -911,7 +911,7 @@
           </div>
           <div class="expand-block expand-block-with-list">
             <div class="expand-block__trigger">
-              <h5 class="expand-block__heading">Loading...</h5>
+              <h5 class="expand-block__trigger_heading">Loading...</h5>
               <div class="expand-block__trigger_icon">
                 <div class="fas fa-plus"></div>
               </div>

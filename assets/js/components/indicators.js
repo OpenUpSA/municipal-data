@@ -1,4 +1,10 @@
-import { logIfUnequal, formatFinancialYear, ratingColor, formatForType } from '../utils.js';
+import {
+  arrayJoin,
+  logIfUnequal,
+  formatFinancialYear,
+  ratingColor,
+  formatForType
+} from '../utils.js';
 import ColumnChart from 'municipal-money-charts/src/components/MunicipalCharts/ColumnChart.js';
 import ComparisonMenu from './comparison-menu';
 import "core-js/stable";
@@ -22,17 +28,18 @@ function comparePeriod( a, b ) {
 }
 
 export class IndicatorSection {
-  constructor(selector, key, sectionData, medians, geography) {
+  constructor(selector, key, pageData) {
     this.selector = selector;
     this.key = key;
-    this.sectionData = sectionData;
-    this.medians = medians;
+    this.sectionData = pageData.indicators[key];
+    this.medians = pageData.medians[key];
+    this.geography = pageData.geography;
+    this.amountTypes = pageData["amount_types_v1"];
+    this.cubeNames = pageData["cube_names"];
     this.$element = $(selector);
     logIfUnequal(1, this.$element.length);
-    this.latestItem = sectionData.values[0];
+    this.latestItem = this.sectionData.values[0];
     this.comparisons = [];
-
-    this.geography = geography;
 
     const chartContainerSelector = `${this.selector} .indicator-chart`;
     this.chart = new ColumnChart(chartContainerSelector, [this.chartData()]);
@@ -43,6 +50,7 @@ export class IndicatorSection {
     this._initAverageButtons();
     this._initComparisonButtons();
 
+    this.initCalculation();
     this.initSectionPeriod();
     this.initMetric();
 
@@ -54,6 +62,65 @@ export class IndicatorSection {
 
   formatMetric(value) {
     return formatForType(this.sectionData.result_type, value);
+  }
+
+  initCalculation() {
+    const geo_code = this.geography.geo_code;
+    const last_year = this.sectionData.last_year;
+    // Render the calculation reference
+    const referenceData = this.sectionData.ref;
+    const $referenceEl = this.$element.find(".indicator-calculation__reference");
+    if ($referenceEl.length && referenceData) {
+      const $el = $('<a></a>');
+      $el.attr('href', referenceData.url);
+      $el.text(referenceData.title);
+      $referenceEl.append($el);
+    }
+    // Render the formula data
+    const formulaData = this.sectionData.formula;
+    if (formulaData) {
+      const textData = formulaData.text;
+      const $textEl = this.$element.find(".indicator-calculation__formula-text");
+      if ($textEl.length && textData) {
+          $textEl.text(textData);
+      }
+      const actualData = formulaData.actual;
+      const $actualEl = this.$element.find(".indicator-calculation__formula-actual");
+      if ($actualEl.length && actualData) {
+        const components = Object.values(actualData).map((data) => {
+          if (typeof data === 'string') {
+            return data;
+          } else {
+            const $el = $('<a></a>');
+            let params = {};
+            let text = '';
+            let cube_name = this.cubeNames[data.cube];
+            let amount_type = data.amount_type;
+            amount_type = this.amountTypes[amount_type] || amount_type;
+            // Set the query parameters
+            params['municipalities'] = geo_code;
+            params['year'] = last_year;
+            params['items'] = data.item_codes;
+            if (data.amount_type) {
+              params['amountType'] = data.amount_type;
+            }
+            // Generate the text
+            text += `[${cube_name}]`;
+            text += ` item code ${data.item_codes.join(',')}`;
+            if (data.amount_type) {
+              text += `, ${amount_type}`;
+            }
+            params = new URLSearchParams(params).toString();
+            const url = `${API_URL}/table/${data.cube}/?${params}`;
+            $el.text(text);
+            $el.attr('href', url);
+            return $el;
+          }
+        })
+        // Append the components to the element
+        $actualEl.append(arrayJoin(components, '&nbsp;'));
+      }
+    }
   }
 
   initSectionPeriod() {

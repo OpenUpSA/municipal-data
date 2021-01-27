@@ -87,6 +87,24 @@ class TestLiquidityRatio(_IndicatorTestCase):
                 "ref": {
                     "title": "Municipal Budget and Reporting Regulations",
                     "url": "http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx"
-                }
+                },
+                "last_year": 2019,
+                "formula": {
+                    "text": "= (Cash + Call Investment Deposits) / Current Liabilities",
+                    "actual": [
+                        "=", 
+                        {
+                            "cube": "bsheet",
+                            "item_codes": ["1800", "2200"],
+                            "amount_type": "AUDA",
+                        },
+                        "/",
+                        {
+                            "cube": "bsheet",
+                            "item_codes": ["1600"],
+                            "amount_type": "AUDA",
+                        },
+                    ],
+                },
             }
         )

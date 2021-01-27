@@ -1,4 +1,3 @@
-from import_export import resources
 
 from municipal_finance.tests.resources import (
     IncexpFactsV1Resource,
@@ -12,10 +11,5 @@ from municipal_finance.tests.resources import (
     UIFWExpenseFactsResource,
 )
 
-from ...models import Geography
+from ..resources import GeographyResource
 
-
-class GeographyResource(resources.ModelResource):
-    class Meta:
-        model = Geography
-        import_id_fields = ['geo_code']

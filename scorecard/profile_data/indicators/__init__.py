@@ -195,7 +195,7 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
                 # Prefer KeyError but crash before we use it in case we have more than expectexd
                 assert len(contracting_items) <= 1
 
-            except KeyError:
+            except (KeyError, IndexError):
                 contracting = None
 
             values.append(

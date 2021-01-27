@@ -91,3 +91,20 @@ export function errorBoundary(f) {
     console.error(error);
   }
 }
+
+/**
+ * Joins arrays with a separator and returns the resulting array.
+ *
+ * @param {Array} array - The array that will have it's elements joined by the
+ *    provided separator.
+ *
+ * @param {*} separator - The separator that will be inserted between all the
+ *    elements in the provided array.
+ *
+ */
+export function arrayJoin(array, separator) {
+  return array.reduce((result, value, index) => {
+    return result.concat(value, separator);
+  }, []).slice(0, -1);
+}
+

@@ -74,6 +74,36 @@ class TestCapitalBudgetSpending(_IndicatorTestCase):
                 "ref": {
                     "title": "Over and under spending reports to parliament",
                     "url": "http://mfma.treasury.gov.za/Media_Releases/Reports%20to%20Parliament/Pages/default.aspx"
-                }
+                },
+                "last_year": 2019,
+                "formula": {
+                    "text": "= ((Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure) * 100",
+                    "actual": [
+                        "=", 
+                        "(",
+                        "(",
+                        {
+                            "cube": "captial",
+                            "item_codes": ["4100"],
+                            "amount_type": "AUDA",
+                        },
+                        "-",
+                        {
+                            "cube": "capital",
+                            "item_codes": ["4100"],
+                            "amount_type": "ADJB",
+                        },
+                        ")",
+                        "/",
+                        {
+                            "cube": "capital",
+                            "item_codes": ["4100"],
+                            "amount_type": "ADJB",
+                        },
+                        ")",
+                        "*",
+                        "100",
+                    ],
+                },
             },
         )

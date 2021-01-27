@@ -1,13 +1,14 @@
+
+from .series import SeriesIndicator
 from .utils import (
     percent,
     group_items_by_year,
     filter_for_all_keys,
     sum_item_amounts,
 )
-from .indicator_calculator import IndicatorCalculator
 
 
-class CurrentDebtorsCollectionRate(IndicatorCalculator):
+class CurrentDebtorsCollectionRate(SeriesIndicator):
     """
     The percentage of new revenue (generated within the financial year) that a
     municipality actually collects.
@@ -17,6 +18,32 @@ class CurrentDebtorsCollectionRate(IndicatorCalculator):
     result_type = "%"
     noun = "rate"
     has_comparisons = True
+    reference = "mbrr"
+    formula = {
+        "text": "= (Collected Revenue / Billed Revenue) * 100",
+        "actual": [
+            "=", 
+            "(",
+            {
+                "cube": "cflow",
+                "item_codes": [
+                    "3010", "3030", "3040", "3050", "3060", "3070", "3100",
+                ],
+                "amount_type": "AUDA",
+            },
+            "/",
+            {
+                "cube": "incexp",
+                "item_codes": [
+                    "0200", "0300", "0400", "0500", "0600", "0800", "0900", "1000",
+                ],
+                "amount_type": "AUDA",
+            },
+            ")",
+            "*",
+            "100",
+        ],
+    }
 
     @classmethod
     def detemine_rating(cls, result):
@@ -47,8 +74,7 @@ class CurrentDebtorsCollectionRate(IndicatorCalculator):
         return data
 
     @classmethod
-    def get_muni_specifics(cls, api_data):
-        results = api_data.results
+    def get_values(cls, years, results):
         periods = {}
         # Populate periods with v1 cash flow data
         grouped_results = group_items_by_year(results["cflow_auda_years"])
@@ -86,15 +112,9 @@ class CurrentDebtorsCollectionRate(IndicatorCalculator):
         # Convert the periods to a dictionary
         periods = dict(periods)
         # Compile the data for the expected quarters, starting with the latest
-        values = list(
+        return list(
             map(
                 lambda year: cls.generate_data(year, periods.get(year)),
-                api_data.years,
+                years,
             )
         )
-        # Return the compiled data
-        return {
-            "result_type": cls.result_type,
-            "values": values,
-            "ref": api_data.references["mbrr"],
-        }

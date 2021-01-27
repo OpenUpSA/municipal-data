@@ -1,12 +1,12 @@
 
-from .indicator_calculator import IndicatorCalculator
+from .series import SeriesIndicator
 from .utils import (
     group_by_year,
     populate_periods,
 )
 
 
-class CashBalance(IndicatorCalculator):
+class CashBalance(SeriesIndicator):
     """
     Cash balance at the end of the financial year.
     """
@@ -15,6 +15,18 @@ class CashBalance(IndicatorCalculator):
     result_type = "R"
     noun = "cash balance"
     has_comparisons = True
+    reference = "solgf"
+    formula = {
+        "text": "= Cash available at year end",
+        "actual": [
+            "=", 
+            {
+                "cube": "cflow",
+                "item_codes": ["4200"],
+                "amount_type": "AUDA",
+            }
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, result):
@@ -44,8 +56,7 @@ class CashBalance(IndicatorCalculator):
         return data
 
     @classmethod
-    def get_muni_specifics(cls, api_data):
-        results = api_data.results
+    def get_values(cls, years, results):
         periods = {}
         # Populate periods with v1 data
         populate_periods(
@@ -60,15 +71,10 @@ class CashBalance(IndicatorCalculator):
             "cash_at_year_end",
         )
         # Generate data for the requested years
-        values = list(
+        return list(
             map(
                 lambda year: cls.generate_data(year, periods.get(year)),
-                api_data.years,
+                years,
             )
         )
-        # Return the compiled data
-        return {
-            "result_type": cls.result_type,
-            "values": values,
-            "ref": api_data.references["solgf"],
-        }
+
