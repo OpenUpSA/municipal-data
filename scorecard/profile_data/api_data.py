@@ -788,7 +788,7 @@ class ApiData(object):
                 "cube": "conditional_grants",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "amount_type.code": ["ACT", "ORGB", "TRFR"],
+                    "amount_type.code": ["ACT", "SCHD", "TRFR"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year", "month"],
                     "financial_year_end.year": self.years + [self.budget_year],
@@ -802,7 +802,7 @@ class ApiData(object):
                 "cube": "grants_v2",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "amount_type.code": ["ACT", "ORGB", "TRFR"],
+                    "amount_type.code": ["ACT", "SCHD", "TRFR"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year", "month"],
                     "financial_year_end.year": self.years + [self.budget_year],

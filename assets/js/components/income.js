@@ -300,7 +300,7 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
       const template = this.$element.find(".legend-block");
       template.remove();
 
-      container.append(new LegendItem(template, transfersColor, "Budgeted amount").$element);
+      container.append(new LegendItem(template, transfersColor, "Allocations").$element);
       container.append(new LegendItem(template, transferredColor, this._transferredLabel[this._year]).$element);
       container.append(new LegendItem(template, spentColor, this._spentLabel[this._year]).$element);
       this.$element.find(".indicator-chart__legend").css("display", "block");
@@ -348,8 +348,8 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
           delete item["amount.sum"];
 
           switch (item["amount_type.code"]) {
-          case "ORGB":
-            item.phase = "Amount budgeted";
+          case "SCHD":
+            item.phase = "Allocations";
             break;
           case "TRFR":
             item.phase = this._transferredLabel[year];
@@ -360,7 +360,7 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
         });
       }
       this._seriesOrder = [
-        "Amount budgeted",
+        "Allocations",
         this._transferredLabel[this._year],
         this._spentLabel[this._year],
       ];
