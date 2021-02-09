@@ -1,5 +1,15 @@
 import { formatLocale, format as d3Format } from 'd3-format';
 
+const dateTimeFormat = new Intl.DateTimeFormat("en-ZA", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
+
+export function formatDate(date) {
+  return dateTimeFormat.format(date)
+}
+
 export function logIfUnequal(a, b) {
   if (a !== b) {
     console.error(`${a} !== ${b}`);
