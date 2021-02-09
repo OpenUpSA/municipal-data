@@ -1,4 +1,5 @@
-from .indicator_calculator import IndicatorCalculator
+
+from .series import SeriesIndicator
 from .utils import (
     percent,
     group_by_year,
@@ -7,7 +8,7 @@ from .utils import (
 )
 
 
-class UIFWExpenditure(IndicatorCalculator):
+class UIFWExpenditure(SeriesIndicator):
     """
     Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage
     of operating expenditure.
@@ -17,6 +18,27 @@ class UIFWExpenditure(IndicatorCalculator):
     result_type = "%"
     noun = "expenditure"
     has_comparisons = True
+    reference = "circular71"
+    formula = {
+        "text": "= (Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure) * 100",
+        "actual": [
+            "=", 
+            "(",
+            {
+                "cube": "uifw",
+                "item_codes": ["irregular", "fruitless", "unauthorised"],
+            },
+            "/",
+            {
+                "cube": "incexp",
+                "item_codes": ["4600"],
+                "amount_type": "AUDA",
+            },
+            ")",
+            "*",
+            "100",
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, result):
@@ -41,8 +63,7 @@ class UIFWExpenditure(IndicatorCalculator):
         }
 
     @classmethod
-    def get_muni_specifics(cls, api_data):
-        results = api_data.results
+    def get_values(cls, years, results):
         periods = {}
         # Populate periods with UIFW expenditure data
         populate_periods(
@@ -69,15 +90,9 @@ class UIFWExpenditure(IndicatorCalculator):
         # Convert periods into dictionary
         periods = dict(periods)
         # Generate data for the requested years
-        values = list(
+        return list(
             map(
                 lambda year: cls.generate_data(year, periods.get(year)),
-                api_data.years,
+                years,
             )
         )
-        # Return the compiled data
-        return {
-            "result_type": cls.result_type,
-            "values": values,
-            "ref": api_data.references["circular71"],
-        }

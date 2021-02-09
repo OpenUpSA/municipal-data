@@ -1,14 +1,14 @@
 
+from .series import SeriesIndicator
 from .utils import (
     percent,
     group_by_year,
     populate_periods,
     filter_for_all_keys,
 )
-from .indicator_calculator import IndicatorCalculator
 
 
-class OperatingBudgetSpending(IndicatorCalculator):
+class OperatingBudgetSpending(SeriesIndicator):
     """
     Difference between budgeted operating expenditure and what was actually
     spent.
@@ -18,6 +18,36 @@ class OperatingBudgetSpending(IndicatorCalculator):
     result_type = "%"
     noun = "underspending or overspending"
     has_comparisons = True
+    reference = "overunder"
+    formula = {
+        "text": "= ((Actual Operating Expenditure - Budget Operating Expenditure) / Budgeted Operating Expenditure) * 100",
+        "actual": [
+            "=", 
+            "(",
+            "(",
+            {
+                "cube": "incexp",
+                "item_codes": ["4600"],
+                "amount_type": "AUDA",
+            },
+            "-",
+            {
+                "cube": "incexp",
+                "item_codes": ["4600"],
+                "amount_type": "ADJB",
+            },
+            ")",
+            "/",
+            {
+                "cube": "incexp",
+                "item_codes": ["4600"],
+                "amount_type": "ADJB",
+            },
+            ")",
+            "*",
+            "100",
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, result):
@@ -54,8 +84,7 @@ class OperatingBudgetSpending(IndicatorCalculator):
         return data
 
     @classmethod
-    def get_muni_specifics(cls, api_data):
-        results = api_data.results
+    def get_values(cls, years, results):
         periods = {}
         # Populate periods with v1 data
         populate_periods(
@@ -87,15 +116,9 @@ class OperatingBudgetSpending(IndicatorCalculator):
         # Convert periods into dictionary
         periods = dict(periods)
         # Generate data for the requested years
-        values = list(
+        return list(
             map(
                 lambda year: cls.generate_data(year, periods.get(year)),
-                api_data.years,
+                years,
             )
         )
-        # Return the compiled data
-        return {
-            "result_type": cls.result_type,
-            "values": values,
-            "ref": api_data.references["overunder"],
-        }

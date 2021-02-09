@@ -1,5 +1,9 @@
 
-from import_export import resources
+from import_export import (
+    resources,
+    fields,
+    widgets,
+)
 
 from ..models import (
     CflowFactsV1,
@@ -17,6 +21,9 @@ from ..models import (
     UIFWExpenseFacts,
     AuditOpinionFacts,
     MunicipalStaffContacts,
+    MunicipalityProfile,
+    MedianGroup,
+    RatingCountGroup,
 )
 
 
@@ -171,4 +178,33 @@ class MunicipalStaffContactsResource(resources.ModelResource):
         import_id_fields = [
             "demarcation_code",
             "role",
+        ]
+
+class MunicipalityProfileResource(resources.ModelResource):
+    data = fields.Field(attribute="data", widget=widgets.JSONWidget())
+
+    class Meta:
+        model = MunicipalityProfile
+        import_id_fields = [
+            "demarcation_code",
+        ]
+
+
+class MedianGroupResource(resources.ModelResource):
+    data = fields.Field(attribute="data", widget=widgets.JSONWidget())
+
+    class Meta:
+        model = MedianGroup
+        import_id_fields = [
+            "group_id",
+        ]
+
+
+class RatingCountGroupResource(resources.ModelResource):
+    data = fields.Field(attribute="data", widget=widgets.JSONWidget())
+
+    class Meta:
+        model = RatingCountGroup
+        import_id_fields = [
+            "group_id",
         ]

@@ -77,6 +77,24 @@ class TestCurrentRatio(_IndicatorTestCase):
                 "ref": {
                     "title": "Circular 71",
                     "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
-                }
+                },
+                "last_year": 2019,
+                "formula": {
+                    "text": "= Current Assets / Current Liabilities",
+                    "actual": [
+                        "=", 
+                        {
+                            "cube": "bsheet",
+                            "item_codes": ["2150"],
+                            "amount_type": "AUDA",
+                        },
+                        "/",
+                        {
+                            "cube": "bsheet",
+                            "item_codes": ["1600"],
+                            "amount_type": "AUDA",
+                        },
+                    ],
+                },
             }
         )

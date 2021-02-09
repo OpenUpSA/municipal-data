@@ -36,13 +36,7 @@ export default class ProfilePage {
 
     const initSection = (className, selector, key) => {
       errorBoundary(() => {
-        new className(
-          selector,
-          key,
-          pageData.indicators[key],
-          pageData.medians[key],
-          pageData.geography,
-        );
+        new className(selector, key, pageData);
       });
     };
     initSection(IndicatorSection, "#cash-balance", "cash_balance");

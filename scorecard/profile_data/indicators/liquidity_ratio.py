@@ -1,13 +1,14 @@
+
+from .series import SeriesIndicator
 from .utils import (
     ratio,
     group_items_by_year,
     sum_item_amounts,
     filter_for_all_keys,
 )
-from .indicator_calculator import IndicatorCalculator
 
 
-class LiquidityRatio(IndicatorCalculator):
+class LiquidityRatio(SeriesIndicator):
     """
     The municipality's immediate ability to pay its current liabilities.
     """
@@ -16,6 +17,24 @@ class LiquidityRatio(IndicatorCalculator):
     result_type = "ratio"
     noun = "ratio"
     has_comparisons = True
+    reference = "mbrr"
+    formula = {
+        "text": "= (Cash + Call Investment Deposits) / Current Liabilities",
+        "actual": [
+            "=", 
+            {
+                "cube": "bsheet",
+                "item_codes": ["1800", "2200"],
+                "amount_type": "AUDA",
+            },
+            "/",
+            {
+                "cube": "bsheet",
+                "item_codes": ["1600"],
+                "amount_type": "AUDA",
+            },
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, result):
@@ -50,8 +69,7 @@ class LiquidityRatio(IndicatorCalculator):
         return data
 
     @classmethod
-    def get_muni_specifics(cls, api_data):
-        results = api_data.results
+    def get_values(cls, years, results):
         periods = {}
         # Populate periods with v1 data
         grouped_results = group_items_by_year(results["bsheet_auda_years"])
@@ -80,15 +98,9 @@ class LiquidityRatio(IndicatorCalculator):
         # Convert periods into dictionary
         periods = dict(periods)
         # Generate data for the reuqested years
-        values = list(
+        return list(
             map(
                 lambda year: cls.generate_data(year, periods.get(year)),
-                api_data.years,
+                years,
             )
         )
-        # Return the compiled data
-        return {
-            "result_type": cls.result_type,
-            "values": values,
-            "ref": api_data.references["mbrr"],
-        }

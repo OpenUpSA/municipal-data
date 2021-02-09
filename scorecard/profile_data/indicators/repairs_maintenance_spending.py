@@ -1,4 +1,5 @@
-from .indicator_calculator import IndicatorCalculator
+
+from .series import SeriesIndicator
 from .utils import (
     percent,
     populate_periods,
@@ -7,7 +8,7 @@ from .utils import (
 )
 
 
-class RepairsMaintenanceSpending(IndicatorCalculator):
+class RepairsMaintenanceSpending(SeriesIndicator):
     """
     Spending on Repairs and Maintenance as a percentage of Property, Plant and
     Equipment.
@@ -17,6 +18,36 @@ class RepairsMaintenanceSpending(IndicatorCalculator):
     result_type = "%"
     noun = "spending"
     has_comparisons = True
+    reference = "circular71"
+    formula = {
+        "text": "= (Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)) * 100",
+        "actual": [
+            "=", 
+            "(",
+            {
+                "cube": "capital",
+                "item_codes": ["4100"],
+                "amount_type": "AUDA",
+            },
+            "/",
+            "(",
+            {
+                "cube": "bsheet",
+                "item_codes": ["1300"],
+                "amount_type": "AUDA",
+            },
+            "+",
+            {
+                "cube": "bsheet",
+                "item_codes": ["1401"],
+                "amount_type": "AUDA",
+            },
+            ")",
+            ")",
+            "*",
+            "100",
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, result):
@@ -52,8 +83,7 @@ class RepairsMaintenanceSpending(IndicatorCalculator):
         return data
 
     @classmethod
-    def get_muni_specifics(cls, api_data):
-        results = api_data.results
+    def get_values(cls, years, results):
         periods = {}
         # Populate periods with v1 data
         populate_periods(
@@ -99,15 +129,9 @@ class RepairsMaintenanceSpending(IndicatorCalculator):
         # Convert periods into dictionary
         periods = dict(periods)
         # Generate data for the requested years
-        values = list(
+        return list(
             map(
                 lambda year: cls.generate_data(year, periods.get(year)),
-                api_data.years,
+                years,
             )
         )
-        # Return the compiled data
-        return {
-            "result_type": cls.result_type,
-            "values": values,
-            "ref": api_data.references["circular71"],
-        }

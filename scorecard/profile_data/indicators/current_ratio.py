@@ -1,13 +1,14 @@
+
+from .series import SeriesIndicator
 from .utils import (
     ratio,
     sum_item_amounts,
     filter_for_all_keys,
     group_items_by_year,
 )
-from .indicator_calculator import IndicatorCalculator
 
 
-class CurrentRatio(IndicatorCalculator):
+class CurrentRatio(SeriesIndicator):
     """
     The value of a municipality's short-term assets as a multiple of its
     short-term liabilities.
@@ -17,6 +18,24 @@ class CurrentRatio(IndicatorCalculator):
     result_type = "ratio"
     noun = "ratio"
     has_comparisons = True
+    reference = "circular71"
+    formula = {
+        "text": "= Current Assets / Current Liabilities",
+        "actual": [
+            "=", 
+            {
+                "cube": "bsheet",
+                "item_codes": ["2150"],
+                "amount_type": "AUDA",
+            },
+            "/",
+            {
+                "cube": "bsheet",
+                "item_codes": ["1600"],
+                "amount_type": "AUDA",
+            },
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, value):
@@ -52,8 +71,7 @@ class CurrentRatio(IndicatorCalculator):
         return data
 
     @classmethod
-    def get_muni_specifics(cls, api_data):
-        results = api_data.results
+    def get_values(cls, years, results):
         periods = {}
         # Populate periods with v1 data
         grouped_results = group_items_by_year(results["bsheet_auda_years"])
@@ -80,15 +98,9 @@ class CurrentRatio(IndicatorCalculator):
         # Convert periods into dictionary
         periods = dict(periods)
         # Generate data for the requested years
-        values = list(
+        return list(
             map(
                 lambda year: cls.generate_data(year, periods.get(year)),
-                api_data.years,
+                years,
             )
         )
-        # Return the compiled data
-        return {
-            "result_type": cls.result_type,
-            "values": values,
-            "ref": api_data.references["circular71"],
-        }

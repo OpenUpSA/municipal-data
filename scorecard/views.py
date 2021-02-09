@@ -1,15 +1,18 @@
+
+import json
+
 from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
 from django.http import Http404, HttpResponse
 from django.urls import reverse
 
-from scorecard.profiles import get_profile
-from scorecard.models import Geography, LocationNotFound
 from infrastructure.models import Project
 from household.models import HouseholdServiceTotal, HouseholdBillTotal
 from household.chart import stack_chart, chart_data, percent_increase, yearly_percent
+from municipal_finance.models import AmountType
 
-import json
+from .profiles import get_profile
+from .models import Geography, LocationNotFound
 
 from . import models
 import municipal_finance
@@ -119,6 +122,20 @@ class GeographyDetailView(TemplateView):
         profile["geography"] = self.geo.as_dict()
         page_json["geography"] = self.geo
         page_json["pdf_url"] = self.pdf_url()
+
+        # Include amount types data
+        page_json["amount_types_v1"] = dict(
+            AmountType.objects.values_list('code', 'label')
+        )
+
+        # Include cubes data
+        page_json["cube_names"] = {
+            "bsheet": "Balance Sheet",
+            "capital": "Capital",
+            "cflow": "Cash Flow",
+            "incexp": "Income &amp; Expenditure",
+            "uifw": "Unauthorised, Irregular, Fruitless and Wasteful Expenditure",
+        }
 
         profile["demarcation"]["disestablished_to_geos"] = [
             Geography.objects.filter(geo_code=code).first().as_dict()
