@@ -21,9 +21,7 @@ from ..models import (
     UIFWExpenseFacts,
     AuditOpinionFacts,
     MunicipalStaffContacts,
-    MunicipalityProfile,
-    MedianGroup,
-    RatingCountGroup,
+    DemarcationChanges,
 )
 
 
@@ -180,31 +178,8 @@ class MunicipalStaffContactsResource(resources.ModelResource):
             "role",
         ]
 
-class MunicipalityProfileResource(resources.ModelResource):
-    data = fields.Field(attribute="data", widget=widgets.JSONWidget())
 
+class DemarcationChangesResource(resources.ModelResource):
     class Meta:
-        model = MunicipalityProfile
-        import_id_fields = [
-            "demarcation_code",
-        ]
+        model = DemarcationChanges
 
-
-class MedianGroupResource(resources.ModelResource):
-    data = fields.Field(attribute="data", widget=widgets.JSONWidget())
-
-    class Meta:
-        model = MedianGroup
-        import_id_fields = [
-            "group_id",
-        ]
-
-
-class RatingCountGroupResource(resources.ModelResource):
-    data = fields.Field(attribute="data", widget=widgets.JSONWidget())
-
-    class Meta:
-        model = RatingCountGroup
-        import_id_fields = [
-            "group_id",
-        ]
