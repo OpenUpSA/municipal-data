@@ -10,7 +10,7 @@ var textMatchEngine = new Bloodhound({
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     limit: 20,
     prefetch: {
-        url: API_URL + '/cubes/municipalities/facts',
+        url: DATA_PORTAL_URL + '/api/cubes/municipalities/facts',
         cache: false,
         transform: function(data) {
             return _.map(data.data, function(d) {

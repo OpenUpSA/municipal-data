@@ -33,7 +33,7 @@ def table_url(
         if isinstance(v, list):
             params[k] = ",".join(v)
 
-    return settings.API_BASE + "/table/" + cube + "/?" + urllib.parse.urlencode(params)
+    return settings.DATA_PORTAL_URL + "/table/" + cube + "/?" + urllib.parse.urlencode(params)
 
 
 @register.filter

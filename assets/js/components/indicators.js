@@ -111,7 +111,7 @@ export class IndicatorSection {
               text += `, ${amount_type}`;
             }
             params = new URLSearchParams(params).toString();
-            const url = `${API_URL}/table/${data.cube}/?${params}`;
+            const url = `${DATA_PORTAL_URL}/table/${data.cube}/?${params}`;
             $el.text(text);
             $el.attr('href', url);
             return $el;

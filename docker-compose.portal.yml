@@ -13,7 +13,7 @@ services:
       DJANGO_SECRET_KEY: "not-so-secret"
       SITE_ID: '3'
       PRELOAD_CUBES: 'true'
-      API_URL: http://localhost:8002/api
+      DATA_PORTAL_URL: http://localhost:8002
     working_dir: /app
     ports:
       - '8002:8000'

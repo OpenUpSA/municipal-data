@@ -52,7 +52,7 @@ exports.transformDOM = function(window, $) {
     id: "page-data",
     type: "application/json"
   }, "{{ page_data_json|json_script_escape:True }}");
-  addScriptToBody(window, {}, "var API_URL = '{{ API_URL }}'");
+  addScriptToBody(window, {}, "var DATA_PORTAL_URL = '{{ DATA_PORTAL_URL }}'");
   window.document.body.appendChild(
     window.document.createTextNode(
       "{% javascript 'scorecard' %}"
