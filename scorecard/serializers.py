@@ -7,6 +7,7 @@ import json
 
 class GeographySerializer(serializers.ModelSerializer):
     bbox = serializers.SerializerMethodField()
+    is_disestablished = serializers.SerializerMethodField('get_disestablished_status')
 
     def get_bbox(self, obj):
         if "full" in self.context:
@@ -19,6 +20,11 @@ class GeographySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Geography
         exclude = ["id"]
+
+    def get_disestablished_status(self, obj):
+        is_disestablished = "?" #DemarcationChanges.objects.get(DemarcationChanges.old_code == obj.geo_code).only(
+            #'old_code_transition')
+        return is_disestablished;
 
 
 class MunicipalityProfileSerializer(serializers.BaseSerializer):

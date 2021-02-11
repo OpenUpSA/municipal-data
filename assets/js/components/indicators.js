@@ -206,7 +206,7 @@ export class IndicatorSection {
 
       // Remove current muni from selection
       similarGroup = similarGroup.filter(
-        muni => muni["geo_code"] !== this.geography.geo_code
+        muni => muni["geo_code"] !== this.geography.geo_code//, this.geography.disestablished !== 'disestablished'
       );
 
       let groups;
