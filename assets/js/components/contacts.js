@@ -8,7 +8,7 @@ class OfficeContact {
     this.$itemTemplate = this.$element.find(".profile-info__item ").clone();
     this.$element.find(".profile-info__item ").remove();
 
-    const $heading = this.$element.find(".expand-block__heading");
+    const $heading = this.$element.find(".expand-block__trigger_heading");
     $heading.text(office.role);
     const $innerHeading = this.$element.find(".profile-info__heading");
     $innerHeading.text(office.secretary.role);
