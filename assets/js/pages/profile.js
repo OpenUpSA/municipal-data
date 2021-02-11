@@ -24,7 +24,12 @@ export default class ProfilePage {
     const maps = new Maps();
     maps.drawMapsForProfile(".profile-map", pageData.geography, pageData.demarcation);
 
-    new ProfileHeader(pageData.geography, pageData.total_population, pageData.population_density);
+    new ProfileHeader(
+      pageData.geography,
+      pageData.total_populationi,
+      pageData.population_density,
+      pageData.demarcation,
+    );
     new InPageNav(pageData.geography, pageData.total_population, pageData.pdf_url);
 
     errorBoundary(() => {
