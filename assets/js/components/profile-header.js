@@ -56,44 +56,42 @@ export class ProfileHeader {
       new TextField($container.find(".page-heading__geo-parent-3"), geography.province_name);
     }
 
+    // Display profile notices
+    const messages = [];
+    const name = geography.name;
     // Handle disestablished municipality
     if (demarcation.disestablished) {
-      const name = geography.name;
       const date = formatDate(new Date(demarcation.disestablished_date));
       const municipalities = demarcation.disestablished_to_geos;
       const links = createMunicipalityLinks(municipalities);
-      showProfileNotice(`${name} was disestablished on ${date} and ` +
+      messages.push(`${name} was disestablished on ${date} and ` +
         `amalgamated into ${links}`);
     }
     // Handle municipality established after last audit or withing audit years
     if (demarcation.established_after_last_audit
       || demarcation.established_within_audit_years) {
-      const name = geography.name;
       const date = formatDate(new Date(demarcation.established_date));
       const municipalities = demarcation.established_from_geos;
       const links = createMunicipalityLinks(municipalities);
-      showProfileNotice(`${name} was established on ${date} ` +
+      messages.push(`${name} was established on ${date} ` +
         `through the amalgamation of ${links}`);
     }
-    // Handle various municipal mergings
-    if (demarcation.land_gained || demarcation.land_lost) {
-      const messages = [];
-      const name = geography.name;
-      // Handle municipalities merged into the current one
-      for (const data of demarcation.land_gained) {
-        const date = formatDate(new Date(data.date));
-        const municipalities = data.changes.map((change) => change.geo);
-        const links = createMunicipalityLinks(municipalities);
-        messages.push(`Part of ${links} became part of ${name} on ${date}`);
-      }
-      // Handle this municipality merging into another
-      for (const data of demarcation.land_lost) {
-        const date = formatDate(new Date(data.date));
-        const municipalities = data.changes.map((change) => change.geo);
-        const links = createMunicipalityLinks(municipalities);
-        messages.push(`Part of ${name} became part of ${links} on ${date}`);
-      }
-      // Show the collective message (this won't look good, fix later)
+    // Handle municipalities merged into the current one
+    for (const data of demarcation.land_gained) {
+      const date = formatDate(new Date(data.date));
+      const municipalities = data.changes.map((change) => change.geo);
+      const links = createMunicipalityLinks(municipalities);
+      messages.push(`Part of ${links} became part of ${name} on ${date}`);
+    }
+    // Handle this municipality merging into another
+    for (const data of demarcation.land_lost) {
+      const date = formatDate(new Date(data.date));
+      const municipalities = data.changes.map((change) => change.geo);
+      const links = createMunicipalityLinks(municipalities);
+      messages.push(`Part of ${name} became part of ${links} on ${date}`);
+    }
+    // Show the collective message (this won't look good, fix later)
+    if (messages.length > 0) {
       showProfileNotice(messages.join('<br />'));
     }
 
