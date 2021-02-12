@@ -100,8 +100,8 @@ class TestGeographies(TestCase):
         self.assertDictEqual(parent_json, js_parent)
 
     def test_geography_with_bbox(self):
-        js_parent = serializers.GeographySerializer(self.parent_geography, context={
-                                                    "request": None, "full": True}).data
+        js_parent = serializers.GeographySerializer(
+        self.parent_geography, context={"request": None, "full": True}).data
 
         coords = [cpt_coords[x]
                   for x in ["min_lon", "min_lat", "max_lon", "max_lat"]]
