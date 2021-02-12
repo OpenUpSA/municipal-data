@@ -26,5 +26,6 @@ def sentry_dsn(request):
 
 def api_details(request):
     return {
-        'DATA_PORTAL_URL': settings.DATA_PORTAL_URL
+        'DATA_PORTAL_URL': settings.DATA_PORTAL_URL,
+        'API_URL': settings.API_URL,
     }
