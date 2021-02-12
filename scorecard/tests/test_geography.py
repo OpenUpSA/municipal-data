@@ -36,7 +36,6 @@ fixtures = {
         "geo_code": "CPT",
         "name": "my name",
         "long_name": "my long_name",
-        "is_disestablished": None,
         "square_kms":  1000,
         "parent_level":  None,
         "parent_code":  None,
@@ -62,7 +61,6 @@ fixtures = {
         "geo_level": "my geo_levels2",
         "geo_code": "my codes2",
         "name": "my names2",
-        "is_disestablished": None,
         "long_name": "my long_names2",
         "square_kms":  1000,
         "parent_level":  None,
@@ -97,9 +95,9 @@ class TestGeographies(TestCase):
 
     def test_geography_without_bbox(self):
         js_parent = serializers.GeographySerializer(
-            self.parent_geography, context={"request": None}).data
+        self.parent_geography, context={"request": None}).data
+        parent_json = dict(fixtures["parent_map"], bbox=[], is_disestablished = False)
 
-        parent_json = dict(fixtures["parent_map"], bbox=[])
         self.assertDictEqual(parent_json, js_parent)
 
     def test_geography_with_bbox(self):
@@ -108,8 +106,8 @@ class TestGeographies(TestCase):
 
         coords = [cpt_coords[x]
                   for x in ["min_lon", "min_lat", "max_lon", "max_lat"]]
+        parent_json = dict(fixtures["parent_map"], bbox=coords, is_disestablished = False)
 
-        parent_json = dict(fixtures["parent_map"], bbox=coords)
         self.assertDictEqual(parent_json, js_parent)
 
 
