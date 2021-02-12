@@ -36,6 +36,7 @@ fixtures = {
         "geo_code": "CPT",
         "name": "my name",
         "long_name": "my long_name",
+        "is_disestablished": None,
         "square_kms":  1000,
         "parent_level":  None,
         "parent_code":  None,
@@ -61,6 +62,7 @@ fixtures = {
         "geo_level": "my geo_levels2",
         "geo_code": "my codes2",
         "name": "my names2",
+        "is_disestablished": None,
         "long_name": "my long_names2",
         "square_kms":  1000,
         "parent_level":  None,
@@ -85,6 +87,7 @@ fixtures = {
 
 
 class TestGeographies(TestCase):
+    maxDiff = None
 
     def setUp(self):
         self.parent_geography = models.Geography.objects.create(

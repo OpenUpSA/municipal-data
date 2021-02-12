@@ -203,9 +203,8 @@ export class IndicatorSection {
       });
 
       var filteredResults = response.results.filter(function( obj ) {
-          return obj.is_disestablished !== 'disestablished';
+          return obj.is_disestablished !== true;
       });
-
       const miifGrouped  = _.groupBy(filteredResults, "miif_category");
       let similarGroup = miifGrouped[this.geography.miif_category];
       // Remove current muni from selection and disestablished municipalities
