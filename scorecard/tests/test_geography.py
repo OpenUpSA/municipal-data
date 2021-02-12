@@ -101,7 +101,8 @@ class TestGeographies(TestCase):
 
     def test_geography_with_bbox(self):
         js_parent = serializers.GeographySerializer(
-        self.parent_geography, context={"request": None, "full": True}).data
+        self.parent_geography, context={
+                                                    "request": None, "full": True}).data
 
         coords = [cpt_coords[x]
                   for x in ["min_lon", "min_lat", "max_lon", "max_lat"]]
