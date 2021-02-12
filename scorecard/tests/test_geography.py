@@ -85,7 +85,6 @@ fixtures = {
 
 
 class TestGeographies(TestCase):
-    maxDiff = None
 
     def setUp(self):
         self.parent_geography = models.Geography.objects.create(
