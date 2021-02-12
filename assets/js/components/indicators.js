@@ -268,9 +268,12 @@ export class IndicatorSection {
       const response = await $.ajax({
         url: '/api/geography/geography/'
       });
-      const miifGrouped  = _.groupBy(response.results, "miif_category");
-      let similarGroup = miifGrouped[this.geography.miif_category];
 
+      var activeMunicipalities = response.results.filter(function( obj ) {
+          return obj.is_disestablished !== true;
+      });
+      const miifGrouped  = _.groupBy(activeMunicipalities, "miif_category");
+      let similarGroup = miifGrouped[this.geography.miif_category];
       // Remove current muni from selection
       similarGroup = similarGroup.filter(
         muni => muni["geo_code"] !== this.geography.geo_code

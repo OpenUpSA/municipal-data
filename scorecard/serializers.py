@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from municipal_finance.models import DemarcationChanges
 from . import models
 import municipal_finance
 import decimal
@@ -7,6 +9,7 @@ import json
 
 class GeographySerializer(serializers.ModelSerializer):
     bbox = serializers.SerializerMethodField()
+    is_disestablished = serializers.SerializerMethodField('get_disestablished_status')
 
     def get_bbox(self, obj):
         if "full" in self.context:
@@ -19,6 +22,11 @@ class GeographySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Geography
         exclude = ["id"]
+
+
+    def get_disestablished_status(self, obj):
+        result = DemarcationChanges.objects.filter(old_code=obj.geo_code).values('old_code_transition')[:1]
+        return result.exists()
 
 
 class MunicipalityProfileSerializer(serializers.BaseSerializer):
