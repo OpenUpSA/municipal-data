@@ -26,7 +26,7 @@ export default class ProfilePage {
 
     new ProfileHeader(
       pageData.geography,
-      pageData.total_populationi,
+      pageData.total_population,
       pageData.population_density,
       pageData.demarcation,
     );
