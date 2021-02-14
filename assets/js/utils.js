@@ -58,6 +58,7 @@ export function formatForType(type, value) {
 
 export function formatPhase(code) {
   switch (code) {
+  case "SCHD": return "Allocations";
   case "ORGB": return "Original budget";
   case "ADJB": return "Adjusted budget";
   case "AUDA": return "Audited actual";

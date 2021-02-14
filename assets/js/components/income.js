@@ -287,7 +287,7 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
     if (this._year === null) {
       this.$element.find(".indicator-metric__value").text("Not available");
     } else {
-      const types = this.sectionData.totals[this._year]["ORGB"];
+      const types = this.sectionData.totals[this._year]["SCHD"];
       const indicatorValue = types.national_conditional_grants;
       this.$element.find(".indicator-metric__value").text(formatForType("R", indicatorValue));
     }
@@ -373,7 +373,7 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
       options.push(["Not available", {}]);
     } else {
       options.push([
-        `${formatFinancialYear(this._year)} ${formatPhase("ORGB")}`,
+        `${formatFinancialYear(this._year)} ${formatPhase("SCHD")}`,
         {
           year: this._year,
           phase: "AUDA",
