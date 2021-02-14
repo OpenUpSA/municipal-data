@@ -133,7 +133,7 @@ class GeographyDetailView(TemplateView):
             "bsheet": "Balance Sheet",
             "capital": "Capital",
             "cflow": "Cash Flow",
-            "incexp": "Income &amp; Expenditure",
+            "incexp": "Income & Expenditure",
             "uifw": "Unauthorised, Irregular, Fruitless and Wasteful Expenditure",
         }
 
