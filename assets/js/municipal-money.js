@@ -1,6 +1,7 @@
 import ProfilePage from './pages/profile.js';
 import HomePage from './pages/home.js';
 import LocatePage from './pages/locate.js';
+import HelpPage from './pages/help.js';
 import './polyfills/custom-event';
 
 $(function() {
@@ -21,6 +22,7 @@ $(function() {
   case "terms":
     break;
   case "help":
+    new HelpPage();
     break;
   default:
     console.error("No class for page type: ", pageType);
