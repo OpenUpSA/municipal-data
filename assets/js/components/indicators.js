@@ -269,7 +269,7 @@ export class IndicatorSection {
         url: '/api/geography/geography/'
       });
 
-      var activeMunicipalities = response.results.filter(function( obj ) {
+      var activeMunicipalities = response.filter(function( obj ) {
           return obj.is_disestablished !== true;
       });
       const miifGrouped  = _.groupBy(activeMunicipalities, "miif_category");
