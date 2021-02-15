@@ -26,6 +26,7 @@ from django.conf import settings
 class GeographyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Geography.objects.all()
     serializer_class = serializers.GeographySerializer
+    paginator = None
 
 
 class MunicipalityProfileViewSet(viewsets.ReadOnlyModelViewSet):
