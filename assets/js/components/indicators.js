@@ -36,6 +36,7 @@ export class IndicatorSection {
     this.geography = pageData.geography;
     this.amountTypes = pageData["amount_types_v1"];
     this.cubeNames = pageData["cube_names"];
+    this.municipalCategoryDescriptions = pageData["municipal_category_descriptions"];
     this.$element = $(selector);
     logIfUnequal(1, this.$element.length);
     this.latestItem = this.sectionData.values[0];
@@ -49,10 +50,10 @@ export class IndicatorSection {
 
     this._initAverageButtons();
     this._initComparisonButtons();
-
-    this.initCalculation();
-    this.initSectionPeriod();
-    this.initMetric();
+    this._initCategoryInfo();
+    this._initCalculation();
+    this._initSectionPeriod();
+    this._initMetric();
 
     this.comparisonMenu = new ComparisonMenu(selector, this.key);
     this.comparisonMenu.$element.on("option-select", ((e) => {
@@ -64,7 +65,19 @@ export class IndicatorSection {
     return formatForType(this.sectionData.result_type, value);
   }
 
-  initCalculation() {
+  _initCategoryInfo() {
+    const miifCategory = this.geography["miif_category"];
+    const categoryName = this.geography["category_name"];
+    const $category = this.$element.find(".muni-type__wrapper");
+    const $label = $category.find(".label");
+    const $description = $category.find(".tooltip__description");
+    const $link = $category.find(".tooltip__link");
+    $label.text(`${miifCategory} ${categoryName}`);
+    $description.text(this.municipalCategoryDescriptions[miifCategory]);
+    $link.attr("href", "/help#similar-munis");
+  }
+
+  _initCalculation() {
     const geo_code = this.geography.geo_code;
     const last_year = this.sectionData.last_year;
     // Render the calculation reference
@@ -123,11 +136,11 @@ export class IndicatorSection {
     }
   }
 
-  initSectionPeriod() {
+  _initSectionPeriod() {
     this.$element.find(".section-header__info-right").text(this.formatPeriod(this.latestItem.date));
   }
 
-  initMetric() {
+  _initMetric() {
     const $skeleton = this.$element.find(".indicator-metric");
     logIfUnequal(1, $skeleton.length);
     const templateClass = indicatorMetricClass[this.latestItem.rating];
