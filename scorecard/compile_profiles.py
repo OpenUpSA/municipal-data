@@ -374,12 +374,6 @@ def compile_data(
     api_client = ApiClient(get, api_url)
     # Compile data
     municipalities = get_municipalities(api_client)
-
-    municipalities = list(filter(
-        lambda o: o["geo_code"] in ["CPT"],
-        municipalities,
-    ))
-
     compile_profiles(
         municipalities,
         api_client,
