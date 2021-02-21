@@ -401,16 +401,6 @@
       var quarter_data = {{quarter_data|safe}};
       if (quarter_data) {
         data = []
-        var adjusted_chart = {
-          x: adjusted_data.labels,
-          y: adjusted_data.data,
-          hoverinfo: 'text',
-          text: adjusted_data.data.map(add_rand),
-          type: 'bar',
-          name: 'Adjusted Budget',
-
-        }
-        data.push(adjusted_chart);
         var original_chart = {
           x: original_data.labels,
           y: original_data.data,
@@ -421,6 +411,16 @@
 
         }
         data.push(original_chart);
+        var adjusted_chart = {
+          x: adjusted_data.labels,
+          y: adjusted_data.data,
+          hoverinfo: 'text',
+          text: adjusted_data.data.map(add_rand),
+          type: 'bar',
+          name: 'Adjusted Budget',
+
+        }
+        data.push(adjusted_chart);
         for (const quarter in quarter_data) {
           var total = Humanize.compactInteger(quarter_data[quarter][1], 1);
           var quarter_name = quarter_data[quarter][0];
