@@ -281,25 +281,33 @@ def compile_profiles(
     last_audit_quarter,
 ):
     for municipality in municipalities:
-        # Alter the last year if the municipality is disestablished
+        geo_code = municipality["geo_code"]
+        # Compile according to disestablushed status
         if municipality["disestablished"]:
+            # Compile up to disestablishment date if disestablished
             disestablished_date = datetime.strptime(
                 municipality["disestablished_date"], "%Y-%m-%d"
             )
-            target_year = disestablished_date.year - 1
-            last_audit_year = target_year
-            last_opinion_year = target_year
-            last_uifw_year = target_year
-            last_audit_quarter = f"${target_year}q4"
-        # Compile the municipality profile
-        compile_profile(
-            api_client,
-            municipality["geo_code"],
-            last_audit_year,
-            last_opinion_year,
-            last_uifw_year,
-            last_audit_quarter,
-        )
+            disestablished_year = disestablished_date.year - 1
+            disestablished_quarter = f"${disestablished_year}q4"
+            compile_profile(
+                api_client,
+                geo_code,
+                disestablished_year,
+                disestablished_year,
+                disestablished_year,
+                disestablished_quarter,
+            )
+        else:
+            # Compile according to target dates
+            compile_profile(
+                api_client,
+                geo_code,
+                last_audit_year,
+                last_opinion_year,
+                last_uifw_year,
+                last_audit_quarter,
+            )
 
 
 def compile_medians(munis):
