@@ -195,4 +195,10 @@ class CapitalTypeV2Admin(ImportExportModelAdmin):
 
 @admin.register(DemarcationChanges)
 class DemarcationChangesAdmin(admin.ModelAdmin):
-    list_display = ("date", "old_code", "new_code",)
+    list_display = (
+        "date",
+        "old_code",
+        "new_code",
+        "old_code_transition",
+        "new_code_transition",
+    )
