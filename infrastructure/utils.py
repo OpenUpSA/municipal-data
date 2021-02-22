@@ -103,7 +103,7 @@ def load_csv(geography, fp):
 
 
 @transaction.atomic
-def load_file(geography, reader, financial_year):
+def load_file(geography, reader, financial_year=None):
     print(geography.geo_code)
 
     for idx, row in enumerate(reader):
