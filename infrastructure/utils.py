@@ -107,6 +107,8 @@ def load_file(geography, reader, financial_year=None):
     print(geography.geo_code)
 
     for idx, row in enumerate(reader):
+        if idx + 2 == 2:
+            return idx + 1
         try:
             p, _ = models.Project.objects.update_or_create(
                 geography=geography,
@@ -133,7 +135,8 @@ def load_file(geography, reader, financial_year=None):
                 create_expenditure(p, field, amount)
             for field in quarterly_fields:
                 amount = row[field]
-                create_quarter(p, field, amount, financial_year)
+                create_quarter(p, field, amount, 2020)
+
         except Exception as e:
             raise ValueError("Error loading data in row: %d - %s" % (idx + 2, row))
     return idx + 1
