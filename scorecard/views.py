@@ -138,6 +138,20 @@ class GeographyDetailView(TemplateView):
             "uifw": "Unauthorised, Irregular, Fruitless and Wasteful Expenditure",
         }
 
+        # Include municipal category descriptions
+        page_json["municipal_category_descriptions"] = {
+            "A": "Metropolitan municipalities (metro)",
+            "B1": "Secondary cities, local municipalities with the largest budgets",
+            "B2": "Local municipalities with a large town as core",
+            "B3": "Local municipalities with small towns, with relatively small " +
+                "population and significant proportion of urban population but " +
+                "with no large town as core",
+            "B4": "Local municipalities which are mainly rural with communal " +
+                "tenure and with, at most, one or two small towns in their area",
+            "C1": "District municipalities which are not water services authorities",
+            "C2": "District municipalities which are water authorities",
+        }
+
         profile["demarcation"]["disestablished_to_geos"] = [
             Geography.objects.filter(geo_code=code).first().as_dict()
             for code in profile["demarcation"].get("disestablished_to", [])

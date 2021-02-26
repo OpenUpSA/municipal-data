@@ -1,6 +1,6 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Thu Jan 28 2021 10:10:05 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb52ccb71c5c1e" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Tue Feb 16 2021 08:51:23 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb52ccb71c5c1e" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_title }}" property="og:title">
@@ -238,7 +238,7 @@
     <div class="plate plate--shadow-large"></div>
     <div class="container">
       <div class="nav-inner">
-        <a id="w-node-133d4c7ba194-4c7ba190" href="/" class="home-link w-inline-block"><img src="{% static 'webflow/images/munimoney-logo-colour-red.svg' %}" loading="eager" height="39" alt="" class="nav-logo"></a>
+        <a id="w-node-_54ec1572-a19d-23ac-5a5a-133d4c7ba194-4c7ba190" href="/" class="home-link w-inline-block"><img src="{% static 'webflow/images/munimoney-logo-colour-red.svg' %}" loading="eager" height="39" alt="" class="nav-logo"></a>
         <div class="nav-items">
           <a href="/" class="nav-link w-inline-block">
             <div class="link-text link-text--site-nav">Home</div>
@@ -254,7 +254,7 @@
           </a>
           
         </div>
-        <div id="w-node-133d4c7ba1a7-4c7ba190" class="nav-search">
+        <div id="w-node-_54ec1572-a19d-23ac-5a5a-133d4c7ba1a7-4c7ba190" class="nav-search">
           <div class="nav-search___input w-form">
             <form id="wf-form-Navigation-Search" name="wf-form-Navigation-Search" data-name="Navigation Search" class="search-input">
               <div class="search-input__icon">
@@ -291,7 +291,7 @@
             </div>
           </div>
         </div>
-        <div id="w-node-133d4c7ba1c8-4c7ba190" class="nav-mobile">
+        <div id="w-node-_54ec1572-a19d-23ac-5a5a-133d4c7ba1c8-4c7ba190" class="nav-mobile">
           <div id="nav-mobile-open-icon" data-w-id="54ec1572-a19d-23ac-5a5a-133d4c7ba1c9" class="mobile-search__toggle">
             <div class="mobile-search__open-icon">
               <div class="fas fa-search"></div>
@@ -401,9 +401,65 @@
       <div class="profile-header__inner">
         <div class="profile-heading">
           <h1 class="page-heading__title">Loading...</h1>
-          <div class="page-heading__muni-info page-heading__muni-info--local"><span class="page-heading__muni-type">Local municipality</span> in <a href="#" class="page-heading__subtitle_link"><span class="page-heading__geo-parent-1">...</span></a> , <span class="page-heading__geo-parent-3">...</span></div>
-          <div class="page-heading__muni-info page-heading__muni-info--district"><span class="page-heading__muni-type">District municipality</span> in <span class="page-heading__geo-parent-3">...</span></div>
-          <div class="page-heading__muni-info page-heading__muni-info--metro"><span class="page-heading__muni-type">Metro</span> in <span class="page-heading__geo-parent-3">...</span></div>
+          <div class="page-heading__muni-info page-heading__muni-info--local hidden">
+            <div class="muni-type__wrapper hover-tooltip">
+              <div class="label dotted-underline page-heading__muni-type">...</div>
+              <div class="tooltip__wrapper">
+                <div class="tooltip">
+                  <p class="tooltip__description">Loading...</p>
+                  <a href="#" class="tooltip__link w-inline-block">
+                    <div class="tooltip__link_text">Learn more</div>
+                    <div class="icon icon--16px">
+                      <div class="fa-icon fas fa-long-arrow-alt-right"></div>
+                    </div>
+                  </a>
+                  <div class="tooltip__notch"></div>
+                </div>
+              </div>
+            </div>
+            <div>&nbsp;in&nbsp;</div>
+            <a href="#" class="page-heading__subtitle_link">...</a>
+            <div>,&nbsp;</div>
+            <div class="page-heading__geo-parent-3">...</div>
+          </div>
+          <div class="page-heading__muni-info page-heading__muni-info--district hidden">
+            <div class="muni-type__wrapper hover-tooltip">
+              <div class="label dotted-underline page-heading__muni-type">...</div>
+              <div class="tooltip__wrapper">
+                <div class="tooltip">
+                  <p class="tooltip__description">Loading...</p>
+                  <a href="#" class="tooltip__link w-inline-block">
+                    <div class="tooltip__link_text">Learn more</div>
+                    <div class="icon icon--16px">
+                      <div class="fa-icon fas fa-long-arrow-alt-right"></div>
+                    </div>
+                  </a>
+                  <div class="tooltip__notch"></div>
+                </div>
+              </div>
+            </div>
+            <div>&nbsp;in&nbsp;</div>
+            <div class="page-heading__geo-parent-3">...</div>
+          </div>
+          <div class="page-heading__muni-info page-heading__muni-info--metro hidden">
+            <div class="muni-type__wrapper hover-tooltip">
+              <div class="label dotted-underline page-heading__muni-type">...</div>
+              <div class="tooltip__wrapper">
+                <div class="tooltip">
+                  <p class="tooltip__description">Loading...</p>
+                  <a href="#" class="tooltip__link w-inline-block">
+                    <div class="tooltip__link_text">Learn more</div>
+                    <div class="icon icon--16px">
+                      <div class="fa-icon fas fa-long-arrow-alt-right"></div>
+                    </div>
+                  </a>
+                  <div class="tooltip__notch"></div>
+                </div>
+              </div>
+            </div>
+            <div>&nbsp;in&nbsp;</div>
+            <div class="page-heading__geo-parent-3">...</div>
+          </div>
         </div>
         <div class="profile-metrics">
           <div class="profile-metrics__block">
@@ -422,17 +478,6 @@
       </div>
     </div>
   </div>
-  <div class="profile-notice hidden">
-    <div class="container">
-      <div class="profile-notice__inner">
-        <div class="profile-notice__icon">
-          <div class="fas fa-info"></div>
-        </div>
-        <div class="profile-notice__text">Loading...</div>
-      </div>
-    </div>
-    <div class="plate plate--primary"></div>
-  </div>
   <div data-w-id="f1548048-955a-a030-6b53-647b03a25895" class="page-nav__trigger">
     <div class="page-nav__trigger-label-wrap">
       <div class="page-nav__trigger-label">Navigate &amp;&nbsp;share</div>
@@ -440,6 +485,18 @@
     <div class="page-nav__trigger-icon">
       <div class="fas fa-ellipsis-v"></div>
     </div>
+  </div>
+  <div class="profile-notice hidden">
+    <div class="container">
+      <div class="profile-notice__inner">
+        <div class="profile-notice__icon">
+          <div class="fas fa-info"></div>
+        </div>
+        <div class="profile-notice__text">Loading...</div>
+        <a href="#" class="page-heading__subtitle_link">...</a>
+      </div>
+    </div>
+    <div class="plate plate--primary"></div>
   </div>
   <header class="page-nav">
     <div class="plate plate--white plate--shadow-medium"></div>
@@ -521,38 +578,38 @@
   <div id="contacts" class="section section--padding-top">
     <div class="container">
       <div class="grid grid--32px">
-        <div id="w-node-332542d0088c-b71c5c1e" class="section-header section-header--clear section-header--icon-left section-header--info-right">
+        <div id="w-node-_06492bbd-10fe-b798-4579-332542d0088c-b71c5c1e" class="section-header section-header--clear section-header--icon-left section-header--info-right">
           <div class="section-heading__icon">
             <div class="fas fa-landmark"></div>
           </div>
           <h2 class="heading heading--clear">Contacts</h2>
-          <div id="w-node-d95600f53877-b71c5c1e" class="section-header__info-right">
+          <div id="w-node-_4c86f6ed-f9a0-1623-ebca-d95600f53877-b71c5c1e" class="section-header__info-right">
             <div class="date-updated">Loading...</div>
           </div>
         </div>
-        <div id="w-node-17003541d290-b71c5c1e" class="layout-grid layout-grid--sidebar-right">
-          <div id="w-node-ec500838a616-b71c5c1e" class="layout-grid__col">
+        <div id="w-node-_045427d9-06c5-f1a4-7ef4-17003541d290-b71c5c1e" class="layout-grid layout-grid--sidebar-right">
+          <div id="w-node-c0a9364d-c6c8-3d05-63cc-ec500838a616-b71c5c1e" class="layout-grid__col">
             <div class="expand-blocks expand-blocks--m-bottom"></div>
           </div>
           <div class="layout-grid__col layout-grid__col--padding-left">
             <div class="grid grid--8px">
-              <a id="w-node-3f6650fe079e-b71c5c1e" href="#" class="button button--icon-left button--align-left button--phone-muni w-inline-block">
+              <a id="w-node-c6f2e3b4-29ab-bc2d-2514-3f6650fe079e-b71c5c1e" href="#" class="button button--icon-left button--align-left button--phone-muni w-inline-block">
                 <div class="button__icon">
                   <div class="fas fa-phone-alt"></div>
                 </div>
-                <div id="w-node-b01f7852b163-b71c5c1e" class="dont-break-out">Loading...</div>
+                <div id="w-node-_23158b93-a834-9f69-b374-b01f7852b163-b71c5c1e" class="dont-break-out">Loading...</div>
               </a>
-              <a id="w-node-09a0e8c9c610-b71c5c1e" href="#" class="button button--icon-left button--align-left button--email-muni w-inline-block">
+              <a id="w-node-_5a326803-b7c6-65b7-c781-09a0e8c9c610-b71c5c1e" href="#" class="button button--icon-left button--align-left button--email-muni w-inline-block">
                 <div class="button__icon">
                   <div class="fas fa-envelope"></div>
                 </div>
-                <div id="w-node-09a0e8c9c613-b71c5c1e" class="dont-break-out">Email municipality</div>
+                <div id="w-node-_5a326803-b7c6-65b7-c781-09a0e8c9c613-b71c5c1e" class="dont-break-out">Email municipality</div>
               </a>
-              <a id="w-node-ecdf5e07da7b-b71c5c1e" href="#" class="button button--icon-left button--align-left button--muni-site w-inline-block">
+              <a id="w-node-_8ac4a102-3d91-e185-fbbb-ecdf5e07da7b-b71c5c1e" href="#" class="button button--icon-left button--align-left button--muni-site w-inline-block">
                 <div class="button__icon">
                   <div class="fas fa-globe-africa"></div>
                 </div>
-                <div id="w-node-ecdf5e07da7e-b71c5c1e" class="dont-break-out">Municipality website</div>
+                <div id="w-node-_8ac4a102-3d91-e185-fbbb-ecdf5e07da7e-b71c5c1e" class="dont-break-out">Municipality website</div>
               </a>
               <div class="muni-address">
                 <div class="button__icon">
@@ -776,7 +833,7 @@
                     <div class="expand-block__trigger_content-icon">
                       <div class="fas fa-question"></div>
                     </div>
-                    <h5 id="w-node-b183081dce86-b71c5c1e" class="expand-block__trigger_heading">What do different audit outcomes mean?</h5>
+                    <h5 id="w-node-_9c874cd1-2d2d-9552-6d53-b183081dce86-b71c5c1e" class="expand-block__trigger_heading">What do different audit outcomes mean?</h5>
                   </div>
                   <div class="expand-block__trigger_icon">
                     <div class="fas fa-plus"></div>
@@ -785,7 +842,7 @@
                 <div class="expand-block__content">
                   <div class="expand-block__content_inner">
                     <div class="layout-grid layout-grid--4-col layout-grid--align-top">
-                      <div id="w-node-bd0501ae0838-b71c5c1e" class="audit-outcome audit-outcome--summary">
+                      <div id="w-node-_06269137-d16e-feab-4513-bd0501ae0838-b71c5c1e" class="audit-outcome audit-outcome--summary">
                         <div class="audit-outcome__icons audit-outcome--summary">
                           <div class="audit-outcome__icon audit-outcome__icon--green">
                             <div class="fas fa-thumbs-up"></div>
@@ -801,7 +858,7 @@
                           <p class="audit-outcome__definition">Same as an Unqualified Opinion with no findings, but the Auditor-General wants to bring something particular to the attention of the reader.</p>
                         </div>
                       </div>
-                      <div id="w-node-7ee055317fb9-b71c5c1e" class="audit-outcome audit-outcome--summary">
+                      <div id="w-node-_7bb8cfda-d12a-3eb4-5a47-7ee055317fb9-b71c5c1e" class="audit-outcome audit-outcome--summary">
                         <div class="audit-outcome__icons audit-outcome--summary">
                           <div class="audit-outcome__icon audit-outcome__icon--green">
                             <div class="fas fa-thumbs-up"></div>
@@ -814,7 +871,7 @@
                           <p class="audit-outcome__definition">Same as an Unqualified Opinion with no findings, but the Auditor-General wants to bring something particular to the attention of the reader.</p>
                         </div>
                       </div>
-                      <div id="w-node-eca7e872adb6-b71c5c1e" class="audit-outcome audit-outcome--summary">
+                      <div id="w-node-_5b7926f3-0ae2-56f0-4a4e-eca7e872adb6-b71c5c1e" class="audit-outcome audit-outcome--summary">
                         <div class="audit-outcome__icons audit-outcome--summary">
                           <div class="plate plate--black-trans-4 plate--no-hover plate--rounded"></div>
                           <div class="audit-outcome__icon audit-outcome__icon--red">
@@ -827,7 +884,7 @@
                           <p class="audit-outcome__definition">The Auditor-General expresses reservations about the fair presentation of the financial statements. There is some departure from the Generally Recognised Accounting Practices (GRAP) but is not sufficiently serious as to warrant an adverse opinion or disclaimer of opinion.</p>
                         </div>
                       </div>
-                      <div id="w-node-6f7436277fbf-b71c5c1e" class="audit-outcome audit-outcome--summary">
+                      <div id="w-node-_078bbed7-178c-21c8-aeca-6f7436277fbf-b71c5c1e" class="audit-outcome audit-outcome--summary">
                         <div class="audit-outcome__icons audit-outcome--summary">
                           <div class="audit-outcome__icon audit-outcome__icon--red">
                             <div class="fas fa-exclamation"></div>
@@ -839,7 +896,7 @@
                           <p class="audit-outcome__definition">This is expressed when the auditor concludes that the annual financial statements do not present the municipality’s financial position, results of operations and cash flows in line with Generally Recognised Accounting Practices (GRAP).</p>
                         </div>
                       </div>
-                      <div id="w-node-d7bb64db2d22-b71c5c1e" class="audit-outcome audit-outcome--summary">
+                      <div id="w-node-_586ef87c-1634-3cb8-6d1c-d7bb64db2d22-b71c5c1e" class="audit-outcome audit-outcome--summary">
                         <div class="audit-outcome__icons audit-outcome--summary">
                           <div class="audit-outcome__icon audit-outcome__icon--red">
                             <div class="fas fa-exclamation"></div>
@@ -852,7 +909,7 @@
                           <p class="audit-outcome__definition">The Auditor-General does not have all of the underlying documentation needed to determine an opinion. For example, the lack of underlying documentation and the amounts in question may be so great so that it is impossible to give any opinion on all.</p>
                         </div>
                       </div>
-                      <div id="w-node-8f735fd51abb-b71c5c1e" class="audit-outcome audit-outcome--summary">
+                      <div id="w-node-_4c8785bb-00dd-8972-501a-8f735fd51abb-b71c5c1e" class="audit-outcome audit-outcome--summary">
                         <div class="audit-outcome__icons audit-outcome--summary">
                           <div class="audit-outcome__icon">
                             <div class="fas fa-clock"></div>
@@ -898,7 +955,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-f0cd4c84fe05-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
+                      <h5 id="w-node-_08dadc35-daa8-7ada-2709-f0cd4c84fe05-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -919,7 +976,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-tachometer-alt"></div>
                       </div>
-                      <h5 id="w-node-2884925a60a1-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
+                      <h5 id="w-node-ee7c0dcb-09cb-4ee4-ef98-2884925a60a1-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -952,7 +1009,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-calculator"></div>
                       </div>
-                      <h5 id="w-node-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
+                      <h5 id="w-node-_1f73111f-127d-6da9-9b19-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -977,9 +1034,27 @@
                     <div class="icon icon--24px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
                     </div>
-                    <div class="label">Compare to <a href="/help#similar-munis" target="_blank">similar municipalities</a>:</div>
+                    <div class="label__wrapper">
+                      <div class="label">Compare to&nbsp;other&nbsp;</div>
+                      <div class="muni-type__wrapper hover-tooltip">
+                        <div class="label muni-type">loading...</div>
+                        <div class="tooltip__wrapper">
+                          <div class="tooltip">
+                            <p class="tooltip__description">Loading...</p>
+                            <a href="#" class="tooltip__link w-inline-block">
+                              <div class="tooltip__link_text">Learn more</div>
+                              <div class="icon icon--16px">
+                                <div class="fa-icon fas fa-long-arrow-alt-right"></div>
+                              </div>
+                            </a>
+                            <div class="tooltip__notch"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="label">&nbsp;:</div>
+                    </div>
                   </div>
-                  <div data-hover="" data-delay="0" id="w-node-9f00652ed460-652ed45a" class="dropdown w-dropdown">
+                  <div data-hover="" data-delay="0" id="w-node-a4442fc2-46fe-836c-506c-9f00652ed460-652ed45a" class="dropdown w-dropdown">
                     <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                       <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                       <div class="dropdown__current-select">No comparison</div>
@@ -1038,7 +1113,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-231826fa8af5-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
+                      <h5 id="w-node-_6fe4823c-603a-911e-3333-231826fa8af5-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1059,7 +1134,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-tachometer-alt"></div>
                       </div>
-                      <h5 id="w-node-231826fa8b01-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
+                      <h5 id="w-node-_6fe4823c-603a-911e-3333-231826fa8b01-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1100,7 +1175,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-calculator"></div>
                       </div>
-                      <h5 id="w-node-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
+                      <h5 id="w-node-_1f73111f-127d-6da9-9b19-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1125,9 +1200,27 @@
                     <div class="icon icon--24px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
                     </div>
-                    <div class="label">Compare to <a href="/help#similar-munis" target="_blank">similar municipalities</a>:</div>
+                    <div class="label__wrapper">
+                      <div class="label">Compare to&nbsp;other&nbsp;</div>
+                      <div class="muni-type__wrapper hover-tooltip">
+                        <div class="label muni-type">loading...</div>
+                        <div class="tooltip__wrapper">
+                          <div class="tooltip">
+                            <p class="tooltip__description">Loading...</p>
+                            <a href="#" class="tooltip__link w-inline-block">
+                              <div class="tooltip__link_text">Learn more</div>
+                              <div class="icon icon--16px">
+                                <div class="fa-icon fas fa-long-arrow-alt-right"></div>
+                              </div>
+                            </a>
+                            <div class="tooltip__notch"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="label">&nbsp;:</div>
+                    </div>
                   </div>
-                  <div data-hover="" data-delay="0" id="w-node-9f00652ed460-652ed45a" class="dropdown w-dropdown">
+                  <div data-hover="" data-delay="0" id="w-node-a4442fc2-46fe-836c-506c-9f00652ed460-652ed45a" class="dropdown w-dropdown">
                     <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                       <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                       <div class="dropdown__current-select">No comparison</div>
@@ -1186,7 +1279,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-c4d344a87936-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
+                      <h5 id="w-node-_34baa5ab-aba3-7481-cf1d-c4d344a87936-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1208,7 +1301,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-tachometer-alt"></div>
                       </div>
-                      <h5 id="w-node-c4d344a87942-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
+                      <h5 id="w-node-_34baa5ab-aba3-7481-cf1d-c4d344a87942-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1249,7 +1342,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-calculator"></div>
                       </div>
-                      <h5 id="w-node-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
+                      <h5 id="w-node-_1f73111f-127d-6da9-9b19-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1274,9 +1367,27 @@
                     <div class="icon icon--24px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
                     </div>
-                    <div class="label">Compare to <a href="/help#similar-munis" target="_blank">similar municipalities</a>:</div>
+                    <div class="label__wrapper">
+                      <div class="label">Compare to&nbsp;other&nbsp;</div>
+                      <div class="muni-type__wrapper hover-tooltip">
+                        <div class="label muni-type">loading...</div>
+                        <div class="tooltip__wrapper">
+                          <div class="tooltip">
+                            <p class="tooltip__description">Loading...</p>
+                            <a href="#" class="tooltip__link w-inline-block">
+                              <div class="tooltip__link_text">Learn more</div>
+                              <div class="icon icon--16px">
+                                <div class="fa-icon fas fa-long-arrow-alt-right"></div>
+                              </div>
+                            </a>
+                            <div class="tooltip__notch"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="label">&nbsp;:</div>
+                    </div>
                   </div>
-                  <div data-hover="" data-delay="0" id="w-node-9f00652ed460-652ed45a" class="dropdown w-dropdown">
+                  <div data-hover="" data-delay="0" id="w-node-a4442fc2-46fe-836c-506c-9f00652ed460-652ed45a" class="dropdown w-dropdown">
                     <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                       <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                       <div class="dropdown__current-select">No comparison</div>
@@ -1335,7 +1446,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-018c941f40d3-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
+                      <h5 id="w-node-b4839d68-2482-5de4-2152-018c941f40d3-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1357,7 +1468,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-tachometer-alt"></div>
                       </div>
-                      <h5 id="w-node-018c941f40df-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
+                      <h5 id="w-node-b4839d68-2482-5de4-2152-018c941f40df-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1398,7 +1509,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-calculator"></div>
                       </div>
-                      <h5 id="w-node-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
+                      <h5 id="w-node-_1f73111f-127d-6da9-9b19-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1423,9 +1534,27 @@
                     <div class="icon icon--24px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
                     </div>
-                    <div class="label">Compare to <a href="/help#similar-munis" target="_blank">similar municipalities</a>:</div>
+                    <div class="label__wrapper">
+                      <div class="label">Compare to&nbsp;other&nbsp;</div>
+                      <div class="muni-type__wrapper hover-tooltip">
+                        <div class="label muni-type">loading...</div>
+                        <div class="tooltip__wrapper">
+                          <div class="tooltip">
+                            <p class="tooltip__description">Loading...</p>
+                            <a href="#" class="tooltip__link w-inline-block">
+                              <div class="tooltip__link_text">Learn more</div>
+                              <div class="icon icon--16px">
+                                <div class="fa-icon fas fa-long-arrow-alt-right"></div>
+                              </div>
+                            </a>
+                            <div class="tooltip__notch"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="label">&nbsp;:</div>
+                    </div>
                   </div>
-                  <div data-hover="" data-delay="0" id="w-node-9f00652ed460-652ed45a" class="dropdown w-dropdown">
+                  <div data-hover="" data-delay="0" id="w-node-a4442fc2-46fe-836c-506c-9f00652ed460-652ed45a" class="dropdown w-dropdown">
                     <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                       <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                       <div class="dropdown__current-select">No comparison</div>
@@ -1470,7 +1599,7 @@
             <div class="layout-grid__col">
               <div class="table">
                 <div class="table-row table-row--2-col-value-right-with-icon table-row__header">
-                  <div id="w-node-bdea92a8c253-b71c5c1e" class="table-col">
+                  <div id="w-node-cb64946e-1bc7-6796-9018-bdea92a8c253-b71c5c1e" class="table-col">
                     <div class="table-row__title">Project description</div>
                   </div>
                   <div class="table-col table-col--justify-right">
@@ -1478,7 +1607,7 @@
                   </div>
                 </div>
                 <a href="#" class="table-row table-row--2-col-value-right-with-icon w-inline-block">
-                  <div id="w-node-bdea92a8c25a-b71c5c1e" class="table-col table-col--border-right">
+                  <div id="w-node-cb64946e-1bc7-6796-9018-bdea92a8c25a-b71c5c1e" class="table-col table-col--border-right">
                     <div class="table-row__title">Loading...</div>
                   </div>
                   <div class="table-col">
@@ -1524,7 +1653,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-09b1705c207d-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
+                      <h5 id="w-node-_6edb8be9-8356-83ab-ca98-09b1705c207d-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1546,7 +1675,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-tachometer-alt"></div>
                       </div>
-                      <h5 id="w-node-09b1705c2089-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
+                      <h5 id="w-node-_6edb8be9-8356-83ab-ca98-09b1705c2089-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1579,7 +1708,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-calculator"></div>
                       </div>
-                      <h5 id="w-node-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
+                      <h5 id="w-node-_1f73111f-127d-6da9-9b19-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1604,9 +1733,27 @@
                     <div class="icon icon--24px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
                     </div>
-                    <div class="label">Compare to <a href="/help#similar-munis" target="_blank">similar municipalities</a>:</div>
+                    <div class="label__wrapper">
+                      <div class="label">Compare to&nbsp;other&nbsp;</div>
+                      <div class="muni-type__wrapper hover-tooltip">
+                        <div class="label muni-type">loading...</div>
+                        <div class="tooltip__wrapper">
+                          <div class="tooltip">
+                            <p class="tooltip__description">Loading...</p>
+                            <a href="#" class="tooltip__link w-inline-block">
+                              <div class="tooltip__link_text">Learn more</div>
+                              <div class="icon icon--16px">
+                                <div class="fa-icon fas fa-long-arrow-alt-right"></div>
+                              </div>
+                            </a>
+                            <div class="tooltip__notch"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="label">&nbsp;:</div>
+                    </div>
                   </div>
-                  <div data-hover="" data-delay="0" id="w-node-9f00652ed460-652ed45a" class="dropdown w-dropdown">
+                  <div data-hover="" data-delay="0" id="w-node-a4442fc2-46fe-836c-506c-9f00652ed460-652ed45a" class="dropdown w-dropdown">
                     <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                       <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                       <div class="dropdown__current-select">No comparison</div>
@@ -1665,7 +1812,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-c26b5c417209-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
+                      <h5 id="w-node-_7a5f9aa2-bec4-ac8c-53e0-c26b5c417209-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1686,7 +1833,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-tachometer-alt"></div>
                       </div>
-                      <h5 id="w-node-c26b5c417215-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
+                      <h5 id="w-node-_7a5f9aa2-bec4-ac8c-53e0-c26b5c417215-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1719,7 +1866,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-calculator"></div>
                       </div>
-                      <h5 id="w-node-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
+                      <h5 id="w-node-_1f73111f-127d-6da9-9b19-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1744,9 +1891,27 @@
                     <div class="icon icon--24px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
                     </div>
-                    <div class="label">Compare to <a href="/help#similar-munis" target="_blank">similar municipalities</a>:</div>
+                    <div class="label__wrapper">
+                      <div class="label">Compare to&nbsp;other&nbsp;</div>
+                      <div class="muni-type__wrapper hover-tooltip">
+                        <div class="label muni-type">loading...</div>
+                        <div class="tooltip__wrapper">
+                          <div class="tooltip">
+                            <p class="tooltip__description">Loading...</p>
+                            <a href="#" class="tooltip__link w-inline-block">
+                              <div class="tooltip__link_text">Learn more</div>
+                              <div class="icon icon--16px">
+                                <div class="fa-icon fas fa-long-arrow-alt-right"></div>
+                              </div>
+                            </a>
+                            <div class="tooltip__notch"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="label">&nbsp;:</div>
+                    </div>
                   </div>
-                  <div data-hover="" data-delay="0" id="w-node-9f00652ed460-652ed45a" class="dropdown w-dropdown">
+                  <div data-hover="" data-delay="0" id="w-node-a4442fc2-46fe-836c-506c-9f00652ed460-652ed45a" class="dropdown w-dropdown">
                     <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                       <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                       <div class="dropdown__current-select">No comparison</div>
@@ -1805,7 +1970,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-2f110018504e-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
+                      <h5 id="w-node-_741fd998-0ee5-d7aa-53f4-2f110018504e-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1826,7 +1991,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-tachometer-alt"></div>
                       </div>
-                      <h5 id="w-node-2f110018505a-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
+                      <h5 id="w-node-_741fd998-0ee5-d7aa-53f4-2f110018505a-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1867,7 +2032,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-calculator"></div>
                       </div>
-                      <h5 id="w-node-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
+                      <h5 id="w-node-_1f73111f-127d-6da9-9b19-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1892,9 +2057,27 @@
                     <div class="icon icon--24px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
                     </div>
-                    <div class="label">Compare to <a href="/help#similar-munis" target="_blank">similar municipalities</a>:</div>
+                    <div class="label__wrapper">
+                      <div class="label">Compare to&nbsp;other&nbsp;</div>
+                      <div class="muni-type__wrapper hover-tooltip">
+                        <div class="label muni-type">loading...</div>
+                        <div class="tooltip__wrapper">
+                          <div class="tooltip">
+                            <p class="tooltip__description">Loading...</p>
+                            <a href="#" class="tooltip__link w-inline-block">
+                              <div class="tooltip__link_text">Learn more</div>
+                              <div class="icon icon--16px">
+                                <div class="fa-icon fas fa-long-arrow-alt-right"></div>
+                              </div>
+                            </a>
+                            <div class="tooltip__notch"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="label">&nbsp;:</div>
+                    </div>
                   </div>
-                  <div data-hover="" data-delay="0" id="w-node-9f00652ed460-652ed45a" class="dropdown w-dropdown">
+                  <div data-hover="" data-delay="0" id="w-node-a4442fc2-46fe-836c-506c-9f00652ed460-652ed45a" class="dropdown w-dropdown">
                     <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                       <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                       <div class="dropdown__current-select">No comparison</div>
@@ -1953,7 +2136,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-abbebfa2a1d6-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
+                      <h5 id="w-node-_06061f3d-77c2-de9c-4316-abbebfa2a1d6-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -1975,7 +2158,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-tachometer-alt"></div>
                       </div>
-                      <h5 id="w-node-abbebfa2a1e2-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
+                      <h5 id="w-node-_06061f3d-77c2-de9c-4316-abbebfa2a1e2-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -2008,7 +2191,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-calculator"></div>
                       </div>
-                      <h5 id="w-node-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
+                      <h5 id="w-node-_1f73111f-127d-6da9-9b19-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -2033,9 +2216,27 @@
                     <div class="icon icon--24px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
                     </div>
-                    <div class="label">Compare to <a href="/help#similar-munis" target="_blank">similar municipalities</a>:</div>
+                    <div class="label__wrapper">
+                      <div class="label">Compare to&nbsp;other&nbsp;</div>
+                      <div class="muni-type__wrapper hover-tooltip">
+                        <div class="label muni-type">loading...</div>
+                        <div class="tooltip__wrapper">
+                          <div class="tooltip">
+                            <p class="tooltip__description">Loading...</p>
+                            <a href="#" class="tooltip__link w-inline-block">
+                              <div class="tooltip__link_text">Learn more</div>
+                              <div class="icon icon--16px">
+                                <div class="fa-icon fas fa-long-arrow-alt-right"></div>
+                              </div>
+                            </a>
+                            <div class="tooltip__notch"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="label">&nbsp;:</div>
+                    </div>
                   </div>
-                  <div data-hover="" data-delay="0" id="w-node-9f00652ed460-652ed45a" class="dropdown w-dropdown">
+                  <div data-hover="" data-delay="0" id="w-node-a4442fc2-46fe-836c-506c-9f00652ed460-652ed45a" class="dropdown w-dropdown">
                     <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                       <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                       <div class="dropdown__current-select">No comparison</div>
@@ -2094,7 +2295,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-f0ac6bee84dc-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
+                      <h5 id="w-node-a4e2e09a-32b6-eb2a-c737-f0ac6bee84dc-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -2115,7 +2316,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-tachometer-alt"></div>
                       </div>
-                      <h5 id="w-node-f0ac6bee84e8-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
+                      <h5 id="w-node-a4e2e09a-32b6-eb2a-c737-f0ac6bee84e8-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -2148,7 +2349,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-calculator"></div>
                       </div>
-                      <h5 id="w-node-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
+                      <h5 id="w-node-_1f73111f-127d-6da9-9b19-d282ef9b3e4b-ef9b3e46" class="expand-block__trigger_heading">Show calculation</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -2173,9 +2374,27 @@
                     <div class="icon icon--24px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
                     </div>
-                    <div class="label">Compare to <a href="/help#similar-munis" target="_blank">similar municipalities</a>:</div>
+                    <div class="label__wrapper">
+                      <div class="label">Compare to&nbsp;other&nbsp;</div>
+                      <div class="muni-type__wrapper hover-tooltip">
+                        <div class="label muni-type">loading...</div>
+                        <div class="tooltip__wrapper">
+                          <div class="tooltip">
+                            <p class="tooltip__description">Loading...</p>
+                            <a href="#" class="tooltip__link w-inline-block">
+                              <div class="tooltip__link_text">Learn more</div>
+                              <div class="icon icon--16px">
+                                <div class="fa-icon fas fa-long-arrow-alt-right"></div>
+                              </div>
+                            </a>
+                            <div class="tooltip__notch"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="label">&nbsp;:</div>
+                    </div>
                   </div>
-                  <div data-hover="" data-delay="0" id="w-node-9f00652ed460-652ed45a" class="dropdown w-dropdown">
+                  <div data-hover="" data-delay="0" id="w-node-a4442fc2-46fe-836c-506c-9f00652ed460-652ed45a" class="dropdown w-dropdown">
                     <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                       <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                       <div class="dropdown__current-select">No comparison</div>
@@ -2233,7 +2452,7 @@
                   </div>
                   <div class="label">Financial year:</div>
                 </div>
-                <div data-hover="" data-delay="0" id="w-node-3d44a4687607-b71c5c1e" class="dropdown w-dropdown">
+                <div data-hover="" data-delay="0" id="w-node-_72d8622e-134e-1162-37fd-3d44a4687607-b71c5c1e" class="dropdown w-dropdown">
                   <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                     <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                     <div class="dropdown__current-select">Loading...</div>
@@ -2267,7 +2486,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-3d44a4687620-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
+                      <h5 id="w-node-_72d8622e-134e-1162-37fd-3d44a4687620-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -2291,11 +2510,11 @@
                 <div class="indicator-chart"></div>
                 <div class="indicator-chart__labels">
                   <div class="indicator-chart__label-lines"></div>
-                  <div id="w-node-3d44a4687633-b71c5c1e" class="indicator-chart__label indicator-chart__label--left w-richtext">
+                  <div id="w-node-_72d8622e-134e-1162-37fd-3d44a4687633-b71c5c1e" class="indicator-chart__label indicator-chart__label--left w-richtext">
                     <h4>Locally generated</h4>
                     <p>From residents paying for water &amp; electricity, rates, licenses &amp; fines, and from interest and investments.</p>
                   </div>
-                  <div id="w-node-3d44a4687638-b71c5c1e" class="indicator-chart__label indicator-chart__label--right w-richtext">
+                  <div id="w-node-_72d8622e-134e-1162-37fd-3d44a4687638-b71c5c1e" class="indicator-chart__label indicator-chart__label--right w-richtext">
                     <h4>Transfers</h4>
                     <p>From the Equitable Share of taxes, and Grants from national and provincial Government.</p>
                   </div>
@@ -2328,7 +2547,7 @@
                   </div>
                   <div class="label">Financial year:</div>
                 </div>
-                <div data-hover="" data-delay="0" id="w-node-3d44a468764f-b71c5c1e" class="dropdown w-dropdown">
+                <div data-hover="" data-delay="0" id="w-node-_72d8622e-134e-1162-37fd-3d44a468764f-b71c5c1e" class="dropdown w-dropdown">
                   <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                     <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                     <div class="dropdown__current-select">Loading...</div>
@@ -2362,7 +2581,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-3d44a4687668-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
+                      <h5 id="w-node-_72d8622e-134e-1162-37fd-3d44a4687668-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -2410,7 +2629,7 @@
                   </div>
                   <div class="label">Financial year:</div>
                 </div>
-                <div data-hover="" data-delay="0" id="w-node-3d44a4687687-b71c5c1e" class="dropdown w-dropdown">
+                <div data-hover="" data-delay="0" id="w-node-_72d8622e-134e-1162-37fd-3d44a4687687-b71c5c1e" class="dropdown w-dropdown">
                   <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                     <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                     <div class="dropdown__current-select">Loading...</div>
@@ -2444,7 +2663,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-3d44a46876a0-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
+                      <h5 id="w-node-_72d8622e-134e-1162-37fd-3d44a46876a0-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -2494,7 +2713,7 @@
                   </div>
                   <div class="label">Financial year:</div>
                 </div>
-                <div data-hover="" data-delay="0" id="w-node-3d44a46876c3-b71c5c1e" class="dropdown w-dropdown">
+                <div data-hover="" data-delay="0" id="w-node-_72d8622e-134e-1162-37fd-3d44a46876c3-b71c5c1e" class="dropdown w-dropdown">
                   <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                     <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                     <div class="dropdown__current-select">Loading...</div>
@@ -2528,7 +2747,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-3d44a46876dc-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
+                      <h5 id="w-node-_72d8622e-134e-1162-37fd-3d44a46876dc-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -2578,7 +2797,7 @@
                   </div>
                   <div class="label">Financial year:</div>
                 </div>
-                <div data-hover="" data-delay="0" id="w-node-3d44a46876ff-b71c5c1e" class="dropdown w-dropdown">
+                <div data-hover="" data-delay="0" id="w-node-_72d8622e-134e-1162-37fd-3d44a46876ff-b71c5c1e" class="dropdown w-dropdown">
                   <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                     <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                     <div class="dropdown__current-select">Loading...</div>
@@ -2612,7 +2831,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-3d44a4687718-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
+                      <h5 id="w-node-_72d8622e-134e-1162-37fd-3d44a4687718-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -2662,7 +2881,7 @@
                   </div>
                   <div class="label">Financial year:</div>
                 </div>
-                <div data-hover="" data-delay="0" id="w-node-3d44a468773b-b71c5c1e" class="dropdown w-dropdown">
+                <div data-hover="" data-delay="0" id="w-node-_72d8622e-134e-1162-37fd-3d44a468773b-b71c5c1e" class="dropdown w-dropdown">
                   <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                     <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                     <div class="dropdown__current-select">Loading...</div>
@@ -2696,7 +2915,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-3d44a4687754-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
+                      <h5 id="w-node-_72d8622e-134e-1162-37fd-3d44a4687754-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -2753,7 +2972,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-71e53513a87e-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
+                      <h5 id="w-node-_99436bc2-e5f0-f92f-8734-71e53513a87e-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -2809,7 +3028,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-7c34ec64e144-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
+                      <h5 id="w-node-e6d21c6a-1906-47e5-d784-7c34ec64e144-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -2884,7 +3103,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-c952cb9a7d3e-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
+                      <h5 id="w-node-c8b6f94b-734e-4681-99af-c952cb9a7d3e-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -2905,7 +3124,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-tachometer-alt"></div>
                       </div>
-                      <h5 id="w-node-c952cb9a7d4a-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
+                      <h5 id="w-node-c8b6f94b-734e-4681-99af-c952cb9a7d4a-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -2941,9 +3160,27 @@
                     <div class="icon icon--24px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
                     </div>
-                    <div class="label">Compare to <a href="/help#similar-munis" target="_blank">similar municipalities</a>:</div>
+                    <div class="label__wrapper">
+                      <div class="label">Compare to&nbsp;other&nbsp;</div>
+                      <div class="muni-type__wrapper hover-tooltip">
+                        <div class="label muni-type">loading...</div>
+                        <div class="tooltip__wrapper">
+                          <div class="tooltip">
+                            <p class="tooltip__description">Loading...</p>
+                            <a href="#" class="tooltip__link w-inline-block">
+                              <div class="tooltip__link_text">Learn more</div>
+                              <div class="icon icon--16px">
+                                <div class="fa-icon fas fa-long-arrow-alt-right"></div>
+                              </div>
+                            </a>
+                            <div class="tooltip__notch"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="label">&nbsp;:</div>
+                    </div>
                   </div>
-                  <div data-hover="" data-delay="0" id="w-node-9f00652ed460-652ed45a" class="dropdown w-dropdown">
+                  <div data-hover="" data-delay="0" id="w-node-a4442fc2-46fe-836c-506c-9f00652ed460-652ed45a" class="dropdown w-dropdown">
                     <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                       <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                       <div class="dropdown__current-select">No comparison</div>
@@ -3002,7 +3239,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-5253af290693-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
+                      <h5 id="w-node-_1ffb0798-0c92-ab2a-f071-5253af290693-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -3023,7 +3260,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-tachometer-alt"></div>
                       </div>
-                      <h5 id="w-node-5253af29069f-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
+                      <h5 id="w-node-_1ffb0798-0c92-ab2a-f071-5253af29069f-b71c5c1e" class="expand-block__trigger_heading">How is performance measured?</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -3059,9 +3296,27 @@
                     <div class="icon icon--24px icon--primary">
                       <div class="fas fa-exchange-alt"></div>
                     </div>
-                    <div class="label">Compare to <a href="/help#similar-munis" target="_blank">similar municipalities</a>:</div>
+                    <div class="label__wrapper">
+                      <div class="label">Compare to&nbsp;other&nbsp;</div>
+                      <div class="muni-type__wrapper hover-tooltip">
+                        <div class="label muni-type">loading...</div>
+                        <div class="tooltip__wrapper">
+                          <div class="tooltip">
+                            <p class="tooltip__description">Loading...</p>
+                            <a href="#" class="tooltip__link w-inline-block">
+                              <div class="tooltip__link_text">Learn more</div>
+                              <div class="icon icon--16px">
+                                <div class="fa-icon fas fa-long-arrow-alt-right"></div>
+                              </div>
+                            </a>
+                            <div class="tooltip__notch"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="label">&nbsp;:</div>
+                    </div>
                   </div>
-                  <div data-hover="" data-delay="0" id="w-node-9f00652ed460-652ed45a" class="dropdown w-dropdown">
+                  <div data-hover="" data-delay="0" id="w-node-a4442fc2-46fe-836c-506c-9f00652ed460-652ed45a" class="dropdown w-dropdown">
                     <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                       <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                       <div class="dropdown__current-select">No comparison</div>
@@ -3145,7 +3400,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-14e8b0e18d96-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
+                      <h5 id="w-node-fb367071-2610-221f-ac36-14e8b0e18d96-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -3201,7 +3456,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-8f00393e4615-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
+                      <h5 id="w-node-_5797917a-a4dd-b62c-6566-8f00393e4615-b71c5c1e" class="expand-block__trigger_heading">Learn more</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -3275,7 +3530,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-6c67f2a83113-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
+                      <h5 id="w-node-d6c48d0c-3dea-78ef-f592-6c67f2a83113-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -3338,7 +3593,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-c4def8d3bc43-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
+                      <h5 id="w-node-_4bb289ba-b070-d395-ca52-c4def8d3bc43-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -3402,7 +3657,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-8e05e2ad3cdb-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
+                      <h5 id="w-node-_9b268637-709b-a0c8-bf42-8e05e2ad3cdb-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -3465,7 +3720,7 @@
                       <div class="expand-block__trigger_content-icon">
                         <div class="fas fa-info"></div>
                       </div>
-                      <h5 id="w-node-7039fef01e03-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
+                      <h5 id="w-node-_7d2a1cf3-c646-f5e4-7884-7039fef01e03-b71c5c1e" class="expand-block__trigger_heading">About this indicator</h5>
                     </div>
                     <div class="expand-block__trigger_icon">
                       <div class="fas fa-plus"></div>
@@ -3596,7 +3851,7 @@
   </div>
   <div class="section-summary hidden">
     <div class="layout-grid layout-grid--4-col">
-      <div id="w-node-bf62ae30caef-b71c5c1e" class="block">
+      <div id="w-node-aa3dc683-6165-d0b2-8303-bf62ae30caef-b71c5c1e" class="block">
         <div class="content-wrap">
           <div class="div-block-5">
             <div class="audit-icon">
@@ -3614,7 +3869,7 @@
   <div class="footer">
     <div class="container container--grid">
       <div class="layout-grid layout-grid--footer">
-        <div id="w-node-a2e6e9d831a0-e9d8319d" class="layout-grid__col layout-grid__col--padding-right layout-grid__col--flex">
+        <div id="w-node-c4a9cf34-221d-0dc5-4207-a2e6e9d831a0-e9d8319d" class="layout-grid__col layout-grid__col--padding-right layout-grid__col--flex">
           <a href="http://www.treasury.gov.za" target="_blank" class="footer-logo w-inline-block"><img src="{% static 'webflow/images/national-treasury-logo.png' %}" loading="eager" alt="" class="logo"></a>
           <p class="footer-description">Municipal Money is an initiative of the National Treasury, which has collected extensive municipal financial data over several years and would like to share this information with the public.</p>
           <a href="/help" class="footer-link footer-link--primary w-inline-block">
@@ -3624,7 +3879,7 @@
             <div>Learn more</div>
           </a>
         </div>
-        <div id="w-node-f3c3c09a3b33-e9d8319d" class="layout-grid__col">
+        <div id="w-node-_779513d9-15e8-c8f1-c1e0-f3c3c09a3b33-e9d8319d" class="layout-grid__col">
           <div class="grid grid--16px">
             <h5 class="footer-heading heading heading--clear">Jump to a metro</h5>
             <div class="footer__links">
@@ -3655,7 +3910,7 @@
             </div>
           </div>
         </div>
-        <div id="w-node-8256086774ae-e9d8319d" class="layout-grid__col">
+        <div id="w-node-_1a5740f0-1b36-e72d-b801-8256086774ae-e9d8319d" class="layout-grid__col">
           <div class="grid grid--16px">
             <h5 class="footer-heading heading heading--clear">Useful links</h5>
             <div class="footer__links">
@@ -3671,7 +3926,7 @@
             </div>
           </div>
         </div>
-        <div id="w-node-63b947cbfc57-e9d8319d" class="layout-grid__col">
+        <div id="w-node-_9a61d18e-e7e5-e159-63a0-63b947cbfc57-e9d8319d" class="layout-grid__col">
           <div class="grid grid--16px">
             <h5 class="footer-heading heading heading--clear">Feedback</h5>
             <div class="footer__links">
@@ -3701,8 +3956,8 @@
         </div>
       </div>
       <div class="footer-meta">
-        <div id="w-node-a2e6e9d831e8-e9d8319d">A project by <a href="http://www.treasury.gov.za" target="_blank">National Treasury</a>, created under The MIT License (MIT). </div>
-        <div id="w-node-a2e6e9d831ed-e9d8319d" class="footer-meta__partner">
+        <div id="w-node-c4a9cf34-221d-0dc5-4207-a2e6e9d831e8-e9d8319d">A project by <a href="http://www.treasury.gov.za" target="_blank">National Treasury</a>, created under The MIT License (MIT). </div>
+        <div id="w-node-c4a9cf34-221d-0dc5-4207-a2e6e9d831ed-e9d8319d" class="footer-meta__partner">
           <div>In partnership with:</div>
           <a href="http://www.openup.org.za" target="_blank" class="footer__partner-logo w-inline-block"><img src="{% static 'webflow/images/openup-logo.svg' %}" loading="eager" alt="" class="logo"></a>
         </div>
@@ -3764,7 +4019,7 @@
         <div class="components-elements">
           <div class="question-block">
             <a href="#" class="question-block__trigger w-inline-block">
-              <div id="w-node-0c6d18356ae9-18356ae7" class="icon icon--32px">
+              <div id="w-node-c8548d32-e940-3994-58d9-0c6d18356ae9-18356ae7" class="icon icon--32px">
                 <div class="fas fa-info"></div>
               </div>
               <div>Question goes here</div>
@@ -3896,7 +4151,7 @@
           </div>
           <div class="bar-chart">
             <div class="bar-chart__row">
-              <div id="w-node-8a250d11f34d-b71c5c1e" class="label label--small truncate">Chart label</div>
+              <div id="w-node-_021efad8-1153-5371-0908-8a250d11f34d-b71c5c1e" class="label label--small truncate">Chart label</div>
               <div class="bar-chart__hover-label">
                 <div class="label label--small">Chart label that shows on hover of the label</div>
               </div>
@@ -3908,7 +4163,7 @@
               </div>
             </div>
             <div class="bar-chart__row">
-              <div id="w-node-8a250d11f359-b71c5c1e" class="label label--small truncate">Chart label that is too long to fit on one line</div>
+              <div id="w-node-_021efad8-1153-5371-0908-8a250d11f359-b71c5c1e" class="label label--small truncate">Chart label that is too long to fit on one line</div>
               <div class="bar-chart__hover-label">
                 <div class="label label--small">Chart label that is too long to fit on one line</div>
               </div>
@@ -3926,24 +4181,65 @@
               </div>
             </div>
           </div>
-          <a id="w-node-d7309853ccab-9853ccab" href="#" class="button w-inline-block">
-            <div id="w-node-d7309853ccae-9853ccab">Loading...</div>
+          <a id="w-node-_75d5619a-cc75-8b52-eddb-d7309853ccab-9853ccab" href="#" class="button w-inline-block">
+            <div id="w-node-_75d5619a-cc75-8b52-eddb-d7309853ccae-9853ccab">Loading...</div>
           </a>
-          <a id="w-node-08d68630fc3e-8630fc3e" href="#" class="button button--icon-left button--align-left w-inline-block">
+          <a id="w-node-db2f4ec3-86ea-c2f6-0751-08d68630fc3e-8630fc3e" href="#" class="button button--icon-left button--align-left w-inline-block">
             <div class="button__icon">
               <div class="fas fa-envelope"></div>
             </div>
-            <div id="w-node-08d68630fc41-8630fc3e">Loading...</div>
+            <div id="w-node-db2f4ec3-86ea-c2f6-0751-08d68630fc41-8630fc3e">Loading...</div>
           </a>
           <a href="#" class="search-result w-inline-block">
             <div class="search-result__muni-name truncate">Loading...</div>
             <div class="search-result__muni-type">Loading...</div>
             <div class="plate plate--black-trans-4 plate--rounded"></div>
           </a>
+          <div class="icon-label-dropdown muni-compare">
+            <div class="icon-label-dropdown__inner">
+              <div class="icon icon--24px icon--primary">
+                <div class="fas fa-exchange-alt"></div>
+              </div>
+              <div class="label__wrapper">
+                <div class="label">Compare to&nbsp;other&nbsp;</div>
+                <div class="muni-type__wrapper hover-tooltip">
+                  <div class="label muni-type">loading...</div>
+                  <div class="tooltip__wrapper">
+                    <div class="tooltip">
+                      <p class="tooltip__description">Loading...</p>
+                      <a href="#" class="tooltip__link w-inline-block">
+                        <div class="tooltip__link_text">Learn more</div>
+                        <div class="icon icon--16px">
+                          <div class="fa-icon fas fa-long-arrow-alt-right"></div>
+                        </div>
+                      </a>
+                      <div class="tooltip__notch"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="label">&nbsp;:</div>
+              </div>
+            </div>
+            <div data-hover="" data-delay="0" id="w-node-a4442fc2-46fe-836c-506c-9f00652ed460-652ed45a" class="dropdown w-dropdown">
+              <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
+                <div class="dropdown-icon w-icon-dropdown-toggle"></div>
+                <div class="dropdown__current-select">No comparison</div>
+                <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+              </div>
+              <nav class="dropdown-list w-dropdown-list">
+                <a href="#" data-option="none" class="dropdown-link dropdown-link--current w-dropdown-link">No comparison</a>
+                <a href="#" data-option="similar-nearby" class="dropdown-link w-dropdown-link">Similar nearby</a>
+                <a href="#" data-option="similar-same-province" class="dropdown-link w-dropdown-link">Similar in same province</a>
+                <a href="#" data-option="similar-nationally" class="dropdown-link w-dropdown-link">Similar nationally</a>
+                <div class="plate plate--white plate--rounded plate--shadow-large"></div>
+              </nav>
+            </div>
+            <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+          </div>
         </div>
         <div class="components-content">
           <div data-easing="linear" class="sub-section tabs-section w-tabs">
-            <div id="w-node-c95744d297ba-b71c5c1e" class="tabs-col w-tab-menu">
+            <div id="w-node-d8d9b552-3f8b-34d4-196c-c95744d297ba-b71c5c1e" class="tabs-col w-tab-menu">
               <a data-w-tab="Tab 1" class="tab-link w-inline-block w-tab-link w--current">
                 <div>Income summary</div>
               </a>
@@ -3954,7 +4250,7 @@
                 <div>Transfers</div>
               </a>
             </div>
-            <div id="w-node-c95744d297c4-b71c5c1e" class="content-col w-tab-content">
+            <div id="w-node-d8d9b552-3f8b-34d4-196c-c95744d297c4-b71c5c1e" class="content-col w-tab-content">
               <section data-w-tab="Tab 1" id="income-summary" class="tab-pane w-tab-pane w--tab-active">
                 <div class="grid grid--24px">
                   <div class="heading--item-right">
@@ -3966,7 +4262,7 @@
                         </div>
                         <div class="label">Financial year:</div>
                       </div>
-                      <div data-hover="" data-delay="0" id="w-node-c95744d297d0-b71c5c1e" class="dropdown w-dropdown">
+                      <div data-hover="" data-delay="0" id="w-node-d8d9b552-3f8b-34d4-196c-c95744d297d0-b71c5c1e" class="dropdown w-dropdown">
                         <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                           <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                           <div>Loading...</div>
@@ -3995,7 +4291,7 @@
                         </div>
                         <div class="label">Financial year:</div>
                       </div>
-                      <div data-hover="" data-delay="0" id="w-node-c95744d297ed-b71c5c1e" class="dropdown w-dropdown">
+                      <div data-hover="" data-delay="0" id="w-node-d8d9b552-3f8b-34d4-196c-c95744d297ed-b71c5c1e" class="dropdown w-dropdown">
                         <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                           <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                           <div>2018-2019</div>
@@ -4026,7 +4322,7 @@
                         </div>
                         <div class="label">Financial year:</div>
                       </div>
-                      <div data-hover="" data-delay="0" id="w-node-c95744d2980a-b71c5c1e" class="dropdown w-dropdown">
+                      <div data-hover="" data-delay="0" id="w-node-d8d9b552-3f8b-34d4-196c-c95744d2980a-b71c5c1e" class="dropdown w-dropdown">
                         <div class="dropdown-toggle dropdown-toggle--grey w-dropdown-toggle">
                           <div class="dropdown-icon w-icon-dropdown-toggle"></div>
                           <div>2018-2019</div>
