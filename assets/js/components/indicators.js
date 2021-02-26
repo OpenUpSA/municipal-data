@@ -232,7 +232,7 @@ export class IndicatorSection {
 
 
     const averageControls = $("<p></p>");
-    averageControls.append('Show average for <a href="/help">similar municipalities</a> ');
+    averageControls.append('Show average for <a href="/help#similar-munis">similar municipalities</a> ');
     if (this.geography.category_name !== "metro municipality") {
       averageControls.append([
         $provinceButton,
