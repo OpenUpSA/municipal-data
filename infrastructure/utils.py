@@ -87,7 +87,7 @@ def load_excel(filename, financial_year=None, file_contents=None):
         geo_code = sheet.name
         logger.info("Processing sheet: %s" % sheet.name)
         if Geography.objects.filter(geo_code=geo_code).count() == 0:
-            raise CommandError(
+            raise Exception(
                 "%s is an unknown Geography. Please ensure that this Geography exists in the database"
                 % geo_code
             )
@@ -108,7 +108,7 @@ def load_file(geography, reader, financial_year=None):
 
     for idx, row in enumerate(reader):
         if idx + 2 == 2:
-            return idx + 1
+            continue
         try:
             p, _ = models.Project.objects.update_or_create(
                 geography=geography,
@@ -135,7 +135,7 @@ def load_file(geography, reader, financial_year=None):
                 create_expenditure(p, field, amount)
             for field in quarterly_fields:
                 amount = row[field]
-                create_quarter(p, field, amount, 2020)
+                create_quarter(p, field, amount, financial_year)
 
         except Exception as e:
             raise ValueError("Error loading data in row: %d - %s" % (idx + 2, row))
