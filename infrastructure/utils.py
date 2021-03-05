@@ -106,9 +106,8 @@ def load_csv(geography, fp):
 def load_file(geography, reader, financial_year=None):
     print(geography.geo_code)
 
-    for idx, row in enumerate(reader):
-        if idx + 2 == 2:
-            continue
+    for idx, row in enumerate(reader):        
+
         try:
             p, _ = models.Project.objects.update_or_create(
                 geography=geography,
@@ -210,6 +209,7 @@ def find_phase(fields):
             or field.startswith("Adjusted")
             or field.startswith("Original")
             or field.startswith("Budgeted")
+            or field.startswith("Budget year")
         ):
             phase.append(field)
 

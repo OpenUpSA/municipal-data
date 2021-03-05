@@ -2,7 +2,7 @@ from django.test import TestCase
 import csv
 from infrastructure import utils
 from infrastructure import models
-from household.models import (
+from infrastructure.models import (
     FinancialYear,
     BudgetPhase,
 )
