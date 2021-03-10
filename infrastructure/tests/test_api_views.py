@@ -57,3 +57,23 @@ class TestProject(TestCase):
         self.assertEqual(response.status_code, 200)
         js = response.json()
         self.assertEquals(len(js["results"]), 1)
+
+
+    def test_infrastructure_projects(self):
+        response = self.client.get("/api/v1/infrastructure/projects/?geo=CPT")
+        self.assertEqual(response.status_code, 200)
+        js = response.json()
+        self.assertEquals(len(js["results"]), 2)
+        self.assertEquals(len(js["results"][0]["geography"]["bbox"]), 0)
+
+        response = self.client.get("/api/v1/infrastructure/projects/?geo=WC011")
+        self.assertEqual(response.status_code, 200)
+        js = response.json()
+        self.assertEquals(len(js["results"]), 1)
+        
+
+
+    def test_all_projects_view(self):
+        response = self.client.get('/infrastructure/projects',follow=True)
+        self.assertEqual(response.status_code, 200)
+

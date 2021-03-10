@@ -39,12 +39,14 @@ def check_file(fp):
 
 
 def check_headers(fields):
+    headers.append("Budget year")
     missing_headers = [h for h in headers if h not in fields]
     if len(missing_headers) > 0:
         raise ValueError(
             "The following fields are missing from the data source: %s"
             % missing_headers
         )
+    headers.remove("Budget year")
 
 
 @transaction.atomic
@@ -106,7 +108,11 @@ def load_csv(geography, fp):
 def load_file(geography, reader, financial_year=None):
     print(geography.geo_code)
 
-    for idx, row in enumerate(reader):        
+    for idx, row in enumerate(reader):
+        #skip columns // Need to be replace with Proper data
+
+        if idx + 2 == 2:
+            break
 
         try:
             p, _ = models.Project.objects.update_or_create(
@@ -138,6 +144,7 @@ def load_file(geography, reader, financial_year=None):
 
         except Exception as e:
             raise ValueError("Error loading data in row: %d - %s" % (idx + 2, row))
+
     return idx + 1
 
 
