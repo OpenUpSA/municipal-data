@@ -1,4 +1,3 @@
-
 import json
 
 from django.test import (
@@ -16,6 +15,7 @@ from .resources import (
     MedianGroupResource,
     RatingCountGroupResource,
 )
+
 
 @override_settings(
     SITE_ID=2,
@@ -48,7 +48,8 @@ class GeographyDetailViewTestCase(TransactionTestCase):
         context = response.context
         page_data = json.loads(context["page_data_json"])
         # Test for amount types
-        self.assertIsInstance(page_data['amount_types_v1'], dict)
+        self.assertIsInstance(page_data["amount_types_v1"], dict)
         # Test for cube names
-        self.assertIsInstance(page_data['cube_names'], dict)
-
+        self.assertIsInstance(page_data["cube_names"], dict)
+        # Test for municipality category descriptions
+        self.assertIsInstance(page_data["municipal_category_descriptions"], dict)

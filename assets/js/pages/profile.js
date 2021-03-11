@@ -29,6 +29,7 @@ export default class ProfilePage {
       pageData.total_population,
       pageData.population_density,
       pageData.demarcation,
+      pageData["municipal_category_descriptions"],
     );
     new InPageNav(pageData.geography, pageData.total_population, pageData.pdf_url);
 

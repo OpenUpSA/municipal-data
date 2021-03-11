@@ -30,30 +30,31 @@ export class ProfileHeader {
     totalPopulation,
     populationDensity,
     demarcation,
+    municipalCategoryDescriptions,
   ) {
+    this.geography = geography;
+    this.municipalCategoryDescriptions = municipalCategoryDescriptions;
+
     new TextField(".page-heading__title", geography.short_name);
     new TextField(".profile-metric__population", locale.format(",")(totalPopulation));
     new TextField(".profile-metric__size", locale.format(",.1f")(geography.square_kms));
     new TextField(".profile-metric__density", locale.format(",.1f")(populationDensity));
 
+    // Display the basic municipality information
     if (geography.category_name === "metro municipality") {
       const $container = $(".page-heading__muni-info--metro");
-      $container.css("display", "unset");
-      $container.find(".page-heading__muni-type").text("Metro municipality");
-      new TextField($container.find(".page-heading__geo-parent-3"), geography.province_name);
+      this.populateInfo($container);
     } else if (geography.category_name === "local municipality") {
       const $container = $(".page-heading__muni-info--local");
-      $container.css("display", "unset");
+      this.populateInfo($container);
       new LinkedTextField(
-        $container.find(".page-heading__geo-parent-1"),
+        $container.find(".page-heading__subtitle_link"),
         geography.ancestors[0].short_name,
         `/profiles/${ geography.ancestors[0].full_geoid }-${ geography.ancestors[0].slug }`
       );
-      new TextField($container.find(".page-heading__geo-parent-3"), geography.province_name);
     } else if (geography.category_name === "district municipality") {
       const $container = $(".page-heading__muni-info--district");
-      $container.css("display", "unset");
-      new TextField($container.find(".page-heading__geo-parent-3"), geography.province_name);
+      this.populateInfo($container);
     }
 
     // Display profile notices
@@ -96,4 +97,21 @@ export class ProfileHeader {
     }
 
   }
+
+  populateInfo($container) {
+    const miifCategory = this.geography["miif_category"];
+    const categoryName = this.geography["category_name"];
+    const $label = $container.find(".page-heading__muni-type");
+    const $description = $container.find(".tooltip__description");
+    const $link = $container.find(".tooltip__link");
+    $container.css("display", "flex");
+    $label.text(`${miifCategory} ${categoryName}`);
+    $description.text(this.municipalCategoryDescriptions[miifCategory]);
+    $link.attr("href", "/help#similar-munis");
+    new TextField(
+      $container.find(".page-heading__geo-parent-3"),
+      this.geography.province_name
+    );
+  }
+
 }
