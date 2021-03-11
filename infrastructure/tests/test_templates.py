@@ -1,6 +1,7 @@
 from django.test import TestCase
 from infrastructure import utils
 from infrastructure import models
+import json
 
 class TestListPage(TestCase):
     @classmethod
@@ -12,3 +13,5 @@ class TestListPage(TestCase):
         self.assertEqual(response.status_code, 200)
 
         self.assertTrue("FILTER BY province" in str(response.content))
+
+    
