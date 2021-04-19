@@ -59,6 +59,8 @@ docker-compose up portal
 
 Ensure you only have the demo data municipalities and only their data in the database.
 
+You need fiscal data loaded for at least the demo municipalities to be able to rebuild their profiles.
+
 Run a profile rebuild.
 
 Run
