@@ -74,6 +74,12 @@ the following needs:
 - a local municipality
 - at least two examples of each in different provinces to demonstrate comparison to similar municipalities
 
+The following municipalities are available in the demo data:
+
+```
+TSH, BUF, GT483, GT481, EC109, EC108, DC48, DC12, DC10, 
+```
+
 #### Maintaining demo data
 
 Ensure you only have the demo data municipalities and only their data in the database.
