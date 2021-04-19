@@ -16,7 +16,9 @@ In production, the two sites are served by one Django instance, using the hostna
 
 ### Scorecard website
 
-If you only want to work on the Scorecard website. The site will use pre-calculated
+If you only want to work on the Scorecard website you can run it with a small sample of
+[demo data](#demo-data) to be able to see the scorecard features without loading a full
+database dump. The site will use pre-calculated
 financials and link to the production data/API site for detail.
 
 In one terminal, run
@@ -33,6 +35,12 @@ docker-compose up scorecard
 ```
 
 If you are working on the javascript or CSS on the site also run `yarn dev` in another terminal.
+
+To create an admin user for local development, run
+
+```
+docker-compose run --rm scorecard python manage.py createsuperuser
+```
 
 
 ### Data portal website
@@ -55,7 +63,18 @@ docker-compose up portal
 ```
 
 
-### Maintaining demodata
+### Demo data
+
+A small number of municipalities are used for demo data. They are selected to satisfy
+the following needs:
+
+- minimal data to minimise effort in checking changes to the demo data
+- a metros to demonstrate metro-only functionality
+- a district to demonstrate navigation to local municipalities via districts on the map
+- a local municipality
+- at least two examples of each in different provinces to demonstrate comparison to similar municipalities
+
+#### Maintaining demo data
 
 Ensure you only have the demo data municipalities and only their data in the database.
 
