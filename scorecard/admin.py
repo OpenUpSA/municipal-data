@@ -3,6 +3,8 @@ from django.contrib import admin
 from django.conf import settings
 from django_q.tasks import async_task
 from constance import config
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 
 from .models import (
     Geography,
@@ -11,7 +13,7 @@ from .models import (
 
 
 @admin.register(Geography)
-class GeographyAdmin(admin.ModelAdmin):
+class GeographyAdmin(ImportExportModelAdmin):
     list_display = ("geo_code", "geo_level", "name",)
 
 
