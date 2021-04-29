@@ -128,6 +128,10 @@ def load_file(geography, reader, financial_year):
             additional_fields = [k for k in row.keys() if k not in headers]
             budget_phase_fields = find_phase(additional_fields)
             quarterly_fields = find_quarter(additional_fields)
+
+            if not correct_year(budget_phase_fields, financial_year):
+                raise ValueError("Could not find a field for the selected budget and/or year")
+
             for field in budget_phase_fields:
                 amount = row[field]
                 create_expenditure(p, field, amount)
@@ -251,4 +255,14 @@ def chart_quarters(quarter_queryset, phase_queryset):
 
     quarter_data = sorted(quarter_data, key=lambda quarter: quarter[0])
     return original_data, adjusted_data, quarter_data
+
+
+def correct_year(budget_phases, year):
+    year_exists = False
+    for field in budget_phases:
+        if "budget" in field.lower():
+            if str(year)[:5] in field:
+                year_exists = True
+
+    return year_exists
 
