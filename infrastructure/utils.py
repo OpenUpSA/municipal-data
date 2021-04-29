@@ -39,14 +39,12 @@ def check_file(fp):
 
 
 def check_headers(fields):
-    headers.append("Budget year")
     missing_headers = [h for h in headers if h not in fields]
     if len(missing_headers) > 0:
         raise ValueError(
             "The following fields are missing from the data source: %s"
             % missing_headers
         )
-    headers.remove("Budget year")
 
 
 @transaction.atomic
@@ -105,15 +103,10 @@ def load_csv(geography, fp):
 
 
 @transaction.atomic
-def load_file(geography, reader, financial_year=None):
+def load_file(geography, reader, financial_year):
     print(geography.geo_code)
 
     for idx, row in enumerate(reader):
-        #skip columns // Need to be replace with Proper data
-
-        if idx + 2 == 2:
-            break
-
         try:
             p, _ = models.Project.objects.update_or_create(
                 geography=geography,
@@ -258,3 +251,4 @@ def chart_quarters(quarter_queryset, phase_queryset):
 
     quarter_data = sorted(quarter_data, key=lambda quarter: quarter[0])
     return original_data, adjusted_data, quarter_data
+

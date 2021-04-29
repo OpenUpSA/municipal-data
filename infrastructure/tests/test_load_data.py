@@ -98,14 +98,9 @@ class ImportCSVTestCase(TestCase):
             assert False
 
     def test_load_file_with_bad_data(self):
-        try:
-            fp = self.generate_bad_data()
-        except:
-            raise ValueError(
-                "Failed to generate bad data: %s"
-                % fp
-            )
-            #self.assertRaises(ValueError, utils.load_file, ImportCSVTestCase.geography, fp)
+        fp = self.generate_bad_data()
+
+        self.assertRaises(ValueError, utils.load_file, ImportCSVTestCase.geography, fp)
 
     def test_load_file(self):
         #self.assertEqual(Project.objects.all().count(), 0)

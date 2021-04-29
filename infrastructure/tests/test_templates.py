@@ -1,7 +1,6 @@
 from django.test import TestCase
 from infrastructure import utils
 from infrastructure import models
-import json
 
 class TestListPage(TestCase):
     @classmethod
