@@ -23,7 +23,7 @@ class TestProject(TestCase):
         )
 
 
-    def test_infrastructure_project_search(self):
+    def test_infrastructure_project_list(self):
         response = self.client.get("/api/v1/infrastructure/projects/?geo=BUF")
         self.assertEqual(response.status_code, 200)
         project = Project.objects.create(geography=TestProject.geography)
@@ -31,11 +31,14 @@ class TestProject(TestCase):
         self.assertFalse(created)
         self.assertEquals(Project.objects.all().count(), 1)
 
-        # response = self.client.get(
-        #     "/api/v1/infrastructure/search/?province=Eastern+Cape&municipality=Buffalo+City&q=&budget_phase=Budget+year&financial_year=2019%2F2020&ordering=-total_forecast_budget")
-        # self.assertEqual(response.status_code, 200)
-        # js = response.json()
-        # self.assertEquals(len(js["results"]), 3)
+
+    def test_infrastructure_project_search(self):
+         response = self.client.get(
+             "/api/v1/infrastructure/search/?province=Eastern+Cape&municipality=Buffalo+City&q=&budget_phase=Budget+year&financial_year=2019%2F2020&ordering=-total_forecast_budget")
+         self.assertEqual(response.status_code, 200)
+         js = response.json()
+         self.assertEquals(len(js["results"]), 3)
+
 
     def test_municipal_profile_list_page(self):
         c = Client()
