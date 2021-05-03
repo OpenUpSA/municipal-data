@@ -10,7 +10,7 @@ import time
 import rest_framework.response
 
 from infrastructure.models import FinancialYear, QuarterlySpendFile, Expenditure, Project
-from infrastructure.tests import ImportCSVTestCase, utils
+from infrastructure.tests import utils
 from infrastructure.utils import load_excel
 from scorecard.models import Geography
 
