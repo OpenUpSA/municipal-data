@@ -38,6 +38,7 @@ class FileTest(TransactionTestCase):
         response = self.client.get(url, follow=True)
         self.assertEqual(response.status_code, 200)
 
+
     def test_file_upload(self):
         print(settings.Q_CLUSTER)
         """Scope of Test: Testing the file upload in Django Admin to processing file and add to Django_Q"""
@@ -99,4 +100,29 @@ class FileTest(TransactionTestCase):
         # print(a.result(wait=10))
         self.assertEquals(QuarterlySpendFile.objects.all().count(), 1)
         file = QuarterlySpendFile.objects.all().values("status")
+
         # self.assertEquals(file[0]['status'], 2)
+
+
+    def test_year_error(self):
+        """Scope of Test: Test if a file uploaded in Django Admin with incorrect year selection and content returns an error to Django_Q"""
+        self.client.login(username=self.username, password=self.password)
+        fy = FinancialYear.objects.create(budget_year="2019/2020", active=1)
+
+        self.assertEquals(FinancialYear.objects.all().count(), 1)
+        self.assertEquals(QuarterlySpendFile.objects.all().count(), 0)
+
+        url = reverse('admin:infrastructure_quarterlyspendfile_add')
+        with open('infrastructure/tests/test_files/failyear.xlsx', 'rb', ) as f:
+            resp = self.client.post(url, {'financial_year': fy.pk, 'document': f}, follow=True)
+        self.assertContains(resp, "Dataset is currently being processed.", status_code=200)
+        file = QuarterlySpendFile.objects.all().values("id")
+
+        a = AsyncTask('infrastructure.upload.process_document', file[0]['id'], sync=True)
+        a.run()
+
+        self.assertEquals(QuarterlySpendFile.objects.all().count(), 1)
+        file = QuarterlySpendFile.objects.all().values("status")
+
+        self.assertEquals(file[0]['status'], 2)
+
