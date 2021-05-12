@@ -13,7 +13,7 @@ MONTH_TYPE_RE = re.compile(r"^M\d{2}$")
 
 PERIOD_CODE_RE = re.compile(
     r"^(?P<year>\d{4})"
-    r"(?P<type>IBY1|IBY2|ADJB|ORGB|AUDA|PAUD|ITY1|ITY2|TABB)?"
+    r"(?P<type>IBY1|IBY2|ADJB|ORGB|AUDA|PAUD|ITY1|ITY2|TABB|TRFR|SCHD)?"
     r"(M(?P<month>\d{2}))?$"
 )
 
