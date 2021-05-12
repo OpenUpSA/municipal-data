@@ -44,9 +44,9 @@ class UpdateAgedDebtorFactsV2(TransactionTestCase):
             self.insert_obj,
             batch_size=4,
         )
-        self.assertEqual(GrantFactsV2.objects.all().count(), 36)
+        self.assertEqual(GrantFactsV2.objects.all().count(), 42)
         self.assertEqual(self.insert_obj.deleted, 0)
-        self.assertEqual(self.insert_obj.inserted, 9)
+        self.assertEqual(self.insert_obj.inserted, 15)
 
     def test_with_updates(self):
         self.assertEqual(GrantFactsV2.objects.all().count(), 27)
