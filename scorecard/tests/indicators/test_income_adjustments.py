@@ -275,3 +275,85 @@ class RevenueSourcesTests(SimpleTestCase):
         }
         actual = IncomeAdjustments.get_muni_specifics(api_data)
         self.assertEqual(expected, actual)
+
+    def test_v2_use_usable_null_unusable(self):
+        """
+        - show what's usable if either of adjusted or audited actual change is usable
+        - return unusable comparisons as null to present as Not Available
+        - ignore v1 data if something is usable in v2
+        """
+        api_data = MockAPIData(
+            {
+                "revenue_budget_actual_v1": [
+                    {
+                        "item.code": "1400",
+                        "amount.sum": 400,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "ORGB",
+                    },
+                    {
+                        "item.code": "1400",
+                        "amount.sum": 410,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "AUDA",
+                    },
+                ],
+                "revenue_budget_actual_v2": [
+                    {
+                        "item.code": "1300",
+                        "amount.sum": 200,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "ORGB",
+                    },
+                    {
+                        "item.code": "1300",
+                        "amount.sum": 210,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "ADJB",
+                    },
+                    {
+                        "item.code": "1400",
+                        "amount.sum": 300,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "ORGB",
+                    },
+                    {
+                        "item.code": "1400",
+                        "amount.sum": 320,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "AUDA",
+                    },
+                ],
+            },
+            [2050, 2049, 2048, 2047]
+        )
+        expected = {
+            2050: [
+                {
+                    "item": "Licenses and Permits",
+                    "amount": 10,
+                    "comparison": "Original to adjusted budget",
+                    "percent_changed": 5.0
+                },
+                {
+                    'amount': None,
+                    'comparison': 'Original budget to audited outcome',
+                    'item': 'Licenses and Permits',
+                    'percent_changed': None
+                },
+                {
+                    'amount': None,
+                    'comparison': 'Original to adjusted budget',
+                    'item': 'Other',
+                    'percent_changed': None
+                },
+                {
+                    "item": "Other",
+                    "amount": 20,
+                    "comparison": "Original budget to audited outcome",
+                    "percent_changed": 6.67
+                },
+            ]
+        }
+        actual = IncomeAdjustments.get_muni_specifics(api_data)
+        self.assertEqual(expected, actual)
