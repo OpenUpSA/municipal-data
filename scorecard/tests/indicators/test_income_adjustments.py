@@ -16,10 +16,8 @@ class RevenueSourcesTests(SimpleTestCase):
 
     def test_v1(self):
         """
-        - local and government are summed correctly
-        - total is calculated correctly
-        - percentages are calculated correctly
-        - latest audit year is used, other years ignored
+        - adjustments calculated correctly for one item in one year
+        - this is the absolute minimal functionality of this calculator
         """
         api_data = MockAPIData(
             {
@@ -60,6 +58,86 @@ class RevenueSourcesTests(SimpleTestCase):
                     "amount": 20,
                     "comparison": "Original budget to audited outcome",
                     "percent_changed": 10
+                },
+            ]
+        }
+        actual = IncomeAdjustments.get_muni_specifics(api_data)
+        self.assertEqual(expected, actual)
+
+    def test_v1_two_items(self):
+        """
+        - two items in results are calculated correctly
+        - this is here so that less data can be used in other tests
+        """
+        api_data = MockAPIData(
+            {
+                "revenue_budget_actual_v1": [
+                    {
+                        "item.code": "1300",
+                        "amount.sum": 200,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "ORGB",
+                    },
+                    {
+                        "item.code": "1300",
+                        "amount.sum": 210,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "ADJB",
+                    },
+                    {
+                        "item.code": "1300",
+                        "amount.sum": 220,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "AUDA",
+                    },
+                    {
+                        "item.code": "1400",
+                        "amount.sum": 300,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "ORGB",
+                    },
+                    {
+                        "item.code": "1400",
+                        "amount.sum": 310,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "ADJB",
+                    },
+                    {
+                        "item.code": "1400",
+                        "amount.sum": 320,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "AUDA",
+                    },
+                ],
+                "revenue_budget_actual_v2": [],
+            },
+            [2050, 2049, 2048, 2047]
+        )
+        expected = {
+            2050: [
+                {
+                    "item": "Fines",
+                    "amount": 10,
+                    "comparison": "Original to adjusted budget",
+                    "percent_changed": 5.0
+                },
+                {
+                    "item": "Fines",
+                    "amount": 20,
+                    "comparison": "Original budget to audited outcome",
+                    "percent_changed": 10.0
+                },
+                {
+                    "item": "Licenses and Permits",
+                    "amount": 10,
+                    "comparison": "Original to adjusted budget",
+                    "percent_changed": 3.33
+                },
+                {
+                    "item": "Licenses and Permits",
+                    "amount": 20,
+                    "comparison": "Original budget to audited outcome",
+                    "percent_changed": 6.67
                 },
             ]
         }
