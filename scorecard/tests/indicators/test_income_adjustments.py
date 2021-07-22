@@ -213,3 +213,65 @@ class RevenueSourcesTests(SimpleTestCase):
         }
         actual = IncomeAdjustments.get_muni_specifics(api_data)
         self.assertEqual(expected, actual)
+
+    def test_v2_no_original_budget(self):
+        """
+        - v2 results don't replace v1 results if original budget is not available
+        """
+        api_data = MockAPIData(
+            {
+                "revenue_budget_actual_v1": [
+                    {
+                        "item.code": "1300",
+                        "amount.sum": 200,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "ORGB",
+                    },
+                    {
+                        "item.code": "1300",
+                        "amount.sum": 210,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "ADJB",
+                    },
+                    {
+                        "item.code": "1300",
+                        "amount.sum": 220,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "AUDA",
+                    },
+                ],
+                "revenue_budget_actual_v2": [
+                    {
+                        "item.code": "0200",
+                        "amount.sum": 310,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "ADJB",
+                    },
+                    {
+                        "item.code": "0200",
+                        "amount.sum": 320,
+                        "financial_year_end.year": 2050,
+                        "amount_type.code": "AUDA",
+                    },
+                ],
+            },
+            [2050, 2049, 2048, 2047]
+        )
+        expected = {
+            2050: [
+                {
+                    "item": "Fines",
+                    "amount": 10,
+                    "comparison": "Original to adjusted budget",
+                    "percent_changed": 5
+                },
+                {
+                    "item": "Fines",
+                    "amount": 20,
+                    "comparison": "Original budget to audited outcome",
+                    "percent_changed": 10
+                },
+            ]
+        }
+        actual = IncomeAdjustments.get_muni_specifics(api_data)
+        self.assertEqual(expected, actual)
