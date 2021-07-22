@@ -128,6 +128,7 @@ class AdjustmentsCalculator(IndicatorCalculator):
         # Combine v1 and v2 data.
         # Prefer entire year in v2 over that year in v1.
         year_grouplabel_phase = v1_year_grouplabel_phase.copy()
+        cls.delete_unusable_years(v2_year_grouplabel_phase)
         year_grouplabel_phase.update(v2_year_grouplabel_phase)
         return year_grouplabel_phase
 
@@ -163,6 +164,24 @@ class AdjustmentsCalculator(IndicatorCalculator):
         for list_ in results.values():
             list_.sort(key=lambda x: x["item"])
         return results
+
+    @classmethod
+    def delete_unusable_years(cls, year_grouplabel_phase):
+        deletes = []
+        for year, grouplabel_phase in year_grouplabel_phase.items():
+            if not cls.is_usable_group(grouplabel_phase):
+                deletes.append(year)
+        for year in deletes:
+            del year_grouplabel_phase[year]
+
+    @classmethod
+    def is_usable_group(cls, items):
+        return all([cls.is_usable_item(item) for item in items.values()])
+
+    @staticmethod
+    def is_usable_item(item):
+        return "ORGB" in item and ("ADJB" in item or "AUDA" in item)
+
 
 
 class IncomeAdjustments(AdjustmentsCalculator):
