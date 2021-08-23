@@ -22,10 +22,10 @@ class UIFWExpenditure(SeriesIndicator):
     formula = {
         "text": "= (Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure) * 100",
         "actual": [
-            "=", 
+            "=",
             "(",
             {
-                "cube": "uifw",
+                "cube": "uifwexp",
                 "item_codes": ["irregular", "fruitless", "unauthorised"],
             },
             "/",
