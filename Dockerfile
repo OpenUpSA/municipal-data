@@ -8,6 +8,7 @@ ENV POETRY_VIRTUALENVS_CREATE false \
 
 ADD packages.txt /packages.txt
 RUN set -ex; \
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -; \
   apt-get update; \
   cat /packages.txt | grep -v \# | xargs apt-get install -y; \
   # cleaning up unused files \
