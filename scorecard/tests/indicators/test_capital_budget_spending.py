@@ -56,10 +56,10 @@ class CalculatorTests(SimpleTestCase):
         )
         result = CapitalBudgetSpending.get_muni_specifics(api_data)
         self.assertEqual(
-            [{'date': 2040, 'overunder': 'under', 'rating': 'bad', 'result': -33.33},
-             {'date': 2041, 'overunder': 'over', 'rating': 'bad', 'result': 100.0},
-             {'date': 2042, 'overunder': 'over', 'rating': 'good', 'result': 0.0},
-             {'date': 2043, 'overunder': 'over', 'rating': 'ave', 'result': 10.0}],
+            [{'date': 2040, 'overunder': 'under', 'rating': 'bad', 'result': -33.33, "cube_version": "v1" },
+             {'date': 2041, 'overunder': 'over', 'rating': 'bad', 'result': 100.0, "cube_version": "v1" },
+             {'date': 2042, 'overunder': 'over', 'rating': 'good', 'result': 0.0, "cube_version": "v1" },
+             {'date': 2043, 'overunder': 'over', 'rating': 'ave', 'result': 10.0, "cube_version": "v1" }],
             result["values"],
         )
 
@@ -86,10 +86,10 @@ class CalculatorTests(SimpleTestCase):
         )
         result = CapitalBudgetSpending.get_muni_specifics(api_data)
         self.assertEqual(
-            [{'date': 2040, 'overunder': 'under', 'rating': 'bad', 'result': -33.33},
-             {'date': 2041, 'overunder': 'over', 'rating': 'bad', 'result': 100.0},
-             {'date': 2042, 'overunder': 'over', 'rating': 'good', 'result': 0.0},
-             {'date': 2043, 'overunder': 'over', 'rating': 'ave', 'result': 10.0}],
+            [{'date': 2040, 'overunder': 'under', 'rating': 'bad', 'result': -33.33, "cube_version": "v2" },
+             {'date': 2041, 'overunder': 'over', 'rating': 'bad', 'result': 100.0, "cube_version": "v2" },
+             {'date': 2042, 'overunder': 'over', 'rating': 'good', 'result': 0.0, "cube_version": "v2" },
+             {'date': 2043, 'overunder': 'over', 'rating': 'ave', 'result': 10.0, "cube_version": "v2" }],
             result["values"],
         )
 
@@ -126,10 +126,10 @@ class CalculatorTests(SimpleTestCase):
         )
         result = CapitalBudgetSpending.get_muni_specifics(api_data)
         self.assertEqual(
-            [{'date': 2040, 'overunder': 'over', 'rating': 'good', 'result': 0.0},
-             {'date': 2041, 'overunder': 'under', 'rating': 'ave', 'result': -10.0},
-             {'date': 2042, 'overunder': 'under', 'rating': 'bad', 'result': -20.0},
-             {'date': 2043, 'overunder': None, 'rating': None, 'result': None}],
+            [{'date': 2040, 'overunder': 'over', 'rating': 'good', 'result': 0.0, "cube_version": "v2" },
+             {'date': 2041, 'overunder': 'under', 'rating': 'ave', 'result': -10.0, "cube_version": "v1" },
+             {'date': 2042, 'overunder': 'under', 'rating': 'bad', 'result': -20.0, "cube_version": "v1" },
+             {'date': 2043, 'overunder': None, 'rating': None, 'result': None, "cube_version": None }],
             result["values"],
         )
 
