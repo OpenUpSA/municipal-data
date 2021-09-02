@@ -168,27 +168,31 @@ class TestCapitalBudgetSpendingQueryAndCalculator(_IndicatorTestCase):
                 "values": [
                     {
                         "date": 2019,
-                        "result": 11.73,
-                        "overunder": "over",
-                        "rating": "ave"
+                        "result": -19.49,
+                        "overunder": "under",
+                        "rating": "bad",
+                        "cube_version": "v1",
                     },
                     {
                         "date": 2018,
-                        "result": -35.51,
+                        "result": -27.2,
                         "overunder": "under",
-                        "rating": "bad"
+                        "rating": "bad",
+                        "cube_version": "v1",
                     },
                     {
                         "date": 2017,
                         "result": -7.37,
                         "overunder": "under",
-                        "rating": "ave"
+                        "rating": "ave",
+                        "cube_version": "v1",
                     },
                     {
                         "date": 2016,
                         "result": -11.46,
                         "overunder": "under",
-                        "rating": "ave"
+                        "rating": "ave",
+                        "cube_version": "v1",
                     }
                 ],
                 "ref": {
