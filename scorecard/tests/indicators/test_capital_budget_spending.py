@@ -37,39 +37,16 @@ class CalculatorTests(SimpleTestCase):
         api_data = MockAPIData(
             {
                 "capital_expenditure_budget_v1": [
-                    {
-                        "financial_year_end.year": 2040,
-                        "total_assets.sum": 3,
-                    },
-                    {
-                        "financial_year_end.year": 2041,
-                        "total_assets.sum": 4,
-                    },
-                    {
-                        "financial_year_end.year": 2042,
-                        "total_assets.sum": 5,
-                    },
-                    {
-                        "financial_year_end.year": 2043,
-                        "total_assets.sum": 6,
-                    },
+                    { "financial_year_end.year": 2040, "total_assets.sum": 3, },
+                    { "financial_year_end.year": 2041, "total_assets.sum": 4, },
+                    { "financial_year_end.year": 2042, "total_assets.sum": 5, },
+                    { "financial_year_end.year": 2043, "total_assets.sum": 6, },
                 ],
                 "capital_expenditure_actual_v1": [
-                    {
-                        "financial_year_end.year": 2040,
-                        "total_assets.sum": 2,
-                    },
-                    {
-                        "financial_year_end.year": 2041,
-                        "total_assets.sum": 8,
-                    },
-                    {
-                        "financial_year_end.year": 2042,
-                        "total_assets.sum": 5,
-                    },
-                    {
-                        "financial_year_end.year": 2043,
-                        "total_assets.sum": 6.6,
+                    { "financial_year_end.year": 2040, "total_assets.sum": 2, },
+                    { "financial_year_end.year": 2041, "total_assets.sum": 8, },
+                    { "financial_year_end.year": 2042, "total_assets.sum": 5, },
+                    { "financial_year_end.year": 2043, "total_assets.sum": 6.6,
                     },
                 ],
                 "capital_expenditure_budget_v2": [],
@@ -93,40 +70,16 @@ class CalculatorTests(SimpleTestCase):
                 "capital_expenditure_budget_v1": [],
                 "capital_expenditure_actual_v1": [],
                 "capital_expenditure_budget_v2": [
-                    {
-                        "financial_year_end.year": 2040,
-                        "amount.sum": 3,
-                    },
-                    {
-                        "financial_year_end.year": 2041,
-                        "amount.sum": 4,
-                    },
-                    {
-                        "financial_year_end.year": 2042,
-                        "amount.sum": 5,
-                    },
-                    {
-                        "financial_year_end.year": 2043,
-                        "amount.sum": 6,
-                    },
+                    { "financial_year_end.year": 2040, "amount.sum": 3, },
+                    { "financial_year_end.year": 2041, "amount.sum": 4, },
+                    { "financial_year_end.year": 2042, "amount.sum": 5, },
+                    { "financial_year_end.year": 2043, "amount.sum": 6, },
                 ],
                 "capital_expenditure_actual_v2": [
-                    {
-                        "financial_year_end.year": 2040,
-                        "amount.sum": 2,
-                    },
-                    {
-                        "financial_year_end.year": 2041,
-                        "amount.sum": 8,
-                    },
-                    {
-                        "financial_year_end.year": 2042,
-                        "amount.sum": 5,
-                    },
-                    {
-                        "financial_year_end.year": 2043,
-                        "amount.sum": 6.6,
-                    },
+                    { "financial_year_end.year": 2040, "amount.sum": 2, },
+                    { "financial_year_end.year": 2041, "amount.sum": 8, },
+                    { "financial_year_end.year": 2042, "amount.sum": 5, },
+                    { "financial_year_end.year": 2043, "amount.sum": 6.6, },
                 ],
             },
             2040,
@@ -137,6 +90,46 @@ class CalculatorTests(SimpleTestCase):
              {'date': 2041, 'overunder': 'over', 'rating': 'bad', 'result': 100.0},
              {'date': 2042, 'overunder': 'over', 'rating': 'good', 'result': 0.0},
              {'date': 2043, 'overunder': 'over', 'rating': 'ave', 'result': 10.0}],
+            result["values"],
+        )
+
+    def test_v1_v2(self):
+        """
+        - v2 is used when budget and actual data is available
+        - v1 is used when availabel and there isn't both budget and actual
+          available from v2
+           - 2040 v2 was available for both, v1 was not available
+           - 2041 v2 was only available for budget, v1 was available
+           - 2042 v2 was only available for actual, v1 was available
+           - 2043 neither v1 nor v2 was available
+        """
+        api_data = MockAPIData(
+            {
+                "capital_expenditure_budget_v1": [
+                    { "financial_year_end.year": 2041, "total_assets.sum": 1, },
+                    { "financial_year_end.year": 2042, "total_assets.sum": 1, },
+                ],
+                "capital_expenditure_actual_v1": [
+                    { "financial_year_end.year": 2041, "total_assets.sum": 0.9, },
+                    { "financial_year_end.year": 2042, "total_assets.sum": 0.8, },
+                ],
+                "capital_expenditure_budget_v2": [
+                    { "financial_year_end.year": 2040, "amount.sum": 1, },
+                    { "financial_year_end.year": 2041, "amount.sum": 0.8, },
+                ],
+                "capital_expenditure_actual_v2": [
+                    { "financial_year_end.year": 2040, "amount.sum": 1, },
+                    { "financial_year_end.year": 2042, "amount.sum": 1.2, },
+                ],
+            },
+            2040,
+        )
+        result = CapitalBudgetSpending.get_muni_specifics(api_data)
+        self.assertEqual(
+            [{'date': 2040, 'overunder': 'over', 'rating': 'good', 'result': 0.0},
+             {'date': 2041, 'overunder': 'under', 'rating': 'ave', 'result': -10.0},
+             {'date': 2042, 'overunder': 'under', 'rating': 'bad', 'result': -20.0},
+             {'date': 2043, 'overunder': None, 'rating': None, 'result': None}],
             result["values"],
         )
 
