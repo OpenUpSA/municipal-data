@@ -97,9 +97,12 @@ def group_quarters(periods, select):
 
 
 def item_has_keys(item, keys):
-    _, values = item
+    year, values = item
+    def f(result, key):
+        print(f"result={result} key={key} year={year} values={values}")
+        return (result and (values.get(key) != None))
     return reduce(
-        lambda result, key: (result and (values.get(key) != None)),
+        f,
         keys,
         True
     )
@@ -110,6 +113,20 @@ def filter_for_all_keys(obj, keys):
         lambda item: item_has_keys(item, keys),
         obj.items()
     )
+
+
+def filter_for_all_keys_versioned(obj, keys):
+    result = list()
+    for year, values_dict in obj.items():
+        if all((k, "v2") in values_dict for k in keys):
+            unversioned_dict = {k: values_dict[(k, "v2")] for k in keys}
+            unversioned_dict["cube_version"] = "v2"
+            result.extend([(year, unversioned_dict)])
+        elif all((k, "v1") in values_dict for k in keys):
+            unversioned_dict = {k: values_dict[(k, "v1")] for k in keys}
+            unversioned_dict["cube_version"] = "v1"
+            result.extend([(year, unversioned_dict)])
+    return result
 
 
 def year_amount_key(result):
