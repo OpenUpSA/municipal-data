@@ -391,6 +391,7 @@ class ApiData(object):
                 "cube": "capital_v2",
                 "aggregate": "amount.sum",
                 "cut": {
+                    "capital_type.code": ["NEW", "RENEWAL", "UPGRADING"],
                     "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
@@ -405,6 +406,7 @@ class ApiData(object):
                 "cube": "capital_v2",
                 "aggregate": "amount.sum",
                 "cut": {
+                    "capital_type.code": ["NEW", "RENEWAL", "UPGRADING"],
                     "amount_type.code": ["ADJB"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
