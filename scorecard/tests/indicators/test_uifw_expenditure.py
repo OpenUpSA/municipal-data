@@ -79,10 +79,10 @@ class TestUIFWExpenditure(_IndicatorTestCase):
                 "formula": {
                     "text": "= (Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure) * 100",
                     "actual": [
-                        "=", 
-                        "(", 
+                        "=",
+                        "(",
                         {
-                            "cube": "uifw",
+                            "cube": "uifwexp",
                             "item_codes": ["irregular", "fruitless", "unauthorised"],
                         },
                         "/",
@@ -91,7 +91,7 @@ class TestUIFWExpenditure(_IndicatorTestCase):
                             "item_codes": ["4600"],
                             "amount_type": "AUDA",
                         },
-                        ")", 
+                        ")",
                         "*",
                         "100",
                     ],

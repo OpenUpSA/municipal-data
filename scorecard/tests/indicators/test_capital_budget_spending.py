@@ -1,4 +1,4 @@
-
+from django.test import SimpleTestCase
 from ...profile_data import ApiData
 from ...profile_data.indicators import (
     CapitalBudgetSpending,
@@ -15,7 +15,95 @@ from .resources import (
 )
 
 
-class TestCapitalBudgetSpending(_IndicatorTestCase):
+class MockAPIData:
+    years = [2040, 2041, 2042, 2043]
+    references = {
+        "overunder": {
+                "title": "test title",
+                "url": "http://example.com",
+            },
+        }
+
+    def __init__(self, results, budget_year):
+        self.results = results
+        # self.budget_year = budget_year
+
+
+class CalculatorTests(SimpleTestCase):
+    maxDiff = None
+
+    def test_v1(self):
+        """ percentages and ratings are calculated correctly """
+        api_data = MockAPIData(
+            {
+                "capital_expenditure_budget_v1": [
+                    {
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2040,
+                        "total_assets.sum": 3,
+                        "item.code": "4200",
+                    },
+                    {
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2041,
+                        "total_assets.sum": 4,
+                        "item.code": "4200",
+                    },
+                    {
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2042,
+                        "total_assets.sum": 5,
+                        "item.code": "4200",
+                    },
+                    {
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2043,
+                        "total_assets.sum": 6,
+                        "item.code": "4200",
+                    },
+                ],
+                "capital_expenditure_actual_v1": [
+                    {
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2040,
+                        "total_assets.sum": 2,
+                        "item.code": "4200",
+                    },
+                    {
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2041,
+                        "total_assets.sum": 8,
+                        "item.code": "4200",
+                    },
+                    {
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2042,
+                        "total_assets.sum": 5,
+                        "item.code": "4200",
+                    },
+                    {
+                        "amount_type.code": "AUDA",
+                        "financial_year_end.year": 2043,
+                        "total_assets.sum": 6.6,
+                        "item.code": "4200",
+                    },
+                ],
+                "capital_expenditure_budget_v2": [],
+                "capital_expenditure_actual_v2": [],
+            },
+            2040,
+        )
+        result = CapitalBudgetSpending.get_muni_specifics(api_data)
+        self.assertEqual(
+            [{'date': 2040, 'overunder': 'under', 'rating': 'bad', 'result': -33.33},
+             {'date': 2041, 'overunder': 'over', 'rating': 'bad', 'result': 100.0},
+             {'date': 2042, 'overunder': 'over', 'rating': 'good', 'result': 0.0},
+             {'date': 2043, 'overunder': 'over', 'rating': 'ave', 'result': 10.0}],
+            result["values"],
+        )
+
+
+class TestCapitalBudgetSpendingQueryAndCalculator(_IndicatorTestCase):
 
     def test_result(self):
         # Load sample data
@@ -79,11 +167,11 @@ class TestCapitalBudgetSpending(_IndicatorTestCase):
                 "formula": {
                     "text": "= ((Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure) * 100",
                     "actual": [
-                        "=", 
+                        "=",
                         "(",
                         "(",
                         {
-                            "cube": "captial",
+                            "cube": "capital",
                             "item_codes": ["4100"],
                             "amount_type": "AUDA",
                         },
