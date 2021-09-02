@@ -27,6 +27,7 @@ def import_data(resource, filename):
 )
 class _IndicatorTestCase(TransactionTestCase):
     serialized_rollback = True
+    maxDiff = None
 
     def setUp(self):
         # Setup the API client

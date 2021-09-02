@@ -3,7 +3,7 @@ from .series import SeriesIndicator
 from .utils import (
     group_by_year,
     populate_periods,
-    filter_for_all_keys,
+    filter_for_all_keys_versioned,
     percent,
 )
 
@@ -22,11 +22,11 @@ class CapitalBudgetSpending(SeriesIndicator):
     formula = {
         "text": "= ((Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure) * 100",
         "actual": [
-            "=", 
+            "=",
             "(",
             "(",
             {
-                "cube": "captial",
+                "cube": "capital",
                 "item_codes": ["4100"],
                 "amount_type": "AUDA",
             },
@@ -73,12 +73,14 @@ class CapitalBudgetSpending(SeriesIndicator):
                 "result": result,
                 "overunder": "under" if result < 0 else "over",
                 "rating": cls.determine_rating(result),
+                "cube_version": values["cube_version"],
             })
         else:
             data.update({
                 "result": None,
                 "overunder": None,
                 "rating": None,
+                "cube_version": None,
             })
         return data
 
@@ -92,7 +94,7 @@ class CapitalBudgetSpending(SeriesIndicator):
                 results["capital_expenditure_budget_v1"],
                 "total_assets",
             ),
-            "budget",
+            ("budget", "v1"),
         )
         populate_periods(
             periods,
@@ -100,21 +102,21 @@ class CapitalBudgetSpending(SeriesIndicator):
                 results["capital_expenditure_actual_v1"],
                 "total_assets",
             ),
-            "actual",
+            ("actual", "v1"),
         )
         # Populate periods with v2 data
         populate_periods(
             periods,
             group_by_year(results["capital_expenditure_budget_v2"]),
-            "budget",
+            ("budget", "v2"),
         )
         populate_periods(
             periods,
             group_by_year(results["capital_expenditure_actual_v2"]),
-            "actual",
+            ("actual", "v2"),
         )
         # Filter out periods that don't have all the required data
-        periods = filter_for_all_keys(periods, [
+        periods = filter_for_all_keys_versioned(periods, [
             "budget", "actual",
         ])
         # Convert periods into dictionary
