@@ -22,11 +22,11 @@ class CapitalBudgetSpending(SeriesIndicator):
     formula = {
         "text": "= ((Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure) * 100",
         "actual": [
-            "=", 
+            "=",
             "(",
             "(",
             {
-                "cube": "captial",
+                "cube": "capital",
                 "item_codes": ["4100"],
                 "amount_type": "AUDA",
             },
