@@ -1,20 +1,24 @@
-from .models import QuarterlySpendFile
+from .models import QuarterlySpendFile, AnnualSpendFile
 
 from .utils import load_excel
 import io
 
 
-def process_document(id):
+def process_document(id, file_type):
     """
     Get file an process it.
     """
-    spend = QuarterlySpendFile.objects.get(id=id)
+    if file_type == "annual":
+        spend = AnnualSpendFile.objects.get(id=id)
+    else:
+        spend = QuarterlySpendFile.objects.get(id=id)
+
     try:
         file_contents = spend.document.read()
         load_excel("", financial_year=spend.financial_year, file_contents=file_contents)
-        spend.status = QuarterlySpendFile.SUCCESS
+        spend.status = spend.SUCCESS
         spend.save()
     except Exception:
-        spend.status = QuarterlySpendFile.ERROR
+        spend.status = spend.ERROR
         spend.save()
         raise ValueError("Error processing file")

@@ -111,3 +111,12 @@ class QuarterlySpendFile(models.Model):
     financial_year = models.ForeignKey(FinancialYear, on_delete=models.CASCADE)
     document = models.FileField(upload_to="quarterly/")
     status = models.IntegerField(default=PROGRESS)
+
+
+class AnnualSpendFile(models.Model):
+    SUCCESS = 1
+    ERROR = 2
+    PROGRESS = 3
+    financial_year = models.ForeignKey(FinancialYear, on_delete=models.CASCADE)
+    document = models.FileField(upload_to="annual/")
+    status = models.IntegerField(default=PROGRESS)
