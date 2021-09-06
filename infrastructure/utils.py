@@ -214,6 +214,7 @@ def find_phase(fields):
             or field.startswith("Original")
             or field.startswith("Budgeted")
             or field.startswith("Budget year")
+            or field.startswith("Full Year Forecast")
         ):
             phase.append(field)
 
