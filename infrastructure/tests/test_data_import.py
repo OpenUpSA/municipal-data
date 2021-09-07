@@ -9,7 +9,7 @@ from django_q.tasks import AsyncTask, fetch, result
 import time
 import rest_framework.response
 
-from infrastructure.models import FinancialYear, QuarterlySpendFile, Expenditure, Project
+from infrastructure.models import FinancialYear, QuarterlySpendFile, AnnualSpendFile, Expenditure, Project
 from infrastructure.tests import utils
 from infrastructure.utils import load_excel
 from scorecard.models import Geography
@@ -32,9 +32,9 @@ class FileTest(TransactionTestCase):
             category="A",
         )
 
-    def test_quarterlyspendfile_view(self):
+    def test_annualspendfile_view(self):
         self.client.login(username=self.username, password=self.password)
-        url = reverse('admin:infrastructure_quarterlyspendfile_add')
+        url = reverse('admin:infrastructure_annualspendfile_add')
         response = self.client.get(url, follow=True)
         self.assertEqual(response.status_code, 200)
 
@@ -46,16 +46,16 @@ class FileTest(TransactionTestCase):
         fy = FinancialYear.objects.create(budget_year="2019/2020", active=1)
 
         self.assertEquals(FinancialYear.objects.all().count(), 1)
-        self.assertEquals(QuarterlySpendFile.objects.all().count(), 0)
+        self.assertEquals(AnnualSpendFile.objects.all().count(), 0)
 
         # the app name, the name of the model and the name of the view
-        url = reverse('admin:infrastructure_quarterlyspendfile_add')
+        url = reverse('admin:infrastructure_annualspendfile_add')
 
         with open('infrastructure/tests/test_files/test.xlsx', 'rb', ) as f:
             resp = self.client.post(url, {'financial_year': fy.pk, 'document': f}, follow=True)
         self.assertContains(resp, "Dataset is currently being processed.", status_code=200)
-        file = QuarterlySpendFile.objects.all().values("id")
-        fileSpend = QuarterlySpendFile.objects.all().values("status")
+        file = AnnualSpendFile.objects.all().values("id")
+        fileSpend = AnnualSpendFile.objects.all().values("status")
 
         filestatus = fileSpend[0]['status']
 
@@ -65,7 +65,7 @@ class FileTest(TransactionTestCase):
         #     a.result(wait=-1)
 
         # self.assertEquals(file[0]['status'], 1) # Pass the first time thereafter always 3
-        self.assertEquals(QuarterlySpendFile.objects.all().count(), 1)
+        self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
 
         #self.assertEquals(filestatus, 1)
         # check if project was imported
@@ -84,22 +84,22 @@ class FileTest(TransactionTestCase):
         fy = FinancialYear.objects.create(budget_year="2019/2020", active=1)
 
         self.assertEquals(FinancialYear.objects.all().count(), 1)
-        self.assertEquals(QuarterlySpendFile.objects.all().count(), 0)
+        self.assertEquals(AnnualSpendFile.objects.all().count(), 0)
 
         # the app name, the name of the model and the name of the view
-        url = reverse('admin:infrastructure_quarterlyspendfile_add')
+        url = reverse('admin:infrastructure_annualspendfile_add')
         with open('infrastructure/tests/test_files/failtest.xlsx', 'rb', ) as f:
             resp = self.client.post(url, {'financial_year': fy.pk, 'document': f}, follow=True)
         self.assertContains(resp, "Dataset is currently being processed.", status_code=200)
-        file = QuarterlySpendFile.objects.all().values("id")
+        file = AnnualSpendFile.objects.all().values("id")
 
         # a = AsyncTask('infrastructure.upload.process_document', file[0]['id'], sync=True)
         # a.run()
         # # the result and print it
         # a.result(wait=105)
         # print(a.result(wait=10))
-        self.assertEquals(QuarterlySpendFile.objects.all().count(), 1)
-        file = QuarterlySpendFile.objects.all().values("status")
+        self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
+        file = AnnualSpendFile.objects.all().values("status")
 
         # self.assertEquals(file[0]['status'], 2)
 
@@ -110,19 +110,19 @@ class FileTest(TransactionTestCase):
         fy = FinancialYear.objects.create(budget_year="2019/2020", active=1)
 
         self.assertEquals(FinancialYear.objects.all().count(), 1)
-        self.assertEquals(QuarterlySpendFile.objects.all().count(), 0)
+        self.assertEquals(AnnualSpendFile.objects.all().count(), 0)
 
-        url = reverse('admin:infrastructure_quarterlyspendfile_add')
+        url = reverse('admin:infrastructure_annualspendfile_add')
         with open('infrastructure/tests/test_files/failyear.xlsx', 'rb', ) as f:
             resp = self.client.post(url, {'financial_year': fy.pk, 'document': f}, follow=True)
         self.assertContains(resp, "Dataset is currently being processed.", status_code=200)
-        file = QuarterlySpendFile.objects.all().values("id")
+        file = AnnualSpendFile.objects.all().values("id")
 
-        a = AsyncTask('infrastructure.upload.process_document', file[0]['id'], "quarterly", sync=True)
+        a = AsyncTask('infrastructure.upload.process_document', file[0]['id'], "annual", sync=True)
         a.run()
 
-        self.assertEquals(QuarterlySpendFile.objects.all().count(), 1)
-        file = QuarterlySpendFile.objects.all().values("status")
+        self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
+        file = AnnualSpendFile.objects.all().values("status")
 
         self.assertEquals(file[0]['status'], 2)
 
