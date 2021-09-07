@@ -56,7 +56,7 @@ class SpendFileAdmin(admin.ModelAdmin):
             request, messages.INFO, "Dataset is currently being processed."
         )
         super().save_model(request, obj, form, change)
-        task_id = async_task("infrastructure.upload.process_document", obj.id, "quarterly")
+        task_id = async_task("infrastructure.upload.process_document", obj.id)
 
 
 @admin.register(models.AnnualSpendFile)
@@ -69,4 +69,4 @@ class AnnualSpendFileAdmin(admin.ModelAdmin):
             request, messages.INFO, "Dataset is currently being processed."
         )
         super().save_model(request, obj, form, change)
-        task_id = async_task("infrastructure.upload.process_document", obj.id, "annual")
+        task_id = async_task("infrastructure.upload.process_document", obj.id)

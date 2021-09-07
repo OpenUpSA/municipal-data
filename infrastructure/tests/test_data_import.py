@@ -118,7 +118,7 @@ class FileTest(TransactionTestCase):
         self.assertContains(resp, "Dataset is currently being processed.", status_code=200)
         file = AnnualSpendFile.objects.all().values("id")
 
-        a = AsyncTask('infrastructure.upload.process_document', file[0]['id'], "annual", sync=True)
+        a = AsyncTask('infrastructure.upload.process_document', file[0]['id'], sync=True)
         a.run()
 
         self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
