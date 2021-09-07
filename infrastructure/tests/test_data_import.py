@@ -32,15 +32,7 @@ class FileTest(TransactionTestCase):
             category="A",
         )
 
-    def test_annualspendfile_view(self):
-        self.client.login(username=self.username, password=self.password)
-        url = reverse('admin:infrastructure_annualspendfile_add')
-        response = self.client.get(url, follow=True)
-        self.assertEqual(response.status_code, 200)
-
-
     def test_file_upload(self):
-        print(settings.Q_CLUSTER)
         """Scope of Test: Testing the file upload in Django Admin to processing file and add to Django_Q"""
         self.client.login(username=self.username, password=self.password)
         fy = FinancialYear.objects.create(budget_year="2019/2020", active=1)
@@ -59,24 +51,18 @@ class FileTest(TransactionTestCase):
 
         filestatus = fileSpend[0]['status']
 
-        # if filestatus == 3:
-        #     a = AsyncTask('infrastructure.upload.process_document', file[0]['id'], sync=True)
-        #     a.run()
-        #     a.result(wait=-1)
-
-        # self.assertEquals(file[0]['status'], 1) # Pass the first time thereafter always 3
         self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
 
         #self.assertEquals(filestatus, 1)
+
+        self.assertEquals(Project.objects.count(), 1)
         # check if project was imported
         response = self.client.get(
             "/api/v1/infrastructure/search/?province=Eastern+Cape&municipality=Buffalo+City&q=&budget_phase=Budget"
             "+year&financial_year=2019%2F2020&ordering=-total_forecast_budget")
         self.assertEqual(response.status_code, 200)
-        # project = Project.objects.create(geography=ImportCSVTestCase.geography)
-        # created = utils.create_expenditure(project, "Budget Year 2019/2020", "")
-        # self.assertEquals(Expenditure.objects.all().count(), 1)
-        # self.assertContains(str(response.json()), 'PC002003005_00002')
+        print(response.content)
+        self.assertContains(response, 'PC002003005_00002')
 
     def test_file_upload_fail(self):
         """Scope of Test: Testing if the file upload fail in Django Admin to processing file and add to Django_Q"""
@@ -125,4 +111,3 @@ class FileTest(TransactionTestCase):
         file = AnnualSpendFile.objects.all().values("status")
 
         self.assertEquals(file[0]['status'], 2)
-

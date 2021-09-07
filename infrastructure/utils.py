@@ -270,4 +270,3 @@ def correct_year(budget_phases, year):
                 year_exists = True
 
     return year_exists
-
