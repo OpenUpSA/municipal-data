@@ -15,11 +15,11 @@ from infrastructure.utils import load_excel
 from scorecard.models import Geography
 
 
-@override_settings(Q_CLUSTER={**settings.Q_CLUSTER, 'sync': True, 'poll': 2, 'max_attempts': 3})
+@override_settings(Q_CLUSTER={**settings.Q_CLUSTER, 'sync': True})
 class FileTest(TransactionTestCase):
 
     def setUp(self):
-        fixtures = ["seeddata.json"]
+        fixtures = ["test_infrastructure.json"]
         self.client = Client()
         self.username = 'admin'
         self.email = 'test@whatever.com'
@@ -57,8 +57,8 @@ class FileTest(TransactionTestCase):
         filestatus = fileSpend[0]['status']
 
         self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
-        self.assertEquals(filestatus, 1)
-        self.assertEquals(Project.objects.count(), 27)
+        self.assertEquals(filestatus, AnnualSpendFile.SUCCESS)
+        self.assertEquals(Project.objects.count(), 2)
 
         response = self.client.get("/api/v1/infrastructure/search/")
         self.assertEqual(response.status_code, 200)
@@ -87,7 +87,7 @@ class FileTest(TransactionTestCase):
         self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
         file = AnnualSpendFile.objects.all().values("status")
 
-        self.assertEquals(file[0]['status'], 2)
+        self.assertEquals(file[0]['status'], AnnualSpendFile.ERROR)
 
 
     def test_year_error(self):
@@ -112,4 +112,4 @@ class FileTest(TransactionTestCase):
         self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
         file = AnnualSpendFile.objects.all().values("status")
 
-        self.assertEquals(file[0]['status'], 2)
+        self.assertEquals(file[0]['status'], AnnualSpendFile.ERROR)

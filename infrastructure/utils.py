@@ -130,7 +130,7 @@ def load_file(geography, reader, financial_year):
             quarterly_fields = find_quarter(additional_fields)
 
             if not correct_year(budget_phase_fields, financial_year):
-                raise ValueError("Could not find a field for the selected budget and/or year")
+                raise ValueError("Could not find a field for the selected budget phase and/or year")
 
             for field in budget_phase_fields:
                 amount = row[field]
@@ -166,7 +166,7 @@ def create_finance_phase(s):
     try:
         phase = models.BudgetPhase.objects.get(name=phase)
     except BudgetPhase.DoesNotExist as e:
-        raise ValueError("Could not find an existing budget phase matching those supplied, no phase created")
+        raise ValueError("Could not find an existing budget phase matching those supplied")
 
     return phase, fy
 
@@ -262,7 +262,7 @@ def chart_quarters(quarter_queryset, phase_queryset):
     return original_data, adjusted_data, quarter_data
 
 
-def correct_year(budget_phases, year):
+def is_selected_year_in_column_headers(budget_phases, year):
     year_exists = False
     for field in budget_phases:
         if "budget" in field.lower():
