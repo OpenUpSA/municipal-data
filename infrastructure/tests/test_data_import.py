@@ -19,6 +19,7 @@ from scorecard.models import Geography
 class FileTest(TransactionTestCase):
 
     def setUp(self):
+        fixtures = ["seeddata.json"]
         self.client = Client()
         self.username = 'admin'
         self.email = 'test@whatever.com'
@@ -46,23 +47,23 @@ class FileTest(TransactionTestCase):
         with open('infrastructure/tests/test_files/test.xlsx', 'rb', ) as f:
             resp = self.client.post(url, {'financial_year': fy.pk, 'document': f}, follow=True)
         self.assertContains(resp, "Dataset is currently being processed.", status_code=200)
-        file = AnnualSpendFile.objects.all().values("id")
-        fileSpend = AnnualSpendFile.objects.all().values("status")
 
+        file = AnnualSpendFile.objects.all().values("id")
+
+        a = AsyncTask('infrastructure.upload.process_document', file[0]['id'], sync=True)
+        a.run()
+
+        fileSpend = AnnualSpendFile.objects.all().values("status")
         filestatus = fileSpend[0]['status']
 
         self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
+        self.assertEquals(filestatus, 1)
+        self.assertEquals(Project.objects.count(), 27)
 
-        #self.assertEquals(filestatus, 1)
-
-        self.assertEquals(Project.objects.count(), 1)
-        # check if project was imported
-        response = self.client.get(
-            "/api/v1/infrastructure/search/?province=Eastern+Cape&municipality=Buffalo+City&q=&budget_phase=Budget"
-            "+year&financial_year=2019%2F2020&ordering=-total_forecast_budget")
+        response = self.client.get("/api/v1/infrastructure/search/")
         self.assertEqual(response.status_code, 200)
-        print(response.content)
         self.assertContains(response, 'PC002003005_00002')
+
 
     def test_file_upload_fail(self):
         """Scope of Test: Testing if the file upload fail in Django Admin to processing file and add to Django_Q"""
@@ -79,15 +80,15 @@ class FileTest(TransactionTestCase):
         self.assertContains(resp, "Dataset is currently being processed.", status_code=200)
         file = AnnualSpendFile.objects.all().values("id")
 
-        # a = AsyncTask('infrastructure.upload.process_document', file[0]['id'], sync=True)
-        # a.run()
-        # # the result and print it
-        # a.result(wait=105)
-        # print(a.result(wait=10))
+        a = AsyncTask('infrastructure.upload.process_document', file[0]['id'], sync=True)
+        with self.assertRaises(ValueError):
+            a.run()
+            raise ValueError()
+
         self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
         file = AnnualSpendFile.objects.all().values("status")
 
-        # self.assertEquals(file[0]['status'], 2)
+        self.assertEquals(file[0]['status'], 2)
 
 
     def test_year_error(self):
@@ -105,7 +106,9 @@ class FileTest(TransactionTestCase):
         file = AnnualSpendFile.objects.all().values("id")
 
         a = AsyncTask('infrastructure.upload.process_document', file[0]['id'], sync=True)
-        a.run()
+        with self.assertRaises(ValueError):
+            a.run()
+            raise ValueError()
 
         self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
         file = AnnualSpendFile.objects.all().values("status")
