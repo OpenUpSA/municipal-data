@@ -83,7 +83,6 @@ class FileTest(TransactionTestCase):
         a = AsyncTask('infrastructure.upload.process_document', file[0]['id'], sync=True)
         with self.assertRaises(ValueError):
             a.run()
-            raise ValueError()
 
         self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
         file = AnnualSpendFile.objects.all().values("status")
