@@ -46,19 +46,6 @@ class QuarterlySpendAdmin(admin.ModelAdmin):
     list_filter = ["financial_year"]
 
 
-#@admin.register(models.QuarterlySpendFile)
-class SpendFileAdmin(admin.ModelAdmin):
-    list_display = ("financial_year", "document", "status")
-    form = UploadFileForm
-
-    def save_model(self, request, obj, form, change):
-        messages.add_message(
-            request, messages.INFO, "Dataset is currently being processed."
-        )
-        super().save_model(request, obj, form, change)
-        task_id = async_task("infrastructure.upload.process_document", obj.id)
-
-
 @admin.register(models.AnnualSpendFile)
 class AnnualSpendFileAdmin(admin.ModelAdmin):
     list_display = ("financial_year", "document", "status")
