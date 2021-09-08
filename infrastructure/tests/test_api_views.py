@@ -7,7 +7,6 @@ from infrastructure.models import FinancialYear, QuarterlySpendFile, Expenditure
 
 from scorecard.models import Geography
 from scorecard.profiles import MunicipalityProfile
-# from scorecard.admin import MunicipalityProfileAdmin # not working
 from scorecard.admin import MunicipalityProfilesCompilationAdmin
 
 
