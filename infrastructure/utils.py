@@ -164,7 +164,7 @@ def create_finance_phase(s):
     fy, _ = models.FinancialYear.objects.get_or_create(budget_year=year)
 
     try:
-        phase, _ = models.BudgetPhase.objects.get(name=phase)
+        phase = models.BudgetPhase.objects.get(name=phase)
     except BudgetPhase.DoesNotExist as e:
         raise ValueError("Could not find an existing budget phase matching those supplied, no phase created")
 
