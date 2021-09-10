@@ -165,7 +165,7 @@ def create_finance_phase(s):
 
     try:
         phase = models.BudgetPhase.objects.get(name=phase)
-    except BudgetPhase.DoesNotExist as e:
+    except models.BudgetPhase.DoesNotExist as e:
         raise ValueError("Could not find an existing budget phase matching those supplied")
 
     return phase, fy

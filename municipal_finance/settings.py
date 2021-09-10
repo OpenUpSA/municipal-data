@@ -418,6 +418,7 @@ Q_CLUSTER = {
     "poll": 5,
     "max_attempts": 1,
     "ack_failures": True,  # Dequeue failed tasks
+    "sync": env.bool("DJANGO_Q_SYNC", False)
 }
 
 if not DEBUG:

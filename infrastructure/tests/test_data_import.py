@@ -4,7 +4,7 @@ from django.urls import reverse
 from io import BytesIO
 from django.contrib.auth.models import User
 from django.contrib.admin.sites import AdminSite
-from django_q.models import OrmQ
+from django_q.models import OrmQ, Task
 from django_q.tasks import AsyncTask, fetch, result
 import time
 import rest_framework.response
@@ -15,11 +15,11 @@ from infrastructure.utils import load_excel
 from scorecard.models import Geography
 
 
-@override_settings(Q_CLUSTER={**settings.Q_CLUSTER, 'sync': True})
 class FileTest(TransactionTestCase):
+    fixtures = ["seeddata"]
 
     def setUp(self):
-        fixtures = ["test_infrastructure.json"]
+
         self.client = Client()
         self.username = 'admin'
         self.email = 'test@whatever.com'
@@ -43,15 +43,16 @@ class FileTest(TransactionTestCase):
 
         # the app name, the name of the model and the name of the view
         url = reverse('admin:infrastructure_annualspendfile_add')
-
+        self.assertEqual(0, Task.objects.count())
         with open('infrastructure/tests/test_files/test.xlsx', 'rb', ) as f:
             resp = self.client.post(url, {'financial_year': fy.pk, 'document': f}, follow=True)
         self.assertContains(resp, "Dataset is currently being processed.", status_code=200)
+        self.assertEqual(1, Task.objects.count())
 
         file = AnnualSpendFile.objects.all().values("id")
 
-        a = AsyncTask('infrastructure.upload.process_document', file[0]['id'], sync=True)
-        a.run()
+        # a = AsyncTask('infrastructure.upload.process_document', file[0]['id'], sync=True)
+        # a.run()
 
         fileSpend = AnnualSpendFile.objects.all().values("status")
         filestatus = fileSpend[0]['status']

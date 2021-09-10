@@ -14,6 +14,7 @@ services:
       - DJANGO_DEBUG
       - DATABASE_URL=postgres://municipal_finance:municipal_finance@postgres/municipal_finance
       - DJANGO_SECRET_KEY=not-so-secret
+      - DJANGO_Q_SYNC=TRUE
       - SITE_ID=2
       - DATA_PORTAL_URL=http://portal:8002
       - ENVIRONMENT=development
