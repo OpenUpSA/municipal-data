@@ -129,7 +129,7 @@ def load_file(geography, reader, financial_year):
             budget_phase_fields = find_phase(additional_fields)
             quarterly_fields = find_quarter(additional_fields)
 
-            if not correct_year(budget_phase_fields, financial_year):
+            if not is_selected_year_in_column_headers(budget_phase_fields, financial_year):
                 raise ValueError("Could not find a field for the selected budget phase and/or year")
 
             for field in budget_phase_fields:
