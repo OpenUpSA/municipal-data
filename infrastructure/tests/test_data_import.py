@@ -76,20 +76,25 @@ class FileTest(TransactionTestCase):
         self.assertEquals(FinancialYear.objects.all().count(), 1)
         self.assertEquals(AnnualSpendFile.objects.all().count(), 0)
 
-        # the app name, the name of the model and the name of the view
         url = reverse('admin:infrastructure_annualspendfile_add')
         with open('infrastructure/tests/test_files/failtest.xlsx', 'rb', ) as f:
             resp = self.client.post(url, {'financial_year': fy.pk, 'document': f}, follow=True)
         self.assertContains(resp, "Dataset is currently being processed.", status_code=200)
-        file = AnnualSpendFile.objects.all().values("id")
 
-        a = AsyncTask('infrastructure.upload.process_document', file[0]['id'], sync=True)
-        a.run()
+        spend_file = AnnualSpendFile.objects.first()
+        self.assertEquals(spend_file.status, AnnualSpendFile.PROGRESS)
+
+        self.assertEqual(OrmQ.objects.count(), 1)
+        task = OrmQ.objects.first()
+        task_file_id = task.task()["args"][0]
+        task_method = task.func()
+        self.assertEqual(task_method, 'infrastructure.upload.process_document')
+        self.assertEqual(task_file_id, spend_file.id)
+        self.assertRaises(ValueError, process_document, task_file_id)
 
         self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
-        file = AnnualSpendFile.objects.all().values("status")
-
-        self.assertEquals(file[0]['status'], AnnualSpendFile.ERROR)
+        spend_file = AnnualSpendFile.objects.first()
+        self.assertEquals(spend_file.status, AnnualSpendFile.ERROR)
 
 
     def test_year_error(self):
@@ -104,12 +109,18 @@ class FileTest(TransactionTestCase):
         with open('infrastructure/tests/test_files/failyear.xlsx', 'rb', ) as f:
             resp = self.client.post(url, {'financial_year': fy.pk, 'document': f}, follow=True)
         self.assertContains(resp, "Dataset is currently being processed.", status_code=200)
-        file = AnnualSpendFile.objects.all().values("id")
 
-        a = AsyncTask('infrastructure.upload.process_document', file[0]['id'], sync=True)
-        a.run()
+        spend_file = AnnualSpendFile.objects.first()
+        self.assertEquals(spend_file.status, AnnualSpendFile.PROGRESS)
+
+        self.assertEqual(OrmQ.objects.count(), 1)
+        task = OrmQ.objects.first()
+        task_file_id = task.task()["args"][0]
+        task_method = task.func()
+        self.assertEqual(task_method, 'infrastructure.upload.process_document')
+        self.assertEqual(task_file_id, spend_file.id)
+        self.assertRaises(ValueError, process_document, task_file_id)
 
         self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
-        file = AnnualSpendFile.objects.all().values("status")
-
-        self.assertEquals(file[0]['status'], AnnualSpendFile.ERROR)
+        spend_file = AnnualSpendFile.objects.first()
+        self.assertEquals(spend_file.status, AnnualSpendFile.ERROR)
