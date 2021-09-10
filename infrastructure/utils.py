@@ -87,7 +87,7 @@ def load_excel(filename, financial_year=None, file_contents=None):
         geo_code = sheet.name
         logger.info("Processing sheet: %s" % sheet.name)
         if Geography.objects.filter(geo_code=geo_code).count() == 0:
-            raise CommandError(
+            raise Exception(
                 "%s is an unknown Geography. Please ensure that this Geography exists in the database"
                 % geo_code
             )
@@ -128,14 +128,20 @@ def load_file(geography, reader, financial_year):
             additional_fields = [k for k in row.keys() if k not in headers]
             budget_phase_fields = find_phase(additional_fields)
             quarterly_fields = find_quarter(additional_fields)
+
+            if not is_selected_year_in_column_headers(budget_phase_fields, financial_year):
+                raise ValueError("Could not find a field for the selected budget phase and/or year")
+
             for field in budget_phase_fields:
                 amount = row[field]
                 create_expenditure(p, field, amount)
             for field in quarterly_fields:
                 amount = row[field]
                 create_quarter(p, field, amount, financial_year)
+
         except Exception as e:
             raise ValueError("Error loading data in row: %d - %s" % (idx + 2, row))
+
     return idx + 1
 
 
@@ -156,7 +162,11 @@ def create_expenditure(project, finance_phase, amount):
 def create_finance_phase(s):
     phase, year = parse_finance_phase(s)
     fy, _ = models.FinancialYear.objects.get_or_create(budget_year=year)
-    phase, _ = models.BudgetPhase.objects.get_or_create(name=phase)
+
+    try:
+        phase = models.BudgetPhase.objects.get(name=phase)
+    except models.BudgetPhase.DoesNotExist as e:
+        raise ValueError("Could not find an existing budget phase matching those supplied")
 
     return phase, fy
 
@@ -207,6 +217,8 @@ def find_phase(fields):
             or field.startswith("Adjusted")
             or field.startswith("Original")
             or field.startswith("Budgeted")
+            or field.startswith("Budget year")
+            or field.startswith("Full Year Forecast")
         ):
             phase.append(field)
 
@@ -248,3 +260,13 @@ def chart_quarters(quarter_queryset, phase_queryset):
 
     quarter_data = sorted(quarter_data, key=lambda quarter: quarter[0])
     return original_data, adjusted_data, quarter_data
+
+
+def is_selected_year_in_column_headers(budget_phases, year):
+    year_exists = False
+    for field in budget_phases:
+        if "budget" in field.lower():
+            if str(year)[:5] in field:
+                year_exists = True
+
+    return year_exists

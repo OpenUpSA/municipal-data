@@ -15,7 +15,7 @@ class FinancialYear(models.Model):
 
 
 class BudgetPhase(models.Model):
-    code = models.CharField(max_length=10, null=True)
+    code = models.CharField(max_length=10, blank=True)
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -110,4 +110,13 @@ class QuarterlySpendFile(models.Model):
     PROGRESS = 3
     financial_year = models.ForeignKey(FinancialYear, on_delete=models.CASCADE)
     document = models.FileField(upload_to="quarterly/")
+    status = models.IntegerField(default=PROGRESS)
+
+
+class AnnualSpendFile(models.Model):
+    SUCCESS = 1
+    ERROR = 2
+    PROGRESS = 3
+    financial_year = models.ForeignKey(FinancialYear, on_delete=models.CASCADE)
+    document = models.FileField(upload_to="annual/")
     status = models.IntegerField(default=PROGRESS)
