@@ -22,9 +22,4 @@ class Migration(migrations.Migration):
                 ('financial_year', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='infrastructure.FinancialYear')),
             ],
         ),
-        migrations.AlterField(
-            model_name='budgetphase',
-            name='code',
-            field=models.CharField(blank=True, max_length=10),
-        ),
     ]
