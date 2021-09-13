@@ -156,3 +156,33 @@ class FileTest(TransactionTestCase):
         self.assertEquals(str(expenditure.financial_year), "2017/2018")
         self.assertEquals(expenditure.amount, 340609.00)
 
+
+    def test_update_project(self):
+        """Scope of Test: With existing projects run an upload and check that the correct fields are updated"""
+
+        with open('infrastructure/tests/test_files/test.xlsx', 'rb', ) as f:
+            utils.load_excel("", financial_year="2019/2020", file_contents=f.read())
+
+        with open('infrastructure/tests/test_files/test_2022.xlsx', 'rb', ) as f:
+            utils.load_excel("", financial_year="2020/2021", file_contents=f.read())
+
+        self.assertEquals(BudgetPhase.objects.all().count(), 5)
+        self.assertEquals(Project.objects.all().count(), 4)
+
+        project = Project.objects.get(function="Administrative and Corporate Support NEW FUNC")
+        self.assertEquals(project.project_description, "P-CNIN FURN & OFF EQUIP")
+        self.assertEquals(project.project_number, "PC002003005_00002")
+
+        self.assertEquals(project.project_type, "Renewal")
+        self.assertEquals(project.mtsf_service_outcome, "A project update")
+        self.assertEquals(project.iudf, "Governance")
+        self.assertEquals(project.own_strategic_objectives, "TO BE CORRECTED")
+        self.assertEquals(project.asset_class, "Furniture and Office")
+        self.assertEquals(project.asset_subclass, "Equipment")
+        self.assertEquals(project.ward_location, "Head Office")
+        self.assertEquals(project.longitude, 1.0)
+        self.assertEquals(project.latitude, 2.0)
+
+        self.assertEquals(Expenditure.objects.all().count(), 18)
+        # Check expenditure items are updated
+
