@@ -32,6 +32,7 @@ class FileTest(TransactionTestCase):
             category="A",
         )
 
+
     def test_file_upload(self):
         """Scope of Test: Testing the file upload in Django Admin to processing file and add to Django_Q"""
         self.client.login(username=self.username, password=self.password)
@@ -131,8 +132,8 @@ class FileTest(TransactionTestCase):
         """Scope of Test: With no existing projects run an upload and check that the correct fields are populated"""
         self.assertEquals(BudgetPhase.objects.all().count(), 5)
 
-        with open('infrastructure/tests/test_files/test_2030.xlsx', 'rb', ) as f:
-            utils.load_excel("", financial_year="2030/2031", file_contents=f.read())
+        with open('infrastructure/tests/test_files/test.xlsx', 'rb', ) as f:
+            utils.load_excel("", financial_year="2019/2020", file_contents=f.read())
 
         project = Project.objects.first()
         self.assertEquals(project.function, "Administrative and Corporate Support")
@@ -148,10 +149,10 @@ class FileTest(TransactionTestCase):
         self.assertEquals(project.longitude, 0.0)
         self.assertEquals(project.latitude, 0.0)
 
-        self.assertEquals(Expenditure.objects.all().count(), 5)
+        self.assertEquals(Expenditure.objects.all().count(), 9)
         expenditure = Expenditure.objects.first()
         self.assertEquals(str(expenditure.project), " - P-CNIN FURN & OFF EQUIP")
         self.assertEquals(str(expenditure.budget_phase), "Audited Outcome")
-        self.assertEquals(str(expenditure.financial_year), "2028/2029")
+        self.assertEquals(str(expenditure.financial_year), "2017/2018")
         self.assertEquals(expenditure.amount, 340609.00)
 
