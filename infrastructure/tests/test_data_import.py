@@ -7,7 +7,7 @@ from django.contrib.admin.sites import AdminSite
 from django_q.models import OrmQ
 import rest_framework.response
 
-from infrastructure.models import FinancialYear, QuarterlySpendFile, AnnualSpendFile, Expenditure, Project
+from infrastructure.models import FinancialYear, QuarterlySpendFile, AnnualSpendFile, Expenditure, Project, BudgetPhase
 from infrastructure.tests import utils
 from infrastructure.utils import load_excel
 from infrastructure.upload import process_document
@@ -124,3 +124,49 @@ class FileTest(TransactionTestCase):
         self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
         spend_file = AnnualSpendFile.objects.first()
         self.assertEquals(spend_file.status, AnnualSpendFile.ERROR)
+
+
+    def test_upload_project(self):
+        """Scope of Test: With no existing projects run an upload and check that the correct fields are populated"""
+        self.client.login(username=self.username, password=self.password)
+        fy = FinancialYear.objects.create(budget_year="2030/2031", active=1)
+
+        upload_url = reverse('admin:infrastructure_annualspendfile_add')
+
+        with open('infrastructure/tests/test_files/test_2030.xlsx', 'rb', ) as f:
+            resp = self.client.post(upload_url, {'financial_year': fy.pk, 'document': f}, follow=True)
+
+        task = OrmQ.objects.first()
+        task_file_id = task.task()["args"][0]
+        process_document(task_file_id)
+
+        project = Project.objects.first()
+        self.assertEquals(project.function, "Administrative and Corporate Support")
+        self.assertEquals(project.project_description, "P-CNIN FURN & OFF EQUIP")
+        self.assertEquals(project.project_number, "PC002003005_00002")
+        self.assertEquals(project.project_type, "New")
+        self.assertEquals(project.mtsf_service_outcome, "An efficient, effective and development-oriented public service")
+        self.assertEquals(project.iudf, "Growth")
+        self.assertEquals(project.own_strategic_objectives, "OWN MUNICIPAL STRATEGIC OBJECTIVE")
+        self.assertEquals(project.asset_class, "Furniture and Office Equipment")
+        self.assertEquals(project.asset_subclass, "")
+        self.assertEquals(project.ward_location, "Administrative or Head Office")
+        self.assertEquals(project.longitude, 0.0)
+        self.assertEquals(project.latitude, 0.0)
+
+        self.assertEquals(Expenditure.objects.all().count(), 5)
+        expenditure = Expenditure.objects.first()
+        self.assertEquals(str(expenditure.project), " - P-CNIN FURN & OFF EQUIP")
+        self.assertEquals(str(expenditure.budget_phase), "Audited Outcome")
+        self.assertEquals(str(expenditure.financial_year), "2028/2029")
+        self.assertEquals(expenditure.amount, 340609.00)
+
+        self.assertEquals(BudgetPhase.objects.all().count(), 5)
+        budget_phase = BudgetPhase.objects.all()
+
+        self.assertIn("Audited Outcome", str(budget_phase))
+        self.assertIn("Full Year Forecast", str(budget_phase))
+        self.assertIn("Budget year", str(budget_phase))
+        self.assertIn("Original Budget", str(budget_phase))
+        self.assertIn("Adjusted Budget", str(budget_phase))
+
