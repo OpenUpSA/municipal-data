@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.admin.sites import AdminSite
 from django_q.models import OrmQ
 import rest_framework.response
+import xlrd
 
 from infrastructure.models import FinancialYear, QuarterlySpendFile, AnnualSpendFile, Expenditure, Project, BudgetPhase
 from infrastructure.tests import utils
@@ -128,17 +129,10 @@ class FileTest(TransactionTestCase):
 
     def test_upload_project(self):
         """Scope of Test: With no existing projects run an upload and check that the correct fields are populated"""
-        self.client.login(username=self.username, password=self.password)
-        fy = FinancialYear.objects.create(budget_year="2030/2031", active=1)
-
-        upload_url = reverse('admin:infrastructure_annualspendfile_add')
+        self.assertEquals(BudgetPhase.objects.all().count(), 5)
 
         with open('infrastructure/tests/test_files/test_2030.xlsx', 'rb', ) as f:
-            resp = self.client.post(upload_url, {'financial_year': fy.pk, 'document': f}, follow=True)
-
-        task = OrmQ.objects.first()
-        task_file_id = task.task()["args"][0]
-        process_document(task_file_id)
+            utils.load_excel("", financial_year="2030/2031", file_contents=f.read())
 
         project = Project.objects.first()
         self.assertEquals(project.function, "Administrative and Corporate Support")
@@ -160,13 +154,4 @@ class FileTest(TransactionTestCase):
         self.assertEquals(str(expenditure.budget_phase), "Audited Outcome")
         self.assertEquals(str(expenditure.financial_year), "2028/2029")
         self.assertEquals(expenditure.amount, 340609.00)
-
-        self.assertEquals(BudgetPhase.objects.all().count(), 5)
-        budget_phase = BudgetPhase.objects.all()
-
-        self.assertIn("Audited Outcome", str(budget_phase))
-        self.assertIn("Full Year Forecast", str(budget_phase))
-        self.assertIn("Budget year", str(budget_phase))
-        self.assertIn("Original Budget", str(budget_phase))
-        self.assertIn("Adjusted Budget", str(budget_phase))
 
