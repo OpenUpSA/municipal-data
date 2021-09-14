@@ -15,6 +15,27 @@ from infrastructure.upload import process_document
 from scorecard.models import Geography
 
 
+def generate_mock_data():
+    mock_data = { 'Function': 'Administrative and Corporate Support',
+        'Project Description': 'P-CNIN FURN & OFF EQUIP',
+        'Project Number': 'PC002003005_00002',
+        'Type': 'New',
+        'MTSF Service Outcome': 'An efficient, effective and development-oriented public service',
+        'IUDF': 'Growth',
+        'Own Strategic Objectives': 'OWN MUNICIPAL STRATEGIC OBJECTIVE',
+        'Asset Class': 'Furniture and Office Equipment',
+        'Asset Sub-Class': '',
+        'Ward Location': 'Administrative or Head Office',
+        'GPS Longitude': '0', 'GPS Latitude': '0',
+        'Audited Outcome 2017/18': 340609.0,
+        'Full Year Forecast 2018/19': 651391.0,
+        'Budget year 2019/20': 500000.0,
+        'Budget year 2020/21': 500000.0,
+        'Budget year 2021/22': 500000.0
+    }
+    yield mock_data
+
+
 class FileTest(TransactionTestCase):
     fixtures = ["seeddata"]
 
@@ -132,11 +153,10 @@ class FileTest(TransactionTestCase):
         """Scope of Test: With no existing projects run an upload and check that the correct fields are populated"""
         self.assertEquals(BudgetPhase.objects.all().count(), 5)
 
-        with open('infrastructure/tests/test_files/test.xlsx', 'rb', ) as f:
-            utils.load_excel("", financial_year="2019/2020", file_contents=f.read())
+        geography = Geography.objects.get(geo_code="BUF")
+        utils.load_file(geography, generate_mock_data(), "2019/2020")
 
-        project = Project.objects.first()
-        self.assertEquals(project.function, "Administrative and Corporate Support")
+        project = Project.objects.get(function="Administrative and Corporate Support")
         self.assertEquals(project.project_description, "P-CNIN FURN & OFF EQUIP")
         self.assertEquals(project.project_number, "PC002003005_00002")
         self.assertEquals(project.project_type, "New")
@@ -149,10 +169,8 @@ class FileTest(TransactionTestCase):
         self.assertEquals(project.longitude, 0.0)
         self.assertEquals(project.latitude, 0.0)
 
-        self.assertEquals(Expenditure.objects.all().count(), 9)
-        expenditure = Expenditure.objects.first()
-        self.assertEquals(str(expenditure.project), " - P-CNIN FURN & OFF EQUIP")
-        self.assertEquals(str(expenditure.budget_phase), "Audited Outcome")
-        self.assertEquals(str(expenditure.financial_year), "2017/2018")
-        self.assertEquals(expenditure.amount, 340609.00)
-
+        self.assertEquals(Expenditure.objects.all().count(), 5)
+        expenditure = Expenditure.objects.get(amount=340609.00)
+        self.assertEquals(expenditure.project.project_description, "P-CNIN FURN & OFF EQUIP")
+        self.assertEquals(expenditure.budget_phase.name, "Audited Outcome")
+        self.assertEquals(expenditure.financial_year.budget_year, "2017/2018")
