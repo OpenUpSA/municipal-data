@@ -217,7 +217,7 @@ class FileTest(TransactionTestCase):
 
 
     def test_update_project(self):
-        """Scope of Test: With an existing project import a new project with the same composite key and check that default fields are updated"""
+        """Scope of Test: With an existing project import a new project with the same composite key and check that non-key fields are updated"""
 
         geography = Geography.objects.get(geo_code="BUF")
         utils.load_file(geography, generate_mock_data(), "2019/2020")
