@@ -60,6 +60,7 @@ class Project(models.Model):
     latitude = models.FloatField(null=True)
 
     content_search = SearchVectorField(null=True)
+    latest_implementation_year = models.ForeignKey(FinancialYear, on_delete=models.CASCADE)
 
     objects = ProjectManager()
 
@@ -117,6 +118,6 @@ class AnnualSpendFile(models.Model):
     SUCCESS = 1
     ERROR = 2
     PROGRESS = 3
-    financial_year = models.ForeignKey(FinancialYear, on_delete=models.CASCADE)
+    financial_year = models.ForeignKey(FinancialYear, on_delete=models.CASCADE, verbose_name="Implementation financial year")
     document = models.FileField(upload_to="annual/")
     status = models.IntegerField(default=PROGRESS)
