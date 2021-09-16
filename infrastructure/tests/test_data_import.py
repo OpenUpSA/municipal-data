@@ -15,7 +15,8 @@ from infrastructure.upload import process_document
 from scorecard.models import Geography
 
 
-def generate_mock_data():
+def mock_project_row():
+    """This is the project data that mock_existing_project_row will update"""
     mock_data = { 'Function': 'Administrative and Corporate Support',
         'Project Description': 'P-CNIN FURN & OFF EQUIP',
         'Project Number': 'PC002003005_00002',
@@ -35,7 +36,8 @@ def generate_mock_data():
     }
     yield mock_data
 
-def mock_data_existing_project():
+def mock_data_existing_project_row():
+    """This should update the project from mock_project_row()"""
     mock_data = { 'Function': 'Administrative and Corporate Support',
         'Project Description': 'P-CNIN FURN & OFF EQUIP',
         'Project Number': 'PC002003005_00002',
@@ -55,7 +57,8 @@ def mock_data_existing_project():
     }
     yield mock_data
 
-def mock_data_new_project():
+def mock_new_project_row():
+    """Composite key fields should not match mock_project_row() so that this creates a new project"""
     mock_data = { 'Function': 'Administrative and Corporate Support',
         'Project Description': 'P-CNIN FURN & OFF EQUIP - NEW DESCRIPTION',
         'Project Number': 'PC002003005_00002',
