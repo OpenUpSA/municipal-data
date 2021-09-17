@@ -118,6 +118,17 @@ Read more about the decision to use Webflow and best practices for using it here
 - https://app.gitbook.com/@openup/s/handbook/how-we-work/organisational-decision-records/odr2-building-dynamic-web-frontends-using-webflow
 - https://app.gitbook.com/@openup/s/handbook/tech/webflow-best-practice/custom-dom-manipulation-in-webflow-sites
 
+#### Infrastructure projects section
+
+The infrastructure projects django app serves templates from a dedicated webflow project called Municipal Money Infrastructure Projects.
+
+Manually import:
+
+- js, css, fonts to relevant folders in infrastructure/static
+- infrastructure-project.html to infrastructure/templates/infrastructure/project.dhtml
+- infrastructure-search.html to infrastructure/templates/infrastructure/search.dhtml
+
+
 
 ## Production
 
