@@ -100,6 +100,10 @@
         }
       }
  </style>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" crossorigin=""/>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" crossorigin=""/>
+	<link rel="stylesheet" href="/static/css/muni-money.webflow.init.css"/>
 </head>
 <body>
   <div>
@@ -605,7 +609,7 @@
         <div class="row">
           <div class="col col-4 col-sm-12">
             <div class="footer__logos">
-              <a href="http://www.treasury.go.za" target="_blank" class="footer__logo w-inline-block"><img src="/static/images/treasury-logo.611e78e53f15.png" sizes="(max-width: 479px) 86vw, 200px" srcset="images/treasury-logo.611e78e53f15-p-500.png 500w, images/treasury-logo.611e78e53f15.png 600w" alt="" class="image-2"></a>
+              <a href="http://www.treasury.go.za" target="_blank" class="footer__logo w-inline-block"><img src="/static/images/treasury-logo.611e78e53f15.png" sizes="(max-width: 479px) 86vw, 200px" srcset="/static/images/treasury-logo.611e78e53f15-p-500.png 500w, images/treasury-logo.611e78e53f15.png 600w" alt="" class="image-2"></a>
               <a href="http://www.openup.org.za" target="_blank" class="footer__logo _2 w-inline-block"><img src="/static/images/code4sa-logo.831760fd7c32.png" alt="" class="image-3"></a>
             </div>
           </div>
@@ -650,7 +654,10 @@
   </div>
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=5db2adb5e800a59830f2f99c" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="/static/js/webflow.js" type="text/javascript"></script>
+  <script src="/static/js/humanize.js"></script>
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
+	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+	<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js" crossorigin=""></script>
   {% javascript "infrastructure" %}
 	<script>
 	 $(document).ready(function() {
