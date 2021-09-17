@@ -128,7 +128,14 @@ Manually import:
 - infrastructure-project.html to infrastructure/templates/infrastructure/project.dhtml
 - infrastructure-search.html to infrastructure/templates/infrastructure/search.dhtml
 
+When importing the html files
 
+- Copy the files over
+- Do `git diff -w` to see what's changed without whitespace changes
+- Copy back the django template tags (which are not in the webflow export)
+- Copy back the script tags (which are also not in the webflow export)
+
+These import steps are normally handled by import-webflow-export but that doesnt support multiple webflow projects in the same django project at the moment.
 
 ## Production
 
