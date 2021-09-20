@@ -6,12 +6,83 @@ from django.contrib.auth.models import User
 from django.contrib.admin.sites import AdminSite
 from django_q.models import OrmQ
 import rest_framework.response
+import xlrd
 
-from infrastructure.models import FinancialYear, QuarterlySpendFile, AnnualSpendFile, Expenditure, Project
+from infrastructure.models import FinancialYear, QuarterlySpendFile, AnnualSpendFile, Expenditure, Project, BudgetPhase
 from infrastructure.tests import utils
 from infrastructure.utils import load_excel
 from infrastructure.upload import process_document
 from scorecard.models import Geography
+
+
+def mock_project_row():
+    """This is the project data that mock_existing_project_row will update"""
+    mock_data = { 'Function': 'Administrative and Corporate Support',
+        'Project Description': 'P-CNIN FURN & OFF EQUIP',
+        'Project Number': 'PC002003005_00002',
+        'Type': 'New',
+        'MTSF Service Outcome': 'An efficient, effective and development-oriented public service',
+        'IUDF': 'Growth',
+        'Own Strategic Objectives': 'OWN MUNICIPAL STRATEGIC OBJECTIVE',
+        'Asset Class': 'Furniture and Office Equipment',
+        'Asset Sub-Class': '',
+        'Ward Location': 'Administrative or Head Office',
+        'GPS Longitude': '0', 'GPS Latitude': '0',
+        'Audited Outcome 2017/18': 2000.0,
+        'Full Year Forecast 2018/19': 3000.0,
+        'Budget year 2019/20': 4000.0,
+        'Budget year 2020/21': 5000.0,
+        'Budget year 2021/22': 6000.0
+    }
+    yield mock_data
+
+def mock_data_existing_project_row():
+    """This should update the project from mock_project_row()"""
+    mock_data = { 'Function': 'Administrative and Corporate Support',
+        'Project Description': 'P-CNIN FURN & OFF EQUIP',
+        'Project Number': 'PC002003005_00002',
+        'Type': 'Renewal',
+        'MTSF Service Outcome': 'A project update',
+        'IUDF': 'Governance',
+        'Own Strategic Objectives': 'TO BE CORRECTED',
+        'Asset Class': 'Furniture and Office',
+        'Asset Sub-Class': 'Equipment',
+        'Ward Location': 'Head Office',
+        'GPS Longitude': '1', 'GPS Latitude': '2',
+        'Audited Outcome 2018/19': 2100.0,
+        'Full Year Forecast 2019/20': 3100.0,
+        'Budget year 2020/21': 4000.0,
+        'Budget year 2021/22': 5000.0,
+        'Budget year 2022/23': 6100.0
+    }
+    yield mock_data
+
+def mock_new_project_row():
+    """Composite key fields should not match mock_project_row() so that this creates a new project"""
+    mock_data = { 'Function': 'Administrative and Corporate Support',
+        'Project Description': 'P-CNIN FURN & OFF EQUIP - NEW DESCRIPTION',
+        'Project Number': 'PC002003005_00002',
+        'Type': 'Renewal',
+        'MTSF Service Outcome': 'A project update',
+        'IUDF': 'Governance',
+        'Own Strategic Objectives': 'TO BE CORRECTED',
+        'Asset Class': 'Furniture and Office',
+        'Asset Sub-Class': 'Equipment',
+        'Ward Location': 'Head Office',
+        'GPS Longitude': '1', 'GPS Latitude': '2',
+        'Audited Outcome 2018/19': 2100.0,
+        'Full Year Forecast 2019/20': 3100.0,
+        'Budget year 2020/21': 4000.0,
+        'Budget year 2021/22': 5000.0,
+        'Budget year 2022/23': 6100.0
+    }
+    yield mock_data
+
+
+def verify_expenditure(this, amount, budget_phase, year):
+    expenditure = Expenditure.objects.get(amount=amount)
+    this.assertEquals(expenditure.budget_phase.name, budget_phase)
+    this.assertEquals(expenditure.financial_year.budget_year, year)
 
 
 class FileTest(TransactionTestCase):
@@ -30,6 +101,7 @@ class FileTest(TransactionTestCase):
             province_code="EC",
             category="A",
         )
+
 
     def test_file_upload(self):
         """Scope of Test: Testing the file upload in Django Admin to processing file and add to Django_Q"""
@@ -124,3 +196,114 @@ class FileTest(TransactionTestCase):
         self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
         spend_file = AnnualSpendFile.objects.first()
         self.assertEquals(spend_file.status, AnnualSpendFile.ERROR)
+
+
+    def test_upload_project(self):
+        """Scope of Test: With no existing projects run an upload and check that the correct fields are populated"""
+        self.assertEquals(BudgetPhase.objects.all().count(), 5)
+
+        geography = Geography.objects.get(geo_code="BUF")
+        utils.load_file(geography, mock_project_row(), "2019/2020")
+
+        project = Project.objects.get(function="Administrative and Corporate Support")
+        self.assertEquals(project.project_description, "P-CNIN FURN & OFF EQUIP")
+        self.assertEquals(project.project_number, "PC002003005_00002")
+        self.assertEquals(project.project_type, "New")
+        self.assertEquals(project.mtsf_service_outcome, "An efficient, effective and development-oriented public service")
+        self.assertEquals(project.iudf, "Growth")
+        self.assertEquals(project.own_strategic_objectives, "OWN MUNICIPAL STRATEGIC OBJECTIVE")
+        self.assertEquals(project.asset_class, "Furniture and Office Equipment")
+        self.assertEquals(project.asset_subclass, "")
+        self.assertEquals(project.ward_location, "Administrative or Head Office")
+        self.assertEquals(project.longitude, 0.0)
+        self.assertEquals(project.latitude, 0.0)
+
+        self.assertEquals(Expenditure.objects.all().count(), 5)
+        verify_expenditure(self, 2000.00, "Audited Outcome", "2017/2018")
+        verify_expenditure(self, 3000.00, "Full Year Forecast", "2018/2019")
+        verify_expenditure(self, 4000.00, "Budget year", "2019/2020")
+        verify_expenditure(self, 5000.00, "Budget year", "2020/2021")
+        verify_expenditure(self, 6000.00, "Budget year", "2021/2022")
+
+
+    def test_update_project(self):
+        """Scope of Test: With an existing project import a new project with the same composite key and check that non-key fields are updated"""
+
+        geography = Geography.objects.get(geo_code="BUF")
+        utils.load_file(geography, mock_project_row(), "2019/2020")
+
+        project = Project.objects.get(project_description="P-CNIN FURN & OFF EQUIP")
+        self.assertEquals(project.project_description, "P-CNIN FURN & OFF EQUIP")
+        self.assertEquals(project.project_number, "PC002003005_00002")
+        self.assertEquals(project.project_type, "New")
+        self.assertEquals(project.mtsf_service_outcome, "An efficient, effective and development-oriented public service")
+        self.assertEquals(project.iudf, "Growth")
+        self.assertEquals(project.own_strategic_objectives, "OWN MUNICIPAL STRATEGIC OBJECTIVE")
+        self.assertEquals(project.asset_class, "Furniture and Office Equipment")
+        self.assertEquals(project.asset_subclass, "")
+        self.assertEquals(project.ward_location, "Administrative or Head Office")
+        self.assertEquals(project.longitude, 0.0)
+        self.assertEquals(project.latitude, 0.0)
+
+        utils.load_file(geography, mock_data_existing_project_row(), "2020/2021")
+        self.assertEquals(Project.objects.all().count(), 1)
+
+        project = Project.objects.get(project_description="P-CNIN FURN & OFF EQUIP")
+        self.assertEquals(project.project_type, "Renewal")
+        self.assertEquals(project.mtsf_service_outcome, "A project update")
+        self.assertEquals(project.iudf, "Governance")
+        self.assertEquals(project.own_strategic_objectives, "TO BE CORRECTED")
+        self.assertEquals(project.asset_class, "Furniture and Office")
+        self.assertEquals(project.asset_subclass, "Equipment")
+        self.assertEquals(project.ward_location, "Head Office")
+        self.assertEquals(project.longitude, 1.0)
+        self.assertEquals(project.latitude, 2.0)
+
+        self.assertEquals(Expenditure.objects.all().count(), 8)
+        verify_expenditure(self, 2100.00, "Audited Outcome", "2018/2019")
+        verify_expenditure(self, 3100.00, "Full Year Forecast", "2019/2020")
+        verify_expenditure(self, 6100.00, "Budget year", "2022/2023")
+
+
+    def test_new_project(self):
+        """Scope of Test: With an existing project import a new project with a new composite key and check that a new  project is created"""
+
+        geography = Geography.objects.get(geo_code="BUF")
+        utils.load_file(geography, mock_project_row(), "2019/2020")
+
+        project = Project.objects.get(project_description="P-CNIN FURN & OFF EQUIP")
+        self.assertEquals(project.project_description, "P-CNIN FURN & OFF EQUIP")
+        self.assertEquals(project.project_number, "PC002003005_00002")
+        self.assertEquals(project.project_type, "New")
+        self.assertEquals(project.mtsf_service_outcome, "An efficient, effective and development-oriented public service")
+        self.assertEquals(project.iudf, "Growth")
+        self.assertEquals(project.own_strategic_objectives, "OWN MUNICIPAL STRATEGIC OBJECTIVE")
+        self.assertEquals(project.asset_class, "Furniture and Office Equipment")
+        self.assertEquals(project.asset_subclass, "")
+        self.assertEquals(project.ward_location, "Administrative or Head Office")
+        self.assertEquals(project.longitude, 0.0)
+        self.assertEquals(project.latitude, 0.0)
+
+        utils.load_file(geography, mock_new_project_row(), "2020/2021")
+        self.assertEquals(Project.objects.all().count(), 2)
+
+        project = Project.objects.get(project_description="P-CNIN FURN & OFF EQUIP - NEW DESCRIPTION")
+        self.assertEquals(project.project_type, "Renewal")
+        self.assertEquals(project.mtsf_service_outcome, "A project update")
+        self.assertEquals(project.iudf, "Governance")
+        self.assertEquals(project.own_strategic_objectives, "TO BE CORRECTED")
+        self.assertEquals(project.asset_class, "Furniture and Office")
+        self.assertEquals(project.asset_subclass, "Equipment")
+        self.assertEquals(project.ward_location, "Head Office")
+        self.assertEquals(project.longitude, 1.0)
+        self.assertEquals(project.latitude, 2.0)
+
+        self.assertEquals(Expenditure.objects.all().count(), 10)
+
+        expenditure_id = Expenditure.objects.get(amount=2100).project_id
+        new_expenditures = Expenditure.objects.filter(project_id=expenditure_id)
+        self.assertEquals(new_expenditures.count(), 5)
+
+        verify_expenditure(self, 2100.00, "Audited Outcome", "2018/2019")
+        verify_expenditure(self, 3100.00, "Full Year Forecast", "2019/2020")
+        verify_expenditure(self, 6100.00, "Budget year", "2022/2023")
