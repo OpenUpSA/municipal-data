@@ -437,7 +437,9 @@ function mmWebflow(js) {
                 $(".search-detail__amount").show();
                 $(".search-detail-value--placeholder").hide();
                 $(".search-detail-amount--placeholder").hide();
-		$(".dropdown-link").removeClass('active');
+                $(".dropdown-link").removeClass('active');
+
+                hideMapPlaceholder();
             }
         };
 
@@ -615,6 +617,10 @@ function mmWebflow(js) {
             } else {
                 listView.searchState.noResultsMessage.show();
             }
+        }
+
+        function hideMapPlaceholder() {
+            $("#map #map").hide()
         }
 
         function resetMapPoints() {
