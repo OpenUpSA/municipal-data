@@ -835,6 +835,7 @@ function mmWebflow(js) {
         map = createMap("project-map", js["geography"]["bbox"], [[js["latitude"], js["longitude"]]]);
         addMarker(map, [js["latitude"], js["longitude"]], js["project_description"]);
 
+        $(".audited-outcome").parent().parent().remove();
     }
 
     if (js["view"] == "list")
