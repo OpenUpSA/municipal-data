@@ -109,7 +109,7 @@ function mmWebflow(js) {
             this.listeners = {};
             this.defaultValue = defaultValue;
             this.enabled = true;
-    
+
             this.selectedElement = $(".chart-dropdown_trigger", this.el);
             this.optionContainer = this.el.find("nav.chart-dropdown_list");
             this.dropdownItemTemplate = $(".dropdown-link:first", this.optionContainer).clone();
@@ -156,7 +156,7 @@ function mmWebflow(js) {
                 if (label.count) {
                     optionElement.find(".search-dropdown_value").text("(" + label.count + ")");
                 }
-
+                this.reset();
                 me.optionContainer.append(optionElement);
             },
 
@@ -302,7 +302,6 @@ function mmWebflow(js) {
 		updateURLSearch(fieldName, textValue);
 		triggerUpdateFilter();
             };
-
 
             this.provinceDropDown = new filterDropdown($("#province-dropdown"), "All Provinces");
             this.municipalityDropDown = new filterDropdown($("#municipality-dropdown"), "All Municipalities");
@@ -592,7 +591,7 @@ function mmWebflow(js) {
         }
 
         function showResults(response) {
-            $("#num-matching-projects-field").text(utils.formatNumber(response.count));
+            $(".search-detail-value").text(utils.formatNumber(response.count));
             $("#search-total-forecast").text(utils.formatHuman(response.results.aggregations.total));
             $(".search-detail__amount .units-label").text(utils.formatUnits(response.results.aggregations.total));
             var resultItem = mmListView.resultRowTemplate.clone();
@@ -808,9 +807,12 @@ function mmWebflow(js) {
         setValue($(".geography .ward"), js["ward_location"]);
         // TODO remove
         $(".breadcrumbs .home").attr("href", "/infrastructure/projects");
-	$(".breadcrumbs .province").attr("href", "/infrastructure/projects?province="+ js["geography"]["province_name"]);
-	$(".breadcrumbs .municipality").attr("href", "/infrastructure/projects?province="+ js["geography"]["province_name"]+"&municipality="+ js["geography"]["name"]);
-	
+        $(".breadcrumbs .province").attr("href", "/infrastructure/projects?province="+ js["geography"]["province_name"]);
+        $(".breadcrumbs .municipality").attr("href", "/infrastructure/projects?province="+ js["geography"]["province_name"]+"&municipality="+ js["geography"]["name"]);
+
+        $(".breadcrumbs__crumb").hide();
+        $(".breadcrumbs .province").show();
+        $(".breadcrumbs .municipality").show();
 
         var coordinates = formatCoordinates(js["latitude"], js["longitude"]);
         setValue($(".geography .coordinates"), coordinates);
