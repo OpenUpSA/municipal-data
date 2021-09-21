@@ -815,7 +815,8 @@ function mmWebflow(js) {
             return Math.min(...yearList);
         }
 
-        function formatYear(year) {
+        function getPreviousYear(budget_year, subtractYears) {
+            let year = budget_year.split("/")[0] - subtractYears
             return year + "/" + (Number(year) + 1);
         }
 
@@ -845,23 +846,22 @@ function mmWebflow(js) {
         var coordinates = formatCoordinates(js["latitude"], js["longitude"]);
         setValue($(".geography .coordinates"), coordinates);
 
-        let startYear = Number(getStartYear(js["expenditure"]))
+        $(".audited-outcome").parent().parent().remove();
+        let latestYear = js["latest_implementation_year"]["budget_year"]
 
-        setFinanceValue($(".finances .forecast"), js["expenditure"], "Full Year Forecast", formatYear(startYear));
-        setFinanceValue($(".finances .budget1"), js["expenditure"], "Budget year", formatYear(startYear+1));
-        setFinanceValue($(".finances .budget2"), js["expenditure"], "Budget year", formatYear(startYear+2));
-        setFinanceValue($(".finances .budget3"), js["expenditure"], "Budget year", formatYear(startYear+3));
+        setFinanceValue($(".finances .forecast"), js["expenditure"], "Full Year Forecast", getPreviousYear(latestYear, 3));
+        setFinanceValue($(".finances .budget1"), js["expenditure"], "Budget year", getPreviousYear(latestYear, 2));
+        setFinanceValue($(".finances .budget2"), js["expenditure"], "Budget year", getPreviousYear(latestYear, 1));
+        setFinanceValue($(".finances .budget3"), js["expenditure"], "Budget year", latestYear);
 
-        setFinanceYear($(".full-year-forecast .year"), js["expenditure"], "Full Year Forecast", formatYear(startYear));
-        setFinanceYear($(".budget-year-1 .year"), js["expenditure"], "Budget year", formatYear(startYear+1));
-        setFinanceYear($(".budget-year-2 .year"), js["expenditure"], "Budget year", formatYear(startYear+2));
-        setFinanceYear($(".budget-year-3 .year"), js["expenditure"], "Budget year", formatYear(startYear+3));
+        setFinanceYear($(".full-year-forecast .year"), js["expenditure"], "Full Year Forecast", getPreviousYear(latestYear, 3));
+        setFinanceYear($(".budget-year-1 .year"), js["expenditure"], "Budget year", getPreviousYear(latestYear, 2));
+        setFinanceYear($(".budget-year-2 .year"), js["expenditure"], "Budget year", getPreviousYear(latestYear, 1));
+        setFinanceYear($(".budget-year-3 .year"), js["expenditure"], "Budget year", latestYear);
 
         //$(".project-map iframe").remove();
         map = createMap("project-map", js["geography"]["bbox"], [[js["latitude"], js["longitude"]]]);
         addMarker(map, [js["latitude"], js["longitude"]], js["project_description"]);
-
-        $(".audited-outcome").parent().parent().remove();
     }
 
     if (js["view"] == "list")
