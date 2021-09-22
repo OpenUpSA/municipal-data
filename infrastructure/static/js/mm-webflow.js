@@ -805,8 +805,8 @@ function mmWebflow(js) {
             }
         }
 
-        function getPreviousYear(budget_year, subtractYears) {
-            let year = budget_year.split("/")[0] - subtractYears
+        function adjustedYear(budget_year, adjustByYears) {
+            let year = Number(budget_year.split("/")[0]) + adjustByYears
             return year + "/" + (Number(year) + 1);
         }
 
@@ -837,17 +837,17 @@ function mmWebflow(js) {
         setValue($(".geography .coordinates"), coordinates);
 
         $(".audited-outcome").parent().parent().remove();
-        let latestYear = js["latest_implementation_year"]["budget_year"]
+        let implementYear = js["latest_implementation_year"]["budget_year"]
 
-        setFinanceValue($(".finances .forecast"), js["expenditure"], "Full Year Forecast", getPreviousYear(latestYear, 3));
-        setFinanceValue($(".finances .budget1"), js["expenditure"], "Budget year", getPreviousYear(latestYear, 2));
-        setFinanceValue($(".finances .budget2"), js["expenditure"], "Budget year", getPreviousYear(latestYear, 1));
-        setFinanceValue($(".finances .budget3"), js["expenditure"], "Budget year", latestYear);
+        setFinanceValue($(".finances .forecast"), js["expenditure"], "Full Year Forecast", adjustedYear(implementYear, -1));
+        setFinanceValue($(".finances .budget1"), js["expenditure"], "Budget year", implementYear);
+        setFinanceValue($(".finances .budget2"), js["expenditure"], "Budget year", adjustedYear(implementYear, 1));
+        setFinanceValue($(".finances .budget3"), js["expenditure"], "Budget year", adjustedYear(implementYear, 2));
 
-        setFinanceYear($(".full-year-forecast .year"), js["expenditure"], "Full Year Forecast", getPreviousYear(latestYear, 3));
-        setFinanceYear($(".budget-year-1 .year"), js["expenditure"], "Budget year", getPreviousYear(latestYear, 2));
-        setFinanceYear($(".budget-year-2 .year"), js["expenditure"], "Budget year", getPreviousYear(latestYear, 1));
-        setFinanceYear($(".budget-year-3 .year"), js["expenditure"], "Budget year", latestYear);
+        setFinanceYear($(".full-year-forecast .year"), js["expenditure"], "Full Year Forecast", adjustedYear(implementYear, -1));
+        setFinanceYear($(".budget-year-1 .year"), js["expenditure"], "Budget year", implementYear);
+        setFinanceYear($(".budget-year-2 .year"), js["expenditure"], "Budget year", adjustedYear(implementYear, 1));
+        setFinanceYear($(".budget-year-3 .year"), js["expenditure"], "Budget year", adjustedYear(implementYear, 2));
 
         //$(".project-map iframe").remove();
         map = createMap("project-map", js["geography"]["bbox"], [[js["latitude"], js["longitude"]]]);
