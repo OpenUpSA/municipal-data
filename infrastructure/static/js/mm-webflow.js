@@ -805,16 +805,6 @@ function mmWebflow(js) {
             }
         }
 
-        function getStartYear(expenses) {
-            let yearList = [];
-            for (var idx in expenses) {
-                var e = expenses[idx];
-                if (e["budget_phase"] != undefined)
-                    yearList.push(e["financial_year"]['budget_year'].split("/")[0])
-            }
-            return Math.min(...yearList);
-        }
-
         function getPreviousYear(budget_year, subtractYears) {
             let year = budget_year.split("/")[0] - subtractYears
             return year + "/" + (Number(year) + 1);
