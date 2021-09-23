@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 import django.db.models.deletion
+import infrastructure.models
 
 
 class Migration(migrations.Migration):
@@ -20,7 +21,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='annualspendfile',
             name='financial_year',
-            field=models.ForeignKey(default='', on_delete=django.db.models.deletion.CASCADE, to='infrastructure.FinancialYear', verbose_name='Implementation financial year'),
+            field=models.ForeignKey(default=infrastructure.models.get_finanial_year_default, on_delete=django.db.models.deletion.CASCADE, to='infrastructure.FinancialYear', verbose_name='Implementation financial year'),
             preserve_default=False,
         ),
     ]
