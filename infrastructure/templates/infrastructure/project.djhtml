@@ -381,6 +381,7 @@
       var original_data = {{original_data|safe}};
       var adjusted_data = {{adjusted_data|safe}};
       var quarter_data = {{quarter_data|safe}};
+      var implementation_year = '{{implementation_year|safe}}';
       if (quarter_data) {
         data = []
         var original_chart = {
@@ -422,7 +423,7 @@
           },
           barmode: 'stack',
           xaxis: {
-            title: 'Financial Year 2019/2020'
+            title: 'Financial Year ' + implementation_year
           },
           colorway: chartColors,
         };
