@@ -5,6 +5,9 @@ from django.contrib.postgres.indexes import GinIndex
 
 from scorecard.models import Geography
 
+def get_finanial_year_default():
+    return FinancialYear.objects.get(budget_year="2019/2020").id
+
 
 class FinancialYear(models.Model):
     budget_year = models.CharField(max_length=10)
@@ -60,7 +63,7 @@ class Project(models.Model):
     latitude = models.FloatField(null=True)
 
     content_search = SearchVectorField(null=True)
-    latest_implementation_year = models.ForeignKey(FinancialYear, null=True, on_delete=models.CASCADE)
+    latest_implementation_year = models.ForeignKey(FinancialYear, default=get_finanial_year_default)
 
     objects = ProjectManager()
 
