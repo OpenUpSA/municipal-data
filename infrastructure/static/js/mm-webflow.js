@@ -438,8 +438,6 @@ function mmWebflow(js) {
                 $(".search-detail-value--placeholder").hide();
                 $(".search-detail-amount--placeholder").hide();
                 $(".dropdown-link").removeClass('active');
-
-                hideMapPlaceholder();
             }
         };
 
@@ -617,10 +615,6 @@ function mmWebflow(js) {
             } else {
                 listView.searchState.noResultsMessage.show();
             }
-        }
-
-        function hideMapPlaceholder() {
-            $("#map #map").hide()
         }
 
         function resetMapPoints() {
@@ -852,6 +846,9 @@ function mmWebflow(js) {
         //$(".project-map iframe").remove();
         map = createMap("project-map", js["geography"]["bbox"], [[js["latitude"], js["longitude"]]]);
         addMarker(map, [js["latitude"], js["longitude"]], js["project_description"]);
+
+        $(".detail-button_wrapper").hide();
+        $(".subsection-chart__detail").hide();
     }
 
     if (js["view"] == "list")
