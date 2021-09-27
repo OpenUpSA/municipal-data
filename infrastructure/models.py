@@ -2,11 +2,16 @@ from django.db import models
 from django.db.models import Sum
 from django.contrib.postgres.search import SearchVectorField
 from django.contrib.postgres.indexes import GinIndex
+from django.core.exceptions import ObjectDoesNotExist
 
 from scorecard.models import Geography
 
 def get_finanial_year_default():
-    return FinancialYear.objects.get(budget_year="2019/2020").id
+    try:
+        year_id = FinancialYear.objects.get(budget_year="2019/2020").id
+    except ObjectDoesNotExist:
+        year_id = 1
+    return year_id
 
 
 class FinancialYear(models.Model):
