@@ -51,9 +51,4 @@ class Migration(migrations.Migration):
             name='financial_year',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='infrastructure.FinancialYear', verbose_name='Implementation financial year'),
         ),
-        migrations.AlterField(
-            model_name='project',
-            name='latest_implementation_year',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='infrastructure.FinancialYear'),
-        ),
     ]
