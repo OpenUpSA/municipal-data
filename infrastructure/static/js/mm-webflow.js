@@ -790,13 +790,8 @@ function mmWebflow(js) {
             }
         }
 
-        function setFinanceYear(selector, expenses, phase, budget_year) {
-            for (var idx in expenses) {
-                var e = expenses[idx];
-                if (e["budget_phase"] != undefined)
-                    if (e["budget_phase"]["name"] == phase && e["financial_year"]['budget_year'] == budget_year)
-                        return setValue(selector, e["financial_year"]['budget_year']);
-            }
+        function setFinanceYear(selector, budget_year) {
+            return setValue(selector, budget_year);
         }
 
         function adjustedYear(budget_year, adjustByYears) {
@@ -838,10 +833,10 @@ function mmWebflow(js) {
         setFinanceValue($(".finances .budget2"), js["expenditure"], "Budget year", adjustedYear(implementYear, 1));
         setFinanceValue($(".finances .budget3"), js["expenditure"], "Budget year", adjustedYear(implementYear, 2));
 
-        setFinanceYear($(".full-year-forecast .year"), js["expenditure"], "Full Year Forecast", adjustedYear(implementYear, -1));
-        setFinanceYear($(".budget-year-1 .year"), js["expenditure"], "Budget year", implementYear);
-        setFinanceYear($(".budget-year-2 .year"), js["expenditure"], "Budget year", adjustedYear(implementYear, 1));
-        setFinanceYear($(".budget-year-3 .year"), js["expenditure"], "Budget year", adjustedYear(implementYear, 2));
+        setFinanceYear($(".full-year-forecast .year"), adjustedYear(implementYear, -1));
+        setFinanceYear($(".budget-year-1 .year"), implementYear);
+        setFinanceYear($(".budget-year-2 .year"), adjustedYear(implementYear, 1));
+        setFinanceYear($(".budget-year-3 .year"), adjustedYear(implementYear, 2));
 
         //$(".project-map iframe").remove();
         map = createMap("project-map", js["geography"]["bbox"], [[js["latitude"], js["longitude"]]]);
