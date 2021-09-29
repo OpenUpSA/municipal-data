@@ -16,11 +16,12 @@ class TestSerializers(TestCase):
             category="A",
         )
 
+
     def create_expenditure(
         self, amount, project=None, budget_phase=None, financial_year=None
     ):
         if project is None:
-            project = models.Project.objects.create(geography=TestSerializers.geography)
+            project = models.Project.objects.create(geography=TestSerializers.geography, latest_implementation_year_id=1)
 
         if budget_phase is None:
             budget_phase = models.BudgetPhase.objects.create(name="Phase")
@@ -56,6 +57,8 @@ class TestSerializers(TestCase):
         self.assertEquals(js["code"], "ABC")
 
     def test_project(self):
+        financial_year = models.FinancialYear.objects.create(budget_year="2019/2020")
+
         fields = {
             "geography": TestSerializers.geography,
             "function": "my function",
@@ -69,6 +72,7 @@ class TestSerializers(TestCase):
             "ward_location": "my ward_location",
             "longitude": "100",
             "latitude": "200",
+            "latest_implementation_year": financial_year,
         }
         project = models.Project.objects.create(**fields)
 
