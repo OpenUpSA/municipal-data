@@ -24,13 +24,10 @@ def populate_implementation_year(apps, schema_editor):
 
 
 def reverse_implementation_year(apps, schema_editor):
-    project = apps.get_model("infrastructure", "Project")
-    year = apps.get_model("infrastructure", "FinancialYear")
-
-    db_alias = schema_editor.connection.alias
-    implementation_year_id = year.objects.using(db_alias).get(budget_year="2019/2020").id
-
-    project.objects.using(db_alias).filter(latest_implementation_year=implementation_year_id).delete()
+    migrations.RemoveField(
+        model_name='project',
+        name='latest_implementation_year',
+    ),
 
 
 class Migration(migrations.Migration):
