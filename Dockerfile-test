@@ -1,0 +1,21 @@
+FROM nikolaik/python-nodejs:python3.6-nodejs15
+
+RUN apt-get update && \
+    apt-get install -y chromium-driver
+
+RUN mkdir /app
+WORKDIR /app
+COPY requirements-test.txt /app/
+COPY requirements.txt /app/
+RUN pip install -U setuptools==45.3.0
+RUN pip install -r requirements.txt
+RUN pip install -r requirements-test.txt
+COPY . /app
+
+
+RUN set -ex; \
+  yarn; \
+  yarn build
+
+EXPOSE 5000
+CMD /app/bin/start-web.sh
