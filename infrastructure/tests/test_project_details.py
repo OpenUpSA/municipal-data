@@ -46,7 +46,8 @@ class CapitalProjectTest(BaseSeleniumTestCase):
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/"))
         project_title = selenium.find_element_by_css_selector(".page-heading").text
-        project_count = selenium.find_element_by_css_selector(".search-detail-value").text
+        selenium.find_element_by_css_selector(".narrow-card_first-column-2").click()
 
         self.assertEqual(project_title, "Municipal Infrastructure Projects")
-        self.assertEqual(project_count, "1")
+        project_desc = selenium.find_element_by_css_selector(".project-number__value").text
+        self.assertEqual(project_desc, "PC002002002002001001_00001")
