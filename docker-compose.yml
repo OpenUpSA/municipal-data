@@ -137,13 +137,10 @@ services:
       - AWS_S3_SECURE_URLS=True
       - AWS_S3_CUSTOM_DOMAIN
       - DJANGO_DEBUG_TOOLBAR
-    ports:
-      - '8001:8001'
     working_dir: /app
     depends_on:
       - postgres
       - portal
-      - minio-client
       - minio
     stdin_open: true
     tty: true
