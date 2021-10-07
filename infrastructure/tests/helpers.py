@@ -1,13 +1,7 @@
-"""
-Common test helpers.
-"""
 import warnings
 from datetime import datetime
 
 from django.contrib.staticfiles.testing import LiveServerTestCase
-from django.core.management import call_command
-from django.db import connections
-from django.test import TestCase
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.common.by import By
@@ -15,37 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 
-class WagtailHackMixin:
-
-    def _fixture_teardown(self):
-        # Allow TRUNCATE ... CASCADE and don't emit the post_migrate signal
-        # when flushing only a subset of the apps
-        for db_name in self._databases_names(include_mirrors=False):
-            # Flush the database
-            inhibit_post_migrate = (
-                self.available_apps is not None
-                or (  # Inhibit the post_migrate signal when using serialized
-                    # rollback to avoid trying to recreate the serialized data.
-                    self.serialized_rollback
-                    and hasattr(connections[db_name], "_test_serialized_contents")
-                )
-            )
-            call_command(
-                "flush",
-                verbosity=0,
-                interactive=False,
-                database=db_name,
-                reset_sequences=False,
-                allow_cascade=True,
-                inhibit_post_migrate=inhibit_post_migrate,
-            )
-
-
-class BaseSeleniumTestCase(WagtailHackMixin, LiveServerTestCase):
-    """
-    Base class for Selenium tests.
-    This saves a screenshot to the current directory on test failure.
-    """
+class BaseSeleniumTestCase(LiveServerTestCase):
 
     def setUp(self):
         super(BaseSeleniumTestCase, self).setUp()
