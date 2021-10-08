@@ -45,9 +45,22 @@ class CapitalProjectTest(BaseSeleniumTestCase):
     def test_project_details(self):
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/"))
-        project_title = selenium.find_element_by_css_selector(".page-heading").text
+        self.wait_until_text_in(".page-heading", "Municipal Infrastructure Projects")
+
         selenium.find_element_by_css_selector(".narrow-card_first-column-2").click()
 
-        self.assertEqual(project_title, "Municipal Infrastructure Projects")
-        project_desc = selenium.find_element_by_css_selector(".project-number__value").text
-        self.assertEqual(project_desc, "PC002002002002001001_00001")
+        self.wait_until_text_in(".project-description", "P-CNIEU COM FAC HALLS")
+        self.wait_until_text_in(".project-number__value", "PC002002002002001001_00001")
+
+        self.wait_until_text_in(".asset-class", "Community Facilities (Halls)")
+        self.wait_until_text_in(".function", "Community Halls and Facilities")
+        self.wait_until_text_in(".mtsf-outcome", "An efficient, effective and development-oriented public service")
+        self.wait_until_text_in(".iudf", "Inclusion and access")
+        self.wait_until_text_in(".province", "Eastern Cape")
+        #self.wait_until_text_in(".municipality", "Buffalo City") Webflow needs a fix to make this work
+        self.wait_until_text_in(".ward", "Coastal,Whole of the Metro,...")
+        self.wait_until_text_in(".full-year-forecast .year", "2018/19")
+        self.wait_until_text_in(".project-detail_text.forecast", "R15.50 Million")
+        self.wait_until_text_in(".project-detail_text.budget1", "R5.50 Million")
+        self.wait_until_text_in(".project-detail_text.budget2", "R6.00 Million")
+        self.wait_until_text_in(".project-detail_text.budget3", "R15.00 Million")
