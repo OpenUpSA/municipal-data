@@ -59,7 +59,7 @@ class CapitalProjectTest(BaseSeleniumTestCase):
         self.wait_until_text_in(".province", "Eastern Cape")
         #self.wait_until_text_in(".municipality", "Buffalo City") Webflow needs a fix to make this work
         self.wait_until_text_in(".ward", "Coastal,Whole of the Metro,...")
-        self.wait_until_text_in(".full-year-forecast .year", "2018/19")
+        self.wait_until_text_in(".full-year-forecast .year", "2018/2019")
         self.wait_until_text_in(".project-detail_text.forecast", "R15.50 Million")
         self.wait_until_text_in(".project-detail_text.budget1", "R5.50 Million")
         self.wait_until_text_in(".project-detail_text.budget2", "R6.00 Million")
