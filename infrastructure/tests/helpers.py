@@ -1,4 +1,3 @@
-import warnings
 from datetime import datetime
 
 from django.contrib.staticfiles.testing import LiveServerTestCase
@@ -25,19 +24,7 @@ class BaseSeleniumTestCase(LiveServerTestCase):
         self.selenium.implicitly_wait(10)
         self.wait = WebDriverWait(self.selenium, 5)
 
-        self.addCleanup(self.log_failure_details)
         self.addCleanup(self.selenium.quit)
-
-    def log_failure_details(self):
-        for method, error in self._outcome.errors:
-            if error:
-                print(f"### collecting data for {method} {error} {self.id()}")
-                for entry in self.selenium.get_log("browser"):
-                    print(entry)
-
-                now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
-                if not self.selenium.get_screenshot_as_file(f"{now}-{self.id()}.png"):
-                    warnings.warn("Selenium screenshot failed")
 
     def wait_until_text_in(self, selector, text):
         self.wait.until(
