@@ -64,3 +64,5 @@ class CapitalProjectTest(BaseSeleniumTestCase):
         self.wait_until_text_in(".project-detail_text.budget1", "R5.50 Million")
         self.wait_until_text_in(".project-detail_text.budget2", "R6.00 Million")
         self.wait_until_text_in(".project-detail_text.budget3", "R15.00 Million")
+
+        self.wait_until_text_in(".subsection-chart_wrapper .project-detail_heading", "No Data Available")
