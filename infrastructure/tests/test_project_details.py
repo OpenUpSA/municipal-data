@@ -50,7 +50,7 @@ class CapitalProjectTest(BaseSeleniumTestCase):
 
     def test_project_details(self):
         selenium = self.selenium
-        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/1/"))
+        selenium.get("%s%s%s" % (self.live_server_url, "/infrastructure/projects/", self.project.id))
 
         self.wait_until_text_in(".project-description", "P-CNIEU COM FAC HALLS")
         self.wait_until_text_in(".project-number__value", "PC002002002002001001_00001")
@@ -80,6 +80,6 @@ class CapitalProjectTest(BaseSeleniumTestCase):
         )
 
         selenium = self.selenium
-        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/2/"))
+        selenium.get("%s%s%s" % (self.live_server_url, "/infrastructure/projects/", self.project.id))
 
         self.wait_until_text_in(".subsection-chart_wrapper", "Financial Year 2049/2050")
