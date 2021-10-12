@@ -7,6 +7,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
+from infrastructure.models import Expenditure, FinancialYear, BudgetPhase
+
 
 class BaseSeleniumTestCase(LiveServerTestCase):
 
@@ -30,3 +32,15 @@ class BaseSeleniumTestCase(LiveServerTestCase):
         self.wait.until(
             EC.text_to_be_present_in_element((By.CSS_SELECTOR, selector), text)
         )
+
+    def create_expenditure(self, amount, phase, year):
+        budget_phase = BudgetPhase.objects.get(name=phase)
+        financial_year = FinancialYear.objects.get_or_create(budget_year=year)
+
+        expenditure = Expenditure.objects.create(
+            project=self.project,
+            budget_phase=budget_phase,
+            financial_year=financial_year[0],
+            amount=amount,
+        )
+        return expenditure
