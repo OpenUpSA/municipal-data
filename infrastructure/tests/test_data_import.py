@@ -11,7 +11,7 @@ import xlrd
 from infrastructure.models import FinancialYear, QuarterlySpendFile, AnnualSpendFile, Expenditure, Project, BudgetPhase
 from infrastructure.tests import utils
 from infrastructure.utils import load_excel
-from infrastructure.upload import process_document
+from infrastructure.upload import process_annual_document
 from scorecard.models import Geography
 
 
@@ -125,10 +125,10 @@ class FileTest(TransactionTestCase):
         task = OrmQ.objects.first()
         task_file_id = task.task()["args"][0]
         task_method = task.func()
-        self.assertEqual(task_method, 'infrastructure.upload.process_document')
+        self.assertEqual(task_method, 'infrastructure.upload.process_annual_document')
         self.assertEqual(task_file_id, spend_file.id)
         # run the code
-        process_document(task_file_id)
+        process_annual_document(task_file_id)
 
         self.assertEquals(AnnualSpendFile.objects.count(), 1)
         spend_file = AnnualSpendFile.objects.first()
@@ -160,9 +160,9 @@ class FileTest(TransactionTestCase):
         task = OrmQ.objects.first()
         task_file_id = task.task()["args"][0]
         task_method = task.func()
-        self.assertEqual(task_method, 'infrastructure.upload.process_document')
+        self.assertEqual(task_method, 'infrastructure.upload.process_annual_document')
         self.assertEqual(task_file_id, spend_file.id)
-        self.assertRaises(ValueError, process_document, task_file_id)
+        self.assertRaises(ValueError, process_annual_document, task_file_id)
 
         self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
         spend_file = AnnualSpendFile.objects.first()
@@ -189,9 +189,9 @@ class FileTest(TransactionTestCase):
         task = OrmQ.objects.first()
         task_file_id = task.task()["args"][0]
         task_method = task.func()
-        self.assertEqual(task_method, 'infrastructure.upload.process_document')
+        self.assertEqual(task_method, 'infrastructure.upload.process_annual_document')
         self.assertEqual(task_file_id, spend_file.id)
-        self.assertRaises(ValueError, process_document, task_file_id)
+        self.assertRaises(ValueError, process_annual_document, task_file_id)
 
         self.assertEquals(AnnualSpendFile.objects.all().count(), 1)
         spend_file = AnnualSpendFile.objects.first()

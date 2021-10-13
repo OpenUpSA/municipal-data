@@ -999,6 +999,13 @@ textarea.w-select {
 .w-slider-dot.w-active {
   background-color: #fff;
 }
+.w-slider-dot:focus {
+  outline: none;
+  box-shadow: 0px 0px 0px 2px #fff;
+}
+.w-slider-dot:focus.w-active {
+  box-shadow: none;
+}
 .w-slider-arrow-left,
 .w-slider-arrow-right {
   position: absolute;
@@ -1025,6 +1032,10 @@ textarea.w-select {
 .w-slider-arrow-right [class*=" w-icon-"] {
   position: absolute;
 }
+.w-slider-arrow-left:focus,
+.w-slider-arrow-right:focus {
+  outline: 0;
+}
 .w-slider-arrow-left {
   z-index: 3;
   right: auto;
@@ -1042,6 +1053,16 @@ textarea.w-select {
   margin: auto;
   width: 1em;
   height: 1em;
+}
+.w-slider-aria-label {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }
 .w-dropdown {
   display: inline-block;
@@ -1073,6 +1094,9 @@ textarea.w-select {
   cursor: pointer;
   padding-right: 40px;
 }
+.w-dropdown-toggle:focus {
+  outline: 0;
+}
 .w-icon-dropdown-toggle {
   position: absolute;
   top: 0;
@@ -1099,6 +1123,9 @@ textarea.w-select {
 }
 .w-dropdown-link.w--current {
   color: #0082f3;
+}
+.w-dropdown-link:focus {
+  outline: 0;
 }
 @media screen and (max-width: 767px) {
   .w-nav-brand {
@@ -1596,7 +1623,7 @@ textarea.w-select {
   position: relative;
   float: right;
 }
-.w--nav-menu-open {
+[data-nav-menu-open] {
   display: block !important;
   position: absolute;
   top: 100%;
@@ -1620,14 +1647,14 @@ textarea.w-select {
   right: 0;
   width: 100%;
 }
-.w-nav-overlay .w--nav-menu-open {
+.w-nav-overlay [data-nav-menu-open] {
   top: 0;
 }
 .w-nav[data-animation="over-left"] .w-nav-overlay {
   width: auto;
 }
 .w-nav[data-animation="over-left"] .w-nav-overlay,
-.w-nav[data-animation="over-left"] .w--nav-menu-open {
+.w-nav[data-animation="over-left"] [data-nav-menu-open] {
   right: auto;
   z-index: 1;
   top: 0;
@@ -1636,7 +1663,7 @@ textarea.w-select {
   width: auto;
 }
 .w-nav[data-animation="over-right"] .w-nav-overlay,
-.w-nav[data-animation="over-right"] .w--nav-menu-open {
+.w-nav[data-animation="over-right"] [data-nav-menu-open] {
   left: auto;
   z-index: 1;
   top: 0;
@@ -1654,6 +1681,9 @@ textarea.w-select {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+.w-nav-button:focus {
+  outline: 0;
 }
 .w-nav-button.w--open {
   background-color: #C8C8C8;
@@ -1732,6 +1762,9 @@ textarea.w-select {
 }
 .w-tab-link.w--current {
   background-color: #C8C8C8;
+}
+.w-tab-link:focus {
+  outline: 0;
 }
 .w-tab-content {
   position: relative;

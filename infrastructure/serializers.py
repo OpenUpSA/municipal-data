@@ -31,6 +31,7 @@ class ExpenditureSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     expenditure = ExpenditureSerializer(many=True, read_only=True)
     geography = GeographySerializer(read_only=True)
+    latest_implementation_year = FinancialYearSerializer(read_only=True)
 
     class Meta:
         model = models.Project
