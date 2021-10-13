@@ -163,6 +163,8 @@ class ProjectSearch(generics.ListCreateAPIView):
         """
         Going to hard code params for budget phase and financial year,
         """
+        qs = qs.filter(latest_implementation_year__budget_year=params['financial_year'])
+
         query_dict = {}
         for k, v in ProjectSearch.fieldmap.items():
             if k in params:
