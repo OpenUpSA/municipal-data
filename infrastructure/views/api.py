@@ -153,17 +153,14 @@ class ProjectSearch(generics.ListCreateAPIView):
         return qs.filter(content_search=SearchQuery(text))
 
     def aggregations(self, qs, params):
-        # TODO - not sure where to put these magic values
-        financial_year = params.get("financial_year", "2019/2020")
-        budget_phase = params.get("budget_phase", "Budget Year")
+        financial_year = params.get("financial_year")
+        budget_phase = params.get("budget_phase")
 
         return {"total": qs.total_value(financial_year, budget_phase)}
 
     def add_filters(self, qs, params):
-        """
-        Going to hard code params for budget phase and financial year,
-        """
-        qs = qs.filter(latest_implementation_year__budget_year=params['financial_year'])
+        if 'financial_year' in params.keys():
+            qs = qs.filter(latest_implementation_year__budget_year=params['financial_year'])
 
         query_dict = {}
         for k, v in ProjectSearch.fieldmap.items():
