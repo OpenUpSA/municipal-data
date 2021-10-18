@@ -104,7 +104,6 @@ def load_csv(geography, fp):
 
 @transaction.atomic
 def load_file(geography, reader, financial_year):
-    implementation_year, _ = models.FinancialYear.objects.get_or_create(budget_year=financial_year)
 
     for idx, row in enumerate(reader):
         try:
@@ -123,7 +122,7 @@ def load_file(geography, reader, financial_year):
                     "ward_location": row["Ward Location"],
                     "longitude": float_or_none(row["GPS Longitude"]),
                     "latitude": float_or_none(row["GPS Latitude"]),
-                    "latest_implementation_year": implementation_year,
+                    "latest_implementation_year": financial_year,
                 },
             )
             additional_fields = [k for k in row.keys() if k not in headers]
