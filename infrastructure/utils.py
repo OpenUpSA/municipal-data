@@ -85,7 +85,8 @@ def load_excel(filename, financial_year=None, file_contents=None):
     print(workbook.sheets)
     for sheet in workbook.sheets():
         geo_code = sheet.name
-        logger.info("Processing sheet: %s" % sheet.name)
+        logging.basicConfig(format='%(asctime)s %(message)s')
+        logger.warn("Processing sheet: %s" % sheet.name)
         if Geography.objects.filter(geo_code=geo_code).count() == 0:
             raise Exception(
                 "%s is an unknown Geography. Please ensure that this Geography exists in the database"
