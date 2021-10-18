@@ -410,8 +410,8 @@ REST_FRAMEWORK = {
 Q_CLUSTER = {
     "name": "DjangORM",
     "workers": 1,
-    "timeout": 3600,
-    "retry": 3600,
+    "timeout": 5400,
+    "retry": 5400,
     "queue_limit": 100,
     "bulk": 50,
     "orm": "default",
