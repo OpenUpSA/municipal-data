@@ -81,6 +81,8 @@ def load_excel(filename, financial_year=None, file_contents=None):
 
             yield dict(zip(header_row, row))
 
+    financial_year, _ = models.FinancialYear.objects.get_or_create(budget_year=financial_year)
+
     workbook = xlrd.open_workbook(filename, file_contents=file_contents)
     print(workbook.sheets)
     for sheet in workbook.sheets():
