@@ -1,4 +1,5 @@
 import json
+from infrastructure.models import FinancialYear
 
 from django.test import (
     TransactionTestCase,
@@ -42,6 +43,7 @@ class GeographyDetailViewTestCase(TransactionTestCase):
             RatingCountGroupResource,
             "views/rating_count_group.csv",
         )
+        FinancialYear.objects.create(budget_year="2049/2050", active=1)
         # Make request
         client = Client()
         response = client.get("/profiles/municipality-CPT-city-of-cape-town/")
