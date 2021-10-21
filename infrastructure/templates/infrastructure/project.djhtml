@@ -5,8 +5,10 @@
 <head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
+  <meta name="description" content="{{ page_description }}">
   <meta content="{{ page_title }}" property="og:title">
   <meta content="{{ page_title }}" property="twitter:title">
+  <meta name="twitter:card" content="page_summary">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
   <link href="/static/css/normalize.css" rel="stylesheet" type="text/css">
@@ -257,7 +259,10 @@
           </div>
           <div class="col col-4 col-m-12">
             <div class="subsection-detail_wrapper">
-              <p class="text_subsection-detail">The dotted line shows Estimated Total Project Cost, and steps up or down when that changes. That is the amount that is expected to be spent on this project when the project is completed.<br>‍<br>This chart shows how much has been spent in total at each quarter. The diagonal line starts at the beginning of the project or with the earliest data available with the total spent to date. Each quarter, the line goes up by the amount spent in that quarter.</p>
+              <p class="text_subsection-detail">This chart shows the expenditure of a capital project over a financial year and not over the projects lifetime. The original and adjusted budgets also cover a financial year.
+                <br><br>
+                The quarterly expenditure line goes up by the amount spend in that quarter, subsequent quarters will show a combination of the total spent so far in the year and what was spent in the quarter as well.
+              </p>
               <div class="detail-button_wrapper">
                 <a href="#" class="button-3 w-inline-block"><img src="https://uploads-ssl.webflow.com/5d660ef145315201ac996790/5d66718445315264549b89ee_book-white-24px.svg" alt="" class="button-icon-2 _20px">
                   <div class="button-text">Learn about budget schedules</div>
