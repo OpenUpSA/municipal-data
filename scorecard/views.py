@@ -176,7 +176,9 @@ class GeographyDetailView(TemplateView):
                     .first()
                     .as_dict()
                 )
-        infrastructure_financial_year = "2019/2020"
+        project = Project.objects.filter().order_by("-latest_implementation_year").first()
+        infrastructure_financial_year = str(project.latest_implementation_year)
+
         infrastructure = (
             Project.objects.prefetch_related(
                 "geography",
@@ -191,6 +193,14 @@ class GeographyDetailView(TemplateView):
             )
             .order_by("-expenditure__amount")
         )
+
+        forecast_year = self.increment_financial_year(infrastructure_financial_year, -1)
+        infrastructure = infrastructure.filter(
+            geography__geo_code=self.geo_code,
+            expenditure__budget_phase__name="Full Year Forecast",
+            expenditure__financial_year__budget_year=forecast_year
+        )
+
         page_json["infrastructure_summary"] = {
             "projects": [infra_dict(p) for p in infrastructure[:5]],
             "project_count": infrastructure.count(),
@@ -241,6 +251,11 @@ class GeographyDetailView(TemplateView):
         }
         return page_context
 
+    def increment_financial_year(self, financial_year, adjustment):
+        year = financial_year.split("/")[0]
+        adjusted_year = int(year) + adjustment
+        adjusted_year = f"{adjusted_year}/{adjusted_year+1}"
+        return adjusted_year
 
 class GeographyPDFView(GeographyDetailView):
     def get(self, request, *args, **kwargs):
