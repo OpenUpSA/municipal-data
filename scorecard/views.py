@@ -6,7 +6,7 @@ from django.views.generic.base import TemplateView
 from django.http import Http404, HttpResponse
 from django.urls import reverse
 
-from infrastructure.models import Project
+from infrastructure.models import Project, FinancialYear
 from household.models import HouseholdServiceTotal, HouseholdBillTotal
 from household.chart import stack_chart, chart_data, percent_increase, yearly_percent
 from municipal_finance.models import AmountType
@@ -176,8 +176,7 @@ class GeographyDetailView(TemplateView):
                     .first()
                     .as_dict()
                 )
-        project = Project.objects.filter().order_by("-latest_implementation_year").first()
-        infrastructure_financial_year = str(project.latest_implementation_year)
+        active_financial_year = FinancialYear.objects.get(active=True).budget_year
 
         infrastructure = (
             Project.objects.prefetch_related(
@@ -189,12 +188,12 @@ class GeographyDetailView(TemplateView):
             .filter(
                 geography__geo_code=self.geo_code,
                 expenditure__budget_phase__name="Budget year",
-                expenditure__financial_year__budget_year=infrastructure_financial_year,
+                expenditure__financial_year__budget_year=active_financial_year,
             )
             .order_by("-expenditure__amount")
         )
 
-        forecast_year = self.increment_financial_year(infrastructure_financial_year, -1)
+        forecast_year = self.increment_financial_year(active_financial_year, -1)
         infrastructure = infrastructure.filter(
             geography__geo_code=self.geo_code,
             expenditure__budget_phase__name="Full Year Forecast",
@@ -204,7 +203,7 @@ class GeographyDetailView(TemplateView):
         page_json["infrastructure_summary"] = {
             "projects": [infra_dict(p) for p in infrastructure[:5]],
             "project_count": infrastructure.count(),
-            "financial_year": infrastructure_financial_year[5:9]
+            "financial_year": active_financial_year[5:9]
         }
 
         households = HouseholdBillTotal.summary.bill_totals(self.geo_code)
