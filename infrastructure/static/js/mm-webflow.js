@@ -109,7 +109,7 @@ function mmWebflow(js) {
             this.listeners = {};
             this.defaultValue = defaultValue;
             this.enabled = true;
-    
+
             this.selectedElement = $(".chart-dropdown_trigger", this.el);
             this.optionContainer = this.el.find("nav.chart-dropdown_list");
             this.dropdownItemTemplate = $(".dropdown-link:first", this.optionContainer).clone();
@@ -156,7 +156,6 @@ function mmWebflow(js) {
                 if (label.count) {
                     optionElement.find(".search-dropdown_value").text("(" + label.count + ")");
                 }
-
                 me.optionContainer.append(optionElement);
             },
 
@@ -180,6 +179,7 @@ function mmWebflow(js) {
             },
 
             on: function(e, func) {
+                this.reset();
                 if (this.listeners[e] == undefined)
                     this.listeners[e] = [];
 
@@ -302,7 +302,6 @@ function mmWebflow(js) {
 		updateURLSearch(fieldName, textValue);
 		triggerUpdateFilter();
             };
-
 
             this.provinceDropDown = new filterDropdown($("#province-dropdown"), "All Provinces");
             this.municipalityDropDown = new filterDropdown($("#municipality-dropdown"), "All Municipalities");
@@ -438,7 +437,7 @@ function mmWebflow(js) {
                 $(".search-detail__amount").show();
                 $(".search-detail-value--placeholder").hide();
                 $(".search-detail-amount--placeholder").hide();
-		$(".dropdown-link").removeClass('active');
+                $(".dropdown-link").removeClass('active');
             }
         };
 
@@ -592,7 +591,7 @@ function mmWebflow(js) {
         }
 
         function showResults(response) {
-            $("#num-matching-projects-field").text(utils.formatNumber(response.count));
+            $(".search-detail-value").text(utils.formatNumber(response.count));
             $("#search-total-forecast").text(utils.formatHuman(response.results.aggregations.total));
             $(".search-detail__amount .units-label").text(utils.formatUnits(response.results.aggregations.total));
             var resultItem = mmListView.resultRowTemplate.clone();
@@ -777,13 +776,12 @@ function mmWebflow(js) {
             }
         }
 
-        // TODO change the budget year label currently hardcoded to specific years in the template
         function setFinanceValue(selector, expenses, phase, budget_year) {
             if (expenses.length == 0)
                 return setValue(selector, "");
             else {
                 for (var idx in expenses) {
-                    var e = expenses[idx];    
+                    var e = expenses[idx];
                     if (e["budget_phase"] != undefined)
                         if (e["budget_phase"]["name"] == phase && e["financial_year"]['budget_year'] == budget_year)
                             return setValue(selector, utils.formatCurrency(e["amount"]));
@@ -792,9 +790,18 @@ function mmWebflow(js) {
             }
         }
 
+        function setFinanceYear(selector, budget_year) {
+            return setValue(selector, budget_year);
+        }
+
+        function adjustedYear(budget_year, adjustByYears) {
+            let year = Number(budget_year.split("/")[0]) + adjustByYears
+            return year + "/" + (Number(year) + 1);
+        }
+
         setValue($(".project-description"), js["project_description"]);
         setValue($(".project-number__value"), js["project_number"]);
-        
+
         var classSubclass = formatAssetClass(js["asset_class"], js["asset_subclass"]);
         setValue($(".project-details .asset-class"), classSubclass);
 
@@ -807,26 +814,36 @@ function mmWebflow(js) {
         setValue($(".geography .municipality, .breadcrumbs .municipality"), js["geography"]["name"]);
         setValue($(".geography .ward"), js["ward_location"]);
         // TODO remove
-        $(".breadcrumbs .home").attr("href", "/infrastructure/projects");
-	$(".breadcrumbs .province").attr("href", "/infrastructure/projects?province="+ js["geography"]["province_name"]);
-	$(".breadcrumbs .municipality").attr("href", "/infrastructure/projects?province="+ js["geography"]["province_name"]+"&municipality="+ js["geography"]["name"]);
-	
+        $(".breadcrumbs__crumb:first").attr("href", "/infrastructure/projects");
+        $(".breadcrumbs .province").attr("href", "/infrastructure/projects?province="+ js["geography"]["province_name"]);
+        $(".breadcrumbs .municipality").attr("href", "/infrastructure/projects?province="+ js["geography"]["province_name"]+"&municipality="+ js["geography"]["name"]);
+
+        $(".breadcrumbs__crumb:first").text("Municipal Infrastructure");
+        $(".breadcrumbs .province").show();
+        $(".breadcrumbs .municipality").show();
 
         var coordinates = formatCoordinates(js["latitude"], js["longitude"]);
         setValue($(".geography .coordinates"), coordinates);
 
-        setFinanceValue($(".finances .outcome"), js["expenditure"], "Audited Outcome", "2017/2018");
-        setFinanceValue($(".finances .forecast"), js["expenditure"], "Full Year Forecast", "2018/2019");
+        $(".audited-outcome").parent().parent().remove();
+        let implementYear = js["latest_implementation_year"]["budget_year"]
 
-        // TODO take into account the budget year
-        setFinanceValue($(".finances .budget1"), js["expenditure"], "Budget year", "2019/2020");
-        setFinanceValue($(".finances .budget2"), js["expenditure"], "Budget year", "2020/2021");
-        setFinanceValue($(".finances .budget3"), js["expenditure"], "Budget year", "2021/2022");
+        setFinanceValue($(".finances .forecast"), js["expenditure"], "Full Year Forecast", adjustedYear(implementYear, -1));
+        setFinanceValue($(".finances .budget1"), js["expenditure"], "Budget year", implementYear);
+        setFinanceValue($(".finances .budget2"), js["expenditure"], "Budget year", adjustedYear(implementYear, 1));
+        setFinanceValue($(".finances .budget3"), js["expenditure"], "Budget year", adjustedYear(implementYear, 2));
+
+        setFinanceYear($(".full-year-forecast .year"), adjustedYear(implementYear, -1));
+        setFinanceYear($(".budget-year-1 .year"), implementYear);
+        setFinanceYear($(".budget-year-2 .year"), adjustedYear(implementYear, 1));
+        setFinanceYear($(".budget-year-3 .year"), adjustedYear(implementYear, 2));
 
         //$(".project-map iframe").remove();
         map = createMap("project-map", js["geography"]["bbox"], [[js["latitude"], js["longitude"]]]);
         addMarker(map, [js["latitude"], js["longitude"]], js["project_description"]);
 
+        $(".detail-button_wrapper").hide();
+        $(".subsection-chart__detail").hide();
     }
 
     if (js["view"] == "list")

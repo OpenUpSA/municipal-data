@@ -3,7 +3,7 @@ from django.conf.urls import url
 from django.contrib import messages
 
 from . import models
-from .forms import UploadFileForm, UploadAnnualFileForm
+from .forms import UploadQuarterlyFileForm, UploadAnnualFileForm
 from django_q.tasks import async_task
 
 
@@ -56,4 +56,17 @@ class AnnualSpendFileAdmin(admin.ModelAdmin):
             request, messages.INFO, "Dataset is currently being processed."
         )
         super().save_model(request, obj, form, change)
-        task_id = async_task("infrastructure.upload.process_document", obj.id)
+        task_id = async_task("infrastructure.upload.process_annual_document", obj.id)
+
+
+@admin.register(models.QuarterlySpendFile)
+class QuarterlySpendFileAdmin(admin.ModelAdmin):
+    list_display = ("financial_year", "document", "status")
+    form = UploadQuarterlyFileForm
+
+    def save_model(self, request, obj, form, change):
+        messages.add_message(
+            request, messages.INFO, "Dataset is currently being processed."
+        )
+        super().save_model(request, obj, form, change)
+        task_id = async_task("infrastructure.upload.process_quarterly_document", obj.id)
