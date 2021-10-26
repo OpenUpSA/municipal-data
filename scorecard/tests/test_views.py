@@ -1,5 +1,6 @@
 import json
 from infrastructure.models import FinancialYear, Project
+from scorecard.models import Geography
 
 from django.test import (
     TransactionTestCase,
