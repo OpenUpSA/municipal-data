@@ -176,30 +176,37 @@ class GeographyDetailView(TemplateView):
                     .first()
                     .as_dict()
                 )
-        project_latest_year = Project.objects.all().order_by('-latest_implementation_year').first().latest_implementation_year
-        financial_year = FinancialYear.objects.get(budget_year=project_latest_year)
+        if Project.objects.all().count() > 0:
+            project_latest_year = Project.objects.all().order_by('-latest_implementation_year').first().latest_implementation_year
 
-        infrastructure = (
-            Project.objects.prefetch_related(
-                "geography",
-                "expenditure__budget_phase",
-                "expenditure__financial_year",
-                "expenditure",
-            )
-            .filter(
-                geography__geo_code=self.geo_code,
-                expenditure__budget_phase__name="Budget year",
-                expenditure__financial_year__budget_year=project_latest_year,
-                latest_implementation_year=financial_year,
-            )
-            .order_by("-expenditure__amount")
-        )
+            financial_year = FinancialYear.objects.get(budget_year=project_latest_year)
 
-        page_json["infrastructure_summary"] = {
-            "projects": [infra_dict(p) for p in infrastructure[:5]],
-            "project_count": infrastructure.count(),
-            "financial_year": financial_year.budget_year[5:9]
-        }
+            infrastructure = (
+                Project.objects.prefetch_related(
+                    "geography",
+                    "expenditure__budget_phase",
+                    "expenditure__financial_year",
+                    "expenditure",
+                )
+                .filter(
+                    geography__geo_code=self.geo_code,
+                    expenditure__budget_phase__name="Budget year",
+                    expenditure__financial_year__budget_year=project_latest_year,
+                    latest_implementation_year=financial_year,
+                )
+                .order_by("-expenditure__amount")
+            )
+
+            page_json["infrastructure_summary"] = {
+                "projects": [infra_dict(p) for p in infrastructure[:5]],
+                "project_count": infrastructure.count(),
+                "financial_year": financial_year.budget_year[5:9]
+            }
+        else:
+            page_json["infrastructure_summary"] = {
+                "projects": "",
+                "project_count": 0
+            }
 
         households = HouseholdBillTotal.summary.bill_totals(self.geo_code)
         page_json["household_percent"] = percent_increase(households)
