@@ -50,7 +50,7 @@ class DetailView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["page_data_json"] = {"data": json.dumps(project)}
 
-        context["implementation_year"] = json.loads(context["page_data_json"]["data"])["latest_implementation_year"]["budget_year"]
+        context["implementation_year"] = project["latest_implementation_year"]["budget_year"]
         year = models.FinancialYear.objects.get(budget_year=context["implementation_year"])
 
         project_quarters = models.ProjectQuarterlySpend.objects.filter(

@@ -105,7 +105,6 @@ def load_csv(geography, fp):
 @transaction.atomic
 def load_file(geography, reader, financial_year):
     implementation_year, _ = models.FinancialYear.objects.get_or_create(budget_year=financial_year)
-
     for idx, row in enumerate(reader):
         try:
             p, _ = models.Project.objects.update_or_create(

@@ -203,6 +203,7 @@ class FileTest(TransactionTestCase):
         self.assertEquals(BudgetPhase.objects.all().count(), 5)
 
         geography = Geography.objects.get(geo_code="BUF")
+
         fy = FinancialYear.objects.get(budget_year="2019/2020")
         utils.load_file(geography, mock_project_row(), fy)
 
