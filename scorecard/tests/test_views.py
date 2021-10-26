@@ -54,7 +54,7 @@ class GeographyDetailViewTestCase(TransactionTestCase):
         )
         fy = FinancialYear.objects.create(budget_year="2049/2050")
         fields = {
-            "geography": self.geography,
+            "geography": geography,
             "function": "Community Halls and Facilities",
             "project_description": "P-CNIEU COM FAC HALLS",
             "project_number": "PC002002002002001001_00001",
