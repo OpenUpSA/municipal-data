@@ -45,13 +45,7 @@ class GeographyDetailViewTestCase(TransactionTestCase):
             "views/rating_count_group.csv",
         )
 
-        geography = Geography.objects.create(
-            geo_level="municipality",
-            geo_code="BUF",
-            province_name="Eastern Cape",
-            province_code="EC",
-            category="A",
-        )
+        geography = Geography.objects.get(geo_code="CPT")
         fy = FinancialYear.objects.create(budget_year="2049/2050")
         fields = {
             "geography": geography,
