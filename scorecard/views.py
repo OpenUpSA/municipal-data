@@ -176,7 +176,8 @@ class GeographyDetailView(TemplateView):
                     .first()
                     .as_dict()
                 )
-        active_financial_year = FinancialYear.objects.get(active=True)
+        project_latest_year = Project.objects.all().order_by('-latest_implementation_year').first().latest_implementation_year
+        financial_year = FinancialYear.objects.get(budget_year=project_latest_year)
 
         infrastructure = (
             Project.objects.prefetch_related(
@@ -188,8 +189,8 @@ class GeographyDetailView(TemplateView):
             .filter(
                 geography__geo_code=self.geo_code,
                 expenditure__budget_phase__name="Budget year",
-                expenditure__financial_year__budget_year=active_financial_year,
-                latest_implementation_year=FinancialYear.objects.get(active=True),
+                expenditure__financial_year__budget_year=project_latest_year,
+                latest_implementation_year=financial_year,
             )
             .order_by("-expenditure__amount")
         )
@@ -197,7 +198,7 @@ class GeographyDetailView(TemplateView):
         page_json["infrastructure_summary"] = {
             "projects": [infra_dict(p) for p in infrastructure[:5]],
             "project_count": infrastructure.count(),
-            "financial_year": active_financial_year.budget_year[5:9]
+            "financial_year": financial_year.budget_year[5:9]
         }
 
         households = HouseholdBillTotal.summary.bill_totals(self.geo_code)
