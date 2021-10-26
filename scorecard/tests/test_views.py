@@ -1,5 +1,5 @@
 import json
-from infrastructure.models import FinancialYear
+from infrastructure.models import FinancialYear, Project
 
 from django.test import (
     TransactionTestCase,
@@ -43,7 +43,32 @@ class GeographyDetailViewTestCase(TransactionTestCase):
             RatingCountGroupResource,
             "views/rating_count_group.csv",
         )
-        FinancialYear.objects.create(budget_year="2049/2050", active=1)
+
+        geography = Geography.objects.create(
+            geo_level="municipality",
+            geo_code="BUF",
+            province_name="Eastern Cape",
+            province_code="EC",
+            category="A",
+        )
+        fy = FinancialYear.objects.create(budget_year="2049/2050")
+        fields = {
+            "geography": self.geography,
+            "function": "Community Halls and Facilities",
+            "project_description": "P-CNIEU COM FAC HALLS",
+            "project_number": "PC002002002002001001_00001",
+            "project_type": "Upgrading",
+            "mtsf_service_outcome": "An efficient, effective and development-oriented public service",
+            "iudf": "Inclusion and access",
+            "asset_class": "Community Facilities",
+            "asset_subclass": "Halls",
+            "ward_location": "Coastal,Whole of the Metro,...",
+            "longitude": "10",
+            "latitude": "20",
+            "latest_implementation_year": fy,
+        }
+        project = Project.objects.create(**fields)
+
         # Make request
         client = Client()
         response = client.get("/profiles/municipality-CPT-city-of-cape-town/")
