@@ -22,7 +22,6 @@ from rest_framework import viewsets
 import subprocess
 from django.conf import settings
 
-
 class GeographyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Geography.objects.all()
     serializer_class = serializers.GeographySerializer
@@ -37,7 +36,7 @@ class MunicipalityProfileViewSet(viewsets.ReadOnlyModelViewSet):
 def infra_dict(project):
     return {
         "description": project.project_description,
-        "expenditure_amount": project.expenditure.get(financial_year_id=project.latest_implementation_year).amount,
+        "expenditure_amount": project.expenditure.get(project_id=project.id,financial_year_id=project.latest_implementation_year).amount,
         "url": reverse('project-detail-view', args=[project.id]),
     }
 
