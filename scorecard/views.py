@@ -6,7 +6,7 @@ from django.views.generic.base import TemplateView
 from django.http import Http404, HttpResponse
 from django.urls import reverse
 
-from infrastructure.models import Project, FinancialYear
+from infrastructure.models import Project, FinancialYear, BudgetPhase
 from household.models import HouseholdServiceTotal, HouseholdBillTotal
 from household.chart import stack_chart, chart_data, percent_increase, yearly_percent
 from municipal_finance.models import AmountType
@@ -34,9 +34,10 @@ class MunicipalityProfileViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 def infra_dict(project):
+    budget_phase = BudgetPhase.objects.get(name="Budget year")
     return {
         "description": project.project_description,
-        "expenditure_amount": project.expenditure.get(project_id=project.id,financial_year_id=project.latest_implementation_year).amount,
+        "expenditure_amount": project.expenditure.get(budget_phase=budget_phase, financial_year_id=project.latest_implementation_year).amount,
         "url": reverse('project-detail-view', args=[project.id]),
     }
 
