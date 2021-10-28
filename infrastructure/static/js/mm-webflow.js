@@ -3,6 +3,8 @@ function mmWebflow(js) {
 
     function mmListView(js) {
         var summary_year = js.summary_year
+        var title = $(".page-heading").text();
+        $(".page-heading").text(title + " " + summary_year);
 
         function ProjectTypeBarChart(el) {
             this.barchart = new mm.BarChart();
