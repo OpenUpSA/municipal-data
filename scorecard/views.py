@@ -21,6 +21,7 @@ from rest_framework import viewsets
 
 import subprocess
 from django.conf import settings
+from constance import config
 
 class GeographyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Geography.objects.all()
@@ -177,9 +178,9 @@ class GeographyDetailView(TemplateView):
                     .as_dict()
                 )
         if Project.objects.all().count() > 0:
-            project_latest_year = Project.objects.all().order_by('-latest_implementation_year').first().latest_implementation_year
+            summary_year = config.CAPITAL_PROJECT_SUMMARY_YEAR
 
-            financial_year = FinancialYear.objects.get(budget_year=project_latest_year)
+            financial_year = FinancialYear.objects.get(budget_year=summary_year)
 
             infrastructure = (
                 Project.objects.prefetch_related(
@@ -191,7 +192,7 @@ class GeographyDetailView(TemplateView):
                 .filter(
                     geography__geo_code=self.geo_code,
                     expenditure__budget_phase__name="Budget year",
-                    expenditure__financial_year__budget_year=project_latest_year,
+                    expenditure__financial_year__budget_year=summary_year,
                     latest_implementation_year=financial_year,
                 )
                 .order_by("-expenditure__amount")
