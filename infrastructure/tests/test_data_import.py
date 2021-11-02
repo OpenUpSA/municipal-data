@@ -11,7 +11,7 @@ import xlrd
 from infrastructure.models import FinancialYear, QuarterlySpendFile, AnnualSpendFile, Expenditure, Project, BudgetPhase
 from infrastructure.tests import utils
 from infrastructure.utils import load_excel
-from infrastructure.upload import process_annual_document
+from infrastructure.upload import process_annual_document, process_quarterly_document
 from scorecard.models import Geography
 
 
@@ -309,3 +309,52 @@ class FileTest(TransactionTestCase):
         verify_expenditure(self, 2100.00, "Audited Outcome", "2018/2019")
         verify_expenditure(self, 3100.00, "Full Year Forecast", "2019/2020")
         verify_expenditure(self, 6100.00, "Budget year", "2022/2023")
+
+
+    def test_quarterly_upload(self):
+        """Scope of Test: Check that a quarterly data upload updates existing projects"""
+
+        geography = Geography.objects.get(geo_code="BUF")
+        utils.load_file(geography, mock_project_row(), "2019/2020")
+
+        project = Project.objects.get(project_description="P-CNIN FURN & OFF EQUIP")
+        self.assertEquals(project.project_description, "P-CNIN FURN & OFF EQUIP")
+        self.assertEquals(project.project_number, "PC002003005_00002")
+        self.assertEquals(project.project_type, "New")
+        self.assertEquals(project.mtsf_service_outcome, "An efficient, effective and development-oriented public service")
+        self.assertEquals(project.iudf, "Growth")
+        self.assertEquals(project.own_strategic_objectives, "OWN MUNICIPAL STRATEGIC OBJECTIVE")
+        self.assertEquals(project.asset_class, "Furniture and Office Equipment")
+        self.assertEquals(project.asset_subclass, "")
+        self.assertEquals(project.ward_location, "Administrative or Head Office")
+        self.assertEquals(project.longitude, 0.0)
+        self.assertEquals(project.latitude, 0.0)
+
+        self.client.login(username=self.username, password=self.password)
+        fy = FinancialYear.objects.get(budget_year="2020/2021")
+        upload_url = reverse('admin:infrastructure_quarterlyspendfile_add')
+
+        with open('infrastructure/tests/test_files/quarterly2021.xlsx', 'rb', ) as f:
+            resp = self.client.post(upload_url, {'financial_year': fy.pk, 'document': f}, follow=True)
+
+        self.assertContains(resp, "Dataset is currently being processed.", status_code=200)
+
+        spend_file = QuarterlySpendFile.objects.first()
+        self.assertEquals(spend_file.status, QuarterlySpendFile.PROGRESS)
+
+        self.assertEqual(OrmQ.objects.count(), 1)
+        task = OrmQ.objects.first()
+        task_file_id = task.task()["args"][0]
+        task_method = task.func()
+        self.assertEqual(task_method, 'infrastructure.upload.process_quarterly_document')
+        self.assertEqual(task_file_id, spend_file.id)
+
+        process_quarterly_document(task_file_id)
+
+        self.assertEquals(QuarterlySpendFile.objects.count(), 1)
+        spend_file = QuarterlySpendFile.objects.first()
+        self.assertEquals(spend_file.status, QuarterlySpendFile.SUCCESS)
+        self.assertEquals(Project.objects.count(), 2)
+
+        expenditure = Expenditure.objects.get(budget_phase__name__contains="Budget year", amount=700000)
+        self.assertEquals(expenditure.financial_year.budget_year, "2020/2021")
