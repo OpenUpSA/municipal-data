@@ -8,7 +8,7 @@ from django_q.models import OrmQ
 import rest_framework.response
 import xlrd
 
-from infrastructure.models import FinancialYear, QuarterlySpendFile, AnnualSpendFile, Expenditure, Project, BudgetPhase
+from infrastructure.models import FinancialYear, QuarterlySpendFile, AnnualSpendFile, Expenditure, Project, BudgetPhase, ProjectQuarterlySpend
 from infrastructure.tests import utils
 from infrastructure.utils import load_excel
 from infrastructure.upload import process_annual_document, process_quarterly_document
@@ -78,6 +78,54 @@ def mock_new_project_row():
     }
     yield mock_data
 
+def mock_quarterly_row():
+    """This is used to create a set of quarterly spends"""
+    mock_data = { 'Function': 'Administrative and Corporate Support',
+        'Project Description': 'P-CNIN FURN & OFF EQUIP',
+        'Project Number': 'PC002003005_00002',
+        'Type': 'New',
+        'MTSF Service Outcome': 'An efficient, effective and development-oriented public service',
+        'IUDF': 'Growth',
+        'Own Strategic Objectives': 'OWN MUNICIPAL STRATEGIC OBJECTIVE',
+        'Asset Class': 'Furniture and Office Equipment',
+        'Asset Sub-Class': '',
+        'Ward Location': 'Administrative or Head Office',
+        'GPS Longitude': '0', 'GPS Latitude': '0',
+        'Audited Outcome 2018/19': 1000.0,
+        'Audited Outcome 2019/20': 2000.0,
+        'Original Budget 2019/20': 3000.0,
+        'Adjusted Budget 2019/20': 4000.0,
+        'Q1 Sept Actual 2019/20': 5000.0,
+        'Q2 Dec Actual 2019/20': 6000.0,
+        'Q3 Mar Actual 2019/20': 7000.0,
+        'Q4 June Actual 2019/20': 8000.0,
+    }
+    yield mock_data
+
+def mock_quarterly_update_row():
+    """This is used to create a set of quarterly spends"""
+    mock_data = { 'Function': 'Administrative and Corporate Support',
+        'Project Description': 'P-CNIN FURN & OFF EQUIP',
+        'Project Number': 'PC002003005_00002',
+        'Type': 'New',
+        'MTSF Service Outcome': 'An efficient, effective and development-oriented public service',
+        'IUDF': 'Growth',
+        'Own Strategic Objectives': 'OWN MUNICIPAL STRATEGIC OBJECTIVE',
+        'Asset Class': 'Furniture and Office Equipment',
+        'Asset Sub-Class': '',
+        'Ward Location': 'Administrative or Head Office',
+        'GPS Longitude': '0', 'GPS Latitude': '0',
+        'Audited Outcome 2019/20': 9000.0,
+        'Audited Outcome 2020/21': 10000.0,
+        'Original Budget 2020/21': 11000.0,
+        'Adjusted Budget 2020/21': 12000.0,
+        'Q1 Sept Actual 2020/21': 13000.0,
+        'Q2 Dec Actual 2020/21': 14000.0,
+        'Q3 Mar Actual 2020/21': 15000.0,
+        'Q4 June Actual 2020/21': 16000.0,
+    }
+    yield mock_data
+
 
 def verify_expenditure(this, amount, budget_phase, year):
     expenditure = Expenditure.objects.get(amount=amount)
@@ -101,6 +149,7 @@ class FileTest(TransactionTestCase):
             province_code="EC",
             category="A",
         )
+
 
 
     def test_file_upload(self):
@@ -312,29 +361,18 @@ class FileTest(TransactionTestCase):
 
 
     def test_quarterly_upload(self):
-        """Scope of Test: Check that a quarterly data upload updates existing projects"""
+        """Scope of Test: Check that a quarterly upload file will create quarterly spend data"""
 
         geography = Geography.objects.get(geo_code="BUF")
         utils.load_file(geography, mock_project_row(), "2019/2020")
-
         project = Project.objects.get(project_description="P-CNIN FURN & OFF EQUIP")
-        self.assertEquals(project.project_description, "P-CNIN FURN & OFF EQUIP")
-        self.assertEquals(project.project_number, "PC002003005_00002")
-        self.assertEquals(project.project_type, "New")
-        self.assertEquals(project.mtsf_service_outcome, "An efficient, effective and development-oriented public service")
-        self.assertEquals(project.iudf, "Growth")
-        self.assertEquals(project.own_strategic_objectives, "OWN MUNICIPAL STRATEGIC OBJECTIVE")
-        self.assertEquals(project.asset_class, "Furniture and Office Equipment")
-        self.assertEquals(project.asset_subclass, "")
-        self.assertEquals(project.ward_location, "Administrative or Head Office")
-        self.assertEquals(project.longitude, 0.0)
-        self.assertEquals(project.latitude, 0.0)
 
         self.client.login(username=self.username, password=self.password)
-        fy = FinancialYear.objects.get(budget_year="2020/2021")
         upload_url = reverse('admin:infrastructure_quarterlyspendfile_add')
 
-        with open('infrastructure/tests/test_files/quarterly2021.xlsx', 'rb', ) as f:
+        fy = FinancialYear.objects.get(budget_year="2019/2020")
+
+        with open('infrastructure/tests/test_files/quarterly.xlsx', 'rb', ) as f:
             resp = self.client.post(upload_url, {'financial_year': fy.pk, 'document': f}, follow=True)
 
         self.assertContains(resp, "Dataset is currently being processed.", status_code=200)
@@ -348,13 +386,33 @@ class FileTest(TransactionTestCase):
         task_method = task.func()
         self.assertEqual(task_method, 'infrastructure.upload.process_quarterly_document')
         self.assertEqual(task_file_id, spend_file.id)
-
         process_quarterly_document(task_file_id)
 
         self.assertEquals(QuarterlySpendFile.objects.count(), 1)
-        spend_file = QuarterlySpendFile.objects.first()
-        self.assertEquals(spend_file.status, QuarterlySpendFile.SUCCESS)
         self.assertEquals(Project.objects.count(), 2)
 
-        expenditure = Expenditure.objects.get(budget_phase__name__contains="Budget year", amount=700000)
-        self.assertEquals(expenditure.financial_year.budget_year, "2020/2021")
+        self.assertEquals(ProjectQuarterlySpend.objects.count(), 2)
+        self.assertEquals(ProjectQuarterlySpend.objects.get(project__project_description="P-CNIEU COM FAC HALLS", financial_year=fy).q1, 150027)
+        self.assertEquals(ProjectQuarterlySpend.objects.get(project__project_description="P-CNIEU COM FAC HALLS", financial_year=fy).q2, 529282)
+        self.assertEquals(ProjectQuarterlySpend.objects.get(project__project_description="P-CNIEU COM FAC HALLS", financial_year=fy).q3, 2168473)
+
+
+    def test_quarterly_update(self):
+        """Scope of Test: Check that quarterly spends can be updated for a specific project"""
+
+        geography = Geography.objects.get(geo_code="BUF")
+
+        fy = FinancialYear.objects.create(budget_year="2019/2020")
+        utils.load_file(geography, mock_project_row(), fy)
+        utils.load_file(geography, mock_quarterly_row(), fy)
+
+        fy = FinancialYear.objects.get(budget_year="2020/2021")
+        utils.load_file(geography, mock_data_existing_project_row(), fy)
+        utils.load_file(geography, mock_quarterly_update_row(), fy)
+
+        self.assertEquals(ProjectQuarterlySpend.objects.count(), 2)
+        self.assertEquals(ProjectQuarterlySpend.objects.get(project__project_description="P-CNIN FURN & OFF EQUIP", financial_year=fy).q1, 13000)
+        self.assertEquals(ProjectQuarterlySpend.objects.get(project__project_description="P-CNIN FURN & OFF EQUIP", financial_year=fy).q2, 14000)
+        self.assertEquals(ProjectQuarterlySpend.objects.get(project__project_description="P-CNIN FURN & OFF EQUIP", financial_year=fy).q3, 15000)
+        self.assertEquals(ProjectQuarterlySpend.objects.get(project__project_description="P-CNIN FURN & OFF EQUIP", financial_year=fy).q4, 16000)
+
