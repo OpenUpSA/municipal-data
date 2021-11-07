@@ -105,7 +105,6 @@ def load_csv(geography, fp):
 @transaction.atomic
 def load_file(geography, reader, financial_year):
     implementation_year, _ = models.FinancialYear.objects.get_or_create(budget_year=financial_year)
-
     for idx, row in enumerate(reader):
         try:
             p, _ = models.Project.objects.update_or_create(
@@ -186,9 +185,6 @@ def create_quarter(project, header, amount, financial_year):
         quarter = "q3"
     elif "Q4" in header:
         quarter = "q4"
-    elif "Original Budget" in header:
-        finance_phase = f"Budget year {financial_year}"
-        create_expenditure(project, finance_phase, amount)
     else:
         raise ValueError("Unknown Quarter")
 
@@ -232,14 +228,7 @@ def find_phase(fields):
 
 def find_quarter(fields):
     """Find the fields with project quarters"""
-    phase = []
-    for field in fields:
-        if (
-            field.startswith("Q")
-            or field.startswith("Original")
-        ):
-            phase.append(field)
-    return phase
+    return [field for field in fields if field.startswith("Q")]
 
 
 def chart_quarters(quarter_queryset, phase_queryset):
