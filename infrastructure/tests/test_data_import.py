@@ -416,6 +416,20 @@ class FileTest(TransactionTestCase):
         utils.load_file(geography, mock_project_row(), fy)
         utils.load_file(geography, mock_quarterly_row(), fy)
 
+        self.assertEquals(ProjectQuarterlySpend.objects.get(project__project_description="P-CNIN FURN & OFF EQUIP", financial_year=fy).q1, 5000)
+        self.assertEquals(ProjectQuarterlySpend.objects.get(project__project_description="P-CNIN FURN & OFF EQUIP", financial_year=fy).q2, 6000)
+        self.assertEquals(ProjectQuarterlySpend.objects.get(project__project_description="P-CNIN FURN & OFF EQUIP", financial_year=fy).q3, 7000)
+        self.assertEquals(ProjectQuarterlySpend.objects.get(project__project_description="P-CNIN FURN & OFF EQUIP", financial_year=fy).q4, 8000)
+
+        expenditure = Expenditure.objects.get(financial_year__budget_year="2018/2019", budget_phase__name="Audited Outcome")
+        self.assertEquals(expenditure.amount, 1000)
+        expenditure = Expenditure.objects.get(financial_year__budget_year="2019/2020", budget_phase__name="Audited Outcome")
+        self.assertEquals(expenditure.amount, 2000)
+        expenditure = Expenditure.objects.get(financial_year__budget_year="2019/2020", budget_phase__name="Original Budget")
+        self.assertEquals(expenditure.amount, 3000)
+        expenditure = Expenditure.objects.get(financial_year__budget_year="2019/2020", budget_phase__name="Adjusted Budget")
+        self.assertEquals(expenditure.amount, 4000)
+
         fy = FinancialYear.objects.get(budget_year="2020/2021")
         utils.load_file(geography, mock_data_existing_project_row(), fy)
         utils.load_file(geography, mock_quarterly_update_row(), fy)
@@ -426,3 +440,11 @@ class FileTest(TransactionTestCase):
         self.assertEquals(ProjectQuarterlySpend.objects.get(project__project_description="P-CNIN FURN & OFF EQUIP", financial_year=fy).q3, 15000)
         self.assertEquals(ProjectQuarterlySpend.objects.get(project__project_description="P-CNIN FURN & OFF EQUIP", financial_year=fy).q4, 16000)
 
+        expenditure = Expenditure.objects.get(financial_year__budget_year="2019/2020", budget_phase__name="Audited Outcome")
+        self.assertEquals(expenditure.amount, 9000)
+        expenditure = Expenditure.objects.get(financial_year__budget_year="2020/2021", budget_phase__name="Audited Outcome")
+        self.assertEquals(expenditure.amount, 10000)
+        expenditure = Expenditure.objects.get(financial_year__budget_year="2020/2021", budget_phase__name="Original Budget")
+        self.assertEquals(expenditure.amount, 11000)
+        expenditure = Expenditure.objects.get(financial_year__budget_year="2020/2021", budget_phase__name="Adjusted Budget")
+        self.assertEquals(expenditure.amount, 12000)
