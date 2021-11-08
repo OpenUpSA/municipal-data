@@ -396,6 +396,15 @@ class FileTest(TransactionTestCase):
         self.assertEquals(ProjectQuarterlySpend.objects.get(project__project_description="P-CNIEU COM FAC HALLS", financial_year=fy).q2, 529282)
         self.assertEquals(ProjectQuarterlySpend.objects.get(project__project_description="P-CNIEU COM FAC HALLS", financial_year=fy).q3, 2168473)
 
+        verify_expenditure(self, 2000.00, "Audited Outcome", "2017/2018")
+        verify_expenditure(self, 3000.00, "Full Year Forecast", "2018/2019")
+        verify_expenditure(self, 4000.00, "Budget year", "2019/2020")
+        verify_expenditure(self, 5000.00, "Budget year", "2020/2021")
+        verify_expenditure(self, 6000.00, "Budget year", "2021/2022")
+
+        verify_expenditure(self, 465074, "Audited Outcome", "2018/2019")
+        verify_expenditure(self, 500000, "Original Budget", "2019/2020")
+        verify_expenditure(self, 613896, "Adjusted Budget", "2019/2020")
 
     def test_quarterly_update(self):
         """Scope of Test: Check that quarterly spends can be updated for a specific project"""
