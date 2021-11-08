@@ -268,6 +268,7 @@ class FileTest(TransactionTestCase):
         self.assertEquals(project.ward_location, "Administrative or Head Office")
         self.assertEquals(project.longitude, 0.0)
         self.assertEquals(project.latitude, 0.0)
+        self.assertEquals(project.latest_implementation_year, fy)
 
         self.assertEquals(Expenditure.objects.all().count(), 5)
         verify_expenditure(self, 2000.00, "Audited Outcome", "2017/2018")
