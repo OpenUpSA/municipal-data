@@ -1,4 +1,4 @@
-
+from django.test import SimpleTestCase
 from ...profile_data import ApiData
 from ...profile_data.indicators import (
     RepairsMaintenanceSpending,
@@ -16,6 +16,98 @@ from .resources import (
     CapitalFactsV2Resource,
 )
 
+
+class MockAPIData:
+    years = [2040, 2041, 2042, 2043]
+    references = {
+        "circular71": {
+                "title": "test title",
+                "url": "http://example.com",
+            },
+        }
+
+    def __init__(self, results, budget_year):
+        self.results = results
+        # self.budget_year = budget_year
+
+
+class CalculatorTests(SimpleTestCase):
+    maxDiff = None
+
+    def test_v1(self):
+        """ percentages and ratings are calculated correctly """
+        api_data = MockAPIData(
+            {
+                "repairs_maintenance_v1": [
+                    { "financial_year_end.year": 2040, "repairs_maintenance.sum": 1, },
+                    { "financial_year_end.year": 2041, "repairs_maintenance.sum": 2, },
+                    { "financial_year_end.year": 2042, "repairs_maintenance.sum": 3, },
+                    { "financial_year_end.year": 2043, "repairs_maintenance.sum": 4, },
+                ],
+
+                "property_plant_equipment_v1": [
+                    { "financial_year_end.year": 2040, "property_plant_equipment.sum": 5, },
+                    { "financial_year_end.year": 2041, "property_plant_equipment.sum": 6, },
+                    { "financial_year_end.year": 2042, "property_plant_equipment.sum": 7, },
+                    { "financial_year_end.year": 2043, "property_plant_equipment.sum": 8, },
+                ],
+                "investment_property_v1": [
+                    { "financial_year_end.year": 2040, "investment_property.sum": 9, },
+                    { "financial_year_end.year": 2041, "investment_property.sum": 10, },
+                    { "financial_year_end.year": 2042, "investment_property.sum": 11, },
+                    { "financial_year_end.year": 2043, "investment_property.sum": 12, },
+                ],
+                "repairs_maintenance_v2": [],
+                "property_plant_equipment_v2": [],
+                "investment_property_v2": [],
+            },
+            2040,
+        )
+        result = RepairsMaintenanceSpending.get_muni_specifics(api_data)
+        self.assertEqual(
+            [{'date': 2040, 'rating': 'bad', 'result': 7.14},
+             {'date': 2041, 'rating': 'good', 'result': 12.5 },
+             {'date': 2042, 'rating': 'good', 'result': 16.67 },
+             {'date': 2043, 'rating': 'good', 'result': 20.0 }],
+            result["values"],
+        )
+
+    def test_v2(self):
+        """ percentages and ratings are calculated correctly """
+        api_data = MockAPIData(
+            {
+                "repairs_maintenance_v1": [],
+                "property_plant_equipment_v1": [],
+                "investment_property_v1": [],
+                "repairs_maintenance_v2": [
+                    { "financial_year_end.year": 2040, "amount.sum": 1, },
+                    { "financial_year_end.year": 2041, "amount.sum": 2, },
+                    { "financial_year_end.year": 2042, "amount.sum": 3, },
+                    { "financial_year_end.year": 2043, "amount.sum": 4, },
+                ],
+                "property_plant_equipment_v2": [
+                    { "financial_year_end.year": 2040, "amount.sum": 5, },
+                    { "financial_year_end.year": 2041, "amount.sum": 6, },
+                    { "financial_year_end.year": 2042, "amount.sum": 7, },
+                    { "financial_year_end.year": 2043, "amount.sum": 8, },
+                ],
+                "investment_property_v2": [
+                    { "financial_year_end.year": 2040, "amount.sum": 9, },
+                    { "financial_year_end.year": 2041, "amount.sum": 10, },
+                    { "financial_year_end.year": 2042, "amount.sum": 11, },
+                    { "financial_year_end.year": 2043, "amount.sum": 12, },
+                ],
+            },
+            2040,
+        )
+        result = RepairsMaintenanceSpending.get_muni_specifics(api_data)
+        self.assertEqual(
+            [{'date': 2040, 'rating': 'bad', 'result': 7.14},
+             {'date': 2041, 'rating': 'good', 'result': 12.5 },
+             {'date': 2042, 'rating': 'good', 'result': 16.67 },
+             {'date': 2043, 'rating': 'good', 'result': 20.0 }],
+            result["values"],
+        )
 
 class TestRepairsMaintenanceSpending(_IndicatorTestCase):
 

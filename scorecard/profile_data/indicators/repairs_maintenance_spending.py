@@ -96,12 +96,18 @@ class RepairsMaintenanceSpending(SeriesIndicator):
         )
         populate_periods(
             periods,
-            group_by_year(results["property_plant_equipment_v1"]),
+            group_by_year(
+                results["property_plant_equipment_v1"],
+                "property_plant_equipment"
+            ),
             "property_plant_equipment",
         )
         populate_periods(
             periods,
-            group_by_year(results["investment_property_v1"]),
+            group_by_year(
+                results["investment_property_v1"],
+                "investment_property"
+            ),
             "investment_property",
         )
         # Populate periods with v2 data
