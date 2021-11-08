@@ -46,16 +46,16 @@ class CalculatorTests(SimpleTestCase):
                 ],
 
                 "property_plant_equipment_v1": [
-                    { "financial_year_end.year": 2040, "property_plant_equipment.sum": 5, },
-                    { "financial_year_end.year": 2041, "property_plant_equipment.sum": 6, },
-                    { "financial_year_end.year": 2042, "property_plant_equipment.sum": 7, },
-                    { "financial_year_end.year": 2043, "property_plant_equipment.sum": 8, },
+                    { "financial_year_end.year": 2040, "amount.sum": 5, },
+                    { "financial_year_end.year": 2041, "amount.sum": 6, },
+                    { "financial_year_end.year": 2042, "amount.sum": 7, },
+                    { "financial_year_end.year": 2043, "amount.sum": 8, },
                 ],
                 "investment_property_v1": [
-                    { "financial_year_end.year": 2040, "investment_property.sum": 9, },
-                    { "financial_year_end.year": 2041, "investment_property.sum": 10, },
-                    { "financial_year_end.year": 2042, "investment_property.sum": 11, },
-                    { "financial_year_end.year": 2043, "investment_property.sum": 12, },
+                    { "financial_year_end.year": 2040, "amount.sum": 9, },
+                    { "financial_year_end.year": 2041, "amount.sum": 10, },
+                    { "financial_year_end.year": 2042, "amount.sum": 11, },
+                    { "financial_year_end.year": 2043, "amount.sum": 12, },
                 ],
                 "repairs_maintenance_v2": [],
                 "property_plant_equipment_v2": [],
@@ -65,10 +65,10 @@ class CalculatorTests(SimpleTestCase):
         )
         result = RepairsMaintenanceSpending.get_muni_specifics(api_data)
         self.assertEqual(
-            [{'date': 2040, 'rating': 'bad', 'result': 7.14},
-             {'date': 2041, 'rating': 'good', 'result': 12.5 },
-             {'date': 2042, 'rating': 'good', 'result': 16.67 },
-             {'date': 2043, 'rating': 'good', 'result': 20.0 }],
+            [{'date': 2040, 'rating': 'bad', 'result': 7.14, "cube_version": "v1" },
+             {'date': 2041, 'rating': 'good', 'result': 12.5, "cube_version": "v1" },
+             {'date': 2042, 'rating': 'good', 'result': 16.67, "cube_version": "v1" },
+             {'date': 2043, 'rating': 'good', 'result': 20.0, "cube_version": "v1" }],
             result["values"],
         )
 
@@ -102,12 +102,52 @@ class CalculatorTests(SimpleTestCase):
         )
         result = RepairsMaintenanceSpending.get_muni_specifics(api_data)
         self.assertEqual(
-            [{'date': 2040, 'rating': 'bad', 'result': 7.14},
-             {'date': 2041, 'rating': 'good', 'result': 12.5 },
-             {'date': 2042, 'rating': 'good', 'result': 16.67 },
-             {'date': 2043, 'rating': 'good', 'result': 20.0 }],
+            [{'date': 2040, 'rating': 'bad', 'result': 7.14, "cube_version": "v2" },
+             {'date': 2041, 'rating': 'good', 'result': 12.5, "cube_version": "v2" },
+             {'date': 2042, 'rating': 'good', 'result': 16.67, "cube_version": "v2" },
+             {'date': 2043, 'rating': 'good', 'result': 20.0, "cube_version": "v2" }],
             result["values"],
         )
+
+    def test_v1_v2(self):
+        api_data = MockAPIData(
+            {
+                "repairs_maintenance_v1": [
+                    { "financial_year_end.year": 2041, "repairs_maintenance.sum": 1, },
+                    { "financial_year_end.year": 2042, "repairs_maintenance.sum": 1, },
+                ],
+                "property_plant_equipment_v1": [
+                    { "financial_year_end.year": 2041, "amount.sum": 1, },
+                    { "financial_year_end.year": 2042, "amount.sum": 2, },
+                ],
+                "investment_property_v1": [
+                    { "financial_year_end.year": 2041, "amount.sum": 3, },
+                    { "financial_year_end.year": 2042, "amount.sum": 4, },
+                ],
+                "repairs_maintenance_v2": [
+                    { "financial_year_end.year": 2040, "amount.sum": 5, },
+                    { "financial_year_end.year": 2041, "amount.sum": 6, },
+                ],
+                "property_plant_equipment_v2": [
+                    { "financial_year_end.year": 2040, "amount.sum": 7, },
+                    { "financial_year_end.year": 2042, "amount.sum": 8, },
+                ],
+                "investment_property_v2": [
+                    { "financial_year_end.year": 2040, "amount.sum": 9, },
+                    { "financial_year_end.year": 2042, "amount.sum": 10, },
+                ],
+            },
+            2040,
+        )
+        result = RepairsMaintenanceSpending.get_muni_specifics(api_data)
+        self.assertEqual(
+            [{'date': 2040, 'rating': 'good', 'result': 31.25, "cube_version": "v2" },
+             {'date': 2041, 'rating': 'good', 'result': 25.0, "cube_version": "v1" },
+             {'date': 2042, 'rating': 'good', 'result': 16.67, "cube_version": "v1" },
+             {'date': 2043, 'rating': None, 'result': None, "cube_version": None }],
+            result["values"],
+        )
+
 
 class TestRepairsMaintenanceSpending(_IndicatorTestCase):
 
