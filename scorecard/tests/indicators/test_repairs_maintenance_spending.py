@@ -193,22 +193,26 @@ class TestRepairsMaintenanceSpending(_IndicatorTestCase):
                     {
                         "date": 2019,
                         "result": 0.98,
-                        "rating": "bad"
+                        "rating": "bad",
+                        "cube_version": "v2"
                     },
                     {
                         "date": 2018,
                         "result": 1.08,
-                        "rating": "bad"
+                        "rating": "bad",
+                        "cube_version": "v2"
                     },
                     {
                         "date": 2017,
                         "result": 9.01,
-                        "rating": "good"
+                        "rating": "good",
+                        "cube_version": "v1"
                     },
                     {
                         "date": 2016,
                         "result": 8.78,
-                        "rating": "good"
+                        "rating": "good",
+                        "cube_version": "v1"
                     }
                 ],
                 "ref": {
