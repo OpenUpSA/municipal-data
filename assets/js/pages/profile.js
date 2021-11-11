@@ -56,6 +56,7 @@ export default class ProfilePage {
     initSection(IndicatorSection, "#collection-rate", "current_debtors_collection_rate");
     initSection(IndicatorSection, "#wages-salaries", "expenditure_trends_staff");
     initSection(IndicatorSection, "#contractor-services", "expenditure_trends_contracting");
+    $('#repairs-maintenance').hide();
 
     errorBoundary(() => {
       new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
