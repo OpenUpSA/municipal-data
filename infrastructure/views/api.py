@@ -123,6 +123,12 @@ class ProjectSearch(generics.ListCreateAPIView):
         "function": "function",
     }
 
+    quarterly_fields = {
+        "geography__name": "municipality",
+        "expenditure__financial_year__budget_year": "financial_year",
+        "quarterly__financial_year__budget_year": "financial_year",
+    }
+
     def list(self, request):
         search_query = request.GET.get("q", "")
         order_field = request.GET.get("ordering", "")
@@ -162,12 +168,21 @@ class ProjectSearch(generics.ListCreateAPIView):
         if 'financial_year' in params.keys():
             qs = qs.filter(latest_implementation_year__budget_year=params['financial_year'])
 
+        query_dict_quarterly = {}
+        for k, v in ProjectSearch.quarterly_fields.items():
+            if v in params:
+                query_dict_quarterly[k] = params[v]
+
         query_dict = {}
         for k, v in ProjectSearch.fieldmap.items():
             if k in params:
                 query_dict[v] = params[k]
 
-        return qs.filter(**query_dict)
+        qs_expenditures = qs.filter(**query_dict)
+        qs_quarterlies = qs.filter(**query_dict_quarterly)
+        qs = qs_expenditures | qs_quarterlies
+
+        return qs.distinct()
 
     def order_by(self, qs, field):
         prefix = ""
