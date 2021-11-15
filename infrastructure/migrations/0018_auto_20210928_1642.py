@@ -8,19 +8,18 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 def populate_implementation_year(apps, schema_editor):
-    project = apps.get_model("infrastructure", "Project")
-    year = apps.get_model("infrastructure", "FinancialYear")
+    Project = apps.get_model("infrastructure", "Project")
+    Year = apps.get_model("infrastructure", "FinancialYear")
 
     db_alias = schema_editor.connection.alias
 
-    try:
-        implementation_year_id = year.objects.using(db_alias).get(budget_year="2019/2020")
-    except ObjectDoesNotExist:
-        implementation_year_id = 1
+    project_count = Project.objects.using(db_alias).all().count()
 
-    for proj in project.objects.using(db_alias).all():
-        proj.latest_implementation_year = implementation_year_id
-        proj.save()
+    if project_count > 0:
+        implementation_year_id = Year.objects.using(db_alias).get(budget_year="2019/2020")
+        for proj in Project.objects.using(db_alias).all():
+            proj.latest_implementation_year = implementation_year_id
+            proj.save()
 
 def reverse_implementation_year(apps, schema_editor):
     migrations.RemoveField(

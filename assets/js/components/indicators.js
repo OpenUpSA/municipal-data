@@ -347,6 +347,6 @@ export class IndicatorSection {
 export class OverUnderSection extends IndicatorSection {
   formatMetric(value) {
     const overunder = value > 0 ? "overspent" : "underspent";
-    return `${super.formatMetric(value)} ${overunder}`;
+    return `${super.formatMetric(Math.abs(value))} ${overunder}`;
   }
 }
