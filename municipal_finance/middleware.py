@@ -38,7 +38,7 @@ class SiteMiddleware(object):
     
     def process_request(self, request):
         site = get_current_site(request)
-        if site.name == 'Scorecard' or site.name == 'example.com':
+        if site.name == 'Scorecard':
             request.urlconf = 'scorecard.urls'
         else:
             request.urlconf = 'municipal_finance.urls'

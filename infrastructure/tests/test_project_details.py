@@ -1,6 +1,7 @@
 from django.test import Client
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
 from django_q.models import OrmQ
 
 from infrastructure.models import FinancialYear, Project, AnnualSpendFile, ProjectQuarterlySpend, Expenditure
@@ -72,7 +73,9 @@ class CapitalProjectTest(BaseSeleniumTestCase):
 
         self.wait_until_text_in(".subsection-chart_wrapper .project-detail_heading", "NO DATA AVAILABLE")
 
-    def test_quarterly_chat(self):
+    def test_quarterly_chart(self):
+        Site.objects.filter(id=2).update(domain='municipalmoney.org.za', name='Scorecard')
+
         self.quarterly_spend = ProjectQuarterlySpend.objects.create(
             project=self.project,
             financial_year=self.fy,
