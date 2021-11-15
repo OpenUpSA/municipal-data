@@ -4,11 +4,24 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django_q.models import OrmQ
 
-from infrastructure.models import FinancialYear, Project, AnnualSpendFile, ProjectQuarterlySpend, Expenditure
+from infrastructure.models import FinancialYear, Project, AnnualSpendFile, ProjectQuarterlySpend, Expenditure, BudgetPhase
 from infrastructure.upload import process_annual_document
 from scorecard.models import Geography
 
 from infrastructure.tests.helpers import BaseSeleniumTestCase
+
+
+def create_expenditure(project, amount, phase, year):
+    budget_phase = BudgetPhase.objects.get(name=phase)
+    financial_year = FinancialYear.objects.get_or_create(budget_year=year)
+
+    expenditure = Expenditure.objects.create(
+        project=project,
+        budget_phase=budget_phase,
+        financial_year=financial_year[0],
+        amount=amount,
+    )
+    return expenditure
 
 
 class CapitalProjectTest(BaseSeleniumTestCase):
@@ -42,9 +55,9 @@ class CapitalProjectTest(BaseSeleniumTestCase):
         }
         self.project = Project.objects.create(**fields)
 
-        self.create_expenditure(15500000, "Full Year Forecast", "2048/2049")
-        self.create_expenditure(5500000, "Budget year", "2049/2050")
-        self.create_expenditure(6000000, "Budget year", "2050/2051")
+        create_expenditure(self.project, 15500000, "Full Year Forecast", "2048/2049")
+        create_expenditure(self.project, 5500000, "Budget year", "2049/2050")
+        create_expenditure(self.project, 6000000, "Budget year", "2050/2051")
         financial_year = FinancialYear.objects.create(budget_year="2051/2052")
 
         super(CapitalProjectTest, self).setUp()
