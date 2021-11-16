@@ -7,6 +7,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
+import logging
+logger = logging.Logger(__name__)
 
 class BaseSeleniumTestCase(LiveServerTestCase):
 
@@ -27,6 +29,8 @@ class BaseSeleniumTestCase(LiveServerTestCase):
         self.addCleanup(self.selenium.quit)
 
     def wait_until_text_in(self, selector, text):
-        self.wait.until(
-            EC.text_to_be_present_in_element((By.CSS_SELECTOR, selector), text)
-        )
+        if self.wait.until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, selector), text)):
+            pass
+        else:
+            text_content = self.selenium.find_elements_by_css_selector(selector)[0].text
+            logger.error("Element contents: %s" % text_content)
