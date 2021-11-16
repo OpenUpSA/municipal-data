@@ -62,6 +62,8 @@ class CapitalProjectTest(BaseSeleniumTestCase):
 
         super(CapitalProjectTest, self).setUp()
 
+        Site.objects.filter(id=2).update(domain='municipalmoney.org.za', name='Scorecard')
+
     def test_project_details(self):
         selenium = self.selenium
         selenium.get("%s%s%s" % (self.live_server_url, "/infrastructure/projects/", self.project.id))
@@ -87,8 +89,6 @@ class CapitalProjectTest(BaseSeleniumTestCase):
         self.wait_until_text_in(".subsection-chart_wrapper .project-detail_heading", "NO DATA AVAILABLE")
 
     def test_quarterly_chart(self):
-        Site.objects.filter(id=2).update(domain='municipalmoney.org.za', name='Scorecard')
-
         self.quarterly_spend = ProjectQuarterlySpend.objects.create(
             project=self.project,
             financial_year=self.fy,
