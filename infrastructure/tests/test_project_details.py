@@ -11,12 +11,12 @@ from scorecard.models import Geography
 from infrastructure.tests.helpers import BaseSeleniumTestCase
 
 
-def create_expenditure(project, amount, phase, year):
+def create_expenditure(self, amount, phase, year):
     budget_phase = BudgetPhase.objects.get(name=phase)
     financial_year = FinancialYear.objects.get_or_create(budget_year=year)
 
     expenditure = Expenditure.objects.create(
-        project=project,
+        project=self.project,
         budget_phase=budget_phase,
         financial_year=financial_year[0],
         amount=amount,
@@ -55,9 +55,9 @@ class CapitalProjectTest(BaseSeleniumTestCase):
         }
         self.project = Project.objects.create(**fields)
 
-        create_expenditure(self.project, 15500000, "Full Year Forecast", "2048/2049")
-        create_expenditure(self.project, 5500000, "Budget year", "2049/2050")
-        create_expenditure(self.project, 6000000, "Budget year", "2050/2051")
+        create_expenditure(self, 15500000, "Full Year Forecast", "2048/2049")
+        create_expenditure(self, 5500000, "Budget year", "2049/2050")
+        create_expenditure(self, 6000000, "Budget year", "2050/2051")
         financial_year = FinancialYear.objects.create(budget_year="2051/2052")
 
         super(CapitalProjectTest, self).setUp()
@@ -98,4 +98,4 @@ class CapitalProjectTest(BaseSeleniumTestCase):
         selenium = self.selenium
         selenium.get("%s%s%s" % (self.live_server_url, "/infrastructure/projects/", self.project.id))
 
-        self.wait_until_text_in(".subsection-chart_wrapper", "Financial Year 2049/2050")
+        self.wait_until_text_in(".xtitle", "Financial Year 2049/2050")
