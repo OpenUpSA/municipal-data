@@ -12,7 +12,6 @@ from infrastructure.tests.helpers import BaseSeleniumTestCase
 from infrastructure.tests import utils
 
 import urllib.request
-import csv
 
 
 def mock_project_row():
@@ -35,6 +34,14 @@ def mock_project_row():
         'Budget year 2021/22': 6000.0
     }
     yield mock_data
+
+def download_column_headers():
+    columns = "province,municipality,project_number,project_description,project_type,function,asset_class,mtsf_service_outcome,own_strategic_objectives,iudf,budget phase,financial year,amount,latitude,longitude"
+    return columns
+
+def project_download_data():
+    project_data = 'Eastern Cape,,PC002003005_00002,P-CNIN FURN & OFF EQUIP,New,Administrative and Corporate Support,Furniture and Office Equipment,"An efficient, effective and development-oriented public service",OWN MUNICIPAL STRATEGIC OBJECTIVE,Growth,Budget year,2019/2020,4000.00,0.0,0.0'
+    return project_data
 
 
 class CapitalSearchTest(BaseSeleniumTestCase):
@@ -62,8 +69,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         
         project = Project.objects.get(project_description="P-CNIN FURN & OFF EQUIP")
         self.assertEquals(project.project_description, "P-CNIN FURN & OFF EQUIP")
-        
-        self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
+        #self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
         
     def test_download_button_exists(self):
         selenium = self.selenium
@@ -72,6 +78,17 @@ class CapitalSearchTest(BaseSeleniumTestCase):
     
     def test_download_url(self):
         utils.load_file(self.geography, mock_project_row(), "2019/2020")
-        url = f"{self.live_server_url}/infrastructure/download?budget_phase=Budget+year&financial_year=2019%2F2020&province=Eastern+Cape&municipality=Buffalo+City&q=&function=Fleet+Management"
+
+        url = f"{self.live_server_url}/infrastructure/download?budget_phase=Budget+year&financial_year=2019%2F2020"
         response = urllib.request.urlopen(url)
-        
+        contents = response.readlines()
+
+        headers = contents[0].decode('utf-8')
+        headers = headers.strip('\n')
+        headers = headers.strip('\r')
+        column_data = contents[1].decode('utf-8')
+        column_data = column_data.strip('\n')
+        column_data = column_data.strip('\r')
+
+        self.assertEquals(download_column_headers(), headers)
+        self.assertEquals(project_download_data(), column_data)
