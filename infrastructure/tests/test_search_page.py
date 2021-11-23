@@ -1,6 +1,5 @@
 from django.contrib.sites.models import Site
 
-from infrastructure.models import FinancialYear
 from scorecard.models import Geography
 from infrastructure.tests.helpers import BaseSeleniumTestCase
 from infrastructure.tests import utils
@@ -88,8 +87,6 @@ class CapitalSearchTest(BaseSeleniumTestCase):
     fixtures = ["demo-data", "seeddata"]
 
     def setUp(self):
-        FinancialYear.objects.create(budget_year="2019/2020")
-
         super(CapitalSearchTest, self).setUp()
         Site.objects.filter(id=2).update(domain='municipalmoney.org.za', name='Scorecard')
 
