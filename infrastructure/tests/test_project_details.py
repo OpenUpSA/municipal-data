@@ -5,6 +5,7 @@ from django.contrib.sites.models import Site
 from django_q.models import OrmQ
 
 from infrastructure.models import FinancialYear, Project, AnnualSpendFile, ProjectQuarterlySpend, Expenditure, BudgetPhase
+
 from infrastructure.upload import process_annual_document
 from scorecard.models import Geography
 
@@ -22,7 +23,6 @@ def create_expenditure(self, amount, phase, year):
         amount=amount,
     )
     return expenditure
-
 
 class CapitalProjectTest(BaseSeleniumTestCase):
     fixtures = ["seeddata"]

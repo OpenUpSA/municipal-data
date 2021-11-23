@@ -2,6 +2,10 @@ function mmWebflow(js) {
     utils = mm.utils;
 
     function mmListView(js) {
+        var summary_year = js.summary_year
+        var title = $(".page-heading").text();
+        $(".page-heading").text(title + " " + summary_year);
+
         function ProjectTypeBarChart(el) {
             this.barchart = new mm.BarChart();
             this.el = el;
@@ -239,7 +243,7 @@ function mmWebflow(js) {
                 }
 		//hard code the budget phase and fincial year
 		this.params.append('budget_phase', 'Budget year');
-		this.params.append('financial_year', '2019/2020');
+		this.params.append('financial_year', summary_year);
 
                 if (this.order != undefined) {
                     this.params.append("ordering", this.order);
@@ -476,7 +480,7 @@ function mmWebflow(js) {
         function buildAllCoordinatesSearchURL() {
             var params = new URLSearchParams();
 	    var budget_phase = "Budget year";
-            var financial_year = "2019/2020";
+            var financial_year = summary_year;
             params.set("q", $("#Infrastructure-Search-Input").val());
 	    params.set('budget_phase',budget_phase);
 	    params.set('financial_year', financial_year);
@@ -499,14 +503,14 @@ function mmWebflow(js) {
             response.results.projects.forEach(function(project) {
                 // TODO figure out where to put these
                 var budget_phase = "Budget year";
-                var financial_year = "2019/2020";
+                var financial_year = summary_year;
                 project.total_forecast_budget = 0;
 
                 if (project.expenditure.length > 0) {
                     var expenditures = project.expenditure.filter(function(exp) {
                         return exp.financial_year.budget_year == financial_year;
                     });
-		    
+
                     expenditures = expenditures.filter(function(exp) {
                         return exp.budget_phase.name == budget_phase; 
                     });
@@ -545,7 +549,7 @@ function mmWebflow(js) {
 	function triggerDownload(){
 	    var params = new URLSearchParams();
 	    var budget_phase = "Budget year";
-            var financial_year = "2019/2020";
+        var financial_year = summary_year;
 	    params.set('budget_phase',budget_phase);
 	    params.set('financial_year', financial_year);
 	    for (fieldName in listView.search.selectedFacets) {
@@ -556,7 +560,7 @@ function mmWebflow(js) {
 
 	function triggerUpdateFilter(){
 	    var url = listView.search.createUrl();
-	    
+
 	    listView.searchState.projectRequest = $.get(url)
 		.done(function(response){
 		    response = normaliseResponse(response);
@@ -639,7 +643,7 @@ function mmWebflow(js) {
                     return;
                 }
 		var budget_phase = "Budget year";
-		var financial_year = "2019/2020";
+		var financial_year = summary_year;
 		var expenditures;
 		if (project.expenditure.length > 0) {
                     expenditures = project.expenditure.filter(function(exp) {
@@ -844,6 +848,11 @@ function mmWebflow(js) {
 
         $(".detail-button_wrapper").hide();
         $(".subsection-chart__detail").hide();
+
+        var summaryYear = js.summary_year
+        if (summaryYear.split('/')[0] > implementYear.split('/')[0]) {
+            $(".project-details__info-message").parent().append('This project was last updated with ' + implementYear + ' data. Please see the search page for the latest figures.');
+        }
     }
 
     if (js["view"] == "list")

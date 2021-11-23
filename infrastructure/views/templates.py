@@ -4,6 +4,8 @@ import csv
 from django.views.generic.base import TemplateView
 from django.urls import reverse
 from django.contrib.postgres.search import SearchQuery
+from constance import config
+
 from . import models
 from . import api as api_views
 from django.http import HttpResponse
@@ -23,6 +25,7 @@ class ListView(TemplateView):
         projects = json.loads(projects)
 
         projects["view"] = "list"
+        projects["summary_year"] = config.CAPITAL_PROJECT_SUMMARY_YEAR
 
         context = super().get_context_data(**kwargs)
         context["page_data_json"] = {"data": json.dumps(projects)}
@@ -46,6 +49,7 @@ class DetailView(TemplateView):
         project = json.loads(project)
 
         project["view"] = "detail"
+        project["summary_year"] = config.CAPITAL_PROJECT_SUMMARY_YEAR
 
         context = super().get_context_data(**kwargs)
         context["page_data_json"] = {"data": json.dumps(project)}

@@ -153,6 +153,12 @@ CONSTANCE_CONFIG = {
         "the selected year and quarter.",
         "quarter_select",
     ],
+    "CAPITAL_PROJECT_SUMMARY_YEAR": [
+        "2019/2020",
+        "The year to use when fitlering which capital projects to  which grant spending data is available. "
+        "display on summary and search pages.",
+        str,
+    ],
 }
 
 ROOT_URLCONF = "municipal_finance.urls"
