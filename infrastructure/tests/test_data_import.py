@@ -106,7 +106,7 @@ class FileTest(TransactionTestCase):
     def test_file_upload(self):
         """Scope of Test: Testing the file upload in Django Admin to processing file and add to Django_Q"""
         self.client.login(username=self.username, password=self.password)
-        fy = FinancialYear.objects.create(budget_year="2019/2020", active=1)
+        fy = FinancialYear.objects.get(budget_year="2019/2020")
 
         self.assertEquals(AnnualSpendFile.objects.all().count(), 0)
         self.assertEqual(OrmQ.objects.count(), 0)
@@ -143,7 +143,7 @@ class FileTest(TransactionTestCase):
     def test_file_upload_fail(self):
         """Scope of Test: Testing if the file upload fail in Django Admin to processing file and add to Django_Q"""
         self.client.login(username=self.username, password=self.password)
-        fy = FinancialYear.objects.create(budget_year="2019/2020", active=1)
+        fy = FinancialYear.objects.get(budget_year="2019/2020")
 
         self.assertEquals(FinancialYear.objects.all().count(), 1)
         self.assertEquals(AnnualSpendFile.objects.all().count(), 0)
@@ -172,7 +172,7 @@ class FileTest(TransactionTestCase):
     def test_year_error(self):
         """Scope of Test: Test if a file uploaded in Django Admin with incorrect year selection and content returns an error to Django_Q"""
         self.client.login(username=self.username, password=self.password)
-        fy = FinancialYear.objects.create(budget_year="2019/2020", active=1)
+        fy = FinancialYear.objects.get(budget_year="2019/2020")
 
         self.assertEquals(FinancialYear.objects.all().count(), 1)
         self.assertEquals(AnnualSpendFile.objects.all().count(), 0)
@@ -203,7 +203,9 @@ class FileTest(TransactionTestCase):
         self.assertEquals(BudgetPhase.objects.all().count(), 5)
 
         geography = Geography.objects.get(geo_code="BUF")
-        utils.load_file(geography, mock_project_row(), "2019/2020")
+
+        fy = FinancialYear.objects.get(budget_year="2019/2020")
+        utils.load_file(geography, mock_project_row(), fy)
 
         project = Project.objects.get(function="Administrative and Corporate Support")
         self.assertEquals(project.project_description, "P-CNIN FURN & OFF EQUIP")

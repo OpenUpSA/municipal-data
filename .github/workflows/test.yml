@@ -22,8 +22,11 @@ jobs:
       # - smoke test
       # - ensure development environment setup is maintained.
       - name: Load demo data fixture
-        run: docker-compose run --rm scorecard bin/wait-for-postgres.sh python manage.py loaddata demo-data
+        run: docker-compose run --rm scorecard bin/wait-for-postgres.sh python manage.py loaddata demo-data seeddata
       - name: Start server
         run: docker-compose up -d
       - name: "Smoke test: Check that demo data is returned by typical request to server"
-        run: wget --retry-connrefused --waitretry=1 --read-timeout=10 --timeout=10 --tries=10 -O-  "http://localhost:8001/profiles/municipality-TSH-city-of-tshwane/" | grep "Gauteng"
+        run: wget --retry-connrefused --waitretry=3 --read-timeout=10 --timeout=10 --tries=10 -O-  "http://localhost:8001/profiles/municipality-TSH-city-of-tshwane/" | grep "Gauteng"
+      - run: docker-compose logs scorecard
+        if: ${{ always() }}
+

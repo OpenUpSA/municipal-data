@@ -10,7 +10,6 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-
 from .. import models
 from .. import serializers
 
@@ -108,12 +107,13 @@ class ProjectSearch(generics.ListCreateAPIView):
     serializer_class = serializers.ProjectSerializer
     pagination_class = PageNumberPagination
     fieldmap = {
-        "municipality": "geography__name",
+        "geography__name": "municipality",
         "function": "function",
         "project_type": "project_type",
-        "province": "geography__province_name",
-        "budget_phase": "expenditure__budget_phase__name",
-        "financial_year": "expenditure__financial_year__budget_year",
+        "geography__province_name": "province",
+        "expenditure__budget_phase__name": "budget_phase",
+        "expenditure__financial_year__budget_year": "financial_year",
+        "latest_implementation_year__budget_year": "financial_year",
     }
 
     order_fields = {
@@ -153,20 +153,16 @@ class ProjectSearch(generics.ListCreateAPIView):
         return qs.filter(content_search=SearchQuery(text))
 
     def aggregations(self, qs, params):
-        # TODO - not sure where to put these magic values
-        financial_year = params.get("financial_year", "2019/2020")
-        budget_phase = params.get("budget_phase", "Budget Year")
+        financial_year = params.get("financial_year")
+        budget_phase = params.get("budget_phase")
 
         return {"total": qs.total_value(financial_year, budget_phase)}
 
     def add_filters(self, qs, params):
-        """
-        Going to hard code params for budget phase and financial year,
-        """
         query_dict = {}
         for k, v in ProjectSearch.fieldmap.items():
-            if k in params:
-                query_dict[v] = params[k]
+            if v in params:
+                query_dict[k] = params[v]
 
         return qs.filter(**query_dict)
 

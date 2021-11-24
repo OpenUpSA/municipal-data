@@ -6,7 +6,7 @@ from django.views.generic.base import TemplateView
 from django.http import Http404, HttpResponse
 from django.urls import reverse
 
-from infrastructure.models import Project
+from infrastructure.models import Project, FinancialYear, BudgetPhase
 from household.models import HouseholdServiceTotal, HouseholdBillTotal
 from household.chart import stack_chart, chart_data, percent_increase, yearly_percent
 from municipal_finance.models import AmountType
@@ -21,7 +21,7 @@ from rest_framework import viewsets
 
 import subprocess
 from django.conf import settings
-
+from constance import config
 
 class GeographyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Geography.objects.all()
@@ -35,9 +35,10 @@ class MunicipalityProfileViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 def infra_dict(project):
+    budget_phase = BudgetPhase.objects.get(name="Budget year")
     return {
         "description": project.project_description,
-        "expenditure_amount": project.expenditure.first().amount,
+        "expenditure_amount": project.expenditure.get(budget_phase=budget_phase, financial_year_id=project.latest_implementation_year).amount,
         "url": reverse('project-detail-view', args=[project.id]),
     }
 
@@ -176,7 +177,11 @@ class GeographyDetailView(TemplateView):
                     .first()
                     .as_dict()
                 )
-        infrastructure_financial_year = "2019/2020"
+
+        summary_year = config.CAPITAL_PROJECT_SUMMARY_YEAR
+
+        financial_year = FinancialYear.objects.get(budget_year=summary_year)
+
         infrastructure = (
             Project.objects.prefetch_related(
                 "geography",
@@ -187,14 +192,16 @@ class GeographyDetailView(TemplateView):
             .filter(
                 geography__geo_code=self.geo_code,
                 expenditure__budget_phase__name="Budget year",
-                expenditure__financial_year__budget_year=infrastructure_financial_year,
+                expenditure__financial_year__budget_year=summary_year,
+                latest_implementation_year=financial_year,
             )
             .order_by("-expenditure__amount")
         )
+
         page_json["infrastructure_summary"] = {
             "projects": [infra_dict(p) for p in infrastructure[:5]],
             "project_count": infrastructure.count(),
-            "financial_year": infrastructure_financial_year[5:9]
+            "financial_year": financial_year.budget_year[5:9]
         }
 
         households = HouseholdBillTotal.summary.bill_totals(self.geo_code)
@@ -240,7 +247,6 @@ class GeographyDetailView(TemplateView):
             "page_description": f"Financial Performance for { self.geo.name }, and other information.",
         }
         return page_context
-
 
 class GeographyPDFView(GeographyDetailView):
     def get(self, request, *args, **kwargs):

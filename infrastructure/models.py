@@ -8,7 +8,6 @@ from scorecard.models import Geography
 
 class FinancialYear(models.Model):
     budget_year = models.CharField(max_length=10)
-    active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.budget_year

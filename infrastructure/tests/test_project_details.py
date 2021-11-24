@@ -23,7 +23,6 @@ def create_expenditure(self, amount, phase, year):
     )
     return expenditure
 
-
 class CapitalProjectTest(BaseSeleniumTestCase):
     fixtures = ["seeddata"]
 
@@ -36,7 +35,7 @@ class CapitalProjectTest(BaseSeleniumTestCase):
             category="A",
         )
 
-        self.fy = FinancialYear.objects.create(budget_year="2049/2050", active=1)
+        self.fy = FinancialYear.objects.create(budget_year="2049/2050")
 
         fields = {
             "geography": self.geography,
