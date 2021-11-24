@@ -91,7 +91,6 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         Site.objects.filter(id=2).update(domain='municipalmoney.org.za', name='Scorecard')
 
     def test_municipality_search_filter(self):
-
         geography = Geography.objects.get(geo_code="BUF")
         utils.load_file(geography, mock_project_one(), "2019/2020")
         geography = Geography.objects.get(geo_code="TSH")
@@ -100,15 +99,19 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/?municipality=Buffalo+City"))
 
+        self.wait_until_text_in(".page-heading", "2019/2020")
+        self.wait_until_text_in("#municipality-dropdown", "Buffalo City")
         self.wait_until_text_in(".search-detail_projects", "1")
 
         self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
         self.wait_until_text_in("#result-list-container", "ADMINISTRATIVE AND CORPORATE SUPPORT")
         self.wait_until_text_in("#result-list-container", "R4.00 K")
 
+        results = selenium.find_element_by_css_selector("#result-list-container")
+        self.assertNotIn("P-CIN RDS ROADS", results.text)
+
     @override_config(CAPITAL_PROJECT_SUMMARY_YEAR="2020/2021")
     def test_implementation_year_filter(self):
-
         geography = Geography.objects.get(geo_code="BUF")
         utils.load_file(geography, mock_project_one(), "2019/2020")
         utils.load_file(geography, mock_project_next_financial_year(), "2020/2021")
@@ -121,6 +124,9 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
         self.wait_until_text_in("#result-list-container", "ADMINISTRATIVE AND CORPORATE SUPPORT")
         self.wait_until_text_in("#result-list-container", "R12.00 K")
+
+        results = selenium.find_element_by_css_selector("#result-list-container")
+        self.assertNotIn("R4.00 K", results.text)
 
     def download_button_exists(self):
         selenium = self.selenium
