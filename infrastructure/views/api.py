@@ -10,7 +10,6 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-
 from .. import models
 from .. import serializers
 
@@ -108,12 +107,13 @@ class ProjectSearch(generics.ListCreateAPIView):
     serializer_class = serializers.ProjectSerializer
     pagination_class = PageNumberPagination
     fieldmap = {
-        "municipality": "geography__name",
+        "geography__name": "municipality",
         "function": "function",
         "project_type": "project_type",
-        "province": "geography__province_name",
-        "budget_phase": "expenditure__budget_phase__name",
-        "financial_year": "expenditure__financial_year__budget_year",
+        "geography__province_name": "province",
+        "expenditure__budget_phase__name": "budget_phase",
+        "expenditure__financial_year__budget_year": "financial_year",
+        "latest_implementation_year__budget_year": "financial_year",
     }
 
     order_fields = {
@@ -159,13 +159,10 @@ class ProjectSearch(generics.ListCreateAPIView):
         return {"total": qs.total_value(financial_year, budget_phase)}
 
     def add_filters(self, qs, params):
-        if 'financial_year' in params.keys():
-            qs = qs.filter(latest_implementation_year__budget_year=params['financial_year'])
-
         query_dict = {}
         for k, v in ProjectSearch.fieldmap.items():
-            if k in params:
-                query_dict[v] = params[k]
+            if v in params:
+                query_dict[k] = params[v]
 
         return qs.filter(**query_dict)
 

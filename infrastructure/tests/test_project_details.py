@@ -5,7 +5,6 @@ from django.contrib.sites.models import Site
 from django_q.models import OrmQ
 
 from infrastructure.models import FinancialYear, Project, AnnualSpendFile, ProjectQuarterlySpend, Expenditure, BudgetPhase
-
 from infrastructure.upload import process_annual_document
 from scorecard.models import Geography
 
@@ -36,7 +35,7 @@ class CapitalProjectTest(BaseSeleniumTestCase):
             category="A",
         )
 
-        self.fy = FinancialYear.objects.create(budget_year="2049/2050", active=1)
+        self.fy = FinancialYear.objects.create(budget_year="2049/2050")
 
         fields = {
             "geography": self.geography,
