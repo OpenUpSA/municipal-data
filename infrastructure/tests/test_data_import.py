@@ -412,7 +412,7 @@ class FileTest(TransactionTestCase):
 
         geography = Geography.objects.get(geo_code="BUF")
 
-        fy = FinancialYear.objects.create(budget_year="2019/2020")
+        fy = FinancialYear.objects.get(budget_year="2019/2020")
         utils.load_file(geography, mock_project_row(), fy)
         utils.load_file(geography, mock_quarterly_row(), fy)
 
