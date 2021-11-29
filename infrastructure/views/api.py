@@ -111,8 +111,6 @@ class ProjectSearch(generics.ListCreateAPIView):
         "function": "function",
         "project_type": "project_type",
         "geography__province_name": "province",
-        "expenditure__budget_phase__name": "budget_phase",
-        "expenditure__financial_year__budget_year": "financial_year",
         "latest_implementation_year__budget_year": "financial_year",
     }
 
@@ -121,12 +119,6 @@ class ProjectSearch(generics.ListCreateAPIView):
         "total_forecast_budget": "expenditure__amount",
         "project_type": "project_type",
         "function": "function",
-    }
-
-    quarterly_fields = {
-        "geography__name": "municipality",
-        "expenditure__financial_year__budget_year": "financial_year",
-        "quarterly__financial_year__budget_year": "financial_year",
     }
 
     def list(self, request):
@@ -165,21 +157,12 @@ class ProjectSearch(generics.ListCreateAPIView):
         return {"total": qs.total_value(financial_year, budget_phase)}
 
     def add_filters(self, qs, params):
-        query_dict_quarterly = {}
-        for k, v in ProjectSearch.quarterly_fields.items():
-            if v in params:
-                query_dict_quarterly[k] = params[v]
-
         query_dict = {}
         for k, v in ProjectSearch.fieldmap.items():
             if v in params:
                 query_dict[k] = params[v]
 
-        qs_expenditures = qs.filter(**query_dict)
-        qs_quarterlies = qs.filter(**query_dict_quarterly)
-        qs = qs_expenditures | qs_quarterlies
-
-        return qs.distinct()
+        return qs.filter(**query_dict)
 
     def order_by(self, qs, field):
         prefix = ""

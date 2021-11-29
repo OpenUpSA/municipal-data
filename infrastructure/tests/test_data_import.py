@@ -151,7 +151,6 @@ class FileTest(TransactionTestCase):
         )
 
 
-
     def test_file_upload(self):
         """Scope of Test: Testing the file upload in Django Admin to processing file and add to Django_Q"""
         self.client.login(username=self.username, password=self.password)
