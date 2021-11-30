@@ -1,6 +1,6 @@
 from django.contrib.postgres.search import SearchQuery
 from django.db.models import Count, Sum
-from django.db.models import F
+from django.db.models import F, Q
 
 # from django.views.decorators.cache import cache_page
 # from django.utils.decorators import method_decorator
@@ -111,6 +111,7 @@ class ProjectSearch(generics.ListCreateAPIView):
         "function": "function",
         "project_type": "project_type",
         "geography__province_name": "province",
+        "expenditure__financial_year__budget_year": "financial_year",
         "latest_implementation_year__budget_year": "financial_year",
     }
 
@@ -162,7 +163,8 @@ class ProjectSearch(generics.ListCreateAPIView):
             if v in params:
                 query_dict[k] = params[v]
 
-        return qs.filter(**query_dict)
+        projects = qs.filter(Q(**query_dict, expenditure__budget_phase__name="Budget year") | Q(**query_dict, expenditure__budget_phase__name="Original Budget"))
+        return projects
 
     def order_by(self, qs, field):
         prefix = ""
