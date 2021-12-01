@@ -111,8 +111,14 @@ class ProjectSearch(generics.ListCreateAPIView):
         "function": "function",
         "project_type": "project_type",
         "geography__province_name": "province",
+        "expenditure__budget_phase__name": "budget_phase",
         "expenditure__financial_year__budget_year": "financial_year",
         "latest_implementation_year__budget_year": "financial_year",
+    }
+
+    quarterly_query_dict = {
+        "quarterly__financial_year__budget_year":"2020/2021",
+        "expenditure__budget_phase__name":"Original Budget",
     }
 
     order_fields = {
@@ -128,6 +134,7 @@ class ProjectSearch(generics.ListCreateAPIView):
 
         queryset = self.get_queryset()
         queryset = self.add_filters(queryset, request.GET)
+
         queryset = self.text_search(queryset, search_query)
         facets = self.get_facets(queryset)
         queryset = self.order_by(queryset, order_field)
@@ -163,7 +170,7 @@ class ProjectSearch(generics.ListCreateAPIView):
             if v in params:
                 query_dict[k] = params[v]
 
-        projects = qs.filter(Q(**query_dict, expenditure__budget_phase__name="Budget year") | Q(**query_dict, expenditure__budget_phase__name="Original Budget"))
+        projects = qs.filter( Q(**query_dict) | Q(**ProjectSearch.quarterly_query_dict) )
         return projects
 
     def order_by(self, qs, field):
@@ -184,10 +191,10 @@ class ProjectSearch(generics.ListCreateAPIView):
         facet_type = facet_query("project_type")
         facet_function = facet_query("function")
         facet_province = facet_query("geography__province_name")
-        js = {
+        facet_json = {
             "municipality": facet_muni,
             "type": facet_type,
             "function": facet_function,
             "province": facet_province,
         }
-        return js
+        return facet_json
