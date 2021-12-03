@@ -241,9 +241,10 @@ function mmWebflow(js) {
                     var paramValue = this.selectedFacets[key];
                     this.params.append(key, paramValue);
                 }
-		//hard code the budget phase and fincial year
-		this.params.append('budget_phase', 'Budget year');
-		this.params.append('financial_year', summary_year);
+                //hard code the budget phase and fincial year
+                this.params.append('budget_phase', 'Budget year');
+                this.params.append('quarterly_phase', 'Original Budget');
+                this.params.append('financial_year', summary_year);
 
                 if (this.order != undefined) {
                     this.params.append("ordering", this.order);

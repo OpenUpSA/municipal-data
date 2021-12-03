@@ -106,7 +106,7 @@ class ProjectSearch(generics.ListCreateAPIView):
     ).all()
     serializer_class = serializers.ProjectSerializer
     pagination_class = PageNumberPagination
-    fieldmap = {
+    annual_fieldmap = {
         "geography__name": "municipality",
         "function": "function",
         "project_type": "project_type",
@@ -116,9 +116,9 @@ class ProjectSearch(generics.ListCreateAPIView):
         "latest_implementation_year__budget_year": "financial_year",
     }
 
-    quarterly_query_dict = {
-        "quarterly__financial_year__budget_year":"2020/2021",
-        "expenditure__budget_phase__name":"Original Budget",
+    quarterly_fieldmap = {
+        "quarterly__financial_year__budget_year":"financial_year",
+        "expenditure__budget_phase__name":"quarterly_phase",
     }
 
     order_fields = {
@@ -133,11 +133,12 @@ class ProjectSearch(generics.ListCreateAPIView):
         order_field = request.GET.get("ordering", "")
 
         queryset = self.get_queryset()
-        queryset = self.add_filters(queryset, request.GET)
+        queryset = self.add_filters(queryset, request.GET, self.annual_fieldmap)
 
         queryset = self.text_search(queryset, search_query)
         facets = self.get_facets(queryset)
         queryset = self.order_by(queryset, order_field)
+        queryset = queryset | self.add_filters(self.get_queryset(), request.GET, self.quarterly_fieldmap)
 
         aggregations = self.aggregations(queryset, request.GET)
 
@@ -164,14 +165,13 @@ class ProjectSearch(generics.ListCreateAPIView):
 
         return {"total": qs.total_value(financial_year, budget_phase)}
 
-    def add_filters(self, qs, params):
+    def add_filters(self, qs, params, filter_map):
         query_dict = {}
-        for k, v in ProjectSearch.fieldmap.items():
+        for k, v in filter_map.items():
             if v in params:
                 query_dict[k] = params[v]
 
-        projects = qs.filter( Q(**query_dict) | Q(**ProjectSearch.quarterly_query_dict) )
-        return projects
+        return qs.filter(**query_dict)
 
     def order_by(self, qs, field):
         prefix = ""
