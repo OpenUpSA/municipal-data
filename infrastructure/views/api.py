@@ -117,6 +117,10 @@ class ProjectSearch(generics.ListCreateAPIView):
     }
 
     quarterly_fieldmap = {
+        "geography__name": "municipality",
+        "function": "function",
+        "project_type": "project_type",
+        "geography__province_name": "province",
         "quarterly__financial_year__budget_year":"financial_year",
         "expenditure__budget_phase__name":"quarterly_phase",
     }
