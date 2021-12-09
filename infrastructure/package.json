@@ -31,9 +31,19 @@
     },
     "importHtml": [
       {
-        "glob": "{infrastructure-list,infrastructure-project,infrastructure-search}.html",
+        "glob": "infrastructure-project.html",
         "destDir": "templates/infrastructure",
-        "transforms": "./static/js/webflow/import.js"
+        "transforms": "./static/js/webflow/import-project.js"
+      },
+      {
+        "glob": "infrastructure-search.html",
+        "destDir": "templates/infrastructure",
+        "transforms": "./static/js/webflow/import-search.js"
+      },
+      {
+        "glob": "infrastructure-list.html",
+        "destDir": "templates/infrastructure",
+        "transforms": "./static/js/webflow/import-list.js"
       }
     ]
   }
