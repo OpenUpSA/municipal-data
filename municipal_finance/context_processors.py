@@ -8,7 +8,7 @@ def google_analytics(request):
     rendering tracking code.
     """
     ga_id = None
-    if not settings.DEBUG:
+    if not settings.DEBUG and settings.ENVIRONMENT == "production":
         if get_current_site(request).name == 'Scorecard':
             ga_id = getattr(settings, 'SCORECARD_GOOGLE_ANALYTICS_ID', None)
         else:
