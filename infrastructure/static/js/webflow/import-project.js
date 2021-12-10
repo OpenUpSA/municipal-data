@@ -36,9 +36,9 @@ exports.transformDOM = function(window, $) {
     crossorigin: "",
   });
 
-  addScriptToBody(window, {src: "{% static 'js/utils.js' %}"});
-  addScriptToBody(window, {src: "{% static 'js/mm-webflow.js' %}"});
-  addScriptToBody(window, {src: "{% static 'js/humanize.js' %}"});
+  addScriptToBody(window, {src: "/static/js/utils.js"});
+  addScriptToBody(window, {src: "/static/js/mm-webflow.js"});
+  addScriptToBody(window, {src: "/static/js/humanize.js"});
   addScriptToBody(window, {src: "{% static 'household/js/plotly.js' %}"});
 
   addScriptToBody(window, {}, "function amount_convert(value){\
