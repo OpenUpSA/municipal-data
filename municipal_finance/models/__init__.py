@@ -84,6 +84,8 @@ from .updates import (
 )
 from .demarcation_changes import DemarcationChanges
 
+from .notice import Notice
+
 
 class AuditOpinionFacts(models.Model):
     demarcation_code = models.TextField()

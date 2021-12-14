@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
+from municipal_finance import models
 
 
 def google_analytics(request):
@@ -29,3 +30,6 @@ def api_details(request):
         'DATA_PORTAL_URL': settings.DATA_PORTAL_URL,
         'API_URL': settings.API_URL,
     }
+
+def site_notices(request):
+    return {"site_notices": models.Notice.objects.all()}
