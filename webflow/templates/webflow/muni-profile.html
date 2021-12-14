@@ -486,18 +486,7 @@
       <div class="fas fa-ellipsis-v"></div>
     </div>
   </div>
-  <div class="profile-notice hidden">
-    <div class="container">
-      <div class="profile-notice__inner">
-        <div class="profile-notice__icon">
-          <div class="fas fa-info"></div>
-        </div>
-        <div class="profile-notice__text">Loading...</div>
-        <a href="#" class="page-heading__subtitle_link">...</a>
-      </div>
-    </div>
-    <div class="plate plate--primary"></div>
-  </div>
+  <div class="profile-notice">{% for notice in site_notices %}  <div class="container">      <div class="profile-notice__text" style="color:black">{{ notice.content | safe }}</div>  </div>{% endfor %}</div>
   <header class="page-nav">
     <div class="plate plate--white plate--shadow-medium"></div>
     <div class="page-nav__inner">
