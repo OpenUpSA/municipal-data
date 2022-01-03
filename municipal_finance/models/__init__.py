@@ -84,7 +84,7 @@ from .updates import (
 )
 from .demarcation_changes import DemarcationChanges
 
-from .notice import Notice
+from .notice import SiteNotice
 
 
 class AuditOpinionFacts(models.Model):

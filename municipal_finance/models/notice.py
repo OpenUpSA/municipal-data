@@ -3,7 +3,7 @@ from adminsortable.models import SortableMixin
 from django.db import models
 
 
-class Notice(SortableMixin):
+class SiteNotice(SortableMixin):
     description = models.CharField(max_length=200)
     content = ckeditor_fields.RichTextField()
     notice_order = models.PositiveIntegerField(default=0, editable=False, db_index=True)

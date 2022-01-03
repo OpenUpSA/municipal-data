@@ -32,4 +32,4 @@ def api_details(request):
     }
 
 def site_notices(request):
-    return {"site_notices": models.Notice.objects.all()}
+    return {"site_notices": models.SiteNotice.objects.all()}

@@ -30,7 +30,7 @@ from .models import (
     GrantTypesV2,
     CapitalTypeV2,
     DemarcationChanges,
-    Notice,
+    SiteNotice,
 )
 from .resources import (
     AgedDebtorItemsV2Resource,
@@ -205,4 +205,4 @@ class DemarcationChangesAdmin(admin.ModelAdmin):
         "new_code_transition",
     )
 
-admin.site.register(Notice, SortableAdmin)
+admin.site.register(SiteNotice, SortableAdmin)
