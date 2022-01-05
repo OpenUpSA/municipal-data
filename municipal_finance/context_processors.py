@@ -17,6 +17,13 @@ def google_analytics(request):
     return {'GOOGLE_ANALYTICS_ID': ga_id}
 
 
+def search_engine_index(request):
+    """
+    Prevent a specific site from being indexed by search engines
+    """
+    return {'NO_INDEX': settings.NO_INDEX}
+
+
 def sentry_dsn(request):
     """
     Add the Sentry DSN to the context for use when rendering error reporting code.

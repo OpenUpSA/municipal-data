@@ -42,6 +42,8 @@ else:
 DATA_GOOGLE_ANALYTICS_ID = "UA-48399585-37"
 SCORECARD_GOOGLE_ANALYTICS_ID = "UA-48399585-40"
 
+NO_INDEX = env.bool("NO_INDEX", False)
+
 ALLOWED_HOSTS = ["*"]
 
 
@@ -221,6 +223,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
                 "municipal_finance.context_processors.google_analytics",
+                "municipal_finance.context_processors.search_engine_index",
                 "municipal_finance.context_processors.sentry_dsn",
                 "municipal_finance.context_processors.api_details",
             ],
