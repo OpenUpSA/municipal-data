@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
-from site_config import models
+from site_config.models import SiteNotice
 
 
 def google_analytics(request):
@@ -32,4 +32,4 @@ def api_details(request):
     }
 
 def site_notices(request):
-    return {"site_notices": models.SiteNotice.objects.all()}
+    return {"site_notices": SiteNotice.objects.all()}
