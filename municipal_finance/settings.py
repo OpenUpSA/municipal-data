@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     "infrastructure",
     "household",
     "webflow",
+    "site_config",
     "django.contrib.sites",
     "django.contrib.contenttypes",
     "django.contrib.humanize",

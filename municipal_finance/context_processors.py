@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
-from municipal_finance import models
+from site_config import models
 
 
 def google_analytics(request):

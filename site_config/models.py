@@ -1,7 +1,6 @@
+from django.db import models
 import ckeditor.fields as ckeditor_fields
 from adminsortable.models import SortableMixin
-from django.db import models
-
 
 class SiteNotice(SortableMixin):
     description = models.CharField(max_length=200)

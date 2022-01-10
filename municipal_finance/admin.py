@@ -5,7 +5,6 @@ from argparse import Namespace
 from django.contrib import admin
 from django_q.tasks import async_task
 from import_export.admin import ImportExportModelAdmin
-from adminsortable.admin import SortableAdmin
 
 from .models import (
     MunicipalStaffContactsUpdate,
@@ -30,7 +29,6 @@ from .models import (
     GrantTypesV2,
     CapitalTypeV2,
     DemarcationChanges,
-    SiteNotice,
 )
 from .resources import (
     AgedDebtorItemsV2Resource,
@@ -204,5 +202,3 @@ class DemarcationChangesAdmin(admin.ModelAdmin):
         "old_code_transition",
         "new_code_transition",
     )
-
-admin.site.register(SiteNotice, SortableAdmin)
