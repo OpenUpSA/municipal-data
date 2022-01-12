@@ -47,11 +47,13 @@ class CashBalance(SeriesIndicator):
             data.update({
                 "result": cash_at_year_end,
                 "rating": cls.determine_rating(cash_at_year_end),
+                "cube_version": values["cube_version"],
             })
         else:
             data.update({
                 "result": None,
                 "rating": "bad",
+                "cube_version": None,
             })
         return data
 
@@ -62,13 +64,13 @@ class CashBalance(SeriesIndicator):
         populate_periods(
             periods,
             group_by_year(results["cash_flow_v1"]),
-            "cash_at_year_end",
+            ("cash_at_year_end","v1"),
         )
         # Populate periods with v2 data
         populate_periods(
             periods,
             group_by_year(results["cash_flow_v2"]),
-            "cash_at_year_end",
+            ("cash_at_year_end","v2"),
         )
         # Generate data for the requested years
         return list(
