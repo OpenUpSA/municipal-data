@@ -1,8 +1,8 @@
-
 from .series import SeriesIndicator
 from .utils import (
     group_by_year,
     populate_periods,
+    filter_for_all_keys_versioned,
 )
 
 
@@ -72,6 +72,13 @@ class CashBalance(SeriesIndicator):
             group_by_year(results["cash_flow_v2"]),
             ("cash_at_year_end","v2"),
         )
+        # Filter out periods that don't have all the required data
+        periods = filter_for_all_keys_versioned(periods, [
+            "cash_at_year_end",
+        ])
+        # Convert periods into dictionary
+        periods = dict(periods)
+
         # Generate data for the requested years
         return list(
             map(
