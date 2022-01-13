@@ -74,12 +74,14 @@ class OperatingBudgetSpending(SeriesIndicator):
                 "result": result,
                 "rating": cls.determine_rating(result),
                 "overunder": "under" if result < 0 else "over",
+                "cube_version": values["cube_version"],
             })
         else:
             data.update({
                 "result": None,
                 "rating": None,
                 "overunder": None,
+                "cube_version": None,
             })
         return data
 
@@ -90,26 +92,26 @@ class OperatingBudgetSpending(SeriesIndicator):
         populate_periods(
             periods,
             group_by_year(results["operating_expenditure_actual_v1"]),
-            "operating_expenditure_actual",
+            ("operating_expenditure_actual","v1"),
         )
         populate_periods(
             periods,
             group_by_year(results["operating_expenditure_budget_v1"]),
-            "operating_expenditure_budget",
+            ("operating_expenditure_budget","v1"),
         )
         # Populate periods with v2 data
         populate_periods(
             periods,
             group_by_year(results["operating_expenditure_actual_v2"]),
-            "operating_expenditure_actual",
+            ("operating_expenditure_actual","v2"),
         )
         populate_periods(
             periods,
             group_by_year(results["operating_expenditure_budget_v2"]),
-            "operating_expenditure_budget",
+            ("operating_expenditure_budget","v2"),
         )
         # Filter out periods that don't have all the required data
-        periods = filter_for_all_keys(periods, [
+        periods = filter_for_all_keys_versioned(periods, [
             "operating_expenditure_actual",
             "operating_expenditure_budget",
         ])
