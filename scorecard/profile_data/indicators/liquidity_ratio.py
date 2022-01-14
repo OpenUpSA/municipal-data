@@ -4,7 +4,7 @@ from .utils import (
     ratio,
     group_items_by_year,
     sum_item_amounts,
-    filter_for_all_keys,
+    filter_for_all_keys_versioned,
 )
 
 
@@ -60,11 +60,13 @@ class LiquidityRatio(SeriesIndicator):
                 "liabilities": total_current_liabilities,
                 "result": result,
                 "rating": cls.determine_rating(result),
+                "cube_version": values["cube_version"],
             })
         else:
             data.update({
                 "result": None,
                 "rating": "bad",
+                "cube_version": None,
             })
         return data
 
@@ -75,22 +77,22 @@ class LiquidityRatio(SeriesIndicator):
         grouped_results = group_items_by_year(results["bsheet_auda_years"])
         for key, result in grouped_results:
             periods.setdefault(key, {})
-            periods[key]["cash"] = result.get("1800")
-            periods[key]["call_investment_deposits"] = result.get("2200")
-            periods[key]["total_current_liabilities"] = result.get("1600")
+            periods[key][("cash","v1")] = result.get("1800")
+            periods[key][("call_investment_deposits","v1")] = result.get("2200")
+            periods[key][("total_current_liabilities","v1")] = result.get("1600")
         # Populate periods with v2 data
         grouped_results = group_items_by_year(
             results["financial_position_auda_years_v2"]
         )
         for key, result in grouped_results:
             periods.setdefault(key, {})
-            periods[key]["cash"] = result.get("0120")
-            periods[key]["call_investment_deposits"] = result.get("0130")
-            periods[key]["total_current_liabilities"] = sum_item_amounts(result, [
+            periods[key][("cash","v2")] = result.get("0120")
+            periods[key][("call_investment_deposits","v2")] = result.get("0130")
+            periods[key][("total_current_liabilities","v2")] = sum_item_amounts(result, [
                 "0330", "0340", "0350", "0360", "0370",
             ])
         # Filter out periods that don't have all the required data
-        periods = filter_for_all_keys(periods, [
+        periods = filter_for_all_keys_versioned(periods, [
             "cash",
             "call_investment_deposits",
             "total_current_liabilities",

@@ -51,15 +51,20 @@ class UIFWExpenditure(SeriesIndicator):
     def generate_data(cls, year, values):
         result = None
         rating = None
+        cube_version = None
+
         if values:
             uifw_expenditure = values["uifw_expenditure"]
             operating_expenditure = values["operating_expenditure"]
             result = percent(uifw_expenditure, operating_expenditure)
             rating = cls.determine_rating(result)
+            cube_version = values["cube_version"]
+
         return {
             "date": year,
             "result": result,
             "rating": rating,
+            "cube_version": cube_version,
         }
 
     @classmethod
@@ -75,16 +80,16 @@ class UIFWExpenditure(SeriesIndicator):
         populate_periods(
             periods,
             group_by_year(results["operating_expenditure_actual_v1"]),
-            "operating_expenditure",
+            ("operating_expenditure","v1"),
         )
         # Populate periods with v2 data
         populate_periods(
             periods,
             group_by_year(results["operating_expenditure_actual_v2"]),
-            "operating_expenditure",
+            ("operating_expenditure","v2"),
         )
         # Filter out periods that don't have all the required data
-        periods = filter_for_all_keys(periods, [
+        periods = filter_for_all_keys_versioned(periods, [
             "uifw_expenditure", "operating_expenditure",
         ])
         # Convert periods into dictionary
