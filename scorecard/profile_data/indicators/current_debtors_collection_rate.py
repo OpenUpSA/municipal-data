@@ -3,7 +3,7 @@ from .series import SeriesIndicator
 from .utils import (
     percent,
     group_items_by_year,
-    filter_for_all_keys,
+    filter_for_all_keys_versioned,
     sum_item_amounts,
 )
 

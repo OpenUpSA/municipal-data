@@ -51,7 +51,8 @@ class TestLiquidityRatio(_IndicatorTestCase):
                         "call_investment_deposits": 10820193529,
                         "liabilities": 7873348202,
                         "result": 1.41,
-                        "rating": "good"
+                        "rating": "good",
+                        "cube_version": "v2"
                     },
                     {
                         "date": "2018",
@@ -61,7 +62,8 @@ class TestLiquidityRatio(_IndicatorTestCase):
                         "call_investment_deposits": 7437051280,
                         "liabilities": 8561736837,
                         "result": 0.9,
-                        "rating": "bad"
+                        "rating": "bad",
+                        "cube_version": "v2"
                     },
                     {
                         "date": "2017",
@@ -71,7 +73,8 @@ class TestLiquidityRatio(_IndicatorTestCase):
                         "call_investment_deposits": 4841454888,
                         "liabilities": 8848578284,
                         "result": 0.61,
-                        "rating": "bad"
+                        "rating": "bad",
+                        "cube_version": "v1"
                     },
                     {
                         "date": "2016",
@@ -81,7 +84,8 @@ class TestLiquidityRatio(_IndicatorTestCase):
                         "call_investment_deposits": 5803468186,
                         "liabilities": 9005549657,
                         "result": 0.66,
-                        "rating": "bad"
+                        "rating": "bad",
+                        "cube_version": "v1"
                     }
                 ],
                 "ref": {

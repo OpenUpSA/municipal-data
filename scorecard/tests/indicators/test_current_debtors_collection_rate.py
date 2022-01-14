@@ -59,28 +59,32 @@ class TestCurrentDebtorsCollectionRate(_IndicatorTestCase):
                         "date": "2019",
                         "amount_type": "AUDA",
                         "result": -0.58,
-                        "rating": "bad"
+                        "rating": "bad",
+                        "cube_version": "v2"
                     },
                     {
                         "year": 2018,
                         "date": "2018",
                         "amount_type": "AUDA",
                         "result": -0.15,
-                        "rating": "bad"
+                        "rating": "bad",
+                        "cube_version": "v2"
                     },
                     {
                         "year": 2017,
                         "date": "2017",
                         "amount_type": "AUDA",
                         "result": 96.76,
-                        "rating": "good"
+                        "rating": "good",
+                        "cube_version": "v1"
                     },
                     {
                         "year": 2016,
                         "date": "2016",
                         "amount_type": "AUDA",
                         "result": 99.39,
-                        "rating": "good"
+                        "rating": "good",
+                        "cube_version": "v1"
                     }
                 ],
                 "ref": {

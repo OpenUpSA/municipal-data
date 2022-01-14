@@ -44,7 +44,8 @@ class TestCurrentRatio(_IndicatorTestCase):
                         "assets": 17848394183,
                         "liabilities": 7873348202,
                         "result": 2.27,
-                        "rating": "good"
+                        "rating": "good",
+                        "cube_version": "v2"
                     },
                     {
                         "date": 2018,
@@ -53,7 +54,8 @@ class TestCurrentRatio(_IndicatorTestCase):
                         "assets": 14254084899,
                         "liabilities": 8561736837,
                         "result": 1.66,
-                        "rating": "good"
+                        "rating": "good",
+                        "cube_version": "v2"
                     },
                     {
                         "date": 2017,
@@ -62,7 +64,8 @@ class TestCurrentRatio(_IndicatorTestCase):
                         "assets": 11891860172,
                         "liabilities": 8848578284,
                         "result": 1.34,
-                        "rating": "ave"
+                        "rating": "ave",
+                        "cube_version": "v1"
                     },
                     {
                         "date": 2016,
@@ -71,7 +74,8 @@ class TestCurrentRatio(_IndicatorTestCase):
                         "assets": 12216493069,
                         "liabilities": 9005549657,
                         "result": 1.36,
-                        "rating": "ave"
+                        "rating": "ave",
+                        "cube_version": "v1"
                     }
                 ],
                 "ref": {

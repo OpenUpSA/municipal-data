@@ -47,22 +47,26 @@ class TestCashBalance(_IndicatorTestCase):
                     {
                         "date": 2019,
                         "result": 7101183182,
-                        "rating": "good"
+                        "rating": "good",
+                        "cube_version": "v2"
                     },
                     {
                         "date": 2018,
                         "result": -3448597019,
-                        "rating": "bad"
+                        "rating": "bad",
+                        "cube_version": "v2"
                     },
                     {
                         "date": 2017,
                         "result": 3773576000,
-                        "rating": "good"
+                        "rating": "good",
+                        "cube_version": "v1"
                     },
                     {
                         "date": 2016,
                         "result": 3803924000,
-                        "rating": "good"
+                        "rating": "good",
+                        "cube_version": "v1"
                     }
                 ],
                 "ref": {
