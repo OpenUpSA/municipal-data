@@ -51,14 +51,14 @@ class TestOperatingBudgetSpending(_IndicatorTestCase):
                         "result": -6.8,
                         "rating": "ave",
                         "overunder": "under",
-                        "cube_version": "v1"
+                        "cube_version": "v2"
                     },
                     {
                         "date": 2018,
                         "result": -10.6,
                         "rating": "ave",
                         "overunder": "under",
-                        "cube_version": "v1"
+                        "cube_version": "v2"
                     },
                     {
                         "date": 2017,

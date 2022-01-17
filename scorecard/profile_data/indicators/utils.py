@@ -129,6 +129,13 @@ def filter_for_all_keys_versioned(obj, keys):
     return result
 
 
+def data_source_version(year):
+    if year > 2017:
+        return "v2"
+    else:
+        return "v1"
+
+
 def year_amount_key(result):
     return (
         result["financial_year_end.year"],

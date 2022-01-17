@@ -4,7 +4,8 @@ from .utils import (
     percent,
     group_by_year,
     populate_periods,
-    filter_for_all_keys_versioned,
+    filter_for_all_keys,
+    data_source_version,
 )
 
 
@@ -60,7 +61,7 @@ class UIFWExpenditure(SeriesIndicator):
             data.update({
                 "result": result,
                 "rating": cls.determine_rating(result),
-                "cube_version": values["cube_version"],
+                "cube_version": data_source_version(year),
             })
         else:
             data.update({
@@ -77,22 +78,22 @@ class UIFWExpenditure(SeriesIndicator):
         populate_periods(
             periods,
             group_by_year(results["uifw_expenditure"]),
-            ("uifw_expenditure","v1"),
+            "uifw_expenditure",
         )
         # Populate periods with v1 data
         populate_periods(
             periods,
             group_by_year(results["operating_expenditure_actual_v1"]),
-            ("operating_expenditure","v1"),
+            "operating_expenditure",
         )
         # Populate periods with v2 data
         populate_periods(
             periods,
             group_by_year(results["operating_expenditure_actual_v2"]),
-            ("operating_expenditure","v2"),
+            "operating_expenditure",
         )
         # Filter out periods that don't have all the required data
-        periods = filter_for_all_keys_versioned(periods, [
+        periods = filter_for_all_keys(periods, [
             "uifw_expenditure", "operating_expenditure",
         ])
         # Convert periods into dictionary

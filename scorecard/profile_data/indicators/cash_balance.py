@@ -2,7 +2,8 @@ from .series import SeriesIndicator
 from .utils import (
     group_by_year,
     populate_periods,
-    filter_for_all_keys_versioned,
+    filter_for_all_keys,
+    data_source_version,
 )
 
 
@@ -42,12 +43,13 @@ class CashBalance(SeriesIndicator):
         data = {
             "date": year,
         }
+
         if values:
             cash_at_year_end = values["cash_at_year_end"]
             data.update({
                 "result": cash_at_year_end,
                 "rating": cls.determine_rating(cash_at_year_end),
-                "cube_version": values["cube_version"],
+                "cube_version": data_source_version(year),
             })
         else:
             data.update({
@@ -64,16 +66,16 @@ class CashBalance(SeriesIndicator):
         populate_periods(
             periods,
             group_by_year(results["cash_flow_v1"]),
-            ("cash_at_year_end","v1"),
+            "cash_at_year_end"
         )
         # Populate periods with v2 data
         populate_periods(
             periods,
             group_by_year(results["cash_flow_v2"]),
-            ("cash_at_year_end","v2"),
+            "cash_at_year_end",
         )
         # Filter out periods that don't have all the required data
-        periods = filter_for_all_keys_versioned(periods, [
+        periods = filter_for_all_keys(periods, [
             "cash_at_year_end",
         ])
         # Convert periods into dictionary

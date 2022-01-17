@@ -3,8 +3,9 @@ from .series import SeriesIndicator
 from .utils import (
     ratio,
     sum_item_amounts,
-    filter_for_all_keys_versioned,
+    filter_for_all_keys,
     group_items_by_year,
+    data_source_version,
 )
 
 
@@ -62,7 +63,7 @@ class CurrentRatio(SeriesIndicator):
                 "liabilities": liabilities,
                 "result": result,
                 "rating": cls.determine_rating(result),
-                "cube_version": values["cube_version"],
+                "cube_version": data_source_version(year),
             })
         else:
             data.update({
@@ -79,22 +80,22 @@ class CurrentRatio(SeriesIndicator):
         grouped_results = group_items_by_year(results["bsheet_auda_years"])
         for key, result in grouped_results:
             periods.setdefault(key, {})
-            periods[key][("assets","v1")] = result.get("2150")
-            periods[key][("liabilities","v1")] = result.get("1600")
+            periods[key]["assets"] = result.get("2150")
+            periods[key]["liabilities"] = result.get("1600")
         # Populate periods with v2 data
         grouped_results = group_items_by_year(
             results["financial_position_auda_years_v2"]
         )
         for key, result in grouped_results:
             periods.setdefault(key, {})
-            periods[key][("assets","v2")] = sum_item_amounts(result, [
+            periods[key]["assets"] = sum_item_amounts(result, [
                 "0120", "0130", "0140", "0150", "0160", "0170",
             ])
-            periods[key][("liabilities","v2")] = sum_item_amounts(result, [
+            periods[key]["liabilities"] = sum_item_amounts(result, [
                 "0330", "0340", "0350", "0360", "0370",
             ])
         # Filter out periods that don't have all the required data
-        periods = filter_for_all_keys_versioned(periods, [
+        periods = filter_for_all_keys(periods, [
             "assets", "liabilities",
         ])
         # Convert periods into dictionary

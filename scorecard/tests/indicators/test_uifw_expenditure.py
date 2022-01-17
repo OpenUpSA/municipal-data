@@ -54,13 +54,13 @@ class TestUIFWExpenditure(_IndicatorTestCase):
                         "date": 2019,
                         "result": 2.68,
                         "rating": "bad",
-                        "cube_version": "v1"
+                        "cube_version": "v2"
                     },
                     {
                         "date": 2018,
                         "result": 0.71,
                         "rating": "bad",
-                        "cube_version": "v1"
+                        "cube_version": "v2"
                     },
                     {
                         "date": 2017,
