@@ -1,6 +1,6 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Thu Jul 22 2021 18:56:46 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5fb612add2bb5208501c5c19" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Tue Jan 18 2022 09:44:13 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="6141ba7240ce65078ed9bfcd" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="An initiative of the National Treasury, which has collected extensive municipal financial data over several years and aims to share it with the public." name="description">
@@ -240,7 +240,7 @@
 </head>
 <body data-page="home">
   <div class="navigation">
-    <div data-collapse="medium" data-animation="default" data-duration="400" role="banner" class="nav w-nav">
+    <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="nav w-nav">
       <div class="plate plate--shadow-large"></div>
       <div class="container">
         <div class="nav-inner">
@@ -262,7 +262,7 @@
           </div>
           <div id="w-node-_54ec1572-a19d-23ac-5a5a-133d4c7ba1a7-4c7ba190" class="nav-search">
             <div class="nav-search___input w-form">
-              <form id="wf-form-Navigation-Search" name="wf-form-Navigation-Search" data-name="Navigation Search" class="search-input">
+              <form id="wf-form-Navigation-Search" name="wf-form-Navigation-Search" data-name="Navigation Search" method="get" class="search-input">
                 <div class="search-input__icon">
                   <div class="fas fa-search"></div>
                 </div><input type="text" class="search-input__field w-input" maxlength="256" name="municipality-search-2" data-name="Municipality Search 2" placeholder="Find a municipality..." id="municipality-search-2">
@@ -371,7 +371,7 @@
       <div class="menu-items">
         <div class="nav-search nav-search--mobile">
           <div class="nav-search___input w-form">
-            <form id="email-form" name="email-form" data-name="Email Form" class="search-input">
+            <form id="email-form" name="email-form" data-name="Email Form" method="get" class="search-input">
               <div class="search-input__icon">
                 <div class="fas fa-search"></div>
               </div><input type="text" class="search-input__field search-input__field--mobile w-input" maxlength="256" name="Municipality-Search" data-name="Municipality Search" placeholder="Find a municipality..." id="municipality-search">
@@ -412,7 +412,7 @@
             <div class="hero-search__wrap">
               <div class="hero-search">
                 <div class="hero-search___input w-form">
-                  <form id="wf-form-Navigation-Search" name="wf-form-Navigation-Search" data-name="Navigation Search" class="search-input">
+                  <form id="wf-form-Navigation-Search" name="wf-form-Navigation-Search" data-name="Navigation Search" method="get" class="search-input">
                     <div class="search-input__icon">
                       <div class="fas fa-search"></div>
                     </div><input type="text" class="search-input__field search-input__field--hero w-input" maxlength="256" name="Municipality-Search-Hero" data-name="Municipality Search Hero" placeholder="Find a municipality..." id="Municipality-Search-Hero">
@@ -447,12 +447,12 @@
                   </div>
                 </div>
               </div>
-              <div id="w-node-_9d640a44-862d-1a4c-50a5-b6481327a003-501c5c19" class="hero-search__button">
-                <a id="w-node-_9d640a44-862d-1a4c-50a5-b6481327a004-501c5c19" href="/locate" class="button button--icon-left button--align-left button--primary w-inline-block">
+              <div id="w-node-_9d640a44-862d-1a4c-50a5-b6481327a003-8ed9bfcd" class="hero-search__button">
+                <a id="w-node-_9d640a44-862d-1a4c-50a5-b6481327a004-8ed9bfcd" href="/locate" class="button button--icon-left button--align-left button--primary w-inline-block">
                   <div class="button__icon button__icon--white">
                     <div class="fas fa-street-view"></div>
                   </div>
-                  <div id="w-node-_9d640a44-862d-1a4c-50a5-b6481327a007-501c5c19">Use your location</div>
+                  <div id="w-node-_9d640a44-862d-1a4c-50a5-b6481327a007-8ed9bfcd">Use your location</div>
                 </a>
               </div>
             </div>
@@ -480,14 +480,15 @@
               <script type="application/json" class="w-json">
                   {
                     "items": [{
-                      "type": "video",
-                      "originalUrl": "https://www.youtube.com/watch?v=HeQiX_e8ubg",
                       "url": "https://www.youtube.com/watch?v=HeQiX_e8ubg",
-                      "html": "<iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FHeQiX_e8ubg%3Ffeature%3Doembed&display_name=YouTube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DHeQiX_e8ubg&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FHeQiX_e8ubg%2Fhqdefault.jpg&key=c4e54deccf4d4ec997a64902e9a30300&type=text%2Fhtml&schema=youtube\" width=\"940\" height=\"528\" scrolling=\"no\" title=\"YouTube embed\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen=\"true\"></iframe>",
-                      "thumbnailUrl": "https://i.ytimg.com/vi/HeQiX_e8ubg/hqdefault.jpg",
+                      "originalUrl": "https://www.youtube.com/watch?v=HeQiX_e8ubg",
                       "width": 940,
-                      "height": 528
-                    }]
+                      "height": 528,
+                      "thumbnailUrl": "https://i.ytimg.com/vi/HeQiX_e8ubg/hqdefault.jpg",
+                      "html": "<iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FHeQiX_e8ubg%3Ffeature%3Doembed&display_name=YouTube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DHeQiX_e8ubg&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FHeQiX_e8ubg%2Fhqdefault.jpg&key=c4e54deccf4d4ec997a64902e9a30300&type=text%2Fhtml&schema=youtube\" width=\"940\" height=\"528\" scrolling=\"no\" title=\"YouTube embed\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen=\"true\"></iframe>",
+                      "type": "video"
+                    }],
+                    "group": ""
                   }
                 </script>
             </a>
@@ -497,14 +498,15 @@
                 <script type="application/json" class="w-json">
                     {
                       "items": [{
-                        "type": "video",
-                        "originalUrl": "https://www.youtube.com/watch?v=41tSx8TbSfI",
                         "url": "https://www.youtube.com/watch?v=41tSx8TbSfI",
-                        "html": "<iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2F41tSx8TbSfI%3Ffeature%3Doembed&display_name=YouTube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D41tSx8TbSfI&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2F41tSx8TbSfI%2Fhqdefault.jpg&key=96f1f04c5f4143bcb0f2e68c87d65feb&type=text%2Fhtml&schema=youtube\" width=\"940\" height=\"528\" scrolling=\"no\" title=\"YouTube embed\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen=\"true\"></iframe>",
-                        "thumbnailUrl": "https://i.ytimg.com/vi/41tSx8TbSfI/hqdefault.jpg",
+                        "originalUrl": "https://www.youtube.com/watch?v=41tSx8TbSfI",
                         "width": 940,
-                        "height": 528
-                      }]
+                        "height": 528,
+                        "thumbnailUrl": "https://i.ytimg.com/vi/41tSx8TbSfI/hqdefault.jpg",
+                        "html": "<iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2F41tSx8TbSfI%3Ffeature%3Doembed&display_name=YouTube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D41tSx8TbSfI&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2F41tSx8TbSfI%2Fhqdefault.jpg&key=96f1f04c5f4143bcb0f2e68c87d65feb&type=text%2Fhtml&schema=youtube\" width=\"940\" height=\"528\" scrolling=\"no\" title=\"YouTube embed\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen=\"true\"></iframe>",
+                        "type": "video"
+                      }],
+                      "group": ""
                     }
                   </script>
               </a>
@@ -513,14 +515,15 @@
                 <script type="application/json" class="w-json">
                     {
                       "items": [{
-                        "type": "video",
-                        "originalUrl": "https://www.youtube.com/watch?v=lhRjlU_ng18",
                         "url": "https://www.youtube.com/watch?v=lhRjlU_ng18",
-                        "html": "<iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FlhRjlU_ng18%3Ffeature%3Doembed&display_name=YouTube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DlhRjlU_ng18&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FlhRjlU_ng18%2Fhqdefault.jpg&key=96f1f04c5f4143bcb0f2e68c87d65feb&type=text%2Fhtml&schema=youtube\" width=\"940\" height=\"528\" scrolling=\"no\" title=\"YouTube embed\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen=\"true\"></iframe>",
-                        "thumbnailUrl": "https://i.ytimg.com/vi/lhRjlU_ng18/hqdefault.jpg",
+                        "originalUrl": "https://www.youtube.com/watch?v=lhRjlU_ng18",
                         "width": 940,
-                        "height": 528
-                      }]
+                        "height": 528,
+                        "thumbnailUrl": "https://i.ytimg.com/vi/lhRjlU_ng18/hqdefault.jpg",
+                        "html": "<iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FlhRjlU_ng18%3Ffeature%3Doembed&display_name=YouTube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DlhRjlU_ng18&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FlhRjlU_ng18%2Fhqdefault.jpg&key=96f1f04c5f4143bcb0f2e68c87d65feb&type=text%2Fhtml&schema=youtube\" width=\"940\" height=\"528\" scrolling=\"no\" title=\"YouTube embed\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen=\"true\"></iframe>",
+                        "type": "video"
+                      }],
+                      "group": ""
                     }
                   </script>
               </a>
@@ -529,14 +532,15 @@
                 <script type="application/json" class="w-json">
                     {
                       "items": [{
-                        "type": "video",
-                        "originalUrl": "https://www.youtube.com/watch?v=KPmRJ9PGfV8&feature=emb_logo",
                         "url": "https://www.youtube.com/watch?v=KPmRJ9PGfV8&feature=emb_logo",
-                        "html": "<iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FKPmRJ9PGfV8%3Ffeature%3Doembed&display_name=YouTube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DKPmRJ9PGfV8&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FKPmRJ9PGfV8%2Fhqdefault.jpg&key=96f1f04c5f4143bcb0f2e68c87d65feb&type=text%2Fhtml&schema=youtube\" width=\"940\" height=\"528\" scrolling=\"no\" title=\"YouTube embed\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen=\"true\"></iframe>",
-                        "thumbnailUrl": "https://i.ytimg.com/vi/KPmRJ9PGfV8/hqdefault.jpg",
+                        "originalUrl": "https://www.youtube.com/watch?v=KPmRJ9PGfV8&feature=emb_logo",
                         "width": 940,
-                        "height": 528
-                      }]
+                        "height": 528,
+                        "thumbnailUrl": "https://i.ytimg.com/vi/KPmRJ9PGfV8/hqdefault.jpg",
+                        "html": "<iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FKPmRJ9PGfV8%3Ffeature%3Doembed&display_name=YouTube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DKPmRJ9PGfV8&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FKPmRJ9PGfV8%2Fhqdefault.jpg&key=96f1f04c5f4143bcb0f2e68c87d65feb&type=text%2Fhtml&schema=youtube\" width=\"940\" height=\"528\" scrolling=\"no\" title=\"YouTube embed\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen=\"true\"></iframe>",
+                        "type": "video"
+                      }],
+                      "group": ""
                     }
                   </script>
               </a>
@@ -545,29 +549,30 @@
                 <script type="application/json" class="w-json">
                     {
                       "items": [{
-                        "type": "video",
-                        "originalUrl": "https://www.youtube.com/watch?v=ykTHwL41cg0&feature=emb_logo",
                         "url": "https://www.youtube.com/watch?v=ykTHwL41cg0&feature=emb_logo",
-                        "html": "<iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FykTHwL41cg0%3Ffeature%3Doembed&display_name=YouTube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DykTHwL41cg0&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FykTHwL41cg0%2Fhqdefault.jpg&key=96f1f04c5f4143bcb0f2e68c87d65feb&type=text%2Fhtml&schema=youtube\" width=\"940\" height=\"528\" scrolling=\"no\" title=\"YouTube embed\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen=\"true\"></iframe>",
-                        "thumbnailUrl": "https://i.ytimg.com/vi/ykTHwL41cg0/hqdefault.jpg",
+                        "originalUrl": "https://www.youtube.com/watch?v=ykTHwL41cg0&feature=emb_logo",
                         "width": 940,
-                        "height": 528
-                      }]
+                        "height": 528,
+                        "thumbnailUrl": "https://i.ytimg.com/vi/ykTHwL41cg0/hqdefault.jpg",
+                        "html": "<iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FykTHwL41cg0%3Ffeature%3Doembed&display_name=YouTube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DykTHwL41cg0&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FykTHwL41cg0%2Fhqdefault.jpg&key=96f1f04c5f4143bcb0f2e68c87d65feb&type=text%2Fhtml&schema=youtube\" width=\"940\" height=\"528\" scrolling=\"no\" title=\"YouTube embed\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen=\"true\"></iframe>",
+                        "type": "video"
+                      }],
+                      "group": ""
                     }
                   </script>
               </a>
             </div>
           </div>
         </div>
-        <div id="w-node-_0ac3666e-e34b-8f2f-3f44-4db17d075bb2-501c5c19" class="layout-grid__col layout-grid__col--v layout-grid__col--justify-center">
+        <div id="w-node-_0ac3666e-e34b-8f2f-3f44-4db17d075bb2-8ed9bfcd" class="layout-grid__col layout-grid__col--v layout-grid__col--justify-center">
           <h3 class="heading heading--clear-bottom heading--clear-top">Municipal Money is our money, spent in our name.</h3>
           <p class="paragraph-large">As citizens, we should know how this money has been spent and also have a say in how money is spent in the future to better our lives.</p>
           <div class="button-wrap button-wrap--margin-top">
-            <a id="w-node-_2d80db01-ddad-bfcb-db9c-7ad7223a4871-501c5c19" href="/help" class="button button--icon-left button--align-left button--primary w-inline-block">
+            <a id="w-node-_2d80db01-ddad-bfcb-db9c-7ad7223a4871-8ed9bfcd" href="/help" class="button button--icon-left button--align-left button--primary w-inline-block">
               <div class="button__icon button__icon--white">
                 <div class="fas fa-info"></div>
               </div>
-              <div id="w-node-_470e8d9c-d0ac-3b75-d69c-3df19d1689bb-501c5c19">Learn more</div>
+              <div id="w-node-_470e8d9c-d0ac-3b75-d69c-3df19d1689bb-8ed9bfcd">Learn more</div>
             </a>
             <link rel="prefetch" href="/help">
           </div>
@@ -932,7 +937,7 @@
           </div>
           <div class="bar-chart">
             <div class="bar-chart__row">
-              <div id="w-node-_9af371ec-2a02-72bc-314e-12d9c7607429-501c5c19" class="label label--small truncate">Chart label</div>
+              <div id="w-node-_9af371ec-2a02-72bc-314e-12d9c7607429-8ed9bfcd" class="label label--small truncate">Chart label</div>
               <div class="bar-chart__hover-label">
                 <div class="label label--small">Chart label that shows on hover of the label</div>
               </div>
@@ -944,7 +949,7 @@
               </div>
             </div>
             <div class="bar-chart__row">
-              <div id="w-node-_9af371ec-2a02-72bc-314e-12d9c7607435-501c5c19" class="label label--small truncate">Chart label that is too long to fit on one line</div>
+              <div id="w-node-_9af371ec-2a02-72bc-314e-12d9c7607435-8ed9bfcd" class="label label--small truncate">Chart label that is too long to fit on one line</div>
               <div class="bar-chart__hover-label">
                 <div class="label label--small">Chart label that is too long to fit on one line</div>
               </div>
