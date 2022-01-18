@@ -8,8 +8,6 @@ from .utils import (
     data_source_version,
 )
 
-import logging
-logger = logging.Logger(__name__)
 
 class OperatingBudgetSpending(SeriesIndicator):
     """
@@ -95,26 +93,22 @@ class OperatingBudgetSpending(SeriesIndicator):
         populate_periods(
             periods,
             group_by_year(results["operating_expenditure_actual_v1"]),
-            #("operating_expenditure_actual","v1"),
             "operating_expenditure_actual",
         )
         populate_periods(
             periods,
             group_by_year(results["operating_expenditure_budget_v1"]),
-            #("operating_expenditure_budget","v1"),
             "operating_expenditure_budget",
         )
         # Populate periods with v2 data
         populate_periods(
             periods,
             group_by_year(results["operating_expenditure_actual_v2"]),
-            #("operating_expenditure_actual","v2"),
             "operating_expenditure_actual",
         )
         populate_periods(
             periods,
             group_by_year(results["operating_expenditure_budget_v2"]),
-            #("operating_expenditure_budget","v2"),
             "operating_expenditure_budget",
         )
         # Filter out periods that don't have all the required data

@@ -43,7 +43,6 @@ class CashBalance(SeriesIndicator):
         data = {
             "date": year,
         }
-
         if values:
             cash_at_year_end = values["cash_at_year_end"]
             data.update({
@@ -66,7 +65,7 @@ class CashBalance(SeriesIndicator):
         populate_periods(
             periods,
             group_by_year(results["cash_flow_v1"]),
-            "cash_at_year_end"
+            "cash_at_year_end",
         )
         # Populate periods with v2 data
         populate_periods(
