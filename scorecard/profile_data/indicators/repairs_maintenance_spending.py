@@ -5,6 +5,7 @@ from .utils import (
     populate_periods,
     group_by_year,
     filter_for_all_keys,
+    data_source_version,
 )
 
 
@@ -20,6 +21,35 @@ class RepairsMaintenanceSpending(SeriesIndicator):
     has_comparisons = True
     reference = "circular71"
     formula = {
+        "text": "= (Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)) * 100",
+        "actual": [
+            "=", 
+            "(",
+            {
+                "cube": "capital",
+                "item_codes": ["4100"],
+                "amount_type": "AUDA",
+            },
+            "/",
+            "(",
+            {
+                "cube": "bsheet",
+                "item_codes": ["1300"],
+                "amount_type": "AUDA",
+            },
+            "+",
+            {
+                "cube": "bsheet",
+                "item_codes": ["1401"],
+                "amount_type": "AUDA",
+            },
+            ")",
+            ")",
+            "*",
+            "100",
+        ],
+    }
+    formula_v2 = {
         "text": "= (Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)) * 100",
         "actual": [
             "=", 
@@ -74,11 +104,13 @@ class RepairsMaintenanceSpending(SeriesIndicator):
             data.update({
                 "result": result,
                 "rating": cls.determine_rating(result),
+                "cube_version": data_source_version(year),
             })
         else:
             data.update({
                 "result": None,
                 "rating": None,
+                "cube_version": None,
             })
         return data
 

@@ -40,6 +40,26 @@ class UIFWExpenditure(SeriesIndicator):
             "100",
         ],
     }
+    formula_v2 = {
+        "text": "= (Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure) * 100",
+        "actual": [
+            "=",
+            "(",
+            {
+                "cube": "uifwexp",
+                "item_codes": ["irregular", "fruitless", "unauthorised"],
+            },
+            "/",
+            {
+                "cube": "incexp",
+                "item_codes": ["4600"],
+                "amount_type": "AUDA",
+            },
+            ")",
+            "*",
+            "100",
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, result):

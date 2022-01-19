@@ -45,6 +45,31 @@ class CurrentDebtorsCollectionRate(SeriesIndicator):
             "100",
         ],
     }
+    formula_v2 = {
+        "text": "= (Collected Revenue / Billed Revenue) * 100",
+        "actual": [
+            "=", 
+            "(",
+            {
+                "cube": "cflow",
+                "item_codes": [
+                    "3010", "3030", "3040", "3050", "3060", "3070", "3100",
+                ],
+                "amount_type": "AUDA",
+            },
+            "/",
+            {
+                "cube": "incexp",
+                "item_codes": [
+                    "0200", "0300", "0400", "0500", "0600", "0800", "0900", "1000",
+                ],
+                "amount_type": "AUDA",
+            },
+            ")",
+            "*",
+            "100",
+        ],
+    }
 
     @classmethod
     def detemine_rating(cls, result):

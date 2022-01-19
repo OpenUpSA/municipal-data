@@ -48,6 +48,35 @@ class CapitalBudgetSpending(SeriesIndicator):
             "100",
         ],
     }
+    formula_v2 = {
+        "text": "= ((Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure) * 100",
+        "actual": [
+            "=",
+            "(",
+            "(",
+            {
+                "cube": "capital",
+                "item_codes": ["4100"],
+                "amount_type": "AUDA",
+            },
+            "-",
+            {
+                "cube": "capital",
+                "item_codes": ["4100"],
+                "amount_type": "ADJB",
+            },
+            ")",
+            "/",
+            {
+                "cube": "capital",
+                "item_codes": ["4100"],
+                "amount_type": "ADJB",
+            },
+            ")",
+            "*",
+            "100",
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, result):

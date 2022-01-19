@@ -85,5 +85,16 @@ class TestCashBalance(_IndicatorTestCase):
                         }
                     ],
                 },
+                "formula_v2": {
+                    "text": "= Cash available at year end",
+                    "actual": [
+                        "=", 
+                        {
+                            "cube": "cflow",
+                            "item_codes": ["4200"],
+                            "amount_type": "AUDA",
+                        }
+                    ],
+                },
             }
         )

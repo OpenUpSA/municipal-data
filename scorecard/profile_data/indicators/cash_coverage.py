@@ -39,6 +39,27 @@ class CashCoverage(SeriesIndicator):
             ")",
         ],
     }
+    formula_v2 = {
+        "text": "= Cash available at year end / Operating Expenditure per month",
+        "actual": [
+            "=", 
+            {
+                "cube": "cflow",
+                "item_codes": ["4200"],
+                "amount_type": "AUDA",
+            },
+            "/",
+            "(",
+            {
+                "cube": "incexp",
+                "item_codes": ["4600"],
+                "amount_type": "ADJB",
+            },
+            "/",
+            "12",
+            ")",
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, result):

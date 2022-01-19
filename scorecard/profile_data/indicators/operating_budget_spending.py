@@ -49,6 +49,35 @@ class OperatingBudgetSpending(SeriesIndicator):
             "100",
         ],
     }
+    formula_v2 = {
+        "text": "= ((Actual Operating Expenditure - Budget Operating Expenditure) / Budgeted Operating Expenditure) * 100",
+        "actual": [
+            "=", 
+            "(",
+            "(",
+            {
+                "cube": "incexp",
+                "item_codes": ["4600"],
+                "amount_type": "AUDA",
+            },
+            "-",
+            {
+                "cube": "incexp",
+                "item_codes": ["4600"],
+                "amount_type": "ADJB",
+            },
+            ")",
+            "/",
+            {
+                "cube": "incexp",
+                "item_codes": ["4600"],
+                "amount_type": "ADJB",
+            },
+            ")",
+            "*",
+            "100",
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, result):

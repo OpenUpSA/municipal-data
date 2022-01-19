@@ -36,6 +36,23 @@ class LiquidityRatio(SeriesIndicator):
             },
         ],
     }
+    formula_v2 = {
+        "text": "= (Cash + Call Investment Deposits) / Current Liabilities",
+        "actual": [
+            "=", 
+            {
+                "cube": "bsheet",
+                "item_codes": ["1800", "2200"],
+                "amount_type": "AUDA",
+            },
+            "/",
+            {
+                "cube": "bsheet",
+                "item_codes": ["1600"],
+                "amount_type": "AUDA",
+            },
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, result):

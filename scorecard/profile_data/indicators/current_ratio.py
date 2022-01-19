@@ -37,6 +37,23 @@ class CurrentRatio(SeriesIndicator):
             },
         ],
     }
+    formula_v2 = {
+        "text": "= Current Assets / Current Liabilities",
+        "actual": [
+            "=", 
+            {
+                "cube": "bsheet",
+                "item_codes": ["2150"],
+                "amount_type": "AUDA",
+            },
+            "/",
+            {
+                "cube": "bsheet",
+                "item_codes": ["1600"],
+                "amount_type": "AUDA",
+            },
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, value):

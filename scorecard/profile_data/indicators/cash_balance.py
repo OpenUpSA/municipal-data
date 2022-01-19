@@ -28,6 +28,17 @@ class CashBalance(SeriesIndicator):
             }
         ],
     }
+    formula_v2 = {
+        "text": "= Cash available at year end",
+        "actual": [
+            "=", 
+            {
+                "cube": "cflow_v2",
+                "item_codes": ["4200"],
+                "amount_type": "AUDA",
+            }
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, result):
