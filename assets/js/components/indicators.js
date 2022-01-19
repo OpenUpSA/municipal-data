@@ -78,8 +78,6 @@ export class IndicatorSection {
   }
 
   _initCalculation() {
-    const geo_code = this.geography.geo_code;
-    const last_year = this.sectionData.last_year;
     // Render the calculation reference
     const referenceData = this.sectionData.ref;
     const $referenceEl = this.$element.find(".indicator-calculation__reference");
@@ -90,49 +88,25 @@ export class IndicatorSection {
       $referenceEl.append($el);
     }
     // Render the formula data
+    const formulaDataV2 = this.sectionData.formula_v2;
     const formulaData = this.sectionData.formula;
+
+    if (formulaDataV2) {
+      const textData = formulaDataV2.text;
+      const $textEl = this.$element.find(".indicator-calculation__formula-text");
+      if ($textEl.length && textData) {
+          $textEl.text(textData);
+      }
+      this.setFormulaLink(formulaDataV2, ".is--post-2019-20")
+    }
+
     if (formulaData) {
       const textData = formulaData.text;
       const $textEl = this.$element.find(".indicator-calculation__formula-text");
       if ($textEl.length && textData) {
           $textEl.text(textData);
       }
-      const actualData = formulaData.actual;
-      const $actualEl = this.$element.find(".indicator-calculation__formula-actual");
-      if ($actualEl.length && actualData) {
-        const components = Object.values(actualData).map((data) => {
-          if (typeof data === 'string') {
-            return data;
-          } else {
-            const $el = $('<a></a>');
-            let params = {};
-            let text = '';
-            let cube_name = this.cubeNames[data.cube];
-            let amount_type = data.amount_type;
-            amount_type = this.amountTypes[amount_type] || amount_type;
-            // Set the query parameters
-            params['municipalities'] = geo_code;
-            params['year'] = last_year;
-            params['items'] = data.item_codes;
-            if (data.amount_type) {
-              params['amountType'] = data.amount_type;
-            }
-            // Generate the text
-            text += `[${cube_name}]`;
-            text += ` item code ${data.item_codes.join(',')}`;
-            if (data.amount_type) {
-              text += `, ${amount_type}`;
-            }
-            params = new URLSearchParams(params).toString();
-            const url = `${DATA_PORTAL_URL}/table/${data.cube}/?${params}`;
-            $el.text(text);
-            $el.attr('href', url);
-            return $el;
-          }
-        })
-        // Append the components to the element
-        $actualEl.append(arrayJoin(components, '&nbsp;'));
-      }
+      this.setFormulaLink(formulaData, ".is--pre-2019-20")
     }
   }
 
@@ -152,6 +126,49 @@ export class IndicatorSection {
     $element.insertBefore($skeleton);
     $skeleton.remove();
   }
+
+  setFormulaLink(formulaData, container) {
+    const geo_code = this.geography.geo_code;
+    const last_year = this.sectionData.last_year;
+    const actualData = formulaData.actual;
+
+    const $actualEl = this.$element.find(container);
+    if ($actualEl.length && actualData) {
+      const components = Object.values(actualData).map((data) => {
+        if (typeof data === 'string') {
+          return data;
+        } else {
+          const $el = $('<a></a>');
+          let params = {};
+          let text = '';
+          let cube_name = this.cubeNames[data.cube];
+          let amount_type = data.amount_type;
+          amount_type = this.amountTypes[amount_type] || amount_type;
+          // Set the query parameters
+          params['municipalities'] = geo_code;
+          params['year'] = last_year;
+          params['items'] = data.item_codes;
+          if (data.amount_type) {
+            params['amountType'] = data.amount_type;
+          }
+          // Generate the text
+          text += `[${cube_name}]`;
+          text += ` item code ${data.item_codes.join(',')}`;
+          if (data.amount_type) {
+            text += `, ${amount_type}`;
+          }
+          params = new URLSearchParams(params).toString();
+          const url = `${DATA_PORTAL_URL}/table/${data.cube}/?${params}`;
+          $el.text(text);
+          $el.attr('href', url);
+          return $el;
+        }
+      })
+      // Append the components to the element
+      $actualEl.append(arrayJoin(components, '&nbsp;'));
+    }
+  }
+
 
   chartData() {
     const items = this.sectionData.values.map((item) => {
