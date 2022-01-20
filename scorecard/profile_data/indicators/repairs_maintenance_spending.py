@@ -55,20 +55,20 @@ class RepairsMaintenanceSpending(SeriesIndicator):
             "=", 
             "(",
             {
-                "cube": "capital",
+                "cube": "capital_v2",
                 "item_codes": ["4100"],
                 "amount_type": "AUDA",
             },
             "/",
             "(",
             {
-                "cube": "bsheet",
+                "cube": "bsheet_v2",
                 "item_codes": ["1300"],
                 "amount_type": "AUDA",
             },
             "+",
             {
-                "cube": "bsheet",
+                "cube": "bsheet_v2",
                 "item_codes": ["1401"],
                 "amount_type": "AUDA",
             },

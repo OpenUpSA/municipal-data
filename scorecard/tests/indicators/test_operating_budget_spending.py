@@ -109,5 +109,34 @@ class TestOperatingBudgetSpending(_IndicatorTestCase):
                         "100",
                     ],
                 },
+                "formula_v2": {
+                    "text": "= ((Actual Operating Expenditure - Budget Operating Expenditure) / Budgeted Operating Expenditure) * 100",
+                    "actual": [
+                        "=", 
+                        "(",
+                        "(",
+                        {
+                            "cube": "incexp_v2",
+                            "item_codes": ["4600"],
+                            "amount_type": "AUDA",
+                        },
+                        "-",
+                        {
+                            "cube": "incexp_v2",
+                            "item_codes": ["4600"],
+                            "amount_type": "ADJB",
+                        },
+                        ")",
+                        "/",
+                        {
+                            "cube": "incexp_v2",
+                            "item_codes": ["4600"],
+                            "amount_type": "ADJB",
+                        },
+                        ")",
+                        "*",
+                        "100",
+                    ],
+                },
             },
         )

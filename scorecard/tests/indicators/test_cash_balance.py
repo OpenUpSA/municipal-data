@@ -1,4 +1,3 @@
-
 from ...profile_data import ApiData
 from ...profile_data.indicators import (
     CashBalance,
@@ -90,7 +89,7 @@ class TestCashBalance(_IndicatorTestCase):
                     "actual": [
                         "=", 
                         {
-                            "cube": "cflow",
+                            "cube": "cflow_v2",
                             "item_codes": ["4200"],
                             "amount_type": "AUDA",
                         }

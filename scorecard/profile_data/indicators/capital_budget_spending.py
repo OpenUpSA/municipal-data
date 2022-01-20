@@ -1,4 +1,3 @@
-
 from .series import SeriesIndicator
 from .utils import (
     group_by_year,
@@ -55,20 +54,20 @@ class CapitalBudgetSpending(SeriesIndicator):
             "(",
             "(",
             {
-                "cube": "capital",
+                "cube": "capital_v2",
                 "item_codes": ["4100"],
                 "amount_type": "AUDA",
             },
             "-",
             {
-                "cube": "capital",
+                "cube": "capital_v2",
                 "item_codes": ["4100"],
                 "amount_type": "ADJB",
             },
             ")",
             "/",
             {
-                "cube": "capital",
+                "cube": "capital_v2",
                 "item_codes": ["4100"],
                 "amount_type": "ADJB",
             },

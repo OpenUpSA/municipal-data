@@ -100,5 +100,22 @@ class TestCurrentRatio(_IndicatorTestCase):
                         },
                     ],
                 },
+                "formula_v2": {
+                    "text": "= Current Assets / Current Liabilities",
+                    "actual": [
+                        "=", 
+                        {
+                            "cube": "bsheet_v2",
+                            "item_codes": ["2150"],
+                            "amount_type": "AUDA",
+                        },
+                        "/",
+                        {
+                            "cube": "bsheet_v2",
+                            "item_codes": ["1600"],
+                            "amount_type": "AUDA",
+                        },
+                    ],
+                },
             }
         )

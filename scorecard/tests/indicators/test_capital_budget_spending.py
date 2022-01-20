@@ -229,5 +229,34 @@ class TestCapitalBudgetSpendingQueryAndCalculator(_IndicatorTestCase):
                         "100",
                     ],
                 },
+                "formula_v2": {
+                    "text": "= ((Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure) * 100",
+                    "actual": [
+                        "=",
+                        "(",
+                        "(",
+                        {
+                            "cube": "capital_v2",
+                            "item_codes": ["4100"],
+                            "amount_type": "AUDA",
+                        },
+                        "-",
+                        {
+                            "cube": "capital_v2",
+                            "item_codes": ["4100"],
+                            "amount_type": "ADJB",
+                        },
+                        ")",
+                        "/",
+                        {
+                            "cube": "capital_v2",
+                            "item_codes": ["4100"],
+                            "amount_type": "ADJB",
+                        },
+                        ")",
+                        "*",
+                        "100",
+                    ],
+                },
             },
         )

@@ -46,12 +46,12 @@ class UIFWExpenditure(SeriesIndicator):
             "=",
             "(",
             {
-                "cube": "uifwexp",
+                "cube": "uifwexp_v2",
                 "item_codes": ["irregular", "fruitless", "unauthorised"],
             },
             "/",
             {
-                "cube": "incexp",
+                "cube": "incexp_v2",
                 "item_codes": ["4600"],
                 "amount_type": "AUDA",
             },

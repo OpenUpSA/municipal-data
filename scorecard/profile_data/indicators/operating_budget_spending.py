@@ -56,20 +56,20 @@ class OperatingBudgetSpending(SeriesIndicator):
             "(",
             "(",
             {
-                "cube": "incexp",
+                "cube": "incexp_v2",
                 "item_codes": ["4600"],
                 "amount_type": "AUDA",
             },
             "-",
             {
-                "cube": "incexp",
+                "cube": "incexp_v2",
                 "item_codes": ["4600"],
                 "amount_type": "ADJB",
             },
             ")",
             "/",
             {
-                "cube": "incexp",
+                "cube": "incexp_v2",
                 "item_codes": ["4600"],
                 "amount_type": "ADJB",
             },

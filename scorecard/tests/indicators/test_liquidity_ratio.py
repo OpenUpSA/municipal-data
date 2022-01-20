@@ -110,5 +110,22 @@ class TestLiquidityRatio(_IndicatorTestCase):
                         },
                     ],
                 },
+                "formula_v2": {
+                    "text": "= (Cash + Call Investment Deposits) / Current Liabilities",
+                    "actual": [
+                        "=", 
+                        {
+                            "cube": "bsheet_v2",
+                            "item_codes": ["1800", "2200"],
+                            "amount_type": "AUDA",
+                        },
+                        "/",
+                        {
+                            "cube": "bsheet_v2",
+                            "item_codes": ["1600"],
+                            "amount_type": "AUDA",
+                        },
+                    ],
+                },
             }
         )

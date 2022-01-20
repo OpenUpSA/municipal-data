@@ -1,4 +1,3 @@
-
 from ...profile_data import ApiData
 from ...profile_data.indicators import (
     CurrentDebtorsCollectionRate,
@@ -107,6 +106,31 @@ class TestCurrentDebtorsCollectionRate(_IndicatorTestCase):
                         "/",
                         {
                             "cube": "incexp",
+                            "item_codes": [
+                                "0200", "0300", "0400", "0500", "0600", "0800", "0900", "1000",
+                            ],
+                            "amount_type": "AUDA",
+                        },
+                        ")",
+                        "*",
+                        "100",
+                    ],
+                },
+                "formula_v2": {
+                    "text": "= (Collected Revenue / Billed Revenue) * 100",
+                    "actual": [
+                        "=", 
+                        "(",
+                        {
+                            "cube": "cflow_v2",
+                            "item_codes": [
+                                "3010", "3030", "3040", "3050", "3060", "3070", "3100",
+                            ],
+                            "amount_type": "AUDA",
+                        },
+                        "/",
+                        {
+                            "cube": "incexp_v2",
                             "item_codes": [
                                 "0200", "0300", "0400", "0500", "0600", "0800", "0900", "1000",
                             ],

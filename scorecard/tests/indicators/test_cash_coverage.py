@@ -1,4 +1,3 @@
-
 from ...profile_data import ApiData
 from ...profile_data.indicators import (
     CashCoverage,
@@ -59,22 +58,26 @@ class TestCashCoverage(_IndicatorTestCase):
                     {
                         "date": 2019,
                         "result": 2.4,
-                        "rating": "ave"
+                        "rating": "ave",
+                        "cube_version": "v2"
                     },
                     {
                         "date": 2018,
                         "result": 0,
-                        "rating": "bad"
+                        "rating": "bad",
+                        "cube_version": "v2"
                     },
                     {
                         "date": 2017,
                         "result": 1.4,
-                        "rating": "ave"
+                        "rating": "ave",
+                        "cube_version": "v1"
                     },
                     {
                         "date": 2016,
                         "result": 1.5,
-                        "rating": "ave"
+                        "rating": "ave",
+                        "cube_version": "v1"
                     }
                 ],
                 "ref": {
@@ -95,6 +98,27 @@ class TestCashCoverage(_IndicatorTestCase):
                         "(",
                         {
                             "cube": "incexp",
+                            "item_codes": ["4600"],
+                            "amount_type": "ADJB",
+                        },
+                        "/",
+                        "12",
+                        ")",
+                    ],
+                },
+                "formula_v2": {
+                    "text": "= Cash available at year end / Operating Expenditure per month",
+                    "actual": [
+                        "=", 
+                        {
+                            "cube": "cflow_v2",
+                            "item_codes": ["4200"],
+                            "amount_type": "AUDA",
+                        },
+                        "/",
+                        "(",
+                        {
+                            "cube": "incexp_v2",
                             "item_codes": ["4600"],
                             "amount_type": "ADJB",
                         },

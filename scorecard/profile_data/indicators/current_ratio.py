@@ -42,13 +42,13 @@ class CurrentRatio(SeriesIndicator):
         "actual": [
             "=", 
             {
-                "cube": "bsheet",
+                "cube": "bsheet_v2",
                 "item_codes": ["2150"],
                 "amount_type": "AUDA",
             },
             "/",
             {
-                "cube": "bsheet",
+                "cube": "bsheet_v2",
                 "item_codes": ["1600"],
                 "amount_type": "AUDA",
             },

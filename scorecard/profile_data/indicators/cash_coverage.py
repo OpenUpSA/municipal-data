@@ -5,6 +5,7 @@ from .utils import (
     group_by_year,
     filter_for_all_keys,
     populate_periods,
+    data_source_version,
 )
 
 
@@ -44,14 +45,14 @@ class CashCoverage(SeriesIndicator):
         "actual": [
             "=", 
             {
-                "cube": "cflow",
+                "cube": "cflow_v2",
                 "item_codes": ["4200"],
                 "amount_type": "AUDA",
             },
             "/",
             "(",
             {
-                "cube": "incexp",
+                "cube": "incexp_v2",
                 "item_codes": ["4600"],
                 "amount_type": "ADJB",
             },
@@ -83,11 +84,13 @@ class CashCoverage(SeriesIndicator):
             data.update({
                 "result": result,
                 "rating": cls.determine_rating(result),
+                "cube_version": data_source_version(year),
             })
         else:
             data.update({
                 "result": None,
                 "rating": None,
+                "cube_version": None,
             })
         return data
 
