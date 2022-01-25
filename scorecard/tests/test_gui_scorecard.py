@@ -14,10 +14,11 @@ class ScorecardTest(BaseSeleniumTestCase):
         
         Site.objects.filter(id=2).update(domain='municipalmoney.org.za', name='Scorecard')
 
-    def test_quarterly_chart(self):
+    def test_scorecard_formula(self):
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/"))
 
-        self.wait_until_text_in(".page-heading__title", "Buffalo City")
-
-        
+        self.wait_until_text_in("#cash-balance", "Cash Balance")
+        self.wait_until_text_in(".indicator-detail", "Cash balance at the end of the financial year.")
+        self.wait_until_text_in(".layout-grid__col--border-right", "Show calculation")
+        #self.wait_until_text_in(".expand-block__content_inner", "[Cash Flow] item code 4200, Audited Actual")
