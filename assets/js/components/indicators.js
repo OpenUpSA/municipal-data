@@ -91,6 +91,12 @@ export class IndicatorSection {
     const formulaDataV2 = this.sectionData.formula_v2;
     const formulaData = this.sectionData.formula;
 
+    if (this.sectionData.values[this.sectionData.values.length - 1].cube_version == "v2"){
+      $(".is--pre-2019-20").hide()
+      $(".is--pre-2019-20").prev().hide()
+      $(".is--post-2019-20").prev().hide()
+    }
+
     if (formulaDataV2) {
       const textData = formulaDataV2.text;
       const $textEl = this.$element.find(".indicator-calculation__formula-text");
