@@ -1,20 +1,9 @@
 import json
-from infrastructure.models import FinancialYear
 
 from django.test import (
     TransactionTestCase,
     Client,
     override_settings,
-)
-
-from . import (
-    import_data,
-)
-from .resources import (
-    GeographyResource,
-    MunicipalityProfileResource,
-    MedianGroupResource,
-    RatingCountGroupResource,
 )
 
 
@@ -24,31 +13,12 @@ from .resources import (
 )
 class GeographyDetailViewTestCase(TransactionTestCase):
     serialized_rollback = True
+    fixtures = ["seeddata", "demo-data", "compiled_profile"]
 
     def test_context(self):
-        # Import sample data
-        import_data(
-            GeographyResource,
-            "views/scorecard_geography.csv",
-        )
-        import_data(
-            MunicipalityProfileResource,
-            "views/municipality_profile.csv",
-        )
-        import_data(
-            MedianGroupResource,
-            "views/median_group.csv",
-        )
-        import_data(
-            RatingCountGroupResource,
-            "views/rating_count_group.csv",
-        )
-
-        fy = FinancialYear.objects.create(budget_year="2019/2020")
-
         # Make request
         client = Client()
-        response = client.get("/profiles/municipality-CPT-city-of-cape-town/")
+        response = client.get("/profiles/municipality-BUF-buffalo-city/")
         context = response.context
         page_data = json.loads(context["page_data_json"])
         # Test for amount types
