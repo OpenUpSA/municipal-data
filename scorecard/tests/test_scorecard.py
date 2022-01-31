@@ -1,3 +1,4 @@
+import json
 from django.contrib.sites.models import Site
 from django.core.management import call_command
 
