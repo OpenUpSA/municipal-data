@@ -57,6 +57,9 @@ ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');\
 {% endif %}\
 ga('send', 'pageview');\
 ");
+
+  $(".cc-last .container").prepend("{% for notice in site_notices %}<div>{{ notice.content | safe }}</div>{% endfor %}");
+
 };
 
 function addScriptToBody(window, attrs, text) {
