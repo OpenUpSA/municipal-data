@@ -414,7 +414,7 @@
       </div>
     </div>
     <div class="section cc-last">
-      <div class="container">
+      <div class="container">{% for notice in site_notices %}<div>{{ notice.content | safe }}</div>{% endfor %}
         <div class="row filtered-projects-info">
           <div class="col col-2 col-m-6">
             <div class="search-detail_wrapper">

@@ -134,6 +134,8 @@ ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');\
 ga('send', 'pageview');\
 ");
 
+  $(".section:first .container").prepend("{% for notice in site_notices %}<div>{{ notice.content | safe }}</div>{% endfor %}");
+
   temporary_webflow_fixes($);
 };
 

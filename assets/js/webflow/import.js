@@ -72,6 +72,35 @@ ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');\
 ga('send', 'pageview');\
 ");
 
+$(".section--home-hero .container .layout-grid .layout-grid__col").prepend("{% for notice in site_notices %}\
+<div>\
+  {{ notice.content | safe }}\
+</div>\
+{% endfor %}\
+");
+
+$(".profile-notice").html("{% for notice in site_notices %}\
+  <div class='container'>\
+      <div class='profile-notice__text' style='color:black'>{{ notice.content | safe }}</div>\
+  </div>\
+{% endfor %}\
+");
+$(".profile-notice").removeClass("hidden");
+
+$("body[data-page='help'] .section--padding-top .container--grid").prepend("<div class='profile-notice'>\
+{% for notice in site_notices %}\
+<div class='container'>\
+<div class='profile-notice__text' style='color:black'>\
+{{ notice.content | safe }}</div></div>{% endfor %}</div>\
+");
+
+$("body[data-page='terms'] .section--padding-top .container--grid").prepend("<div class='profile-notice'>\
+{% for notice in site_notices %}\
+<div class='container'>\
+<div class='profile-notice__text' style='color:black'>\
+{{ notice.content | safe }}</div></div>{% endfor %}</div>\
+");
+
 };
 
 function addScriptToBody(window, attrs, text) {
