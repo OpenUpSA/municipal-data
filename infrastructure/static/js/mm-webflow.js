@@ -287,24 +287,23 @@ function mmWebflow(js) {
                 me.search.clearFacets(payload.fieldName);
             };
 
-	    var updateURLSearch = function(field,value){
-		var params = new URLSearchParams();
-		for (fieldName in listView.search.selectedFacets) {
+            var updateURLSearch = function(field,value){
+                var params = new URLSearchParams();
+                for (fieldName in listView.search.selectedFacets) {
                     params.set(fieldName, listView.search.selectedFacets[fieldName]);
-		}
-		var queryString = params.toString();
-		var url = '?'+queryString;
-		history.pushState({
-		    field:value}, '', url);
-	    };
+                }
+                var queryString = params.toString();
+                var url = '?'+queryString;
+                history.pushState({field:value}, '', url);
+            };
 
             var addFilter = function(payload) {
-		var fieldName = payload.fieldName;
-		var textValue = payload.text;
-		
+                var fieldName = payload.fieldName;
+                var textValue = payload.text;
+
                 me.search.addFacet(fieldName, textValue);
-		updateURLSearch(fieldName, textValue);
-		triggerUpdateFilter();
+                updateURLSearch(fieldName, textValue);
+                triggerUpdateFilter();
             };
 
             this.provinceDropDown = new filterDropdown($("#province-dropdown"), "All Provinces");
@@ -878,4 +877,4 @@ function filterFunction() {
       a[i].style.display = "none";
     }
   }
-} 
+}

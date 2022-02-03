@@ -4,7 +4,7 @@ from .utils import (
     percent,
     populate_periods,
     group_by_year,
-    filter_for_all_keys,
+    filter_for_all_keys_versioned,
 )
 
 
@@ -74,11 +74,13 @@ class RepairsMaintenanceSpending(SeriesIndicator):
             data.update({
                 "result": result,
                 "rating": cls.determine_rating(result),
+                "cube_version": values["cube_version"],
             })
         else:
             data.update({
                 "result": None,
                 "rating": None,
+                "cube_version": None,
             })
         return data
 
@@ -92,40 +94,41 @@ class RepairsMaintenanceSpending(SeriesIndicator):
                 results["repairs_maintenance_v1"],
                 "repairs_maintenance",
             ),
-            "repairs_maintenance",
+            ("repairs_maintenance", "v1"),
         )
         populate_periods(
             periods,
             group_by_year(results["property_plant_equipment_v1"]),
-            "property_plant_equipment",
+            ("property_plant_equipment", "v1"),
         )
         populate_periods(
             periods,
             group_by_year(results["investment_property_v1"]),
-            "investment_property",
+            ("investment_property", "v1"),
         )
         # Populate periods with v2 data
         populate_periods(
             periods,
             group_by_year(results["repairs_maintenance_v2"]),
-            "repairs_maintenance",
+            ("repairs_maintenance", "v2"),
         )
         populate_periods(
             periods,
             group_by_year(results["property_plant_equipment_v2"]),
-            "property_plant_equipment",
+            ("property_plant_equipment", "v2"),
         )
         populate_periods(
             periods,
             group_by_year(results["investment_property_v2"]),
-            "investment_property",
+            ("investment_property", "v2"),
         )
         # Filter out periods that don't have all the required data
-        periods = filter_for_all_keys(periods, [
+        periods = filter_for_all_keys_versioned(periods, [
             "repairs_maintenance",
             "property_plant_equipment",
             "investment_property",
         ])
+
         # Convert periods into dictionary
         periods = dict(periods)
         # Generate data for the requested years
