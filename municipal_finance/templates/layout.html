@@ -21,6 +21,7 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    {% for notice in site_notices %}<div style="position: absolute;left: 50%;transform: translateX(-50%);color:white;">{{ notice.content | safe }}</div>{% endfor %}
   </head>
   <body {% block body-attributes %}{% endblock %} class="{% block body-class %}{% endblock %}" id="{% block body-id %}{% endblock %}">
 
