@@ -1,0 +1,13 @@
+{% extends 'admin/base.html' %}
+
+{% load static %}
+
+{% block branding %}
+    <div class="head">
+        <h1 id="name">Admin Dashboard</h1>
+    </div>
+{% endblock %}
+
+{% block extrahead %}
+    {% for notice in site_notices %}<div>{{ notice.content | safe }}</div>{% endfor %}
+{% endblock %}

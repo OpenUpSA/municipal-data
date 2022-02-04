@@ -1,0 +1,50 @@
+{
+  "name": "municipal-data",
+  "version": "1.0.0",
+  "description": "South African municipal financial data portal",
+  "main": "index.js",
+  "repository": "git@github.com:OpenUpSA/municipal-data.git",
+  "author": "(JD Bothma <jd@openup.org.za>)",
+  "license": "MIT",
+  "scripts": {
+    "dev": "parcel watch assets/scss/municipal-money.scss assets/js/municipal-money.js --out-dir assets/bundles --public-url /static",
+    "build": "parcel build --no-minify assets/scss/municipal-money.scss assets/js/municipal-money.js --out-dir assets/bundles --public-url /static"
+  },
+  "dependencies": {
+    "core-js": "3.8.0",
+    "d3-axis": "^2.0.0",
+    "d3-format": "^2.0.0",
+    "d3-scale": "^3.2.3",
+    "d3-selection": "^2.0.0",
+    "d3-transition": "^2.0.0",
+    "import-webflow-export": "^0.0.4",
+    "municipal-money-charts": "https://github.com/OpenUpSA/municipal-money-charts.git#e7ea8bb",
+    "parcel-bundler": "^1.12.4",
+    "puppeteer": "^5.5.0",
+    "sass": "^1.25.1-test.1"
+  },
+  "importWebflowExport": {
+    "copyTrees": {
+      "css": "static/css",
+      "js": "static/js",
+      "images": "static/images"
+    },
+    "importHtml": [
+      {
+        "glob": "infrastructure-project.html",
+        "destDir": "templates/infrastructure",
+        "transforms": "./static/js/webflow/import-project.js"
+      },
+      {
+        "glob": "infrastructure-search.html",
+        "destDir": "templates/infrastructure",
+        "transforms": "./static/js/webflow/import-search.js"
+      },
+      {
+        "glob": "infrastructure-list.html",
+        "destDir": "templates/infrastructure",
+        "transforms": "./static/js/webflow/import-list.js"
+      }
+    ]
+  }
+}

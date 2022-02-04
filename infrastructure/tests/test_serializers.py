@@ -20,16 +20,16 @@ class TestSerializers(TestCase):
     def create_expenditure(
         self, amount, project=None, budget_phase=None, financial_year=None
     ):
-        if project is None:
-            project = models.Project.objects.create(geography=TestSerializers.geography, latest_implementation_year_id=1)
-
-        if budget_phase is None:
-            budget_phase = models.BudgetPhase.objects.create(name="Phase")
-
         if financial_year is None:
             financial_year = models.FinancialYear.objects.create(
                 budget_year="2018/2019"
             )
+
+        if project is None:
+            project = models.Project.objects.create(geography=TestSerializers.geography, latest_implementation_year_id=financial_year.id)
+
+        if budget_phase is None:
+            budget_phase = models.BudgetPhase.objects.create(name="Phase")
 
         expenditure = models.Expenditure.objects.create(
             project=project,

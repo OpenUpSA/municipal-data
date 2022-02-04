@@ -39,8 +39,8 @@ if DEBUG:
 else:
     SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
-DATA_GOOGLE_ANALYTICS_ID = "UA-48399585-37"
-SCORECARD_GOOGLE_ANALYTICS_ID = "UA-48399585-40"
+DATA_GOOGLE_ANALYTICS_ID = env.str("GOOGLE_ANALYTICS_DATA", None)
+SCORECARD_GOOGLE_ANALYTICS_ID = env.str("GOOGLE_ANALYTICS_SCORECARD", None)
 
 NO_INDEX = env.bool("NO_INDEX", False)
 
@@ -57,17 +57,20 @@ INSTALLED_APPS = (
     "infrastructure",
     "household",
     "webflow",
+    "site_config",
     "django.contrib.sites",
     "django.contrib.contenttypes",
     "django.contrib.humanize",
     "django.contrib.messages",
     "django.contrib.sessions",
     "django.contrib.staticfiles",
+    "adminsortable",
     "pipeline",
     "django_extensions",
     "corsheaders",
     "rest_framework",
     "django_q",
+    "ckeditor",
     "storages",
     "debug_toolbar",
     "constance",
@@ -209,7 +212,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, 'templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "debug": DEBUG,
@@ -226,6 +229,7 @@ TEMPLATES = [
                 "municipal_finance.context_processors.search_engine_index",
                 "municipal_finance.context_processors.sentry_dsn",
                 "municipal_finance.context_processors.api_details",
+                "municipal_finance.context_processors.site_notices",
             ],
         },
     }
