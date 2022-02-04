@@ -8,8 +8,9 @@ class TestAnalytics(TestCase):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
         self.assertTrue('<meta name="robots" content="noindex">' not in str(response.content))
-        
-        settings.NO_INDEX = "True"
+        self.assertTrue("noindex" not in str(response.content))
+
+        settings.NO_INDEX = "env_bool"
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
         self.assertTrue('<meta name="robots" content="noindex">' in str(response.content))
