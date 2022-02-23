@@ -41,14 +41,14 @@ class LiquidityRatio(SeriesIndicator):
         "actual": [
             "=", 
             {
-                "cube": "bsheet_v2",
-                "item_codes": ["1800", "2200"],
+                "cube": "financial_position_v2",
+                "item_codes": ["0120", "0130"],
                 "amount_type": "AUDA",
             },
             "/",
             {
-                "cube": "bsheet_v2",
-                "item_codes": ["1600"],
+                "cube": "financial_position_v2",
+                "item_codes": ["0330", "0340", "0350", "0360", "0370"],
                 "amount_type": "AUDA",
             },
         ],

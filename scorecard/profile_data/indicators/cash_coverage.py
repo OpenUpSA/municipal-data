@@ -46,14 +46,14 @@ class CashCoverage(SeriesIndicator):
             "=", 
             {
                 "cube": "cflow_v2",
-                "item_codes": ["4200"],
+                "item_codes": ["0430"],
                 "amount_type": "AUDA",
             },
             "/",
             "(",
             {
                 "cube": "incexp_v2",
-                "item_codes": ["4600"],
+                #"item_codes": ["2900"],
                 "amount_type": "ADJB",
             },
             "/",

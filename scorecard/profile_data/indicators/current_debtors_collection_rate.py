@@ -36,7 +36,7 @@ class CurrentDebtorsCollectionRate(SeriesIndicator):
             {
                 "cube": "incexp",
                 "item_codes": [
-                    "0200", "0300", "0400", "0500", "0600", "0800", "0900", "1000",
+                    "0200", "0400", "1000",
                 ],
                 "amount_type": "AUDA",
             },
@@ -53,7 +53,7 @@ class CurrentDebtorsCollectionRate(SeriesIndicator):
             {
                 "cube": "cflow_v2",
                 "item_codes": [
-                    "3010", "3030", "3040", "3050", "3060", "3070", "3100",
+                    "0120", "0130", "0280",
                 ],
                 "amount_type": "AUDA",
             },

@@ -46,7 +46,7 @@ class UIFWExpenditure(SeriesIndicator):
             "=",
             "(",
             {
-                "cube": "uifwexp_v2",
+                "cube": "uifwexp",
                 "item_codes": ["irregular", "fruitless", "unauthorised"],
             },
             "/",
