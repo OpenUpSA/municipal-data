@@ -53,7 +53,7 @@ class CashCoverage(SeriesIndicator):
             "(",
             {
                 "cube": "incexp_v2",
-                #"item_codes": ["2900"],
+                "item_codes": ["2900"],
                 "amount_type": "ADJB",
             },
             "/",
