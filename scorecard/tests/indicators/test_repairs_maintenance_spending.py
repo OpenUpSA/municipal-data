@@ -129,14 +129,14 @@ class TestRepairsMaintenanceSpending(_IndicatorTestCase):
                         "/",
                         "(",
                         {
-                            "cube": "bsheet_v2",
-                            "item_codes": ["1300"],
+                            "cube": "financial_position_v2",
+                            "item_codes": ["0240"],
                             "amount_type": "AUDA",
                         },
                         "+",
                         {
-                            "cube": "bsheet_v2",
-                            "item_codes": ["1401"],
+                            "cube": "financial_position_v2",
+                            "item_codes": ["0220"],
                             "amount_type": "AUDA",
                         },
                         ")",

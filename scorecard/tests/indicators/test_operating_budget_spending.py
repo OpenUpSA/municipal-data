@@ -117,20 +117,20 @@ class TestOperatingBudgetSpending(_IndicatorTestCase):
                         "(",
                         {
                             "cube": "incexp_v2",
-                            "item_codes": ["4600"],
+                            "item_codes": ["2900"],
                             "amount_type": "AUDA",
                         },
                         "-",
                         {
                             "cube": "incexp_v2",
-                            "item_codes": ["4600"],
+                            "item_codes": ["2900"],
                             "amount_type": "ADJB",
                         },
                         ")",
                         "/",
                         {
                             "cube": "incexp_v2",
-                            "item_codes": ["4600"],
+                            "item_codes": ["2900"],
                             "amount_type": "ADJB",
                         },
                         ")",

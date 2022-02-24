@@ -90,7 +90,7 @@ class TestCashBalance(_IndicatorTestCase):
                         "=", 
                         {
                             "cube": "cflow_v2",
-                            "item_codes": ["4200"],
+                            "item_codes": ["0430"],
                             "amount_type": "AUDA",
                         }
                     ],

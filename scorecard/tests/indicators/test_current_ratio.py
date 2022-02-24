@@ -105,14 +105,14 @@ class TestCurrentRatio(_IndicatorTestCase):
                     "actual": [
                         "=", 
                         {
-                            "cube": "bsheet_v2",
-                            "item_codes": ["2150"],
+                            "cube": "financial_position_v2",
+                            "item_codes": ["0120", "0130", "0140", "0150", "0160", "0170"],
                             "amount_type": "AUDA",
                         },
                         "/",
                         {
-                            "cube": "bsheet_v2",
-                            "item_codes": ["1600"],
+                            "cube": "financial_position_v2",
+                            "item_codes": ["0330", "0340", "0350", "0360", "0370"],
                             "amount_type": "AUDA",
                         },
                     ],
