@@ -237,6 +237,7 @@
 <meta name="twitter:site" content="@MunicipalMoney">
 <meta property="og:description" content="{{ page_description }}">
 {% stylesheet "scorecard" %}
+{% if NO_INDEX %}<meta name="robots" content="noindex">{% endif %}
 </head>
 <body data-page="home">
   <div class="navigation">
@@ -403,7 +404,7 @@
   <div class="section section--home-hero">
     <div class="container">
       <div class="layout-grid layout-grid--2-col">
-        <div class="layout-grid__col">
+        <div class="layout-grid__col">{% for notice in site_notices %}<div>  {{ notice.content | safe }}</div>{% endfor %}
           <div class="home-hero__inner">
             <h1 class="heading heading--clear">How well is your municipality managing its money?</h1>
             <div class="div-block-9">
