@@ -65,10 +65,10 @@ class CalculatorTests(SimpleTestCase):
         )
         result = RepairsMaintenanceSpending.get_muni_specifics(api_data)
         self.assertEqual(
-            [{'date': 2040, 'rating': 'bad', 'result': 7.14, "cube_version": "v1" },
-             {'date': 2041, 'rating': 'good', 'result': 12.5, "cube_version": "v1" },
-             {'date': 2042, 'rating': 'good', 'result': 16.67, "cube_version": "v1" },
-             {'date': 2043, 'rating': 'good', 'result': 20.0, "cube_version": "v1" }],
+            [{'date': 2040, 'rating': 'bad', 'result': 7.14, "cube_version": "v2" },
+             {'date': 2041, 'rating': 'good', 'result': 12.5, "cube_version": "v2" },
+             {'date': 2042, 'rating': 'good', 'result': 16.67, "cube_version": "v2" },
+             {'date': 2043, 'rating': 'good', 'result': 20.0, "cube_version": "v2" }],
             result["values"],
         )
 
@@ -142,8 +142,8 @@ class CalculatorTests(SimpleTestCase):
         result = RepairsMaintenanceSpending.get_muni_specifics(api_data)
         self.assertEqual(
             [{'date': 2040, 'rating': 'good', 'result': 31.25, "cube_version": "v2" },
-             {'date': 2041, 'rating': 'good', 'result': 25.0, "cube_version": "v1" },
-             {'date': 2042, 'rating': 'good', 'result': 16.67, "cube_version": "v1" },
+             {'date': 2041, 'rating': 'good', 'result': 25.0, "cube_version": "v2" },
+             {'date': 2042, 'rating': 'good', 'result': 16.67, "cube_version": "v2" },
              {'date': 2043, 'rating': None, 'result': None, "cube_version": None }],
             result["values"],
         )
