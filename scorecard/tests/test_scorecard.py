@@ -5,7 +5,8 @@ from municipal_finance.tests.helpers import BaseSeleniumTestCase
 
 
 class ScorecardTest(BaseSeleniumTestCase):
-    fixtures = ["seeddata", "demo-data", "compiled_profile"]
+    serialized_rollback = True
+    fixtures = ["seeddata", "compiled_profile"]
 
     def setUp(self):
         super(ScorecardTest, self).setUp()
