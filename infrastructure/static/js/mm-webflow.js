@@ -848,8 +848,7 @@ function mmWebflow(js) {
         $(".detail-button_wrapper").hide();
         $(".subsection-chart__detail").hide();
 
-        var summaryYear = js.summary_year
-        if (summaryYear.split('/')[0] > implementYear.split('/')[0]) {
+        if (js.summary_year > implementYear) {
             $(".project-details__info-message").parent().append('This project was last updated with ' + implementYear + ' data. Please see the search page for the latest projects.');
         }
     }
