@@ -1,5 +1,5 @@
 {% load static %}
-<!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  --><!--  Last Published: Fri May 14 2021 08:32:19 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5db2adb5e800a54297f2f9a6" data-wf-site="5db2adb5e800a59830f2f99c"><head>
+<!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  --><!--  Last Published: Thu Mar 10 2022 06:13:33 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5db2adb5e800a54297f2f9a6" data-wf-site="5db2adb5e800a59830f2f99c"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_title }}" property="og:title">
@@ -8,11 +8,23 @@
   <meta content="Webflow" name="generator">
   <link href="/static/css/normalize.css" rel="stylesheet" type="text/css">
   <link href="/static/css/webflow.css" rel="stylesheet" type="text/css">
-  <link href="/static/css/muni-money.webflow.css" rel="stylesheet" type="text/css">
+  <link href="/static/css/muni-money-infra.webflow.css" rel="stylesheet" type="text/css">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
-  <script type="text/javascript">WebFont.load({  google: {    families: ["Roboto:100,100italic,300,300italic,regular,italic,500,500italic,700,700italic,900,900italic"]  }});</script>
+  <script type="text/javascript">
+      WebFont.load({
+        google: {
+          families: ["Roboto:100,100italic,300,300italic,regular,italic,500,500italic,700,700italic,900,900italic"]
+        }
+      });
+    </script>
   <!-- [if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" type="text/javascript"></script><![endif] -->
-  <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
+  <script type="text/javascript">
+      ! function(o, c) {
+        var n = c.documentElement,
+          t = " w-mod-";
+        n.className += t + "js", ("ontouchstart" in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch")
+      }(window, document);
+    </script>
   <link href="/static/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
   <link href="/static/images/webclip.png" rel="apple-touch-icon">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
@@ -26,7 +38,7 @@
 <meta property="og:description" content="{{ page_description }}">
 </head>
 <body>
-  <div data-collapse="medium" data-animation="default" data-duration="400" role="banner" class="nav w-nav">
+  <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="nav w-nav">
     <div class="container">
       <div class="nav__inner">
         <a href="/" class="brand w-nav-brand">
@@ -58,6 +70,10 @@
             <div class="project-number">
               <div class="project-number__label">Project Number:</div>
               <div class="project-number__value">Loading...</div>
+            </div>
+            <div class="data-warning is--hidden">
+              <div class="fas-icon is--data-warning"></div>
+              <p class="data-warning__text">Loading...</p>
             </div>
           </div>
         </div>
