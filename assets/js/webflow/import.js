@@ -23,7 +23,8 @@ exports.transformDOM = function(window, $) {
     '<meta name="twitter:card" content="summary">',
     '<meta name="twitter:site" content="@MunicipalMoney">',
     '<meta property="og:description" content="{{ page_description }}">',
-    '{% stylesheet "scorecard" %}'
+    '{% stylesheet "scorecard" %}',
+    '{% if NO_INDEX %}<meta name="robots" content="noindex">{% endif %}'
   ].forEach(html => $("head").append(html + "\n"));
 
   // Body scripts
@@ -70,6 +71,35 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\
 ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');\
 {% endif %}\
 ga('send', 'pageview');\
+");
+
+$(".section--home-hero .container .layout-grid .layout-grid__col").prepend("{% for notice in site_notices %}\
+<div>\
+  {{ notice.content | safe }}\
+</div>\
+{% endfor %}\
+");
+
+$(".profile-notice").html("{% for notice in site_notices %}\
+  <div class='container'>\
+      <div class='profile-notice__text' style='color:black'>{{ notice.content | safe }}</div>\
+  </div>\
+{% endfor %}\
+");
+$(".profile-notice").removeClass("hidden");
+
+$("body[data-page='help'] .section--padding-top .container--grid").prepend("<div class='profile-notice'>\
+{% for notice in site_notices %}\
+<div class='container'>\
+<div class='profile-notice__text' style='color:black'>\
+{{ notice.content | safe }}</div></div>{% endfor %}</div>\
+");
+
+$("body[data-page='terms'] .section--padding-top .container--grid").prepend("<div class='profile-notice'>\
+{% for notice in site_notices %}\
+<div class='container'>\
+<div class='profile-notice__text' style='color:black'>\
+{{ notice.content | safe }}</div></div>{% endfor %}</div>\
 ");
 
 };
