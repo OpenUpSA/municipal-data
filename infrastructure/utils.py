@@ -188,7 +188,7 @@ def create_quarter(project, header, amount, financial_year):
     else:
         raise ValueError("Unknown Quarter")
 
-    if amount:
+    if quarter and amount:
         models.ProjectQuarterlySpend.objects.update_or_create(
             project=project,
             financial_year=financial_year,
