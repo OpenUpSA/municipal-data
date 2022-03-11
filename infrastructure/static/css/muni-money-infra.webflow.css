@@ -300,6 +300,7 @@ a {
 
 .section {
   position: relative;
+  z-index: 1;
   padding-top: 42px;
 }
 
@@ -2836,7 +2837,6 @@ a {
   z-index: 1;
   padding-top: 42px;
   padding-bottom: 12px;
-  background-color: rgba(0, 0, 0, 0.05);
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 }
 
@@ -2947,6 +2947,13 @@ a {
   font-size: 12px;
 }
 
+.fas-icon.is--data-warning {
+  margin-right: 8px;
+  margin-left: 0px;
+  color: red;
+  font-size: 16px;
+}
+
 .item-heading--with-tooltip {
   position: relative;
   display: -webkit-box;
@@ -2956,7 +2963,6 @@ a {
   -webkit-align-self: flex-start;
   -ms-flex-item-align: start;
   align-self: flex-start;
-  cursor: pointer;
 }
 
 .small-tooltip__plate {
@@ -4675,6 +4681,47 @@ a {
   display: -ms-flexbox;
   display: flex;
   margin-top: 12px;
+}
+
+.data-warning {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  margin-top: 1em;
+  padding: 0.7em 1em;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 3px;
+  background-color: rgba(243, 0, 5, 0.07);
+}
+
+.data-warning.is--hidden {
+  display: none;
+}
+
+.data-warning__text {
+  margin-bottom: 0px;
+}
+
+.search-detail__wrapper--tooltip {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 @media screen and (max-width: 991px) {
