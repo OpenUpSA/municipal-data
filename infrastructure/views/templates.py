@@ -49,6 +49,7 @@ class DetailView(TemplateView):
         project = json.loads(project)
 
         project["view"] = "detail"
+        project["summary_year"] = config.CAPITAL_PROJECT_SUMMARY_YEAR
 
         context = super().get_context_data(**kwargs)
         context["page_data_json"] = {"data": json.dumps(project)}
