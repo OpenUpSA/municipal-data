@@ -241,9 +241,10 @@ function mmWebflow(js) {
                     var paramValue = this.selectedFacets[key];
                     this.params.append(key, paramValue);
                 }
-		//hard code the budget phase and fincial year
-		this.params.append('budget_phase', 'Budget year');
-		this.params.append('financial_year', summary_year);
+                //hard code the budget phase and fincial year
+                this.params.append('budget_phase', 'Budget year');
+                this.params.append('quarterly_phase', 'Original Budget');
+                this.params.append('financial_year', summary_year);
 
                 if (this.order != undefined) {
                     this.params.append("ordering", this.order);
@@ -503,7 +504,7 @@ function mmWebflow(js) {
                 // TODO figure out where to put these
                 var budget_phase = "Budget year";
                 var financial_year = summary_year;
-                project.total_forecast_budget = 0;
+                project.total_forecast_budget = null;
 
                 if (project.expenditure.length > 0) {
                     var expenditures = project.expenditure.filter(function(exp) {
@@ -608,7 +609,7 @@ function mmWebflow(js) {
                     resultItem.find(".narrow-card_title-2").html(project.project_description);
                     resultItem.find(".narrow-card_middle-column-2:first div").html(project.function);
                     resultItem.find(".narrow-card_middle-column-2:last").html(project.project_type);
-                    var amount = "R" + utils.formatNumber(project.total_forecast_budget, true);
+                    var amount = utils.formatCurrency(project.total_forecast_budget);
                     resultItem.find(".narrow-card_last-column-2").html(amount);
                     $("#result-list-container").append(resultItem);
                 });

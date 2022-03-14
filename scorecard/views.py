@@ -22,6 +22,7 @@ from rest_framework import viewsets
 import subprocess
 from django.conf import settings
 from constance import config
+from django.db.models import F, Q
 
 class GeographyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Geography.objects.all()
@@ -35,13 +36,11 @@ class MunicipalityProfileViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 def infra_dict(project):
-    budget_phase = BudgetPhase.objects.get(name="Budget year")
     return {
         "description": project.project_description,
-        "expenditure_amount": project.expenditure.get(budget_phase=budget_phase, financial_year_id=project.latest_implementation_year).amount,
+        "expenditure_amount": project.amount,
         "url": reverse('project-detail-view', args=[project.id]),
     }
-
 
 class LocateView(TemplateView):
     template_name = "webflow/locate.html"
@@ -195,6 +194,24 @@ class GeographyDetailView(TemplateView):
                 expenditure__financial_year__budget_year=summary_year,
                 latest_implementation_year=financial_year,
             )
+            .annotate(amount=F('expenditure__amount'))
+            .order_by("-expenditure__amount")
+        )
+
+        infrastructure = infrastructure | (
+            Project.objects.prefetch_related(
+                "geography",
+                "expenditure__budget_phase",
+                "expenditure__financial_year",
+                "expenditure",
+            )
+            .filter(
+                geography__geo_code=self.geo_code,
+                expenditure__budget_phase__name="Original Budget",
+                quarterly__financial_year__budget_year=summary_year,
+                latest_implementation_year=financial_year,
+            )
+            .annotate(amount=F('expenditure__amount'))
             .order_by("-expenditure__amount")
         )
 
