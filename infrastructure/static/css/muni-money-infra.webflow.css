@@ -299,7 +299,6 @@ a {
 }
 
 .section {
-  position: relative;
   z-index: 1;
   padding-top: 42px;
 }
@@ -2963,7 +2962,6 @@ a {
   -webkit-align-self: flex-start;
   -ms-flex-item-align: start;
   align-self: flex-start;
-  cursor: pointer;
 }
 
 .small-tooltip__plate {
@@ -4706,6 +4704,23 @@ a {
 
 .data-warning__text {
   margin-bottom: 0px;
+}
+
+.search-detail__wrapper--tooltip {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 @media screen and (max-width: 991px) {
