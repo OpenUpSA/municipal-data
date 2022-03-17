@@ -175,7 +175,7 @@ class ProjectSearch(generics.ListCreateAPIView):
             if v in params:
                 query_dict[k] = params[v]
 
-        return qs.filter(**query_dict)
+        return qs.filter(**query_dict).distinct()
 
     def order_by(self, qs, field):
         prefix = ""
