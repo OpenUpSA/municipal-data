@@ -194,17 +194,12 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/"))
 
-        self.wait_until_text_in(".search-detail_projects", "2")
+        self.wait_until_text_in(".search-detail_projects", "1")
         self.wait_until_text_in("#search-total-forecast", "R4,000")
 
         self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
         self.wait_until_text_in("#result-list-container", "ADMINISTRATIVE AND CORPORATE SUPPORT")
         self.wait_until_text_in("#result-list-container", "R4.00 K")
-
-        self.wait_until_text_in("#result-list-container", "P-CIN RDS ROADS")
-        self.wait_until_text_in("#result-list-container", "ECONOMIC DEVELOPMENT/PLANNING")
-        results = selenium.find_element_by_css_selector("#result-list-container")
-        self.assertNotIn("7000", results.text)
 
     def test_search_with_quarterly(self):
         # When an annual project exists check info is correctly updated and displayed after a quarterly update
