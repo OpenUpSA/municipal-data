@@ -137,12 +137,15 @@ class ProjectSearch(generics.ListCreateAPIView):
         order_field = request.GET.get("ordering", "")
 
         queryset = self.get_queryset()
-        queryset = self.add_filters(queryset, request.GET, self.annual_fieldmap)
 
+        queryset = self.add_filters(queryset, request.GET, self.annual_fieldmap)
         queryset = self.text_search(queryset, search_query)
+
         facets = self.get_facets(queryset)
         queryset = self.order_by(queryset, order_field)
-        queryset = queryset | self.add_filters(self.get_queryset(), request.GET, self.quarterly_fieldmap)
+
+        queryset = queryset | self.add_filters(queryset, request.GET, self.quarterly_fieldmap)
+        queryset = self.text_search(queryset, search_query)
 
         aggregations = self.aggregations(queryset, request.GET)
 
