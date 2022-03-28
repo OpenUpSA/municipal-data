@@ -38,7 +38,7 @@
     "model": "infrastructure.budgetphase",
     "pk": 13,
     "fields": {
-        "code": null,
+        "code": "",
         "name": "Audited Outcome"
     }
 },
@@ -46,7 +46,7 @@
     "model": "infrastructure.budgetphase",
     "pk": 14,
     "fields": {
-        "code": null,
+        "code": "",
         "name": "Full Year Forecast"
     }
 },
@@ -54,7 +54,7 @@
     "model": "infrastructure.budgetphase",
     "pk": 15,
     "fields": {
-        "code": null,
+        "code": "",
         "name": "Budget year"
     }
 },
@@ -74,7 +74,8 @@
         "asset_subclass": "Boreholes",
         "ward_location": "Corporate Infrastructure Projects",
         "longitude": 0.0,
-        "latitude": 0.0
+        "latitude": 0.0,
+        "latest_implementation_year_id":22
     }
 },
 {
@@ -93,7 +94,8 @@
         "asset_subclass": "Data Centres",
         "ward_location": "Multi-ward Projects",
         "longitude": 0.0,
-        "latitude": 0.0
+        "latitude": 0.0,
+        "latest_implementation_year_id":22
     }
 },
 {
@@ -112,7 +114,8 @@
         "asset_subclass": "Data Centres",
         "ward_location": "Multi-ward Projects",
         "longitude": 0.0,
-        "latitude": 0.0
+        "latitude": 0.0,
+        "latest_implementation_year_id":22
     }
 },
     {
@@ -131,10 +134,30 @@
         "asset_subclass": "",
         "ward_location": "Administrative or Head Office,Whole of the Metro,...",
         "longitude": 0.0,
-        "latitude": 0.0
+        "latitude": 0.0,
+        "latest_implementation_year_id":22
     }
 },
-
+{
+    "model": "infrastructure.expenditure",
+    "pk": 1,
+    "fields": {
+        "amount": "10000",
+        "budget_phase_id": 15,
+        "financial_year_id": 22,
+        "project_id": 1
+    }
+},
+{
+    "model": "infrastructure.expenditure",
+    "pk": 2,
+    "fields": {
+        "amount": "20000",
+        "budget_phase_id": 15,
+        "financial_year_id": 22,
+        "project_id": 2
+    }
+},
 {
     "model": "scorecard.geography",
     "pk": 243,

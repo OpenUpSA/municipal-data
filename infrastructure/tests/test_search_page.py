@@ -194,14 +194,47 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/"))
 
-        self.wait_until_text_in(".search-detail_projects", "2")
+        self.wait_until_text_in(".search-detail_projects", "1")
         self.wait_until_text_in("#search-total-forecast", "R4,000")
 
         self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
         self.wait_until_text_in("#result-list-container", "ADMINISTRATIVE AND CORPORATE SUPPORT")
         self.wait_until_text_in("#result-list-container", "R4.00 K")
 
-        self.wait_until_text_in("#result-list-container", "P-CIN RDS ROADS")
-        self.wait_until_text_in("#result-list-container", "ECONOMIC DEVELOPMENT/PLANNING")
-        results = selenium.find_element_by_css_selector("#result-list-container")
-        self.assertNotIn("7000", results.text)
+    def test_search_with_quarterly(self):
+        # When an annual project exists check info is correctly updated and displayed after a quarterly update
+        geography = Geography.objects.get(geo_code="BUF")
+        financial_year = FinancialYear.objects.get(budget_year="2019/2020")
+
+        project = Project.objects.create(**project_base(geography, financial_year), **project_one())
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+        create_expenditure(project, 8000, "Budget year", "2020/2021")
+        create_expenditure(project, 9000, "Budget year", "2021/2022")
+        create_expenditure(project, 12000, "Full Year Forecast", "2018/2019")
+
+        create_expenditure(project, 10000, "Original Budget", "2019/2020")
+        create_expenditure(project, 11000, "Adjusted Budget", "2019/2020")
+        ProjectQuarterlySpend.objects.create(project=project, financial_year=financial_year, q1=1000)
+
+        project_two = {
+            "function": "Economic Development/Planning",
+            "project_description": "P-CIN RDS ROADS",
+            "project_number": "PC001002006001_00028",
+        }
+        project = Project.objects.create(**project_base(geography, financial_year), **project_two)
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+        create_expenditure(project, 8000, "Budget year", "2020/2021")
+        create_expenditure(project, 9000, "Budget year", "2021/2022")
+        create_expenditure(project, 12000, "Full Year Forecast", "2018/2019")
+
+        selenium = self.selenium
+        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/?municipality=Buffalo+City"))
+
+        self.wait_until_text_in(".page-heading", "2019/2020")
+        self.wait_until_text_in("#municipality-dropdown", "Buffalo City")
+        self.wait_until_text_in(".search-detail_projects", "2")
+
+        self.enter_text("#Infrastructure-Search-Input", "P-CIN RDS ROADS")
+        self.click("#Search-Button")
+
+        self.wait_until_text_in(".search-detail_projects", "1")
