@@ -34,3 +34,9 @@ class BaseSeleniumTestCase(LiveServerTestCase):
         else:
             text_content = self.selenium.find_elements_by_css_selector(selector)[0].text
             logger.error("Element contents: %s" % text_content)
+
+    def enter_text(self, selector, text):
+        self.selenium.find_element_by_css_selector(selector).send_keys(text)
+
+    def click(self, selector):
+        self.selenium.find_element_by_css_selector(selector).click()
