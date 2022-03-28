@@ -24,7 +24,8 @@ exports.transformDOM = function(window, $) {
     '<meta name="twitter:description" content="{{ page_description }}">',
     '<meta name="twitter:card" content="summary">',
     '<meta name="twitter:site" content="@MunicipalMoney">',
-    '<meta property="og:description" content="{{ page_description }}">'
+    '<meta property="og:description" content="{{ page_description }}">',
+    '{% if NO_INDEX %}<meta name="robots" content="noindex">{% endif %}'
   ].forEach(html => $("head").append(html + "\n"));
 
   // Body scripts
