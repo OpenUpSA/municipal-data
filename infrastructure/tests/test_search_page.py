@@ -172,7 +172,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.assertEquals(download_column_headers(), headers)
         self.assertEquals(project_download_data(), project_row)
 
-    def test_quarterly_projects_annual(self):
+    def test_search_projects(self):
         geography = Geography.objects.get(geo_code="BUF")
         financial_year = FinancialYear.objects.get(budget_year="2019/2020")
 
@@ -194,7 +194,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/"))
 
-        self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in(".search-detail_projects", "2")
         self.wait_until_text_in("#search-total-forecast", "R4,000")
 
         self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
@@ -233,11 +233,18 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.wait_until_text_in(".page-heading", "2019/2020")
         self.wait_until_text_in("#municipality-dropdown", "Buffalo City")
         self.wait_until_text_in(".search-detail_projects", "2")
+        self.wait_until_text_in("#search-total-forecast", "R14,000")
+
+        self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
+        self.wait_until_text_in("#result-list-container", "ADMINISTRATIVE AND CORPORATE SUPPORT")
+        self.wait_until_text_in("#result-list-container", "R7.00 K")
 
         self.enter_text("#Infrastructure-Search-Input", "P-CIN RDS ROADS")
         self.click("#Search-Button")
 
         self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#result-list-container", "P-CIN RDS ROADS")
+        self.wait_until_text_in("#result-list-container", "R7.00 K")
 
     def test_search_quarterly(self):
         # Test that quarterly uploads can create and display new projects
