@@ -1,6 +1,5 @@
 from django.contrib.postgres.search import SearchQuery
-from django.db.models import Count, Sum
-from django.db.models import F, Q
+from django.db.models import Count
 
 # from django.views.decorators.cache import cache_page
 # from django.utils.decorators import method_decorator
@@ -8,7 +7,6 @@ from django.db.models import F, Q
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
-from rest_framework.response import Response
 
 from .. import models
 from .. import serializers
@@ -141,13 +139,11 @@ class ProjectSearch(generics.ListCreateAPIView):
         queryset = self.add_filters(queryset, request.GET, self.annual_fieldmap)
         queryset = self.text_search(queryset, search_query)
 
-        facets = self.get_facets(queryset)
-        queryset = self.order_by(queryset, order_field)
         queryset = queryset | self.add_filters(self.get_queryset(), request.GET, self.quarterly_fieldmap)
-
-        queryset = queryset | self.add_filters(queryset, request.GET, self.quarterly_fieldmap)
         queryset = self.text_search(queryset, search_query)
 
+        facets = self.get_facets(queryset)
+        queryset = self.order_by(queryset, order_field)
         aggregations = self.aggregations(queryset, request.GET)
 
         queryset = self.paginate_queryset(queryset)
