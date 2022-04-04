@@ -954,5 +954,9 @@
     },
   });
 
+  if ($("#table-view > div.container-fluid > header > h2").text() == "Capital Acquisition (v2)" ) {
+    $("#table-view > div.container-fluid > section").text("Coming soon");
+  }
+
   exports.view = new MainView();
 })(window);
