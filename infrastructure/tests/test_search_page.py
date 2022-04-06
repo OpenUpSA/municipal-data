@@ -3,70 +3,11 @@ from django.contrib.sites.models import Site
 from scorecard.models import Geography
 from municipal_finance.tests.helpers import BaseSeleniumTestCase
 from infrastructure.tests import utils
+from infrastructure.models import FinancialYear, Project, Expenditure, BudgetPhase, ProjectQuarterlySpend
 
 import urllib.request
 from constance.test import override_config
 
-def mock_project_one():
-    mock_data = { 'Function': 'Administrative and Corporate Support',
-        'Project Description': 'P-CNIN FURN & OFF EQUIP',
-        'Project Number': 'PC002003005_00002',
-        'Type': 'New',
-        'MTSF Service Outcome': 'An efficient, effective and development-oriented public service',
-        'IUDF': 'Growth',
-        'Own Strategic Objectives': 'OWN MUNICIPAL STRATEGIC OBJECTIVE',
-        'Asset Class': 'Furniture and Office Equipment',
-        'Asset Sub-Class': '',
-        'Ward Location': 'Administrative or Head Office',
-        'GPS Longitude': '0', 'GPS Latitude': '0',
-        'Audited Outcome 2017/18': 2000.0,
-        'Full Year Forecast 2018/19': 3000.0,
-        'Budget year 2019/20': 4000.0,
-        'Budget year 2020/21': 5000.0,
-        'Budget year 2021/22': 6000.0
-    }
-    yield mock_data
-
-
-def mock_project_two():
-    mock_data = { 'Function': 'Economic Development/Planning',
-        'Project Description': 'P-CIN RDS ROADS',
-        'Project Number': 'PC001002006001_00028',
-        'Type': 'New',
-        'MTSF Service Outcome': 'An efficient, competitive and responsive economic infrastructure network',
-        'IUDF': 'Growth',
-        'Own Strategic Objectives': 'OWN MUNICIPAL STRATEGIC OBJECTIVE',
-        'Asset Class': 'Roads Infrastructure',
-        'Asset Sub-Class': '',
-        'Ward Location': 'Coastal,Midland,...',
-        'GPS Longitude': '0', 'GPS Latitude': '0',
-        'Audited Outcome 2017/18': 2000.0,
-        'Full Year Forecast 2018/19': 3000.0,
-        'Budget year 2019/20': 4000.0,
-        'Budget year 2020/21': 5000.0,
-        'Budget year 2021/22': 6000.0
-    }
-    yield mock_data
-
-def mock_project_next_financial_year():
-    mock_data = { 'Function': 'Administrative and Corporate Support',
-        'Project Description': 'P-CNIN FURN & OFF EQUIP',
-        'Project Number': 'PC002003005_00002',
-        'Type': 'New',
-        'MTSF Service Outcome': 'An efficient, effective and development-oriented public service',
-        'IUDF': 'Growth',
-        'Own Strategic Objectives': 'OWN MUNICIPAL STRATEGIC OBJECTIVE',
-        'Asset Class': 'Furniture and Office Equipment',
-        'Asset Sub-Class': '',
-        'Ward Location': 'Administrative or Head Office',
-        'GPS Longitude': '0', 'GPS Latitude': '0',
-        'Audited Outcome 2018/19': 10000.0,
-        'Full Year Forecast 2019/20': 11000.0,
-        'Budget year 2020/21': 12000.0,
-        'Budget year 2021/22': 13000.0,
-        'Budget year 2022/23': 14000.0
-    }
-    yield mock_data
 
 def download_column_headers():
     columns = "province,municipality,project_number,project_description,project_type,function,asset_class,mtsf_service_outcome,own_strategic_objectives,iudf,budget phase,financial year,amount,latitude,longitude"
@@ -82,6 +23,40 @@ def get_download_row(row_contents):
     row = row.strip('\r')
     return row
 
+def create_expenditure(project, amount, phase, year):
+    budget_phase = BudgetPhase.objects.get(name=phase)
+    financial_year = FinancialYear.objects.get_or_create(budget_year=year)
+
+    expenditure = Expenditure.objects.create(
+        project=project,
+        budget_phase=budget_phase,
+        financial_year=financial_year[0],
+        amount=amount,
+    )
+    return expenditure
+
+def project_base(geography, year):
+    return {
+        "geography": geography,
+        "project_type": "New",
+        "mtsf_service_outcome": "An efficient, effective and development-oriented public service",
+        "iudf": "Growth",
+        "own_strategic_objectives": "OWN MUNICIPAL STRATEGIC OBJECTIVE",
+        "asset_class": "Furniture and Office Equipment",
+        "asset_subclass": "",
+        "ward_location": "Administrative or Head Office",
+        "longitude": "0",
+        "latitude": "0",
+        "latest_implementation_year": year,
+    }
+
+def project_one():
+    return {
+        "function": "Administrative and Corporate Support",
+        "project_description": "P-CNIN FURN & OFF EQUIP",
+        "project_number": "PC002003005_00002",
+    }
+
 
 class CapitalSearchTest(BaseSeleniumTestCase):
     fixtures = ["demo-data", "seeddata"]
@@ -92,9 +67,24 @@ class CapitalSearchTest(BaseSeleniumTestCase):
 
     def test_municipality_search_filter(self):
         geography = Geography.objects.get(geo_code="BUF")
-        utils.load_file(geography, mock_project_one(), "2019/2020")
+        financial_year = FinancialYear.objects.get(budget_year="2019/2020")
+
+        project = Project.objects.create(**project_base(geography, financial_year), **project_one())
+        create_expenditure(project, 4000, "Budget year", "2019/2020")
+        create_expenditure(project, 5000, "Budget year", "2020/2021")
+        create_expenditure(project, 6000, "Budget year", "2021/2022")
+
+        project_two = {
+            "function": "Economic Development/Planning",
+            "project_description": "P-CIN RDS ROADS",
+            "project_number": "PC001002006001_00028",
+        }
+
         geography = Geography.objects.get(geo_code="TSH")
-        utils.load_file(geography, mock_project_two(), "2019/2020")
+        project = Project.objects.create(**project_base(geography, financial_year), **project_two)
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+        create_expenditure(project, 8000, "Budget year", "2020/2021")
+        create_expenditure(project, 9000, "Budget year", "2021/2022")
 
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/?municipality=Buffalo+City"))
@@ -113,8 +103,26 @@ class CapitalSearchTest(BaseSeleniumTestCase):
     @override_config(CAPITAL_PROJECT_SUMMARY_YEAR="2020/2021")
     def test_implementation_year_filter(self):
         geography = Geography.objects.get(geo_code="BUF")
-        utils.load_file(geography, mock_project_one(), "2019/2020")
-        utils.load_file(geography, mock_project_next_financial_year(), "2020/2021")
+        financial_year = FinancialYear.objects.get(budget_year="2019/2020")
+
+        project = Project.objects.create(**project_base(geography, financial_year), **project_one())
+        create_expenditure(project, 4000, "Budget year", "2019/2020")
+        create_expenditure(project, 5000, "Budget year", "2020/2021")
+        create_expenditure(project, 6000, "Budget year", "2021/2022")
+
+
+        financial_year = FinancialYear.objects.get(budget_year="2020/2021")
+        project_two = {
+            "function": "Administrative and Corporate Support",
+            "project_description": "P-CNIN FURN & OFF EQUIP",
+            "project_number": "PC002003005_00002",
+        }
+
+        geography = Geography.objects.get(geo_code="TSH")
+        project = Project.objects.create(**project_base(geography, financial_year), **project_two)
+        create_expenditure(project, 12000, "Budget year", "2020/2021")
+        create_expenditure(project, 13000, "Budget year", "2021/2022")
+        create_expenditure(project, 14000, "Budget year", "2022/2023")
 
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/?financial_year=2020%2F2021"))
@@ -138,7 +146,20 @@ class CapitalSearchTest(BaseSeleniumTestCase):
 
     def test_download_url(self):
         geography = Geography.objects.get(geo_code="BUF")
-        utils.load_file(geography, mock_project_one(), "2019/2020")
+        financial_year = FinancialYear.objects.get(budget_year="2019/2020")
+
+        project_data = {
+            "function": "Administrative and Corporate Support",
+            "project_description": "P-CNIN FURN & OFF EQUIP",
+            "project_number": "PC002003005_00002",
+        }
+
+        project = Project.objects.create(**project_base(geography, financial_year), **project_data)
+        create_expenditure(project, 2000, "Audited Outcome", "2017/2018")
+        create_expenditure(project, 3000, "Full Year Forecast", "2018/2019")
+        create_expenditure(project, 4000, "Budget year", "2019/2020")
+        create_expenditure(project, 5000, "Budget year", "2020/2021")
+        create_expenditure(project, 6000, "Budget year", "2021/2022")
 
         url = f"{self.live_server_url}/infrastructure/download?budget_phase=Budget+year&financial_year=2019%2F2020"
         response = urllib.request.urlopen(url)
@@ -150,3 +171,70 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.assertEquals(len(contents), 2)
         self.assertEquals(download_column_headers(), headers)
         self.assertEquals(project_download_data(), project_row)
+
+    def test_quarterly_projects(self):
+        geography = Geography.objects.get(geo_code="BUF")
+        financial_year = FinancialYear.objects.get(budget_year="2019/2020")
+
+        project = Project.objects.create(**project_base(geography, financial_year), **project_one())
+        create_expenditure(project, 4000, "Budget year", "2019/2020")
+        create_expenditure(project, 5000, "Budget year", "2020/2021")
+        create_expenditure(project, 6000, "Budget year", "2021/2022")
+
+        quarterly_data = {
+            "function": "Economic Development/Planning",
+            "project_description": "P-CIN RDS ROADS",
+            "project_number": "PC001002006001_00028",
+        }
+
+        project = Project.objects.create(**project_base(geography, financial_year), **quarterly_data)
+        create_expenditure(project, 7000, "Original Budget", "2019/2020")
+        ProjectQuarterlySpend.objects.create(project=project, financial_year=financial_year, q1=1000)
+
+        selenium = self.selenium
+        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/"))
+
+        self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#search-total-forecast", "R4,000")
+
+        self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
+        self.wait_until_text_in("#result-list-container", "ADMINISTRATIVE AND CORPORATE SUPPORT")
+        self.wait_until_text_in("#result-list-container", "R4.00 K")
+
+    def test_search_with_quarterly(self):
+        # When an annual project exists check info is correctly updated and displayed after a quarterly update
+        geography = Geography.objects.get(geo_code="BUF")
+        financial_year = FinancialYear.objects.get(budget_year="2019/2020")
+
+        project = Project.objects.create(**project_base(geography, financial_year), **project_one())
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+        create_expenditure(project, 8000, "Budget year", "2020/2021")
+        create_expenditure(project, 9000, "Budget year", "2021/2022")
+        create_expenditure(project, 12000, "Full Year Forecast", "2018/2019")
+
+        create_expenditure(project, 10000, "Original Budget", "2019/2020")
+        create_expenditure(project, 11000, "Adjusted Budget", "2019/2020")
+        ProjectQuarterlySpend.objects.create(project=project, financial_year=financial_year, q1=1000)
+
+        project_two = {
+            "function": "Economic Development/Planning",
+            "project_description": "P-CIN RDS ROADS",
+            "project_number": "PC001002006001_00028",
+        }
+        project = Project.objects.create(**project_base(geography, financial_year), **project_two)
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+        create_expenditure(project, 8000, "Budget year", "2020/2021")
+        create_expenditure(project, 9000, "Budget year", "2021/2022")
+        create_expenditure(project, 12000, "Full Year Forecast", "2018/2019")
+
+        selenium = self.selenium
+        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/?municipality=Buffalo+City"))
+
+        self.wait_until_text_in(".page-heading", "2019/2020")
+        self.wait_until_text_in("#municipality-dropdown", "Buffalo City")
+        self.wait_until_text_in(".search-detail_projects", "2")
+
+        self.enter_text("#Infrastructure-Search-Input", "P-CIN RDS ROADS")
+        self.click("#Search-Button")
+
+        self.wait_until_text_in(".search-detail_projects", "1")

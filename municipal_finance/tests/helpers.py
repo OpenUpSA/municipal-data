@@ -47,3 +47,9 @@ class BaseSeleniumTestCase(LiveServerTestCase):
         f = HTMLFilter()
         f.feed(element_content)
         return unicodedata.normalize("NFKD", f.text)
+
+    def enter_text(self, selector, text):
+        self.selenium.find_element_by_css_selector(selector).send_keys(text)
+
+    def click(self, selector):
+        self.selenium.find_element_by_css_selector(selector).click()
