@@ -133,9 +133,13 @@ class GeographyDetailView(TemplateView):
         page_json["cube_names"] = {
             "bsheet": "Balance Sheet",
             "capital": "Capital",
+            "capital_v2": "Capital V2",
             "cflow": "Cash Flow",
+            "cflow_v2": "Cash Flow V2",
             "incexp": "Income & Expenditure",
-            "uifw": "Unauthorised, Irregular, Fruitless and Wasteful Expenditure",
+            "incexp_v2": "Income & Expenditure V2",
+            "financial_position_v2": "Financial Position V2",
+            "uifwexp": "Unauthorised, Irregular, Fruitless and Wasteful Expenditure",
         }
 
         # Include municipal category descriptions
