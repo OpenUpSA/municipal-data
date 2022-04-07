@@ -51,7 +51,7 @@ class ScorecardTest(BaseSeleniumTestCase):
 
         # Fruitless and Wasteful Expenditure
         element = selenium.find_elements_by_css_selector('.is--pre-2019-20')[5].get_attribute("innerHTML")
-        self.assertIn('( [undefined] item code irregular,fruitless,unauthorised / [Income & Expenditure] item code 4600, Audited Actual ) * 100', self.normalise_content(element))
+        self.assertIn('( [Unauthorised, Irregular, Fruitless and Wasteful Expenditure] item code irregular,fruitless,unauthorised / [Income & Expenditure] item code 4600, Audited Actual ) * 100', self.normalise_content(element))
 
         # Current Ratio
         element = selenium.find_elements_by_css_selector('.indicator-metric__value')[5].text
