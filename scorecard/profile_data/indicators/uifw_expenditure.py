@@ -1,5 +1,5 @@
 
-from .series import SeriesIndicator
+from .series import SeriesIndicatorUIFW
 from .utils import (
     percent,
     group_by_year,
@@ -8,7 +8,7 @@ from .utils import (
 )
 
 
-class UIFWExpenditure(SeriesIndicator):
+class UIFWExpenditure(SeriesIndicatorUIFW):
     """
     Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage
     of operating expenditure.
