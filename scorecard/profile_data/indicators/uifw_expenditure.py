@@ -1,5 +1,5 @@
 
-from .series import SeriesIndicatorUIFW
+from .series import SeriesIndicator
 from .utils import (
     percent,
     group_by_year,
@@ -8,12 +8,11 @@ from .utils import (
 )
 
 
-class UIFWExpenditure(SeriesIndicatorUIFW):
+class UIFWExpenditure(SeriesIndicator):
     """
     Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage
     of operating expenditure.
     """
-
     name = "uifw_expenditure"
     result_type = "%"
     noun = "expenditure"
@@ -96,3 +95,15 @@ class UIFWExpenditure(SeriesIndicatorUIFW):
                 years,
             )
         )
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        results = api_data.results
+        years = api_data.uifw_years
+        return {
+            "result_type": cls.result_type,
+            "values": cls.get_values(years, results),
+            "ref": api_data.references[cls.reference],
+            "last_year": years[0] if len(years) > 0 else None,
+            "formula": cls.formula,
+        }
