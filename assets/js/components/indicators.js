@@ -111,6 +111,7 @@ export class IndicatorSection {
       if ($textEl.length && textData) {
           $textEl.text(textData);
       }
+      this.sectionData.last_year = "2019"
       this.setFormulaLink(formulaData, ".is--pre-2019-20")
     }
   }
