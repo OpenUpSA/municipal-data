@@ -29,7 +29,7 @@ class ScorecardTest(BaseSeleniumTestCase):
         element = selenium.find_elements_by_css_selector('.indicator-metric__value')[1].text
         self.assertIn('3.2 month', element)
         element = selenium.find_elements_by_css_selector('.is--pre-2019-20')[1].get_attribute("innerHTML")
-        self.assertIn('[Cash Flow] item code 4200, Audited Actual / ( [Income & Expenditure] item code 4600, Adjusted Budget / 12 )', self.html_to_text(element))
+        self.assertIn('[Cash Flow] item code 4200, Audited Actual / ( [Income & Expenditure] item code 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000, Audited Actual / 12 )', self.html_to_text(element))
 
         # Spending of Operating Budget
         element = selenium.find_elements_by_css_selector('.indicator-metric__value')[2].text

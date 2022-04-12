@@ -441,7 +441,7 @@ class ApiData(object):
                         "2500", "2600", "2700", "2800", "2900",
                         "3000",
                     ],
-                    "amount_type.code": ["ADJB"],
+                    "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
                     "financial_year_end.year": self.years,
