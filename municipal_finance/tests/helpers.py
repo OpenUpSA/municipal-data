@@ -43,7 +43,7 @@ class BaseSeleniumTestCase(LiveServerTestCase):
             text_content = self.selenium.find_elements_by_css_selector(selector)[0].text
             logger.error("Element contents: %s" % text_content)
 
-    def normalise_content(self, element_content):
+    def html_to_text(self, element_content):
         f = HTMLFilter()
         f.feed(element_content)
         return unicodedata.normalize("NFKD", f.text)
