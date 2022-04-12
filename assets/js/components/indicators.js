@@ -93,8 +93,7 @@ export class IndicatorSection {
 
     if (this.sectionData.values[this.sectionData.values.length - 1].cube_version == "v2"){
       $(".is--pre-2019-20").hide()
-      $(".is--pre-2019-20").prev().hide()
-      $(".is--post-2019-20").prev().hide()
+      $(".indicator-calculation__heading").hide()
     }
 
     if (formulaDataV2) {
