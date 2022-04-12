@@ -130,7 +130,7 @@ def filter_for_all_keys_versioned(obj, keys):
 
 
 def data_source_version(year):
-    if year > 2017:
+    if year > 2019:
         return "v2"
     else:
         return "v1"
