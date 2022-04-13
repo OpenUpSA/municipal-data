@@ -32,7 +32,7 @@ class TestOperatingBudgetSpending(_IndicatorTestCase):
             'operating_budget_spending/income_expenditure_facts_v2.csv'
         )
         # Fetch data from API
-        api_data = ApiData(self.api_client, "CPT", 2019, 2019, 2019, '2019q4')
+        api_data = ApiData(self.api_client, "CPT", 2020, 2020, 2020, '2020q4')
         api_data.fetch_data([
             "operating_expenditure_actual_v1",
             "operating_expenditure_budget_v1",
@@ -47,29 +47,29 @@ class TestOperatingBudgetSpending(_IndicatorTestCase):
                 "result_type": "%",
                 "values": [
                     {
+                        "date": 2020,
+                        "result": 1.0,
+                        "rating": "good",
+                        "overunder": "over",
+                        "cube_version": "v2"
+                    },
+                    {
                         "date": 2019,
-                        "result": -6.8,
-                        "rating": "ave",
-                        "overunder": "under",
-                        "cube_version": "v2"
-                    },
-                    {
-                        "date": 2018,
-                        "result": -10.6,
-                        "rating": "ave",
-                        "overunder": "under",
-                        "cube_version": "v2"
-                    },
-                    {
-                        "date": 2017,
-                        "result": -7.6,
+                        "result": -6.0,
                         "rating": "ave",
                         "overunder": "under",
                         "cube_version": "v1"
                     },
                     {
-                        "date": 2016,
-                        "result": -5.2,
+                        "date": 2018,
+                        "result": -8.1,
+                        "rating": "ave",
+                        "overunder": "under",
+                        "cube_version": "v1"
+                    },
+                    {
+                        "date": 2017,
+                        "result": -7.6,
                         "rating": "ave",
                         "overunder": "under",
                         "cube_version": "v1"
@@ -79,7 +79,7 @@ class TestOperatingBudgetSpending(_IndicatorTestCase):
                     "title": "Over and under spending reports to parliament",
                     "url": "http://mfma.treasury.gov.za/Media_Releases/Reports%20to%20Parliament/Pages/default.aspx"
                 },
-                "last_year": 2019,
+                "last_year": 2020,
                 "formula": {
                     "text": "= ((Actual Operating Expenditure - Budget Operating Expenditure) / Budgeted Operating Expenditure) * 100",
                     "actual": [
