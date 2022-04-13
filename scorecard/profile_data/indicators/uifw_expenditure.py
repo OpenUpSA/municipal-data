@@ -52,7 +52,7 @@ class UIFWExpenditure(SeriesIndicator):
             "/",
             {
                 "cube": "incexp_v2",
-                "item_codes": ["4600"],
+                "item_codes": ["2000", "2100", "2200", "2300", "2400", "2500", "2600", "2700", "2800", "2900", "3000"],
                 "amount_type": "AUDA",
             },
             ")",

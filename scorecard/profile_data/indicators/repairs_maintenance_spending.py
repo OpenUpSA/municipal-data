@@ -56,7 +56,7 @@ class RepairsMaintenanceSpending(SeriesIndicator):
             "(",
             {
                 "cube": "capital_v2",
-                "item_codes": ["4100"],
+                "item_description": "Total",
                 "amount_type": "AUDA",
             },
             "/",

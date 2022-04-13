@@ -153,12 +153,17 @@ export class IndicatorSection {
           params['municipalities'] = geo_code;
           params['year'] = last_year;
           params['items'] = data.item_codes;
+
           if (data.amount_type) {
             params['amountType'] = data.amount_type;
           }
           // Generate the text
           text += `[${cube_name}]`;
-          text += ` item code ${data.item_codes.join(',')}`;
+          if (data.item_description !== undefined && data.item_description !== "") {
+            text += ` ${data.item_description}`;
+          } else {
+            text += ` item code ${data.item_codes.join(',')}`;
+          }
           if (data.amount_type) {
             text += `, ${amount_type}`;
           }
