@@ -48,7 +48,7 @@ class TestOperatingBudgetSpending(_IndicatorTestCase):
                 "values": [
                     {
                         "date": 2020,
-                        "result": 1.0,
+                        "result": 0.0,
                         "rating": "good",
                         "overunder": "over",
                         "cube_version": "v2"
