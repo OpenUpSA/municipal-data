@@ -167,7 +167,7 @@ export class IndicatorSection {
           if (data.item_description !== undefined && data.item_description !== "") {
             text += ` ${data.item_description}`;
           } else {
-            text += ` item code ${data.item_codes.join(',')}`;
+            text += ` item code ${data.item_codes.join(', ')}`;
           }
           if (data.amount_type) {
             text += `, ${amount_type}`;
