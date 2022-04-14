@@ -99,7 +99,7 @@ class TestCashCoverage(_IndicatorTestCase):
                         {
                             "cube": "incexp",
                             "item_codes": ["4600"],
-                            "amount_type": "ADJB",
+                            "amount_type": "AUDA",
                         },
                         "/",
                         "12",

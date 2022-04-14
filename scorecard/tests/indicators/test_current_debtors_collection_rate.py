@@ -107,7 +107,7 @@ class TestCurrentDebtorsCollectionRate(_IndicatorTestCase):
                         {
                             "cube": "incexp",
                             "item_codes": [
-                                "0200", "0400", "1000",
+                                "0200", "0400", "1000", "less item code", "2000",
                             ],
                             "amount_type": "AUDA",
                         },
