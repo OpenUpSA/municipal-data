@@ -51,7 +51,7 @@ class ScorecardTest(BaseSeleniumTestCase):
 
         # Fruitless and Wasteful Expenditure
         element = selenium.find_elements_by_css_selector('.is--pre-2019-20')[5].get_attribute("innerHTML")
-        self.assertIn('( [Unauthorised, Irregular, Fruitless and Wasteful Expenditure] item code irregular,fruitless,unauthorised / [Income & Expenditure] item code 4600, Audited Actual ) * 100', self.html_to_text(element))
+        self.assertIn('( [Unauthorised, Irregular, Fruitless and Wasteful Expenditure] item code irregular, fruitless, unauthorised / [Income & Expenditure] item code 4600, Audited Actual ) * 100', self.html_to_text(element))
 
         # Current Ratio
         element = selenium.find_elements_by_css_selector('.indicator-metric__value')[5].text
@@ -63,13 +63,13 @@ class ScorecardTest(BaseSeleniumTestCase):
         element = selenium.find_elements_by_css_selector('.indicator-metric__value')[6].text
         self.assertIn('0.19', element)
         element = selenium.find_elements_by_css_selector('.is--pre-2019-20')[7].get_attribute("innerHTML")
-        self.assertIn('[Balance Sheet] item code 1800,2200, Audited Actual / [Balance Sheet] item code 1600, Audited Actual', self.html_to_text(element))
+        self.assertIn('[Balance Sheet] item code 1800, 2200, Audited Actual / [Balance Sheet] item code 1600, Audited Actual', self.html_to_text(element))
 
         # Current Debtors Collection Rate
         element = selenium.find_elements_by_css_selector('.indicator-metric__value')[7].text
         self.assertIn('0.7%', element)
         element = selenium.find_elements_by_css_selector('.is--pre-2019-20')[8].get_attribute("innerHTML")
-        self.assertIn('( [Cash Flow] item code 3010,3030,3040,3050,3060,3070,3100, Audited Actual / [Income & Expenditure] item code 0200,0400,1000, Audited Actual ) * 100', self.html_to_text(element))
+        self.assertIn('( [Cash Flow] item code 3010, 3030, 3040, 3050, 3060, 3070, 3100, Audited Actual / [Income & Expenditure] item code 0200, 0400, 1000, Audited Actual ) * 100', self.html_to_text(element))
 
     def test_data_explorer_links(self):
         selenium = self.selenium
