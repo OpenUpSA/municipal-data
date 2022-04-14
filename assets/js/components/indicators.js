@@ -91,6 +91,11 @@ export class IndicatorSection {
     const formulaDataV2 = this.sectionData.formula_v2;
     const formulaData = this.sectionData.formula;
 
+    // Hide unused formula elements
+    if (this.sectionData.values[0].cube_version == "v1"){
+      $(".is--post-2019-20").hide()
+      $(".indicator-calculation__heading").hide()
+    }
     if (this.sectionData.values[this.sectionData.values.length - 1].cube_version == "v2"){
       $(".is--pre-2019-20").hide()
       $(".indicator-calculation__heading").hide()
