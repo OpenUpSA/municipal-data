@@ -107,7 +107,7 @@ export class IndicatorSection {
       if ($textEl.length && textData) {
           $textEl.text(textData);
       }
-      this.setFormulaLink(formulaDataV2, ".is--post-2019-20")
+      this.setFormulaLink(formulaDataV2, ".is--post-2019-20", this.sectionData.last_year)
     }
 
     if (formulaData) {
@@ -116,8 +116,7 @@ export class IndicatorSection {
       if ($textEl.length && textData) {
           $textEl.text(textData);
       }
-      this.sectionData.last_year = "2019"
-      this.setFormulaLink(formulaData, ".is--pre-2019-20")
+      this.setFormulaLink(formulaData, ".is--pre-2019-20", "2019")
     }
   }
 
@@ -138,9 +137,8 @@ export class IndicatorSection {
     $skeleton.remove();
   }
 
-  setFormulaLink(formulaData, container) {
+  setFormulaLink(formulaData, container, last_year) {
     const geo_code = this.geography.geo_code;
-    const last_year = this.sectionData.last_year;
     const actualData = formulaData.actual;
 
     const $actualEl = this.$element.find(container);
