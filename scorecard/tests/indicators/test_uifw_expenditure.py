@@ -181,7 +181,7 @@ class TestUIFWExpenditure(_IndicatorTestCase):
             result["values"],
         )
         self.assertEqual(
-            2020
+            2020,
             result["last_year"],
         )
         
