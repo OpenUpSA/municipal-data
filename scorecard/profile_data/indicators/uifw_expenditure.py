@@ -135,4 +135,5 @@ class UIFWExpenditure(SeriesIndicator):
             "ref": api_data.references[cls.reference],
             "last_year": years[0] if len(years) > 0 else None,
             "formula": cls.formula,
+            "formula_v2": cls.formula_v2,
         }
