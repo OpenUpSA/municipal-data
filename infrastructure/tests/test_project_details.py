@@ -8,7 +8,7 @@ from infrastructure.models import FinancialYear, Project, AnnualSpendFile, Proje
 from infrastructure.upload import process_annual_document
 from scorecard.models import Geography
 
-from infrastructure.tests.helpers import BaseSeleniumTestCase
+from municipal_finance.tests.helpers import BaseSeleniumTestCase
 
 
 def create_expenditure(self, amount, phase, year):

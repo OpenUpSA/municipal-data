@@ -5,6 +5,7 @@ from .utils import (
     sum_item_amounts,
     filter_for_all_keys,
     group_items_by_year,
+    data_source_version,
 )
 
 
@@ -36,6 +37,23 @@ class CurrentRatio(SeriesIndicator):
             },
         ],
     }
+    formula_v2 = {
+        "text": "= Current Assets / Current Liabilities",
+        "actual": [
+            "=", 
+            {
+                "cube": "financial_position_v2",
+                "item_codes": ["0120", "0130", "0140", "0150", "0160", "0170"],
+                "amount_type": "AUDA",
+            },
+            "/",
+            {
+                "cube": "financial_position_v2",
+                "item_codes": ["0330", "0340", "0350", "0360", "0370"],
+                "amount_type": "AUDA",
+            },
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, value):
@@ -62,11 +80,13 @@ class CurrentRatio(SeriesIndicator):
                 "liabilities": liabilities,
                 "result": result,
                 "rating": cls.determine_rating(result),
+                "cube_version": data_source_version(year),
             })
         else:
             data.update({
                 "result": None,
                 "rating": "bad",
+                "cube_version": None,
             })
         return data
 

@@ -615,8 +615,14 @@
 
       spinnerStart();
       $.get(self.makeUrl(parts), function(data) {
-        self.downloadUrl = self.makeDownloadUrl(parts, aggregating ? data.total_cell_count : data.total_fact_count);
-        self.cells.set('items', self.cells.get('items').concat(aggregating ? data.cells : data.data));
+        if (data.total_cell_count > 0) {
+          self.downloadUrl = self.makeDownloadUrl(parts, aggregating ? data.total_cell_count : data.total_fact_count);
+          self.cells.set('items', self.cells.get('items').concat(aggregating ? data.cells : data.data));
+          $('#downloadBtn').attr('disabled', false);
+        }
+        else{
+          $('#downloadBtn').attr('disabled', true);
+        }
       }).always(spinnerStop);
     },
 
@@ -832,15 +838,12 @@
       var self = this;
 
       if (this.downloadUrl && !_.isEmpty(this.filters.get('municipalities'))) {
-        this.$('.downloads button').attr('disabled', false);
-
         // setup urls
         this.$('.downloads .dropdown-menu a.download').attr('href', function() {
           return self.downloadUrl + '&format=' + $(this).data('format');
         });
-
       } else {
-        this.$('.downloads').attr('disabled', true);
+        this.$('#downloadBtn').attr('disabled', true);
       }
     },
 
