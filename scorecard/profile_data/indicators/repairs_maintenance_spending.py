@@ -5,6 +5,7 @@ from .utils import (
     populate_periods,
     group_by_year,
     filter_for_all_keys_versioned,
+    data_source_version,
 )
 
 
@@ -48,6 +49,29 @@ class RepairsMaintenanceSpending(SeriesIndicator):
             "100",
         ],
     }
+    formula_v2 = {
+        "text": "= (Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)) * 100",
+        "actual": [
+            "=", 
+            "(",
+            {
+                "cube": "capital_v2",
+                "item_description": "capital type code REPAIR_MNT Total",
+                "amount_type": "AUDA",
+            },
+            "/",
+            "(",
+            {
+                "cube": "financial_position_v2",
+                "item_codes": ["0240", "0220"],
+                "amount_type": "AUDA",
+            },
+            ")",
+            ")",
+            "*",
+            "100",
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, result):
@@ -74,7 +98,7 @@ class RepairsMaintenanceSpending(SeriesIndicator):
             data.update({
                 "result": result,
                 "rating": cls.determine_rating(result),
-                "cube_version": values["cube_version"],
+                "cube_version": data_source_version(year),
             })
         else:
             data.update({

@@ -32,7 +32,7 @@ class TestLiquidityRatio(_IndicatorTestCase):
             'liquidity_ratio/financial_position_facts_v2.csv',
         )
         # Fetch data from API
-        api_data = ApiData(self.api_client, "CPT", 2019, 2019, 2019, "2019q4")
+        api_data = ApiData(self.api_client, "CPT", 2020, 2020, 2020, "2020q4")
         api_data.fetch_data([
             "bsheet_auda_years", "financial_position_auda_years_v2"
         ])
@@ -44,24 +44,37 @@ class TestLiquidityRatio(_IndicatorTestCase):
                 "result_type": "ratio",
                 "values": [
                     {
+                        "date": "2020",
+                        "year": 2020,
+                        "amount_type": "ACT",
+                        "cash": 310860909.0,
+                        "call_investment_deposits": 10820193529.0,
+                        "liabilities": 7873348202.0,
+                        "result": 1.41,
+                        "rating": "good",
+                        "cube_version": "v2"
+                    },
+                    {
                         "date": "2019",
                         "year": 2019,
                         "amount_type": "ACT",
-                        "cash": 310860909,
-                        "call_investment_deposits": 10820193529,
-                        "liabilities": 7873348202,
-                        "result": 1.41,
-                        "rating": "good"
+                        "cash": 252758618.0,
+                        "call_investment_deposits": 7437051280.0,
+                        "liabilities": 8561736837.0,
+                        "result": 0.9,
+                        "rating": "bad",
+                        "cube_version": "v1"
                     },
                     {
                         "date": "2018",
                         "year": 2018,
                         "amount_type": "ACT",
-                        "cash": 252758618,
-                        "call_investment_deposits": 7437051280,
-                        "liabilities": 8561736837,
-                        "result": 0.9,
-                        "rating": "bad"
+                        "cash": 351348850.0,
+                        "call_investment_deposits": 7437051180.0,
+                        "liabilities": 8994077535.0,
+                        "result": 0.87,
+                        "rating": "bad",
+                        "cube_version": "v1"
                     },
                     {
                         "date": "2017",
@@ -69,26 +82,17 @@ class TestLiquidityRatio(_IndicatorTestCase):
                         "amount_type": "ACT",
                         "cash": 591533349,
                         "call_investment_deposits": 4841454888,
-                        "liabilities": 8848578284,
+                        "liabilities": 8848578284.0,
                         "result": 0.61,
-                        "rating": "bad"
-                    },
-                    {
-                        "date": "2016",
-                        "year": 2016,
-                        "amount_type": "ACT",
-                        "cash": 155633877,
-                        "call_investment_deposits": 5803468186,
-                        "liabilities": 9005549657,
-                        "result": 0.66,
-                        "rating": "bad"
+                        "rating": "bad",
+                        "cube_version": "v1"
                     }
                 ],
                 "ref": {
                     "title": "Municipal Budget and Reporting Regulations",
                     "url": "http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx"
                 },
-                "last_year": 2019,
+                "last_year": 2020,
                 "formula": {
                     "text": "= (Cash + Call Investment Deposits) / Current Liabilities",
                     "actual": [
@@ -102,6 +106,23 @@ class TestLiquidityRatio(_IndicatorTestCase):
                         {
                             "cube": "bsheet",
                             "item_codes": ["1600"],
+                            "amount_type": "AUDA",
+                        },
+                    ],
+                },
+                "formula_v2": {
+                    "text": "= (Cash + Call Investment Deposits) / Current Liabilities",
+                    "actual": [
+                        "=", 
+                        {
+                            "cube": "financial_position_v2",
+                            "item_codes": ["0120", "0130"],
+                            "amount_type": "AUDA",
+                        },
+                        "/",
+                        {
+                            "cube": "financial_position_v2",
+                            "item_codes": ["0330", "0340", "0350", "0360", "0370"],
                             "amount_type": "AUDA",
                         },
                     ],

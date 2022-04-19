@@ -1,8 +1,9 @@
-
 from .series import SeriesIndicator
 from .utils import (
     group_by_year,
     populate_periods,
+    filter_for_all_keys,
+    data_source_version,
 )
 
 
@@ -27,6 +28,17 @@ class CashBalance(SeriesIndicator):
             }
         ],
     }
+    formula_v2 = {
+        "text": "= Cash available at year end",
+        "actual": [
+            "=", 
+            {
+                "cube": "cflow_v2",
+                "item_codes": ["0430"],
+                "amount_type": "AUDA",
+            }
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, result):
@@ -47,11 +59,13 @@ class CashBalance(SeriesIndicator):
             data.update({
                 "result": cash_at_year_end,
                 "rating": cls.determine_rating(cash_at_year_end),
+                "cube_version": data_source_version(year),
             })
         else:
             data.update({
                 "result": None,
                 "rating": "bad",
+                "cube_version": None,
             })
         return data
 
@@ -70,6 +84,13 @@ class CashBalance(SeriesIndicator):
             group_by_year(results["cash_flow_v2"]),
             "cash_at_year_end",
         )
+        # Filter out periods that don't have all the required data
+        periods = filter_for_all_keys(periods, [
+            "cash_at_year_end",
+        ])
+        # Convert periods into dictionary
+        periods = dict(periods)
+
         # Generate data for the requested years
         return list(
             map(

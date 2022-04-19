@@ -1,4 +1,3 @@
-
 from ...profile_data import ApiData
 from ...profile_data.indicators import (
     CashCoverage,
@@ -42,7 +41,7 @@ class TestCashCoverage(_IndicatorTestCase):
             'cash_coverage/income_expenditure_facts_v2.csv'
         )
         # Fetch data from API
-        api_data = ApiData(self.api_client, "CPT", 2019, 2019, 2019, '2019q4')
+        api_data = ApiData(self.api_client, "CPT", 2020, 2020, 2020, '2019q4')
         api_data.fetch_data([
             "operating_expenditure_actual_v1",
             "operating_expenditure_actual_v2",
@@ -57,31 +56,35 @@ class TestCashCoverage(_IndicatorTestCase):
                 "result_type": "months",
                 "values": [
                     {
-                        "date": 2019,
+                        "date": 2020,
                         "result": 2.4,
-                        "rating": "ave"
+                        "rating": "ave",
+                        "cube_version": "v2"
+                    },
+                    {
+                        "date": 2019,
+                        "result": 0,
+                        "rating": "bad",
+                        "cube_version": "v1"
                     },
                     {
                         "date": 2018,
-                        "result": 0,
-                        "rating": "bad"
+                        "result": 2.1,
+                        "rating": "ave",
+                        "cube_version": "v1"
                     },
                     {
                         "date": 2017,
                         "result": 1.4,
-                        "rating": "ave"
-                    },
-                    {
-                        "date": 2016,
-                        "result": 1.5,
-                        "rating": "ave"
+                        "rating": "ave",
+                        "cube_version": "v1"
                     }
                 ],
                 "ref": {
                     "title": "State of Local Government Finances",
                     "url": "http://mfma.treasury.gov.za/Media_Releases/The%20state%20of%20local%20government%20finances/Pages/default.aspx"
                 },
-                "last_year": 2019,
+                "last_year": 2020,
                 "formula": {
                     "text": "= Cash available at year end / Operating Expenditure per month",
                     "actual": [
@@ -96,7 +99,28 @@ class TestCashCoverage(_IndicatorTestCase):
                         {
                             "cube": "incexp",
                             "item_codes": ["4600"],
-                            "amount_type": "ADJB",
+                            "amount_type": "AUDA",
+                        },
+                        "/",
+                        "12",
+                        ")",
+                    ],
+                },
+                "formula_v2": {
+                    "text": "= Cash available at year end / Operating Expenditure per month",
+                    "actual": [
+                        "=", 
+                        {
+                            "cube": "cflow_v2",
+                            "item_codes": ["0430"],
+                            "amount_type": "AUDA",
+                        },
+                        "/",
+                        "(",
+                        {
+                            "cube": "incexp_v2",
+                            "item_codes": ["2000","2100","2200","2300","2400","2500","2600","2700","2800","2900","3000"],
+                            "amount_type": "AUDA",
                         },
                         "/",
                         "12",

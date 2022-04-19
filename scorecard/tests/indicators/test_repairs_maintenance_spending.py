@@ -65,10 +65,10 @@ class CalculatorTests(SimpleTestCase):
         )
         result = RepairsMaintenanceSpending.get_muni_specifics(api_data)
         self.assertEqual(
-            [{'date': 2040, 'rating': 'bad', 'result': 7.14, "cube_version": "v1" },
-             {'date': 2041, 'rating': 'good', 'result': 12.5, "cube_version": "v1" },
-             {'date': 2042, 'rating': 'good', 'result': 16.67, "cube_version": "v1" },
-             {'date': 2043, 'rating': 'good', 'result': 20.0, "cube_version": "v1" }],
+            [{'date': 2040, 'rating': 'bad', 'result': 7.14, "cube_version": "v2" },
+             {'date': 2041, 'rating': 'good', 'result': 12.5, "cube_version": "v2" },
+             {'date': 2042, 'rating': 'good', 'result': 16.67, "cube_version": "v2" },
+             {'date': 2043, 'rating': 'good', 'result': 20.0, "cube_version": "v2" }],
             result["values"],
         )
 
@@ -142,8 +142,8 @@ class CalculatorTests(SimpleTestCase):
         result = RepairsMaintenanceSpending.get_muni_specifics(api_data)
         self.assertEqual(
             [{'date': 2040, 'rating': 'good', 'result': 31.25, "cube_version": "v2" },
-             {'date': 2041, 'rating': 'good', 'result': 25.0, "cube_version": "v1" },
-             {'date': 2042, 'rating': 'good', 'result': 16.67, "cube_version": "v1" },
+             {'date': 2041, 'rating': 'good', 'result': 25.0, "cube_version": "v2" },
+             {'date': 2042, 'rating': 'good', 'result': 16.67, "cube_version": "v2" },
              {'date': 2043, 'rating': None, 'result': None, "cube_version": None }],
             result["values"],
         )
@@ -174,7 +174,7 @@ class TestRepairsMaintenanceSpending(_IndicatorTestCase):
             'repairs_maintenance_spending/capital_facts_v2.csv'
         )
         # Fetch data from API
-        api_data = ApiData(self.api_client, "CPT", 2019, 2019, 2019, '2019q4')
+        api_data = ApiData(self.api_client, "CPT", 2020, 2020, 2020, '2020q4')
         api_data.fetch_data([
             "repairs_maintenance_v1",
             "repairs_maintenance_v2",
@@ -191,26 +191,26 @@ class TestRepairsMaintenanceSpending(_IndicatorTestCase):
                 "result_type": "%",
                 "values": [
                     {
-                        "date": 2019,
+                        "date": 2020,
                         "result": 0.98,
                         "rating": "bad",
                         "cube_version": "v2"
                     },
                     {
-                        "date": 2018,
+                        "date": 2019,
                         "result": 1.08,
                         "rating": "bad",
-                        "cube_version": "v2"
+                        "cube_version": "v1"
                     },
                     {
-                        "date": 2017,
-                        "result": 9.01,
+                        "date": 2018,
+                        "result": 8.6,
                         "rating": "good",
                         "cube_version": "v1"
                     },
                     {
-                        "date": 2016,
-                        "result": 8.78,
+                        "date": 2017,
+                        "result": 9.01,
                         "rating": "good",
                         "cube_version": "v1"
                     }
@@ -219,7 +219,7 @@ class TestRepairsMaintenanceSpending(_IndicatorTestCase):
                     "title": "Circular 71",
                     "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
                 },
-                "last_year": 2019,
+                "last_year": 2020,
                 "formula": {
                     "text": "= (Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)) * 100",
                     "actual": [
@@ -241,6 +241,29 @@ class TestRepairsMaintenanceSpending(_IndicatorTestCase):
                         {
                             "cube": "bsheet",
                             "item_codes": ["1401"],
+                            "amount_type": "AUDA",
+                        },
+                        ")",
+                        ")",
+                        "*",
+                        "100",
+                    ],
+                },
+                "formula_v2": {
+                    "text": "= (Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)) * 100",
+                    "actual": [
+                        "=", 
+                        "(",
+                        {
+                            "cube": "capital_v2",
+                            "item_description": "capital type code REPAIR_MNT Total",
+                            "amount_type": "AUDA",
+                        },
+                        "/",
+                        "(",
+                        {
+                            "cube": "financial_position_v2",
+                            "item_codes": ["0240", "0220"],
                             "amount_type": "AUDA",
                         },
                         ")",
