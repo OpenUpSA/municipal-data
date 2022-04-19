@@ -18,7 +18,8 @@ from .resources import (
 
 class TestUIFWExpenditure(_IndicatorTestCase):
 
-    def test_result(self):
+    def setUp(self):
+        super().setUp()
         # Load sample data
         import_data(
             GeographyResource,
@@ -36,8 +37,10 @@ class TestUIFWExpenditure(_IndicatorTestCase):
             IncexpFactsV2Resource,
             'uifw_expenditure/income_expenditure_facts_v2.csv',
         )
+        
+    def test_same_as_last_audit_year(self):
         # Fetch data from API
-        api_data = ApiData(self.api_client, "CPT", 2019, 2019, 2019, '2019q4')
+        api_data = ApiData(self.api_client, "CPT", 2020, 2019, 2020, '2019q4')
         api_data.fetch_data([
             "uifw_expenditure",
             "operating_expenditure_actual_v1",
@@ -46,21 +49,26 @@ class TestUIFWExpenditure(_IndicatorTestCase):
         # Provide data to indicator
         result = UIFWExpenditure.get_muni_specifics(api_data)
         self.assertEqual(
-            result,
             {
                 "result_type": "%",
                 "values": [
                     {
-                        "date": 2019,
-                        "result": 2.68,
+                        "date": 2020,
+                        "result": 0.06,
                         "rating": "bad",
                         "cube_version": "v2"
                     },
                     {
-                        "date": 2018,
-                        "result": 0.71,
+                        "date": 2019,
+                        "result": 2.66,
                         "rating": "bad",
-                        "cube_version": "v2"
+                        "cube_version": "v1"
+                    },
+                    {
+                        "date": 2018,
+                        "result": 0.69,
+                        "rating": "bad",
+                        "cube_version": "v1"
                     },
                     {
                         "date": 2017,
@@ -68,18 +76,12 @@ class TestUIFWExpenditure(_IndicatorTestCase):
                         "rating": "bad",
                         "cube_version": "v1"
                     },
-                    {
-                        "date": 2016,
-                        "result": 0,
-                        "rating": "good",
-                        "cube_version": "v1"
-                    }
                 ],
                 "ref": {
                     "title": "Circular 71",
                     "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx"
                 },
-                "last_year": 2019,
+                "last_year": 2020,
                 "formula": {
                     "text": "= (Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure) * 100",
                     "actual": [
@@ -112,7 +114,19 @@ class TestUIFWExpenditure(_IndicatorTestCase):
                         "/",
                         {
                             "cube": "incexp_v2",
-                            "item_codes": ["4600"],
+                            "item_codes": [
+                                '2000',
+                                '2100',
+                                '2200',
+                                '2300',
+                                '2400',
+                                '2500',
+                                '2600',
+                                '2700',
+                                '2800',
+                                '2900',
+                                '3000'
+                            ],
                             "amount_type": "AUDA",
                         },
                         ")",
@@ -121,4 +135,53 @@ class TestUIFWExpenditure(_IndicatorTestCase):
                     ],
                 },
             },
+            result,
         )
+
+    def test_uifw_lagging_one_year(self):
+        """
+        Demonstrate that if last uifw year lags one year behind last audit
+        year, we still only calculate 4 years up to the last UIFW year.
+        """
+        api_data = ApiData(self.api_client, "CPT", 2021, 2019, 2020, '2019q4')
+        api_data.fetch_data([
+            "uifw_expenditure",
+            "operating_expenditure_actual_v1",
+            "operating_expenditure_actual_v2",
+        ])
+        # Provide data to indicator
+        result = UIFWExpenditure.get_muni_specifics(api_data)
+        self.assertEqual(
+            [
+                {
+                    "date": 2020,
+                    "result": 0.06,
+                    "rating": "bad",
+                    "cube_version": "v2"
+                },
+                {
+                    "date": 2019,
+                    "result": 2.66,
+                    "rating": "bad",
+                    "cube_version": "v1"
+                },
+                {
+                    "date": 2018,
+                    "result": 0.69,
+                    "rating": "bad",
+                    "cube_version": "v1"
+                },
+                {
+                    "date": 2017,
+                    "result": 0.14,
+                    "rating": "bad",
+                    "cube_version": "v1"
+                },
+            ],
+            result["values"],
+        )
+        self.assertEqual(
+            2020,
+            result["last_year"],
+        )
+        

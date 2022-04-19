@@ -55,20 +55,20 @@ class CapitalBudgetSpending(SeriesIndicator):
             "(",
             {
                 "cube": "capital_v2",
-                "item_codes": ["4100"],
+                "item_description": "capital type code NEW, RENEWAL, UPGRADING",
                 "amount_type": "AUDA",
             },
             "-",
             {
                 "cube": "capital_v2",
-                "item_codes": ["4100"],
+                "item_description": "capital type code NEW, RENEWAL, UPGRADING",
                 "amount_type": "ADJB",
             },
             ")",
             "/",
             {
                 "cube": "capital_v2",
-                "item_codes": ["4100"],
+                "item_description": "capital type code NEW, RENEWAL, UPGRADING",
                 "amount_type": "ADJB",
             },
             ")",

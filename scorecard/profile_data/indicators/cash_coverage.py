@@ -33,7 +33,7 @@ class CashCoverage(SeriesIndicator):
             {
                 "cube": "incexp",
                 "item_codes": ["4600"],
-                "amount_type": "ADJB",
+                "amount_type": "AUDA",
             },
             "/",
             "12",
@@ -53,8 +53,8 @@ class CashCoverage(SeriesIndicator):
             "(",
             {
                 "cube": "incexp_v2",
-                "item_codes": ["2900"],
-                "amount_type": "ADJB",
+                "item_codes": ["2000", "2100", "2200", "2300", "2400", "2500", "2600", "2700", "2800", "2900", "3000"],
+                "amount_type": "AUDA",
             },
             "/",
             "12",

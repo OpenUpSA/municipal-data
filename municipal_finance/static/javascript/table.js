@@ -957,5 +957,11 @@
     },
   });
 
+  if ($("#table-view > div.container-fluid > header > h2").text() == "Capital Acquisition (v2)" ) {
+    $(".table-display").prepend("Coming soon");
+    $(".row-headings").hide();
+    $(".table-scroll-area").hide();
+  }
+
   exports.view = new MainView();
 })(window);

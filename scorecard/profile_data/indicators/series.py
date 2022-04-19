@@ -14,3 +14,4 @@ class SeriesIndicator():
             "formula": cls.formula,
             "formula_v2": cls.formula_v2,
         }
+

@@ -56,20 +56,14 @@ class RepairsMaintenanceSpending(SeriesIndicator):
             "(",
             {
                 "cube": "capital_v2",
-                "item_codes": ["4100"],
+                "item_description": "capital type code REPAIR_MNT Total",
                 "amount_type": "AUDA",
             },
             "/",
             "(",
             {
                 "cube": "financial_position_v2",
-                "item_codes": ["0240"],
-                "amount_type": "AUDA",
-            },
-            "+",
-            {
-                "cube": "financial_position_v2",
-                "item_codes": ["0220"],
+                "item_codes": ["0240", "0220"],
                 "amount_type": "AUDA",
             },
             ")",

@@ -35,6 +35,7 @@ class ApiData(object):
 
     def __init__(self, client, geo_code, last_audit_year, last_opinion_year, last_uifw_year, last_audit_quarter):
         self.client = client
+        self.last_audit_year = last_audit_year
         self.years = generate_target_years(last_audit_year)
         self.audit_opinion_years = generate_target_years(last_opinion_year)
         self.uifw_years = generate_target_years(last_uifw_year)
@@ -441,7 +442,7 @@ class ApiData(object):
                         "2500", "2600", "2700", "2800", "2900",
                         "3000",
                     ],
-                    "amount_type.code": ["ADJB"],
+                    "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
                     "financial_year_end.year": self.years,
@@ -459,7 +460,7 @@ class ApiData(object):
                     "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
-                    "financial_year_end.year": self.years,
+                    "financial_year_end.year": [self.last_audit_year - 4] + self.years,
                 },
                 "drilldown": ["financial_year_end.year"],
                 "order": "financial_year_end.year:desc",
@@ -478,7 +479,7 @@ class ApiData(object):
                     "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
-                    "financial_year_end.year": self.years,
+                    "financial_year_end.year": [self.last_audit_year - 4] + self.years,
                 },
                 "drilldown": ["financial_year_end.year"],
                 "order": "financial_year_end.year:desc",

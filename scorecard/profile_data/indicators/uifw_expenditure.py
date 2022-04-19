@@ -14,7 +14,6 @@ class UIFWExpenditure(SeriesIndicator):
     Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage
     of operating expenditure.
     """
-
     name = "uifw_expenditure"
     result_type = "%"
     noun = "expenditure"
@@ -52,7 +51,7 @@ class UIFWExpenditure(SeriesIndicator):
             "/",
             {
                 "cube": "incexp_v2",
-                "item_codes": ["4600"],
+                "item_codes": ["2000", "2100", "2200", "2300", "2400", "2500", "2600", "2700", "2800", "2900", "3000"],
                 "amount_type": "AUDA",
             },
             ")",
@@ -125,3 +124,16 @@ class UIFWExpenditure(SeriesIndicator):
                 years,
             )
         )
+
+    @classmethod
+    def get_muni_specifics(cls, api_data):
+        results = api_data.results
+        years = api_data.uifw_years
+        return {
+            "result_type": cls.result_type,
+            "values": cls.get_values(years, results),
+            "ref": api_data.references[cls.reference],
+            "last_year": years[0] if len(years) > 0 else None,
+            "formula": cls.formula,
+            "formula_v2": cls.formula_v2,
+        }

@@ -91,7 +91,12 @@ export class IndicatorSection {
     const formulaDataV2 = this.sectionData.formula_v2;
     const formulaData = this.sectionData.formula;
 
-    if (this.sectionData.values[this.sectionData.values.length - 1].cube_version == "v2"){
+    // Hide unused formula elements
+    if (this.sectionData.last_year <= 2019){
+      $(".is--post-2019-20").hide()
+      $(".indicator-calculation__heading").hide()
+    }
+    if (this.sectionData.last_year >= 2023){
       $(".is--pre-2019-20").hide()
       $(".indicator-calculation__heading").hide()
     }
@@ -154,12 +159,17 @@ export class IndicatorSection {
           params['municipalities'] = geo_code;
           params['year'] = last_year;
           params['items'] = data.item_codes;
+
           if (data.amount_type) {
             params['amountType'] = data.amount_type;
           }
           // Generate the text
           text += `[${cube_name}]`;
-          text += ` item code ${data.item_codes.join(',')}`;
+          if (data.item_description !== undefined && data.item_description !== "") {
+            text += ` ${data.item_description}`;
+          } else {
+            text += ` item code ${data.item_codes.join(', ')}`;
+          }
           if (data.amount_type) {
             text += `, ${amount_type}`;
           }
