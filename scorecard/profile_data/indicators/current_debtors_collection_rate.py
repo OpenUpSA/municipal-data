@@ -5,6 +5,7 @@ from .utils import (
     group_items_by_year,
     filter_for_all_keys,
     sum_item_amounts,
+    data_source_version,
 )
 
 
@@ -35,6 +36,31 @@ class CurrentDebtorsCollectionRate(SeriesIndicator):
             {
                 "cube": "incexp",
                 "item_codes": [
+                    "0200", "0400", "1000", "less item code", "2000"
+                ],
+                "amount_type": "AUDA",
+            },
+            ")",
+            "*",
+            "100",
+        ],
+    }
+    formula_v2 = {
+        "text": "= (Collected Revenue / Billed Revenue) * 100",
+        "actual": [
+            "=", 
+            "(",
+            {
+                "cube": "cflow_v2",
+                "item_codes": [
+                    "0120", "0130", "0280",
+                ],
+                "amount_type": "AUDA",
+            },
+            "/",
+            {
+                "cube": "incexp_v2",
+                "item_codes": [
                     "0200", "0300", "0400", "0500", "0600", "0800", "0900", "1000",
                 ],
                 "amount_type": "AUDA",
@@ -63,6 +89,7 @@ class CurrentDebtorsCollectionRate(SeriesIndicator):
                 "amount_type": "AUDA",
                 "result": result,
                 "rating": cls.detemine_rating(result),
+                "cube_version": data_source_version(year),
             })
         else:
             data.update({
@@ -70,6 +97,7 @@ class CurrentDebtorsCollectionRate(SeriesIndicator):
                 "rating": "bad",
                 "receipts": None,
                 "billing": None,
+                "cube_version": None,
             })
         return data
 

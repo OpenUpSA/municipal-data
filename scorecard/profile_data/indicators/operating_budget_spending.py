@@ -5,6 +5,7 @@ from .utils import (
     group_by_year,
     populate_periods,
     filter_for_all_keys,
+    data_source_version,
 )
 
 
@@ -48,6 +49,35 @@ class OperatingBudgetSpending(SeriesIndicator):
             "100",
         ],
     }
+    formula_v2 = {
+        "text": "= ((Actual Operating Expenditure - Budget Operating Expenditure) / Budgeted Operating Expenditure) * 100",
+        "actual": [
+            "=", 
+            "(",
+            "(",
+            {
+                "cube": "incexp_v2",
+                "item_codes": ["2000", "2100", "2200", "2300", "2400", "2500", "2600", "2700", "2800", "2900", "3000"],
+                "amount_type": "AUDA",
+            },
+            "-",
+            {
+                "cube": "incexp_v2",
+                "item_codes": ["2000", "2100", "2200", "2300", "2400", "2500", "2600", "2700", "2800", "2900", "3000"],
+                "amount_type": "ADJB",
+            },
+            ")",
+            "/",
+            {
+                "cube": "incexp_v2",
+                "item_codes": ["2000", "2100", "2200", "2300", "2400", "2500", "2600", "2700", "2800", "2900", "3000"],
+                "amount_type": "ADJB",
+            },
+            ")",
+            "*",
+            "100",
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, result):
@@ -74,12 +104,14 @@ class OperatingBudgetSpending(SeriesIndicator):
                 "result": result,
                 "rating": cls.determine_rating(result),
                 "overunder": "under" if result < 0 else "over",
+                "cube_version": data_source_version(year),
             })
         else:
             data.update({
                 "result": None,
                 "rating": None,
                 "overunder": None,
+                "cube_version": None,
             })
         return data
 

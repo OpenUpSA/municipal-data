@@ -5,6 +5,7 @@ from .utils import (
     group_by_year,
     populate_periods,
     filter_for_all_keys,
+    data_source_version,
 )
 
 
@@ -39,6 +40,26 @@ class UIFWExpenditure(SeriesIndicator):
             "100",
         ],
     }
+    formula_v2 = {
+        "text": "= (Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure) * 100",
+        "actual": [
+            "=",
+            "(",
+            {
+                "cube": "uifwexp",
+                "item_codes": ["irregular", "fruitless", "unauthorised"],
+            },
+            "/",
+            {
+                "cube": "incexp_v2",
+                "item_codes": ["2000", "2100", "2200", "2300", "2400", "2500", "2600", "2700", "2800", "2900", "3000"],
+                "amount_type": "AUDA",
+            },
+            ")",
+            "*",
+            "100",
+        ],
+    }
 
     @classmethod
     def determine_rating(cls, result):
@@ -49,18 +70,26 @@ class UIFWExpenditure(SeriesIndicator):
 
     @classmethod
     def generate_data(cls, year, values):
-        result = None
-        rating = None
+        data = {
+            "date": year,
+        }
         if values:
             uifw_expenditure = values["uifw_expenditure"]
             operating_expenditure = values["operating_expenditure"]
             result = percent(uifw_expenditure, operating_expenditure)
-            rating = cls.determine_rating(result)
-        return {
-            "date": year,
-            "result": result,
-            "rating": rating,
-        }
+
+            data.update({
+                "result": result,
+                "rating": cls.determine_rating(result),
+                "cube_version": data_source_version(year),
+            })
+        else:
+            data.update({
+                "result": None,
+                "rating": None,
+                "cube_version": None,
+            })
+        return data
 
     @classmethod
     def get_values(cls, years, results):

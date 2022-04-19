@@ -1,7 +1,7 @@
 from django.contrib.sites.models import Site
 
 from scorecard.models import Geography
-from infrastructure.tests.helpers import BaseSeleniumTestCase
+from municipal_finance.tests.helpers import BaseSeleniumTestCase
 from infrastructure.tests import utils
 from infrastructure.models import FinancialYear, Project, Expenditure, BudgetPhase, ProjectQuarterlySpend
 

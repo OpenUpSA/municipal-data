@@ -1,4 +1,6 @@
 from datetime import datetime
+from html.parser import HTMLParser
+import unicodedata
 
 from django.contrib.staticfiles.testing import LiveServerTestCase
 from selenium import webdriver
@@ -9,6 +11,12 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 import logging
 logger = logging.Logger(__name__)
+
+
+class HTMLFilter(HTMLParser):
+    text = ""
+    def handle_data(self, data):
+        self.text += data
 
 class BaseSeleniumTestCase(LiveServerTestCase):
 
@@ -34,6 +42,11 @@ class BaseSeleniumTestCase(LiveServerTestCase):
         else:
             text_content = self.selenium.find_elements_by_css_selector(selector)[0].text
             logger.error("Element contents: %s" % text_content)
+
+    def html_to_text(self, element_content):
+        f = HTMLFilter()
+        f.feed(element_content)
+        return unicodedata.normalize("NFKD", f.text)
 
     def enter_text(self, selector, text):
         self.selenium.find_element_by_css_selector(selector).send_keys(text)
