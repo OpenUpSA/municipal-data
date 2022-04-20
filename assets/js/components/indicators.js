@@ -93,12 +93,12 @@ export class IndicatorSection {
 
     // Hide unused formula elements
     if (this.sectionData.last_year <= 2019){
-      $(".is--post-2019-20").hide()
-      $(".indicator-calculation__heading").hide()
+      this.$element.find(".is--post-2019-20").hide();
+      this.$element.find(".indicator-calculation__heading").hide();
     }
     if (this.sectionData.last_year >= 2023){
-      $(".is--pre-2019-20").hide()
-      $(".indicator-calculation__heading").hide()
+      this.$element.find(".is--pre-2019-20").hide();
+      this.$element.find(".indicator-calculation__heading").hide();
     }
 
     if (formulaDataV2) {
