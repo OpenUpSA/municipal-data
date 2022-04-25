@@ -26,8 +26,9 @@ class ReportCard {
     else if (report.report_url.endsWith('.pdf')) {
       report.report_url = report.report_url.substring(0, report.report_url.lastIndexOf("/"));
     }
-
-    this.$element.find(".audit-outcome__download").attr("href", report.report_url);
+    else {
+      this.$element.find(".audit-outcome__download").attr("href", report.report_url);
+    }
 
     this.rating = report.rating;
     this.initIcons();
