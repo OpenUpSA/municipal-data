@@ -14,10 +14,10 @@ class Icon {
 }
 
 class ReportCard {
-  constructor($element, report) {
+  constructor($element, key, report) {
     this.$element = $element;
     logIfUnequal(1, this.$element.length);
-    this.$element.find(".audit-outcome__year").text(formatFinancialYear(report.date));
+    this.$element.find(".audit-outcome__year").text(formatFinancialYear(key));
     this.$element.find(".audit-outcome__heading").text(report.result);
 
     if (report.report_url === null) {
@@ -60,10 +60,12 @@ export class AuditOpinions {
   constructor(reports) {
     this.$element = $(this.selector);
     logIfUnequal(1, this.$element.length);
-
-    reports.values.forEach((report, index) => {
+    // Using Object.entries() and sort() as documenteded here
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
+    // to loop through the reports["values"] objects and order by key
+    Object.entries(reports["values"]).sort((a, b) => b[0].localeCompare(a[0])).forEach(([key, value], index) => {
       const $element = this.$element.find(`.audit-outcome:eq(${ index })`);
-      new ReportCard($element, report);
+      new ReportCard($element, key, value);
     });
   }
 }
