@@ -19,6 +19,7 @@ AuditOpinionFactRow = namedtuple(
         "financial_year",
         "opinion_code",
         "opinion_label",
+        "report_url",
     ),
 )
 
@@ -47,6 +48,7 @@ class AuditOpinionFactsUpdater(Updater):
             financial_year=row.financial_year,
             opinion_code=row.opinion_code,
             opinion_label=row.opinion_label,
+            report_url=row.report_url,
         )
 
 
