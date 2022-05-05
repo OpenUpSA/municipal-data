@@ -57,3 +57,17 @@ class UpdateAuditOpinionFacts(TransactionTestCase):
         self.assertEqual(AuditOpinionFacts.objects.all().count(), 4)
         self.assertEqual(self.update_obj.deleted, 1)
         self.assertEqual(self.update_obj.inserted, 2)
+
+    def test_report_url(self):
+        self.assertEqual(
+            AuditOpinionFacts.objects.get(demarcation_code="CPT", financial_year="2018").report_url,
+            "http://mfma.treasury.gov.za/Documents/07.%20Audit%20Reports/2017-18/01.%20Metros/CPT%20Cape%20Town/CPT%20Cape%20Town%20Audit%20Report%202017-18.pdf"
+        )
+        update_audit_opinion_facts(
+            self.insert_obj,
+            batch_size=4,
+        )
+        self.assertEqual(
+            AuditOpinionFacts.objects.get(demarcation_code="CPT", financial_year="2019").report_url,
+            ""
+        )
