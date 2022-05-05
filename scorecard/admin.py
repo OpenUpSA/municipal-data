@@ -10,10 +10,12 @@ from .models import (
     Geography,
     MunicipalityProfilesCompilation,
 )
+from .resources import GeographyResource
 
 
 @admin.register(Geography)
 class GeographyAdmin(ImportExportModelAdmin):
+    resource_class = GeographyResource
     list_display = ("geo_code", "geo_level", "name",)
 
 
