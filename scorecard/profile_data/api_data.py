@@ -179,20 +179,29 @@ class ApiData(object):
 
         return values
 
-    def audit_opinions(self):
+    def audit_opinions(self, last_opinion_year):
+        years = range(last_opinion_year-3, last_opinion_year+1)
+        opinions = {}
         values = []
+
         for result in self.results["audit_opinions"]:
-            values.append(
-                {
-                    "date": result["financial_year_end.year"],
-                    "result": result["opinion.label"],
-                    "rating": result["opinion.code"],
-                    "report_url": result["opinion.report_url"],
-                }
-            )
-        values = sorted(values, key=lambda r: r["date"])
-        values.reverse()
-        return {"values": values}
+            opinions[result["financial_year_end.year"]] = {
+                "date": result["financial_year_end.year"],
+                "result": result["opinion.label"],
+                "rating": result["opinion.code"],
+                "report_url": result["opinion.report_url"],
+            }
+        for year in years:
+            if year in opinions:
+                values.append(opinions[year])
+            else:
+                values.append({
+                    "date": year,
+                    "result": None,
+                    "rating": None,
+                    "report_url": None,
+                })
+        return {"values": list(reversed(values))}
 
     def check_budget_actual(self, year, amount_type):
         return (

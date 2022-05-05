@@ -20,15 +20,17 @@ class ReportCard {
     this.$element.find(".audit-outcome__year").text(formatFinancialYear(report.date));
     this.$element.find(".audit-outcome__heading").text(report.result);
 
-    if (report.report_url.endsWith('.pdf')) {
-      report.report_url = report.report_url.substring(0, report.report_url.lastIndexOf("/"));
-    }
-
-    this.$element.find(".audit-outcome__download").attr("href", report.report_url);
-    if (report.report_url === null) {
+    let reportURL = report.report_url;
+    if (reportURL === null) {
       this.$element.find(".audit-outcome__download").text("No report available");
     }
-
+    else if (!reportURL.startsWith('https') && reportURL.endsWith('.pdf')) {
+      reportURL = reportURL.substring(0, reportURL.lastIndexOf("/"));
+      this.$element.find(".audit-outcome__download").attr("href", reportURL);
+    }
+    else {
+      this.$element.find(".audit-outcome__download").attr("href", reportURL);
+    }
     this.rating = report.rating;
     this.initIcons();
   }
@@ -60,7 +62,6 @@ export class AuditOpinions {
   constructor(reports) {
     this.$element = $(this.selector);
     logIfUnequal(1, this.$element.length);
-
     reports.values.forEach((report, index) => {
       const $element = this.$element.find(`.audit-outcome:eq(${ index })`);
       new ReportCard($element, report);

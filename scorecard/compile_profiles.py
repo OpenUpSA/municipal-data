@@ -261,7 +261,7 @@ def compile_profile(
     profile = {
         'mayoral_staff': api_data.mayoral_staff(),
         'muni_contact': api_data.muni_contact(),
-        'audit_opinions': api_data.audit_opinions(),
+        'audit_opinions': api_data.audit_opinions(last_opinion_year),
         'indicators': api_data.indicators(),
         'demarcation': Demarcation(api_data).as_dict(),
     }
