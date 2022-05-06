@@ -37,10 +37,10 @@ def convert(sheet, csv_file):
         fieldnames = ['demarcation_code', 'year', 'opinion_code', 'opinion_label']
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
-        for rowx in range(10, sheet.nrows):
+        for rowx in range(7, sheet.nrows):
             if sheet.cell(rowx, 0).value == 'TOTAL':
                 continue
-            for colx in range(3, sheet.ncols):
+            for colx in range(4, sheet.ncols):
                 if sheet.cell(3, colx).value != '':
                     # new year
                     current_year = int(sheet.cell(3, colx).value)
@@ -50,7 +50,7 @@ def convert(sheet, csv_file):
                     }
                 val = sheet.cell(rowx, colx).value
                 if val != '':
-                    item['opinion_label'] = label_normalised[sheet.cell(5, colx).value]
+                    item['opinion_label'] = label_normalised[sheet.cell(7, colx).value]
                     item['opinion_code'] = label_to_code[item['opinion_label']]
                     writer.writerow(item)
 

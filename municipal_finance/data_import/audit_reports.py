@@ -12,6 +12,7 @@ import requests
 import sys
 import traceback
 import urllib.parse
+import time
 
 root = "http://mfma.treasury.gov.za"
 fieldnames = ["demarcation_code", "year", "url"]
@@ -69,6 +70,10 @@ class Main(object):
         print("\nDir: %s %r" % (dir, params))
         try:
             r = requests.get(root + dir, params=params)
+
+            while r.status_code == 429:
+                time.sleep(11)
+                r = requests.get(root + dir, params=params)
             r.raise_for_status()
             soup = BeautifulSoup(r.text.encode("utf8", "replace"), "html.parser")
             for anchor in soup.select('table[Field="LinkFilename"] a'):
