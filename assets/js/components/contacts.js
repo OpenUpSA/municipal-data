@@ -83,8 +83,9 @@ export class ContactSection {
     }
 
     if (muniContact.url) {
+      var muniUrl = getClickableLink(muniContact.url);
       this.$element.find(".button--muni-site")
-        .attr("href", muniContact.url)
+        .attr("href", muniUrl)
         .css("display", "grid")
         .find("div:eq(2)")
         .text(muniContact.url);
@@ -108,7 +109,23 @@ export class ContactSection {
         .css("white-space", "pre-wrap")
         .css("display", "inline");
     }
-
-
   }
+}
+
+function getClickableLink(muniUrl) {
+  let link = muniUrl;
+
+  if (link.toLowerCase().startsWith('https')) {
+    link = link.substring(6);
+  }
+  else if (link.toLowerCase().startsWith('http')) {
+    link = link.substring(5);
+  }
+  else if (link.toLowerCase().startsWith('www')) {
+    link = "//" + link.substring(4);
+  }
+  else {
+    link = "//" + link;
+  }
+  return link;
 }
