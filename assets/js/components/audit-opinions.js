@@ -21,7 +21,7 @@ class ReportCard {
     this.$element.find(".audit-outcome__heading").text(report.result);
 
     let reportURL = report.report_url;
-    if (reportURL === null) {
+    if (!reportURL) {
       this.$element.find(".audit-outcome__download").text("No report available");
     }
     else if (!reportURL.startsWith('https') && reportURL.endsWith('.pdf')) {
