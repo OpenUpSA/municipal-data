@@ -321,6 +321,8 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
 
   _initChartData() {
     this._chartData = this.sectionData.national_conditional_grants;
+    let amount_type_codes = ["SCHD", "TRFR", "ACT"];
+    let amount_types = [];
     if (_.keys(this._chartData).length === 0) {
       this._year = null;
       this._chartData = null;
@@ -340,6 +342,13 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
         this._transferredLabel[year] = `Amount transferred up to ${legendYear} Q${legendQuarter}`;
         this._spentLabel[year] = `Amount spent up to ${legendYear} Q${legendQuarter}`;
 
+        // Filter out the amount types we don't want to display
+        this._chartData[year].forEach((item) => {
+          if (amount_type_codes.includes(item["amount_type.code"])) {
+            amount_types.push(item);
+          }
+        });
+        this._chartData[year] = amount_types;
         // Map keys to the keys assumed by the chart
         this._chartData[year].forEach((item) => {
           item.item = item["grant.label"];
