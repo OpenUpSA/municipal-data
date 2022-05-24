@@ -322,7 +322,6 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
   _initChartData() {
     this._chartData = this.sectionData.national_conditional_grants;
     let amount_type_codes = ["SCHD", "TRFR", "ACT"];
-    let amount_types = [];
     if (_.keys(this._chartData).length === 0) {
       this._year = null;
       this._chartData = null;
@@ -331,6 +330,7 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
       this._transferredLabel = {};
       this._spentLabel = {};
       for (let year in this._chartData) {
+        let amount_types = [];
         let legendYear, legendQuarter = null;
         if (year === this.sectionData.snapshot_date.year) {
           legendYear = this.sectionData.snapshot_date.year;
