@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         ('municipal_finance', '0024_delete_auditopinions'),
     ]
 
+
+
     operations = [
         migrations.CreateModel(
             name='GrantFactsV2',
@@ -64,11 +66,6 @@ class Migration(migrations.Migration):
             model_name='conditionalgranttypesv1',
             name='code',
             field=models.TextField(primary_key=True, serialize=False),
-        ),
-        migrations.AlterField(
-            model_name='conditionalgranttypesv1',
-            name='id',
-            field=models.AutoField(auto_created=True, primary_key=False, serialize=False),
         ),
         migrations.AddField(
             model_name='grantfactsv2',
