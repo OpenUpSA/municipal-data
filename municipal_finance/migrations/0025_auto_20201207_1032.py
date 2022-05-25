@@ -62,13 +62,13 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='conditionalgranttypesv1',
-            name='id',
-            field=models.AutoField(auto_created=True, primary_key=False, serialize=False),
+            name='code',
+            field=models.TextField(primary_key=True, serialize=False),
         ),
         migrations.AlterField(
             model_name='conditionalgranttypesv1',
-            name='code',
-            field=models.TextField(primary_key=False, serialize=False),
+            name='id',
+            field=models.AutoField(auto_created=True, primary_key=False, serialize=False),
         ),
         migrations.AddField(
             model_name='grantfactsv2',
