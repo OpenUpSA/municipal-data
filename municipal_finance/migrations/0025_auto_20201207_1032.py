@@ -55,17 +55,22 @@ class Migration(migrations.Migration):
             new_name='ConditionalGrantFactsV1',
         ),
         migrations.AlterModelTable(
-            name='conditionalgranttypesv1',
-            table='conditional_grant_types',
-        ),
-        migrations.AlterModelTable(
             name='conditionalgrantfactsv1',
             table='conditional_grant_facts',
         ),
         migrations.AlterField(
             model_name='conditionalgranttypesv1',
+            name='id',
+            field=models.AutoField(primary_key=False, serialize=False),
+        ),
+        migrations.AlterField(
+            model_name='conditionalgranttypesv1',
             name='code',
             field=models.TextField(primary_key=True, serialize=False),
+        ),
+        migrations.AlterModelTable(
+            name='conditionalgranttypesv1',
+            table='conditional_grant_types',
         ),
         migrations.AddField(
             model_name='grantfactsv2',

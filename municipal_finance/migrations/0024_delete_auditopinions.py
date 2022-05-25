@@ -15,9 +15,4 @@ class Migration(migrations.Migration):
         migrations.DeleteModel(
             name='AuditOpinions',
         ),
-        migrations.AlterField(
-            model_name='ConditionalGrants',
-            name='id',
-            field=models.AutoField(auto_created=True, primary_key=False, serialize=False),
-        ),
     ]
