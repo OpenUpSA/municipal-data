@@ -11,7 +11,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('municipal_finance', '0024_delete_auditopinions'),
-        ('municipal_finance', '0041_deduplicate_pk'),
     ]
 
     operations = [
@@ -60,11 +59,6 @@ class Migration(migrations.Migration):
         migrations.AlterModelTable(
             name='conditionalgrantfactsv1',
             table='conditional_grant_facts',
-        ),
-        migrations.AlterField(
-            model_name='conditionalgranttypesv1',
-            name='code',
-            field=models.TextField(primary_key=True, serialize=False),
         ),
         migrations.AddField(
             model_name='grantfactsv2',
