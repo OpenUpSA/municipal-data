@@ -745,6 +745,7 @@
 
       // column (aggregate) headings
       if(cube.model.can_aggregate){
+        th.setAttribute('colspan', Object.keys(cube.model.aggregate_columns).length * Math.max(functions.length, 1));
         tr = table.insertRow();
         _.times(munis.length, function() {
           _.each(cube.model.aggregate_columns, function(columns) {
@@ -815,8 +816,12 @@
               }
             }
             else if (cube.model.can_aggregate) {
-              for (var f = 0; f < Object.keys(cube.model.aggregate_columns).length; f++) {
-                this.renderMuniValues(muni, muni_data && muni_data[f], tr);
+              var tmp = {};
+              if(muni_data){
+                for (var f = 0; f < muni_data.length; f++) {
+                  tmp[muni_data[f]["capital_type.code"]]=muni_data[f];
+                }
+                this.renderMuniValues(muni, tmp, tr);
               }
             }
             else {
@@ -843,20 +848,20 @@
     renderMuniValues: function(muni, cell, tr) {
       if(cube.model.can_aggregate){
         for (var a = 0; a < Object.keys(cube.model.aggregate_columns).length; a++) {
-          var v = (cell ? cell[cube.columns[a]] : null);
-          console.log(v);
-          if (v === null) {
-            v = "·";
-          } else if (_.isNumber(v)) {
-            v = this.format(v);
+          if (cell[Object.keys(cell)[a]]) {
+            var v = (cell ? cell[Object.keys(cell)[a]]["amount.sum"] : null);
+            if (v === null) {
+              v = "·";
+            } else if (_.isNumber(v)) {
+              v = this.format(v);
+            }
+            tr.insertCell().innerText = v;
           }
-          tr.insertCell().innerText = v;
         }
       }
       else {
         for (var a = 0; a < cube.columns.length; a++) {
           var v = (cell ? cell[cube.columns[a]] : null);
-          console.log(v);
           if (v === null) {
             v = "·";
           } else if (_.isNumber(v)) {
