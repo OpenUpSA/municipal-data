@@ -70,6 +70,9 @@
       label: null,
     };
   }
+  else if (CUBE_NAME == 'capital_v2') {
+    cube.drilldown = ['demarcation.code', 'demarcation.label', 'capital_type.code', 'item.code', 'item.label'];
+  }
 
   if (cube.hasItems) {
     // the cell elements used for row headings
@@ -741,9 +744,19 @@
       }
 
       // column (aggregate) headings
+      if(cube.model.can_aggregate){
+        tr = table.insertRow();
+        _.times(munis.length, function() {
+          _.each(cube.model.aggregate_columns, function(columns) {
+            var th = document.createElement('th');
+            th.innerText = columns.label;
+            tr.appendChild(th);
+          });
+        });
+      }
+
       if (cube.columns.length > 1) {
         tr = table.insertRow();
-
         _.times(munis.length, function() {
           _.each(cube.model.measures, function(measure) {
             var th = document.createElement('th');
@@ -800,7 +813,13 @@
                 var data = muni_data ? muni_data[functions[f].code] : null;
                 this.renderMuniValues(muni, data, tr);
               }
-            } else {
+            }
+            else if (cube.model.can_aggregate) {
+              for (var f = 0; f < Object.keys(cube.model.aggregate_columns).length; f++) {
+                this.renderMuniValues(muni, muni_data && muni_data[f], tr);
+              }
+            }
+            else {
               this.renderMuniValues(muni, muni_data && muni_data[0], tr);
             }
           }
@@ -822,15 +841,29 @@
     },
 
     renderMuniValues: function(muni, cell, tr) {
-      for (var a = 0; a < cube.columns.length; a++) {
-        var v = (cell ? cell[cube.columns[a]] : null);
-        if (v === null) {
-          v = "·";
-        } else if (_.isNumber(v)) {
-          v = this.format(v);
+      if(cube.model.can_aggregate){
+        for (var a = 0; a < Object.keys(cube.model.aggregate_columns).length; a++) {
+          var v = (cell ? cell[cube.columns[a]] : null);
+          console.log(v);
+          if (v === null) {
+            v = "·";
+          } else if (_.isNumber(v)) {
+            v = this.format(v);
+          }
+          tr.insertCell().innerText = v;
         }
-
-        tr.insertCell().innerText = v;
+      }
+      else {
+        for (var a = 0; a < cube.columns.length; a++) {
+          var v = (cell ? cell[cube.columns[a]] : null);
+          console.log(v);
+          if (v === null) {
+            v = "·";
+          } else if (_.isNumber(v)) {
+            v = this.format(v);
+          }
+          tr.insertCell().innerText = v;
+        }
       }
     },
 
