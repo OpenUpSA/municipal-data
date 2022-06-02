@@ -1,5 +1,6 @@
 var formatLocale = d3_format.formatLocale({decimal: ".", thousands: " ", grouping: [3], currency: ["R", ""]});
 
+$('#local-income-sources').hide();
 var formats = {
   currency: formatLocale.format("$,.0f"),
   percent: function(n) {
