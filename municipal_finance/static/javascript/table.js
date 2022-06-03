@@ -816,13 +816,19 @@
               }
             }
             else if (cube.model.can_aggregate) {
-              var tmp = {};
+              var data = [];
               if(muni_data){
-                for (var f = 0; f < muni_data.length; f++) {
-                  tmp[muni_data[f]["capital_type.code"]]=muni_data[f];
+                for (const key in cube.model.aggregate_columns) {
+                    var column = "";
+                    for (var f = 0; f < muni_data.length; f++) {
+                      if (muni_data[f]["capital_type.code"] == cube.model.aggregate_columns[key]["column"]){
+                        column = muni_data[f];
+                      }
+                    }
+                    data.push(column);
                 }
-                this.renderMuniValues(muni, tmp, tr);
               }
+              this.renderMuniValues(muni, data, tr);
             }
             else {
               this.renderMuniValues(muni, muni_data && muni_data[0], tr);
@@ -850,13 +856,12 @@
         for (var a = 0; a < Object.keys(cube.model.aggregate_columns).length; a++) {
           if (cell[Object.keys(cell)[a]]) {
             var v = (cell ? cell[Object.keys(cell)[a]]["amount.sum"] : null);
-            if (v === null) {
-              v = "·";
-            } else if (_.isNumber(v)) {
-              v = this.format(v);
-            }
-            tr.insertCell().innerText = v;
+            v = this.format(v);
           }
+          else {
+            v = "·";
+          }
+          tr.insertCell().innerText = v;
         }
       }
       else {
