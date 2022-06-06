@@ -690,6 +690,7 @@
 
       if (cube.columns.length > 1) blanks++;
       if (!_.isEmpty(this.filters.get('functions'))) blanks++;
+      if (cube.model.can_aggregate) blanks++;
 
       for (var i = 0; i < blanks; i++) {
         var spacer = $('<th>').html('&nbsp;').addClass('spacer');
@@ -732,7 +733,6 @@
       // function headings
       if (cube.hasFunctions && !_.isEmpty(functions)) {
         tr = table.insertRow();
-
         _.times(munis.length, function() {
           _.each(functions, function(func) {
             var th = document.createElement('th');
