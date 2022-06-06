@@ -718,6 +718,17 @@
       var table = this.$('.values').empty()[0];
       var functions = this.functionHeadings();
 
+      var muniColumns = 1;
+      //var aggregateColumns = 1;
+      if (cube.model.can_aggregate) {
+        muniColumns = Object.keys(cube.model.aggregate_columns).length;
+        var aggregateColumns = cube.model.aggregate_columns;
+      }
+      else if (cube.columns.length > 1) {
+        muniColumns = cube.columns.length;
+        var aggregateColumns = cube.model.measures;
+      }
+
       // municipality headings
       var tr = table.insertRow();
       var munis = this.filters.get('municipalities');
@@ -725,7 +736,7 @@
         var muni = municipalities[munis[i]];
         var th = document.createElement('th');
         th.innerText = muni.name;
-        th.setAttribute('colspan', cube.columns.length * Math.max(functions.length, 1));
+        th.setAttribute('colspan', muniColumns * Math.max(functions.length, 1));
         th.setAttribute('title', muni.demarcation_code);
         tr.appendChild(th);
       }
@@ -744,24 +755,12 @@
       }
 
       // column (aggregate) headings
-      if(cube.model.can_aggregate){
-        th.setAttribute('colspan', Object.keys(cube.model.aggregate_columns).length * Math.max(functions.length, 1));
+      if(cube.model.can_aggregate || cube.columns.length > 1) {
         tr = table.insertRow();
         _.times(munis.length, function() {
-          _.each(cube.model.aggregate_columns, function(columns) {
+          _.each(aggregateColumns, function(columns) {
             var th = document.createElement('th');
             th.innerText = columns.label;
-            tr.appendChild(th);
-          });
-        });
-      }
-
-      if (cube.columns.length > 1) {
-        tr = table.insertRow();
-        _.times(munis.length, function() {
-          _.each(cube.model.measures, function(measure) {
-            var th = document.createElement('th');
-            th.innerText = measure.label;
             tr.appendChild(th);
           });
         });
