@@ -719,7 +719,6 @@
       var functions = this.functionHeadings();
 
       var muniColumns = 1;
-      //var aggregateColumns = 1;
       if (cube.model.can_aggregate) {
         muniColumns = Object.keys(cube.model.aggregate_columns).length;
         var aggregateColumns = cube.model.aggregate_columns;
