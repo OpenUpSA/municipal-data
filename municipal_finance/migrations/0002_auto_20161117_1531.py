@@ -236,7 +236,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ConditionalGrants',
             fields=[
-                ('code', models.TextField(blank=True, null=True)),
+                ('code', models.TextField(primary_key=True, blank=True, null=True)),
                 ('name', models.TextField(blank=True, null=True)),
             ],
             options={

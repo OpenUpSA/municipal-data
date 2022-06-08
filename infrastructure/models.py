@@ -59,7 +59,7 @@ class Project(models.Model):
     latitude = models.FloatField(null=True)
 
     content_search = SearchVectorField(null=True)
-    latest_implementation_year = models.ForeignKey(FinancialYear, null=False)
+    latest_implementation_year = models.ForeignKey(FinancialYear, null=False, on_delete=models.CASCADE)
 
     objects = ProjectManager()
 
