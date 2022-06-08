@@ -626,7 +626,11 @@
         else{
           $('#downloadBtn').attr('disabled', true);
         }
-      }).always(spinnerStop);
+      })
+      .always(spinnerStop)
+      .fail(function() {
+        alert("An error occurred.\nPlease try a different selection or try again later.");
+      });
     },
 
     makeDownloadUrl: function(parts, pagesize) {
@@ -754,7 +758,7 @@
       }
 
       // column (aggregate) headings
-      if(cube.model.can_aggregate || cube.columns.length > 1) {
+      if (cube.model.can_aggregate || cube.columns.length > 1) {
         tr = table.insertRow();
         _.times(munis.length, function() {
           _.each(aggregateColumns, function(columns) {
@@ -815,7 +819,7 @@
             }
             else if (cube.model.can_aggregate) {
               var data = [];
-              if(muni_data){
+              if (muni_data){
                 for (const key in cube.model.aggregate_columns) {
                     var column = "";
                     for (var f = 0; f < muni_data.length; f++) {
@@ -850,7 +854,7 @@
     },
 
     renderMuniValues: function(muni, cell, tr) {
-      if(cube.model.can_aggregate){
+      if (cube.model.can_aggregate){
         for (var a = 0; a < Object.keys(cube.model.aggregate_columns).length; a++) {
           if (cell[Object.keys(cell)[a]]) {
             var v = (cell ? cell[Object.keys(cell)[a]]["amount.sum"] : null);
