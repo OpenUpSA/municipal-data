@@ -50,7 +50,7 @@ def convert(sheet, csv_file):
                     }
                 val = sheet.cell(rowx, colx).value
                 if val != '':
-                    item['opinion_label'] = label_normalised[sheet.cell(7, colx).value]
+                    item['opinion_label'] = label_normalised[sheet.cell(rowx, colx).value]
                     item['opinion_code'] = label_to_code[item['opinion_label']]
                     writer.writerow(item)
 
