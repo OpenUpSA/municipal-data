@@ -60,11 +60,6 @@ class Migration(migrations.Migration):
             name='conditionalgrantfactsv1',
             table='conditional_grant_facts',
         ),
-        migrations.AlterField(
-            model_name='conditionalgranttypesv1',
-            name='code',
-            field=models.TextField(primary_key=True, serialize=False),
-        ),
         migrations.AddField(
             model_name='grantfactsv2',
             name='grant_type',
