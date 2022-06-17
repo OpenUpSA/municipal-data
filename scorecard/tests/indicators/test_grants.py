@@ -215,6 +215,10 @@ class GrantsTests(TestCase):
 
     def test_totals(self):
         result = Grants.totals({
+            "snapshot_date": {
+                "year": 2030,
+                "quarter": "4"
+            },
             "national_conditional_grants": {
                 2030: [
                     {
@@ -274,12 +278,8 @@ class GrantsTests(TestCase):
                 ],
             },
         })
+
         expected = {
-            2029: {
-                "C": {
-                    "equitable_share": 10,
-                },
-            },
             2030: {
                 "A": {
                     "national_conditional_grants": 3,
@@ -288,14 +288,6 @@ class GrantsTests(TestCase):
                 },
                 "B": {
                     "national_conditional_grants": 3,
-                },
-            },
-            2031: {
-                "A": {
-                    "national_conditional_grants": 9,
-                },
-                "B": {
-                    "provincial_transfers": 15,
                 },
             },
         }
