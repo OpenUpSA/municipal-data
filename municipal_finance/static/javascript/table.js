@@ -69,8 +69,7 @@
       code: 'financial_year_end.year',
       label: null,
     };
-  }
-  else if (CUBE_NAME == 'capital_v2') {
+  } else if (CUBE_NAME == 'capital_v2') {
     cube.drilldown = ['demarcation.code', 'demarcation.label', 'capital_type.code', 'item.code', 'item.label'];
   }
 
@@ -694,7 +693,7 @@
 
       if (cube.columns.length > 1) blanks++;
       if (!_.isEmpty(this.filters.get('functions'))) blanks++;
-      if (cube.model.can_aggregate) blanks++;
+      if (CUBE_NAME == 'capital_v2') blanks++;
 
       for (var i = 0; i < blanks; i++) {
         var spacer = $('<th>').html('&nbsp;').addClass('spacer');
@@ -723,13 +722,13 @@
       var functions = this.functionHeadings();
 
       var muniColumns = 1;
-      if (cube.model.can_aggregate) {
+      var valueColumns;
+      if (CUBE_NAME == 'capital_v2') {
         muniColumns = Object.keys(cube.model.aggregate_columns).length;
-        var aggregateColumns = cube.model.aggregate_columns;
-      }
-      else if (cube.columns.length > 1) {
+        valueColumns = cube.model.aggregate_columns;
+      } else if (cube.columns.length > 1) {
         muniColumns = cube.columns.length;
-        var aggregateColumns = cube.model.measures;
+        valueColumns = cube.model.measures;
       }
 
       // municipality headings
@@ -758,10 +757,10 @@
       }
 
       // column (aggregate) headings
-      if (cube.model.can_aggregate || cube.columns.length > 1) {
+      if (CUBE_NAME == 'capital_v2' || cube.columns.length > 1) {
         tr = table.insertRow();
         _.times(munis.length, function() {
-          _.each(aggregateColumns, function(columns) {
+          _.each(valueColumns, function(columns) {
             var th = document.createElement('th');
             th.innerText = columns.label;
             tr.appendChild(th);
@@ -816,8 +815,7 @@
                 var data = muni_data ? muni_data[functions[f].code] : null;
                 this.renderMuniValues(muni, data, tr);
               }
-            }
-            else if (cube.model.can_aggregate) {
+            } else if (CUBE_NAME == 'capital_v2') {
               var data = [];
               if (muni_data){
                 for (const key in cube.model.aggregate_columns) {
@@ -854,7 +852,7 @@
     },
 
     renderMuniValues: function(muni, cell, tr) {
-      if (cube.model.can_aggregate){
+      if (CUBE_NAME == 'capital_v2'){
         for (var a = 0; a < Object.keys(cube.model.aggregate_columns).length; a++) {
           if (cell[Object.keys(cell)[a]]) {
             var v = (cell ? cell[Object.keys(cell)[a]]["amount.sum"] : null);

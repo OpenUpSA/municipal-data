@@ -89,7 +89,8 @@
             "label_attribute": "label",
             "description": "",
             "label": "Capital Type",
-            "join_column": ["capital_type_id", "id"]
+            "join_column": ["capital_type_id", "id"],
+            "can_aggregate": false
         },
         "financial_year_end": {
             "attributes": {
@@ -158,7 +159,6 @@
             "label": "Amount"
         }
     },
-    "can_aggregate": "True",
     "aggregate_columns": {
         "new_assets": {
             "column": "DEPRECIATION",
