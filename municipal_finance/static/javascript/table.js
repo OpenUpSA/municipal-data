@@ -685,10 +685,10 @@
             success: function (resp) {
               resp.data.forEach(capitalType => {
                 if (capitalType['capital_type.code']) {
-                  columns.push(capitalType);
+                  columns.push({"code": capitalType['capital_type.code'],"label": capitalType['capital_type.label']});
                 }
               });
-              self.aggregate_columns = columns;
+              self.aggregate_columns = Object.assign({}, columns);
             }
           });
 
@@ -776,7 +776,7 @@
         _.times(munis.length, function() {
           _.each(valueColumns, function(columns) {
             var th = document.createElement('th');
-            th.innerText = columns['capital_type.label'];
+            th.innerText = columns.label;
             tr.appendChild(th);
           });
         });
