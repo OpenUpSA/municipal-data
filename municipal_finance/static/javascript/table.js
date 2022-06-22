@@ -150,7 +150,6 @@
     preload: function() {
       this.preloadMunis();
       this.preloadAmountTypes();
-      this.preloadCapitalTypes();
       this.preloadFunctions();
     },
 
@@ -224,10 +223,6 @@
 
       $('.loading').hide();
       self.filters.trigger('change');
-    },
-
-    preloadCapitalTypes: function() {
-      var self = this;
     },
 
     // government functions
@@ -606,7 +601,7 @@
         if (cube.hasMonths && this.filters.get('month')) {
           parts.cut.push('financial_period.period:' + this.filters.get('month'));
         } else {
-          parts.cut.push('financial_period.period:' + this.filters.get('year'));self.downloadUrl
+          parts.cut.push('financial_period.period:' + this.filters.get('year'));
         }
       }
       if (!_.isEmpty(this.filters.get('functions'))) {
@@ -683,22 +678,22 @@
         this.renderRowHeadings();
 
         if (municipalities) {
-          var tmp = [];
+          var columns = [];
           $.ajax({
             url: MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/capital_type',
             async: false,
             success: function (resp) {
-              resp.data.forEach(capital_type => {
-                if (capital_type['capital_type.code']) {
-                  tmp.push(capital_type);
+              resp.data.forEach(capitalType => {
+                if (capitalType['capital_type.code']) {
+                  columns.push(capitalType);
                 }
               });
-              self.aggregate_columns = tmp;
+              self.aggregate_columns = columns;
             }
           });
 
           this.renderColHeadings();
-          this.renderValues();
+          this.renderValues(self.aggregate_columns);
         }
       }
 
@@ -788,7 +783,7 @@
       }
     },
 
-    renderValues: function() {
+    renderValues: function(aggregate_columns) {
       var table = this.$('.values')[0];
       var cells = this.cells.get('items');
       var munis = this.filters.get('municipalities');
@@ -837,15 +832,15 @@
             } else if (CUBE_NAME == 'capital_v2') {
               var data = [];
               if (muni_data){
-                for (const key in self.aggregate_columns) {
-                    var column = "";
+                aggregate_columns.forEach(column => {
+                  var row = "";
                     for (var f = 0; f < muni_data.length; f++) {
-                      if (muni_data[f]["capital_type.code"] == self.aggregate_columns[key]["column"]){
-                        column = muni_data[f];
+                      if (muni_data[f]["capital_type.code"] == column["capital_type.code"]){
+                        row = muni_data[f];
                       }
                     }
-                    data.push(column);
-                }
+                    data.push(row);
+                });
               }
               this.renderMuniValues(muni, data, tr);
             }
