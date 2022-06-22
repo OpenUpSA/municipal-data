@@ -278,8 +278,12 @@ class GrantsTests(TestCase):
                 ],
             },
         })
-
         expected = {
+            2029: {
+                "C": {
+                    "equitable_share": 10,
+                },
+            },
             2030: {
                 "A": {
                     "national_conditional_grants": 3,
@@ -288,6 +292,14 @@ class GrantsTests(TestCase):
                 },
                 "B": {
                     "national_conditional_grants": 3,
+                },
+            },
+            2031: {
+                "A": {
+                    "national_conditional_grants": 9,
+                },
+                "B": {
+                    "provincial_transfers": 15,
                 },
             },
         }
