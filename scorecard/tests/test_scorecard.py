@@ -143,38 +143,19 @@ class ScorecardTest(BaseSeleniumTestCase):
         element = selenium.find_element_by_css_selector('#income-summary').text
         self.assertIn('2018-2019 Audited actual', element)
         self.assertIn('R6 040 712 322', element)
-        self.assertIn('84.8%', element)
-        self.assertIn('R5 119 525 162', element)
-        self.assertIn('15.3%', element)
-        self.assertIn('R921 187 160', element)
 
         element = selenium.find_element_by_css_selector('#types-of-transfers').text
         self.assertIn('2019-2020 Original budget', element)
         self.assertIn('R2 050 190 000', element)
-        self.assertIn('R847 431 000', element)
-        self.assertIn('R1 115 588 000', element)
-        self.assertIn('R87 171 000', element)
 
         element = selenium.find_element_by_css_selector('#equitable-share').text
         self.assertIn('2019-2020 Original budget', element)
         self.assertIn('R847 431 000', element)
-        self.assertIn('R847 431 000', element)
-        self.assertIn('R1 115 588 000', element)
-        self.assertIn('R87 171 000', element)
 
         element = selenium.find_element_by_css_selector('#national-conditional-grants').text
         self.assertIn('2019-2020 Allocations', element)
         self.assertIn('R285 942 000', element)
-        self.assertIn('R1 000 000', element)
-        self.assertIn('R21 020 000', element)
-        self.assertIn('R9 000 000', element)
-        self.assertIn('R500 000', element)
-        self.assertIn('R10 000 000', element)
-        self.assertIn('R234 466 000', element)
-        self.assertIn('R9 956 000', element)
 
         element = selenium.find_element_by_css_selector('#provincial-transfers').text
         self.assertIn('2019-2020 Original budget', element)
         self.assertIn('R87 171 000', element)
-        self.assertIn('R5 488 000', element)
-        self.assertIn('R500 000', element)
