@@ -832,10 +832,10 @@
             } else if (CUBE_NAME == 'capital_v2') {
               var data = [];
               if (muni_data){
-                aggregate_columns.forEach(column => {
+                Object.keys(aggregate_columns).forEach(column => {
                   var row = "";
                     for (var f = 0; f < muni_data.length; f++) {
-                      if (muni_data[f]["capital_type.code"] == column["capital_type.code"]){
+                      if (muni_data[f]["capital_type.code"] == aggregate_columns[column]["code"]){
                         row = muni_data[f];
                       }
                     }
