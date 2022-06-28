@@ -136,7 +136,7 @@ class ScorecardTest(BaseSeleniumTestCase):
         element = selenium.find_elements_by_css_selector(link_class)[19].get_attribute("href")
         self.assertIn('http://portal:8002/table/incexp/?municipalities=BUF&year=2019&items=0200%2C0400%2C1000&amountType=AUDA', element)
 
-    def test_grants_indi(self):
+    def test_grants_section(self):
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/"))
 
@@ -145,12 +145,18 @@ class ScorecardTest(BaseSeleniumTestCase):
         self.assertIn('R6 040 712 322', element)
 
         element = selenium.find_element_by_css_selector('#types-of-transfers').text
+        self.assertIn('2018-2019 Original budget', element)
+        self.assertIn('R183 861 100', element)
+        element = selenium.find_element_by_css_selector('#w-dropdown-list-11').get_attribute("innerHTML")
+        self.assertIn('2018-2019 Original budget', element)
         self.assertIn('2019-2020 Original budget', element)
-        self.assertIn('R2 050 190 000', element)
 
         element = selenium.find_element_by_css_selector('#equitable-share').text
+        self.assertIn('2018-2019 Original budget', element)
+        self.assertIn('R79 021 100', element)
+        element = selenium.find_element_by_css_selector('#w-dropdown-list-12').get_attribute("innerHTML")
+        self.assertIn('2018-2019 Original budget', element)
         self.assertIn('2019-2020 Original budget', element)
-        self.assertIn('R847 431 000', element)
 
         element = selenium.find_element_by_css_selector('#national-conditional-grants').text
         self.assertIn('2019-2020 Allocations', element)
