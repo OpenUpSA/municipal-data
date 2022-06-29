@@ -62,7 +62,12 @@ export class IndicatorSection {
   }
 
   formatMetric(value) {
-    return formatForType(this.sectionData.result_type, value);
+    if (value || value === 0 || value === -0) {
+      return formatForType(this.sectionData.result_type, value);
+    }
+    else {
+      return "Not available";
+    }
   }
 
   _initCategoryInfo() {
