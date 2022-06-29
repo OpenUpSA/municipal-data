@@ -125,7 +125,7 @@ class LocalRevenueBreakdown(IndicatorCalculator):
             ("Property rates", ["0200"]),
             ("Service Charges", ["0300", "0400", "0500", "0600"]),
             ("Rental income", ["0800"]),
-            ("Interest and investments", ["0900", "1000", "1100"]),
+            ("Interest and investments", ["0900", "1000"]),
             ("Fines", ["1200"]),
             ("Licenses and Permits", ["1300"]),
             ("Agency services", ["1400"]),
