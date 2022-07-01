@@ -9,6 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token }}">
     <meta name="google-site-verification" content="wGl9Jd3oxgnbklAbePVsucACMR8g38SXoSq6hvyb9Gk" />
     <meta name="msvalidate.01" content="302E91E15E0652704A4BAA3FF1F134D3" />
+    {% if NO_INDEX %}<meta name="robots" content="noindex">{% endif %}
     
     {% block head-css %}
     {% endblock %}
