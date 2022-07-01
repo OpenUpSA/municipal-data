@@ -27,6 +27,7 @@
   </div>
   <div id="spinner" class="progress-bar progress-bar-striped active"></div>
 </header>
+{% for notice in site_notices %}<h4>{{ notice.content | safe }}</h4>{% endfor %}
 
 <article id="table-view">
   <div class="container-fluid">
