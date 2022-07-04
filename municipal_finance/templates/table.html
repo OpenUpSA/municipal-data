@@ -23,11 +23,15 @@
     </div>
 
     <img src="{% static 'images/treasury-logo.png' %}" class="logo">
-    <h1><a href="/">Municipal Finance Data Tables</a></h1>
+    {% if site_notices %}
+      <h3><a href="/">Municipal Finance Data Tables</a></h3>
+      {% for notice in site_notices %}<h3>{{ notice.content | safe }}</h3>{% endfor %}
+    {% else %}
+      <h1><a href="/">Municipal Finance Data Tables</a></h1>
+    {% endif %}
   </div>
   <div id="spinner" class="progress-bar progress-bar-striped active"></div>
 </header>
-{% for notice in site_notices %}<h4>{{ notice.content | safe }}</h4>{% endfor %}
 
 <article id="table-view">
   <div class="container-fluid">
