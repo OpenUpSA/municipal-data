@@ -16,8 +16,9 @@
     <h1><a href="/">Municipal Finance Data</a></h1>
   </div>
 </header>
-{% for notice in site_notices %}<h4>{{ notice.content | safe }}</h4>{% endfor %}
-
+<div class="container site-notice">
+  {% for notice in site_notices %}<div>{{ notice.content | safe }}</div>{% endfor %}
+</div>
 {% block page-content %}
 {% endblock %}
 

@@ -34,8 +34,8 @@
 
 <div class="page-wrapper">
   <div class="content">
-    {% for notice in site_notices %}<h3>{{ notice.content | safe }}</h3>{% endfor %}
     <h1 id="intro">Municipal Money API Documentation</h1>
+    {% for notice in site_notices %}<div class="site-notice">{{ notice.content | safe }}</div>{% endfor %}
     <aside class="info">
       Usage of this data is subject to the <b><a href="/terms">Terms of Use</a></b>
     </aside>
