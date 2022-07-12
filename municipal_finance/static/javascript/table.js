@@ -677,20 +677,22 @@
       if (cube.rowHeadings || !cube.hasItems) {
         this.renderRowHeadings();
 
-        if (CUBE_NAME == 'capital_v2' && municipalities) {
-          var columns = [];
-          $.ajax({
-            url: MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/capital_type',
-            async: false,
-            success: function (resp) {
-              resp.data.forEach(capitalType => {
-                if (capitalType['capital_type.code']) {
-                  columns.push({"code": capitalType['capital_type.code'],"label": capitalType['capital_type.label']});
-                }
-              });
-              self.aggregate_columns = Object.assign({}, columns);
-            }
-          });
+        if (municipalities) {
+          if (CUBE_NAME == 'capital_v2') {
+            var columns = [];
+            $.ajax({
+              url: MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/capital_type',
+              async: false,
+              success: function (resp) {
+                resp.data.forEach(capitalType => {
+                  if (capitalType['capital_type.code']) {
+                    columns.push({"code": capitalType['capital_type.code'],"label": capitalType['capital_type.label']});
+                  }
+                });
+                self.aggregate_columns = Object.assign({}, columns);
+              }
+            });
+          }
 
           this.renderColHeadings();
           this.renderValues(self.aggregate_columns);
