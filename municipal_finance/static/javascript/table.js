@@ -677,7 +677,7 @@
       if (cube.rowHeadings || !cube.hasItems) {
         this.renderRowHeadings();
 
-        if (municipalities) {
+        if (CUBE_NAME == 'capital_v2' && municipalities) {
           var columns = [];
           $.ajax({
             url: MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/capital_type',
