@@ -25,7 +25,7 @@
     <img src="{% static 'images/treasury-logo.png' %}" class="logo">
     {% if site_notices %}
         <h1 class="site-notice"><a href="/">Municipal Finance Data Tables</a></h1>
-        {% for notice in site_notices %}<h1 class="site-notice">{{ notice.content | safe }}</h1>{% endfor %}
+        {% for notice in site_notices %}<div class="site-notice">{{ notice.content | safe }}</div>{% endfor %}
 
     {% else %}
       <h1><a href="/">Municipal Finance Data Tables</a></h1>
