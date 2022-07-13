@@ -45,8 +45,12 @@
       {% for group in cubes %}
         <div class="dataset-buttons clearfix">
         {% for cube_name, cube in group %}
-          <a href="/table/{{ cube_name }}/" class="dataset">
-            <h4>{{ cube.label}}</h4>
+          {% if cube.dimensions.item %}
+            <a href="/table/{{ cube_name }}/" class="dataset">
+          {% else %}
+          <a href="/docs#cube-{{ cube_name }}" class="dataset">
+          {% endif %}
+            <h4>{{ cube.label }}</h4>
             <p>{{ cube.description }}</p>
             <p class="small">Updated: {{ cube.last_updated }}</p>
           </a>
