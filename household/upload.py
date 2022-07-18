@@ -71,7 +71,6 @@ def household_service_total(csv_obj):
         service = HouseholdService.objects.get(name=row["Service Name"])
         total = row["Total"] if row["Total"] else None
         try:
-
             HouseholdServiceTotal.objects.create(
                 geography=geography,
                 financial_year=financial_year,
@@ -103,7 +102,6 @@ def household_bill_total(csv_obj):
         percent = row["Percent Increase"] if row["Percent Increase"] else None
         total = row["Total"] if row["Total"] else None
         try:
-
             HouseholdBillTotal.objects.create(
                 geography=geography,
                 financial_year=financial_year,
