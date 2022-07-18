@@ -5,6 +5,7 @@ function mmWebflow(js) {
         var summary_year = js.summary_year
         var title = $(".page-heading").text();
         $(".page-heading").text(title + " " + summary_year);
+        $(".dropdown__search").hide();
 
         function ProjectTypeBarChart(el) {
             this.barchart = new mm.BarChart();
