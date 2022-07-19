@@ -62,7 +62,7 @@ export class IndicatorSection {
   }
 
   formatMetric(value) {
-    if (value || value === 0 || value === -0) {
+    if (value || value === 0) {
       return formatForType(this.sectionData.result_type, value);
     }
     else {
