@@ -43,4 +43,4 @@ class UpdateAgedCreditorFactsV2(TransactionTestCase):
         with manager.get_engine().connect() as connection:
             a = get_cube_with_last_updated(connection, manager, "aged_creditor_v2")
 
-        self.assertEqual(datetime.strptime(a["last_updated"][0:10], "%Y-%m-%d"), datetime.today().strftime("%Y-%m-%d"))
+        self.assertEqual(a["last_updated"][0:10], datetime.today().strftime("%Y-%m-%d"))
