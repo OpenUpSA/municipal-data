@@ -29,10 +29,13 @@ class UpdateAgedCreditorFactsV2(TransactionTestCase):
             user=self.user,
             file=File(open(f"{FIXTURES_PATH}/insert.csv", "rb")),
         )
-        self.update_obj = AgedCreditorFactsV2Update.objects.create(
-            user=self.user,
-            file=File(open(f"{FIXTURES_PATH}/update.csv", "rb")),
-        )
+
+    def test_aged_creditor_v1(self):
+        manager = get_manager()
+        with manager.get_engine().connect() as connection:
+            cube = get_cube_with_last_updated(connection, manager, "aged_creditor")
+
+        self.assertEqual(cube["last_updated"], "2020-10")
 
     def test_aged_creditor_v2(self):
         update_aged_creditor_facts_v2(
@@ -41,6 +44,6 @@ class UpdateAgedCreditorFactsV2(TransactionTestCase):
         )
         manager = get_manager()
         with manager.get_engine().connect() as connection:
-            a = get_cube_with_last_updated(connection, manager, "aged_creditor_v2")
+            cube = get_cube_with_last_updated(connection, manager, "aged_creditor_v2")
 
-        self.assertEqual(a["last_updated"][0:10], datetime.today().strftime("%Y-%m-%d"))
+        self.assertEqual(cube["last_updated"][0:10], datetime.today().strftime("%Y-%m-%d"))
