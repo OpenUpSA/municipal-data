@@ -138,8 +138,8 @@ class ScorecardTest(BaseSeleniumTestCase):
     def test_grants_legend(self):
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/"))
-        self.wait_until_text_in(".page-heading__title", "Buffalo City")
-        legend_class = '.legend-block__wrapper'
 
-        element = selenium.find_elements_by_css_selector(legend_class)[0].get_attribute("innerHTML")
+        element = selenium.find_element_by_css_selector('#national-conditional-grants').text
         self.assertIn('Allocations', element)
+        self.assertIn('Amount transferred up to 2019 Q4', element)
+        self.assertIn('Amount spent up to 2019 Q4', element)
