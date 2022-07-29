@@ -58,7 +58,9 @@
         </a>
         <ul class="dropdown-menu cube-list">
           {% for cube in cubes.values|dictsort:"name" %}
-          <li><a href="{% url 'table' cube.name %}">{{ cube.model.label }}</a></li>
+            {% if cube.model.dimensions.item %}
+              <li><a href="{% url 'table' cube.name %}">{{ cube.model.label }}</a></li>
+            {% endif %}
           {% endfor %}
         </ul>
       </div>
