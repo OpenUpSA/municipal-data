@@ -71,14 +71,16 @@ def household_service_total(csv_obj):
         service = HouseholdService.objects.get(name=row["Service Name"])
         total = row["Total"] if row["Total"] else None
         try:
-            HouseholdServiceTotal.objects.create(
+            HouseholdServiceTotal.objects.update_or_create(
                 geography=geography,
                 financial_year=financial_year,
                 budget_phase=budget_phase,
                 household_class=household_class,
                 version=csv_obj.version,
                 service=service,
-                total=total,
+                defaults={
+                    "total": total,
+                },
             )
         except IntegrityError:
             log.warn(
@@ -102,14 +104,16 @@ def household_bill_total(csv_obj):
         percent = row["Percent Increase"] if row["Percent Increase"] else None
         total = row["Total"] if row["Total"] else None
         try:
-            HouseholdBillTotal.objects.create(
+            HouseholdBillTotal.objects.update_or_create(
                 geography=geography,
                 financial_year=financial_year,
                 budget_phase=budget_phase,
                 household_class=household_class,
                 version=csv_obj.version,
-                percent=percent,
-                total=total,
+                defaults={
+                    "percent": percent,
+                    "total": total,
+                },
             )
         except IntegrityError:
             log.warn(
