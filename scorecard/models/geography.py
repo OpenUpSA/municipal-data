@@ -18,6 +18,12 @@ CATEGORIES = {
 class LocationNotFound(Exception):
     pass
 
+class GeographyUpdate(models.Model):
+    datetime = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "scorecard_geography_update"
+        verbose_name = "Geography Update"
 
 class Geography(models.Model):
     #: The level for this geography (eg. `country`) which, together with
