@@ -42,7 +42,6 @@ class TestOperatingBudgetSpending(_IndicatorTestCase):
         # Provide data to indicator
         result = OperatingBudgetSpending.get_muni_specifics(api_data)
         self.assertEqual(
-            result,
             {
                 "result_type": "%",
                 "values": [
@@ -83,7 +82,7 @@ class TestOperatingBudgetSpending(_IndicatorTestCase):
                 "formula": {
                     "text": "= ((Actual Operating Expenditure - Budget Operating Expenditure) / Budgeted Operating Expenditure) * 100",
                     "actual": [
-                        "=", 
+                        "=",
                         "(",
                         "(",
                         {
@@ -112,7 +111,7 @@ class TestOperatingBudgetSpending(_IndicatorTestCase):
                 "formula_v2": {
                     "text": "= ((Actual Operating Expenditure - Budget Operating Expenditure) / Budgeted Operating Expenditure) * 100",
                     "actual": [
-                        "=", 
+                        "=",
                         "(",
                         "(",
                         {
@@ -175,4 +174,5 @@ class TestOperatingBudgetSpending(_IndicatorTestCase):
                     ],
                 },
             },
+            result,
         )
