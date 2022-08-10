@@ -120,7 +120,7 @@
       <table class="dimensions">
         {% for dimension in cube.model.dimensions.values|dictsort:"label" %}
           <tr class="dimension">
-            <td colspan="2">{{ dimension.label }}</td>
+            <td colspan="2">{{ dimension.label }} {% if dimension.non_aggregatable %}(<a href="#non-aggregatable">Non-aggregatable</a>){% endif %}</td>
             <td colspan="2">{{ dimension.description }}</td>
           </tr>
 
@@ -556,6 +556,14 @@ GET /api/cubes/incexp/aggregate
         <td>Determines whether output is in <code>json</code> or <code>csv</code> format. </td>
       </tr>
     </table>
+
+    <h2 id="non-aggregatable">Non-aggregatable Dimensions</h2>
+
+    <p>Non-aggregatable dimensions are dimensions where it does not make sense to aggregate over the categories in the dimension.</p>
+    <p>For example, it does not make sense to aggregate over all financial years when there is no filter on financial years because the number of years might change when additional data is added. You would be summing together an arbitrary number of years.</p>
+    <p>It also does not make sense to aggregate over amount types since summing together a budget and an actual figure makes no sense.</p>
+    <p>The correct way to query cubes with non-aggregatable dimensions is to either include that dimension as a drilldown (disaggregate) or as a filter.</p>
+    <p>For example, filter by financial year being 2017 and drilldown by amount type, to compare budgeted and actual figures for that year.</p>
 
     <h1 id="best-practises">Best Practises</h1>
 
