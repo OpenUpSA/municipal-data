@@ -4,6 +4,7 @@ from selenium.webdriver.common.keys import Keys
 
 
 class SearchTest(BaseSeleniumTestCase):
+    serialized_rollback = True
 
     def setUp(self):
         super(SearchTest, self).setUp()
