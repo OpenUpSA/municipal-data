@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='agedcreditoritemsv1',
             name='id',
-            field=models.AutoField(default=-1, primary_key=True, serialize=False),
+            field=municipal_finance.models.small_auto_field.SmallAutoField(default=-1, primary_key=True, serialize=False),
             preserve_default=False,
         ),
         migrations.AlterField(
