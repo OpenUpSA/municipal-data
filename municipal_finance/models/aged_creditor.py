@@ -38,21 +38,13 @@ class AgedCreditorItemsV1(AgedCreditorItems):
     code = models.TextField(primary_key=True)
 
     class Meta:
-        db_table = "aged_creditor_items_v1"
-        verbose_name_plural = "Aged Creditor Items (v1)"
-
-class AgedCreditorItemsV1Migrate(AgedCreditorItems):
-    id = SmallAutoField(primary_key=True)
-    code = models.TextField()
-
-    class Meta:
         db_table = "aged_creditor_items"
         verbose_name_plural = "Aged Creditor Items (v1)"
 
 
 class AgedCreditorFactsV1(AgedCreditorFacts):
     item = models.ForeignKey(
-        AgedCreditorItemsV1Migrate,
+        AgedCreditorItemsV1,
         models.DO_NOTHING,
     )
     item_code = models.ForeignKey(
