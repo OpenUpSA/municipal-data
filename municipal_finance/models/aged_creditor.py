@@ -35,7 +35,7 @@ class AgedCreditorFacts(models.Model):
 
 
 class AgedCreditorItemsV1(AgedCreditorItems):
-    id = SmallAutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     code = models.TextField()
 
     class Meta:
