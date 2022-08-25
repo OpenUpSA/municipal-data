@@ -18,15 +18,10 @@ def populate_items_id(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('municipal_finance', '0040_auto_20210222_0541'),
+        ('municipal_finance', '0041_create_item_id'),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='agedcreditoritemsv1',
-            name='id',
-            field=models.IntegerField(null=True),
-        ),
         migrations.RunPython(populate_items_id),
         migrations.AlterField(
             model_name='agedcreditoritemsv1',
