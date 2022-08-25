@@ -42,6 +42,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='agedcreditorfactsv1',
             name='item_code',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.AgedCreditorItemsV1'),
+            field=models.TextField(),
+        ),
+        migrations.AddField(
+            model_name='agedcreditorfactsv1',
+            name='item',
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.AgedCreditorItemsV1'),
+            preserve_default=False,
         ),
     ]

@@ -35,7 +35,8 @@ class AgedCreditorFacts(models.Model):
 
 
 class AgedCreditorItemsV1(AgedCreditorItems):
-    code = models.TextField(primary_key=True)
+    id = SmallAutoField(primary_key=True)
+    code = models.TextField()
 
     class Meta:
         db_table = "aged_creditor_items"
@@ -47,11 +48,7 @@ class AgedCreditorFactsV1(AgedCreditorFacts):
         AgedCreditorItemsV1,
         models.DO_NOTHING,
     )
-    item_code = models.ForeignKey(
-        AgedCreditorItemsV1,
-        models.DO_NOTHING,
-        db_column="item_code",
-    )
+    item_code = models.TextField()
     amount_type_code = models.TextField()
 
     class Meta:
