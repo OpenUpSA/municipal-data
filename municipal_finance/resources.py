@@ -193,7 +193,7 @@ class AgedDebtorItemsV2Resource(resources.ModelResource):
 class AgedCreditorItemsV1Resource(resources.ModelResource):
     class Meta:
         model = AgedCreditorItemsV1
-        import_id_fields = ("code",)
+        import_id_fields = ("code","id")
 
 
 class AgedCreditorItemsV2Resource(resources.ModelResource):
