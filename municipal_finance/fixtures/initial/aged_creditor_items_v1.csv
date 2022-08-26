@@ -1,22 +1,22 @@
-code,label,position_in_return_form,return_form_structure,composition
-0100,Bulk Electricity,1,line_item,
-0200,Bulk Water,2,line_item,
-0300,PAYE deductions,3,line_item,
-0400,VAT (output less input),4,line_item,
-0500,Pensions / Retirement deductions,5,line_item,
-0600,Loan repayments,6,line_item,
-0700,Trade Creditors,7,line_item,
-0800,Auditor General,8,line_item,
-0900,Other,9,line_item,
-1000,Total,10,subtotal,"sum(0100, 0200, 0300, 0400, 0500, 0600, 0700, 0800, 0900)"
-TP01,Top 1 Creditor,11,line_item,
-TP02,Top 2 Creditor,12,line_item,
-TP03,Top 3 Creditor,13,line_item,
-TP04,Top 4 Creditor,14,line_item,
-TP05,Top 5 Creditor,15,line_item,
-TP06,Top 6 Creditor,16,line_item,
-TP07,Top 7 Creditor,17,line_item,
-TP08,Top 8 Creditor,18,line_item,
-TP09,Top 9 Creditor,19,line_item,
-TP10,Top 10 Creditor,20,line_item,
-TOT,Total,21,subtotal,"sum(TP01, TP02, TP03, TP04, TP05, TP06, TP07 TP08 TP09, TP10)"
+code,label,position_in_return_form,return_form_structure,composition,id
+0100,Bulk Electricity,1,line_item,,1
+0200,Bulk Water,2,line_item,,2
+0300,PAYE deductions,3,line_item,,3
+0400,VAT (output less input),4,line_item,,4
+0500,Pensions / Retirement deductions,5,line_item,,5
+0600,Loan repayments,6,line_item,,6
+0700,Trade Creditors,7,line_item,,7
+0800,Auditor General,8,line_item,,8
+0900,Other,9,line_item,,9
+1000,Total,10,subtotal,"sum(0100, 0200, 0300, 0400, 0500, 0600, 0700, 0800, 0900)",10
+TP01,Top 1 Creditor,11,line_item,,11
+TP02,Top 2 Creditor,12,line_item,,12
+TP03,Top 3 Creditor,13,line_item,,13
+TP04,Top 4 Creditor,14,line_item,,14
+TP05,Top 5 Creditor,15,line_item,,15
+TP06,Top 6 Creditor,16,line_item,,16
+TP07,Top 7 Creditor,17,line_item,,17
+TP08,Top 8 Creditor,18,line_item,,18
+TP09,Top 9 Creditor,19,line_item,,19
+TP10,Top 10 Creditor,20,line_item,,20
+TOT,Total,21,subtotal,"sum(TP01, TP02, TP03, TP04, TP05, TP06, TP07 TP08 TP09, TP10)",21
