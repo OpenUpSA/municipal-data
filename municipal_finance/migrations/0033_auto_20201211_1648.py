@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('municipal_finance', '0032_aged_creditor_items_initial_data'),
+        ('municipal_finance', '0031_auto_20201207_1044'),
     ]
 
     operations = [

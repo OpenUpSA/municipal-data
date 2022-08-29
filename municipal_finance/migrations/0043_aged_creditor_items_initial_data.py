@@ -14,7 +14,7 @@ from ..resources import (
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('municipal_finance', '0031_auto_20201207_1044'),
+        ('municipal_finance', '0042_set_indexes'),
     ]
 
     operations = [
