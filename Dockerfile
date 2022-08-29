@@ -36,6 +36,6 @@ RUN set -ex; \
   yarn; \
   yarn build
 
-
+CMD /app/bin/initial-seed.sh
 EXPOSE 5000
 CMD /app/bin/start-web.sh
