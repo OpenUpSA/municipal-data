@@ -1,4 +1,6 @@
-import sys
+import os, sys
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'municipal_finance.settings'
 sys.path.append("municipal_finance")
 
 from utils import import_data
