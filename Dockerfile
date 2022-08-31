@@ -36,6 +36,5 @@ RUN set -ex; \
   yarn; \
   yarn build
 
-CMD python /app/municipal_finance/data_import/initial-seed.py
 EXPOSE 5000
 CMD /app/bin/start-web.sh
