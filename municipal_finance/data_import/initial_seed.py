@@ -1,5 +1,8 @@
-from ..utils import import_data
-from ..resources import (
+import sys
+sys.path.append("municipal_finance")
+
+from utils import import_data
+from resources import (
     AgedCreditorItemsV1Resource,
 )
 
