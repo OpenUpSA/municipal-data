@@ -1,233 +1,233 @@
 [
-    {
-        "model": "aged_creditor_items",
-        "pk": 1,
-        "fields": {
-            "code": "0100",
-            "label": "Bulk Electricity",
-            "position_in_return_form":"1",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 2,
-        "fields": {
-            "code": "0200",
-            "label": "Bulk Water",
-            "position_in_return_form":"2",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 3,
-        "fields": {
-            "code": "0300",
-            "label": "PAYE deductions",
-            "position_in_return_form":"3",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 4,
-        "fields": {
-            "code": "0400",
-            "label": "VAT (output less input)",
-            "position_in_return_form":"4",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 5,
-        "fields": {
-            "code": "0500",
-            "label": "Pensions / Retirement deductions",
-            "position_in_return_form":"5",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 6,
-        "fields": {
-            "code": "0600",
-            "label": "Loan repayments",
-            "position_in_return_form":"6",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 7,
-        "fields": {
-            "code": "0700",
-            "label": "Trade Creditors",
-            "position_in_return_form":"7",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 8,
-        "fields": {
-            "code": "0800",
-            "label": "Auditor General",
-            "position_in_return_form":"8",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 9,
-        "fields": {
-            "code": "0900",
-            "label": "Other",
-            "position_in_return_form":"9",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 10,
-        "fields": {
-            "code": "1000",
-            "label": "Total",
-            "position_in_return_form":"10",
-            "return_form_structure":"subtotal",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 11,
-        "fields": {
-            "code": "TP01",
-            "label": "Top 1 Creditor",
-            "position_in_return_form":"11",
-            "return_form_structure":"line_item",
-            "composition":"sum(0100, 0200, 0300, 0400, 0500, 0600, 0700, 0800, 0900)"
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 12,
-        "fields": {
-            "code": "TP02",
-            "label": "Top 2 Creditor",
-            "position_in_return_form":"12",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 13,
-        "fields": {
-            "code": "TP03",
-            "label": "Top 3 Creditor",
-            "position_in_return_form":"13",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 14,
-        "fields": {
-            "code": "TP04",
-            "label": "Top 4 Creditor",
-            "position_in_return_form":"14",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 15,
-        "fields": {
-            "code": "TP05",
-            "label": "Top 5 Creditor",
-            "position_in_return_form":"15",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 16,
-        "fields": {
-            "code": "TP06",
-            "label": "Top 6 Creditor",
-            "position_in_return_form":"16",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 17,
-        "fields": {
-            "code": "TP07",
-            "label": "Top 7 Creditor",
-            "position_in_return_form":"17",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 18,
-        "fields": {
-            "code": "TP08",
-            "label": "Top 8 Creditor",
-            "position_in_return_form":"18",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 19,
-        "fields": {
-            "code": "TP09",
-            "label": "Top 9 Creditor",
-            "position_in_return_form":"19",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 20,
-        "fields": {
-            "code": "TP10",
-            "label": "Top 10 Creditor",
-            "position_in_return_form":"20",
-            "return_form_structure":"line_item",
-            "composition":""
-        }
-    },
-    {
-        "model": "aged_creditor_items",
-        "pk": 21,
-        "fields": {
-            "code": "TOT",
-            "label": "Total",
-            "position_in_return_form":"21",
-            "return_form_structure":"subtotal",
-            "composition":"sum(TP01, TP02, TP03, TP04, TP05, TP06, TP07 TP08 TP09, TP10)"
-        }
-    }
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 1,
+  "fields": {
+    "label": "Bulk Electricity",
+    "position_in_return_form": 1,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "0100"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 2,
+  "fields": {
+    "label": "Bulk Water",
+    "position_in_return_form": 2,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "0200"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 3,
+  "fields": {
+    "label": "PAYE deductions",
+    "position_in_return_form": 3,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "0300"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 4,
+  "fields": {
+    "label": "VAT (output less input)",
+    "position_in_return_form": 4,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "0400"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 5,
+  "fields": {
+    "label": "Pensions / Retirement deductions",
+    "position_in_return_form": 5,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "0500"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 6,
+  "fields": {
+    "label": "Loan repayments",
+    "position_in_return_form": 6,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "0600"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 7,
+  "fields": {
+    "label": "Trade Creditors",
+    "position_in_return_form": 7,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "0700"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 8,
+  "fields": {
+    "label": "Auditor General",
+    "position_in_return_form": 8,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "0800"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 9,
+  "fields": {
+    "label": "Other",
+    "position_in_return_form": 9,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "0900"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 10,
+  "fields": {
+    "label": "Total",
+    "position_in_return_form": 10,
+    "return_form_structure": "subtotal",
+    "composition": "sum(0100, 0200, 0300, 0400, 0500, 0600, 0700, 0800, 0900)",
+    "code": "1000"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 11,
+  "fields": {
+    "label": "Top 1 Creditor",
+    "position_in_return_form": 11,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "TP01"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 12,
+  "fields": {
+    "label": "Top 2 Creditor",
+    "position_in_return_form": 12,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "TP02"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 13,
+  "fields": {
+    "label": "Top 3 Creditor",
+    "position_in_return_form": 13,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "TP03"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 14,
+  "fields": {
+    "label": "Top 4 Creditor",
+    "position_in_return_form": 14,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "TP04"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 15,
+  "fields": {
+    "label": "Top 5 Creditor",
+    "position_in_return_form": 15,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "TP05"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 16,
+  "fields": {
+    "label": "Top 6 Creditor",
+    "position_in_return_form": 16,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "TP06"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 17,
+  "fields": {
+    "label": "Top 7 Creditor",
+    "position_in_return_form": 17,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "TP07"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 18,
+  "fields": {
+    "label": "Top 8 Creditor",
+    "position_in_return_form": 18,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "TP08"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 19,
+  "fields": {
+    "label": "Top 9 Creditor",
+    "position_in_return_form": 19,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "TP09"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 20,
+  "fields": {
+    "label": "Top 10 Creditor",
+    "position_in_return_form": 20,
+    "return_form_structure": "line_item",
+    "composition": "",
+    "code": "TP10"
+  }
+},
+{
+  "model": "municipal_finance.agedcreditoritemsv1",
+  "pk": 21,
+  "fields": {
+    "label": "Total",
+    "position_in_return_form": 21,
+    "return_form_structure": "subtotal",
+    "composition": "sum(TP01, TP02, TP03, TP04, TP05, TP06, TP07 TP08 TP09, TP10)",
+    "code": "TOT"
+  }
+}
 ]
