@@ -1,6 +1,6 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Tue Jan 18 2022 09:44:13 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="6141ba7240ce6553e1d9bfe6" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Thu Apr 14 2022 12:15:08 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="6200e32ae569ed65be14bc07" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_title }}" property="og:title">
@@ -394,6 +394,7 @@
       </div>
     </div>
   </div>
+  <div class="site-notice">{% for notice in site_notices %}  <div class="container">    <div class="site-notice__text" style="color:white;margin-top:10px;">{{ notice.content | safe }}</div>  </div>{% endfor %}</div>
   <div class="section section--hero">
     <div class="plate plate--dots plate--gradient"></div>
     <div class="container">
@@ -403,7 +404,7 @@
     </div>
   </div>
   <div class="section section--padding-top">
-    <div class="container container--grid"><div class="profile-notice">{% for notice in site_notices %}<div class="container"><div class="profile-notice__text" style="color:black">{{ notice.content | safe }}</div></div>{% endfor %}</div>
+    <div class="container container--grid">
       <div class="layout-grid layout-grid--1-4-3-4">
         <div class="sidebar-wrapper sidebar-wrapper--left">
           <div class="sidebar">
@@ -945,7 +946,7 @@
           </div>
           <div class="bar-chart">
             <div class="bar-chart__row">
-              <div id="w-node-a77058c6-8936-a2b9-e52d-e706fee7d0d3-e1d9bfe6" class="label label--small truncate">Chart label</div>
+              <div id="w-node-a77058c6-8936-a2b9-e52d-e706fee7d0d3-be14bc07" class="label label--small truncate">Chart label</div>
               <div class="bar-chart__hover-label">
                 <div class="label label--small">Chart label that shows on hover of the label</div>
               </div>
@@ -957,7 +958,7 @@
               </div>
             </div>
             <div class="bar-chart__row">
-              <div id="w-node-a77058c6-8936-a2b9-e52d-e706fee7d0df-e1d9bfe6" class="label label--small truncate">Chart label that is too long to fit on one line</div>
+              <div id="w-node-a77058c6-8936-a2b9-e52d-e706fee7d0df-be14bc07" class="label label--small truncate">Chart label that is too long to fit on one line</div>
               <div class="bar-chart__hover-label">
                 <div class="label label--small">Chart label that is too long to fit on one line</div>
               </div>
