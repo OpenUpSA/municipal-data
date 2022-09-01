@@ -142,4 +142,4 @@ class ScorecardTest(BaseSeleniumTestCase):
         profile_notice = '.profile-notice'
 
         element = selenium.find_element_by_css_selector(profile_notice).text
-        self.assertIn('City of Buffalo City, Eastern Cape was disestablished on 3 August 2016 and amalgamated into Buffalo City', element)
+        self.assertIn('Buffalo City, Eastern Cape was disestablished on 3 August 2016 and amalgamated into Buffalo City', element)
