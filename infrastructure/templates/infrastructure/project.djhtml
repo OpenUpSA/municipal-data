@@ -82,7 +82,7 @@
     </div>
   </div>
   <div class="project-map">
-    <div id="project-map" class="html-embed-4 w-embed w-iframe"><iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=25.10513305664063%2C-34.46467409091155%2C27.79678344726563%2C-33.0098151127053&amp;layer=mapnik" style=""></iframe></div>
+    <div id="project-map" class="html-embed-4 w-embed w-iframe" style="height: 155px; width: 100%;"></div>
   </div>
   <div class="section">
     <div class="container">{% for notice in site_notices %}<div>{{ notice.content | safe }}</div>{% endfor %}

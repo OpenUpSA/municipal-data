@@ -162,4 +162,8 @@ function temporary_webflow_fixes($) {
   var chartWrapper = "{% if quarter_data %}" + $(".subsection-chart_wrapper").html() + "{% else %}<h3 class='project-detail_heading'>No Data Available</h3>{% endif %}";
   $(".subsection-chart_wrapper").html(chartWrapper);
   $("#project-time-series").html("<div id='chart'></div>");
+
+  $("#project-map").css("height", "155px");
+  $("#project-map").css("width", "100%");
+  $("#project-map").html("");
 }
