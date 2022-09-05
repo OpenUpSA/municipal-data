@@ -165,3 +165,19 @@ class ScorecardTest(BaseSeleniumTestCase):
         element = selenium.find_element_by_css_selector('#provincial-transfers').text
         self.assertIn('2019-2020 Original budget', element)
         self.assertIn('R87 171 000', element)
+
+    def test_grants_dropdown_select(self):
+        selenium = self.selenium
+        selenium.get("%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/"))
+
+        element = selenium.find_element_by_css_selector('#types-of-transfers').text
+        self.assertIn('2019-2020 Original budget', element)
+        self.assertIn('R2 050 190 000', element)
+
+        dropdown = selenium.find_element_by_css_selector('#types-of-transfers .dropdown')
+        for option in dropdown.find_elements_by_css_selector('a'):
+            if option.text == '2018-2019 Original budget':
+                option.click()
+
+        element = selenium.find_element_by_css_selector('#types-of-transfers').text
+        self.assertIn('R183 861 100', element)
