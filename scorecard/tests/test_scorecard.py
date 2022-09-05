@@ -147,14 +147,14 @@ class ScorecardTest(BaseSeleniumTestCase):
         element = selenium.find_element_by_css_selector('#types-of-transfers').text
         self.assertIn('2019-2020 Original budget', element)
         self.assertIn('R2 050 190 000', element)
-        element = selenium.find_element_by_css_selector('#w-dropdown-list-11').get_attribute("innerHTML")
+        element = selenium.find_element_by_css_selector('#types-of-transfers .dropdown').get_attribute("innerHTML")
         self.assertIn('2018-2019 Original budget', element)
         self.assertIn('2019-2020 Original budget', element)
 
         element = selenium.find_element_by_css_selector('#equitable-share').text
         self.assertIn('2019-2020 Original budget', element)
         self.assertIn('R847 431 000', element)
-        element = selenium.find_element_by_css_selector('#w-dropdown-list-12').get_attribute("innerHTML")
+        element = selenium.find_element_by_css_selector('#equitable-share .dropdown').get_attribute("innerHTML")
         self.assertIn('2018-2019 Original budget', element)
         self.assertIn('2019-2020 Original budget', element)
 
