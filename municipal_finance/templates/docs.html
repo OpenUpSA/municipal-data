@@ -77,7 +77,7 @@
 
     <h3 id="where-from">Where is the data from?</h3>
 
-    <p>The data is composed of the Section 71 (<a href="http://mfma.treasury.gov.za/Legislation/lgmfma/Pages/default.aspx">of the Municipal Financial Management Act</a>) submissions from municipalities to the Treasury's Local Government database. These are regular submissions from the municipality, signed off by the Municipal Manager as accurate, to National Treasury.</p>
+    <p>The data is composed of the Section 71 (<a href="http://mfma.treasury.gov.za/Legislation/lgmfma/Pages/default.aspx">of the Municipal Financial Management Act</a>) submissions from municipalities to the Treasury's Local Government database. These are regular submissions from the municipality, signed off by the Municipal Manager and Chief Financial Officer as accurate, to National Treasury.</p>
 
     <p>
       <a href="{% static 'images/pre-post-mscoa-data-provenance.png' %}"><img src="{% static 'images/pre-post-mscoa-data-provenance.png' %}" alt="Graphic depicting the data flow from municipalities, into National Treasury's Local government Database, and to Municipal Money as quarterly snapshots"></a>
@@ -93,11 +93,15 @@
 
     <h4>Snapshots from the Local Government Database in Municipal Money</h4>
 
-    <p>Municipal Money is updated from quarterly snapshots of the Local Government Database following a number of checks of the data by National Treasury.</p>
+    <p>Municipal Money is updated quarterly from snapshots of the Local Government Database. These snapshots are also used to produce Section 71 reports which is a reflection of the state of local government finances as reported by municipalities. </p>
+
+    <p>These reports and snapshots are signed off by Director General of National Treasury as a true reflection of the data supplied by municipalities according to Section 71 of the Municipal Financial Management Act.</p>
+
+    <p>National Treasury analyses the data to try and ensure correct use of the chart of accounts. Municipalities can not correct the data once submitted - corrections are supplied as adjustments in the subsequent month. Quarters are then locked and no further modifications are allowed to a quarter so that the data does not deviate from what has already been published.</p>
 
     <h4>Audits by the auditor general</h4>
 
-    <p>The data where Amount Type is Audited Actual are audit outcome figures audited by the Auditor General and submitted by the municipality to the Local Government database. National Treasury does extensive verification to ensure that the audit outcomes submitted to the database matches the audited Annual Financial Statements as issued by the Auditor General. See also the Audit Report for the Auditor General's comments on the accuracy of the reporting by the municipality.</p>
+    <p>The data where Amount Type is Audited Actual are audit outcome figures audited by the Auditor General and submitted by the municipality to the Local Government database. National Treasury does extensive verification to ensure that the audit outcomes submitted to the database matches the Annual Financial Statements as audited by the Auditor General. See also the Audit Report for the Auditor General's comments on the accuracy of the reporting by the municipality.</p>
 
     <h3 id="verification">How can I be sure I am getting the right results from the API?</h3>
 
