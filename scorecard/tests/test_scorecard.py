@@ -179,3 +179,12 @@ class ScorecardTest(BaseSeleniumTestCase):
         dropdown[1].click()
         element = selenium.find_element_by_css_selector('#types-of-transfers').text
         self.assertIn('R183 861 100', element)
+
+    def test_grants_legend(self):
+        selenium = self.selenium
+        selenium.get("%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/"))
+
+        element = selenium.find_element_by_css_selector('#national-conditional-grants').text
+        self.assertIn('Allocations', element)
+        self.assertIn('Amount transferred up to 2019 Q4', element)
+        self.assertIn('Amount spent up to 2019 Q4', element)
