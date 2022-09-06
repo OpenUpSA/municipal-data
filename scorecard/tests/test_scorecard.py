@@ -134,3 +134,12 @@ class ScorecardTest(BaseSeleniumTestCase):
         self.assertIn('http://portal:8002/table/cflow/?municipalities=BUF&year=2019&items=3010%2C3030%2C3040%2C3050%2C3060%2C3070%2C3100&amountType=AUDA', element)
         element = selenium.find_elements_by_css_selector(link_class)[19].get_attribute("href")
         self.assertIn('http://portal:8002/table/incexp/?municipalities=BUF&year=2019&items=0200%2C0400%2C1000&amountType=AUDA', element)
+
+    def test_grants_legend(self):
+        selenium = self.selenium
+        selenium.get("%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/"))
+
+        element = selenium.find_element_by_css_selector('#national-conditional-grants').text
+        self.assertIn('Allocations', element)
+        self.assertIn('Amount transferred up to 2019 Q4', element)
+        self.assertIn('Amount spent up to 2019 Q4', element)
