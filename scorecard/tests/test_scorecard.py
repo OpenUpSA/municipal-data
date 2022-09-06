@@ -174,6 +174,7 @@ class ScorecardTest(BaseSeleniumTestCase):
         self.assertIn('2019-2020 Original budget', element)
         self.assertIn('R2 050 190 000', element)
 
+        self.click("#types-of-transfers .dropdown")
         dropdown = selenium.find_elements_by_css_selector('#types-of-transfers .dropdown a')
         dropdown[1].click()
         element = selenium.find_element_by_css_selector('#types-of-transfers').text
