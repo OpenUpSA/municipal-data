@@ -204,8 +204,9 @@ export class TransfersSection extends AbstractIncomeSection {
     if (options.length === 0) {
       options.push(["Not available", {year: null, phase: null}]);
     }
-    const initialOption = options[0];
-    this.dropdown = new Dropdown(this.$element.find(".fy-select"), options, initialOption[0]);
+    let orderedOptions = options.reverse();
+    const initialOption = orderedOptions[0];
+    this.dropdown = new Dropdown(this.$element.find(".fy-select"), orderedOptions, initialOption[0]);
     this.dropdown.$element.on("option-select", (e) => this.selectData(e.detail));
     return initialOption;
   }
