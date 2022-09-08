@@ -76,7 +76,6 @@ def household_service_total(csv_obj):
                 financial_year=financial_year,
                 budget_phase=budget_phase,
                 household_class=household_class,
-                version=csv_obj.version,
                 service=service,
                 defaults={
                     "total": total,
@@ -109,7 +108,6 @@ def household_bill_total(csv_obj):
                 financial_year=financial_year,
                 budget_phase=budget_phase,
                 household_class=household_class,
-                version=csv_obj.version,
                 defaults={
                     "percent": percent,
                     "total": total,
