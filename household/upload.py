@@ -56,11 +56,14 @@ def import_bill_data(id):
         raise Exception("csv type unknown")
 
 
+@transaction.atomic
 def household_service_total(csv_obj):
     log.info("Working on service totals")
     csv_file = csv_obj.csv_file.read().decode("utf-8")
-    csv_data = csv.DictReader(StringIO(csv_file))
 
+    truncate_financial_years(csv_file, HouseholdServiceTotal)
+
+    csv_data = csv.DictReader(StringIO(csv_file))
     for row in csv_data:
         geography = Geography.objects.get(geo_code=row["Geography"])
         financial_year = FinancialYear.objects.get(
@@ -70,29 +73,25 @@ def household_service_total(csv_obj):
         household_class = HouseholdClass.objects.get(name=row["Class"])
         service = HouseholdService.objects.get(name=row["Service Name"])
         total = row["Total"] if row["Total"] else None
-        try:
-            HouseholdServiceTotal.objects.update_or_create(
-                geography=geography,
-                financial_year=financial_year,
-                budget_phase=budget_phase,
-                household_class=household_class,
-                service=service,
-                defaults={
-                    "total": total,
-                },
-            )
-        except IntegrityError:
-            log.warn(
-                "Service total for budget phase and financial year already exists"
-            )
+        HouseholdServiceTotal.objects.create(
+            geography=geography,
+            financial_year=financial_year,
+            budget_phase=budget_phase,
+            household_class=household_class,
+            service=service,
+            total=total,
+        )
     log.info("Completed working on service totals")
 
 
+@transaction.atomic
 def household_bill_total(csv_obj):
     log.info("Working on total bill totals")
     csv_file = csv_obj.csv_file.read().decode("utf-8")
-    csv_data = csv.DictReader(StringIO(csv_file))
 
+    truncate_financial_years(csv_file, HouseholdBillTotal)
+
+    csv_data = csv.DictReader(StringIO(csv_file))
     for row in csv_data:
         geography = Geography.objects.get(geo_code=row["Geography"])
         financial_year = FinancialYear.objects.get(
@@ -102,19 +101,26 @@ def household_bill_total(csv_obj):
         household_class = HouseholdClass.objects.get(name=row["Class"])
         percent = row["Percent Increase"] if row["Percent Increase"] else None
         total = row["Total"] if row["Total"] else None
-        try:
-            HouseholdBillTotal.objects.update_or_create(
-                geography=geography,
-                financial_year=financial_year,
-                budget_phase=budget_phase,
-                household_class=household_class,
-                defaults={
-                    "percent": percent,
-                    "total": total,
-                },
-            )
-        except IntegrityError:
-            log.warn(
-                "Bill total for budget phase and financial year already exists"
-            )
+        HouseholdBillTotal.objects.create(
+            geography=geography,
+            financial_year=financial_year,
+            budget_phase=budget_phase,
+            household_class=household_class,
+            percent=percent,
+            total=total,
+        )
     log.info("Completed working on bill totals")
+
+def truncate_financial_years(csv_file, model):
+    csv_data = csv.DictReader(StringIO(csv_file))
+    remove_years = []
+    for row in csv_data:
+        financial_year = FinancialYear.objects.get(
+            budget_year=row["Financial Year"]
+        )
+        if financial_year not in remove_years:
+            remove_years.append(financial_year)
+    for year in remove_years:
+        model.objects.filter(
+            financial_year=year,
+        ).delete()
