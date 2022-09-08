@@ -48,7 +48,7 @@ class HouseholdServiceTotalQuerySet(models.QuerySet):
     def active(self, geo_code):
         return self.filter(
             Q(budget_phase__name="Audited Outcome")
-            | Q(budget_phase__name="Original Budget")
+            | Q(budget_phase__name="Adjusted Budget")
             | Q(budget_phase__name="Budget Year"),
             geography__geo_code=geo_code,
             financial_year__active=True,
@@ -109,7 +109,7 @@ class HouseholdBillTotalQuerySet(models.QuerySet):
         return (
             self.filter(
                 Q(budget_phase__name="Audited Outcome")
-                | Q(budget_phase__name="Original Budget")
+                | Q(budget_phase__name="Adjusted Budget")
                 | Q(budget_phase__name="Budget Year"),
                 financial_year__active=True,
                 geography__geo_code=geo_code,
