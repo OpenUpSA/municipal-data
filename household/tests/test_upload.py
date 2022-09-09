@@ -28,7 +28,7 @@ class HouseholdsTestCase(TestCase):
         self.assertEqual(OrmQ.objects.count(), 0)
 
         upload_url = reverse('admin:household_datasetfile_add')
-        with open('household/tests/test_files/national_bill_totals_BUF.csv', 'rb', ) as f:
+        with open('household/tests/test_files/national_bill_totals.csv', 'rb', ) as f:
             resp = self.client.post(upload_url, {'csv_file': f, 'file_type': 'Bill'}, follow=True)
 
         self.assertContains(resp, "Dataset is currently being processed.", status_code=200)
@@ -49,7 +49,30 @@ class HouseholdsTestCase(TestCase):
         self.assertEquals(HouseholdBillTotal.objects.count(), 2)
 
     def test_service_upload(self):
-        pass
+        self.client.login(username=self.username, password=self.password)
+        self.assertEquals(HouseholdServiceTotal.objects.all().count(), 0)
+        self.assertEqual(OrmQ.objects.count(), 0)
+
+        upload_url = reverse('admin:household_datasetfile_add')
+        with open('household/tests/test_files/national_service_totals.csv', 'rb', ) as f:
+            resp = self.client.post(upload_url, {'csv_file': f, 'file_type': 'Service'}, follow=True)
+
+        self.assertContains(resp, "Dataset is currently being processed.", status_code=200)
+
+        spend_file = DataSetFile.objects.first()
+        self.assertEqual(OrmQ.objects.count(), 1)
+        task = OrmQ.objects.first()
+        task_file_id = task.task()["args"][0]
+        task_method = task.func()
+
+        self.assertEqual(task_method, 'household.upload.import_bill_data')
+        self.assertEqual(task_file_id, spend_file.id)
+
+        import_bill_data(task_file_id)
+
+        self.assertEquals(DataSetFile.objects.count(), 1)
+        spend_file = DataSetFile.objects.first()
+        self.assertEquals(HouseholdServiceTotal.objects.count(), 2)
 
     def test_average_increase(self):
         pass
