@@ -60,10 +60,10 @@ def import_bill_data(id):
 def household_service_total(csv_obj):
     log.info("Working on service totals")
     csv_file = csv_obj.csv_file.read().decode("utf-8")
-
-    truncate_financial_years(csv_file, HouseholdServiceTotal)
-
     csv_data = csv.DictReader(StringIO(csv_file))
+
+    HouseholdServiceTotal.objects.all().delete()
+
     for row in csv_data:
         geography = Geography.objects.get(geo_code=row["Geography"])
         financial_year = FinancialYear.objects.get(
@@ -88,10 +88,10 @@ def household_service_total(csv_obj):
 def household_bill_total(csv_obj):
     log.info("Working on total bill totals")
     csv_file = csv_obj.csv_file.read().decode("utf-8")
-
-    truncate_financial_years(csv_file, HouseholdBillTotal)
-
     csv_data = csv.DictReader(StringIO(csv_file))
+
+    HouseholdBillTotal.objects.all().delete()
+
     for row in csv_data:
         geography = Geography.objects.get(geo_code=row["Geography"])
         financial_year = FinancialYear.objects.get(
@@ -110,17 +110,3 @@ def household_bill_total(csv_obj):
             total=total,
         )
     log.info("Completed working on bill totals")
-
-def truncate_financial_years(csv_file, model):
-    csv_data = csv.DictReader(StringIO(csv_file))
-    remove_years = []
-    for row in csv_data:
-        financial_year = FinancialYear.objects.get(
-            budget_year=row["Financial Year"]
-        )
-        if financial_year not in remove_years:
-            remove_years.append(financial_year)
-    for year in remove_years:
-        model.objects.filter(
-            financial_year=year,
-        ).delete()
