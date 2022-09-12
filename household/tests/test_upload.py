@@ -2,13 +2,18 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django_q.models import OrmQ
+from django.db.models import Q
 
 from household.models import (
     HouseholdServiceTotal,
     HouseholdBillTotal,
     DataSetFile,
+    FinancialYear,
+    BudgetPhase,
+    HouseholdClass,
+    HouseholdService,
 )
-
+from scorecard.models import Geography
 from household.upload import import_bill_data
 
 
@@ -74,5 +79,73 @@ class HouseholdsTestCase(TestCase):
         spend_file = DataSetFile.objects.first()
         self.assertEquals(HouseholdServiceTotal.objects.count(), 2)
 
-    def test_average_increase(self):
-        pass
+    def test_query_response(self):
+        geography = Geography.objects.get(geo_code="BUF")
+        year_2021 = FinancialYear.objects.get(budget_year="2020/21")
+        budget_phase = BudgetPhase.objects.get(name="Budget Year")
+        class_middle = HouseholdClass.objects.get(name="Middle Income Range")
+        class_affordable = HouseholdClass.objects.get(name="Affordable Range")
+        class_indigent = HouseholdClass.objects.get(name="Indigent HH receiving FBS")
+        household_service = HouseholdService.objects.get(name="Property rates")
+
+        HouseholdBillTotal.objects.create(
+            geography=geography,
+            financial_year=year_2021,
+            budget_phase=budget_phase,
+            household_class=class_middle,
+            percent=8.17,
+            total=3567.89
+        )
+        HouseholdBillTotal.objects.create(
+            geography=geography,
+            financial_year=year_2021,
+            budget_phase=budget_phase,
+            household_class=class_middle,
+            percent=7.37,
+            total=3830.83
+        )
+        bill_summary = HouseholdBillTotal.summary.bill_totals(geography.geo_code)
+        self.assertEqual(bill_summary.count(), 2)
+
+        HouseholdServiceTotal.objects.create(
+            geography=geography,
+            financial_year=year_2021,
+            budget_phase=budget_phase,
+            household_class=class_middle,
+            service=household_service,
+            total=2071
+        )
+        HouseholdServiceTotal.objects.create(
+            geography=geography,
+            financial_year=year_2021,
+            budget_phase=budget_phase,
+            household_class=class_affordable,
+            service=household_service,
+            total=3102
+        )
+        HouseholdServiceTotal.objects.create(
+            geography=geography,
+            financial_year=year_2021,
+            budget_phase=budget_phase,
+            household_class=class_indigent,
+            service=household_service,
+            total=704
+        )
+        service_middle = (
+            HouseholdServiceTotal.summary.active(geography.geo_code)
+            .middle()
+            .order_by("financial_year__budget_year")
+        )
+        service_affordable = (
+            HouseholdServiceTotal.summary.active(geography.geo_code)
+            .affordable()
+            .order_by("financial_year__budget_year")
+        )
+        service_indigent = (
+            HouseholdServiceTotal.summary.active(geography.geo_code)
+            .indigent()
+            .order_by("financial_year__budget_year")
+        )
+        self.assertEqual(service_middle.count(), 1)
+        self.assertEqual(service_affordable.count(), 1)
+        self.assertEqual(service_indigent.count(), 1)
