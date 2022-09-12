@@ -106,6 +106,10 @@ class HouseholdsTestCase(TestCase):
         )
         bill_summary = HouseholdBillTotal.summary.bill_totals(geography.geo_code)
         self.assertEqual(bill_summary.count(), 2)
+        self.assertEqual(bill_summary[0]["financial_year__budget_year"], "2020/21")
+        self.assertEqual(bill_summary[0]["household_class__name"], "Middle Income Range")
+        self.assertEqual(float(bill_summary[0]["total"]), 3567.89)
+        self.assertEqual(bill_summary[0]["percent"], 8.17)
 
         HouseholdServiceTotal.objects.create(
             geography=geography,
@@ -147,5 +151,17 @@ class HouseholdsTestCase(TestCase):
             .order_by("financial_year__budget_year")
         )
         self.assertEqual(service_middle.count(), 1)
+        self.assertEqual(service_middle[0]["financial_year__budget_year"], "2020/21")
+        self.assertEqual(service_middle[0]["total"], 2071.00)
+        self.assertEqual(service_middle[0]["service__name"], "Property rates")
+        self.assertEqual(service_middle[0]["household_class__name"], "Middle Income Range")
         self.assertEqual(service_affordable.count(), 1)
+        self.assertEqual(service_affordable[0]["financial_year__budget_year"], "2020/21")
+        self.assertEqual(service_affordable[0]["total"], 3102.00)
+        self.assertEqual(service_affordable[0]["service__name"], "Property rates")
+        self.assertEqual(service_affordable[0]["household_class__name"], "Affordable Range")
         self.assertEqual(service_indigent.count(), 1)
+        self.assertEqual(service_indigent[0]["financial_year__budget_year"], "2020/21")
+        self.assertEqual(service_indigent[0]["total"], 704.00)
+        self.assertEqual(service_indigent[0]["service__name"], "Property rates")
+        self.assertEqual(service_indigent[0]["household_class__name"], "Indigent HH receiving FBS")
