@@ -29,12 +29,7 @@ $(function() {
   }
 });
 
-$("#Municipality-Search-Hero").keypress(function(e){
-  if(e.keyCode === 13){
-    e.preventDefault();
-  }
-});
-$("#municipality-search-2").keypress(function(e){
+$("#Municipality-Search-Hero, #municipality-search-2").keypress(function(e){
   if(e.keyCode === 13){
     e.preventDefault();
   }
