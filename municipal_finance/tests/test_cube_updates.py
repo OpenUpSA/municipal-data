@@ -1,7 +1,7 @@
 from django.test import TransactionTestCase
 from django.core.files import File
 from django.contrib.auth.models import User
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from ..update import update_aged_creditor_facts_v2
 from ..utils import import_data
@@ -45,5 +45,5 @@ class UpdateAgedCreditorFactsV2(TransactionTestCase):
         manager = get_manager()
         with manager.get_engine().connect() as connection:
             cube = get_cube_with_last_updated(connection, manager, "aged_creditor_v2")
-
-        self.assertEqual(cube["last_updated"][0:10], datetime.today().strftime("%Y-%m-%d"))
+        current_time = datetime.today()-timedelta(hours=2)
+        self.assertEqual(cube["last_updated"], current_time.strftime("%Y-%m-%d, %H:%M"))
