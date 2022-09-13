@@ -49,7 +49,7 @@ class DataSetFileAdmin(admin.ModelAdmin):
 
 @admin.register(models.FinancialYear)
 class FinancialYearAdmin(admin.ModelAdmin):
-    list_display = ("budget_year", "active")
+    list_display = ("budget_year",)
 
 
 @admin.register(models.HouseholdClass)

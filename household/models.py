@@ -13,9 +13,7 @@ class DataSetFile(models.Model):
 
 
 class FinancialYear(models.Model):
-
     budget_year = models.CharField(max_length=10)
-    active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.budget_year
@@ -51,7 +49,6 @@ class HouseholdServiceTotalQuerySet(models.QuerySet):
             | Q(budget_phase__name="Adjusted Budget")
             | Q(budget_phase__name="Budget Year"),
             geography__geo_code=geo_code,
-            financial_year__active=True,
         )
 
     def middle(self):
@@ -111,7 +108,6 @@ class HouseholdBillTotalQuerySet(models.QuerySet):
                 Q(budget_phase__name="Audited Outcome")
                 | Q(budget_phase__name="Adjusted Budget")
                 | Q(budget_phase__name="Budget Year"),
-                financial_year__active=True,
                 geography__geo_code=geo_code,
             )
             .values(
