@@ -31,17 +31,11 @@ class Migration(migrations.Migration):
             name='item_code',
             field=models.TextField(),
         ),
-        #migrations.RunSQL(
-        #    ['ALTER TABLE aged_creditor_items DROP CONSTRAINT aged_creditor_items_pkey',],
-        #),
         migrations.AlterField(
             model_name='agedcreditoritemsv1',
             name='code',
             field=models.TextField(),
         ),
-        #migrations.RunSQL(
-        #    ['ALTER TABLE aged_creditor_items ADD PRIMARY KEY id',],
-        #),
         migrations.AlterField(
             model_name='agedcreditoritemsv1',
             name='id',
