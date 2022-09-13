@@ -11,12 +11,12 @@ from household.models import (
 )
 from scorecard.models import Geography
 
-class ScorecardTest(BaseSeleniumTestCase):
+class HouseholdTest(BaseSeleniumTestCase):
     serialized_rollback = True
     fixtures = ["seeddata", "compiled_profile", "budgetphase", "financialyear", "householdclass", "householdservice"]
 
     def setUp(self):
-        super(ScorecardTest, self).setUp()
+        super(HouseholdTest, self).setUp()
         Site.objects.filter(id=2).update(domain='municipalmoney.org.za', name='Scorecard')
 
     def test_household_indicators(self):
