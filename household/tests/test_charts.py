@@ -12,7 +12,6 @@ from household.models import (
 from scorecard.models import Geography
 
 class HouseholdTest(BaseSeleniumTestCase):
-    serialized_rollback = True
     fixtures = ["seeddata", "compiled_profile", "budgetphase", "financialyear", "householdclass", "householdservice"]
 
     def setUp(self):
