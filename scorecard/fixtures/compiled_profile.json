@@ -2921,10 +2921,32 @@
         "indicators": {
           "grants": {
             "totals": {
+              "2019": {
+                "ACT": {
+                  "equitable_share": 26011028,
+                  "national_conditional_grants": 69049800
+                },
+                "ORGB": {
+                  "equitable_share": 79021100,
+                  "provincial_transfers": 9012000,
+                  "national_conditional_grants": 95828000
+                },
+                "SCHD": {
+                  "national_conditional_grants": 31034000
+                },
+                "TRFR": {
+                  "national_conditional_grants": 29398200
+                }
+              },
               "2020": {
                 "ACT": {
                   "equitable_share": 278740346,
                   "national_conditional_grants": 778488407
+                },
+                "ORGB": {
+                  "equitable_share": 847431000,
+                  "provincial_transfers": 87171000,
+                  "national_conditional_grants": 1115588000
                 },
                 "SCHD": {
                   "national_conditional_grants": 285942000
@@ -2939,6 +2961,22 @@
               "quarter": 4
             },
             "equitable_share": {
+              "2019": [
+                {
+                  "amount.sum": 17874029,
+                  "grant.code": "ESG",
+                  "grant.label": "Local Government Equitable Share",
+                  "amount_type.code": "ACT",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 77033100,
+                  "grant.code": "ESG",
+                  "grant.label": "Local Government Equitable Share",
+                  "amount_type.code": "ORGB",
+                  "financial_year_end.year": 2019
+                }
+              ],
               "2020": [
                 {
                   "amount.sum": 278740346,
@@ -2946,11 +2984,256 @@
                   "grant.label": "Local Government Equitable Share",
                   "amount_type.code": "ACT",
                   "financial_year_end.year": 2020
+                },
+                {
+                  "amount.sum": 258930000,
+                  "grant.code": "ESG",
+                  "grant.label": "Local Government Equitable Share",
+                  "amount_type.code": "ORGB",
+                  "financial_year_end.year": 2020
                 }
               ]
             },
-            "provincial_transfers": {},
+            "provincial_transfers": {
+              "2019": [
+                {
+                  "amount.sum": 7104100,
+                  "grant.code": "0004",
+                  "grant.label": "Public Works, Roads and Transport",
+                  "amount_type.code": "ORGB",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 1209000,
+                  "grant.code": "0006",
+                  "grant.label": "Sport, Arts and Culture",
+                  "amount_type.code": "ORGB",
+                  "financial_year_end.year": 2019
+                }
+              ],
+              "2020": [
+                {
+                  "amount.sum": 5488000,
+                  "grant.code": "0004",
+                  "grant.label": "Public Works, Roads and Transport",
+                  "amount_type.code": "ORGB",
+                  "financial_year_end.year": 2020
+                },
+                {
+                  "amount.sum": 500000,
+                  "grant.code": "0006",
+                  "grant.label": "Sport, Arts and Culture",
+                  "amount_type.code": "ORGB",
+                  "financial_year_end.year": 2020
+                }
+              ]
+            },
             "national_conditional_grants": {
+              "2019": [
+                {
+                  "amount.sum": 79764,
+                  "grant.code": "FMG",
+                  "grant.label": "Local Government Financial Management Grant",
+                  "amount_type.code": "ACT",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 100000,
+                  "grant.code": "FMG",
+                  "grant.label": "Local Government Financial Management Grant",
+                  "amount_type.code": "ORGB",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 100000,
+                  "grant.code": "FMG",
+                  "grant.label": "Local Government Financial Management Grant",
+                  "amount_type.code": "SCHD",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 100000,
+                  "grant.code": "FMG",
+                  "grant.label": "Local Government Financial Management Grant",
+                  "amount_type.code": "TRFR",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 573212,
+                  "grant.code": "ICDG",
+                  "grant.label": "Integrated City Development Grant",
+                  "amount_type.code": "ACT",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 9818300,
+                  "grant.code": "ICDG",
+                  "grant.label": "Integrated City Development Grant",
+                  "amount_type.code": "ORGB",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 2456000,
+                  "grant.code": "IN7G",
+                  "grant.label": "Integrated National Electrification Programme (Allocation in-kind) Grant",
+                  "amount_type.code": "ORGB",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 2412000,
+                  "grant.code": "IN7G",
+                  "grant.label": "Integrated National Electrification Programme (Allocation in-kind) Grant",
+                  "amount_type.code": "SCHD",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 717009,
+                  "grant.code": "ISDG",
+                  "grant.label": "Infrastructure Skills Development Grant",
+                  "amount_type.code": "ACT",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 1013000,
+                  "grant.code": "ISDG",
+                  "grant.label": "Infrastructure Skills Development Grant",
+                  "amount_type.code": "ORGB",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 900000,
+                  "grant.code": "ISDG",
+                  "grant.label": "Infrastructure Skills Development Grant",
+                  "amount_type.code": "SCHD",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 900000,
+                  "grant.code": "ISDG",
+                  "grant.label": "Infrastructure Skills Development Grant",
+                  "amount_type.code": "TRFR",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 10198,
+                  "grant.code": "MIG",
+                  "grant.label": "Municipal Infrastructure Grant",
+                  "amount_type.code": "ACT",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 50000,
+                  "grant.code": "ND7G",
+                  "grant.label": "Neighbourhood Development Partnership (Schedule 6B)",
+                  "amount_type.code": "ORGB",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 50000,
+                  "grant.code": "ND7G",
+                  "grant.label": "Neighbourhood Development Partnership (Schedule 6B)",
+                  "amount_type.code": "SCHD",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 80812,
+                  "grant.code": "NDPG",
+                  "grant.label": "Neighbourhood Development Partnership (Schedule 5B)",
+                  "amount_type.code": "ACT",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 750000,
+                  "grant.code": "NDPG",
+                  "grant.label": "Neighbourhood Development Partnership (Schedule 5B)",
+                  "amount_type.code": "ORGB",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 1000000,
+                  "grant.code": "NDPG",
+                  "grant.label": "Neighbourhood Development Partnership (Schedule 5B)",
+                  "amount_type.code": "SCHD",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 1000000,
+                  "grant.code": "NDPG",
+                  "grant.label": "Neighbourhood Development Partnership (Schedule 5B)",
+                  "amount_type.code": "TRFR",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 13472310,
+                  "grant.code": "PTCG",
+                  "grant.label": "Public Transport Network Grant",
+                  "amount_type.code": "ACT",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 23446600,
+                  "grant.code": "PTCG",
+                  "grant.label": "Public Transport Network Grant",
+                  "amount_type.code": "ORGB",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 23446600,
+                  "grant.code": "PTCG",
+                  "grant.label": "Public Transport Network Grant",
+                  "amount_type.code": "SCHD",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 23446600,
+                  "grant.code": "PTCG",
+                  "grant.label": "Public Transport Network Grant",
+                  "amount_type.code": "TRFR",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 1000035,
+                  "grant.code": "PWPG",
+                  "grant.label": "Expanded Public Works Programme Integrated Grant (Municipality)",
+                  "amount_type.code": "ACT",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 995600,
+                  "grant.code": "PWPG",
+                  "grant.label": "Expanded Public Works Programme Integrated Grant (Municipality)",
+                  "amount_type.code": "ORGB",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 995600,
+                  "grant.code": "PWPG",
+                  "grant.label": "Expanded Public Works Programme Integrated Grant (Municipality)",
+                  "amount_type.code": "SCHD",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 995600,
+                  "grant.code": "PWPG",
+                  "grant.label": "Expanded Public Works Programme Integrated Grant (Municipality)",
+                  "amount_type.code": "TRFR",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 61809703,
+                  "grant.code": "USDG",
+                  "grant.label": "Urban Settlement Development Grant",
+                  "amount_type.code": "ACT",
+                  "financial_year_end.year": 2019
+                },
+                {
+                  "amount.sum": 81742300,
+                  "grant.code": "USDG",
+                  "grant.label": "Urban Settlement Development Grant",
+                  "amount_type.code": "ORGB",
+                  "financial_year_end.year": 2019
+                }
+              ],
               "2020": [
                 {
                   "amount.sum": 927691,

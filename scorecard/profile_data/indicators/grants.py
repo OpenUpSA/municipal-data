@@ -68,11 +68,9 @@ class Grants(IndicatorCalculator):
 
         types = ["national_conditional_grants", "provincial_transfers", "equitable_share"]
         years = defaultdict(lambda: defaultdict(lambda: dict()))
-
         for type in types:
             for year, yeargroup in transfers_data[type].items():
                 for phase, items in group_by(yeargroup, lambda d: d["amount_type.code"]).items():
                     total = sum([d["amount.sum"] for d in items])
                     years[year][phase][type] = total
-
         return years
