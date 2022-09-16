@@ -379,7 +379,8 @@
     },
 
     renderFunctions: function() {
-      if (!cube.hasFunctions) {
+      let hideFunctions = ["capital_facts_v2", "incexp_facts_v2"]
+      if (!cube.hasFunctions || hideFunctions.includes(cube.model.fact_table)) {
         this.$('section.function').hide();
         return;
       }
