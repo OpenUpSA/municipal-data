@@ -112,7 +112,7 @@ export class IndicatorSection {
       if ($textEl.length && textData) {
           $textEl.text(textData);
       }
-      this.setFormulaLink(formulaDataV2, ".is--post-2019-20", this.sectionData.last_year)
+      this.setFormulaLink(formulaDataV2, ".indicator-calculation__formula-actual.is--post-2019-20", this.sectionData.last_year)
     }
 
     if (formulaData) {
@@ -121,7 +121,7 @@ export class IndicatorSection {
       if ($textEl.length && textData) {
           $textEl.text(textData);
       }
-      this.setFormulaLink(formulaData, ".is--pre-2019-20", "2019")
+      this.setFormulaLink(formulaData, ".indicator-calculation__formula-actual.is--pre-2019-20", "2019")
     }
   }
 
