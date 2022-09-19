@@ -73,12 +73,11 @@ ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');\
 ga('send', 'pageview');\
 ");
 
-$(".site-notice").html("{% for notice in site_notices %}\
-  <div class='container'>\
-    <div class='site-notice__text' style='color:white;margin-top:10px;'>{{ notice.content | safe }}</div>\
-  </div>\
-{% endfor %}\
-");
+$(".site-notice").html(`{% for notice in site_notices %}
+  <div class='container'>
+    <div class='site-notice__text'>{{ notice.content | safe }}</div>
+  </div>
+{% endfor %}`);
 $(".site-notice").removeClass("hidden");
 
 };
