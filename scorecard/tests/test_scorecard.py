@@ -117,7 +117,7 @@ class ScorecardTest(BaseSeleniumTestCase):
         element = selenium.find_elements_by_css_selector('#repairs-maintenance ' + post_class)
         self.assertIn('http://portal:8002/table/capital_v2/?municipalities=BUF&year=2019&items=4100&amountType=AUDA', element[0].get_attribute("href"))
         self.assertIn('http://portal:8002/table/financial_position_v2/?municipalities=BUF&year=2019&items=0240&amountType=AUDA', element[1].get_attribute("href"))
-        self.assertIn('http://portal:8002/table/financial_position_v2/?municipalities=BUF&year=2019&items=0220&amountType=AUDA', element[1].get_attribute("href"))
+        self.assertIn('http://portal:8002/table/financial_position_v2/?municipalities=BUF&year=2019&items=0220&amountType=AUDA', element[2].get_attribute("href"))
         element = selenium.find_elements_by_css_selector('#repairs-maintenance ' + pre_class)
         self.assertIn('http://portal:8002/table/capital/?municipalities=BUF&year=2019&items=4100&amountType=AUDA', element[0].get_attribute("href"))
         self.assertIn('http://portal:8002/table/bsheet/?municipalities=BUF&year=2019&items=1300&amountType=AUDA', element[1].get_attribute("href"))
