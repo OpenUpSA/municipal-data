@@ -204,8 +204,9 @@ export class TransfersSection extends AbstractIncomeSection {
     if (options.length === 0) {
       options.push(["Not available", {year: null, phase: null}]);
     }
-    const initialOption = options[0];
-    this.dropdown = new Dropdown(this.$element.find(".fy-select"), options, initialOption[0]);
+    let orderedOptions = options.reverse();
+    const initialOption = orderedOptions[0];
+    this.dropdown = new Dropdown(this.$element.find(".fy-select"), orderedOptions, initialOption[0]);
     this.dropdown.$element.on("option-select", (e) => this.selectData(e.detail));
     return initialOption;
   }
@@ -329,12 +330,11 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
       this._transferredLabel = {};
       this._spentLabel = {};
       for (let year in this._chartData) {
-        let legendYear, legendQuarter = null;
-        if (year === this.sectionData.snapshot_date.year) {
-          legendYear = this.sectionData.snapshot_date.year;
+        let legendYear = this.sectionData.snapshot_date.year
+        let legendQuarter = null;
+        if (year >= this.sectionData.snapshot_date.year) {
           legendQuarter = this.sectionData.snapshot_date.quarter;
         } else if (year < this.sectionData.snapshot_date.year) {
-          legendYear = year;
           legendQuarter = 4;
         }
         this._transferredLabel[year] = `Amount transferred up to ${legendYear} Q${legendQuarter}`;

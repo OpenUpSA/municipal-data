@@ -149,11 +149,16 @@ class LocalRevenueBreakdown(IndicatorCalculator):
         values = []
         year_name = "%d" % year
         amount_type = "AUDA"
-        try:
-            for (label, codes) in groups:
-                amount = 0
-                for code in codes:
+        for (label, codes) in groups:
+            amount = 0
+            has_valid_result = False
+            for code in codes:
+                try:
                     amount += results[year][code]["amount.sum"]
+                    has_valid_result = True
+                except KeyError:
+                    pass
+            if has_valid_result:
                 values.append(
                     {
                         "item": label,
@@ -162,8 +167,7 @@ class LocalRevenueBreakdown(IndicatorCalculator):
                         "amount_type": amount_type,
                     }
                 )
-        except KeyError:
-            pass
+
         return {"values": values}
 
 

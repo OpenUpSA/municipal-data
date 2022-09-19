@@ -2,7 +2,6 @@
     "fact_table": "aged_debtor_facts_v2",
     "label": "Aged Debtor Analysis (v2)",
     "description": "Analysis of debtors by age of debt. Does not include individual debtors. Section 71-level aggregation of mSCOA data from 2019-20 onwards replacing the original aged_debtor cube.",
-    "return_forms": ["AD", "ADA"],
     "update_cycle": "quarter",
     "updates_table": "aged_debtors_facts_v2_update",
     "last_updated": "2020-10",
@@ -91,7 +90,8 @@
             },
             "key_attribute": "year",
             "description": "The calendar year falling at the end of the financial year",
-            "label": "Financial Year"
+            "label": "Financial Year",
+            "non_aggregatable": true
         },
         "period_length": {
             "attributes": {
@@ -104,7 +104,8 @@
             },
             "key_attribute": "length",
             "description": "The length of the period this figure corresponds to",
-            "label": "Period Length"
+            "label": "Period Length",
+            "non_aggregatable": true
         },
         "financial_period": {
             "attributes": {
@@ -138,7 +139,8 @@
             "description": "Whether this figure is actual, budgeted, audited etc.",
             "label_attribute": "label",
             "label": "Amount Type",
-            "join_column": ["amount_type_id", "id"]
+            "join_column": ["amount_type_id", "id"],
+            "non_aggregatable": true
         }
     },
     "measures": {

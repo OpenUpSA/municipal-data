@@ -451,7 +451,7 @@ class ApiData(object):
                         "2500", "2600", "2700", "2800", "2900",
                         "3000",
                     ],
-                    "amount_type.code": ["AUDA"],
+                    "amount_type.code": ["ADJB"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
                     "financial_year_end.year": self.years,
@@ -806,7 +806,7 @@ class ApiData(object):
                 "cube": "grants_v2",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "amount_type.code": ["ACT", "SCHD", "TRFR"],
+                    "amount_type.code": ["ACT", "SCHD", "TRFR", "ORGB"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year", "month"],
                     "financial_year_end.year": self.years + [self.budget_year],
