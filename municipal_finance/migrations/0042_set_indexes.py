@@ -14,10 +14,6 @@ def index_keys(apps, schema_editor):
         fact.item_id = item.id
     fact_model.objects.using(db_alias).bulk_update(facts, ["item_id"])
 
-def drop_fact_item_codes(apps, schema_editor):
-    print("drop_fact_item_codes")
-    
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -26,5 +22,12 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(index_keys),
-        migrations.RunPython(drop_fact_item_codes),
+        migrations.RemoveField(
+            model_name='agedcreditorfactsv1',
+            name='item_code',
+        ),
+        migrations.AlterUniqueTogether(
+            name='agedcreditorfactsv1',
+            unique_together=set([('amount_type_code', 'demarcation_code', 'financial_period', 'financial_year', 'period_length'), ('demarcation_code', 'period_code')]),
+        ),
     ]

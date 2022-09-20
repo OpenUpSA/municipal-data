@@ -48,7 +48,6 @@ class AgedCreditorFactsV1(AgedCreditorFacts):
         AgedCreditorItemsV1,
         models.DO_NOTHING,
     )
-    item_code = models.TextField()
     amount_type_code = models.TextField()
 
     class Meta:
@@ -57,14 +56,12 @@ class AgedCreditorFactsV1(AgedCreditorFacts):
             (
                 "demarcation_code",
                 "period_code",
-                "item_code",
             ),
             (
                 "amount_type_code",
                 "demarcation_code",
                 "financial_period",
                 "financial_year",
-                "item_code",
                 "period_length",
             ),
         )
