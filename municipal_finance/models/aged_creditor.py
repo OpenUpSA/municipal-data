@@ -48,7 +48,6 @@ class AgedCreditorFactsV1(AgedCreditorFacts):
         AgedCreditorItemsV1,
         models.DO_NOTHING,
     )
-    item_code = models.TextField()
     amount_type_code = models.TextField()
 
     class Meta:
