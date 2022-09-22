@@ -2,6 +2,7 @@ from django.contrib.sites.models import Site
 
 from scorecard.models import Geography
 from municipal_finance.tests.helpers import BaseSeleniumTestCase
+from selenium.webdriver.common.keys import Keys
 from infrastructure.tests import utils
 from infrastructure.models import FinancialYear, Project, Expenditure, BudgetPhase, ProjectQuarterlySpend
 
@@ -265,3 +266,27 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.wait_until_text_in(".search-detail_projects", "1")
         self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
         self.wait_until_text_in("#result-list-container > a.narrow-card_wrapper-2.w-inline-block > div.narrow-card_last-column-2", "")
+
+    def test_search_events(self):
+        geography = Geography.objects.get(geo_code="BUF")
+        financial_year = FinancialYear.objects.get(budget_year="2019/2020")
+        project = Project.objects.create(**project_base(geography, financial_year), **project_one())
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+        project_two = {
+            "function": "Economic Development/Planning",
+            "project_description": "P-CIN RDS ROADS",
+            "project_number": "PC001002006001_00028",
+        }
+        project = Project.objects.create(**project_base(geography, financial_year), **project_two)
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+
+        selenium = self.selenium
+        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/?municipality=Buffalo+City"))
+        self.wait_until_text_in(".search-detail_projects", "2")
+
+        self.enter_text("#Infrastructure-Search-Input", "P-CIN RDS ROADS")
+        selenium.find_element_by_css_selector("#Infrastructure-Search-Input").send_keys(Keys.RETURN)
+        self.wait_until_text_in(".search-detail_projects", "1")
+
+        self.click(".clear-filter__text")
+        self.wait_until_text_in(".search-detail_projects", "2")
