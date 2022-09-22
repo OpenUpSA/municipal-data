@@ -284,9 +284,19 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/?municipality=Buffalo+City"))
         self.wait_until_text_in(".search-detail_projects", "2")
 
+        # Press enter key
         self.enter_text("#Infrastructure-Search-Input", "P-CIN RDS ROADS")
         selenium.find_element_by_css_selector("#Infrastructure-Search-Input").send_keys(Keys.RETURN)
         self.wait_until_text_in(".search-detail_projects", "1")
-
+        # Click clear filter button
         self.click(".clear-filter__text")
+        self.wait_until_text_in(".search-detail_projects", "2")
+        # Add a filter with a dropdown menu
+        self.click("#functions-dropdown .chart-dropdown_trigger")
+        self.selenium.find_elements_by_css_selector("#functions-dropdown .chart-dropdown_list a")[1].click()
+        self.wait_until_text_in(".search-detail_projects", "1")
+        # Remove filters with a dropdown menu
+        self.click("#functions-dropdown")
+        self.click("#functions-dropdown")
+        self.click("#functions-dropdown")
         self.wait_until_text_in(".search-detail_projects", "2")
