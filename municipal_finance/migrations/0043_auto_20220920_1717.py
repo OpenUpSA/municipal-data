@@ -12,6 +12,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.AlterUniqueTogether(
+            name='agedcreditorfactsv1',
+            unique_together=set([('demarcation_code', 'period_code', 'item'), ('amount_type_code', 'demarcation_code', 'financial_period', 'financial_year', 'period_length', 'item')]),
+        ),
         migrations.RemoveField(
             model_name='agedcreditorfactsv1',
             name='item_code',

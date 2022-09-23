@@ -22,8 +22,4 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(index_keys),
-        migrations.AlterUniqueTogether(
-            name='agedcreditorfactsv1',
-            unique_together=set([('demarcation_code', 'period_code', 'item'), ('amount_type_code', 'demarcation_code', 'financial_period', 'financial_year', 'period_length', 'item')]),
-        ),
     ]
