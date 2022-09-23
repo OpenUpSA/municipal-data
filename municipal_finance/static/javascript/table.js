@@ -69,6 +69,8 @@
       code: 'financial_year_end.year',
       label: null,
     };
+  } else if (CUBE_NAME == 'capital_v2') {
+    cube.drilldown = ['demarcation.code', 'demarcation.label', 'capital_type.code', 'item.code', 'item.label'];
   }
 
   if (cube.hasItems) {
@@ -377,7 +379,8 @@
     },
 
     renderFunctions: function() {
-      if (!cube.hasFunctions) {
+      let hideFunctions = ["capital_facts_v2", "incexp_facts_v2"]
+      if (!cube.hasFunctions || hideFunctions.includes(cube.model.fact_table)) {
         this.$('section.function').hide();
         return;
       }
@@ -623,7 +626,11 @@
         else{
           $('#downloadBtn').attr('disabled', true);
         }
-      }).always(spinnerStop);
+      })
+      .always(spinnerStop)
+      .fail(function() {
+        alert("An error occurred.\nPlease try a different selection or try again later.");
+      });
     },
 
     makeDownloadUrl: function(parts, pagesize) {
@@ -672,8 +679,24 @@
         this.renderRowHeadings();
 
         if (municipalities) {
+          if (CUBE_NAME == 'capital_v2') {
+            var columns = [];
+            $.ajax({
+              url: MUNI_DATA_API + '/cubes/' + CUBE_NAME + '/members/capital_type',
+              async: false,
+              success: function (resp) {
+                resp.data.forEach(capitalType => {
+                  if (capitalType['capital_type.code']) {
+                    columns.push({"code": capitalType['capital_type.code'],"label": capitalType['capital_type.label']});
+                  }
+                });
+                self.aggregate_columns = Object.assign({}, columns);
+              }
+            });
+          }
+
           this.renderColHeadings();
-          this.renderValues();
+          this.renderValues(self.aggregate_columns);
         }
       }
 
@@ -687,6 +710,7 @@
 
       if (cube.columns.length > 1) blanks++;
       if (!_.isEmpty(this.filters.get('functions'))) blanks++;
+      if (CUBE_NAME == 'capital_v2') blanks++;
 
       for (var i = 0; i < blanks; i++) {
         var spacer = $('<th>').html('&nbsp;').addClass('spacer');
@@ -714,6 +738,16 @@
       var table = this.$('.values').empty()[0];
       var functions = this.functionHeadings();
 
+      var muniColumns = 1;
+      var valueColumns;
+      if (CUBE_NAME == 'capital_v2') {
+        muniColumns = Object.keys(self.aggregate_columns).length;
+        valueColumns = self.aggregate_columns;
+      } else if (cube.columns.length > 1) {
+        muniColumns = cube.columns.length;
+        valueColumns = cube.model.measures;
+      }
+
       // municipality headings
       var tr = table.insertRow();
       var munis = this.filters.get('municipalities');
@@ -721,7 +755,7 @@
         var muni = municipalities[munis[i]];
         var th = document.createElement('th');
         th.innerText = muni.name;
-        th.setAttribute('colspan', cube.columns.length * Math.max(functions.length, 1));
+        th.setAttribute('colspan', muniColumns * Math.max(functions.length, 1));
         th.setAttribute('title', muni.demarcation_code);
         tr.appendChild(th);
       }
@@ -729,7 +763,6 @@
       // function headings
       if (cube.hasFunctions && !_.isEmpty(functions)) {
         tr = table.insertRow();
-
         _.times(munis.length, function() {
           _.each(functions, function(func) {
             var th = document.createElement('th');
@@ -741,20 +774,19 @@
       }
 
       // column (aggregate) headings
-      if (cube.columns.length > 1) {
+      if (CUBE_NAME == 'capital_v2' || cube.columns.length > 1) {
         tr = table.insertRow();
-
         _.times(munis.length, function() {
-          _.each(cube.model.measures, function(measure) {
+          _.each(valueColumns, function(columns) {
             var th = document.createElement('th');
-            th.innerText = measure.label;
+            th.innerText = columns.label;
             tr.appendChild(th);
           });
         });
       }
     },
 
-    renderValues: function() {
+    renderValues: function(aggregate_columns) {
       var table = this.$('.values')[0];
       var cells = this.cells.get('items');
       var munis = this.filters.get('municipalities');
@@ -800,7 +832,22 @@
                 var data = muni_data ? muni_data[functions[f].code] : null;
                 this.renderMuniValues(muni, data, tr);
               }
-            } else {
+            } else if (CUBE_NAME == 'capital_v2') {
+              var data = [];
+              if (muni_data) {
+                Object.keys(aggregate_columns).forEach(column => {
+                  var row = "";
+                  for (var f = 0; f < muni_data.length; f++) {
+                    if (muni_data[f]["capital_type.code"] == aggregate_columns[column]["code"]) {
+                      row = muni_data[f];
+                    }
+                  }
+                  data.push(row);
+                });
+              }
+              this.renderMuniValues(muni, data, tr);
+            }
+            else {
               this.renderMuniValues(muni, muni_data && muni_data[0], tr);
             }
           }
@@ -822,15 +869,28 @@
     },
 
     renderMuniValues: function(muni, cell, tr) {
-      for (var a = 0; a < cube.columns.length; a++) {
-        var v = (cell ? cell[cube.columns[a]] : null);
-        if (v === null) {
-          v = "·";
-        } else if (_.isNumber(v)) {
-          v = this.format(v);
+      if (CUBE_NAME == 'capital_v2'){
+        for (var a = 0; a < Object.keys(self.aggregate_columns).length; a++) {
+          if (cell[Object.keys(cell)[a]]) {
+            var v = (cell ? cell[Object.keys(cell)[a]]["amount.sum"] : null);
+            v = this.format(v);
+          }
+          else {
+            v = "·";
+          }
+          tr.insertCell().innerText = v;
         }
-
-        tr.insertCell().innerText = v;
+      }
+      else {
+        for (var a = 0; a < cube.columns.length; a++) {
+          var v = (cell ? cell[cube.columns[a]] : null);
+          if (v === null) {
+            v = "·";
+          } else if (_.isNumber(v)) {
+            v = this.format(v);
+          }
+          tr.insertCell().innerText = v;
+        }
       }
     },
 
@@ -956,12 +1016,5 @@
       window.location = "/";
     },
   });
-
-  if ($("#table-view > div.container-fluid > header > h2").text() == "Capital Acquisition (v2)" ) {
-    $(".table-display").prepend("Coming soon");
-    $(".row-headings").hide();
-    $(".table-scroll-area").hide();
-  }
-
   exports.view = new MainView();
 })(window);
