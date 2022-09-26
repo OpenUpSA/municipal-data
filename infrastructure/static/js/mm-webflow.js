@@ -269,9 +269,11 @@ function mmWebflow(js) {
                 markers: L.markerClusterGroup(),
                 noResultsMessage: $("#result-list-container * .w-dyn-empty"), // TODO check this
                 loadingSpinner: $(".loading-spinner"),
-		mapPointRequest: null,
-		projectRequest: null,
-		downloadCSV: "/infrastructure/download"
+                mapPointRequest: null,
+                projectRequest: null,
+                downloadCSV: "/infrastructure/download",
+                filters: null,
+                sortField: null,
             };
 
             this.sorter = new mm.Sorter($("#sorting-dropdown"));
@@ -523,12 +525,27 @@ function mmWebflow(js) {
 
             return response;
         }
+        function urlFromSearchState() {
+            var params = new URLSearchParams();
+            params.set("q", $("#Infrastructure-Search-Input").val());
+
+            for (let fieldName in listView.searchState.filters) {
+                params.append("filter", `${fieldName}:${searchState.filters[fieldName]}`);
+            }
+
+            params.set("order_by", listView.searchState.sortField);
+            const queryString = params.toString();
+            return `${window.location.protocol}//${window.location.host}${window.location.pathname}?${queryString}`;
+        }
 
         function triggerSearch(url, clearProjects) {
+            window.history.pushState(null, "", urlFromSearchState());
+            console.log(urlFromSearchState());
+
             listView.onLoading(clearProjects);
-	    if (listView.searchState.mapPointRequest !== null){
-		listView.searchState.mapPointRequest.abort();
-	    }
+            if (listView.searchState.mapPointRequest !== null){
+                listView.searchState.mapPointRequest.abort();
+            }
             var isEvent = (url != undefined && url.type != undefined);
             if (isEvent || url == undefined)
                 url = listView.search.createUrl();
