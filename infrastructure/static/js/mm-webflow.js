@@ -273,7 +273,6 @@ function mmWebflow(js) {
                 projectRequest: null,
                 downloadCSV: "/infrastructure/download",
                 filters: null,
-                sortField: null,
             };
 
             this.sorter = new mm.Sorter($("#sorting-dropdown"));
@@ -533,7 +532,6 @@ function mmWebflow(js) {
                 params.append("filter", `${fieldName}:${searchState.filters[fieldName]}`);
             }
 
-            params.set("order_by", listView.searchState.sortField);
             const queryString = params.toString();
             return `${window.location.protocol}//${window.location.host}${window.location.pathname}?${queryString}`;
         }
@@ -730,6 +728,7 @@ function mmWebflow(js) {
             listView.search.addFacet("q", $("#Infrastructure-Search-Input").val());
             triggerSearch();
         }
+
         function loadSearchStateFromCurrentURL() {
             const queryString = window.location.search.substring(1);
             const params = new URLSearchParams(queryString);
@@ -745,12 +744,8 @@ function mmWebflow(js) {
                 const val = pieces.join(':');
                 listView.searchState.filters[key] = val;
             });
-
-            const sortField = params.get("order_by");
-            listView.searchState.sortField = sortField || "status_order";
         }
         window.addEventListener("popstate", onPopstate);
-
         triggerSearch(null, true, false);
     }
 
