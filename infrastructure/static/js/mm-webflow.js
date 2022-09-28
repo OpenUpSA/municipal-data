@@ -526,7 +526,7 @@ function mmWebflow(js) {
             return response;
         }
         function urlFromSearchState() {
-            var params = new URLSearchParams();
+            let params = new URLSearchParams();
             params.set("q", $("#Infrastructure-Search-Input").val());
 
             for (let fieldName in listView.searchState.filters) {
@@ -538,15 +538,15 @@ function mmWebflow(js) {
             return `${window.location.protocol}//${window.location.host}${window.location.pathname}?${queryString}`;
         }
 
-        function triggerSearch(url, clearProjects) {
-            window.history.pushState(null, "", urlFromSearchState());
-            console.log(urlFromSearchState());
+        function triggerSearch(url, clearProjects, pushHistory = true) {
+            if (pushHistory)
+                window.history.pushState(null, "", urlFromSearchState());
 
             listView.onLoading(clearProjects);
             if (listView.searchState.mapPointRequest !== null){
                 listView.searchState.mapPointRequest.abort();
             }
-            var isEvent = (url != undefined && url.type != undefined);
+            let isEvent = (url != undefined && url.type != undefined);
             if (isEvent || url == undefined)
                 url = listView.search.createUrl();
 
@@ -725,7 +725,33 @@ function mmWebflow(js) {
             }
         });
 
-        triggerSearch();
+        function onPopstate(event) {
+            loadSearchStateFromCurrentURL();
+            listView.search.addFacet("q", $("#Infrastructure-Search-Input").val());
+            triggerSearch();
+        }
+        function loadSearchStateFromCurrentURL() {
+            const queryString = window.location.search.substring(1);
+            const params = new URLSearchParams(queryString);
+            const textQuery = params.get("q");
+            if (textQuery)
+                $("#Infrastructure-Search-Input").val(textQuery);
+
+            const filterParams = params.getAll("filter");
+            listView.searchState.filters = {};
+            filterParams.forEach(param => {
+                const pieces = param.split(/:/);
+                const key = pieces.shift();
+                const val = pieces.join(':');
+                listView.searchState.filters[key] = val;
+            });
+
+            const sortField = params.get("order_by");
+            listView.searchState.sortField = sortField || "status_order";
+        }
+        window.addEventListener("popstate", onPopstate);
+
+        triggerSearch(null, true, false);
     }
 
     function mmDetailView(js) {
