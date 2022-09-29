@@ -528,8 +528,8 @@ function mmWebflow(js) {
             let params = new URLSearchParams();
             params.set("q", $("#Infrastructure-Search-Input").val());
 
-            for (let fieldName in listView.searchState.filters) {
-                params.append("filter", `${fieldName}:${searchState.filters[fieldName]}`);
+            for (fieldName in listView.search.selectedFacets) {
+                params.set(fieldName, listView.search.selectedFacets[fieldName]);
             }
 
             const queryString = params.toString();
@@ -735,15 +735,6 @@ function mmWebflow(js) {
             const textQuery = params.get("q");
             if (textQuery)
                 $("#Infrastructure-Search-Input").val(textQuery);
-
-            const filterParams = params.getAll("filter");
-            listView.searchState.filters = {};
-            filterParams.forEach(param => {
-                const pieces = param.split(/:/);
-                const key = pieces.shift();
-                const val = pieces.join(':');
-                listView.searchState.filters[key] = val;
-            });
         }
         window.addEventListener("popstate", onPopstate);
         triggerSearch(null, true, false);
