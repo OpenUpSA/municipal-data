@@ -265,3 +265,25 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.wait_until_text_in(".search-detail_projects", "1")
         self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
         self.wait_until_text_in("#result-list-container > a.narrow-card_wrapper-2.w-inline-block > div.narrow-card_last-column-2", "")
+
+    def test_url_query_string(self):
+        geography = Geography.objects.get(geo_code="BUF")
+        financial_year = FinancialYear.objects.get(budget_year="2019/2020")
+
+        project = Project.objects.create(**project_base(geography, financial_year), **project_one())
+        create_expenditure(project, 2000, "Audited Outcome", "2018/2019")
+        create_expenditure(project, 10000, "Original Budget", "2019/2020")
+        create_expenditure(project, 11000, "Adjusted Budget", "2019/2020")
+        ProjectQuarterlySpend.objects.create(project=project, financial_year=financial_year, q1=1000)
+
+        selenium = self.selenium
+        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/?q=cnin&province=Eastern+Cape&municipality=Buffalo+City&project_type=New&function=Administrative+and+Corporate+Support"))
+
+        self.wait_until_text_in(".page-heading", "2019/2020")
+        self.assertEquals(selenium.find_element_by_css_selector("#Infrastructure-Search-Input").get_attribute('value'), "cnin")
+        self.wait_until_text_in("#province-dropdown", "Eastern Cape")
+        self.wait_until_text_in("#municipality-dropdown", "Buffalo City")
+        self.wait_until_text_in("#type-dropdown", "New")
+        self.wait_until_text_in("#functions-dropdown", "Administrative and Corporate Support")
+        self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
