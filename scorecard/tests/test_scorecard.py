@@ -136,6 +136,15 @@ class ScorecardTest(BaseSeleniumTestCase):
         element = selenium.find_elements_by_css_selector(link_class)[19].get_attribute("href")
         self.assertIn('http://portal:8002/table/incexp/?municipalities=BUF&year=2019&items=0200%2C0400%2C1000&amountType=AUDA', element)
 
+    def test_demarcation_notice(self):
+        selenium = self.selenium
+        selenium.get("%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/"))
+        self.wait_until_text_in(".page-heading__title", "Buffalo City")
+        profile_notice = '.profile-notice'
+
+        element = selenium.find_element_by_css_selector(profile_notice).text
+        self.assertIn('Buffalo City, Eastern Cape was disestablished on 3 August 2016 and amalgamated into Buffalo City', element)
+
     def test_grants_section(self):
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/"))
