@@ -39,9 +39,8 @@ WORKDIR /app
 
 RUN set -ex; \
   yarn; \
-  yarn build
-
-CMD /app/bin/eslint.sh
+  yarn build; \
+  yarn lint
 
 EXPOSE 5000
 CMD /app/bin/start-web.sh

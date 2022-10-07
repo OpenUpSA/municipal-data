@@ -8,7 +8,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "parcel watch assets/scss/municipal-money.scss assets/js/municipal-money.js --out-dir assets/bundles --public-url /static",
-    "build": "parcel build --no-minify assets/scss/municipal-money.scss assets/js/municipal-money.js --out-dir assets/bundles --public-url /static"
+    "build": "parcel build --no-minify assets/scss/municipal-money.scss assets/js/municipal-money.js --out-dir assets/bundles --public-url /static",
+    "lint": "eslint assets/js/*.js assets/js/**/*.js --no-ignore --max-warnings=0"
   },
   "dependencies": {
     "core-js": "3.8.0",
