@@ -1,4 +1,4 @@
-FROM nikolaik/python-nodejs:python3.6-nodejs15
+FROM nikolaik/python-nodejs:python3.7-nodejs16
 
 ENV POETRY_VIRTUALENVS_CREATE false \
     PIP_NO_CACHE_DIR off \
@@ -41,6 +41,7 @@ RUN set -ex; \
   yarn; \
   yarn build
 
+CMD /app/bin/eslint.sh
 
 EXPOSE 5000
 CMD /app/bin/start-web.sh
