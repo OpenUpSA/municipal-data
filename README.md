@@ -76,6 +76,12 @@ Run ESLint using
 docker-compose run --rm scorecard yarn lint
 ```
 
+Automatically fix problems
+
+```
+docker-compose run --rm scorecard yarn lint --fix
+```
+
 ### Demo data
 
 A small number of municipalities are used for demo data. They are selected to satisfy
