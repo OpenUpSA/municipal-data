@@ -41,6 +41,9 @@ class Grants(IndicatorCalculator):
 
         transfers_data["totals"] = cls.totals(transfers_data)
 
+        filtered_nat_year_groups = cls.filter_nat_types(nat_year_groups)
+        transfers_data["national_conditional_grants"] = filtered_nat_year_groups
+
         return transfers_data
 
     @classmethod
@@ -74,3 +77,15 @@ class Grants(IndicatorCalculator):
                     total = sum([d["amount.sum"] for d in items])
                     years[year][phase][type] = total
         return years
+
+    @classmethod
+    def filter_nat_types(cls, nat_year_groups):
+        filter_types = ["ACT", "SCHD", "TRFR"]
+        filtered_nat_grants = {}
+        for year in nat_year_groups.keys():
+            year_group = []
+            for amount in nat_year_groups[year]:
+                if (amount["amount_type.code"] in filter_types):
+                    year_group.append(amount)
+            filtered_nat_grants[year] = year_group
+        return filtered_nat_grants
