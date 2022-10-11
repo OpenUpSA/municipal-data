@@ -19,10 +19,6 @@ class Migration(migrations.Migration):
 
     operations = [
         run_data_import(
-            AgedCreditorItemsV1Resource,
-            'aged_creditor_items_v1.csv',
-        ),
-        run_data_import(
             AgedCreditorItemsV2Resource,
             'aged_creditor_items_v2.csv',
         ),

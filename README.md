@@ -36,6 +36,12 @@ docker-compose up scorecard
 
 If you are working on the javascript or CSS on the site also run `yarn dev` in another terminal.
 
+Import seed data for cube items
+
+```
+docker-compose run --rm scorecard python manage.py loaddata aged_creditor_items_v1
+```
+
 To create an admin user for local development, run
 
 ```
