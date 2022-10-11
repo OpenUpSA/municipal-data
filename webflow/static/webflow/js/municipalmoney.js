@@ -14904,8 +14904,6 @@ function is(x, y) {
     // Added the nonzero y check to make Flow happy, but it is redundant
     return x !== 0 || y !== 0 || 1 / x === 1 / y;
   } // Step 6.a: NaN == NaN
-
-
   return x !== x && y !== y;
 }
 /**
@@ -19708,14 +19706,17 @@ Webflow.define('forms', module.exports = function ($, _) {
     // The file upload Input is not stylable by the designer, so we are
     // going to pretend the Label is the input. ¯\_(ツ)_/¯
 
-    $label.on('click keydown', function (e) {
-      if (e.type === 'keydown' && e.which !== 13 && e.which !== 32) {
-        return;
-      }
+    if (!inApp) {
+      $label.on('click keydown', function (e) {
+        if (e.type === 'keydown' && e.which !== 13 && e.which !== 32) {
+          return;
+        }
 
-      e.preventDefault();
-      $input.click();
-    }); // Both of these are added through CSS
+        e.preventDefault();
+        $input.click();
+      });
+    } // Both of these are added through CSS
+
 
     $label.find('.w-icon-file-upload-icon').attr('aria-hidden', 'true');
     $removeEl.find('.w-icon-file-upload-remove').attr('aria-hidden', 'true');
@@ -19838,15 +19839,13 @@ Webflow.define('forms', module.exports = function ($, _) {
   }
 
   function signFile(file, cb) {
-    var payload = {
+    var payload = new URLSearchParams({
       name: file.name,
       size: file.size
-    };
+    });
     $.ajax({
-      type: 'POST',
-      url: signFileUrl,
-      data: payload,
-      dataType: 'json',
+      type: 'GET',
+      url: "".concat(signFileUrl, "?").concat(payload),
       crossDomain: true
     }).done(function (data) {
       cb(null, data);
