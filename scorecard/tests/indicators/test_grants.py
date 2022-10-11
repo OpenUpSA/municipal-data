@@ -215,6 +215,10 @@ class GrantsTests(TestCase):
 
     def test_totals(self):
         result = Grants.totals({
+            "snapshot_date": {
+                "year": 2030,
+                "quarter": "4"
+            },
             "national_conditional_grants": {
                 2030: [
                     {

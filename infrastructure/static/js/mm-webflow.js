@@ -287,6 +287,7 @@ function mmWebflow(js) {
 
             var removeFilters = function(payload) {
                 me.search.clearFacets(payload.fieldName);
+                triggerSearch();
             };
 
             var updateURLSearch = function(field,value){
@@ -399,17 +400,18 @@ function mmWebflow(js) {
             },
 
 	    onUpdateSearchFilter: function(response){
-		this.provinceDropDown.setEnabled(true);
-                this.municipalityDropDown.setEnabled(true);
-                this.typeDropDown.setEnabled(true);
-                this.functionDropDown.setEnabled(true);
-		this.searchState.noResultsMessage.hide();
+		    this.provinceDropDown.setEnabled(true);
+            this.municipalityDropDown.setEnabled(true);
+            this.typeDropDown.setEnabled(true);
+            this.functionDropDown.setEnabled(true);
+		    this.searchState.noResultsMessage.hide();
 
-		var facets = response.results.facets;
-                this.provinceDropDown.updateDropdown(facets.province, "province", "Provinces", 'geography__province_name');
-                this.municipalityDropDown.updateDropdown(facets.municipality, "municipality", "Municipalities", "geography__name");
-                this.typeDropDown.updateDropdown(facets.type, "project_type", "Project Types", "project_type");
-                this.functionDropDown.updateDropdown(facets.function, "function", "Government Functions", 'function');
+		    var facets = response.results.facets;
+            this.provinceDropDown.updateDropdown(facets.province, "province", "Provinces", 'geography__province_name');
+            this.municipalityDropDown.updateDropdown(facets.municipality, "municipality", "Municipalities", "geography__name");
+            this.typeDropDown.updateDropdown(facets.type, "project_type", "Project Types", "project_type");
+            this.functionDropDown.updateDropdown(facets.function, "function", "Government Functions", 'function');
+            triggerSearch();
 	    },
 
             onDataLoaded: function(response) {
@@ -526,9 +528,9 @@ function mmWebflow(js) {
 
         function triggerSearch(url, clearProjects) {
             listView.onLoading(clearProjects);
-	    if (listView.searchState.mapPointRequest !== null){
-		listView.searchState.mapPointRequest.abort();
-	    }
+            if (listView.searchState.mapPointRequest !== null){
+                listView.searchState.mapPointRequest.abort();
+            }
             var isEvent = (url != undefined && url.type != undefined);
             if (isEvent || url == undefined)
                 url = listView.search.createUrl();
@@ -688,7 +690,7 @@ function mmWebflow(js) {
                 // TODO move this into an object
                 var query = $("#Infrastructure-Search-Input").val();
                 listView.search.addSearch(query);
-                //triggerSearch();
+                triggerSearch();
             }
         });
         $("#Search-Button").on("click", function(){
