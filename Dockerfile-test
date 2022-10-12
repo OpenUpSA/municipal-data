@@ -44,3 +44,5 @@ RUN set -ex; \
 
 EXPOSE 5000
 CMD /app/bin/start-web.sh
+
+CMD python manage.py migrate
