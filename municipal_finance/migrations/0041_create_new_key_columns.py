@@ -10,10 +10,7 @@ def populate_items_id(apps, schema_editor):
     items = item_model.objects.using(db_alias).all()
     for i, item in enumerate(items):
         item.id = i + 1
-    try:
-        item_model.objects.using(db_alias).bulk_update(items, ["id"])
-    except:
-        print("item_model is empty")
+    item_model.objects.using(db_alias).bulk_update(items, ["id"])
 
 
 class Migration(migrations.Migration):
