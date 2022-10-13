@@ -5,6 +5,17 @@
 {% block body-id %}home{% endblock %}
 
 {% block page-content %}
+<style>
+  .panel-heading .accordion-toggle:after {
+  font-family: 'Glyphicons Halflings';
+  content: "\e113";
+  float: right;
+  color: grey;
+  }
+  .panel-heading .accordion-toggle.collapsed:after {
+  content: "\e114";
+  }
+</style>
 <article>
   <div class="jumbotron text-center">
     <div class="container">
@@ -42,19 +53,18 @@
     <div class="container">
       <h2>Explore a dataset</h2>
 
-      <div class="accordion" id="cubeaccordion">
+      <div class="panel-group" id="cubeaccordion">
         {% for cube_type, cube_names in cube_map.items %}
-          <div class="card">
-            <div class="card-header">
-              <h5 class="mb-0">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{ cube_type|cut:' ' }}"
-                  aria-expanded="true" aria-controls="{{ cube_type|cut:' ' }}">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#{{ cube_type|cut:' ' }}">
                   {{ cube_type }} {{ cube_names|length }}
-                </button>
-              </h5>
+                </a>
+              </h4>
             </div>
-            <div id="{{ cube_type|cut:' ' }}" class="collapse show" data-parent="#cubeaccordion">
-              <div class="card-body">
+            <div id="{{ cube_type|cut:' ' }}" class="panel-collapse collapse">
+              <div class="panel-body">
                 {% for name in cube_names %}
                   <!-- {{ name }} -->
                   {% for cube_detail in cubes_a %}
