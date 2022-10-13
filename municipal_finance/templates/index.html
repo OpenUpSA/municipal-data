@@ -6,14 +6,14 @@
 
 {% block page-content %}
 <style>
-  .panel-heading .accordion-toggle:after {
-  font-family: 'Glyphicons Halflings';
-  content: "\e113";
-  float: right;
-  color: grey;
+  .accordion-toggle:after {
+    font-family: 'Glyphicons Halflings';
+    content: "\e113";
+    float: right;
+    color: grey;
   }
-  .panel-heading .accordion-toggle.collapsed:after {
-  content: "\e114";
+  .accordion-toggle.collapsed:after {
+    content: "\e114";
   }
 </style>
 <article>
@@ -55,51 +55,44 @@
 
       <div class="panel-group" id="cubeaccordion">
         {% for cube_type, cube_names in cube_map.items %}
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#{{ cube_type|cut:' ' }}">
-                  {{ cube_type }} {{ cube_names|length }}
-                </a>
-              </h4>
-            </div>
-            <div id="{{ cube_type|cut:' ' }}" class="panel-collapse collapse">
-              <div class="panel-body">
-                {% for name in cube_names %}
-                  <!-- {{ name }} -->
-                  {% for cube_detail in cubes_a %}
-                    {% if cube_detail.0 == name.0 %}
-                      {% if name.1 %}
-                        {{ name.0 }} {{ name.1 }} {{ name.2 }}<br>
-                      {% else %}
-                        {{ name.0 }} {{ name.2 }}<br>
-                      {% endif %}
+        <div class="panel">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion"
+                href="#{{ cube_type|cut:' ' }}">
+                {{ cube_type }} <span class="label label-default">{{ cube_names|length }} Dataset{% if cube_names|length > 1 %}s{% endif %}</span>
+              </a>
+            </h4>
+          </div>
+          <div id="{{ cube_type|cut:' ' }}" class="panel-collapse collapse">
+            <div class="panel-body">
+              {% for name in cube_names %}
+                {% for cube_detail in cubes_a %}
+                  {% if cube_detail.0 == name.0 %}
+                    {% if name.1 %}
+                    <div class="panel">
+                      {{ name.0 }}
+                      <button class="btn disabled">{{ name.1 }}</button>
+                      <button class="btn disabled">{{ name.2 }}</button>
+                      <button class="btn"><a href="/docs#cube-{{ name.0 }}">Documentation</a></button>
+                      <button class="btn"><a href="/table/{{ name.0 }}">Explore Data</a></button>
+                    </div>
+                    {% else %}
+                      <div class="panel">
+                        {{ name.0 }}
+                        <button class="btn disabled">{{ name.2 }}</button>
+                        <button class="btn"><a href="/docs#cube-{{ name.0 }}">Documentation</a></button>
+                        <button class="btn"><a href="/table/{{ name.0 }}">Explore Data</a></button>
+                      </div>
                     {% endif %}
-                  {% endfor %}
+                  {% endif %}
                 {% endfor %}
-              </div>
+              {% endfor %}
             </div>
           </div>
+        </div>
         {% endfor %}
       </div>
-
-      <!--
-      {% for group in cubes %}
-        <div class="dataset-buttons clearfix">
-        {% for cube_name, cube in group %}
-          {% if cube.dimensions.item %}
-            <a href="/table/{{ cube_name }}/" class="dataset">
-          {% else %}
-            <a href="/docs#cube-{{ cube_name }}" class="dataset">
-          {% endif %}
-            <h4>{{ cube.label }}</h4>
-            <p>{{ cube.description }}</p>
-            <p class="small">Updated: {{ cube.last_updated }}</p>
-          </a>
-        {% endfor %}
-        </div>
-      {% endfor %}
-      -->
     </div>
   </section>
 
