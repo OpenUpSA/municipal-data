@@ -12,7 +12,7 @@
       <h1>Municipal Finance Data</h1>
 
       <p class="lead">
-      Current and historical Municipal budget and financial performance data from the National Treasury.
+        Current and historical Municipal budget and financial performance data from the National Treasury.
       </p>
     </div>
   </div>
@@ -42,6 +42,38 @@
     <div class="container">
       <h2>Explore a dataset</h2>
 
+      <div class="accordion" id="cubeaccordion">
+        {% for cube_type, cube_names in cube_map.items %}
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{ cube_type|cut:' ' }}"
+                  aria-expanded="true" aria-controls="{{ cube_type|cut:' ' }}">
+                  {{ cube_type }} {{ cube_names|length }}
+                </button>
+              </h5>
+            </div>
+            <div id="{{ cube_type|cut:' ' }}" class="collapse show" data-parent="#cubeaccordion">
+              <div class="card-body">
+                {% for name in cube_names %}
+                  <!-- {{ name }} -->
+                  {% for cube_detail in cubes_a %}
+                    {% if cube_detail.0 == name.0 %}
+                      {% if name.1 %}
+                        {{ name.0 }} {{ name.1 }} {{ name.2 }}<br>
+                      {% else %}
+                        {{ name.0 }} {{ name.2 }}<br>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!--
       {% for group in cubes %}
         <div class="dataset-buttons clearfix">
         {% for cube_name, cube in group %}
@@ -57,6 +89,7 @@
         {% endfor %}
         </div>
       {% endfor %}
+      -->
     </div>
   </section>
 

@@ -53,12 +53,18 @@ def index(request):
                 cube_names,
             )
         )
-        cubes = sorted(cubes, key=lambda p: p[1]['label'])
-        # Group into rows of four
-        cubes = [cubes[i:i + 4] for i in range(0, len(cubes), 4)]
+
+        cube_map = {
+            "Aged Creditor Analysis" : [("aged_creditor", "V1", "2009-10 to 2018-19"), ("aged_creditor_v2", "V2", "2019-20 onwards")],
+            "Aged Debtor Analysis" : [("aged_debtor", "V1", "2009-10 to 2018-19"), ("aged_debtor_v2", "V2", "2019-20 onwards")],
+            "Audit Opinions" : [("audit_opinions", "", "2009-10 onwards")]
+        }
+
     return render(request, 'index.html', {
-        'cubes': cubes,
+        'cubes': [cubes],
+        'cubes_a': cubes,
         'cube_count': len(cube_names),
+        'cube_map' : cube_map,
     })
 
 
