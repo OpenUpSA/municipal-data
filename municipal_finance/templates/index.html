@@ -28,6 +28,7 @@
 
   .group-header {
     background-color: #ffffff;
+    padding: 6px 15px;
     border-radius: 5px;
     margin-bottom: 8px;
   }
@@ -39,12 +40,14 @@
     background-color: #333333;
     border: 8px solid transparent;
     border-radius: 5px;
+    padding: 0px 0px 0px 7px;
     margin-bottom: 5px;
+    margin-left: 15px;
   }
   .pill {
     background-color: #525252;
     display: inline-block;
-    padding: 6px 12px;
+    padding: 6px 15px;
     margin-bottom: 2px;
     margin-left: 5px;
     font-size: 14px;
@@ -61,14 +64,14 @@
     float: right;
   }
   .pill-light {
-    background-color: #525252;
+    background-color: #f2f2f2;
   }
   .pill-dark {
     background-color: #3d3d3d;
   }
-  /*.note:hover {
-    color: yellow;
-  }*/
+  .pill a {
+    color: #f2f2f2;
+  }
 </style>
 <article>
   <div class="jumbotron text-center">
@@ -115,7 +118,7 @@
               <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion"
                 href="#{{ cube_type|cut:' ' }}">
                 {{ cube_type }}
-                <span class="label label-default">{{ cube_names|length }} Dataset{% if cube_names|length > 1 %}s{% endif %}</span>
+                <div class="pill pill-light">{{ cube_names|length }} Dataset{% if cube_names|length > 1 %}s{% endif %}</div>
               </a>
             </h4>
           </div>
