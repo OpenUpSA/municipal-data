@@ -54,10 +54,23 @@ def index(request):
             )
         )
 
+        v1_year = "2009-10 to 2018-19"
+        v2_year = "2019-20 onwards"
+
         cube_map = {
-            "Aged Creditor Analysis" : [("aged_creditor", "V1", "2009-10 to 2018-19"), ("aged_creditor_v2", "V2", "2019-20 onwards")],
-            "Aged Debtor Analysis" : [("aged_debtor", "V1", "2009-10 to 2018-19"), ("aged_debtor_v2", "V2", "2019-20 onwards")],
-            "Audit Opinions" : [("audit_opinions", "", "2009-10 onwards")]
+            "Aged Creditor Analysis" : [("aged_creditor", "V1", v1_year), ("aged_creditor_v2", "V2", v2_year)],
+            "Aged Debtor Analysis" : [("aged_debtor", "V1", v1_year), ("aged_debtor_v2", "V2", v2_year)],
+            "Audit Opinions" : [("audit_opinions", "", "2009-10 onwards", "no_data")],
+            "Financial Position" : [("bsheet", "V1", v1_year), ("financial_position_v2", "V2", v2_year)],
+            "Capital Aquisition" : [("capital", "V1", v1_year), ("capital_v2", "V2", v2_year)],
+            "Cash Flow" : [("cflow", "V1", v1_year), ("cflow_v2", "V2", v2_year)],
+            "Grants" : [("conditional_grants", "V1", v1_year, "no_data"), ("grants_v2", "V2", v2_year, "no_data")],
+            "Demarcation Changes" : [("demarcation_changes", "", "2009-10 onwards", "no_data")],
+            "Income and Expenditure" : [("incexp", "V1", v1_year), ("incexp_v2", "V2", v2_year)],
+            "Municipal Officials" : [("officials", "", "2009-10 onwards", "no_data")],
+            "Municipalities" : [("municipalities", "", "2009-10 onwards", "no_data")],
+            "Reparis and Maintenance" : [("repmaint", "V1", v1_year), ("repmaint_v2", "", v2_year)],
+            "Unauthorised Irregular Fruitless and Wasteful Expenditure" : [("uifwexp", "", "2009-10 onwards")]
         }
 
     return render(request, 'index.html', {

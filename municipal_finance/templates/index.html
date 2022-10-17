@@ -41,54 +41,49 @@
   <section class="band-dark">
     <div class="container">
       <h2>Explore a dataset</h2>
-
-      <div class="panel-group" id="cubeaccordion">
-        {% for cube_type, cube_names in cube_map.items %}
-        <div class="group">
-          <div class="panel-heading group-header">
-              <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion"
-                href="#{{ cube_type|cut:' ' }}">
-                <h4 class="panel-title">
-                  {{ cube_type }}
-                  <div class="pill pill-light">{{ cube_names|length }} Dataset{% if cube_names|length > 1 %}s{% endif %}</div>
-                </h4>
-              </a>
-          </div>
-          <div id="{{ cube_type|cut:' ' }}" class="panel-collapse collapse">
-            <div class="cube-list">
-              {% for name in cube_names %}
-                {% for cube_detail in cubes_new %}
-                  {% if cube_detail.0 == name.0 %}
-                    <div class="cube">
-                      {{ cube_detail.1.label }}
-                      {% if name.1 %}
-                        <div class="pill pill-dark">{{ name.1 }}</div>
-                      {% endif %}
-                      <div class="pill pill-dark">{{ name.2 }}</div>
-                      <div class="pill pill-right"><a href="/docs#cube-{{ name.0 }}">Documentation</a></div>
-                      <div class="pill pill-right"><a href="/table/{{ name.0 }}">Explore Data</a></div>
-                    </div>
-                  {% endif %}
+      <div class="row">
+        <div class="panel-group col-md-8" id="cubeaccordion">
+          {% for cube_type, cube_names in cube_map.items %}
+          <div class="group">
+            <div class="panel-heading group-header">
+                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion"
+                  href="#{{ cube_type|cut:' ' }}">
+                  <h4 class="panel-title">
+                    {{ cube_type }}
+                    <div class="pill pill-light">{{ cube_names|length }} Dataset{% if cube_names|length > 1 %}s{% endif %}</div>
+                  </h4>
+                </a>
+            </div>
+            <div id="{{ cube_type|cut:' ' }}" class="panel-collapse collapse">
+              <div class="cube-list">
+                {% for name in cube_names %}
+                  {% for cube_detail in cubes_new %}
+                    {% if cube_detail.0 == name.0 %}
+                      <div class="cube">
+                        {% if name.0 == "uifwexp" %}
+                          UIFW Expenditure
+                        {% else %}
+                          {{ cube_detail.1.label }}
+                        {% endif %}
+                        {% if name.1 %}
+                          <div class="pill pill-dark">{{ name.1 }}</div>
+                        {% endif %}
+                        <div class="pill pill-dark">{{ name.2 }}</div>
+                        <div class="pill pill-right"><a href="/docs#cube-{{ name.0 }}">Documentation</a></div>
+                        {% if name.3 != "no_data" %}
+                          <div class="pill pill-right"><a href="/table/{{ name.0 }}">Explore Data</a></div>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                  {% endfor %}
                 {% endfor %}
-              {% endfor %}
+              </div>
             </div>
           </div>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
-
-  <section class="extras">
-    <div class="container">
-      <h2>A quick introduction to <strong>Municipal Finance</strong></h2>
-
-      <div class="row">
-        <div class="col-md-6">
-          {% include "_videos.html" %}
+          {% endfor %}
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
           <h3>Municipal Money Website</h3>
 
           <p class="lead">Explore municipal financial performance around South Africa.</p>
@@ -100,7 +95,17 @@
           <p class="lead">All this data is available through a powerful but simple JSON API.</p>
           <a href="/docs" class="btn btn-primary btn-lg">Read the API Docs</a>
         </div>
+      </div>
+    </div>
+  </section>
 
+  <section class="extras">
+    <div class="container">
+      <h2>A quick introduction to <strong>Municipal Finance</strong></h2>
+      <div class="row">
+        <div class="col-md-6">
+          {% include "_videos.html" %}
+        </div>
       </div>
     </div>
   </section>
