@@ -68,10 +68,11 @@
                           <div class="pill pill-dark">{{ name.1 }}</div>
                         {% endif %}
                         <div class="pill pill-dark">{{ name.2 }}</div>
-                        <div class="pill pill-right"><a href="/docs#cube-{{ name.0 }}">Documentation</a></div>
                         {% if name.3 != "no_data" %}
                           <div class="pill pill-right"><a href="/table/{{ name.0 }}">Explore Data</a></div>
                         {% endif %}
+                        <div class="pill pill-right"><a href="/docs#cube-{{ name.0 }}">Documentation</a></div>
+                        <a class="pill pill-right" data-toggle="tooltip" title="{{ cube_detail.1.description }}"><span class="glyphicon glyphicon-info-sign"></span></a>
                       </div>
                     {% endif %}
                   {% endfor %}
