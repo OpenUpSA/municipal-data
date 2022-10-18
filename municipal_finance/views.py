@@ -4,7 +4,6 @@ from django.shortcuts import render
 from .cubes import get_manager
 from .utils import jsonify, serialize, check_page_size
 
-
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 
@@ -69,8 +68,8 @@ def index(request):
             "Income and Expenditure" : [("incexp", "V1", v1_year), ("incexp_v2", "V2", v2_year)],
             "Municipal Officials" : [("officials", "", "2009-10 onwards", "no_data")],
             "Municipalities" : [("municipalities", "", "2009-10 onwards", "no_data")],
-            "Reparis and Maintenance" : [("repmaint", "V1", v1_year), ("repmaint_v2", "", v2_year)],
-            "Unauthorised Irregular Fruitless and Wasteful Expenditure" : [("uifwexp", "", "2009-10 onwards")]
+            "Repairs and Maintenance" : [("repmaint", "V1", v1_year), ("repmaint_v2", "V2", v2_year)],
+            "Unauthorised, Irregular, Fruitless and Wasteful Expenditure" : [("uifwexp", "", "2009-10 onwards")]
         }
 
     return render(request, 'index.html', {

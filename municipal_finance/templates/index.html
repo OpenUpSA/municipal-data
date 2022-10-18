@@ -37,7 +37,6 @@
       </div>
     </div>
   </section>
-
   <section class="band-dark">
     <div class="container">
       <h2>Explore a dataset</h2>
@@ -47,14 +46,14 @@
           <div class="group">
             <div class="panel-heading group-header">
                 <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion"
-                  href="#{{ cube_type|cut:' ' }}">
+                  href="#{{ cube_type|slugify }}">
                   <h4 class="panel-title">
                     {{ cube_type }}
                     <div class="pill pill-light">{{ cube_names|length }} Dataset{% if cube_names|length > 1 %}s{% endif %}</div>
                   </h4>
                 </a>
             </div>
-            <div id="{{ cube_type|cut:' ' }}" class="panel-collapse collapse">
+            <div id="{{ cube_type|slugify }}" class="panel-collapse collapse">
               <div class="cube-list">
                 {% for name in cube_names %}
                   {% for cube_detail in cubes_new %}
