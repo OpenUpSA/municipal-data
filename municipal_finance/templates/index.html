@@ -56,7 +56,7 @@
             <div id="{{ cube_type|slugify }}" class="panel-collapse collapse">
               <div class="cube-list">
                 {% for name in cube_names %}
-                  {% for cube_detail in cubes_new %}
+                  {% for cube_detail in cubes %}
                     {% if cube_detail.0 == name.0 %}
                       <div class="cube">
                         {% if name.0 == "uifwexp" %}

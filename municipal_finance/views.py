@@ -73,8 +73,7 @@ def index(request):
         }
 
     return render(request, 'index.html', {
-        'cubes': [cubes],
-        'cubes_new': cubes,
+        'cubes': cubes,
         'cube_count': len(cube_names),
         'cube_map' : cube_map,
     })
