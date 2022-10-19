@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-if [ "$TESTVAR" == "preview" ]
+if [ "$ENVIRONMENT" == "preview" ]
 then
     export PRELOAD_CUBES=false
     python manage.py migrate --no-input
