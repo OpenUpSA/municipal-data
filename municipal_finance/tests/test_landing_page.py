@@ -1,4 +1,3 @@
-from django.contrib.sites.models import Site
 from municipal_finance.tests.helpers import BaseSeleniumTestCase
 
 class TestLandingPage(BaseSeleniumTestCase):
@@ -7,7 +6,6 @@ class TestLandingPage(BaseSeleniumTestCase):
 
     def setUp(self):
         super(TestLandingPage, self).setUp()
-        Site.objects.filter(id=2).update(domain='municipalmoney.org.za', name='Scorecard')
 
     def test_accordion(self):
         selenium = self.selenium
