@@ -1,8 +1,13 @@
+from django.contrib.sites.models import Site
 from municipal_finance.tests.helpers import BaseSeleniumTestCase
 
 class TestLandingPage(BaseSeleniumTestCase):
     serialized_rollback = True
     portal_address = "http://portal:8002"
+
+    def setUp(self):
+        super(TestLandingPage, self).setUp()
+        Site.objects.filter(id=2).update(domain='municipalmoney.org.za', name='Scorecard')
 
     def test_accordion(self):
         selenium = self.selenium
