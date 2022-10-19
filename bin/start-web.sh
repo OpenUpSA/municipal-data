@@ -10,6 +10,7 @@ then
     python manage.py migrate --no-input
     export PRELOAD_CUBES=true
     python manage.py loaddata demo-data seeddata
+    python manage.py loaddata compiled_profile
 fi
 
 python manage.py collectstatic --noinput
