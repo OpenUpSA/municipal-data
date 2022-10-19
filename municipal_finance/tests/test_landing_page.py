@@ -1,6 +1,7 @@
 from municipal_finance.tests.helpers import BaseSeleniumTestCase
 
 class TestLandingPage(BaseSeleniumTestCase):
+    serialized_rollback = True
     portal_address = "http://portal:8002"
 
     def test_accordion(self):
