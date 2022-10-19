@@ -42,36 +42,47 @@
       <h2>Explore a dataset</h2>
       <div class="row">
         <div class="panel-group col-md-8" id="cubeaccordion">
-          {% for cube_type, cube_names in cube_map.items %}
+          {% for cube_type, group_cubes in cube_map.items %}
           <div class="group">
             <div class="panel-heading group-header">
                 <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion"
                   href="#{{ cube_type|slugify }}">
                   <h4 class="panel-title">
                     {{ cube_type }}
-                    <div class="pill pill-light">{{ cube_names|length }} Dataset{% if cube_names|length > 1 %}s{% endif %}</div>
+                    {% if group_cubes.formerly != None %}
+                      <span class="former-name">(Formerly {{ group_cubes.formerly }})</span>
+                    {% endif %}
+                    <div class="pill pill-light">{{ group_cubes.cube_info|length }} Dataset{% if group_cubes.cube_info|length > 1 %}s{% endif %}</div>
                   </h4>
                 </a>
             </div>
             <div id="{{ cube_type|slugify }}" class="panel-collapse collapse">
               <div class="cube-list">
-                {% for name in cube_names %}
+                {% for cube in group_cubes.cube_info %}
                   {% for cube_detail in cubes %}
-                    {% if cube_detail.0 == name.0 %}
-                      <div class="cube">
-                        {% if name.0 == "uifwexp" %}
+                    {% if cube_detail.0 == cube.slug %}
+                      <div class="row cube">
+                        {% if cube.slug == "uifwexp" %}
                           UIFW Expenditure
                         {% else %}
                           {{ cube_detail.1.label }}
                         {% endif %}
-                        {% if name.1 %}
-                          <div class="pill pill-dark">{{ name.1 }}</div>
+                        {% if cube.version %}
+                          <div class="pill pill-dark">{{ cube.version }}</div>
                         {% endif %}
-                        <div class="pill pill-dark">{{ name.2 }}</div>
-                        {% if name.3 != "no_data" %}
-                          <div class="pill pill-right"><a href="/table/{{ name.0 }}">Explore Data</a></div>
+                        <div class="pill pill-dark">
+                          {% if cube.version == "V1" %}
+                            2009-10 to 2018-19
+                          {% elif cube.version == "V2" %}
+                            2019-20 onwards
+                          {% else %}
+                            2009-10 onwards
+                          {% endif %}
+                        </div>
+                        {% if cube.no_data == None %}
+                          <div class="pill pill-right"><a href="/table/{{ cube.slug }}">Explore Data</a></div>
                         {% endif %}
-                        <div class="pill pill-right"><a href="/docs#cube-{{ name.0 }}">Documentation</a></div>
+                        <div class="pill pill-right"><a href="/docs#cube-{{ cube.slug }}">Documentation</a></div>
                         <a class="pill pill-right" data-toggle="tooltip" title="{{ cube_detail.1.description }}"><span class="glyphicon glyphicon-info-sign"></span></a>
                       </div>
                     {% endif %}

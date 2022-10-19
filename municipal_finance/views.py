@@ -53,23 +53,20 @@ def index(request):
             )
         )
 
-        v1_year = "2009-10 to 2018-19"
-        v2_year = "2019-20 onwards"
-
         cube_map = {
-            "Aged Creditor Analysis" : [("aged_creditor", "V1", v1_year), ("aged_creditor_v2", "V2", v2_year)],
-            "Aged Debtor Analysis" : [("aged_debtor", "V1", v1_year), ("aged_debtor_v2", "V2", v2_year)],
-            "Audit Opinions" : [("audit_opinions", "", "2009-10 onwards", "no_data")],
-            "Financial Position" : [("bsheet", "V1", v1_year), ("financial_position_v2", "V2", v2_year)],
-            "Capital Aquisition" : [("capital", "V1", v1_year), ("capital_v2", "V2", v2_year)],
-            "Cash Flow" : [("cflow", "V1", v1_year), ("cflow_v2", "V2", v2_year)],
-            "Grants" : [("conditional_grants", "V1", v1_year, "no_data"), ("grants_v2", "V2", v2_year, "no_data")],
-            "Demarcation Changes" : [("demarcation_changes", "", "2009-10 onwards", "no_data")],
-            "Income and Expenditure" : [("incexp", "V1", v1_year), ("incexp_v2", "V2", v2_year)],
-            "Municipal Officials" : [("officials", "", "2009-10 onwards", "no_data")],
-            "Municipalities" : [("municipalities", "", "2009-10 onwards", "no_data")],
-            "Repairs and Maintenance" : [("repmaint", "V1", v1_year), ("repmaint_v2", "V2", v2_year)],
-            "Unauthorised, Irregular, Fruitless and Wasteful Expenditure" : [("uifwexp", "", "2009-10 onwards")]
+            "Aged Creditor Analysis" : {"cube_info":[{"slug":"aged_creditor", "version":"V1"}, {"slug":"aged_creditor_v2", "version":"V2"}]},
+            "Aged Debtor Analysis" : {"cube_info":[{"slug":"aged_debtor", "version":"V1"}, {"slug":"aged_debtor_v2", "version":"V2"}]},
+            "Audit Opinions" : {"cube_info":[{"slug":"audit_opinions", "no_data":"True"}]},
+            "Financial Position" : {"cube_info":[{"slug":"bsheet", "version":"V1"}, {"slug":"financial_position_v2", "version":"V2"}], "formerly":"Balance Sheet"},
+            "Capital Aquisition" : {"cube_info":[{"slug":"capital", "version":"V1"}, {"slug":"capital_v2", "version":"V2"}]},
+            "Cash Flow" : {"cube_info":[{"slug":"cflow", "version":"V1"}, {"slug":"cflow_v2", "version":"V2"}]},
+            "Grants" : {"cube_info":[{"slug":"conditional_grants", "version":"V1", "no_data":"True"}, {"slug":"grants_v2", "version":"V2", "no_data":"True"}], "formerly":"Conditional Grants"},
+            "Demarcation Changes" : {"cube_info":[{"slug":"demarcation_changes", "no_data":"True"}]},
+            "Income and Expenditure" : {"cube_info":[{"slug":"incexp", "version":"V1"}, {"slug":"incexp_v2", "version":"V2"}]},
+            "Municipal Officials" : {"cube_info":[{"slug":"officials"}]},
+            "Municipalities" : {"cube_info":[{"slug":"municipalities"}]},
+            "Repairs and Maintenance" : {"cube_info":[{"slug":"repmaint", "version":"V1"}, {"slug":"repmaint_v2", "version":"V2"}]},
+            "Unauthorised, Irregular, Fruitless and Wasteful Expenditure" : {"cube_info":[{"slug":"uifwexp"}]},
         }
 
     return render(request, 'index.html', {
