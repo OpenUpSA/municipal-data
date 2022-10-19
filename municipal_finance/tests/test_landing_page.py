@@ -1,8 +1,6 @@
 from municipal_finance.tests.helpers import BaseSeleniumTestCase
-import unittest
 
 class TestLandingPage(BaseSeleniumTestCase):
-    fixtures = ["seeddata"]
     portal_address = "http://portal:8002"
 
     def test_accordion(self):
