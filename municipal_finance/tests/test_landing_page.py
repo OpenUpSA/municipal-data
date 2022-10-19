@@ -1,11 +1,14 @@
+from django.contrib.sites.models import Site
 from municipal_finance.tests.helpers import BaseSeleniumTestCase
+import os
 
 class TestLandingPage(BaseSeleniumTestCase):
     serialized_rollback = True
-    portal_address = "http://portal:8002"
+    portal_address = os.getenv('DATA_PORTAL_URL')
 
     def setUp(self):
         super(TestLandingPage, self).setUp()
+        Site.objects.filter(id=3).update(domain='https://municipaldata.treasury.gov.za/', name='API')
 
     def test_accordion(self):
         selenium = self.selenium
