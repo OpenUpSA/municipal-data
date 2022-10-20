@@ -9,10 +9,11 @@ class TestLandingPage(BaseSeleniumTestCase):
     def setUp(self):
         super(TestLandingPage, self).setUp()
         Site.objects.filter(id=3).update(domain='https://municipaldata.treasury.gov.za/', name='API')
+        os.environ["SITE_ID"] = "3"
 
     def test_accordion(self):
         selenium = self.selenium
-        selenium.get("%s%s" % (self.portal_address, "/"))
+        selenium.get("%s%s" % (self.live_server_url, "/"))
         self.wait_until_text_in("#header h1", "Municipal Finance Data")
 
         self.wait_until_text_in(".panel-group h4", "Aged Creditor Analysis")
@@ -26,7 +27,7 @@ class TestLandingPage(BaseSeleniumTestCase):
         link.click()
         self.wait_until_text_in("#cube-aged_creditor", "Aged Creditor Analysis - aged_creditor")
 
-        selenium.get("%s%s" % (self.portal_address, "/"))
+        selenium.get("%s%s" % (self.live_server_url, "/"))
         self.click(".group")
         link = selenium.find_element_by_link_text("Explore Data")
         link.click()
