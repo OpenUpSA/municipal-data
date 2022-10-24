@@ -63,28 +63,34 @@
                   {% for cube_detail in cubes %}
                     {% if cube_detail.0 == cube.slug %}
                       <div class="row cube">
-                        {% if cube.slug == "uifwexp" %}
-                          UIFW Expenditure
-                        {% else %}
-                          {{ cube_detail.1.label }}
-                        {% endif %}
-                        {% if cube.version %}
-                          <div class="pill pill-dark">{{ cube.version }}</div>
-                        {% endif %}
-                        <div class="pill pill-dark">
-                          {% if cube.version == "V1" %}
-                            2009-10 to 2018-19
-                          {% elif cube.version == "V2" %}
-                            2019-20 onwards
+                        <div class="btn-group">
+                          {% if cube.slug == "uifwexp" %}
+                            UIFW Expenditure
                           {% else %}
-                            2009-10 onwards
+                            {{ cube_detail.1.label }}
                           {% endif %}
                         </div>
-                        {% if cube.no_data == None %}
-                          <div class="pill pill-right"><a href="/table/{{ cube.slug }}">Explore Data</a></div>
-                        {% endif %}
-                        <div class="pill pill-right"><a href="/docs#cube-{{ cube.slug }}">Documentation</a></div>
-                        <a class="pill pill-right" data-toggle="tooltip" title="{{ cube_detail.1.description }}"><span class="glyphicon glyphicon-info-sign"></span></a>
+                        <div class="btn-group">
+                          {% if cube.version %}
+                            <div class="pill pill-dark">{{ cube.version }}</div>
+                          {% endif %}
+                          <div class="pill pill-dark">
+                            {% if cube.version == "V1" %}
+                              2009-10 to 2018-19
+                            {% elif cube.version == "V2" %}
+                              2019-20 onwards
+                            {% else %}
+                              2009-10 onwards
+                            {% endif %}
+                          </div>
+                        </div>
+                        <div class="btn-group pill-right">
+                          {% if cube.no_data == None %}
+                            <div class="pill"><a href="/table/{{ cube.slug }}">Explore Data</a></div>
+                          {% endif %}
+                          <div class="pill"><a href="/docs#cube-{{ cube.slug }}">Documentation</a></div>
+                          <a class="pill" data-toggle="tooltip" title="{{ cube_detail.1.description }}"><span class="glyphicon glyphicon-info-sign"></span></a>
+                        </div>
                       </div>
                     {% endif %}
                   {% endfor %}
