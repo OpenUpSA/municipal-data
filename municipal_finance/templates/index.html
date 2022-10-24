@@ -85,11 +85,11 @@
                           </div>
                         </div>
                         <div class="btn-group pill-right">
+                          <a class="pill pill-info" data-toggle="tooltip" title="{{ cube_detail.1.description }}"><span class="glyphicon glyphicon-info-sign"></span></a>
+                          <div class="pill"><a href="/docs#cube-{{ cube.slug }}">Documentation</a></div>
                           {% if cube.no_data == None %}
                             <div class="pill"><a href="/table/{{ cube.slug }}">Explore Data</a></div>
                           {% endif %}
-                          <div class="pill"><a href="/docs#cube-{{ cube.slug }}">Documentation</a></div>
-                          <a class="pill" data-toggle="tooltip" title="{{ cube_detail.1.description }}"><span class="glyphicon glyphicon-info-sign"></span></a>
                         </div>
                       </div>
                     {% endif %}
