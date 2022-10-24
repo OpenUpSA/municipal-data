@@ -44,17 +44,13 @@
         <div class="panel-group col-md-8" id="cubeaccordion">
           {% for cube_type, group_cubes in cube_map.items %}
           <div class="group">
-            <a data-toggle="collapse" data-parent="#accordion" href="#{{ cube_type|slugify }}">
-              <div class="panel-heading group-header">
-                  <div class="accordion-toggle collapsed" >
-                    <h4 class="panel-title">
-                      {{ cube_type }}
-                      {% if group_cubes.formerly != None %}
-                        <span class="former-name">(Formerly {{ group_cubes.formerly }})</span>
-                      {% endif %}
-                      <div class="pill pill-light">{{ group_cubes.cube_info|length }} Dataset{% if group_cubes.cube_info|length > 1 %}s{% endif %}</div>
-                    </h4>
-                  </div>
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#{{ cube_type|slugify }}">
+              <div class="panel-heading group-header align-middle">
+                  {{ cube_type }}
+                  {% if group_cubes.formerly != None %}
+                    <span class="former-name">&nbsp(Formerly {{ group_cubes.formerly }})</span>
+                  {% endif %}
+                  <div class="pill pill-light">{{ group_cubes.cube_info|length }} Dataset{% if group_cubes.cube_info|length > 1 %}s{% endif %}</div>
               </div>
             </a>
             <div id="{{ cube_type|slugify }}" class="panel-collapse collapse">

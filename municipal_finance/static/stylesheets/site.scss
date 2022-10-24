@@ -113,18 +113,16 @@ $black: #333;
   font-family: 'Glyphicons Halflings';
   content: "\e113";
   float: right;
-  margin-top: -27px;
+  margin-top: -34px;
+  padding: 0px 15px;
   color: grey;
+  font-size: 18px;
 }
 .accordion-toggle.collapsed:after {
   content: "\e114";
 }
 .carrot:after {
   content: "\e114";
-}
-.float-right {
-  margin-left: 5px;
-  float: right;
 }
 .group {
   margin-bottom: 8px;
@@ -137,7 +135,9 @@ $black: #333;
   background-color: #ffffff;
   padding: 6px 15px;
   border-radius: 5px;
-  margin-bottom: 8px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
 }
 .cube-list {
   background-color: #efefef;
@@ -157,7 +157,7 @@ $black: #333;
   display: inline-block;
   padding: 6px 9px;
   margin-bottom: 2px;
-  margin-left: 5px;
+  margin-left: 10px;
   font-size: 14px;
   font-weight: normal;
   line-height: 1.428571429;
