@@ -74,5 +74,10 @@ class MunicipalityProfilesCompilationAdmin(admin.ModelAdmin):
             obj.last_opinion_year,
             obj.last_uifw_year,
             obj.last_audit_quarter,
-            task_name="Compile municipal profiles"
+            task_name="Compile municipal profiles",
+            hook="compile_complete"
         )
+
+    def compile_complete(task):
+        if task.success:
+            print("prepare data summary")
