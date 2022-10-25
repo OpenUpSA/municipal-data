@@ -1,12 +1,9 @@
-from django.contrib.sites.models import Site
-from django.test import override_settings
 from municipal_finance.tests.helpers import BaseSeleniumTestCase
-import os
+from django.test import override_settings
 
 @override_settings(SITE_ID='3')
 class TestLandingPage(BaseSeleniumTestCase):
     serialized_rollback = True
-    portal_address = os.getenv('DATA_PORTAL_URL')
 
     def setUp(self):
         super(TestLandingPage, self).setUp()
@@ -14,6 +11,7 @@ class TestLandingPage(BaseSeleniumTestCase):
     def test_accordion(self):
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/"))
+
         self.wait_until_text_in("#header h1", "Municipal Finance Data")
 
         self.wait_until_text_in(".panel-group h4", "Aged Creditor Analysis")
