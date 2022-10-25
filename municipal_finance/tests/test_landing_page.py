@@ -3,12 +3,11 @@ from django.test import override_settings
 from municipal_finance.tests.helpers import BaseSeleniumTestCase
 import os
 
-
+@override_settings(SITE_ID='3')
 class TestLandingPage(BaseSeleniumTestCase):
     serialized_rollback = True
     portal_address = os.getenv('DATA_PORTAL_URL')
 
-    @override_settings(SITE_ID='3')
     def setUp(self):
         super(TestLandingPage, self).setUp()
 
