@@ -6,8 +6,7 @@ from .amount_type import AmountTypeV2
 
 class Summary(models.Model):
     type = models.TextField()
-    total = models.IntegerField()
-    items = models.TextField()
+    content = models.TextField()
 
     class Meta:
         db_table = "data_summaries"
