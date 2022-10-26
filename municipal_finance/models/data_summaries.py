@@ -5,7 +5,7 @@ from .amount_type import AmountTypeV2
 
 
 class Summary(models.Model):
-    type = models.TextField()
+    type = models.TextField(unique=True)
     content = models.TextField()
 
     class Meta:
