@@ -10,7 +10,6 @@
     <div class="container">
       <img src="{% static 'images/treasury-logo.png' %}" class="logo">
       <h1>Municipal Finance Data</h1>
-
       <p class="lead">
       Current and historical Municipal budget and financial performance data from the National Treasury.
       </p>
@@ -21,17 +20,18 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-4">
-          <h2>4 years of data</h2>
-          <p class="lead">Financial years 2012-2013 to 2015-2016.</p>
+          <h2>{{ summary.years.count }} years of data</h2>
+          <p class="lead">Financial years {{ summary.years.min|add:"-1"|stringformat:"i" }}-{{summary.years.min|stringformat:"i" }}
+            to {{ summary.years.max|add:"-1"|stringformat:"i" }}-{{ summary.years.max|stringformat:"i" }}.</p>
         </div>
 
         <div class="col-sm-4">
-          <h2>278 municipalities</h2>
-          <p class="lead">8 metros, 44 district and 226 local municipalities.</p>
+          <h2>{{ summary.municipalities.total }} municipalities</h2>
+          <p class="lead">{{ summary.municipalities.metros }} metros, {{ summary.municipalities.districts }} district and {{summary.municipalities.munis }} local municipalities.</p>
         </div>
 
         <div class="col-sm-4">
-          <h2>39 million facts</h2>
+          <h2>{{ summary.facts.count }} million facts</h2>
           <p class="lead">Budgeted and actual figures for income and expenditure, cash flow and lots more.</p>
         </div>
       </div>

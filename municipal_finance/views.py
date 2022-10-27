@@ -3,10 +3,11 @@ from django.shortcuts import render
 
 from .cubes import get_manager
 from .utils import jsonify, serialize, check_page_size
-
+from .models.data_summaries import Summary
 
 from django.views.decorators.clickjacking import xframe_options_exempt
 
+import json
 
 DUMP_FORMATS = ['csv', 'xlsx']
 FORMATS = DUMP_FORMATS + ['json']
@@ -56,9 +57,17 @@ def index(request):
         cubes = sorted(cubes, key=lambda p: p[1]['label'])
         # Group into rows of four
         cubes = [cubes[i:i + 4] for i in range(0, len(cubes), 4)]
+
+    summaries = Summary.objects.all()
+    summary_dict = {}
+    for summary in summaries:
+        content = json.loads(summary.content)
+        summary_dict[summary.type] = content
+
     return render(request, 'index.html', {
         'cubes': cubes,
         'cube_count': len(cube_names),
+        'summary': summary_dict,
     })
 
 
