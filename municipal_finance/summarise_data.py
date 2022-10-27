@@ -1,5 +1,4 @@
 from django.db.models import Min, Max
-from django_q.tasks import async_task
 
 from municipal_finance.models.data_summaries import Summary
 
@@ -75,17 +74,18 @@ def compile_complete(task):
         Summary.objects.update_or_create(
             type='years',
             defaults={
-                'content': f'{{count:{count_years}, min:{min_year}, max:{max_year}}}'}
+                'content': f'{{"count":{count_years}, "min":{min_year}, "max":{max_year}}}'}
         )
 
         total = Geography.objects.all().count()
-        metros = Geography.objects.filter(geo_level='metro').count()
-        districts = Geography.objects.filter(geo_level='district').count()
-        munis = Geography.objects.filter(geo_level='municipality').count()
+        metros = Geography.objects.filter(category='A').count()
+        munis = Geography.objects.filter(category='B').count()
+        districts = Geography.objects.filter(category='C').count()
+
         Summary.objects.update_or_create(
             type='municipalities',
             defaults={
-                'content': f'{{total:{total}, metros:{metros}, districts:{districts}, munis:{munis}}}'}
+                'content': f'{{"total":{total}, "metros":{metros}, "munis":{munis}, "districts":{districts}}}'}
         )
 
         for table in FACT_TABLES:
@@ -93,7 +93,7 @@ def compile_complete(task):
 
         Summary.objects.update_or_create(
             type='facts',
-            defaults={'content': f'{{count:{count_facts}}}'}
+            defaults={'content': f'{{"count":{count_facts}}}'}
         )
 
 
