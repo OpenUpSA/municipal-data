@@ -11,6 +11,7 @@ class TestLandingPage(BaseSeleniumTestCase):
     def test_accordion(self):
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/"))
+        print(self.selenium.find_element_by_css_selector("body").text)
 
         self.wait_until_text_in("#header h1", "Municipal Finance Data")
 
