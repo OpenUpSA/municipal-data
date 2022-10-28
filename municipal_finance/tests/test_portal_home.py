@@ -7,21 +7,21 @@ import logging
 logger = logging.Logger(__name__)
 
 @override_settings(SITE_ID='3')
-class TestLandingPage(BaseSeleniumTestCase):
+class TestPortalHome(BaseSeleniumTestCase):
     serialized_rollback = True
 
     def setUp(self):
-        super(TestLandingPage, self).setUp()
+        super(TestPortalHome, self).setUp()
 
     def test_data_summary(self):
-        print("_______________________")
+        logger.warn("________________")
         Summary.objects.create(type="years", content='{"count":5, "min":2018, "max":2023}')
         Summary.objects.create(type="municipalities", content='{"count":5, "min":2018, "max":2023}')
         Summary.objects.create(type="facts", content='{"count":2124242}')
 
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/"))
-        logger.debug("__________: %s" % self.selenium.find_element_by_css_selector("body").text)
+        logger.warn("__________: %s" % self.selenium.find_element_by_css_selector("body").text)
 
         self.wait_until_text_in("#header h1", "Municipal Finance Data")
 
