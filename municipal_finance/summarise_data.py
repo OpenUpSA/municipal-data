@@ -1,4 +1,5 @@
 from django.db.models import Min, Max
+from django_q.tasks import async_task
 
 from municipal_finance.models.data_summaries import Summary
 
@@ -60,41 +61,48 @@ FACT_TABLES = [
 ]
 
 
-def compile_complete(task):
+def summarise_task(task):
     if task.success:
-        min_year = 3000
-        max_year = 1000
-        count_facts = 0
-
-        for table in FACT_TABLES:
-            min_year = get_min(min_year, table)
-            max_year = get_max(max_year, table)
-
-        count_years = max_year - min_year
-        Summary.objects.update_or_create(
-            type='years',
-            defaults={
-                'content': f'{{"count":{count_years}, "min":{min_year}, "max":{max_year}}}'}
+        async_task(
+            "municipal_finance.summarise_data.summarise",
+            task_name="Summarise Data",
         )
 
-        total = Geography.objects.all().count()
-        metros = Geography.objects.filter(category='A').count()
-        munis = Geography.objects.filter(category='B').count()
-        districts = Geography.objects.filter(category='C').count()
 
-        Summary.objects.update_or_create(
-            type='municipalities',
-            defaults={
-                'content': f'{{"total":{total}, "metros":{metros}, "munis":{munis}, "districts":{districts}}}'}
-        )
+def summarise():
+    min_year = 3000
+    max_year = 1000
+    count_facts = 0
 
-        for table in FACT_TABLES:
-            count_facts += table.objects.all().count()
+    for table in FACT_TABLES:
+        min_year = get_min(min_year, table)
+        max_year = get_max(max_year, table)
 
-        Summary.objects.update_or_create(
-            type='facts',
-            defaults={'content': f'{{"count":{count_facts}}}'}
-        )
+    count_years = max_year - min_year
+    Summary.objects.update_or_create(
+        type='years',
+        defaults={
+            'content': f'{{"count":{count_years}, "min":{min_year}, "max":{max_year}}}'}
+    )
+
+    total = Geography.objects.all().count()
+    metros = Geography.objects.filter(category='A').count()
+    munis = Geography.objects.filter(category='B').count()
+    districts = Geography.objects.filter(category='C').count()
+
+    Summary.objects.update_or_create(
+        type='municipalities',
+        defaults={
+            'content': f'{{"total":{total}, "metros":{metros}, "munis":{munis}, "districts":{districts}}}'}
+    )
+
+    for table in FACT_TABLES:
+        count_facts += table.objects.all().count()
+
+    Summary.objects.update_or_create(
+        type='facts',
+        defaults={'content': f'{{"count":{count_facts}}}'}
+    )
 
 
 def get_min(current_min, model):

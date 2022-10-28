@@ -75,5 +75,5 @@ class MunicipalityProfilesCompilationAdmin(admin.ModelAdmin):
             obj.last_uifw_year,
             obj.last_audit_quarter,
             task_name="Compile municipal profiles",
-            hook='municipal_finance.summarise_data.compile_complete'
+            hook='municipal_finance.summarise_data.summarise_task'
         )
