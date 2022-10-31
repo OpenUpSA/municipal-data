@@ -3,9 +3,6 @@ from django.test import override_settings
 
 from municipal_finance.models.data_summaries import Summary
 
-import logging
-logger = logging.Logger(__name__)
-
 
 @override_settings(
     SITE_ID=3,
