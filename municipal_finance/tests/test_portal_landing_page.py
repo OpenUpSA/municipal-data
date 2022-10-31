@@ -1,7 +1,11 @@
 from municipal_finance.tests.helpers import BaseSeleniumTestCase
 from django.test import override_settings
 
-@override_settings(SITE_ID='3')
+
+@override_settings(
+    SITE_ID=3,
+    STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage",
+)
 class TestLandingPage(BaseSeleniumTestCase):
     serialized_rollback = True
 
@@ -11,7 +15,6 @@ class TestLandingPage(BaseSeleniumTestCase):
     def test_accordion(self):
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/"))
-        print(self.selenium.find_element_by_css_selector("body").text)
 
         self.wait_until_text_in("#header h1", "Municipal Finance Data")
 
@@ -19,7 +22,7 @@ class TestLandingPage(BaseSeleniumTestCase):
         self.wait_until_text_in(".panel-group .pill", "2 Datasets")
 
         self.assertFalse(selenium.find_elements_by_css_selector(".cube-list")[0].is_displayed())
-        self.click(".group") # Expand accordion
+        self.click(".group")  # Expand accordion
         self.assertTrue(selenium.find_elements_by_css_selector(".cube-list")[0].is_displayed())
 
         link = selenium.find_element_by_link_text("Documentation")
