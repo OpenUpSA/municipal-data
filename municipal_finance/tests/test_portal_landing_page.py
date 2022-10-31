@@ -17,8 +17,7 @@ class TestLandingPage(BaseSeleniumTestCase):
         selenium.get("%s%s" % (self.live_server_url, "/"))
 
         self.wait_until_text_in("#header h1", "Municipal Finance Data")
-
-        self.wait_until_text_in(".panel-group h4", "Aged Creditor Analysis")
+        self.wait_until_text_in(".panel-group .group-header", "Aged Creditor Analysis")
         self.wait_until_text_in(".panel-group .pill", "2 Datasets")
 
         self.assertFalse(selenium.find_elements_by_css_selector(".cube-list")[0].is_displayed())
