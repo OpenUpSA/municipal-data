@@ -19,7 +19,7 @@ class TestPortalHome(BaseSeleniumTestCase):
 
     def test_data_summary(self):
         Summary.objects.create(type="years", content='{"count":5, "min":2018, "max":2023}')
-        Summary.objects.create(type="municipalities", content='{"count":5, "min":2018, "max":2023}')
+        Summary.objects.create(type="municipalities", content='{"total":9, "metros":2, "districts":3, "munis":4}')
         Summary.objects.create(type="facts", content='{"count":2124242}')
 
         selenium = self.selenium
