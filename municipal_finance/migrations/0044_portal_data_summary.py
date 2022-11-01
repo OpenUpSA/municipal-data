@@ -3,7 +3,14 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+from django_q.tasks import async_task
 
+
+def populate_data_summary(apps, schema_editor):
+    async_task(
+        "municipal_finance.summarise_data.summarise",
+        task_name="Summarise Data",
+    )
 
 class Migration(migrations.Migration):
 
@@ -24,4 +31,5 @@ class Migration(migrations.Migration):
                 'db_table': 'data_summaries',
             },
         ),
+        migrations.RunPython(populate_data_summary),
     ]
