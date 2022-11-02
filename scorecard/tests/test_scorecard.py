@@ -11,6 +11,22 @@ class ScorecardTest(BaseSeleniumTestCase):
         super(ScorecardTest, self).setUp()
         Site.objects.filter(id=2).update(domain='municipalmoney.org.za', name='Scorecard')
 
+    def test_header(self):
+        selenium = self.selenium
+        selenium.get('%s%s' % (self.live_server_url,
+                     '/profiles/municipality-BUF-buffalo-city/'))
+        self.wait_until_text_in('.page-heading__title', 'Buffalo City')
+
+        link_class = '.page-heading__subtitle_link'
+        self.wait_until_text_in(link_class, 'Amatola')
+        element = selenium.find_elements_by_css_selector(
+            link_class)[0].get_attribute('href')
+        self.assertIn('/profiles/district-AMA-amatola', element)
+
+        self.wait_until_text_in('.profile-metric__population', '781 026')
+        self.wait_until_text_in('.profile-metric__size', '2 751.7')
+        self.wait_until_text_in('.profile-metric__density', '283.8')
+
     def test_formulas(self):
         selenium = self.selenium
         selenium.get("%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/"))
