@@ -30,5 +30,5 @@ class TestPortalHome(BaseSeleniumTestCase):
         self.wait_until_text_in("#municipalities h2", "9 municipalities")
         self.wait_until_text_in("#municipalities p", "2 metros, 3 district and 4 local municipalities.")
 
-        self.wait_until_text_in("#facts h2", "2 124 242 million facts")
+        self.wait_until_text_in("#facts h2", "2 124 242 facts")
         self.wait_until_text_in("#facts p", "Budgeted and actual figures for income and expenditure, cash flow and lots more.")
