@@ -1,5 +1,6 @@
 from django.db.models import Min, Max
 from django_q.tasks import async_task
+from django.db import transaction
 
 from municipal_finance.models.data_summaries import Summary
 
@@ -69,6 +70,7 @@ def summarise_task(task):
         )
 
 
+@transaction.atomic
 def summarise():
     min_year = 3000
     max_year = 1000
