@@ -12,10 +12,9 @@ def index_keys(apps, schema_editor):
     for i, fact in enumerate(facts):
         item = items.get(code=fact.item_code)
         fact.item_id = item.id
-    try:
+    if facts:
         fact_model.objects.using(db_alias).bulk_update(facts, ["item_id"])
-    except:
-        print("fact_model is empty")
+
 
 class Migration(migrations.Migration):
 

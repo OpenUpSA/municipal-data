@@ -10,10 +10,8 @@ def populate_items_id(apps, schema_editor):
     items = item_model.objects.using(db_alias).all()
     for i, item in enumerate(items):
         item.id = i + 1
-    try:
+    if items:
         item_model.objects.using(db_alias).bulk_update(items, ["id"])
-    except:
-        print("item_model is empty")
 
 
 class Migration(migrations.Migration):
@@ -47,7 +45,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='agedcreditorfactsv1',
             name='item',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.AgedCreditorItemsV1'),
+            field=models.ForeignKey(
+                default=1, on_delete=django.db.models.deletion.DO_NOTHING, to='municipal_finance.AgedCreditorItemsV1'),
             preserve_default=False,
         ),
     ]
