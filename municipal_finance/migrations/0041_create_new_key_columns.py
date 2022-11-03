@@ -8,9 +8,9 @@ def populate_items_id(apps, schema_editor):
     item_model = apps.get_model("municipal_finance", "agedcreditoritemsv1")
     db_alias = schema_editor.connection.alias
     items = item_model.objects.using(db_alias).all()
-    for i, item in enumerate(items):
-        item.id = i + 1
     if items:
+        for i, item in enumerate(items):
+            item.id = i + 1
         item_model.objects.using(db_alias).bulk_update(items, ["id"])
 
 

@@ -9,10 +9,10 @@ def index_keys(apps, schema_editor):
     db_alias = schema_editor.connection.alias
     items = item_model.objects.using(db_alias).all()
     facts = fact_model.objects.using(db_alias).all()
-    for i, fact in enumerate(facts):
-        item = items.get(code=fact.item_code)
-        fact.item_id = item.id
     if facts:
+        for i, fact in enumerate(facts):
+            item = items.get(code=fact.item_code)
+            fact.item_id = item.id
         fact_model.objects.using(db_alias).bulk_update(facts, ["item_id"])
 
 
