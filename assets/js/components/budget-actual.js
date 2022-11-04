@@ -46,8 +46,8 @@ export class TimeSeriesSection {
       return d;
     });
     const comparator = (a, b) => {
-      return this.ordering.indexOf(a["amount_type.code"]) -
-        this.ordering.indexOf(b["amount_type.code"]);
+      return this.ordering.indexOf(a["financial_year"]) -
+        this.ordering.indexOf(b["financial_year"]);
     };
     chartData.sort(comparator);
 
