@@ -297,6 +297,4 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.wait_until_text_in(".search-detail_projects", "1")
         # Remove filters with a dropdown menu
         self.click("#functions-dropdown")
-        self.click("#functions-dropdown")
-        self.click("#functions-dropdown")
         self.wait_until_text_in(".search-detail_projects", "2")
