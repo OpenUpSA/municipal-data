@@ -304,6 +304,7 @@ export class IndicatorSection {
     [this.chartData(), ...(this.comparisons)].forEach((comparison) => {
       const button = $(' <button class="button" style="display: unset; margin: 2px 2px"></button> ');
       button.click(() => {
+        console.log('_______updateComparisonButtons_______')
         this.chart.highlightCol(comparison.municipality.code);
         ga('send', 'event', 'chart-compare-highlight', `${this.key} ${comparison.municipality.code}`);
       });
@@ -379,7 +380,9 @@ export class IndicatorSection {
     }
   }
 }
-
+document.addEventListener("click-bar", function(e) {
+  console.log(e.data);
+});
 export class OverUnderSection extends IndicatorSection {
   formatMetric(value) {
     const overunder = value > 0 ? "overspent" : "underspent";
