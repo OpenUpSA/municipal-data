@@ -381,7 +381,8 @@ export class IndicatorSection {
   }
 }
 document.addEventListener("click-bar", function(e) {
-  console.log(e.data);
+  console.log(e.detail.path[0].__data__.municipality['code']);
+
 });
 export class OverUnderSection extends IndicatorSection {
   formatMetric(value) {
