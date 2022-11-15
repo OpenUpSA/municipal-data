@@ -298,9 +298,9 @@ export class IndicatorSection {
     this.comparisonButtonsContainer.insertBefore(this.chartContainer);
   }
 
-  highlightComparisonButton(muniId) {
-    $('.chart-btn').css('border', 'none');
-    $('#' + muniId).css('border', '1px solid black');
+  highlightComparisonButton(section, muniId) {
+    $(section + ' .chart-btn').css('border', 'none');
+    $(section + ' #' + muniId).css('border', '1px solid black');
   }
 
   _updateComparisonButtons() {
@@ -309,7 +309,7 @@ export class IndicatorSection {
     [this.chartData(), ...(this.comparisons)].forEach((comparison) => {
       const button = $(' <button id="' + comparison.municipality.code + '"class="button chart-btn" style="display: unset; margin: 2px 2px"></button> ');
       button.click(() => {
-        this.highlightComparisonButton(comparison.municipality.code);
+        this.highlightComparisonButton(this.chart.chart.config.bindto.split(' ')[0], comparison.municipality.code);
         this.chart.highlightCol(comparison.municipality.code);
         ga('send', 'event', 'chart-compare-highlight', `${this.key} ${comparison.municipality.code}`);
       });
@@ -355,9 +355,8 @@ export class IndicatorSection {
 
   updateChartComparison(comparisonOption) {
     document.addEventListener('click-col', function (e) {
-      //this.highlightComparisonButton(e.detail.muni);
-      $('.chart-btn').css('border', 'none');
-      $('#' + e.detail.muni).css('border', '1px solid black');
+      $('#' + e.detail.section + ' .chart-btn').css('border', 'none');
+      $('#' + e.detail.section + ' #' + e.detail.muni).css('border', '1px solid black');
     });
 
     if (comparisonOption === "none") {
