@@ -299,8 +299,8 @@ export class IndicatorSection {
   }
 
   highlightComparisonButton(section, muniId) {
-    $(section + ' .chart-btn').css('border', 'none');
-    $(section + ' #' + muniId).css('border', '1px solid black');
+    $(section + ' .chart-btn').removeClass('active');
+    $(section + ' #' + muniId).addClass('active');
   }
 
   _updateComparisonButtons() {
@@ -355,8 +355,9 @@ export class IndicatorSection {
 
   updateChartComparison(comparisonOption) {
     document.addEventListener('click-col', function (e) {
-      $('#' + e.detail.section + ' .chart-btn').css('border', 'none');
-      $('#' + e.detail.section + ' #' + e.detail.muni).css('border', '1px solid black');
+      //console.log($('#' + e.detail.section + ' .chart-btn').classList);
+      $('#' + e.detail.section + ' .chart-btn').removeClass('active');
+      $('#' + e.detail.section + ' #' + e.detail.muni).addClass('active');
     });
 
     if (comparisonOption === "none") {
