@@ -307,7 +307,7 @@ export class IndicatorSection {
     this.comparisonButtonsContainer.empty();
     this.comparisonButtonsContainer.append("Comparing ");
     [this.chartData(), ...(this.comparisons)].forEach((comparison) => {
-      const button = $(' <button id="' + comparison.municipality.code + '"class="button chart-btn" style="display: unset; margin: 2px 2px"></button> ');
+      const button = $(' <button id="' + comparison.municipality.code + '"class="button chart-btn"></button> ');
       button.click(() => {
         this.highlightComparisonButton(this.chart.chart.config.bindto.split(' ')[0], comparison.municipality.code);
         this.chart.highlightCol(comparison.municipality.code);
@@ -355,7 +355,6 @@ export class IndicatorSection {
 
   updateChartComparison(comparisonOption) {
     document.addEventListener('click-col', function (e) {
-      //console.log($('#' + e.detail.section + ' .chart-btn').classList);
       $('#' + e.detail.section + ' .chart-btn').removeClass('active');
       $('#' + e.detail.section + ' #' + e.detail.muni).addClass('active');
     });
