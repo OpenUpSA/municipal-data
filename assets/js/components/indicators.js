@@ -289,15 +289,15 @@ export class IndicatorSection {
   }
 
   highlightComparisonButton(section, muniId) {
-    $(section + ' .chart-btn').removeClass('active');
-    $(section + ' #' + muniId).addClass('active');
+    $(`${section} .chart-btn`).removeClass('active');
+    $(`${section} #${muniId}`).addClass('active');
   }
 
   _updateComparisonButtons() {
     this.comparisonButtonsContainer.empty();
     this.comparisonButtonsContainer.append('Comparing ');
     [this.chartData(), ...(this.comparisons)].forEach((comparison) => {
-      const button = $(' <button id="' + comparison.municipality.code + '"class="button chart-btn"></button> ');
+      const button = $(` <button id="${comparison.municipality.code}"class="button chart-btn"></button> `);
       button.click(() => {
         this.highlightComparisonButton(this.chart.chart.config.bindto.split(' ')[0], comparison.municipality.code);
         this.chart.highlightCol(comparison.municipality.code);
@@ -342,12 +342,12 @@ export class IndicatorSection {
   }
 
   updateChartComparison(comparisonOption) {
-    document.addEventListener('click-col', function (e) {
-      $('#' + e.detail.section + ' .chart-btn').removeClass('active');
-      $('#' + e.detail.section + ' #' + e.detail.muni).addClass('active');
+    document.addEventListener('click-col', (e) => {
+      $(`#${e.detail.section} .chart-btn`).removeClass('active');
+      $(`#${e.detail.section} #${e.detail.muni}`).addClass('active');
     });
 
-    if (comparisonOption === "none") {
+    if (comparisonOption === 'none') {
       this.chart.loadData([this.chartData()]);
     } else {
       this.getSimilarMunis(comparisonOption).then((similarGroup) => {
