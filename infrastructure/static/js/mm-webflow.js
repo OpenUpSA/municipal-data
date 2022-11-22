@@ -726,17 +726,27 @@ function mmWebflow(js) {
         });
 
         function onPopstate(event) {
+            console.log('---onPopstate---');
             loadSearchStateFromCurrentURL();
-            listView.search.addFacet("q", $("#Infrastructure-Search-Input").val());
-            triggerSearch();
+            //listView.search.addFacet("q", $("#Infrastructure-Search-Input").val());
+            triggerSearch(listView.search.createUrl(), true, false);
         }
 
         function loadSearchStateFromCurrentURL() {
             const queryString = window.location.search.substring(1);
-            const params = new URLSearchParams(queryString);
-            const textQuery = params.get("q");
-            if (textQuery)
-                $("#Infrastructure-Search-Input").val(textQuery);
+            //console.log(queryString);
+
+            //todo slugify
+            listView.search.clearFacets();
+            let param = queryString.split("&");
+            for (i = 0; i < param.length; i++) {
+                //console.log(param[i]);
+                let tmp = param[i].split("=");
+
+                listView.search.addFacet(tmp[0], tmp[1]);
+            }
+
+            console.log(listView.search);
         }
         window.addEventListener("popstate", onPopstate);
         triggerSearch(null, true, false);
