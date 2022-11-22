@@ -538,10 +538,7 @@ function mmWebflow(js) {
             return `${window.location.protocol}//${window.location.host}${window.location.pathname}?${queryString}`;
         }
 
-        function triggerSearch(url, clearProjects, pushHistory = true) {
-            if (pushHistory)
-                window.history.pushState(null, "", urlFromSearchState());
-
+        function triggerSearch(url, clearProjects) {
             listView.onLoading(clearProjects);
             if (listView.searchState.mapPointRequest !== null){
                 listView.searchState.mapPointRequest.abort();
@@ -727,29 +724,25 @@ function mmWebflow(js) {
 
         function onPopstate(event) {
             console.log('---onPopstate---');
+            
             loadSearchStateFromCurrentURL();
-            //listView.search.addFacet("q", $("#Infrastructure-Search-Input").val());
-            triggerSearch(listView.search.createUrl(), true, false);
+            triggerSearch(listView.search.createUrl(), false);
         }
 
         function loadSearchStateFromCurrentURL() {
             const queryString = window.location.search.substring(1);
-            //console.log(queryString);
+            console.log(window.location.search);
 
-            //todo slugify
             listView.search.clearFacets();
             let param = queryString.split("&");
             for (i = 0; i < param.length; i++) {
-                //console.log(param[i]);
                 let tmp = param[i].split("=");
-
                 listView.search.addFacet(tmp[0], tmp[1]);
             }
-
-            console.log(listView.search);
+            //console.log(listView.search);
         }
         window.addEventListener("popstate", onPopstate);
-        triggerSearch(null, true, false);
+        triggerSearch(null, true);
     }
 
     function mmDetailView(js) {
