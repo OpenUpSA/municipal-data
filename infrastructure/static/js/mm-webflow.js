@@ -723,23 +723,25 @@ function mmWebflow(js) {
         });
 
         function onPopstate(event) {
-            console.log('---onPopstate---');
-            
             loadSearchStateFromCurrentURL();
             triggerSearch(listView.search.createUrl(), false);
         }
 
         function loadSearchStateFromCurrentURL() {
             const queryString = window.location.search.substring(1);
-            console.log(window.location.search);
-
             listView.search.clearFacets();
             let param = queryString.split("&");
             for (i = 0; i < param.length; i++) {
                 let tmp = param[i].split("=");
                 listView.search.addFacet(tmp[0], tmp[1]);
             }
-            //console.log(listView.search);
+
+            $("#Infrastructure-Search-Input").val("");
+            listView.provinceDropDown.reset();
+            listView.municipalityDropDown.reset();
+            listView.typeDropDown.reset();
+            listView.functionDropDown.reset();
+            listView.loadSearchFromUrl(queryString);
         }
         window.addEventListener("popstate", onPopstate);
         triggerSearch(null, true);
