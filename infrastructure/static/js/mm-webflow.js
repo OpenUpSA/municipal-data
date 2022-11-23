@@ -502,32 +502,8 @@ function mmWebflow(js) {
         if (project.expenditure.length > 0) {
           var expenditures = project.expenditure.filter((exp) => exp.financial_year.budget_year == financial_year);
 
-<<<<<<< HEAD
-        function triggerSearch(url, clearProjects) {
-            listView.onLoading(clearProjects);
-            if (listView.searchState.mapPointRequest !== null){
-                listView.searchState.mapPointRequest.abort();
-            }
-            let isEvent = (url != undefined && url.type != undefined);
-            if (isEvent || url == undefined)
-                url = listView.search.createUrl();
-
-            listView.searchState.projectRequest = $.get(url)
-                .done(function(response) {
-                    response = normaliseResponse(response);
-                    listView.searchState.nextUrl = response.next;
-                    listView.onDataLoaded(response);
-                })
-                .fail(function(jqXHR, textStatus, errorThrown) {
-                    alert("Something went wrong when searching. Please try again.");
-                    console.error( jqXHR, textStatus, errorThrown );
-                });
-            resetMapPoints();
-            getMapPoints(buildAllCoordinatesSearchURL());
-=======
           expenditures = expenditures.filter((exp) => exp.budget_phase.name == budget_phase);
           if (expenditures.length > 0) project.total_forecast_budget = expenditures[0].amount;
->>>>>>> e99b0b24a244170ab67ffc373e7e77bf843f5b2f
         }
       });
 
@@ -710,7 +686,6 @@ function mmWebflow(js) {
       }
     });
 
-<<<<<<< HEAD
         function onPopstate(event) {
             loadSearchStateFromCurrentURL();
             triggerSearch(listView.search.createUrl(), false);
@@ -735,10 +710,6 @@ function mmWebflow(js) {
         window.addEventListener("popstate", onPopstate);
         triggerSearch(null, true);
     }
-=======
-    triggerSearch();
-  }
->>>>>>> e99b0b24a244170ab67ffc373e7e77bf843f5b2f
 
   function mmDetailView(js) {
     function setValue(selector, val) {
