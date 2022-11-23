@@ -5,9 +5,12 @@ from django_q.tasks import async_task
 from constance import config
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
+from import_export.signals import post_import
+from django.dispatch import receiver
 
 from .models import (
     Geography,
+    GeographyUpdate,
     MunicipalityProfilesCompilation,
 )
 from .resources import GeographyResource
@@ -17,6 +20,11 @@ from .resources import GeographyResource
 class GeographyAdmin(ImportExportModelAdmin):
     resource_class = GeographyResource
     list_display = ("geo_code", "geo_level", "name",)
+
+@receiver(post_import, dispatch_uid='post_import')
+def post_import(model, **kwargs):
+    new_geo = GeographyUpdate()
+    new_geo.save()
 
 
 @admin.register(MunicipalityProfilesCompilation)

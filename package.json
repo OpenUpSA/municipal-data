@@ -8,7 +8,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "parcel watch assets/scss/municipal-money.scss assets/js/municipal-money.js --out-dir assets/bundles --public-url /static",
-    "build": "parcel build --no-minify assets/scss/municipal-money.scss assets/js/municipal-money.js --out-dir assets/bundles --public-url /static"
+    "build": "parcel build --no-minify assets/scss/municipal-money.scss assets/js/municipal-money.js --out-dir assets/bundles --public-url /static",
+    "lint": "eslint assets/js/*.js assets/js/**/*.js scorecard/static/js/*.js municipal_finance/static/javascript/*.js household/static/household/js/household.js infrastructure/static/js/barchart.js infrastructure/static/js/mm-webflow.js infrastructure/static/js/sorter.js infrastructure/static/js/utils.js"
   },
   "dependencies": {
     "core-js": "3.8.0",
@@ -17,8 +18,11 @@
     "d3-scale": "^3.2.3",
     "d3-selection": "^2.0.0",
     "d3-transition": "^2.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.22.1",
     "import-webflow-export": "^0.0.4",
-    "municipal-money-charts": "https://github.com/OpenUpSA/municipal-money-charts.git#null-values-return-zero",
+    "municipal-money-charts": "https://github.com/OpenUpSA/municipal-money-charts.git#overlay-chart-missing-bar",
     "parcel-bundler": "^1.12.4",
     "puppeteer": "^5.5.0",
     "sass": "^1.25.1-test.1"

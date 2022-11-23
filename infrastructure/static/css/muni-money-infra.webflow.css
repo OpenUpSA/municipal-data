@@ -299,6 +299,7 @@ a {
 }
 
 .section {
+  position: relative;
   z-index: 1;
   padding-top: 42px;
 }
@@ -2959,6 +2960,7 @@ a {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  width: 100%;
   -webkit-align-self: flex-start;
   -ms-flex-item-align: start;
   align-self: flex-start;
@@ -2989,9 +2991,12 @@ a {
 
 .project-map {
   position: relative;
+  z-index: 0;
 }
 
 .html-embed-4 {
+  position: relative;
+  z-index: 0;
   height: 100%;
 }
 
@@ -4721,6 +4726,19 @@ a {
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
+}
+
+.info-icon {
+  width: 13px;
+  height: 13px;
+  margin-top: 1px;
+  margin-right: 0.3em;
+  margin-left: auto;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: grey;
 }
 
 @media screen and (max-width: 991px) {
