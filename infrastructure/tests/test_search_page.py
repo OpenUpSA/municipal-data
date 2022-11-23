@@ -322,3 +322,28 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.click("#functions-dropdown")
         self.click("#functions-dropdown")
         self.wait_until_text_in(".search-detail_projects", "2")
+
+    def test_back_button(self):
+        geography = Geography.objects.get(geo_code="BUF")
+        financial_year = FinancialYear.objects.get(budget_year="2019/2020")
+        project = Project.objects.create(**project_base(geography, financial_year), **project_one())
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+        project_two = {
+            "function": "Economic Development/Planning",
+            "project_description": "P-CIN RDS ROADS",
+            "project_number": "PC001002006001_00028",
+        }
+        project = Project.objects.create(**project_base(geography, financial_year), **project_two)
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+
+        selenium = self.selenium
+        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/?municipality=Buffalo+City"))
+        self.wait_until_text_in(".search-detail_projects", "2")
+
+        # Add a filter with a dropdown menu
+        self.click("#functions-dropdown .chart-dropdown_trigger")
+        self.selenium.find_elements_by_css_selector("#functions-dropdown .chart-dropdown_list a")[1].click()
+        self.wait_until_text_in(".search-detail_projects", "1")
+        # Click back button
+        selenium.back()
+        self.wait_until_text_in(".search-detail_projects", "2")
