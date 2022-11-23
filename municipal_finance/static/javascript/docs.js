@@ -1,13 +1,12 @@
-$(function() {
+$(() => {
   $.ajax({
-    url: "/api/cubes"
-    }).done(function(response) {
-      $('#get-cubes').text(JSON.stringify(response, null, 2));
-    });
+    url: '/api/cubes',
+  }).done((response) => {
+    $('#get-cubes').text(JSON.stringify(response, null, 2));
+  });
 });
 
-(function(exports) {
-  "use strict";
+(function (exports) {
   var MainView = Backbone.View.extend({
     el: document,
 
@@ -16,7 +15,7 @@ $(function() {
       'click button.decline': 'declineTOU',
     },
 
-    initialize: function() {
+    initialize() {
       // show terms of use dialog?
       if (!Cookies.get('tou-ok')) {
         $('#terms-modal').modal();
@@ -25,21 +24,21 @@ $(function() {
       }
     },
 
-    showTOU: function() {
+    showTOU() {
       $('#terms-modal').modal();
     },
 
-    acceptTOU: function() {
+    acceptTOU() {
       Cookies.set('tou-ok', true);
       $('#terms-modal').modal('hide');
       $('#terms-ok').removeClass('hidden');
     },
 
-    declineTOU: function() {
+    declineTOU() {
       Cookies.remove('tou-ok');
-      window.location = "/";
-    }
+      window.location = '/';
+    },
   });
 
   exports.view = new MainView();
-})(window);
+}(window));
