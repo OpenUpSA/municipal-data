@@ -272,7 +272,6 @@ function mmWebflow(js) {
                 mapPointRequest: null,
                 projectRequest: null,
                 downloadCSV: "/infrastructure/download",
-                filters: null,
             };
 
             this.sorter = new mm.Sorter($("#sorting-dropdown"));
@@ -525,17 +524,6 @@ function mmWebflow(js) {
             });
 
             return response;
-        }
-        function urlFromSearchState() {
-            let params = new URLSearchParams();
-            params.set("q", $("#Infrastructure-Search-Input").val());
-
-            for (fieldName in listView.search.selectedFacets) {
-                params.set(fieldName, listView.search.selectedFacets[fieldName]);
-            }
-
-            const queryString = params.toString();
-            return `${window.location.protocol}//${window.location.host}${window.location.pathname}?${queryString}`;
         }
 
         function triggerSearch(url, clearProjects) {
