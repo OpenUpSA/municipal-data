@@ -686,30 +686,30 @@ function mmWebflow(js) {
       }
     });
 
-        function onPopstate(event) {
-            loadSearchStateFromCurrentURL();
-            triggerSearch(listView.search.createUrl(), false);
-        }
-
-        function loadSearchStateFromCurrentURL() {
-            const queryString = window.location.search.substring(1);
-            listView.search.clearFacets();
-            let param = queryString.split("&");
-            for (i = 0; i < param.length; i++) {
-                let tmp = param[i].split("=");
-                listView.search.addFacet(tmp[0], tmp[1]);
-            }
-
-            $("#Infrastructure-Search-Input").val("");
-            listView.provinceDropDown.reset();
-            listView.municipalityDropDown.reset();
-            listView.typeDropDown.reset();
-            listView.functionDropDown.reset();
-            listView.loadSearchFromUrl(queryString);
-        }
-        window.addEventListener("popstate", onPopstate);
-        triggerSearch(null, true);
+    function onPopstate(event) {
+      loadSearchStateFromCurrentURL();
+      triggerSearch(listView.search.createUrl(), false);
     }
+
+    function loadSearchStateFromCurrentURL() {
+      const queryString = window.location.search.substring(1);
+      listView.search.clearFacets();
+      const param = queryString.split('&');
+      for (i = 0; i < param.length; i++) {
+        const tmp = param[i].split('=');
+        listView.search.addFacet(tmp[0], tmp[1]);
+      }
+
+      $('#Infrastructure-Search-Input').val('');
+      listView.provinceDropDown.reset();
+      listView.municipalityDropDown.reset();
+      listView.typeDropDown.reset();
+      listView.functionDropDown.reset();
+      listView.loadSearchFromUrl(queryString);
+    }
+    window.addEventListener('popstate', onPopstate);
+    triggerSearch(null, true);
+  }
 
   function mmDetailView(js) {
     function setValue(selector, val) {
