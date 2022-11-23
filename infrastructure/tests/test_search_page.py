@@ -268,6 +268,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.wait_until_text_in("#result-list-container > a.narrow-card_wrapper-2.w-inline-block > div.narrow-card_last-column-2", "")
 
     def test_url_query_string(self):
+        # Check that a given URL and query string will search using those filters
         geography = Geography.objects.get(geo_code="BUF")
         financial_year = FinancialYear.objects.get(budget_year="2019/2020")
 
