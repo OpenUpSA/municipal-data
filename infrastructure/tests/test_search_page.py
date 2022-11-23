@@ -344,6 +344,9 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.click("#functions-dropdown .chart-dropdown_trigger")
         self.selenium.find_elements_by_css_selector("#functions-dropdown .chart-dropdown_list a")[1].click()
         self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#functions-dropdown .text-block", "Administrative and Corporate Support")
+
         # Click back button
         selenium.back()
         self.wait_until_text_in(".search-detail_projects", "2")
+        self.wait_until_text_in("#functions-dropdown .text-block", "All Functions")
