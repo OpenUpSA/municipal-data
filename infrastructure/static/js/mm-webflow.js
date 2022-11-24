@@ -671,6 +671,17 @@ function mmWebflow(js) {
     });
     $('#Search-Button').on('click', () => {
 	    listView.search.addFacet('q', $('#Infrastructure-Search-Input').val());
+
+      const params = new URLSearchParams();
+      params.set('q', $('#Infrastructure-Search-Input').val());
+
+      for (fieldName in listView.search.selectedFacets) {
+        params.set(fieldName, listView.search.selectedFacets[fieldName]);
+      }
+      const queryString = params.toString();
+      const url = `?${queryString}`;
+      history.pushState(null, '', url);
+
 	    triggerSearch();
     });
     $('#Download-Button').on('click', function (e) {
