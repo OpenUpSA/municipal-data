@@ -9,14 +9,9 @@
     "review": {
       "addons": ["heroku-postgresql:mini"],
       "env": {
-        "DJANGO_CONFIGURATION": "Production",
         "DJANGO_DEBUG": "False",
         "DJANGO_SECRET_KEY": "not-so-secret-in-review",
-        "RUN_COLLECTSTATIC": "Yes",
-        "RUN_GUNICORN": "Yes",
-        "RUN_MIGRATIONS": "Yes",
-        "RUN_QCLUSTER": "Yes",
-        "SERVER_INSTANCE": "review"
+        "ENVIRONMENT":"development"
       },
       "formation": {
         "web": {
