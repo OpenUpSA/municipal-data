@@ -705,11 +705,6 @@ function mmWebflow(js) {
     function loadSearchStateFromCurrentURL() {
       const queryString = window.location.search.substring(1);
       listView.search.clearFacets();
-      const param = queryString.split('&');
-      for (i = 0; i < param.length; i++) {
-        const tmp = param[i].split('=');
-        listView.search.addFacet(tmp[0], tmp[1]);
-      }
 
       $('#Infrastructure-Search-Input').val('');
       listView.provinceDropDown.reset();
