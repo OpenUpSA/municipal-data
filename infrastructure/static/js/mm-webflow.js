@@ -38,77 +38,6 @@ function mmWebflow(js) {
       },
     };
 
-        filterDropdown.prototype = {
-            reset: function() {
-                this.setSelected(this.defaultValue);
-            },
-
-            setEnabled: function(val) {
-                this.enabled = val;
-                if (val) {
-                    $("div", this.el).css("background-color", "");
-                } else {
-                    $("div", this.el).css("background-color", "#f7f7f7");
-                }
-            },
-
-            clearOptions: function() {
-                $(this.el).find(".dropdown-link").remove();
-            },
-
-            setSelected: function(label) {
-                this.selectedElement.find(".text-block").text(label);
-            },
-
-            createOption: function(label, ev) {
-                var optionElement = this.dropdownItemTemplate.clone();
-                var me = this;
-
-                optionElement.click(function() {
-                    me.setSelected(label.text);
-                    ev(label);
-                });
-
-                optionElement.find(".search-dropdown_label").text(label.text);
-                optionElement.find(".search-dropdown_value").text("");
-                if (label.count) {
-                    optionElement.find(".search-dropdown_value").text("(" + label.count + ")");
-                }
-                me.optionContainer.append(optionElement);
-            },
-
-            updateDropdown: function(fields, fieldName, plural, field_key) {
-                var me = this;
-
-                this.clearOptions();
-
-                this.createOption({text: "All " + plural}, function(payload) {
-                    payload.fieldName = fieldName;
-                    me.trigger("removefilters", payload);
-                });
-
-                fields.forEach(function(option) {
-                    option.fieldName = fieldName;
-                    option.text = option[field_key];
-                    me.createOption(option, function(payload) {
-                        me.trigger("selectedoption", payload);
-                    });
-                });
-            },
-
-            on: function(e, func) {
-                this.reset();
-                if (this.listeners[e] == undefined)
-                    this.listeners[e] = [];
-
-                this.listeners[e].push(func);
-            },
-
-            trigger: function(e, payload) {
-                for (idx in this.listeners[e]) {
-                    this.listeners[e][idx](payload);
-                }
-            }
     function FunctionBarChart(el) {
       this.el = el;
       this.addTooltip(el, '');
@@ -206,10 +135,6 @@ function mmWebflow(js) {
         $(this.el).find('.dropdown-link').remove();
       },
 
-      hideOptions() {
-        this.optionContainer.removeClass('w--open');
-      },
-
       setSelected(label) {
         this.selectedElement.find('.text-block').text(label);
       },
@@ -220,7 +145,6 @@ function mmWebflow(js) {
 
         optionElement.click(() => {
           me.setSelected(label.text);
-          me.hideOptions();
           ev(label);
         });
 
