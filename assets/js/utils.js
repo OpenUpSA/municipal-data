@@ -1,9 +1,9 @@
 import { formatLocale, format as d3Format } from 'd3-format';
 
-const dateTimeFormat = new Intl.DateTimeFormat("en-ZA", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
+const dateTimeFormat = new Intl.DateTimeFormat('en-ZA', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
 });
 
 export function focusBlock(id) {
@@ -17,7 +17,7 @@ export function focusBlock(id) {
 }
 
 export function formatDate(date) {
-  return dateTimeFormat.format(date)
+  return dateTimeFormat.format(date);
 }
 
 export function logIfUnequal(a, b) {
@@ -27,10 +27,10 @@ export function logIfUnequal(a, b) {
 }
 
 export const locale = formatLocale({
-  decimal: ".",
-  thousands: " ",
+  decimal: '.',
+  thousands: ' ',
   grouping: [3],
-  currency: ["R", ""],
+  currency: ['R', ''],
 });
 
 export function capFirst(string) {
@@ -38,46 +38,46 @@ export function capFirst(string) {
 }
 
 export function formatFinancialYear(financialYearEnd) {
-  return `${ financialYearEnd - 1 }-${ financialYearEnd }`;
+  return `${financialYearEnd - 1}-${financialYearEnd}`;
 }
 
 export function ratingColor(rating) {
   return {
-    "good": "#34A853",
-    "ave": "#FBBC05",
-    "bad": "#F00",
-    "": "#17becf",
+    good: '#34A853',
+    ave: '#FBBC05',
+    bad: '#F00',
+    '': '#17becf',
   }[rating];
 }
 
 export function formatForType(type, value) {
   switch (type) {
-  case "%":
-    return `${locale.format(".1f")(value)}%`;
-  case "R":
-    return locale.format("$,")(value);
-  case "months":
-    return `${locale.format(".1f")(value)} months`;
-  case "ratio":
-    return locale.format(".2f")(value);
-  default:
-    console.error(`Don't know how to format for type ${type}`);
-    return ""; // Rather show nothing than something that could be misinterpreted
+    case '%':
+      return `${locale.format('.1f')(value)}%`;
+    case 'R':
+      return locale.format('$,')(value);
+    case 'months':
+      return `${locale.format('.1f')(value)} months`;
+    case 'ratio':
+      return locale.format('.2f')(value);
+    default:
+      console.error(`Don't know how to format for type ${type}`);
+      return ''; // Rather show nothing than something that could be misinterpreted
   }
 }
 
 export function formatPhase(code) {
   switch (code) {
-  case "SCHD": return "Allocations";
-  case "ORGB": return "Original budget";
-  case "ADJB": return "Adjusted budget";
-  case "AUDA": return "Audited actual";
-  case "ACT": return "Actual";
-  case "IBY1": return "Forecast budget";
-  case "IBY2": return "Forecast budget";
-  default:
-    console.error("unknown phase", code);
-    return "Phase unknown";
+    case 'SCHD': return 'Allocations';
+    case 'ORGB': return 'Original budget';
+    case 'ADJB': return 'Adjusted budget';
+    case 'AUDA': return 'Audited actual';
+    case 'ACT': return 'Actual';
+    case 'IBY1': return 'Forecast budget';
+    case 'IBY2': return 'Forecast budget';
+    default:
+      console.error('unknown phase', code);
+      return 'Phase unknown';
   }
 }
 
@@ -124,8 +124,5 @@ export function errorBoundary(f) {
  *
  */
 export function arrayJoin(array, separator) {
-  return array.reduce((result, value, index) => {
-    return result.concat(value, separator);
-  }, []).slice(0, -1);
+  return array.reduce((result, value, index) => result.concat(value, separator), []).slice(0, -1);
 }
-
