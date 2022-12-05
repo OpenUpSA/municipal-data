@@ -118,7 +118,7 @@ services:
         USER_ID: ${USER_ID:-1001}
         GROUP_ID: ${GROUP_ID:-1001}
       dockerfile: Dockerfile-test
-    command: bin/wait-for-postgres.sh python manage.py test municipal_finance scorecard infrastructure
+    command: bin/wait-for-postgres.sh python manage.py test municipal_finance scorecard infrastructure household
     volumes:
       - ".:/app"
     environment:
