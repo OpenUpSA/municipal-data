@@ -44,10 +44,8 @@ export class TimeSeriesSection {
       d.financial_year = formatFinancialYear(d.financial_year);
       return d;
     });
-    const comparator = (a, b) => {
-      return this.ordering.indexOf(a["financial_year"]) -
-        this.ordering.indexOf(b["financial_year"]);
-    };
+    const comparator = (a, b) => this.ordering.indexOf(a.financial_year)
+        - this.ordering.indexOf(b.financial_year);
     chartData.sort(comparator);
 
     this.chart = new GroupedBarChart(this.$chartContainer[0])
