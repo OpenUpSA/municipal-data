@@ -36,6 +36,12 @@ docker-compose up scorecard
 
 If you are working on the javascript or CSS on the site also run `yarn dev` in another terminal.
 
+Import seed data for cube items
+
+```
+docker-compose run --rm scorecard python manage.py loaddata aged_creditor_items_v1
+```
+
 To create an admin user for local development, run
 
 ```
@@ -62,6 +68,19 @@ docker-compose run --rm -v /home/user/folder-containing-dumpdata/:/data \
 docker-compose up portal
 ```
 
+### Linting JavaScript
+
+Run ESLint using
+
+```
+docker-compose run --rm scorecard yarn lint
+```
+
+Automatically fix problems
+
+```
+docker-compose run --rm scorecard yarn lint --fix
+```
 
 ### Demo data
 

@@ -1,5 +1,5 @@
 {% load staticfiles pipeline %}
-<!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  --><!--  Last Published: Tue Mar 15 2022 07:49:43 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5db2adb5e800a55b0df2f9a7" data-wf-site="5db2adb5e800a59830f2f99c"><head>
+<!DOCTYPE html><!--  This site was created in Webflow. https://www.webflow.com  --><!--  Last Published: Thu Sep 01 2022 09:52:58 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5db2adb5e800a55b0df2f9a7" data-wf-site="5db2adb5e800a59830f2f99c"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_title }}" property="og:title">
@@ -429,6 +429,12 @@
     <div class="section cc-last">
       <div class="container">{% for notice in site_notices %}<div>{{ notice.content | safe }}</div>{% endfor %}
         <div class="row filtered-projects-info">
+          <div class="col col-12">
+            <div class="project-details__info-message">
+              <div class="fas-icon-2"></div>
+              <div>Hover or tap on a value to learn more</div>
+            </div>
+          </div>
           <div class="col col-2 col-m-6">
             <div class="search-detail_wrapper">
               <div class="small-detail-heading">filtered projects:</div>
@@ -442,6 +448,10 @@
             <div data-w-id="d21a8498-3a7b-8b05-7407-60878ba50be7" class="search-detail__wrapper--tooltip">
               <div class="item-heading--with-tooltip">
                 <div class="small-detail-heading">Total full year forecast:</div>
+                <div class="info-icon w-embed"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <!-- ! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc.  -->
+                    <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 128c17.67 0 32 14.33 32 32c0 17.67-14.33 32-32 32S224 177.7 224 160C224 142.3 238.3 128 256 128zM296 384h-80C202.8 384 192 373.3 192 360s10.75-24 24-24h16v-64H224c-13.25 0-24-10.75-24-24S210.8 224 224 224h32c13.25 0 24 10.75 24 24v88h16c13.25 0 24 10.75 24 24S309.3 384 296 384z" fill="currentcolor"></path>
+                  </svg></div>
                 <div style="display:none" class="small-tooltip__plate--alt">
                   <div class="small-tooltip__text">Excludes forecast for projects added after the start of the financial year.</div>
                   <div class="small-tooltip__notch"></div>
@@ -630,7 +640,7 @@
         <div class="row">
           <div class="col col-4 col-sm-12">
             <div class="footer__logos">
-              <a href="http://www.treasury.go.za" target="_blank" class="footer__logo w-inline-block"><img src="/static/images/treasury-logo.611e78e53f15.png" sizes="(max-width: 479px) 86vw, 200px" srcset="/static/images/treasury-logo.611e78e53f15-p-500.png 500w, images/treasury-logo.611e78e53f15.png 600w" alt="" class="image-2"></a>
+              <a href="http://www.treasury.go.za" target="_blank" class="footer__logo w-inline-block"><img src="/static/images/treasury-logo.611e78e53f15.png" srcset="/static/images/treasury-logo.611e78e53f15-p-500.png 500w, images/treasury-logo.611e78e53f15.png 600w" sizes="(max-width: 479px) 86vw, 200px" alt="" class="image-2"></a>
               <a href="http://www.openup.org.za" target="_blank" class="footer__logo _2 w-inline-block"><img src="/static/images/code4sa-logo.831760fd7c32.png" alt="" class="image-3"></a>
             </div>
           </div>

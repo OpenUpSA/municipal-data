@@ -53,6 +53,12 @@
 
     <p>The financial data is very similar to that made available on <a href="http://mfma.treasury.gov.za/Media_Releases/s71/Pages/default.aspx">National Treasury’s website in PDF reports and Excel spreadsheets</a> and generally called Section 71 information. It is described further below and includes:</p>
 
+    <aside class="info">
+      <p>Please note that the data is only as complete and trustworthy as that provided by the municipality.</p>
+
+      <p>See <a href="#where-from">Where is the data from?</a>
+    </aside>
+
     <ul>
       {% for cube in cubes|dictsort:"name" %}
         <li><a href="#cube-{{ cube.name }}">{{ cube.model.label }}</a></li>
@@ -61,21 +67,47 @@
 
     <p>The data is available for all metro, district and local municipalities.</p>
 
-    <aside class="info">
-      Please note that the data is only as complete and trustworthy as that provided by the municipality.
-    </aside>
+    <h4>What is v2?</h4>
 
-    <h3 id="where-from">Where is the data from</h3>
+    <p>Datasets marked "v2" are replacements for the first version of those datasets in Municipal Money. A new dataset was created when the 2019-2020 financial year data was released as the coding system changed with the <a href="#since-mscoa">change to mSCOA-sourced data.</a></p>
 
-    <p>The data is composed of the Section 71 submissions from municipalities to the Treasury's Local Government database. The submissions take the shape of return forms in <a href="http://mfma.treasury.gov.za/Return_Forms/Pages/default.aspx">Excel Spreadsheets provided by Treasury</a> to help municipalities validate the data and supply it in a consistent format. It can be helpful to look at the forms to understand the data better.</p>
+    <p>Sometimes structure of the dataset in Municipal Money also changed, also requiring a different dataset to be used to avoid breaking existing usage of the API.</p>
 
-    <p>The data where Amount Type is Audited Actual are audit outcomes as stated by the Auditor General and submitted by the municipality to the Local Government database. National Treasury does extensive verification to ensure that the audit outcomes submitted to the database matches the audited Annual Financial Statements as issued by the Auditor General.</p>
+    <p>The original counterpart for each v2 datasets is referred to in its description.</p>
 
-    <h3 id="verification">Verifying the data</h3>
+    <h3 id="where-from">Where is the data from?</h3>
+
+    <p>The data is composed of the Section 71 (<a href="http://mfma.treasury.gov.za/Legislation/lgmfma/Pages/default.aspx">of the Municipal Financial Management Act</a>) submissions from municipalities to the Treasury's Local Government database. These are regular submissions from the municipality, signed off by the Municipal Manager and Chief Financial Officer as accurate, to National Treasury.</p>
+
+    <p>
+      <a href="{% static 'images/pre-post-mscoa-data-provenance.png' %}"><img src="{% static 'images/pre-post-mscoa-data-provenance.png' %}" alt="Graphic depicting the data flow from municipalities, into National Treasury's Local government Database, and to Municipal Money as quarterly snapshots"></a>
+    </p>
+
+    <h4 id="since-mscoa">Since mSCOA</h4>
+
+    <p>Since the 2019-20 financial year, the <a href="http://mfma.treasury.gov.za/RegulationsandGazettes/MunicipalRegulationsOnAStandardChartOfAccountsFinal/Pages/default.aspx">municipal Standard Chart of Accounts (mSCOA)</a> has been the specification for how financial management data must be submitted by municipalities to National Treasury. This includes the requirement that submissions are automated via an integration between the municipalities' accounting systems and National Treasury's Local Government Database.</p>
+
+    <h4>Before mSCOA</h4>
+
+    <p>Up to the 2019-2020 financial year, these submissions took the shape of return forms in <a href="http://mfma.treasury.gov.za/Return_Forms/Pages/default.aspx">Excel Spreadsheets provided by Treasury</a> to help municipalities validate the data and supply it in a consistent format. It can be helpful to look at the forms to understand the data better.</p>
+
+    <h4>Snapshots from the Local Government Database in Municipal Money</h4>
+
+    <p>Municipal Money is updated quarterly from snapshots of the Local Government Database. These snapshots are also used to produce Section 71 reports which is a reflection of the state of local government finances as reported by municipalities. </p>
+
+    <p>These reports and snapshots are signed off by Director General of National Treasury as a true reflection of the data supplied by municipalities according to Section 71 of the Municipal Financial Management Act.</p>
+
+    <p>National Treasury analyses the data to try and ensure correct use of the chart of accounts. Municipalities can not correct the data once submitted - corrections are supplied as adjustments in the subsequent month. Quarters are then locked and no further modifications are allowed to a quarter so that the data does not deviate from what has already been published.</p>
+
+    <h4>Audits by the auditor general</h4>
+
+    <p>The data where Amount Type is Audited Actual are audit outcome figures audited by the Auditor General and submitted by the municipality to the Local Government database. National Treasury does extensive verification to ensure that the audit outcomes submitted to the database matches the Annual Financial Statements as audited by the Auditor General. See also the Audit Report for the Auditor General's comments on the accuracy of the reporting by the municipality.</p>
+
+    <h3 id="verification">How can I be sure I am getting the right results from the API?</h3>
 
     <p>The treasury publishes <a href="http://mfma.treasury.gov.za/Media_Releases/s71/Pages/default.aspx">quarterly reports based on the municipalities' Section 71 submissions</a> as well as well as <a href="http://mfma.treasury.gov.za/Media_Releases/The%20state%20of%20local%20government%20finances/Pages/default.aspx">reports on municipality financial health</a> using standard indicators based on this data.</p>
 
-    <p>It can be useful to verify numbers retrieved from the API against these published reports. This verifies both a correct understanding of how to use the API, and that the API supplies reliable information. When doing so, it is important to be aware that the reports are based on a snapshot of the data at the point in time where they are generated, while the API could contain amended numbers if a municipality updated their submission. The Treasury's reports also fall back to pre-audited and then budget values if audited values are not available at the time of publication. Generally the API can be expected to match the treasury's publications so if one value doesn't match, try checking the same field for other periods and other municipalities to ensure the correct field is being compared. If that is the case, one can investigate further why a specific field doesn't match - perhaps because of the reasons mentioned here.</p>
+    <p>It can be useful to verify numbers retrieved from the API against these published reports. This verifies both a correct understanding of how to use the API, and that the API supplies reliable information. When doing so, it is important to be aware that the reports are based on a snapshot of the data at the point in time where they are generated, while the API could contain amended numbers if a municipality updated their submission. The Treasury's reports also fall back to pre-audited and then budget values if audited values are not available at the time of publication. When this is the case, it would be noted as such. Generally the API can be expected to match the treasury's publications so if one value doesn't match, try checking the same field for other periods and other municipalities to ensure the correct field is being compared. If that is the case, one can investigate further why a specific field doesn't match - perhaps because of the reasons mentioned here.</p>
 
     <h2 id="export-csv">Export CSV</h2>
 
@@ -120,7 +152,7 @@
       <table class="dimensions">
         {% for dimension in cube.model.dimensions.values|dictsort:"label" %}
           <tr class="dimension">
-            <td colspan="2">{{ dimension.label }}</td>
+            <td colspan="2">{{ dimension.label }} {% if dimension.non_aggregatable %}(<a href="#non-aggregatable">Non-aggregatable</a>){% endif %}</td>
             <td colspan="2">{{ dimension.description }}</td>
           </tr>
 
@@ -556,6 +588,14 @@ GET /api/cubes/incexp/aggregate
         <td>Determines whether output is in <code>json</code> or <code>csv</code> format. </td>
       </tr>
     </table>
+
+    <h2 id="non-aggregatable">Non-aggregatable Dimensions</h2>
+
+    <p>Non-aggregatable dimensions are dimensions where it does not make sense to aggregate over the categories in the dimension.</p>
+    <p>For example, it does not make sense to aggregate over all financial years when there is no filter on financial years because the number of years might change when additional data is added. You would be summing together an arbitrary number of years.</p>
+    <p>It also does not make sense to aggregate over amount types since summing together a budget and an actual figure makes no sense.</p>
+    <p>The correct way to query cubes with non-aggregatable dimensions is to either include that dimension as a drilldown (disaggregate) or as a filter.</p>
+    <p>For example, filter by financial year being 2017 and drilldown by amount type, to compare budgeted and actual figures for that year.</p>
 
     <h1 id="best-practises">Best Practises</h1>
 

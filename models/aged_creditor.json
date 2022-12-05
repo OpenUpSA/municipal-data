@@ -64,7 +64,8 @@
             "label_attribute": "label",
             "description": "",
             "label": "Item",
-            "join_column": "item_code"
+            "join_column": ["item_id", "id"],
+            "non_aggregatable": true
         },
         "financial_year_end": {
             "attributes": {
@@ -77,7 +78,8 @@
             },
             "key_attribute": "year",
             "description": "The calendar year falling at the end of the financial year",
-            "label": "Financial Year"
+            "label": "Financial Year",
+            "non_aggregatable": true
         },
         "period_length": {
             "attributes": {
@@ -89,8 +91,9 @@
                 }
             },
             "key_attribute": "length",
-            "description": "The lenfth of the period this figure corresponds to",
-            "label": "Period Length"
+            "description": "The length of the period this figure corresponds to",
+            "label": "Period Length",
+            "non_aggregatable": true
         },
         "financial_period": {
             "attributes": {
@@ -124,7 +127,8 @@
             "description": "Whether this figure is actual, budgeted, audited etc.",
             "label_attribute": "label",
             "label": "Amount Type",
-            "join_column": "amount_type_code"
+            "join_column": "amount_type_code",
+            "non_aggregatable": true
         }
     },
     "measures": {
