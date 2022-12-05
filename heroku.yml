@@ -1,0 +1,7 @@
+build:
+  docker:
+    web: Dockerfile
+    worker: Dockerfile
+run:
+  web: 'python manage.py collectstatic --noinput && gunicorn --limit-request-line 8190 --worker-class gevent municipal_finance.wsgi:application'
+  worker: 'python manage.py qcluster'
