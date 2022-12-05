@@ -18,7 +18,7 @@ export class LinkedTextField extends TextField {
 export class LinkField {
   constructor(selectorOrElement, url, options) {
     this.$element = $(selectorOrElement);
-    this.$element.attr("href", url);
+    this.$element.attr('href', url);
     if (options) {
       Object.entries(options).forEach(([key, value]) => {
         this.$element.attr(key, value);
