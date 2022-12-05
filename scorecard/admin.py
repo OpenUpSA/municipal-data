@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.conf import settings
 from django_q.tasks import async_task
@@ -20,14 +19,18 @@ from .resources import GeographyResource
 @admin.register(Geography)
 class GeographyAdmin(ImportExportModelAdmin, ExportMixin):
     resource_class = GeographyResource
-    list_display = ("geo_code", "geo_level", "name",)
+    list_display = (
+        "geo_code",
+        "geo_level",
+        "name",
+    )
 
     def get_import_formats(self):
         formats = (
-          base_formats.CSV,
-          base_formats.XLS,
-          base_formats.XLSX,
-          )
+            base_formats.CSV,
+            base_formats.XLS,
+            base_formats.XLSX,
+        )
         return [f for f in formats if f().can_import()]
 
 
@@ -52,8 +55,9 @@ class MunicipalityProfilesCompilationAdmin(admin.ModelAdmin):
     )
 
     def get_form(self, request, obj=None, **kwargs):
-        form = super(MunicipalityProfilesCompilationAdmin,
-                     self).get_form(request, obj, **kwargs)
+        form = super(MunicipalityProfilesCompilationAdmin, self).get_form(
+            request, obj, **kwargs
+        )
         form.base_fields["last_audit_year"].disabled = True
         form.base_fields["last_opinion_year"].disabled = True
         form.base_fields["last_uifw_year"].disabled = True
