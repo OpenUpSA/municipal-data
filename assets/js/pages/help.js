@@ -1,6 +1,4 @@
-
 import { focusBlock } from '../utils.js';
-
 
 export default class HelpPage {
   constructor() {

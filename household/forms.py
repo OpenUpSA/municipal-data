@@ -9,4 +9,4 @@ class UploadForm(forms.ModelForm):
 
     class Meta:
         model = DataSetFile
-        fields = ('csv_file', 'file_type', 'version')
+        fields = ('csv_file', 'file_type')
