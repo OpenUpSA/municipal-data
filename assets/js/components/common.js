@@ -11,14 +11,14 @@ export class TextField {
 export class LinkedTextField extends TextField {
   constructor(selectorOrElement, value, url) {
     super(selectorOrElement, value);
-    this.$element.parent().attr("href", url);
+    this.$element.parent().attr('href', url);
   }
 }
 
 export class LinkField {
   constructor(selectorOrElement, url, options) {
     this.$element = $(selectorOrElement);
-    this.$element.attr("href", url);
+    this.$element.attr('href', url);
     if (options) {
       Object.entries(options).forEach(([key, value]) => {
         this.$element.attr(key, value);

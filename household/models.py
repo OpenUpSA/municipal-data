@@ -4,26 +4,16 @@ from django.db.models import Q
 from scorecard.models import Geography
 
 
-class DataSetVersion(models.Model):
-    version = models.IntegerField(unique=True)
-
-    def __str__(self):
-        return f"{self.version}"
-
-
 class DataSetFile(models.Model):
     csv_file = models.FileField(upload_to="datasets/")
-    version = models.ForeignKey(DataSetVersion, on_delete=models.CASCADE)
     file_type = models.CharField(max_length=20, null=True)
 
     def __str__(self):
-        return f"{self.file_type}-{self.version}"
+        return f"{self.file_type}"
 
 
 class FinancialYear(models.Model):
-
     budget_year = models.CharField(max_length=10)
-    active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.budget_year
@@ -56,10 +46,9 @@ class HouseholdServiceTotalQuerySet(models.QuerySet):
     def active(self, geo_code):
         return self.filter(
             Q(budget_phase__name="Audited Outcome")
-            | Q(budget_phase__name="Original Budget")
+            | Q(budget_phase__name="Adjusted Budget")
             | Q(budget_phase__name="Budget Year"),
             geography__geo_code=geo_code,
-            financial_year__active=True,
         )
 
     def middle(self):
@@ -94,7 +83,6 @@ class HouseholdServiceTotal(models.Model):
     household_class = models.ForeignKey(HouseholdClass, on_delete=models.CASCADE)
     service = models.ForeignKey(HouseholdService, on_delete=models.CASCADE)
     total = models.DecimalField(max_digits=15, decimal_places=2, null=True)
-    version = models.ForeignKey(DataSetVersion, on_delete=models.CASCADE, default=1)
 
     objects = models.Manager()
     summary = HouseholdServiceTotalQuerySet.as_manager()
@@ -118,9 +106,8 @@ class HouseholdBillTotalQuerySet(models.QuerySet):
         return (
             self.filter(
                 Q(budget_phase__name="Audited Outcome")
-                | Q(budget_phase__name="Original Budget")
+                | Q(budget_phase__name="Adjusted Budget")
                 | Q(budget_phase__name="Budget Year"),
-                financial_year__active=True,
                 geography__geo_code=geo_code,
             )
             .values(
@@ -140,7 +127,6 @@ class HouseholdBillTotal(models.Model):
     household_class = models.ForeignKey(HouseholdClass, on_delete=models.CASCADE)
     percent = models.FloatField(null=True)
     total = models.DecimalField(max_digits=15, decimal_places=2, null=True)
-    version = models.ForeignKey(DataSetVersion, on_delete=models.CASCADE, default=1)
 
     objects = models.Manager()
     summary = HouseholdBillTotalQuerySet.as_manager()

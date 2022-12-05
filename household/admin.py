@@ -16,7 +16,6 @@ class HouseholdServiceBillAdmin(admin.ModelAdmin):
         "household_class",
         "service",
         "total",
-        "version",
     )
     list_filter = ("financial_year", "budget_phase", "household_class")
 
@@ -30,7 +29,6 @@ class HouseholdBillTotalAdmin(admin.ModelAdmin):
         "household_class",
         "percent",
         "total",
-        "version",
     )
     list_filter = ("financial_year", "budget_phase", "household_class")
     search_fields = ["geography__name"]
@@ -38,7 +36,7 @@ class HouseholdBillTotalAdmin(admin.ModelAdmin):
 
 @admin.register(models.DataSetFile)
 class DataSetFileAdmin(admin.ModelAdmin):
-    list_display = ("csv_file", "file_type", "version")
+    list_display = ("csv_file", "file_type")
     form = UploadForm
 
     def save_model(self, request, obj, form, change):
@@ -51,7 +49,7 @@ class DataSetFileAdmin(admin.ModelAdmin):
 
 @admin.register(models.FinancialYear)
 class FinancialYearAdmin(admin.ModelAdmin):
-    list_display = ("budget_year", "active")
+    list_display = ("budget_year",)
 
 
 @admin.register(models.HouseholdClass)
@@ -61,4 +59,3 @@ class HouseholdClassAdmin(admin.ModelAdmin):
 
 admin.site.register(models.BudgetPhase)
 admin.site.register(models.HouseholdService)
-admin.site.register(models.DataSetVersion)

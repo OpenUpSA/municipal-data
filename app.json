@@ -3,5 +3,30 @@
     "dokku": {
       "predeploy": "PRELOAD_CUBES=false DB_STMT_TIMEOUT=600000 python manage.py migrate --noinput && rm -rf /var/tmp/django_cache"
     }
+  },
+  "stack": "container",
+  "environments": {
+    "review": {
+      "addons": ["heroku-postgresql:mini"],
+      "env": {
+        "DJANGO_DEBUG": "False",
+        "DJANGO_SECRET_KEY": "not-so-secret-in-review",
+        "ENVIRONMENT":"staging",
+        "SITE_ID":"2"
+      },
+      "formation": {
+        "web": {
+          "quantity": 1,
+          "size": "eco"
+        },
+        "worker": {
+          "quantity": 1,
+          "size": "eco"
+        }
+      },
+      "scripts": {
+        "postdeploy": "python manage.py migrate && python manage.py loaddata demo-data seeddata"
+      }
+    }
   }
 }

@@ -68,6 +68,19 @@ docker-compose run --rm -v /home/user/folder-containing-dumpdata/:/data \
 docker-compose up portal
 ```
 
+### Linting JavaScript
+
+Run ESLint using
+
+```
+docker-compose run --rm scorecard yarn lint
+```
+
+Automatically fix problems
+
+```
+docker-compose run --rm scorecard yarn lint --fix
+```
 
 ### Demo data
 
