@@ -11,7 +11,7 @@ export class TextField {
 export class LinkedTextField extends TextField {
   constructor(selectorOrElement, value, url) {
     super(selectorOrElement, value);
-    this.$element.attr("href", url);
+    this.$element.attr('href', url);
   }
 }
 
