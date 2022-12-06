@@ -11,6 +11,7 @@ import {
 } from '../utils.js';
 import Dropdown from './dropdown.js';
 import LegendItem from './legend.js';
+import { firstBy } from "thenby";
 
 export class TimeSeriesSection {
   constructor(selector, sectionData) {
@@ -44,9 +45,15 @@ export class TimeSeriesSection {
       d.financial_year = formatFinancialYear(d.financial_year);
       return d;
     });
-    const comparator = (a, b) => this.ordering.indexOf(a.financial_year)
-        - this.ordering.indexOf(b.financial_year);
-    chartData.sort(comparator);
+
+    const ordering = this.ordering;
+
+    chartData.sort(
+      firstBy("financial_year")
+        .thenBy(function (a, b) {
+          return ordering.indexOf(a['amount_type.code']) - ordering.indexOf(b['amount_type.code']);
+        })
+    );
 
     this.chart = new GroupedBarChart(this.$chartContainer[0])
       .data(chartData)
