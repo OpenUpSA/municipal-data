@@ -1,5 +1,6 @@
 import GroupedBarChart from 'municipal-money-charts/src/components/MunicipalCharts/GroupedBarChart';
 import GroupedIntensityBarChart from 'municipal-money-charts/src/components/MunicipalCharts/GroupedIntensityBarChart';
+import { firstBy } from 'thenby';
 import {
   logIfUnequal,
   formatFinancialYear,
@@ -11,7 +12,6 @@ import {
 } from '../utils.js';
 import Dropdown from './dropdown.js';
 import LegendItem from './legend.js';
-import { firstBy } from "thenby";
 
 export class TimeSeriesSection {
   constructor(selector, sectionData) {
@@ -49,10 +49,8 @@ export class TimeSeriesSection {
     const ordering = this.ordering;
 
     chartData.sort(
-      firstBy("financial_year")
-        .thenBy(function (a, b) {
-          return ordering.indexOf(a['amount_type.code']) - ordering.indexOf(b['amount_type.code']);
-        })
+      firstBy('financial_year')
+        .thenBy((a, b) => ordering.indexOf(a['amount_type.code']) - ordering.indexOf(b['amount_type.code'])),
     );
 
     this.chart = new GroupedBarChart(this.$chartContainer[0])
