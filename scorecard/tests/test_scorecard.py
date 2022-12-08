@@ -23,9 +23,9 @@ class ScorecardTest(BaseSeleniumTestCase):
             link_class)[0].get_attribute('href')
         self.assertIn('/profiles/district-DC48-west-rand', element)
 
-        self.wait_until_text_in('.profile-metric__population', '781 026')
-        self.wait_until_text_in('.profile-metric__size', '2 751.7')
-        self.wait_until_text_in('.profile-metric__density', '283.8')
+        self.wait_until_text_in('.profile-metric__population', '362 420')
+        self.wait_until_text_in('.profile-metric__size', '1 344.7')
+        self.wait_until_text_in('.profile-metric__density', '269.5')
 
     def test_formulas(self):
         selenium = self.selenium
