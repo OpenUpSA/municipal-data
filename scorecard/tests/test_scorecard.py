@@ -15,13 +15,13 @@ class ScorecardTest(BaseSeleniumTestCase):
         selenium = self.selenium
         selenium.get('%s%s' % (self.live_server_url,
                      '/profiles/municipality-GT481-mogale-city/'))
-        self.wait_until_text_in('.page-heading__title', 'Buffalo City')
+        self.wait_until_text_in('.page-heading__title', 'Mogale City')
 
         link_class = '.page-heading__subtitle_link'
-        self.wait_until_text_in(link_class, 'Amatola')
+        self.wait_until_text_in(link_class, 'West Rand')
         element = selenium.find_elements_by_css_selector(
             link_class)[0].get_attribute('href')
-        self.assertIn('/profiles/district-AMA-amatola', element)
+        self.assertIn('/profiles/district-DC48-west-rand', element)
 
         self.wait_until_text_in('.profile-metric__population', '781 026')
         self.wait_until_text_in('.profile-metric__size', '2 751.7')
