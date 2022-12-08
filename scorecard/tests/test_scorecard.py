@@ -14,7 +14,7 @@ class ScorecardTest(BaseSeleniumTestCase):
     def test_header(self):
         selenium = self.selenium
         selenium.get('%s%s' % (self.live_server_url,
-                     '/profiles/municipality-BUF-buffalo-city/'))
+                     '/profiles/municipality-GT481-mogale-city/'))
         self.wait_until_text_in('.page-heading__title', 'Buffalo City')
 
         link_class = '.page-heading__subtitle_link'
