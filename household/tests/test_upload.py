@@ -18,7 +18,7 @@ from household.upload import import_bill_data
 
 
 class HouseholdsTestCase(TestCase):
-    fixtures = ["geography", "budgetphase", "financialyear", "householdclass", "householdservice"]
+    fixtures = ["seeddata", "geography"]
 
     def setUp(self):
         self.client = Client()
