@@ -27,6 +27,7 @@ class ProjectAdmin(admin.ModelAdmin):
         "latitude",
         "longitude",
     )
+    search_fields = ('geography__name', 'project_number', 'function', 'project_description')
 
 
 @admin.register(models.Expenditure)
