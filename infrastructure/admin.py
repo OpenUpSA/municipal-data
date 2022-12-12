@@ -39,6 +39,7 @@ class ExpenditureAdmin(admin.ModelAdmin):
         "amount",
     )
     list_filter = ("budget_phase", "financial_year")
+    search_fields = ("project__project_number", "project__project_description")
 
 
 @admin.register(models.ProjectQuarterlySpend)
