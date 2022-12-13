@@ -132,24 +132,35 @@ export class LocalIncomeSection extends AbstractIncomeSection {
   }
 
   _initChartData() {
-    const items = this.sectionData.revenueBreakdown.values.filter((item) => item.amount_type === 'AUDA');
-    items.forEach((item) => item.color = localColor);
-    const yearGroups = _.groupBy(items, 'date');
-    this._year = _.max(_.keys(yearGroups));
-    this._chartData = yearGroups;
+    if (this.sectionData.revenueBreakdown) {
+      this._year = null;
+      this._chartData = null;
+    }
+    else {
+      const items = this.sectionData.revenueBreakdown.values.filter((item) => item.amount_type === 'AUDA');
+      items.forEach((item) => item.color = localColor);
+      const yearGroups = _.groupBy(items, 'date');
+      console.log(this.sectionData.revenueBreakdown);
+      this._year = _.max(_.keys(yearGroups));
+      this._chartData = yearGroups;
+    }
   }
 
   _initDropdown() {
-    const options = [
-      [
-        `${formatFinancialYear(this._year)} ${formatPhase('AUDA')}`,
-        {
-          year: this._year,
-          phase: 'AUDA',
-        },
-      ],
-    ];
-
+    const options = [];
+    if (this._year === null) {
+      options.push(['Not available', {}]);
+    } else {
+      options = [
+        [
+          `${formatFinancialYear(this._year)} ${formatPhase('AUDA')}`,
+          {
+            year: this._year,
+            phase: 'AUDA',
+          },
+        ],
+      ];
+    }
     const initialOption = options[0];
     this.dropdown = new Dropdown(this.$element.find('.fy-select'), options, initialOption[0]);
     this.dropdown.$element.on('option-select', (e) => this.selectData(e.detail));
