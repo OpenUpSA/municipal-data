@@ -17,6 +17,14 @@ class BudgetPhaseAdmin(admin.ModelAdmin):
     list_display = ("name",)
 
 
+class ExpenditureInline(admin.TabularInline):
+    model = models.Expenditure
+
+
+class QuarterlySpendInline(admin.TabularInline):
+    model = models.ProjectQuarterlySpend
+
+
 @admin.register(models.Project)
 class ProjectAdmin(admin.ModelAdmin):
     list_display = (
@@ -27,19 +35,16 @@ class ProjectAdmin(admin.ModelAdmin):
         "latitude",
         "longitude",
     )
-    search_fields = ("geography__name", "project_number", "function", "project_description")
-
-
-@admin.register(models.Expenditure)
-class ExpenditureAdmin(admin.ModelAdmin):
-    list_display = (
-        "project",
-        "budget_phase",
-        "financial_year",
-        "amount",
+    search_fields = (
+        "geography__name",
+        "project_number",
+        "function",
+        "project_description",
     )
-    list_filter = ("budget_phase", "financial_year")
-    search_fields = ("project__project_number", "project__project_description")
+    inlines = [
+        ExpenditureInline,
+        QuarterlySpendInline,
+    ]
 
 
 @admin.register(models.ProjectQuarterlySpend)
