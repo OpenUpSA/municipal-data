@@ -343,8 +343,8 @@ export class IndicatorSection {
 
   updateChartComparison(comparisonOption) {
     document.addEventListener('click-col', (e) => {
-      $(`#${e.detail.section} .chart-btn`).removeClass('active');
-      $(`#${e.detail.section} #${e.detail.muni}`).addClass('active');
+      $(`${e.detail.section} .chart-btn`).removeClass('active');
+      $(`${e.detail.section} #${e.detail.column}`).addClass('active');
     });
 
     if (comparisonOption === 'none') {
