@@ -146,7 +146,7 @@ export class LocalIncomeSection extends AbstractIncomeSection {
   }
 
   _initDropdown() {
-    const options = [];
+    let options = [];
     if (this._year === null) {
       options.push(['Not available', {}]);
     } else {
