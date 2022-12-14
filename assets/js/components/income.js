@@ -135,8 +135,7 @@ export class LocalIncomeSection extends AbstractIncomeSection {
     if (this.sectionData.revenueBreakdown) {
       this._year = null;
       this._chartData = null;
-    }
-    else {
+    } else {
       const items = this.sectionData.revenueBreakdown.values.filter((item) => item.amount_type === 'AUDA');
       items.forEach((item) => item.color = localColor);
       const yearGroups = _.groupBy(items, 'date');
