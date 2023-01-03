@@ -59,6 +59,17 @@ export class IndicatorSection {
     this.comparisonMenu.$element.on('option-select', ((e) => {
       this.updateChartComparison(e.detail.option);
     }));
+
+    const element = document.getElementById(this.selector.replace('#',''));
+    element.addEventListener('click-col', (e) => {
+      $(".chart-btn").find(e.currentTarget).removeClass('active');
+      // $(e.target).attr('colid') might work to get the button ID
+      $(`#${e.detail.column}`).find(e.currentTarget).addClass('active');
+
+      // previous approach
+      /*$(`${e.detail.container} .chart-btn`).removeClass('active');
+      $(`${e.detail.container} #${e.detail.column}`).addClass('active');*/
+    });
   }
 
   formatMetric(value) {
@@ -288,9 +299,9 @@ export class IndicatorSection {
     this.comparisonButtonsContainer.insertBefore(this.chartContainer);
   }
 
-  highlightComparisonButton(section, muniId) {
-    $(`${section} .chart-btn`).removeClass('active');
-    $(`${section} #${muniId}`).addClass('active');
+  highlightComparisonButton(container, muniId) {
+    $(`${container} .chart-btn`).removeClass('active');
+    $(`${container} #${muniId}`).addClass('active');
   }
 
   _updateComparisonButtons() {
@@ -342,11 +353,6 @@ export class IndicatorSection {
   }
 
   updateChartComparison(comparisonOption) {
-    document.addEventListener('click-col', (e) => {
-      $(`${e.detail.section} .chart-btn`).removeClass('active');
-      $(`${e.detail.section} #${e.detail.column}`).addClass('active');
-    });
-
     if (comparisonOption === 'none') {
       this.chart.loadData([this.chartData()]);
     } else {
