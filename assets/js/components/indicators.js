@@ -306,7 +306,7 @@ export class IndicatorSection {
     [this.chartData(), ...(this.comparisons)].forEach((comparison) => {
       const button = $(` <button id="${comparison.municipality.code}"class="button chart-btn"></button> `);
       button.click(() => {
-        this.highlightComparisonButton(this.chart.chart.config.bindto.split(' ')[0], comparison.municipality.code);
+        this.highlightComparisonButton(this.selector, comparison.municipality.code);
         this.chart.highlightCol(comparison.municipality.code);
         ga('send', 'event', 'chart-compare-highlight', `${this.key} ${comparison.municipality.code}`);
       });
