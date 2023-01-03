@@ -60,16 +60,12 @@ export class IndicatorSection {
       this.updateChartComparison(e.detail.option);
     }));
 
-    const element = document.getElementById(this.selector.replace('#',''));
-    element.addEventListener('click-col', (e) => {
-      $(".chart-btn").find(e.currentTarget).removeClass('active');
-      // $(e.target).attr('colid') might work to get the button ID
-      $(`#${e.detail.column}`).find(e.currentTarget).addClass('active');
-
-      // previous approach
-      /*$(`${e.detail.container} .chart-btn`).removeClass('active');
-      $(`${e.detail.container} #${e.detail.column}`).addClass('active');*/
-    });
+    this.$element.on('click-col', ((e) => {
+      const containerId = $(e.currentTarget).attr('class');
+      const buttonId = $(e.target).attr('colid');
+      $(`.${containerId} .chart-btn`).removeClass('active');
+      $(`.${containerId} #${buttonId}`).addClass('active');
+    }));
   }
 
   formatMetric(value) {
