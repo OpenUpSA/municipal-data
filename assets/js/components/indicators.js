@@ -64,7 +64,7 @@ export class IndicatorSection {
       const containerId = $(e.currentTarget).attr('class');
       const buttonId = $(e.target).attr('colid');
       $(`.${containerId} .chart-btn`).removeClass('active');
-      $(`.${containerId} #${buttonId}`).addClass('active');
+      $(`.${containerId} [data-muni=${buttonId}]`).addClass('active');
     }));
   }
 
@@ -304,7 +304,7 @@ export class IndicatorSection {
     this.comparisonButtonsContainer.empty();
     this.comparisonButtonsContainer.append('Comparing ');
     [this.chartData(), ...(this.comparisons)].forEach((comparison) => {
-      const button = $(` <button id="${comparison.municipality.code}"class="button chart-btn"></button> `);
+      const button = $(` <button data-muni="${comparison.municipality.code}"class="button chart-btn"></button> `);
       button.click(() => {
         this.highlightComparisonButton(this.selector, comparison.municipality.code);
         this.chart.highlightCol(comparison.municipality.code);
