@@ -108,3 +108,89 @@ $black: #333;
 .video-chooser .video-choices {
   margin-top: 5px;
 }
+
+.accordion-toggle:after {
+  font-family: 'Glyphicons Halflings';
+  content: "\e113";
+  float: right;
+  margin-top: -34px;
+  padding: 0px 15px;
+  color: grey;
+  font-size: 18px;
+}
+.accordion-toggle.collapsed:after {
+  content: "\e114";
+}
+.carrot:after {
+  content: "\e114";
+}
+.group {
+  margin-bottom: 8px;
+}
+.group a {
+  color: #333333;
+  text-decoration: none;
+}
+.group-header {
+  background-color: #ffffff;
+  padding: 6px 15px;
+  border-radius: 5px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+}
+.cube-list {
+  background-color: #efefef;
+}
+.cube {
+  color: #ffffff;
+  background-color: #333333;
+  border: 8px solid transparent;
+  border-radius: 5px;
+  padding: 0px 0px 0px 7px;
+  margin-bottom: 5px;
+  margin-left: 15px;
+  margin-right: 0px;
+}
+.pill {
+  background-color: #525252;
+  display: inline-block;
+  padding: 6px 9px;
+  margin-bottom: 2px;
+  margin-left: 10px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.428571429;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  white-space: nowrap;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 5px;
+}
+.pill-right {
+  float: right;
+}
+.pill-light {
+  background-color: #f2f2f2;
+}
+.pill-dark {
+  background-color: #3d3d3d;
+}
+.pill a {
+  color: #f2f2f2;
+}
+.pill span {
+  position: inherit;
+  vertical-align: middle;
+  color: #f2f2f2;
+}
+.former-name {
+  color: #aeaeae;
+}
+@media only screen and (max-width: 991px) {
+  .cube {
+    margin-left: 0px;
+  }
+}
