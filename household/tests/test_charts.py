@@ -12,7 +12,7 @@ from household.models import (
 from scorecard.models import Geography
 
 class HouseholdTest(BaseSeleniumTestCase):
-    fixtures = ["seeddata", "compiled_profile", "budgetphase", "financialyear", "householdclass", "householdservice"]
+    fixtures = ["seeddata", "compiled_profile"]
 
     def setUp(self):
         super(HouseholdTest, self).setUp()
