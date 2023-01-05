@@ -74,12 +74,13 @@ def summarise():
     min_year = 3000
     max_year = 1000
     count_facts = 0
+    years = []
 
     for table in FACT_TABLES:
-        min_year = get_min(min_year, table)
-        max_year = get_max(max_year, table)
+        years += get_years(table)
 
-    count_years = max_year - min_year + 1
+    count_years = len(set(years))
+
     Summary.objects.update_or_create(
         type='years',
         defaults={
@@ -124,13 +125,6 @@ def summarise():
     )
 
 
-def get_min(current_min, model):
-    model_min = model.objects.values('financial_year').aggregate(
-        Min('financial_year'))['financial_year__min']
-    return min(filter(lambda x: x is not None, [current_min, model_min]))
-
-
-def get_max(current_max, model):
-    model_max = model.objects.values('financial_year').aggregate(
-        Max('financial_year'))['financial_year__max']
-    return max(filter(lambda x: x is not None, [current_max, model_max]))
+def get_years(model):
+    years = model.objects.values_list('financial_year', flat=True).distinct()
+    return list(years)
