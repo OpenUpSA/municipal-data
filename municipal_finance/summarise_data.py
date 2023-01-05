@@ -72,14 +72,14 @@ def summarise_task(task):
 
 @transaction.atomic
 def summarise():
-    min_year = 3000
-    max_year = 1000
     count_facts = 0
     years = []
 
     for table in FACT_TABLES:
         years += get_years(table)
 
+    min_year = min(years)
+    max_year = max(years)
     count_years = len(set(years))
 
     Summary.objects.update_or_create(
