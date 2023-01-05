@@ -5,7 +5,7 @@ from django.db import transaction
 from municipal_finance.models.data_summaries import Summary
 
 from scorecard.models.geography import Geography
-
+from municipal_finance.models.demarcation_changes import DemarcationChanges
 from municipal_finance.models.cash_flow import (
     CflowFactsV1,
     CflowFactsV2,
@@ -69,7 +69,6 @@ def summarise_task(task):
             task_name="Summarise Data",
         )
 
-
 @transaction.atomic
 def summarise():
     min_year = 3000
@@ -80,17 +79,35 @@ def summarise():
         min_year = get_min(min_year, table)
         max_year = get_max(max_year, table)
 
-    count_years = max_year - min_year
+    count_years = max_year - min_year + 1
     Summary.objects.update_or_create(
         type='years',
         defaults={
             'content': f'{{"count":{count_years}, "min":{min_year}, "max":{max_year}}}'}
     )
 
-    total = Geography.objects.all().count()
-    metros = Geography.objects.filter(category='A').count()
-    munis = Geography.objects.filter(category='B').count()
-    districts = Geography.objects.filter(category='C').count()
+    old_demarcations = DemarcationChanges.objects.values_list(
+        "old_code", flat=True
+    ).distinct()
+    total = (
+        Geography.objects.all()
+        .exclude(geo_code__in=old_demarcations).count()
+    )
+    metros = (
+        Geography.objects.filter(category="A")
+        .exclude(geo_code__in=old_demarcations)
+        .count()
+    )
+    munis = (
+        Geography.objects.filter(category="B")
+        .exclude(geo_code__in=old_demarcations)
+        .count()
+    )
+    districts = (
+        Geography.objects.filter(category="C")
+        .exclude(geo_code__in=old_demarcations)
+        .count()
+    )
 
     Summary.objects.update_or_create(
         type='municipalities',
