@@ -1,5 +1,6 @@
 import GroupedBarChart from 'municipal-money-charts/src/components/MunicipalCharts/GroupedBarChart';
 import GroupedIntensityBarChart from 'municipal-money-charts/src/components/MunicipalCharts/GroupedIntensityBarChart';
+import { firstBy } from 'thenby';
 import {
   logIfUnequal,
   formatFinancialYear,
@@ -44,9 +45,13 @@ export class TimeSeriesSection {
       d.financial_year = formatFinancialYear(d.financial_year);
       return d;
     });
-    const comparator = (a, b) => this.ordering.indexOf(a['amount_type.code'])
-        - this.ordering.indexOf(b['amount_type.code']);
-    chartData.sort(comparator);
+
+    const ordering = this.ordering;
+
+    chartData.sort(
+      firstBy('financial_year')
+        .thenBy((a, b) => ordering.indexOf(a['amount_type.code']) - ordering.indexOf(b['amount_type.code'])),
+    );
 
     this.chart = new GroupedBarChart(this.$chartContainer[0])
       .data(chartData)
