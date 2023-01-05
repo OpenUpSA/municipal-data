@@ -87,28 +87,10 @@ def summarise():
             'content': f'{{"count":{count_years}, "min":{min_year}, "max":{max_year}}}'}
     )
 
-    old_demarcations = DemarcationChanges.objects.values_list(
-        "old_code", flat=True
-    ).distinct()
-    total = (
-        Geography.objects.all()
-        .exclude(geo_code__in=old_demarcations).count()
-    )
-    metros = (
-        Geography.objects.filter(category="A")
-        .exclude(geo_code__in=old_demarcations)
-        .count()
-    )
-    munis = (
-        Geography.objects.filter(category="B")
-        .exclude(geo_code__in=old_demarcations)
-        .count()
-    )
-    districts = (
-        Geography.objects.filter(category="C")
-        .exclude(geo_code__in=old_demarcations)
-        .count()
-    )
+    total = Geography.objects.all().count()
+    metros = Geography.objects.filter(category="A").count()
+    munis = Geography.objects.filter(category="B").count()
+    districts = Geography.objects.filter(category="C").count()
 
     Summary.objects.update_or_create(
         type='municipalities',
