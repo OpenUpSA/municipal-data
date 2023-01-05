@@ -58,7 +58,7 @@ FACT_TABLES = [
     AgedDebtorFactsV2,
     AgedCreditorFactsV1,
     AgedCreditorFactsV2,
-    UIFWExpenseFacts
+    UIFWExpenseFacts,
 ]
 
 
@@ -68,6 +68,7 @@ def summarise_task(task):
             "municipal_finance.summarise_data.summarise",
             task_name="Summarise Data",
         )
+
 
 @transaction.atomic
 def summarise():
@@ -82,9 +83,10 @@ def summarise():
     count_years = len(set(years))
 
     Summary.objects.update_or_create(
-        type='years',
+        type="years",
         defaults={
-            'content': f'{{"count":{count_years}, "min":{min_year}, "max":{max_year}}}'}
+            "content": f'{{"count":{count_years}, "min":{min_year}, "max":{max_year}}}'
+        },
     )
 
     total = Geography.objects.all().count()
@@ -93,20 +95,20 @@ def summarise():
     districts = Geography.objects.filter(category="C").count()
 
     Summary.objects.update_or_create(
-        type='municipalities',
+        type="municipalities",
         defaults={
-            'content': f'{{"total":{total}, "metros":{metros}, "munis":{munis}, "districts":{districts}}}'}
+            "content": f'{{"total":{total}, "metros":{metros}, "munis":{munis}, "districts":{districts}}}'
+        },
     )
 
     for table in FACT_TABLES:
         count_facts += table.objects.all().count()
 
     Summary.objects.update_or_create(
-        type='facts',
-        defaults={'content': f'{{"count":{count_facts}}}'}
+        type="facts", defaults={"content": f'{{"count":{count_facts}}}'}
     )
 
 
 def get_years(model):
-    years = model.objects.values_list('financial_year', flat=True).distinct()
+    years = model.objects.values_list("financial_year", flat=True).distinct()
     return list(years)
