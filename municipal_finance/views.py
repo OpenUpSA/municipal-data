@@ -34,7 +34,7 @@ def get_cube_with_last_updated(connection, manager, name):
             f"SELECT datetime FROM {updates_table} WHERE inserted IS NOT NULL ORDER BY datetime DESC LIMIT 1"
         ).first()
         if result is not None:
-            model["last_updated"] = result[0].strftime("%Y-%m-%d, %H:%M")
+            model["last_updated"] = result[0].strftime("%Y-%m-%dT%H:%M")
     return model
 
 
