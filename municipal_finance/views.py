@@ -4,7 +4,6 @@ from django.shortcuts import render
 from .cubes import get_manager
 from .utils import jsonify, serialize, check_page_size
 
-
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 
@@ -58,12 +57,27 @@ def index(request):
                 cube_names,
             )
         )
-        cubes = sorted(cubes, key=lambda p: p[1]['label'])
-        # Group into rows of four
-        cubes = [cubes[i:i + 4] for i in range(0, len(cubes), 4)]
+
+        cube_map = {
+            "Aged Creditor Analysis" : {"cube_info":[{"slug":"aged_creditor", "version":"V1"}, {"slug":"aged_creditor_v2", "version":"V2"}]},
+            "Aged Debtor Analysis" : {"cube_info":[{"slug":"aged_debtor", "version":"V1"}, {"slug":"aged_debtor_v2", "version":"V2"}]},
+            "Audit Opinions" : {"cube_info":[{"slug":"audit_opinions", "no_data":"True"}]},
+            "Financial Position" : {"cube_info":[{"slug":"bsheet", "version":"V1"}, {"slug":"financial_position_v2", "version":"V2"}], "formerly":"Balance Sheet"},
+            "Capital Aquisition" : {"cube_info":[{"slug":"capital", "version":"V1"}, {"slug":"capital_v2", "version":"V2"}]},
+            "Cash Flow" : {"cube_info":[{"slug":"cflow", "version":"V1"}, {"slug":"cflow_v2", "version":"V2"}]},
+            "Grants" : {"cube_info":[{"slug":"conditional_grants", "version":"V1", "no_data":"True"}, {"slug":"grants_v2", "version":"V2", "no_data":"True"}], "formerly":"Conditional Grants"},
+            "Demarcation Changes" : {"cube_info":[{"slug":"demarcation_changes", "no_data":"True"}]},
+            "Income and Expenditure" : {"cube_info":[{"slug":"incexp", "version":"V1"}, {"slug":"incexp_v2", "version":"V2"}]},
+            "Municipal Officials" : {"cube_info":[{"slug":"officials"}]},
+            "Municipalities" : {"cube_info":[{"slug":"municipalities"}]},
+            "Repairs and Maintenance" : {"cube_info":[{"slug":"repmaint", "version":"V1"}, {"slug":"repmaint_v2", "version":"V2"}]},
+            "Unauthorised, Irregular, Fruitless and Wasteful Expenditure" : {"cube_info":[{"slug":"uifwexp"}]},
+        }
+
     return render(request, 'index.html', {
         'cubes': cubes,
         'cube_count': len(cube_names),
+        'cube_map' : cube_map,
     })
 
 

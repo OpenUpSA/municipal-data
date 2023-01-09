@@ -1,5 +1,5 @@
 {% extends "layout_data.html" %}
-{% load staticfiles format_date %}
+{% load staticfiles %}
 
 {% block title %}Municipal Finance Data{% endblock %}
 {% block body-id %}home{% endblock %}
@@ -12,7 +12,7 @@
       <h1>Municipal Finance Data</h1>
 
       <p class="lead">
-      Current and historical Municipal budget and financial performance data from the National Treasury.
+        Current and historical Municipal budget and financial performance data from the National Treasury.
       </p>
     </div>
   </div>
@@ -37,39 +37,67 @@
       </div>
     </div>
   </section>
-
   <section class="band-dark">
     <div class="container">
       <h2>Explore a dataset</h2>
-
-      {% for group in cubes %}
-        <div class="dataset-buttons clearfix">
-        {% for cube_name, cube in group %}
-          {% if cube.dimensions.item %}
-            <a href="/table/{{ cube_name }}/" class="dataset">
-          {% else %}
-            <a href="/docs#cube-{{ cube_name }}" class="dataset">
-          {% endif %}
-            <h4>{{ cube.label }}</h4>
-            <p>{{ cube.description }}</p>
-            <p class="small">Updated: {{ cube.last_updated|format_date }}</p>
-          </a>
-        {% endfor %}
-        </div>
-      {% endfor %}
-    </div>
-  </section>
-
-  <section class="extras">
-    <div class="container">
-      <h2>A quick introduction to <strong>Municipal Finance</strong></h2>
-
       <div class="row">
-        <div class="col-md-6">
-          {% include "_videos.html" %}
+        <div class="panel-group col-md-8" id="cubeaccordion">
+          {% for cube_type, group_cubes in cube_map.items %}
+          <div class="group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#{{ cube_type|slugify }}">
+              <div class="panel-heading group-header align-middle">
+                  {{ cube_type }}
+                  {% if group_cubes.formerly != None %}
+                    <span class="former-name">&nbsp(Formerly {{ group_cubes.formerly }})</span>
+                  {% endif %}
+                  <div class="pill pill-light">{{ group_cubes.cube_info|length }} Dataset{% if group_cubes.cube_info|length > 1 %}s{% endif %}</div>
+              </div>
+            </a>
+            <div id="{{ cube_type|slugify }}" class="panel-collapse collapse">
+              <div class="cube-list">
+                {% for cube in group_cubes.cube_info %}
+                  {% for cube_detail in cubes %}
+                    {% if cube_detail.0 == cube.slug %}
+                      <div class="row cube">
+                        <div class="btn-group">
+                          {% if cube.slug == "uifwexp" %}
+                            UIFW Expenditure
+                          {% else %}
+                            {{ cube_detail.1.label }}
+                          {% endif %}
+                        </div>
+                        <div class="btn-group">
+                          {% if cube.version %}
+                            <div class="pill pill-dark">{{ cube.version }}</div>
+                          {% endif %}
+                          <div class="pill pill-dark">
+                            {% if cube.version == "V1" %}
+                              2009-10 to 2018-19
+                            {% elif cube.version == "V2" %}
+                              2019-20 onwards
+                            {% else %}
+                              2009-10 onwards
+                            {% endif %}
+                          </div>
+                        </div>
+                        <div class="btn-group pill-right">
+                          <a class="pill pill-info" data-toggle="tooltip" title="{{ cube_detail.1.description }}"><span class="glyphicon glyphicon-info-sign"></span></a>
+                          <div class="pill"><a href="/docs#cube-{{ cube.slug }}">Documentation</a></div>
+                          {% if cube.no_data == None %}
+                            <div class="pill"><a href="/table/{{ cube.slug }}">Explore Data</a></div>
+                          {% endif %}
+                        </div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
           <h3>Municipal Money Website</h3>
 
           <p class="lead">Explore municipal financial performance around South Africa.</p>
@@ -81,7 +109,17 @@
           <p class="lead">All this data is available through a powerful but simple JSON API.</p>
           <a href="/docs" class="btn btn-primary btn-lg">Read the API Docs</a>
         </div>
+      </div>
+    </div>
+  </section>
 
+  <section class="extras">
+    <div class="container">
+      <h2>A quick introduction to <strong>Municipal Finance</strong></h2>
+      <div class="row">
+        <div class="col-md-6">
+          {% include "_videos.html" %}
+        </div>
       </div>
     </div>
   </section>
