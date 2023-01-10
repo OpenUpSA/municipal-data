@@ -40,6 +40,15 @@
       ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');
       ga('send', 'pageview');
     </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NFT1CS0QKK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+
+      gtag('config', 'G-NFT1CS0QKK');
+    </script>
     {% endif %}
 
     {% endblock %}
