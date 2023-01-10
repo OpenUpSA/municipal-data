@@ -41,13 +41,13 @@
       ga('send', 'pageview');
     </script>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NFT1CS0QKK"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_TAG }}"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() { dataLayer.push(arguments); }
       gtag('js', new Date());
 
-      gtag('config', 'G-NFT1CS0QKK');
+      gtag('config', '{{ GOOGLE_TAG }}');
     </script>
     {% endif %}
 
