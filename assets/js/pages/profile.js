@@ -114,6 +114,9 @@ export default class ProfilePage {
     // track outbound links
     $('a[href^=http]').on('click', (e) => {
       ga('send', 'event', 'outbound-click', e.target.href);
+      gtag('event', 'outbound_click', {
+        'target': e.target.href
+      });
     });
 
     Webflow.require('ix2').init();

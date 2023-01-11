@@ -263,12 +263,18 @@ export class IndicatorSection {
     $provinceButton.on('click', (() => {
       this.chart.loadMedians(this.formatMedians().provincial);
       ga('send', 'event', 'chart-averages', `${this.key} provincial`);
+      gtag('event', 'chart_averages', {
+        'chart': `${this.key} provincial`
+      });
     }));
 
     const $nationalButton = $(' <button class="button" style="display: unset">nationally</button>');
     $nationalButton.on('click', (() => {
       this.chart.loadMedians(this.formatMedians().national);
       ga('send', 'event', 'chart-averages', `${this.key} national`);
+      gtag('event', 'chart_averages', {
+        'chart': `${this.key} provincial`
+      });
     }));
 
     const averageControls = $('<p></p>');
@@ -296,6 +302,9 @@ export class IndicatorSection {
       button.click(() => {
         this.chart.highlightCol(comparison.municipality.code);
         ga('send', 'event', 'chart-compare-highlight', `${this.key} ${comparison.municipality.code}`);
+        gtag('event', 'chart_compare_highlight', {
+          'chart': `${this.key} ${comparison.municipality.code}`
+        });
       });
       button.text(`${comparison.municipality.name}, ${comparison.municipality.province_code}`);
       this.comparisonButtonsContainer.append(button);
