@@ -10,7 +10,7 @@ $(() => {
     $iframe.attr('src', `${this.href}?autoplay=1`);
     ga('send', 'event', 'play-video', $btn.data('lang'));
     gtag('event', 'play_video', {
-      'lang': $btn.data('lang')
+      lang: $btn.data('lang'),
     });
   });
 
@@ -20,7 +20,7 @@ $(() => {
       $iframe.attr('src', `${$target.attr('href')}?autoplay=1`);
       ga('send', 'event', 'play-video', $target.data('lang'));
       gtag('event', 'play_video', {
-        'lang': $btn.data('lang')
+        lang: $btn.data('lang'),
       });
     })
     .on('hide.bs.modal', () => {

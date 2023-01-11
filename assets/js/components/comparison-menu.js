@@ -25,8 +25,8 @@ export default class ComparisonMenu {
 
       ga('send', 'event', 'compare-in-chart', `${key} ${option}`);
       gtag('event', 'compare_in_chart', {
-        'chart': `${key}`,
-        'option': `${option}`
+        chart: `${key}`,
+        option: `${option}`,
       });
     }));
   }

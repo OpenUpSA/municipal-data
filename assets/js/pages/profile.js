@@ -115,7 +115,7 @@ export default class ProfilePage {
     $('a[href^=http]').on('click', (e) => {
       ga('send', 'event', 'outbound-click', e.target.href);
       gtag('event', 'outbound_click', {
-        'target': e.target.href
+        target: e.target.href,
       });
     });
 
