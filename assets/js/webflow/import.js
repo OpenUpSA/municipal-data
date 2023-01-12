@@ -72,13 +72,13 @@ ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');\
 {% endif %}\
 ga('send', 'pageview');\
 ");
-  addScriptToBody(window, {}, "<script async src='https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_GA4_TAG }}'></script>\
-  <script>\
-    window.dataLayer = window.dataLayer || [];\
+  addScriptToBody(window, {
+    src: 'https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_GA4_TAG }}',
+  });
+  addScriptToBody(window, {}, "window.dataLayer = window.dataLayer || [];\
     function gtag() { dataLayer.push(arguments); }\
     gtag('js', new Date());\
     gtag('config', '{{ GOOGLE_GA4_TAG }}');\
-  </script>\
   ");
 
   $('.site-notice').html(`{% for notice in site_notices %}
