@@ -135,6 +135,15 @@ ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');\
 ga('send', 'pageview');\
 ");
 
+  addScriptToBody(window, {}, "<script async src='https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_GA4_TAG }}'></script>\
+  <script>\
+    window.dataLayer = window.dataLayer || [];\
+    function gtag() { dataLayer.push(arguments); }\
+    gtag('js', new Date());\
+    gtag('config', '{{ GOOGLE_GA4_TAG }}');\
+  </script>\
+  ");
+
   $(".section:first .container").prepend("{% for notice in site_notices %}<div>{{ notice.content | safe }}</div>{% endfor %}");
 
   temporary_webflow_fixes($);
