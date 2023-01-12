@@ -40,6 +40,7 @@
       ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');
       ga('send', 'pageview');
     </script>
+    {% endif %}
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_GA4_TAG }}"></script>
     <script>
@@ -49,7 +50,6 @@
 
       gtag('config', '{{ GOOGLE_GA4_TAG }}');
     </script>
-    {% endif %}
 
     {% endblock %}
 
