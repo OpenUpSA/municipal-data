@@ -40,6 +40,8 @@
       ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');
       ga('send', 'pageview');
     </script>
+    {% endif %}
+    {% if GOOGLE_GA4_TAG %}
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_GA4_TAG }}"></script>
     <script>
