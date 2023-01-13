@@ -5,27 +5,31 @@ from municipal_finance.tests.helpers import BaseSeleniumTestCase
 
 class ScorecardTest(BaseSeleniumTestCase):
     serialized_rollback = True
-    fixtures = ["seeddata", "compiled_profile"]
+    fixtures = ["seeddata", "demo-data", "compiled_profile"]
 
     def setUp(self):
         super(ScorecardTest, self).setUp()
-        Site.objects.filter(id=2).update(domain='municipalmoney.org.za', name='Scorecard')
+        Site.objects.filter(id=2).update(
+            domain="municipalmoney.org.za", name="Scorecard"
+        )
 
     def test_header(self):
         selenium = self.selenium
-        selenium.get('%s%s' % (self.live_server_url,
-                     '/profiles/municipality-BUF-buffalo-city/'))
-        self.wait_until_text_in('.page-heading__title', 'Buffalo City')
+        selenium.get(
+            "%s%s" % (self.live_server_url, "/profiles/municipality-GT481-mogale-city/")
+        )
+        self.wait_until_text_in(".page-heading__title", "Mogale City")
 
-        link_class = '.page-heading__subtitle_link'
-        self.wait_until_text_in(link_class, 'Amatola')
-        element = selenium.find_elements_by_css_selector(
-            link_class)[0].get_attribute('href')
-        self.assertIn('/profiles/district-AMA-amatola', element)
+        link_class = ".page-heading__subtitle_link"
+        self.wait_until_text_in(link_class, "West Rand")
+        element = selenium.find_elements_by_css_selector(link_class)[0].get_attribute(
+            "href"
+        )
+        self.assertIn("/profiles/district-DC48-west-rand", element)
 
-        self.wait_until_text_in('.profile-metric__population', '781 026')
-        self.wait_until_text_in('.profile-metric__size', '2 751.7')
-        self.wait_until_text_in('.profile-metric__density', '283.8')
+        self.wait_until_text_in(".profile-metric__population", "362 420")
+        self.wait_until_text_in(".profile-metric__size", "1 344.7")
+        self.wait_until_text_in(".profile-metric__density", "269.5")
 
     def test_formulas(self):
         selenium = self.selenium

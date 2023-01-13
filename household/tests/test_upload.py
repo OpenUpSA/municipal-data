@@ -18,7 +18,7 @@ from household.upload import import_bill_data
 
 
 class HouseholdsTestCase(TestCase):
-    fixtures = ["geography", "budgetphase", "financialyear", "householdclass", "householdservice"]
+    fixtures = ["seeddata", "compiled_profile"]
 
     def setUp(self):
         self.client = Client()
@@ -30,7 +30,7 @@ class HouseholdsTestCase(TestCase):
     def test_bill_upload(self):
         self.client.login(username=self.username, password=self.password)
         self.assertEquals(HouseholdBillTotal.objects.all().count(), 0)
-        self.assertEqual(OrmQ.objects.count(), 0)
+        queue_count = OrmQ.objects.count()
 
         upload_url = reverse('admin:household_datasetfile_add')
         with open('household/tests/test_files/national_bill_totals.csv', 'rb', ) as f:
@@ -39,8 +39,8 @@ class HouseholdsTestCase(TestCase):
         self.assertContains(resp, "Dataset is currently being processed.", status_code=200)
 
         spend_file = DataSetFile.objects.first()
-        self.assertEqual(OrmQ.objects.count(), 1)
-        task = OrmQ.objects.first()
+        self.assertEqual(OrmQ.objects.count(), queue_count + 1)
+        task = OrmQ.objects.last()
         task_file_id = task.task()["args"][0]
         task_method = task.func()
 
@@ -56,7 +56,7 @@ class HouseholdsTestCase(TestCase):
     def test_service_upload(self):
         self.client.login(username=self.username, password=self.password)
         self.assertEquals(HouseholdServiceTotal.objects.all().count(), 0)
-        self.assertEqual(OrmQ.objects.count(), 0)
+        queue_count = OrmQ.objects.count()
 
         upload_url = reverse('admin:household_datasetfile_add')
         with open('household/tests/test_files/national_service_totals.csv', 'rb', ) as f:
@@ -65,8 +65,8 @@ class HouseholdsTestCase(TestCase):
         self.assertContains(resp, "Dataset is currently being processed.", status_code=200)
 
         spend_file = DataSetFile.objects.first()
-        self.assertEqual(OrmQ.objects.count(), 1)
-        task = OrmQ.objects.first()
+        self.assertEqual(OrmQ.objects.count(), queue_count + 1)
+        task = OrmQ.objects.last()
         task_file_id = task.task()["args"][0]
         task_method = task.func()
 
