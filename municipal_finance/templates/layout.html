@@ -41,15 +41,15 @@
       ga('send', 'pageview');
     </script>
     {% endif %}
-    {% if GOOGLE_GA4_TAG %}
+    {% if GOOGLE_TAG_MANAGER_ID %}
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_GA4_TAG }}"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_TAG_MANAGER_ID }}"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() { dataLayer.push(arguments); }
       gtag('js', new Date());
 
-      gtag('config', '{{ GOOGLE_GA4_TAG }}');
+      gtag('config', '{{ GOOGLE_TAG_MANAGER_ID }}');
     </script>
     {% endif %}
 
