@@ -273,7 +273,7 @@ export class IndicatorSection {
       this.chart.loadMedians(this.formatMedians().national);
       ga('send', 'event', 'chart-averages', `${this.key} national`);
       gtag('event', 'chart_averages', {
-        chart: `${this.key} provincial`,
+        chart: `${this.key} national`,
       });
     }));
 
