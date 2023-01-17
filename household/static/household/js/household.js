@@ -13,15 +13,15 @@ function overall_chart(container, chartData) {
       hoverinfo: 'text',
       text: value.y.map(amount_convert),
     };
-    xaxis = _.union(xaxis, value.x)
+    xaxis = _.union(xaxis, value.x);
     data.push(region);
   }
   var layout = {
     barmode: 'group',
-    "xaxis": {
-      "categoryorder": "array",
-      "categoryarray": xaxis.sort()
-    }
+    xaxis: {
+      categoryorder: 'array',
+      categoryarray: xaxis.sort(),
+    },
   };
   var config = { displayModeBar: false, responsive: true };
 
