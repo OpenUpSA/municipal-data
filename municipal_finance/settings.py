@@ -110,10 +110,30 @@ MIDDLEWARE = [
 CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 
 CONSTANCE_ADDITIONAL_FIELDS = {
-    'quarter_select': ['django.forms.fields.ChoiceField', {
-        'widget': 'django.forms.Select',
-        'choices': ((1, "1"), (2, "2"), (3, "3"), (4, "4"),)
-    }],
+    "quarter_select": [
+        "django.forms.fields.ChoiceField",
+        {
+            "widget": "django.forms.Select",
+            "choices": (
+                (1, "1"),
+                (2, "2"),
+                (3, "3"),
+                (4, "4"),
+            ),
+        },
+    ],
+    "year_select": [
+        "django.forms.fields.ChoiceField",
+        {
+            "widget": "django.forms.Select",
+            "choices": (
+                (2019, "2019/2020"),
+                (2020, "2020/2021"),
+                (2021, "2021/2022"),
+                (2022, "2022/2023"),
+            ),
+        },
+    ],
 }
 
 CONSTANCE_CONFIG = {
@@ -147,22 +167,22 @@ CONSTANCE_CONFIG = {
     "GRANTS_LATEST_YEAR": [
         2019,
         "The last year for which grant spending data is available. "
-        "This is used to show \"Spent up to 2020-21 Q3\" or whatever is "
+        'This is used to show "Spent up to 2020-21 Q3" or whatever is '
         "the selected year and quarter.",
         int,
     ],
     "GRANTS_LATEST_QUARTER": [
         4,
         "The last quarter for which grant spending data is available. "
-        "This is used to show \"Spent up to 2020-21 Q3\" or whatever is "
+        'This is used to show "Spent up to 2020-21 Q3" or whatever is '
         "the selected year and quarter.",
         "quarter_select",
     ],
     "CAPITAL_PROJECT_SUMMARY_YEAR": [
-        "2019/2020",
+        2019,
         "The year to use when fitlering which capital projects to "
         "display on summary and search pages.",
-        str,
+        "year_select",
     ],
 }
 
