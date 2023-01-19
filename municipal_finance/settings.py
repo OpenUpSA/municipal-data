@@ -174,7 +174,7 @@ CONSTANCE_CONFIG = {
         "quarter_select",
     ],
     "CAPITAL_PROJECT_SUMMARY_YEAR": [
-        2019,
+        "2019/2020",
         "The year to use when fitlering which capital projects to "
         "display on summary and search pages.",
         "year_select",

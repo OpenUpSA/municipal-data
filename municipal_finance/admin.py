@@ -51,8 +51,7 @@ class CustomConfigForm(ConstanceForm):
         new_choices = ()
 
         for financial_year in financial_years:
-            year = str(financial_year).split("/")[0]
-            year_choice = (year, str(financial_year))
+            year_choice = (str(financial_year), str(financial_year))
             new_choices += (year_choice,)
 
         form_field = forms.ChoiceField(choices=new_choices)
