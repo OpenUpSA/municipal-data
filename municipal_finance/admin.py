@@ -1,7 +1,3 @@
-
-from datetime import date
-from argparse import Namespace
-
 from django.contrib import admin
 from django_q.tasks import async_task
 from import_export.admin import ImportExportModelAdmin
@@ -42,6 +38,33 @@ from .resources import (
     GrantTypesV2Resource,
     CapitalTypeV2Resource,
 )
+
+from django import forms
+from constance.admin import ConstanceAdmin, ConstanceForm, Config
+from infrastructure import models
+
+
+class CustomConfigForm(ConstanceForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        financial_years = models.FinancialYear.objects.all()
+        new_choices = ()
+
+        for financial_year in financial_years:
+            year = str(financial_year).split("/")[0]
+            year_choice = (year, str(financial_year))
+            new_choices += (year_choice,)
+
+        form_field = forms.ChoiceField(choices=new_choices)
+        self.fields["CAPITAL_PROJECT_SUMMARY_YEAR"] = form_field
+
+
+class ConfigAdmin(ConstanceAdmin):
+    change_list_form = CustomConfigForm
+
+
+admin.site.unregister([Config])
+admin.site.register([Config], ConfigAdmin)
 
 
 class BaseUpdateAdmin(admin.ModelAdmin):

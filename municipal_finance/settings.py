@@ -126,12 +126,7 @@ CONSTANCE_ADDITIONAL_FIELDS = {
         "django.forms.fields.ChoiceField",
         {
             "widget": "django.forms.Select",
-            "choices": (
-                (2019, "2019/2020"),
-                (2020, "2020/2021"),
-                (2021, "2021/2022"),
-                (2022, "2022/2023"),
-            ),
+            "choices": ((2019, "2019/2020")),
         },
     ],
 }
