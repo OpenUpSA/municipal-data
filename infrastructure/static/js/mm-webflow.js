@@ -135,10 +135,6 @@ function mmWebflow(js) {
         $(this.el).find('.dropdown-link').remove();
       },
 
-      hideOptions() {
-        this.optionContainer.removeClass('w--open');
-      },
-
       setSelected(label) {
         this.selectedElement.find('.text-block').text(label);
       },
@@ -149,7 +145,6 @@ function mmWebflow(js) {
 
         optionElement.click(() => {
           me.setSelected(label.text);
-          me.hideOptions();
           ev(label);
         });
 
