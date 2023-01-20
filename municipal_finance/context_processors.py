@@ -17,7 +17,7 @@ def google_analytics(request):
         ga_id = getattr(settings, "GOOGLE_ANALYTICS_DATA_ID", None)
         gtag_id = getattr(settings, "GOOGLE_GA4_DATA_ID", None)
 
-    return {"GOOGLE_ANALYTICS_ID": ga_id, "GOOGLE_TAG_MANAGER_ID": gtag_id}
+    return {"GOOGLE_ANALYTICS_ID": ga_id, "GOOGLE_GA4_TAG": gtag_id}
 
 
 def search_engine_index(request):
