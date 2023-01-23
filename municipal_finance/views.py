@@ -31,11 +31,16 @@ def get_cube_with_last_updated(connection, manager, name):
     model = manager.get_cube(name).model.to_dict()
     updates_table = model.get("updates_table")
     if updates_table:
-        result = connection.execute(
-            f"SELECT datetime FROM {updates_table} ORDER BY datetime DESC LIMIT 1"
-        ).first()
+        try:
+            result = connection.execute(
+                f"SELECT datetime FROM {updates_table} WHERE inserted IS NOT NULL ORDER BY datetime DESC LIMIT 1 "
+            ).first()
+        except:
+            result = connection.execute(
+                f"SELECT datetime FROM {updates_table} ORDER BY datetime DESC LIMIT 1 "
+            ).first()
         if result is not None:
-            model["last_updated"] = result[0].strftime("%Y-%m")
+            model["last_updated"] = result[0].strftime("%Y-%m-%dT%H:%M")
     return model
 
 
