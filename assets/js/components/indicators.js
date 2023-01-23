@@ -59,6 +59,13 @@ export class IndicatorSection {
     this.comparisonMenu.$element.on('option-select', ((e) => {
       this.updateChartComparison(e.detail.option);
     }));
+
+    this.$element.on('click-col', ((e) => {
+      const containerId = $(e.currentTarget).attr('class');
+      const buttonId = $(e.target).attr('colid');
+      $(`.${containerId} .chart-btn`).removeClass('active');
+      $(`.${containerId} [data-muni=${buttonId}]`).addClass('active');
+    }));
   }
 
   formatMetric(value) {
@@ -288,12 +295,18 @@ export class IndicatorSection {
     this.comparisonButtonsContainer.insertBefore(this.chartContainer);
   }
 
+  highlightComparisonButton(container, muniId) {
+    $(`${container} .chart-btn`).removeClass('active');
+    $(`${container} #${muniId}`).addClass('active');
+  }
+
   _updateComparisonButtons() {
     this.comparisonButtonsContainer.empty();
     this.comparisonButtonsContainer.append('Comparing ');
     [this.chartData(), ...(this.comparisons)].forEach((comparison) => {
-      const button = $(' <button class="button" style="display: unset; margin: 2px 2px"></button> ');
+      const button = $(` <button data-muni="${comparison.municipality.code}"class="button chart-btn"></button> `);
       button.click(() => {
+        this.highlightComparisonButton(this.selector, comparison.municipality.code);
         this.chart.highlightCol(comparison.municipality.code);
         ga('send', 'event', 'chart-compare-highlight', `${this.key} ${comparison.municipality.code}`);
       });

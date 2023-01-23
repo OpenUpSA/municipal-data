@@ -183,30 +183,6 @@ DB_STMT_TIMEOUT=30000000 PRELOAD_CUBES=false python manage.py migrate
 ```
 
 
-## Capital Projects
-
-
-### Loading new capital projects
-
-`python manage.py load_infrastructure_projects <municode> <filename>`
-
-- <municode> is should be one of the official municipal codes such as CPT, WC011, KZN121, etc
-- <filename> is a csv file with the following headings
-"Function","Project Description","Project Number","Type","MTSF Service Outcome","IUDF","Own Strategic Objectives","Asset Class","Asset Sub-Class","Ward Location","GPS Longitude","GPS Latitude","Audited Outcome 2017/18","Full Year Forecast 2018/19","Budget year 2019/20","Budget year 2020/21","Budget year 2021/22"
-
-### TODO
-
-Currently the following columns are expected in the capital projects input files:
-
-- Audited Outcome 2017/18
-- Full Year Forecast 2018/19
-- Budget year 2019/20
-- Budget year 2020/21
-- Budget year 2021/22
-
-This will need to change once the file format is finalised
-
-
 ## License
 
 MIT License
