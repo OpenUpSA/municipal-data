@@ -12,7 +12,7 @@ from household.models import (
 from scorecard.models import Geography
 
 class HouseholdTest(BaseSeleniumTestCase):
-    fixtures = ["seeddata", "compiled_profile"]
+    fixtures = ["seeddata", "demo-data", "compiled_profile"]
 
     def setUp(self):
         super(HouseholdTest, self).setUp()
@@ -152,3 +152,47 @@ class HouseholdTest(BaseSeleniumTestCase):
         self.wait_until_text_in(indigent_section, "Monthly Bills for Indigent Income Over Time")
         self.wait_until_text_in(indigent_section, "2.28%")
         self.wait_until_text_in(indigent_section, "8.17 %")
+
+    def test_chart_years(self):
+        # See that HouseholdServiceTotal items will display without a matching year of from HouseholdBillTotal items
+        geography = Geography.objects.get(geo_code="BUF")
+        year_2021 = FinancialYear.objects.get(budget_year="2020/21")
+        year_2022 = FinancialYear.objects.get(budget_year="2021/22")
+        budget_phase = BudgetPhase.objects.get(name="Budget Year")
+        class_middle = HouseholdClass.objects.get(name="Middle Income Range")
+        service_property = HouseholdService.objects.get(name="Property rates")
+
+        HouseholdBillTotal.objects.create(
+            geography=geography,
+            financial_year=year_2022,
+            budget_phase=budget_phase,
+            household_class=class_middle,
+            percent=7.83,
+            total=3362.41
+        )
+        HouseholdServiceTotal.objects.create(
+            geography=geography,
+            financial_year=year_2022,
+            budget_phase=budget_phase,
+            household_class=class_middle,
+            service=service_property,
+            total=3012
+        )
+
+        HouseholdServiceTotal.objects.create(
+            geography=geography,
+            financial_year=year_2021,
+            budget_phase=budget_phase,
+            household_class=class_middle,
+            service=service_property,
+            total=2410
+        )
+
+        selenium = self.selenium
+        selenium.get("%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/"))
+        self.wait_until_text_in(".page-heading__title", "Buffalo City")
+
+        middle_income_section = "#middle-income-over-time"
+
+        self.wait_until_text_in(middle_income_section, "2020/21")
+        self.wait_until_text_in(middle_income_section, "2021/22")
