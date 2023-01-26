@@ -11,12 +11,15 @@ from household.models import (
 )
 from scorecard.models import Geography
 
+
 class HouseholdTest(BaseSeleniumTestCase):
     fixtures = ["seeddata", "demo-data"]
 
     def setUp(self):
         super(HouseholdTest, self).setUp()
-        Site.objects.filter(id=2).update(domain='municipalmoney.org.za', name='Scorecard')
+        Site.objects.filter(id=2).update(
+            domain="municipalmoney.org.za", name="Scorecard"
+        )
 
     def test_household_indicators(self):
         geography = Geography.objects.get(geo_code="BUF")
@@ -27,7 +30,9 @@ class HouseholdTest(BaseSeleniumTestCase):
         class_affordable = HouseholdClass.objects.get(name="Affordable Range")
         class_indigent = HouseholdClass.objects.get(name="Indigent HH receiving FBS")
         service_property = HouseholdService.objects.get(name="Property rates")
-        service_electricity = HouseholdService.objects.get(name="Electricity: Basic levy")
+        service_electricity = HouseholdService.objects.get(
+            name="Electricity: Basic levy"
+        )
 
         HouseholdBillTotal.objects.create(
             geography=geography,
@@ -35,7 +40,7 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_middle,
             percent=7.83,
-            total=3362.41
+            total=3362.41,
         )
         HouseholdBillTotal.objects.create(
             geography=geography,
@@ -43,7 +48,7 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_middle,
             percent=7.52,
-            total=3830.83
+            total=3830.83,
         )
         HouseholdBillTotal.objects.create(
             geography=geography,
@@ -51,7 +56,7 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_affordable,
             percent=7.91,
-            total=3489.21
+            total=3489.21,
         )
         HouseholdBillTotal.objects.create(
             geography=geography,
@@ -59,7 +64,7 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_affordable,
             percent=7.59,
-            total=3912.10
+            total=3912.10,
         )
         HouseholdBillTotal.objects.create(
             geography=geography,
@@ -67,7 +72,7 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_indigent,
             percent=8.17,
-            total=3567.89
+            total=3567.89,
         )
         HouseholdBillTotal.objects.create(
             geography=geography,
@@ -75,7 +80,7 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_indigent,
             percent=7.37,
-            total=3730.83
+            total=3730.83,
         )
 
         HouseholdServiceTotal.objects.create(
@@ -84,7 +89,7 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_middle,
             service=service_property,
-            total=2410
+            total=2410,
         )
         HouseholdServiceTotal.objects.create(
             geography=geography,
@@ -92,7 +97,7 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_middle,
             service=service_electricity,
-            total=2942
+            total=2942,
         )
         HouseholdServiceTotal.objects.create(
             geography=geography,
@@ -100,7 +105,7 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_affordable,
             service=service_property,
-            total=920
+            total=920,
         )
         HouseholdServiceTotal.objects.create(
             geography=geography,
@@ -108,7 +113,7 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_affordable,
             service=service_electricity,
-            total=2071
+            total=2071,
         )
         HouseholdServiceTotal.objects.create(
             geography=geography,
@@ -116,7 +121,7 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_indigent,
             service=service_property,
-            total=3102
+            total=3102,
         )
         HouseholdServiceTotal.objects.create(
             geography=geography,
@@ -124,11 +129,13 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_indigent,
             service=service_electricity,
-            total=704
+            total=704,
         )
 
         selenium = self.selenium
-        selenium.get("%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/"))
+        selenium.get(
+            "%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/")
+        )
         self.wait_until_text_in(".page-heading__title", "Buffalo City")
 
         income_section = "#income-over-time"
@@ -136,20 +143,28 @@ class HouseholdTest(BaseSeleniumTestCase):
         affordable_section = "#affordable-income-over-time"
         indigent_section = "#indigent-income-over-time"
 
-        self.wait_until_text_in(income_section, "Monthly Total for Income Levels Over Time")
+        self.wait_until_text_in(
+            income_section, "Monthly Total for Income Levels Over Time"
+        )
         self.wait_until_text_in(income_section, "Affordable Range")
         self.wait_until_text_in(income_section, "Indigent HH receiving FBS")
         self.wait_until_text_in(income_section, "Middle Income Range")
         self.wait_until_text_in(income_section, "2020/21")
         self.wait_until_text_in(income_section, "2021/22")
 
-        self.wait_until_text_in(middle_section, "Monthly Bills for Middle Income Over Time")
-        self.wait_until_text_in(middle_section, "6.97%") # Indicator summary
-        self.wait_until_text_in(middle_section, "7.83 %") # Chart label
-        self.wait_until_text_in(affordable_section, "Monthly Bills for Affordable Income Over Time")
+        self.wait_until_text_in(
+            middle_section, "Monthly Bills for Middle Income Over Time"
+        )
+        self.wait_until_text_in(middle_section, "6.97%")  # Indicator summary
+        self.wait_until_text_in(middle_section, "7.83 %")  # Chart label
+        self.wait_until_text_in(
+            affordable_section, "Monthly Bills for Affordable Income Over Time"
+        )
         self.wait_until_text_in(affordable_section, "6.06%")
         self.wait_until_text_in(affordable_section, "7.91 %")
-        self.wait_until_text_in(indigent_section, "Monthly Bills for Indigent Income Over Time")
+        self.wait_until_text_in(
+            indigent_section, "Monthly Bills for Indigent Income Over Time"
+        )
         self.wait_until_text_in(indigent_section, "2.28%")
         self.wait_until_text_in(indigent_section, "8.17 %")
 
@@ -169,7 +184,7 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_middle,
             percent=7.83,
-            total=3362.41
+            total=3362.41,
         )
         HouseholdBillTotal.objects.create(
             geography=geography,
@@ -177,7 +192,7 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_middle,
             percent=7.52,
-            total=3830.83
+            total=3830.83,
         )
 
         HouseholdServiceTotal.objects.create(
@@ -186,7 +201,7 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_middle,
             service=service_property,
-            total=2410
+            total=2410,
         )
         HouseholdServiceTotal.objects.create(
             geography=geography,
@@ -194,7 +209,7 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_middle,
             service=service_property,
-            total=2942
+            total=2942,
         )
         HouseholdServiceTotal.objects.create(
             geography=geography,
@@ -202,11 +217,13 @@ class HouseholdTest(BaseSeleniumTestCase):
             budget_phase=budget_phase,
             household_class=class_middle,
             service=service_property,
-            total=2942
+            total=2942,
         )
 
         selenium = self.selenium
-        selenium.get("%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/"))
+        selenium.get(
+            "%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/")
+        )
         self.wait_until_text_in(".page-heading__title", "Buffalo City")
 
         middle_income_section = "#middle-income-over-time"
