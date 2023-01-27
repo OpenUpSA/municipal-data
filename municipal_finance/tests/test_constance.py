@@ -3,8 +3,7 @@ from django.contrib.sites.models import Site
 from constance import config
 from constance.test import override_config
 
-from scorecard.views import GeographyDetailView
-from scorecard.models import Geography
+from constance.admin import ConstanceForm
 
 
 class TestConstance(TestCase):
@@ -17,10 +16,7 @@ class TestConstance(TestCase):
         )
 
     def test_default_config(self):
-        self.geo = Geography.objects.get(geo_code="BUF")
-
-        scorecard_view = GeographyDetailView()
-        scorecard_view.get_context_data(self)
+        form = ConstanceForm()
 
         self.assertEqual(config.CAPITAL_PROJECT_SUMMARY_YEAR, "2019/2020")
 
