@@ -1,19 +1,19 @@
 var mm = mm || {};
+
 mm.Sorter = mm.Sorter || (function () {
   var Sorter = function (dropdown) {
     this.listeners = {};
     this.state = null;
     this.dropdown = dropdown;
     this.sortOptions = [
-      { label: 'Alphabetical (a-z)', value: 'project_description' },
-      { label: 'Alphabetical (z-a)', value: '-project_description' },
-	    { label: 'Function (descending)', value: '-function' },
-      { label: 'Function (ascending)', value: 'function' },
-	    { label: 'Project Type (descending)', value: '-project_type' },
-      { label: 'Project Type (ascending)', value: 'project_type' },
-      { label: 'Value (descending)', value: '-total_forecast_budget' },
-      { label: 'Value (ascending)', value: 'total_forecast_budget' },
-
+      { label: 'Alphabetical (A-Z)', value: 'project_description' },
+      { label: 'Alphabetical (Z-A)', value: '-project_description' },
+      { label: 'Function (Descending)', value: '-function' },
+      { label: 'Function (Ascending)', value: 'function' },
+      { label: 'Project Type (Descending)', value: '-project_type' },
+      { label: 'Project Type (Ascending)', value: 'project_type' },
+      { label: 'Value (Descending)', value: '-total_forecast_budget' },
+      { label: 'Value (Ascending)', value: 'total_forecast_budget' },
     ];
   };
 
@@ -32,8 +32,8 @@ mm.Sorter = mm.Sorter || (function () {
         option.on('click', (e) => {
           var sortField = $('div', option).data('option');
           me.trigger('sortchanged', sortField);
-		    $('.sorting-dropdown_trigger .text-block').text(el.label);
-		    $('.sorting-dropdown_list').removeClass('w--open');
+          $('.sorting-dropdown_trigger .text-block').text(el.label);
+          $('.sorting-dropdown_list').removeClass('w--open');
         });
       });
     },

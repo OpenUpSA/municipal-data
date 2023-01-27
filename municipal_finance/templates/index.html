@@ -1,5 +1,5 @@
 {% extends "layout_data.html" %}
-{% load staticfiles %}
+{% load staticfiles format_date %}
 
 {% block title %}Municipal Finance Data{% endblock %}
 {% block body-id %}home{% endblock %}
@@ -62,7 +62,7 @@
                   {% for cube_detail in cubes %}
                     {% if cube_detail.0 == cube.slug %}
                       <div class="row cube">
-                        <div class="btn-group">
+                        <div class="btn-group" data-toggle="tooltip" title="Last updated: {{ cube_detail.1.last_updated|format_date }}">
                           {% if cube.slug == "uifwexp" %}
                             UIFW Expenditure
                           {% else %}
