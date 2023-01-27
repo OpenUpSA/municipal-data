@@ -3,8 +3,7 @@ from django.contrib.sites.models import Site
 from constance import config
 from constance.test import override_config
 
-from constance.admin import ConstanceForm
-
+from municipal_finance.admin import CustomConfigForm
 
 class TestConstance(TestCase):
     fixtures = ["seeddata", "demo-data"]
@@ -16,8 +15,8 @@ class TestConstance(TestCase):
         )
 
     def test_default_config(self):
-        form = ConstanceForm()
-
+        form = CustomConfigForm(initial={})
+        print(form)
         self.assertEqual(config.CAPITAL_PROJECT_SUMMARY_YEAR, "2019/2020")
 
     def test_config_change(self):
