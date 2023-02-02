@@ -116,7 +116,7 @@ export class LocalIncomeSection extends AbstractIncomeSection {
   }
 
   _initChart() {
-    if (this.sectionData.revenueSources.local.amount === null) {
+    if (this.sectionData.revenueSources.local.amount === null || this._year === null) {
       this.$chartContainer.text('Data not available yet');
     } else {
       this.chart = new BarChart(this.$chartContainer[0])
@@ -132,7 +132,7 @@ export class LocalIncomeSection extends AbstractIncomeSection {
   }
 
   _initChartData() {
-    if (!this.sectionData.revenueBreakdown) {
+    if (this.sectionData.revenueBreakdown.values.length === 0) {
       this._year = null;
       this._chartData = null;
     } else {
