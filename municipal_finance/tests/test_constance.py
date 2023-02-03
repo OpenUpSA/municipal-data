@@ -16,4 +16,4 @@ class TestConstance(TestCase):
     def test_default_config(self):
         form = CustomConfigForm(initial={})
         choices = form.fields["CAPITAL_PROJECT_SUMMARY_YEAR"].choices
-        self.assertEqual(choices, [('2019/2020', '2019/2020')])
+        self.assertEqual(choices, [('2019/2020', '2019/2020'), ('2020/2021', '2020/2021')])
