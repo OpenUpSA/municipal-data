@@ -70,6 +70,7 @@ class BaseUpdateAdmin(admin.ModelAdmin):
                 obj,
                 task_name=self.task_name,
                 batch_size=10000,
+                hook='municipal_finance.summarise_data.summarise_task'
             )
 
 

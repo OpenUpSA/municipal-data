@@ -135,10 +135,6 @@ function mmWebflow(js) {
         $(this.el).find('.dropdown-link').remove();
       },
 
-      hideOptions() {
-        this.optionContainer.removeClass('w--open');
-      },
-
       setSelected(label) {
         this.selectedElement.find('.text-block').text(label);
       },
@@ -149,7 +145,6 @@ function mmWebflow(js) {
 
         optionElement.click(() => {
           me.setSelected(label.text);
-          me.hideOptions();
           ev(label);
         });
 
@@ -671,6 +666,17 @@ function mmWebflow(js) {
     });
     $('#Search-Button').on('click', () => {
 	    listView.search.addFacet('q', $('#Infrastructure-Search-Input').val());
+
+      const params = new URLSearchParams();
+      params.set('q', $('#Infrastructure-Search-Input').val());
+
+      for (fieldName in listView.search.selectedFacets) {
+        params.set(fieldName, listView.search.selectedFacets[fieldName]);
+      }
+      const queryString = params.toString();
+      const url = `?${queryString}`;
+      history.pushState(null, '', url);
+
 	    triggerSearch();
     });
     $('#Download-Button').on('click', function (e) {
@@ -686,7 +692,24 @@ function mmWebflow(js) {
       }
     });
 
-    triggerSearch();
+    function onPopstate(event) {
+      loadSearchStateFromCurrentURL();
+      triggerSearch(listView.search.createUrl(), false);
+    }
+
+    function loadSearchStateFromCurrentURL() {
+      const queryString = window.location.search.substring(1);
+      listView.search.clearFacets();
+
+      $('#Infrastructure-Search-Input').val('');
+      listView.provinceDropDown.reset();
+      listView.municipalityDropDown.reset();
+      listView.typeDropDown.reset();
+      listView.functionDropDown.reset();
+      listView.loadSearchFromUrl(queryString);
+    }
+    window.addEventListener('popstate', onPopstate);
+    triggerSearch(null, true);
   }
 
   function mmDetailView(js) {
