@@ -54,6 +54,7 @@ export class IndicatorSection {
     this._initCalculation();
     this._initSectionPeriod();
     this._initMetric();
+    this._initEvents();
 
     this.comparisonMenu = new ComparisonMenu(selector, this.key);
     this.comparisonMenu.$element.on('option-select', ((e) => {
@@ -74,6 +75,15 @@ export class IndicatorSection {
     }
 
     return 'Not available';
+  }
+
+  _initEvents() {
+    $(`${this.selector} .expand-block`).on('click', ((e) => {
+      ga('send', 'event', 'about-indicator', `${this.key} ${$(e.target).text()}`);
+      gtag('event', 'about-indicator', {
+        label: `${this.key} ${$(e.target).text()}`,
+      });
+    }));
   }
 
   _initCategoryInfo() {
