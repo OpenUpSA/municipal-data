@@ -80,7 +80,7 @@ export class IndicatorSection {
   _initEvents() {
     $(`${this.selector} .expand-block`).on('click', ((e) => {
       ga('send', 'event', 'about-indicator', `${this.key} ${$(e.target).text()}`);
-      gtag('event', 'about-indicator', {
+      gtag('event', 'about_indicator', {
         label: `${this.key} ${$(e.target).text()}`,
       });
     }));
