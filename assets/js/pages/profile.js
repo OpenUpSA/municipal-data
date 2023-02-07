@@ -121,6 +121,21 @@ export default class ProfilePage {
       });
     });
 
+    $('#tutorial-video').on('click', (e) => {
+      let lang;
+      if ($(e.target).text() == "") {
+        lang = $(e.target).text();
+      }
+      else {
+        lang = "English";
+      }
+      gtag('event', 'play_video', {
+        category: 'Scorecard video',
+        action: 'Play',
+        label: lang,
+      });
+    });
+
     Webflow.require('ix2').init();
   }
 
