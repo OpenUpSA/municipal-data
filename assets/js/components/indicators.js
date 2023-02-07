@@ -292,6 +292,8 @@ export class IndicatorSection {
       this.chart.loadMedians(this.formatMedians().provincial);
       ga('send', 'event', 'chart-averages', `${this.key} provincial`);
       gtag('event', 'chart_averages', {
+        category: "Charts",
+        action: "Show averages",
         label: `${this.key} provincial`,
       });
     }));
@@ -301,6 +303,8 @@ export class IndicatorSection {
       this.chart.loadMedians(this.formatMedians().national);
       ga('send', 'event', 'chart-averages', `${this.key} national`);
       gtag('event', 'chart_averages', {
+        category: "Charts",
+        action: "Show averages",
         label: `${this.key} national`,
       });
     }));
@@ -337,6 +341,8 @@ export class IndicatorSection {
         this.chart.highlightCol(comparison.municipality.code);
         ga('send', 'event', 'chart-compare-highlight', `${this.key} ${comparison.municipality.code}`);
         gtag('event', 'chart_compare_highlight', {
+          category: "Charts",
+          action: "Click municipality columns",
           label: `${this.key} ${comparison.municipality.code}`,
         });
       });
