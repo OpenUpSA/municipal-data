@@ -80,16 +80,16 @@ export class IndicatorSection {
   _initEvents() {
     $(`${this.selector} .expand-block`).on('click', ((e) => {
       gtag('event', 'more_info', {
-        category: "More info",
-        action: "Expand",
+        category: 'More info',
+        action: 'Expand',
         label: `${this.key} ${$(e.target).text()}`,
       });
     }));
 
     $(`${this.selector} .indicator-calculation__formula-actual`).on('click', ((e) => {
       gtag('event', 'formula_click', {
-        category: "Formulas",
-        action: "Follow link",
+        category: 'Formulas',
+        action: 'Follow link',
         label: `${this.key} ${$(e.target).text()}`,
       });
     }));
