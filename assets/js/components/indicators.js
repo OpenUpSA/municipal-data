@@ -79,8 +79,19 @@ export class IndicatorSection {
 
   _initEvents() {
     $(`${this.selector} .expand-block`).on('click', ((e) => {
-      ga('send', 'event', 'about-indicator', `${this.key} ${$(e.target).text()}`);
-      gtag('event', 'about_indicator', {
+      ga('send', 'event', 'more-info', `${this.key} ${$(e.target).text()}`);
+      gtag('event', 'more_info', {
+        category: "More info",
+        action: "Expand",
+        label: `${this.key} ${$(e.target).text()}`,
+      });
+    }));
+
+    $(`${this.selector} .indicator-calculation__formula-actual`).on('click', ((e) => {
+      ga('send', 'event', 'formula-click', `${this.key} ${$(e.target).text()}`);
+      gtag('event', 'formula_click', {
+        category: "Formulas",
+        action: "Follow link",
         label: `${this.key} ${$(e.target).text()}`,
       });
     }));
