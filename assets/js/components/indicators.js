@@ -79,7 +79,6 @@ export class IndicatorSection {
 
   _initEvents() {
     $(`${this.selector} .expand-block`).on('click', ((e) => {
-      ga('send', 'event', 'more-info', `${this.key} ${$(e.target).text()}`);
       gtag('event', 'more_info', {
         category: "More info",
         action: "Expand",
@@ -88,7 +87,6 @@ export class IndicatorSection {
     }));
 
     $(`${this.selector} .indicator-calculation__formula-actual`).on('click', ((e) => {
-      ga('send', 'event', 'formula-click', `${this.key} ${$(e.target).text()}`);
       gtag('event', 'formula_click', {
         category: "Formulas",
         action: "Follow link",
