@@ -70,6 +70,8 @@ export class AuditOpinions {
     $(`${this.selector} .expand-block`).on('click', ((e) => {
       ga('send', 'event', 'about-indicator', `audit-outcomes ${$(e.target).text()}`);
       gtag('event', 'about_indicator', {
+        category: "More info",
+        action: "Expand",
         label: `audit-outcomes ${$(e.target).text()}`,
       });
     }));
