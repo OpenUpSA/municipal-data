@@ -32,7 +32,11 @@ $(() => {
     });
 
   $('.btn-group a').on('click', (e) => {
-    let cubeName = $(e.target).parents('.cube').find('.btn-group').children().remove().end().text().trim();
+    const cubeName = $(e.target).parents('.cube').find('.btn-group').children()
+      .remove()
+      .end()
+      .text()
+      .trim();
     gtag('event', 'click_cube', {
       category: 'Portal Cubes',
       action: 'Click',
