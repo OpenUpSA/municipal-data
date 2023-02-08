@@ -134,6 +134,14 @@ ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');\
 {% endif %}\
 ga('send', 'pageview');\
 ");
+  addScriptToBody(window, {
+    src: 'https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_GA4_TAG }}',
+  });
+  addScriptToBody(window, {}, "window.dataLayer = window.dataLayer || [];\
+    function gtag() { dataLayer.push(arguments); }\
+    gtag('js', new Date());\
+    gtag('config', '{{ GOOGLE_GA4_TAG }}');\
+  ");
 
   $(".section:first .container").prepend("{% for notice in site_notices %}<div>{{ notice.content | safe }}</div>{% endfor %}");
 

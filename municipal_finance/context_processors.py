@@ -10,12 +10,14 @@ def google_analytics(request):
     """
     ga_id = None
 
-    if get_current_site(request).name == 'Scorecard':
-        ga_id = getattr(settings, 'SCORECARD_GOOGLE_ANALYTICS_ID', None)
+    if get_current_site(request).name == "Scorecard":
+        ga_id = getattr(settings, "GOOGLE_ANALYTICS_SCORECARD_ID", None)
+        gtag_id = getattr(settings, "GOOGLE_GA4_SCORECARD_ID", None)
     else:
-        ga_id = getattr(settings, 'DATA_GOOGLE_ANALYTICS_ID', None)
+        ga_id = getattr(settings, "GOOGLE_ANALYTICS_DATA_ID", None)
+        gtag_id = getattr(settings, "GOOGLE_GA4_DATA_ID", None)
 
-    return {'GOOGLE_ANALYTICS_ID': ga_id}
+    return {"GOOGLE_ANALYTICS_ID": ga_id, "GOOGLE_GA4_TAG": gtag_id}
 
 
 def search_engine_index(request):
