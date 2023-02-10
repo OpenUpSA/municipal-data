@@ -38,3 +38,6 @@ class TestProject(TestCase):
 
         js = response.json()
         self.assertEquals(js["results"]["facets"]["municipality"][0]["count"], 2)
+        self.assertEquals(js["results"]["facets"]["type"][0]["count"], 2)
+        self.assertEquals(js["results"]["facets"]["function"][0]["count"], 2)
+        self.assertEquals(js["results"]["facets"]["province"][0]["count"], 2)
