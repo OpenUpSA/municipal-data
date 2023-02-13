@@ -576,12 +576,11 @@ function mmWebflow(js) {
 
     function showResults(response) {
       $('.search-detail-value').text(utils.formatNumber(response.count));
-      let forecastTotal = response.results.aggregations.total;
+      const forecastTotal = response.results.aggregations.total;
       if (forecastTotal == null) {
-        $('#search-total-forecast').text("Not available");
-        $('.search-detail__amount .units-label').text("");
-      }
-      else {
+        $('#search-total-forecast').text('Not available');
+        $('.search-detail__amount .units-label').text('');
+      } else {
         $('#search-total-forecast').text(utils.formatHuman(forecastTotal));
         $('.search-detail__amount .units-label').text(utils.formatUnits(forecastTotal));
       }
