@@ -120,18 +120,16 @@ export class ContactSection {
 
     this.$staffLinks = this.$contactContainer.find(".expand-block__trigger a");
     this.$muniLinks = this.$element.find("a");
-    this.$staffLinks.on('click', ((e) => {
-      gtag('event', 'contact_info', {
+    this.callTagEvent(this.$staffLinks, `${$(e.target).text()}`);
+    this.callTagEvent(this.$muniLinks, "Municipal wide contacts");
+  }
+
+  callTagEvent(target, label) {
+    target.on('click', ((e) => {
+      gtag('event', "contact_info", {
         category: "Contacts",
         action: "Click",
-        label: `${$(e.target).text()}`,
-      });
-    }));
-    this.$muniLinks.on('click', ((e) => {
-      gtag('event', 'contact_info', {
-        category: "Contacts",
-        action: "Click",
-        label: "Municipal wide contacts",
+        label: label,
       });
     }));
   }
