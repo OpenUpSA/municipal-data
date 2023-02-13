@@ -131,7 +131,7 @@ export class ContactSection {
       gtag('event', 'contact_info', {
         category: "Contacts",
         action: "Click",
-        label: `Municipal wide contacts`,
+        label: "Municipal wide contacts",
       });
     }));
   }
