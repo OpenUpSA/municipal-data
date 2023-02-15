@@ -666,7 +666,7 @@ function mmWebflow(js) {
       }
     });
     $('#Search-Button').on('click', () => {
-	    listView.search.addFacet('q', $('#Infrastructure-Search-Input').val());
+      listView.search.addFacet('q', $('#Infrastructure-Search-Input').val());
 
       const params = new URLSearchParams();
       params.set('q', $('#Infrastructure-Search-Input').val());
@@ -678,13 +678,13 @@ function mmWebflow(js) {
       const url = `?${queryString}`;
       history.pushState(null, '', url);
 
-	    triggerSearch();
+      triggerSearch();
     });
     $('#Download-Button').on('click', function (e) {
-	    // e.preventDefault();
-	    var url = triggerDownload();
-	    $('#Download-Button').attr('href', url);
-	    $(this).click();
+      // e.preventDefault();
+      var url = triggerDownload();
+      $('#Download-Button').attr('href', url);
+      $(this).click();
     });
 
     $('.load-more_wrapper a').click((e) => {
@@ -728,7 +728,7 @@ function mmWebflow(js) {
     function formatCoordinates(latitude, longitude) {
       if (
         latitude != undefined && latitude != 0
-                && longitude != undefined && longitude != 0
+        && longitude != undefined && longitude != 0
       ) return coordinates = `${latitude}, ${longitude}`;
       return '';
     }
@@ -813,6 +813,7 @@ function mmWebflow(js) {
     setValue($('.geography .municipality, .breadcrumbs .municipality'), js.geography.name);
     setValue($('.geography .ward'), js.ward_location);
     // TODO remove
+    $('.project-detail_text.municipality').html(`<a href="/infrastructure/projects?province=${js.geography.province_name}&municipality=${js.geography.name}">${js.geography.name}</a>`);
     $('.breadcrumbs__crumb:first').attr('href', '/infrastructure/projects');
     $('.breadcrumbs .province').attr('href', `/infrastructure/projects?province=${js.geography.province_name}`);
     $('.breadcrumbs .municipality').attr('href', `/infrastructure/projects?province=${js.geography.province_name}&municipality=${js.geography.name}`);
