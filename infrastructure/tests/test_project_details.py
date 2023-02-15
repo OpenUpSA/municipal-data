@@ -98,6 +98,8 @@ class CapitalProjectTest(BaseSeleniumTestCase):
             f"{self.live_server_url}/infrastructure/projects?province=Eastern%20Cape&municipality=Buffalo%20City",
         )
 
+        self.wait_until_text_in(".subsection-chart_wrapper .project-detail_heading", "NO DATA AVAILABLE")
+
     def test_quarterly_chart(self):
         self.quarterly_spend = ProjectQuarterlySpend.objects.create(
             project=self.project,
