@@ -23,6 +23,7 @@ def create_expenditure(self, amount, phase, year):
     )
     return expenditure
 
+
 class CapitalProjectTest(BaseSeleniumTestCase):
     fixtures = ["seeddata"]
 
@@ -30,6 +31,7 @@ class CapitalProjectTest(BaseSeleniumTestCase):
         self.geography = Geography.objects.create(
             geo_level="municipality",
             geo_code="BUF",
+            name="Buffalo City",
             province_name="Eastern Cape",
             province_code="EC",
             category="A",
@@ -65,16 +67,22 @@ class CapitalProjectTest(BaseSeleniumTestCase):
 
     def test_project_details(self):
         selenium = self.selenium
-        selenium.get("%s%s%s" % (self.live_server_url, "/infrastructure/projects/", self.project.id))
+        selenium.get(f"{self.live_server_url}/infrastructure/projects/{self.project.id}")
 
-        self.wait_until_text_in(".page-heading.project-description", "P-CNIEU COM FAC HALLS")
+        self.wait_until_text_in(
+            ".page-heading.project-description", "P-CNIEU COM FAC HALLS"
+        )
         self.wait_until_text_in(".project-number__value", "PC002002002002001001_00001")
 
         self.wait_until_text_in(".asset-class", "Community Facilities (Halls)")
         self.wait_until_text_in(".function", "Community Halls and Facilities")
-        self.wait_until_text_in(".mtsf-outcome", "An efficient, effective and development-oriented public service")
+        self.wait_until_text_in(
+            ".mtsf-outcome",
+            "An efficient, effective and development-oriented public service",
+        )
         self.wait_until_text_in(".iudf", "Inclusion and access")
-        self.wait_until_text_in(".province", "Eastern Cape")
+        self.wait_until_text_in(".project-detail_text.province", "Eastern Cape")
+        self.wait_until_text_in(".project-detail_text.municipality", "Buffalo City")
         self.wait_until_text_in(".ward", "Coastal,Whole of the Metro,...")
         self.wait_until_text_in(".full-year-forecast .year", "2048/2049")
         self.wait_until_text_in(".project-detail_text.forecast", "R15.50 Million")
@@ -85,7 +93,10 @@ class CapitalProjectTest(BaseSeleniumTestCase):
         self.wait_until_text_in(".budget-year-3 .year", "2051/2052")
         self.wait_until_text_in(".project-detail_text.budget3", "Not available")
 
-        self.wait_until_text_in(".subsection-chart_wrapper .project-detail_heading", "NO DATA AVAILABLE")
+        self.href_contains_url(
+            ".project-detail_text.municipality",
+            f"{self.live_server_url}/infrastructure/projects?province=Eastern%20Cape&municipality=Buffalo%20City",
+        )
 
     def test_quarterly_chart(self):
         self.quarterly_spend = ProjectQuarterlySpend.objects.create(
@@ -95,6 +106,6 @@ class CapitalProjectTest(BaseSeleniumTestCase):
         )
 
         selenium = self.selenium
-        selenium.get("%s%s%s" % (self.live_server_url, "/infrastructure/projects/", self.project.id))
+        selenium.get(f"{self.live_server_url}/infrastructure/projects/{self.project.id}")
 
         self.wait_until_text_in(".xtitle", "Financial Year 2049/2050")
