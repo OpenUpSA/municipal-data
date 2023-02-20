@@ -89,7 +89,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
 
         selenium = self.selenium
         selenium.get(
-            f"{self.live_server_url}/infrastructure/projects/?financial_year=2020%2F2021"
+            f"{self.live_server_url}/infrastructure/projects/?municipality=Buffalo+City"
         )
 
         self.wait_until_text_in(".page-heading", "2019/2020")
