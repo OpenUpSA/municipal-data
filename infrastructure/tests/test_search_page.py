@@ -350,3 +350,41 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         selenium.back()
         self.wait_until_text_in(".search-detail_projects", "2")
         self.wait_until_text_in("#functions-dropdown .text-block", "All Functions")
+
+    def test_dropdown_visible(self):
+        # This is done by checking if the last item in the dropdown can be clicked
+        geography = Geography.objects.get(geo_code="BUF")
+        financial_year = FinancialYear.objects.get(budget_year="2019/2020")
+        project = Project.objects.create(**project_base(geography, financial_year), **project_one())
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+        new_project = {
+            "function": "Economic Development/Planning",
+            "project_description": "P-CIN RDS ROADS",
+            "project_number": "2",
+        }
+        project = Project.objects.create(**project_base(geography, financial_year), **new_project)
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+
+        new_project = {
+            "function": "Housing",
+            "project_description": "P-CIN RDS ROADS",
+            "project_number": "3",
+        }
+        project = Project.objects.create(**project_base(geography, financial_year), **new_project)
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+        new_project = {
+            "function": "Roads",
+            "project_description": "P-CIN RDS ROADS",
+            "project_number": "4",
+        }
+        project = Project.objects.create(**project_base(geography, financial_year), **new_project)
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+
+        selenium = self.selenium
+        selenium.get(f"{self.live_server_url}/infrastructure/projects/?municipality=Buffalo+City")
+        self.wait_until_text_in(".search-detail_projects", "4")
+
+        self.click("#functions-dropdown .chart-dropdown_trigger")
+        self.selenium.find_elements_by_css_selector("#functions-dropdown .chart-dropdown_list a")[4].click()
+        self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#functions-dropdown .text-block", "Roads")
