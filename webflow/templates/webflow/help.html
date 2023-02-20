@@ -1,6 +1,6 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Thu Jan 12 2023 05:02:28 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="6200e32ae569ed2f9e14bbf9" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Fri Feb 17 2023 09:05:23 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="6200e32ae569ed2f9e14bbf9" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="Learn about Municipal Money, the municipal budget process and our budget data" name="description">
@@ -16,6 +16,8 @@
   <link href="{% static 'webflow/css/normalize.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'webflow/css/components.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'webflow/css/municipalmoney.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
   <script type="text/javascript">
       WebFont.load({
@@ -334,7 +336,7 @@
             <div class="link-text link-text--site-nav">Home</div>
             <div class="plate plate--black-trans-4 plate--rounded"></div>
           </a>
-          <a href="https://municipalmoney.gov.za/infrastructure/projects/" target="_blank" class="nav-link nav-link--mobile w-inline-block">
+          <a href="/infrastructure/projects/" target="_blank" class="nav-link nav-link--mobile w-inline-block">
             <div class="link-text link-text--site-nav">Infrastructure Projects</div>
             <div class="plate plate--black-trans-4 plate--rounded"></div>
           </a>
@@ -461,6 +463,17 @@
                 <div class="sidebar-link__wrapper">
                   <a href="#household-bills" class="sidebar-link w-inline-block">
                     <div class="sidebar-link__label truncate">Household Bills</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="sidebar-section">
+              <div class="grid grid--8px">
+                <div class="sidebar-heading">Training</div>
+                <div class="sidebar-link__wrapper">
+                  <a href="#informational-videos" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Informational videos</div>
                     <div class="plate plate--rounded plate--black-trans-4"></div>
                   </a>
                 </div>
@@ -914,6 +927,70 @@
                       </figure>
                       <p>The bills considered are property rates, basic electricity levy, electricity consumption charge, basic water levy, water consumption charge, sanitation, refuse removal and ‘other’.</p>
                       <p>In these circumstances, specifying ‘standard’ households is a pragmatic approach. It is fine when comparing the bill in a municipality over time. Be careful when comparing these bills between municipalities. The property values, water consumption and electricity consumption of a household in an income category may differ from municipality to municipality. The representative bills shown are useful for tracking the size the household bill in a municipality over time but less useful for comparing the bills between municipalities. The increase is a function of the composition of the bill and the increases in the different elements of the bill..</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </section>
+          <section id="training" class="grid grid--32px">
+            <div class="section-heading__wrapper">
+              <div class="section-heading__icon">
+                <div class="fas fa-chalkboard-teacher"></div>
+              </div>
+              <h2 class="section__heading">Training</h2>
+            </div>
+            <section class="sub-section">
+              <div id="informational-videos" class="sub-section__link"></div>
+              <h3 class="heading">Informational videos</h3>
+              <div class="informational-video_block">
+                <div class="informational-video_video-wrapper">
+                  <div class="informational-video_video w-video w-embed"></div>
+                </div>
+                <div class="informational-video_divider"></div>
+                <div class="informational-video_info">
+                  <h4 class="informational-video_title">Loading...</h4>
+                  <p>Loading...</p>
+                  <div class="informational-video_download">
+                    <h5>Download this video:</h5>
+                    <div class="informational-video_download-bar">
+                      <div class="download-bar_select">
+                        <div class="informational-video_row-title">Language: </div>
+                        <div data-hover="false" data-delay="0" class="dropdown is-informational-video-select w-dropdown">
+                          <div class="dropdown-toggle is-informational-video-select w-dropdown-toggle">
+                            <div class="dropdown-icon w-icon-dropdown-toggle"></div>
+                            <div class="dropdown__current-select">Loading...</div>
+                            <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                          </div>
+                          <nav class="dropdown-list w-dropdown-list">
+                            <a href="#" data-option="none" class="dropdown-link dropdown-link--current w-dropdown-link">Loading...</a>
+                            <a href="#" data-option="similar-nationally" class="dropdown-link w-dropdown-link">Loading...</a>
+                            <div class="plate plate--white plate--rounded plate--shadow-large"></div>
+                          </nav>
+                        </div>
+                      </div>
+                      <div class="download-bar_select">
+                        <div class="informational-video_row-title">Size:</div>
+                        <div data-hover="false" data-delay="0" class="dropdown is-informational-video-select w-dropdown">
+                          <div class="dropdown-toggle is-informational-video-select w-dropdown-toggle">
+                            <div class="dropdown-icon w-icon-dropdown-toggle"></div>
+                            <div class="dropdown__current-select">Loading...</div>
+                            <div class="plate plate--rounded plate--black-trans-4 plate--no-hover"></div>
+                          </div>
+                          <nav class="dropdown-list w-dropdown-list">
+                            <a href="#" data-option="none" class="dropdown-link dropdown-link--current w-dropdown-link">Loading...</a>
+                            <a href="#" data-option="similar-nationally" class="dropdown-link w-dropdown-link">Loading...</a>
+                            <div class="plate plate--white plate--rounded plate--shadow-large"></div>
+                          </nav>
+                        </div>
+                      </div>
+                      <a href="#" class="informational-video_download-button w-inline-block">
+                        <div id="w-node-eaf8c26a-ab1a-732c-0965-38fc18882043-9e14bbf9" class="informational-video_download-text">Download video</div>
+                        <div id="w-node-_46e608b3-52c0-eff5-537d-4a7dd0aca5c1-9e14bbf9" class="svg-icon w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" fill="currentcolor"></path>
+                            <path d="M0 0h24v24H0z" fill="none"></path>
+                          </svg></div>
+                      </a>
                     </div>
                   </div>
                 </div>
