@@ -1,29 +1,18 @@
 import { focusBlock } from '../utils.js';
-import ReactDOM from 'react-dom'
-import * as React from 'react';
-import Button from '@mui/material/Button';
 
 export default class HelpPage {
   constructor() {
     if (location.hash) {
       focusBlock(location.hash.substr(1));
     }
-
-    const ReactBtn = () => (
-      <Button variant="contained" color="primary">
-        Hello World
-      </Button>
-    );
-    ReactDOM.render(<ReactBtn />, document.getElementById("react-test"));
-
   }
 }
-
 
 
 const videos = {
   "Introduction to Municapal Finance": {
     description: "",
+    embed: "HeQiX_e8ubg",
     options: [
       { language: "English", files: { "61.3": "Municipal+Money%3A+Intro+to+Municipal+Finance+English.webm", } },
       { language: "Afrikaans", files: { "94.1": "Municipal+Money%3A+Intro+to+Municipal+Finance+Afrikaans.mkv", } },
@@ -68,6 +57,7 @@ const videos = {
 };
 
 const videoStorage = "https://munimoney-media.s3.eu-west-1.amazonaws.com/info-videos/";
+const embedURL = "https://www.youtube.com/embed/";
 const infoVideo = $('#training .sub-section');
 const title = ".informational-video_title";
 const desc = ".informational-video_info p";
@@ -76,19 +66,22 @@ const drCurrentSize = ".size-dropdown .dropdown__current-select";
 const dropdownLangItems = ".language-dropdown .dropdown-list";
 const dropdownSizeItems = ".size-dropdown .dropdown-list";
 const dropdownItem = "<a href='#' data-option='none' class='dropdown-link dropdown-link--current w-dropdown-link' tabindex='0'>";
+const downloadBtn = ".informational-video_download-button";
 
-//$(".informational-video_block:first").hide();
 $(dropdownLangItems).empty();
 $(dropdownSizeItems).empty();
 
 $.each(videos, function (key, value) {
   var videoBlock = $(".informational-video_block:first").clone();
+  let defaultVideo = value.options[0];
+  let fileSize = Object.keys(defaultVideo.files)[0];
+  let appendLang = "";
+
   videoBlock.find(title).text(key);
   videoBlock.find(desc).text(this.description);
   videoBlock.find(drCurrentLang).text(value.options[0].language);
-  let fileSize = Object.keys(value.options[0].files)[0];
   videoBlock.find(drCurrentSize).text(fileSize);
-  let appendLang = "";
+  videoBlock.find(downloadBtn).attr("href", videoStorage + value.options[0].files[fileSize]);
 
 
   $.each(this.options, (index, file) => {
@@ -104,15 +97,14 @@ $.each(videos, function (key, value) {
   videoBlock.appendTo(infoVideo);
 });
 
-function changeLanguage() {
-  console.log(this);
+$(".informational-video_block:first").hide();
+
+function changeLanguage(e) {
+  $(e.target.offsetParent.offsetParent.children[0].children[1]).text(this.text);
+  $(".dropdown-toggle").removeClass("w--open");
 }
 function changeSize() {
   console.log(this);
 }
-function downloadVideo() {
-  console.log(this);
-}
 $(".language-dropdown .dropdown-link").on("click", changeLanguage);
 $(".size-dropdown .dropdown-link").on("click", changeSize);
-$(".informational-video_download-button").on("click", downloadVideo);
