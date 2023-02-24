@@ -99,7 +99,7 @@ $.each(videos, function (name, value) {
   videoBlock.find(title).text(name);
   videoBlock.find(desc).text(this.description);
   videoBlock.find(drCurrentLang).text(value.options[0].language);
-  videoBlock.find(drCurrentSize).text(fileSize);
+  videoBlock.find(drCurrentSize).text(fileSize + " MB");
   videoBlock.find(downloadBtn).attr("href", videoStorage + value.options[0].files[fileSize]);
 
   let videoEmbed = `<iframe frameborder='0' src='https://www.youtube.com/embed/${value.embed}'></iframe>`
