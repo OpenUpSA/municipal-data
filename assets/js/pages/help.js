@@ -140,7 +140,7 @@ function changeLanguage(e) {
     }
 
     // Set current selection
-    e.target.parentElement.parentElement.parentElement.parentElement.children[1].children[1].children[0].children[1].innerHTML = defaultSize;
+    e.target.parentElement.parentElement.parentElement.parentElement.children[1].children[1].children[0].children[1].innerHTML = `${defaultSize} MB`;
     // Set dropdown list
     e.target.parentElement.parentElement.parentElement.parentElement.children[1].children[1].children[1].innerHTML = appendSize;
     // Set download button href
