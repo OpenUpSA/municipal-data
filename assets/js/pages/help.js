@@ -14,50 +14,69 @@ const videos = {
     description: "",
     embed: "HeQiX_e8ubg",
     options: [
-      { language: "English", files: { "61.3": "Municipal+Money%3A+Intro+to+Municipal+Finance+English.webm", } },
+      { language: "English", files: { "61.3": "Municipal+Money%3A+Intro+to+Municipal+Finance+English.webm", "1.0": "Municipal+Money%3A+Intro+to+Municipal+Finance+English.webm"} },
       { language: "Afrikaans", files: { "94.1": "Municipal+Money%3A+Intro+to+Municipal+Finance+Afrikaans.mkv", } },
     ],
   },
   "Irregular, Fruitless and Wasteful Expenditure": {
     description: "",
+    embed: "WVZBVJTh0u0",
     options: [
       { language: "English", files: { "25.5": "Municipal+Money%3A+Irregular%2C+Fruitless+and+Wasteful+Expenditure.mkv", } },
     ],
   },
   "Liquidity": {
     description: "",
+    embed: "6WUDTN7kBZI",
     options: [
       { language: "English", files: { "14.9": "Municipal+Money%3A+Liquidity.mkv", } },
     ],
   },
   "Sources of Income": {
     description: "",
+    embed: "zb2Wph6Mbpo",
     options: [
       { language: "English", files: { "4.9": "Municipal+Money%3A+Sources+of+Income.webm", } },
     ],
   },
   "Spending of the Capital Budget": {
     description: "",
+    embed: "L7rfUkK5PJI",
     options: [
       { language: "English", files: { "9.2": "Municipal+Money%3A+Spending+of+the+Capital+Budget.webm", } },
     ],
   },
   "Spending of the Operating Budget": {
     description: "",
+    embed: "r8_W4Yn0Oz8",
     options: [
       { language: "English", files: { "10.3": "Municipal+Money%3A+Spending+of+the+Operating+Budget.webm", } },
     ],
   },
   "Spending on Repairs & Maintenance": {
     description: "",
+    embed: "f2CdUnsEBXA",
     options: [
       { language: "English", files: { "10.2": "Municipal+Money%3A+Spending+on+Repairs+%26+Maintenance.webm", } },
+    ],
+  },
+  "Cash Balances and Cash Coverage": {
+    description: "",
+    embed: "-sGcopgP4u0",
+    options: [
+      { language: "English", files: { "16.3": "Municipal+Money%3A+Cash+Balances+and+Cash+Coverage.webm", } },
+    ],
+  },
+  "Debtors' Collections Ratio": {
+    description: "",
+    embed: "A15Fvwcx_OY",
+    options: [
+      { language: "English", files: { "13.1": "Municipal+Money+Debtors'+Collections+Ratio.mkv", } },
     ],
   },
 };
 
 const videoStorage = "https://munimoney-media.s3.eu-west-1.amazonaws.com/info-videos/";
-const embedURL = "https://www.youtube.com/embed/";
 const infoVideo = $('#training .sub-section');
 const title = ".informational-video_title";
 const desc = ".informational-video_info p";
@@ -83,6 +102,9 @@ $.each(videos, function (key, value) {
   videoBlock.find(drCurrentSize).text(fileSize);
   videoBlock.find(downloadBtn).attr("href", videoStorage + value.options[0].files[fileSize]);
 
+  let videoEmbed = `<iframe frameborder='0' src='https://www.youtube.com/embed/${value.embed}'></iframe>`
+  videoBlock.find(".informational-video_video-wrapper").html(videoEmbed);
+
 
   $.each(this.options, (index, file) => {
     appendLang += dropdownItem + file.language + "</a>";
@@ -104,6 +126,8 @@ function changeLanguage(e) {
   $(".dropdown-toggle").removeClass("w--open");
 }
 function changeSize() {
+  $(e.target.offsetParent.offsetParent.children[0].children[1]).text(this.text);
+  $(".dropdown-toggle").removeClass("w--open");
   console.log(this);
 }
 $(".language-dropdown .dropdown-link").on("click", changeLanguage);
