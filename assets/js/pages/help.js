@@ -14,7 +14,7 @@ const videos = {
     description: "",
     embed: "HeQiX_e8ubg",
     options: [
-      { language: "English", files: { "61.3": "Municipal+Money%3A+Intro+to+Municipal+Finance+English.webm", "1.0": "Municipal+Money%3A+Intro+to+Municipal+Finance+English.webm"} },
+      { language: "English", files: { "61.3": "Municipal+Money%3A+Intro+to+Municipal+Finance+English.webm", "1.0": "asdf.webm" } },
       { language: "Afrikaans", files: { "94.1": "Municipal+Money%3A+Intro+to+Municipal+Finance+Afrikaans.mkv", } },
     ],
   },
@@ -90,13 +90,13 @@ const downloadBtn = ".informational-video_download-button";
 $(dropdownLangItems).empty();
 $(dropdownSizeItems).empty();
 
-$.each(videos, function (key, value) {
+$.each(videos, function (name, value) {
   var videoBlock = $(".informational-video_block:first").clone();
   let defaultVideo = value.options[0];
   let fileSize = Object.keys(defaultVideo.files)[0];
   let appendLang = "";
 
-  videoBlock.find(title).text(key);
+  videoBlock.find(title).text(name);
   videoBlock.find(desc).text(this.description);
   videoBlock.find(drCurrentLang).text(value.options[0].language);
   videoBlock.find(drCurrentSize).text(fileSize);
@@ -105,13 +105,14 @@ $.each(videos, function (key, value) {
   let videoEmbed = `<iframe frameborder='0' src='https://www.youtube.com/embed/${value.embed}'></iframe>`
   videoBlock.find(".informational-video_video-wrapper").html(videoEmbed);
 
-
-  $.each(this.options, (index, file) => {
-    appendLang += dropdownItem + file.language + "</a>";
+  $.each(this.options, (index, video) => {
+    appendLang += `<a href='#' data-option='none' class='dropdown-link dropdown-link--current w-dropdown-link' tabindex='0' value='${name}'>${video.language}</a>`;
     let appendSize = "";
-    $.each(file.size, function (index, size) {
-      appendSize += dropdownItem + size + "</a>";
-    });
+    if (video.language == videoBlock.find(drCurrentLang).text()) {
+      Object.keys(video.files).forEach(size => {
+        appendSize += `<a href='#' data-option='none' class='dropdown-link dropdown-link--current w-dropdown-link' tabindex='0' value='${video.files[size]}'>${size} MB</a>`
+      });
+    }
     videoBlock.find(dropdownSizeItems).append(appendSize);
   });
 
@@ -122,13 +123,36 @@ $.each(videos, function (key, value) {
 $(".informational-video_block:first").hide();
 
 function changeLanguage(e) {
-  $(e.target.offsetParent.offsetParent.children[0].children[1]).text(this.text);
-  $(".dropdown-toggle").removeClass("w--open");
+  $(e.target.parentElement.parentElement.children[0].children[1]).text(this.text);
+  $(".dropdown-list").removeClass("w--open");
+  let name = this.getAttribute("value");
+
+  $.each(videos[name].options, (index, video) => {
+    let appendSize = "";
+    let defaultSize, defaultVideo;
+
+    if (video.language == this.text) {
+      defaultSize = Object.keys(video.files)[0];
+      defaultVideo = video.files[defaultSize];
+      Object.keys(video.files).forEach(size => {
+        appendSize += `<a href='#' data-option='none' class='dropdown-link dropdown-link--current w-dropdown-link' tabindex='0' value='${video.files[size]}'>${size} MB</a>`
+      });
+    }
+
+    // Set current selection
+    e.target.parentElement.parentElement.parentElement.parentElement.children[1].children[1].children[0].children[1].innerHTML = defaultSize;
+    // Set dropdown list
+    e.target.parentElement.parentElement.parentElement.parentElement.children[1].children[1].children[1].innerHTML = appendSize;
+    // Set download button href
+    e.target.parentElement.parentElement.parentElement.parentElement.children[2].href = defaultVideo;
+  });
+
 }
-function changeSize() {
+function changeSize(e) {
   $(e.target.offsetParent.offsetParent.children[0].children[1]).text(this.text);
-  $(".dropdown-toggle").removeClass("w--open");
-  console.log(this);
+  $(".dropdown-list").removeClass("w--open");
+  // Set download button href
+  e.target.parentElement.parentElement.parentElement.parentElement.children[2].href = this.getAttribute("value");
 }
 $(".language-dropdown .dropdown-link").on("click", changeLanguage);
 $(".size-dropdown .dropdown-link").on("click", changeSize);
