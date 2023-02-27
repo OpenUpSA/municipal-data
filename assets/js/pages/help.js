@@ -103,7 +103,7 @@ $.each(videos, function (name, value) {
   videoBlock.find(downloadBtn).attr("href", videoStorage + value.options[0].files[fileSize]);
 
   let videoEmbed = `<iframe frameborder='0' src='https://www.youtube.com/embed/${value.embed}'></iframe>`
-  videoBlock.find(".informational-video_video-wrapper").html(videoEmbed);
+  //videoBlock.find(".informational-video_video-wrapper").html(videoEmbed);
 
   $.each(this.options, (index, video) => {
     appendLang += `<a href='#' data-option='none' class='dropdown-link dropdown-link--current w-dropdown-link' tabindex='0' value='${name}'>${video.language}</a>`;
@@ -125,6 +125,10 @@ $(".informational-video_block:first").hide();
 function changeLanguage(e) {
   $(e.target.parentElement.parentElement.children[0].children[1]).text(this.text);
   $(".dropdown-list").removeClass("w--open");
+  $(".dropdown-toggle").removeClass("w--open");
+  $(".dropdown-toggle").attr("aria-expanded", "false");
+  $(".dropdown").attr("style", "");
+
   let name = this.getAttribute("value");
 
   $.each(videos[name].options, (index, video) => {
@@ -146,7 +150,6 @@ function changeLanguage(e) {
     // Set download button href
     e.target.parentElement.parentElement.parentElement.parentElement.children[2].href = defaultVideo;
   });
-
 }
 function changeSize(e) {
   $(e.target.offsetParent.offsetParent.children[0].children[1]).text(this.text);
@@ -154,5 +157,20 @@ function changeSize(e) {
   // Set download button href
   e.target.parentElement.parentElement.parentElement.parentElement.children[2].href = this.getAttribute("value");
 }
+function dropdownlist(e) {
+  setTimeout(function () {
+    console.log(e.currentTarget.children[0].attributes['aria-expanded'].value);
+    if (e.currentTarget.children[0].attributes['aria-expanded'].value == "true") {
+      console.log(e.currentTarget.children[0].children[1].text);
+      e.currentTarget.children[0].children[1].style.opacity = 0;
+    }
+  }, 0);
+}
+function showcurrent(e) {
+  $(drCurrentLang).attr("style", "");
+}
+
+$("body").on("click", showcurrent);
+$(".language-dropdown").on("click", dropdownlist);
 $(".language-dropdown .dropdown-link").on("click", changeLanguage);
 $(".size-dropdown .dropdown-link").on("click", changeSize);
