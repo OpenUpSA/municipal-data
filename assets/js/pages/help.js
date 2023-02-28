@@ -8,7 +8,6 @@ export default class HelpPage {
   }
 }
 
-
 const videos = {
   "Introduction to Municapal Finance": {
     description: "",
@@ -17,6 +16,7 @@ const videos = {
       { language: "English", files: { "61.3": "Municipal+Money%3A+Intro+to+Municipal+Finance+English.webm", "1.0": "asdf.webm" } },
       { language: "Afrikaans", files: { "94.1": "Municipal+Money%3A+Intro+to+Municipal+Finance+Afrikaans.mkv", } },
     ],
+    id: "vid-introduction",
   },
   "Irregular, Fruitless and Wasteful Expenditure": {
     description: "",
@@ -24,6 +24,7 @@ const videos = {
     options: [
       { language: "English", files: { "25.5": "Municipal+Money%3A+Irregular%2C+Fruitless+and+Wasteful+Expenditure.mkv", } },
     ],
+    id: "vid-uifw",
   },
   "Liquidity": {
     description: "",
@@ -31,6 +32,7 @@ const videos = {
     options: [
       { language: "English", files: { "14.9": "Municipal+Money%3A+Liquidity.mkv", } },
     ],
+    id: "vid-liquidity",
   },
   "Sources of Income": {
     description: "",
@@ -38,6 +40,7 @@ const videos = {
     options: [
       { language: "English", files: { "4.9": "Municipal+Money%3A+Sources+of+Income.webm", } },
     ],
+    id: "vid-income",
   },
   "Spending of the Capital Budget": {
     description: "",
@@ -45,6 +48,7 @@ const videos = {
     options: [
       { language: "English", files: { "9.2": "Municipal+Money%3A+Spending+of+the+Capital+Budget.webm", } },
     ],
+    id: "vid-capital-budget",
   },
   "Spending of the Operating Budget": {
     description: "",
@@ -52,6 +56,7 @@ const videos = {
     options: [
       { language: "English", files: { "10.3": "Municipal+Money%3A+Spending+of+the+Operating+Budget.webm", } },
     ],
+    id: "vid-operb",
   },
   "Spending on Repairs & Maintenance": {
     description: "",
@@ -59,6 +64,7 @@ const videos = {
     options: [
       { language: "English", files: { "10.2": "Municipal+Money%3A+Spending+on+Repairs+%26+Maintenance.webm", } },
     ],
+    id: "vid-repmaint",
   },
   "Cash Balances and Cash Coverage": {
     description: "",
@@ -66,6 +72,7 @@ const videos = {
     options: [
       { language: "English", files: { "16.3": "Municipal+Money%3A+Cash+Balances+and+Cash+Coverage.webm", } },
     ],
+    id: "vid-cash-coverage",
   },
   "Debtors' Collections Ratio": {
     description: "",
@@ -73,6 +80,7 @@ const videos = {
     options: [
       { language: "English", files: { "13.1": "Municipal+Money+Debtors'+Collections+Ratio.mkv", } },
     ],
+    id: "vid-collections",
   },
 };
 
@@ -80,8 +88,9 @@ const videoStorage = "https://munimoney-media.s3.eu-west-1.amazonaws.com/info-vi
 const infoVideo = $('#training .sub-section');
 const title = ".informational-video_title";
 const desc = ".informational-video_info p";
-const drCurrentLang = ".language-dropdown .dropdown__current-select";
-const drCurrentSize = ".size-dropdown .dropdown__current-select";
+const currentLang = ".language-dropdown .dropdown__current-select";
+const currentSize = ".size-dropdown .dropdown__current-select";
+const toggleLang = ".language-dropdown .dropdown-toggle";
 const dropdownLangItems = ".language-dropdown .dropdown-list";
 const dropdownSizeItems = ".size-dropdown .dropdown-list";
 const dropdownItem = "<a href='#' data-option='none' class='dropdown-link dropdown-link--current w-dropdown-link' tabindex='0'>";
@@ -97,10 +106,18 @@ $.each(videos, function (name, value) {
   let appendLang = "";
 
   videoBlock.find(title).text(name);
+  videoBlock.attr("id", value.id);
   videoBlock.find(desc).text(this.description);
-  videoBlock.find(drCurrentLang).text(value.options[0].language);
-  videoBlock.find(drCurrentSize).text(fileSize + " MB");
+  videoBlock.find(currentLang).text(value.options[0].language);
+  videoBlock.find(currentSize).text(fileSize + " MB");
   videoBlock.find(downloadBtn).attr("href", videoStorage + value.options[0].files[fileSize]);
+
+  // Disable language dropdown with only one option
+  if (value.options.length <= 1 && videoBlock.find(toggleLang).length > 0) {
+    videoBlock.find(toggleLang)[0].style.cursor = 'default';
+    videoBlock.find(toggleLang)[0].style.pointerEvents = 'none';
+    videoBlock.find(toggleLang)[0].style.opacity = '0.7';
+  }
 
   let videoEmbed = `<iframe frameborder='0' src='https://www.youtube.com/embed/${value.embed}'></iframe>`
   //videoBlock.find(".informational-video_video-wrapper").html(videoEmbed);
@@ -108,7 +125,7 @@ $.each(videos, function (name, value) {
   $.each(this.options, (index, video) => {
     appendLang += `<a href='#' data-option='none' class='dropdown-link dropdown-link--current w-dropdown-link' tabindex='0' value='${name}'>${video.language}</a>`;
     let appendSize = "";
-    if (video.language == videoBlock.find(drCurrentLang).text()) {
+    if (video.language == videoBlock.find(currentLang).text()) {
       Object.keys(video.files).forEach(size => {
         appendSize += `<a href='#' data-option='none' class='dropdown-link dropdown-link--current w-dropdown-link' tabindex='0' value='${video.files[size]}'>${size} MB</a>`
       });
@@ -159,15 +176,13 @@ function changeSize(e) {
 }
 function dropdownlist(e) {
   setTimeout(function () {
-    console.log(e.currentTarget.children[0].attributes['aria-expanded'].value);
     if (e.currentTarget.children[0].attributes['aria-expanded'].value == "true") {
-      console.log(e.currentTarget.children[0].children[1].text);
       e.currentTarget.children[0].children[1].style.opacity = 0;
     }
   }, 0);
 }
 function showcurrent(e) {
-  $(drCurrentLang).attr("style", "");
+  $(currentLang).attr("style", "");
 }
 
 $("body").on("click", showcurrent);
