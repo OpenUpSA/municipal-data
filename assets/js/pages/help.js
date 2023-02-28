@@ -16,7 +16,6 @@ const videos = {
       { language: "English", files: { "61.3": "Municipal+Money%3A+Intro+to+Municipal+Finance+English.webm", "1.0": "asdf.webm" } },
       { language: "Afrikaans", files: { "94.1": "Municipal+Money%3A+Intro+to+Municipal+Finance+Afrikaans.mkv", } },
     ],
-    id: "vid-introduction",
   },
   "Irregular, Fruitless and Wasteful Expenditure": {
     description: "",
@@ -24,7 +23,6 @@ const videos = {
     options: [
       { language: "English", files: { "25.5": "Municipal+Money%3A+Irregular%2C+Fruitless+and+Wasteful+Expenditure.mkv", } },
     ],
-    id: "vid-uifw",
   },
   "Liquidity": {
     description: "",
@@ -32,7 +30,6 @@ const videos = {
     options: [
       { language: "English", files: { "14.9": "Municipal+Money%3A+Liquidity.mkv", } },
     ],
-    id: "vid-liquidity",
   },
   "Sources of Income": {
     description: "",
@@ -40,7 +37,6 @@ const videos = {
     options: [
       { language: "English", files: { "4.9": "Municipal+Money%3A+Sources+of+Income.webm", } },
     ],
-    id: "vid-income",
   },
   "Spending of the Capital Budget": {
     description: "",
@@ -48,7 +44,6 @@ const videos = {
     options: [
       { language: "English", files: { "9.2": "Municipal+Money%3A+Spending+of+the+Capital+Budget.webm", } },
     ],
-    id: "vid-capital-budget",
   },
   "Spending of the Operating Budget": {
     description: "",
@@ -56,7 +51,6 @@ const videos = {
     options: [
       { language: "English", files: { "10.3": "Municipal+Money%3A+Spending+of+the+Operating+Budget.webm", } },
     ],
-    id: "vid-operb",
   },
   "Spending on Repairs & Maintenance": {
     description: "",
@@ -64,7 +58,6 @@ const videos = {
     options: [
       { language: "English", files: { "10.2": "Municipal+Money%3A+Spending+on+Repairs+%26+Maintenance.webm", } },
     ],
-    id: "vid-repmaint",
   },
   "Cash Balances and Cash Coverage": {
     description: "",
@@ -72,7 +65,6 @@ const videos = {
     options: [
       { language: "English", files: { "16.3": "Municipal+Money%3A+Cash+Balances+and+Cash+Coverage.webm", } },
     ],
-    id: "vid-cash-coverage",
   },
   "Debtors' Collections Ratio": {
     description: "",
@@ -80,7 +72,6 @@ const videos = {
     options: [
       { language: "English", files: { "13.1": "Municipal+Money+Debtors'+Collections+Ratio.mkv", } },
     ],
-    id: "vid-collections",
   },
 };
 
@@ -106,7 +97,6 @@ $.each(videos, function (name, value) {
   let appendLang = "";
 
   videoBlock.find(title).text(name);
-  videoBlock.attr("id", value.id);
   videoBlock.find(desc).text(this.description);
   videoBlock.find(currentLang).text(value.options[0].language);
   videoBlock.find(currentSize).text(fileSize + " MB");
@@ -120,7 +110,7 @@ $.each(videos, function (name, value) {
   }
 
   let videoEmbed = `<iframe frameborder='0' src='https://www.youtube.com/embed/${value.embed}'></iframe>`
-  //videoBlock.find(".informational-video_video-wrapper").html(videoEmbed);
+  videoBlock.find(".informational-video_video-wrapper").html(videoEmbed);
 
   $.each(this.options, (index, video) => {
     appendLang += `<a href='#' data-option='none' class='dropdown-link dropdown-link--current w-dropdown-link' tabindex='0' value='${name}'>${video.language}</a>`;
@@ -161,7 +151,9 @@ function changeLanguage(e) {
     }
 
     // Set current selection
-    e.target.parentElement.parentElement.parentElement.parentElement.children[1].children[1].children[0].children[1].innerHTML = `${defaultSize} MB`;
+    if (typeof defaultSize !== "undefined") {
+      e.target.parentElement.parentElement.parentElement.parentElement.children[1].children[1].children[0].children[1].innerHTML = `${defaultSize} MB`;
+    }
     // Set dropdown list
     e.target.parentElement.parentElement.parentElement.parentElement.children[1].children[1].children[1].innerHTML = appendSize;
     // Set download button href
