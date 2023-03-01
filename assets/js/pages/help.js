@@ -166,6 +166,9 @@ function changeLanguage(e) {
 function changeSize(e) {
   $(e.target.offsetParent.offsetParent.children[0].children[1]).text(this.text);
   $(".dropdown-list").removeClass("w--open");
+  $(".dropdown-toggle").removeClass("w--open");
+  $(".dropdown-toggle").attr("aria-expanded", "false");
+  $(".dropdown").attr("style", "");
   // Set download button href
   e.target.parentElement.parentElement.parentElement.parentElement.children[2].href = this.getAttribute("value");
 }
@@ -178,9 +181,11 @@ function dropdownlist(e) {
 }
 function showcurrent(e) {
   $(currentLang).attr("style", "");
+  $(currentSize).attr("style", "");
 }
 
 $("body").on("click", showcurrent);
 $(".language-dropdown").on("click", dropdownlist);
+$(".size-dropdown").on("click", dropdownlist);
 $(".language-dropdown .dropdown-link").on("click", changeLanguage);
 $(".size-dropdown .dropdown-link").on("click", changeSize);
