@@ -38,7 +38,7 @@ const videos = {
     description: "",
     embed: "zb2Wph6Mbpo",
     options: [
-      { language: "English", files: { "6.0": "Municipal_Money%3A_Sources_of_Income.mp4", "17.8": "compressed/Municipal%2BMoney_%2BSources%2Bof%2BIncome.mp4" } },
+      { language: "English", files: { "6.0": "Municipal_Money%3A_Sources_of_Income.mp4", } },
     ],
   },
   "Spending of the Capital Budget": {
@@ -153,14 +153,14 @@ function changeLanguage(e) {
       });
     }
 
-    // Set current selection
     if (typeof defaultSize !== "undefined") {
+      // Set current selection
       e.target.parentElement.parentElement.parentElement.parentElement.children[1].children[1].children[0].children[1].innerHTML = `${defaultSize} MB`;
+      // Set size dropdown list
+      e.target.parentElement.parentElement.parentElement.parentElement.children[1].children[1].children[1].innerHTML = appendSize;
+      // Set download button href
+      e.target.parentElement.parentElement.parentElement.parentElement.children[2].href = `${videoStorage}${defaultVideo}`;
     }
-    // Set dropdown list
-    e.target.parentElement.parentElement.parentElement.parentElement.children[1].children[1].children[1].innerHTML = appendSize;
-    // Set download button href
-    e.target.parentElement.parentElement.parentElement.parentElement.children[2].href = defaultVideo;
   });
 }
 function changeSize(e) {
@@ -170,7 +170,7 @@ function changeSize(e) {
   $(".dropdown-toggle").attr("aria-expanded", "false");
   $(".dropdown").attr("style", "");
   // Set download button href
-  e.target.parentElement.parentElement.parentElement.parentElement.children[2].href = this.getAttribute("value");
+  e.target.parentElement.parentElement.parentElement.parentElement.children[2].href = `${videoStorage}${this.getAttribute("value")}`;
 }
 function dropdownlist(e) {
   setTimeout(function () {
