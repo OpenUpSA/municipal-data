@@ -34,7 +34,6 @@ export default class DropdownMenu {
 
   updateLinkedDropdown(label, data, selection) {
     if (selection == label) {
-      //this.$linkedElement.find('.dropdown-list').html('');
       let initialSelection = Object.keys(data)[0];
       this.$linkedElement.find('.w-dropdown-list a').remove();
       $.each(data, (index, video) => {
@@ -50,9 +49,9 @@ export default class DropdownMenu {
             detail: data[$(e.target).text()],
           });
           this.$linkedElement[0].dispatchEvent(linkedSelectEvent);
+          // Close a dropdown when one of its options are selected
+          this.$linkedElement.triggerHandler('w-close.w-dropdown');
         }));
-        // Close a dropdown when one of its options are selected
-        this.$linkedElement.triggerHandler('w-close.w-dropdown');
       });
       this.$linkedElement.find('.dropdown__current-select').text(initialSelection);
     }
