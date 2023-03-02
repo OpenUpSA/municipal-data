@@ -14,7 +14,6 @@ export default class DropdownMenu {
       this.$element.find('.dropdown-list').append(option);
       option.click(((e) => {
         const selectedOptionElement = $(e.target);
-        //const option = selectedOptionElement.data('option');
         this.$element.find('.dropdown__current-select').text(selectedOptionElement.text());
         const selectEvent = new CustomEvent('option-select', {
           bubbles: true,
@@ -34,7 +33,7 @@ export default class DropdownMenu {
 
   updateLinkedDropdown(label, data, selection) {
     if (selection == label) {
-      let initialSelection = Object.keys(data)[0];
+      const initialSelection = Object.keys(data)[0];
       this.$linkedElement.find('.w-dropdown-list a').remove();
       $.each(data, (index, video) => {
         const linkedOption = this.$linkedOptionTemplate.clone();
@@ -42,7 +41,6 @@ export default class DropdownMenu {
         this.$linkedElement.find('.dropdown-list').append(linkedOption);
         linkedOption.click(((e) => {
           const linkedSelectedOptionElement = $(e.target);
-          //const linkedOption = linkedSelectedOptionElement.data('option');
           this.$linkedElement.find('.dropdown__current-select').text(linkedSelectedOptionElement.text());
           const linkedSelectEvent = new CustomEvent('option-select', {
             bubbles: true,

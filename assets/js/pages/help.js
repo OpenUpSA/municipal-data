@@ -35,7 +35,7 @@ const videos = {
       ['English', { 22.7: 'Municipal_Money%3A_Irregular%2C_Fruitless_and_Wasteful_Expenditure.mp4', '9.0': 'compressed/Municipal%2BMoney_%2BIrregular%2C%2BFruitless%2Band%2BWasteful%2BExpenditure.mp4' }],
     ],
   },
-  'Liquidity': {
+  Liquidity: {
     description: '',
     embed: '6WUDTN7kBZI',
     options: [
