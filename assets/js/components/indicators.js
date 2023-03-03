@@ -86,6 +86,7 @@ export class IndicatorSection {
     $label.text(`${miifCategory} ${categoryName}`);
     $description.text(this.municipalCategoryDescriptions[miifCategory]);
     $link.attr('href', '/help#similar-munis');
+    this.$element.find('.video_download-button').attr('href', `/help#${this.selector.substring(1)}-video`);
   }
 
   _initCalculation() {

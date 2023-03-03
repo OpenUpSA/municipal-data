@@ -36,6 +36,7 @@ const videos = {
       sotho: [[76.9, 'Municipal_Money%3A_Intro_to_Municipal_Finance_Sotho.mp4'], [27.7, 'compressed/Municipal%2BMoney_%2BIntro%2Bto%2BMunicipal%2BFinance%2BSotho.mp4']],
       zulu: [[87.2, 'Municipal_Money%3A_Intro_to_Municipal_Finance_Zulu.mp4'], [31.3, 'compressed/Municipal%2BMoney_%2BIntro%2Bto%2BMunicipal%2BFinance%2BZulu.mp4']],
     },
+    sectionMarkers: ["intro",]
   },
   'Irregular, Fruitless and Wasteful Expenditure': {
     description: '',
@@ -46,6 +47,7 @@ const videos = {
     files: {
       eng: [[22.7, 'Municipal_Money%3A_Irregular%2C_Fruitless_and_Wasteful_Expenditure.mp4'], [9.0, 'compressed/Municipal%2BMoney_%2BIrregular%2C%2BFruitless%2Band%2BWasteful%2BExpenditure.mp4']],
     },
+    sectionMarkers: ["wasteful-expenditure",]
   },
   Liquidity: {
     description: '',
@@ -56,6 +58,7 @@ const videos = {
     files: {
       eng: [[13.6, 'Municipal_Money%3A_Liquidity.mp4'], [10.7, 'compressed/Municipal%2BMoney_%2BLiquidity.mp4']],
     },
+    sectionMarkers: ["liquidity-ratio","current-ratio"]
   },
   'Sources of Income': {
     description: '',
@@ -66,6 +69,7 @@ const videos = {
     files: {
       eng: [[6.0, 'Municipal_Money%3A_Sources_of_Income.mp4']],
     },
+    sectionMarkers: ["income",]
   },
   'Spending of the Capital Budget': {
     description: '',
@@ -76,6 +80,7 @@ const videos = {
     files: {
       eng: [[12.5, 'Municipal_Money%3A_Spending_of_the_Capital_Budget.mp4'], [4.5, 'compressed/Municipal%2BMoney_%2BSpending%2Bof%2Bthe%2BCapital%2BBudget.mp4']],
     },
+    sectionMarkers: ["capital-budget",]
   },
   'Spending of the Operating Budget': {
     description: '',
@@ -86,6 +91,7 @@ const videos = {
     files: {
       eng: [[13.8, 'Municipal_Money%3A_Spending_of_the_Operating_Budget.mp4'], [5.1, 'compressed/Municipal%2BMoney_%2BSpending%2Bof%2Bthe%2BOperating%2BBudget.mp4']],
     },
+    sectionMarkers: ["operating-budget",]
   },
   'Spending on Repairs & Maintenance': {
     description: '',
@@ -96,6 +102,7 @@ const videos = {
     files: {
       eng: [[11.8, 'Municipal_Money%3A_Spending_on_Repairs_%26_Maintenance.mp4'], [4.9, 'compressed/Municipal%2BMoney_%2BSpending%2Bon%2BRepairs%2B_%2BMaintenance.mp4']],
     },
+    sectionMarkers: ["repairs-maintenance",]
   },
   'Cash Balances and Cash Coverage': {
     description: '',
@@ -106,6 +113,7 @@ const videos = {
     files: {
       eng: [[22.5, 'Municipal_Money%3A_Cash_Balances_and_Cash_Coverage.mp4'], [7.0, 'compressed/Municipal%2BMoney_%2BCash%2BBalances%2Band%2BCash%2BCoverage.mp4']],
     },
+    sectionMarkers: ["cash-balance", "cash-coverage"]
   },
   "Debtors' Collections Ratio": {
     description: '',
@@ -116,6 +124,40 @@ const videos = {
     files: {
       eng: [[11.8, "Municipal_Money%3A_Debtors'_Collections_Ratio.mp4"], [4.5, 'compressed/Municipal%2BMoney%2BDebtors_%2BCollections%2BRatio.mp4']],
     },
+    sectionMarkers: ["collection-rate",]
+  },
+  "Conditional Grants": {
+    description: '',
+    embed: 'bXL3p5khtio',
+    languages: [
+      ['English', 'eng'],
+    ],
+    files: {
+      eng: [[57.4, "Municipal_Money%3A_Conditional_Grants.mp4"],],
+    },
+    sectionMarkers: ["grants",]
+  },
+  "Household Bills": {
+    description: '',
+    embed: 'GwvMI2GVwCg',
+    languages: [
+      ['English', 'eng'],
+    ],
+    files: {
+      eng: [[129.6, "Municipal_Money%3A_Household_Bills.mp4"],],
+    },
+    sectionMarkers: ["household",]
+  },
+  "Capital Projects": {
+    description: '',
+    embed: 'i7KdL1b9tPk',
+    languages: [
+      ['English', 'eng'],
+    ],
+    files: {
+      eng: [[12.2, "Municipal_Money%3A_Capital_Projects.mp4"],],
+    },
+    sectionMarkers: ["infra",]
   },
 };
 
@@ -150,6 +192,11 @@ $.each(videos, function (name, value) {
   const videoEmbed = `<iframe frameborder='0' src='https://www.youtube.com/embed/${value.embed}'></iframe>`;
   videoBlock.find('.informational-video_video-wrapper').html(videoEmbed);
   videoBlock.appendTo(infoVideo);
+  if (value.sectionMarkers.length > 0) {
+    $.each(value.sectionMarkers, function (name, marker) {
+      $(`<div id=${marker}-video></div>`).insertBefore(videoBlock);
+    });
+  }
 });
 
 $('.informational-video_block:first').hide();

@@ -24,6 +24,7 @@ class AbstractIncomeSection {
     logIfUnequal(1, this.$element.length);
     this.sectionData = sectionData;
     this.$chartContainer = this.$element.find('.indicator-chart');
+    this.$element.find('.video_download-button').attr('href', '/help#income-video');
   }
 }
 
@@ -113,6 +114,7 @@ export class LocalIncomeSection extends AbstractIncomeSection {
     if (this.sectionData.revenueSources.local.amount === null) value = 'Not available';
     else value = formatForType('R', this.sectionData.revenueSources.local.amount);
     this.$element.find('.indicator-metric__value').text(value);
+    this.$element.find('.video_download-button').attr('href', '/help#income-video');
   }
 
   _initChart() {
@@ -163,6 +165,7 @@ export class TransfersSection extends AbstractIncomeSection {
     this._initChart();
     const initialPeriodOption = this._initDropdown();
     this.selectData(initialPeriodOption[1]);
+    this.$element.find('.video_download-button').attr('href', '/help#income-video');
   }
 
   _initChart() {
@@ -287,6 +290,7 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
       const indicatorValue = types.national_conditional_grants;
       this.$element.find('.indicator-metric__value').text(formatForType('R', indicatorValue));
     }
+    this.$element.find('.video_download-button').attr('href', '/help#grants-video');
   }
 
   _initLegend() {
