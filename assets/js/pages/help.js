@@ -15,6 +15,8 @@ const title = '.informational-video_title';
 const desc = '.informational-video_info p';
 const toggleLang = '.language-dropdown .dropdown-toggle';
 const downloadBtn = '.informational-video_download-button';
+const currentLang = '.language-dropdown .dropdown__current-select';
+const currentSize = '.size-dropdown .dropdown__current-select';
 
 const videos = {
   'Introduction to Municapal Finance': {
@@ -118,7 +120,7 @@ $.each(videos, function (name, value) {
 
 $('.informational-video_block:first').hide();
 
-/*
+
 function dropdownlist(e) {
   setTimeout(() => {
     if (e.currentTarget.children[0].attributes['aria-expanded'].value == 'true') {
@@ -134,4 +136,4 @@ function showcurrent(e) {
 $('body').on('click', showcurrent);
 $('.language-dropdown').on('click', dropdownlist);
 $('.size-dropdown').on('click', dropdownlist);
-*/
+
