@@ -58,7 +58,7 @@ const videos = {
     files: {
       eng: [[13.6, 'Municipal_Money%3A_Liquidity.mp4'], [10.7, 'compressed/Municipal%2BMoney_%2BLiquidity.mp4']],
     },
-    sectionMarkers: ["liquidity-ratio","current-ratio"]
+    sectionMarkers: ["liquidity-ratio", "current-ratio"]
   },
   'Sources of Income': {
     description: '',
@@ -133,7 +133,7 @@ const videos = {
       ['English', 'eng'],
     ],
     files: {
-      eng: [[57.4, "Municipal_Money%3A_Conditional_Grants.mp4"],],
+      eng: [[57.4, "Municipal_Money%3A_Conditional_Grants.mp4"], [8.7, "compressed/Municipal_Money%3A_Conditional_Grants.mp4"]],
     },
     sectionMarkers: ["grants",]
   },
@@ -144,7 +144,7 @@ const videos = {
       ['English', 'eng'],
     ],
     files: {
-      eng: [[129.6, "Municipal_Money%3A_Household_Bills.mp4"],],
+      eng: [[129.6, "Municipal_Money%3A_Household_Bills.mp4"], [13.9, "compressed/Municipal_Money%3A_Household_Bills.mp4"]],
     },
     sectionMarkers: ["household",]
   },
@@ -155,9 +155,9 @@ const videos = {
       ['English', 'eng'],
     ],
     files: {
-      eng: [[12.2, "Municipal_Money%3A_Capital_Projects.mp4"],],
+      eng: [[12.2, "Municipal_Money%3A_Capital_Projects.mp4"], [3.0, "compressed/Municipal_Money%3A_Capital_Projects.mp4"]],
     },
-    sectionMarkers: ["infra",]
+    sectionMarkers: ["municipal-budget",]
   },
 };
 
