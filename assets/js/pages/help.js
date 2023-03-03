@@ -132,7 +132,7 @@ $.each(videos, function (name, value) {
   this.dropdownSize = new Dropdown(videoBlock.find('.download-bar_select:eq( 1 )'), value.files[initialLang[1]], initialFile[0]);
 
   this.dropdownLanguage.$element.on('option-select', (e) => {
-    let defaultFile = value.files[e.detail][0];
+    const defaultFile = value.files[e.detail][0];
     this.dropdownSize = new Dropdown(videoBlock.find('.download-bar_select:eq( 1 )'), value.files[e.detail], defaultFile[0]);
     videoBlock.find(downloadBtn).attr('href', `${videoStorage}${defaultFile[1]}`);
   });
