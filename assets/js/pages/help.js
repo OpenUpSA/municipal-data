@@ -194,7 +194,7 @@ $.each(videos, function (name, value) {
   videoBlock.appendTo(infoVideo);
   if (value.sectionMarkers.length > 0) {
     $.each(value.sectionMarkers, (name, marker) => {
-      $(`<div id=${marker}-video></div>`).insertBefore(videoBlock);
+      $(`<div id=${marker}-video style='scroll-margin-top: 60px;'></div>`).insertBefore(videoBlock);
     });
   }
 });
