@@ -24,6 +24,11 @@ export default class ComparisonMenu {
       this.$dropdown.triggerHandler('w-close.w-dropdown');
 
       ga('send', 'event', 'compare-in-chart', `${key} ${option}`);
+      gtag('event', 'compare_in_chart', {
+        category: 'Charts',
+        action: 'Select comparison',
+        label: `${key} ${option}`,
+      });
     }));
   }
 }

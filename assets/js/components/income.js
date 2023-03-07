@@ -443,6 +443,11 @@ export class ProvincialTransfersSection extends AbstractIncomeSection {
       this.selectData(e.detail);
       const gaLabel = `${this.analyticsName} ${e.detail.year} ${e.detail.phase}`;
       ga('send', 'event', 'section-year-select', 'change', gaLabel);
+      gtag('event', 'section_year_select', {
+        category: 'Income charts',
+        action: 'Select year',
+        label: gaLabel,
+      });
     });
     return initialOption;
   }

@@ -25,7 +25,7 @@
         }
       },
       "scripts": {
-        "postdeploy": "python manage.py migrate && python manage.py loaddata demo-data seeddata"
+        "postdeploy": "python manage.py migrate && python manage.py loaddata demo-data infra-demo-data seeddata"
       }
     }
   }
