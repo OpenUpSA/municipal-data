@@ -57,3 +57,16 @@ class GeographyDetailViewTestCase(TransactionTestCase):
         self.assertIsInstance(page_data["cube_names"], dict)
         # Test for municipality category descriptions
         self.assertIsInstance(page_data["municipal_category_descriptions"], dict)
+
+
+class IndexViewTestCase(TransactionTestCase):
+    def test_context(self):
+        client = Client()
+        response = client.get("/")
+        context = response.context
+
+        self.assertEquals(context["page_title"], "Municipal Money")
+        self.assertEquals(
+            context["page_description"],
+            "An initiative of the National Treasury, which has collected extensive municipal financial data over several years and aims to share it with the public.",
+        )
