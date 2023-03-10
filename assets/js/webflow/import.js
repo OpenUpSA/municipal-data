@@ -15,23 +15,22 @@ exports.transformDOM = function (window, $) {
   $('meta[property="twitter:image"]').attr('content', '{% static \'webflow/images/municipal-money-opengraph-wide.png\' %}');
   $('a[href="contact.html"]').remove();
 
-  let metaTags = [
-    ["name", "description", "{{ page_description }}"],
-    ["name", "twitter:title", "{{ page_title }}"],
-    ["name", "twitter:description", "{{ page_description }}"],
-    ["name", "twitter:card", "summary"],
-    ["name", "twitter:site", "@MunicipalMoney"],
-    ["property", "og:description", "{{ page_description }}"]
+  const metaTags = [
+    ['name', 'description', '{{ page_description }}'],
+    ['name', 'twitter:title', '{{ page_title }}'],
+    ['name', 'twitter:description', '{{ page_description }}'],
+    ['name', 'twitter:card', 'summary'],
+    ['name', 'twitter:site', '@MunicipalMoney'],
+    ['property', 'og:description', '{{ page_description }}'],
   ];
 
   metaTags.forEach((tag) => {
-    let newTag = $(`head meta[${tag[0]}="${tag[1]}"]`);
+    const newTag = $(`head meta[${tag[0]}="${tag[1]}"]`);
     if (newTag.length > 0) {
       newTag.attr('content', tag[2]);
-    }
-    else {
-      let html = `<meta ${tag[0]}="${tag[1]}" content="${tag[2]}">`;
-      $('head').append(`${html}\n`)
+    } else {
+      const html = `<meta ${tag[0]}="${tag[1]}" content="${tag[2]}">`;
+      $('head').append(`${html}\n`);
     }
   });
 
