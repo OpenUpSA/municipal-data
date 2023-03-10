@@ -16,14 +16,16 @@ router.register(r"municipality-profile", views.MunicipalityProfileViewSet)
 
 # This cache is reset on each deployment. Corresponding caching headers are
 # sent to the client, too.
-CACHE_SECS = 2 * 60 # 2 minutes
+CACHE_SECS = 2 * 60  # 2 minutes
+
 
 def trigger_error(request):
     division_by_zero = 1 / 0
 
+
 urlpatterns = [
     url("admin/", admin.site.urls),
-    url(r"^$", TemplateView.as_view(template_name="webflow/index.html"), name="homepage"),
+    url(r"^$", views.HomePage.as_view(), name="homepage"),
     url(r"^about", lambda request: redirect("/")),
     url(r"^faq", lambda request: redirect("/help")),
     url(r"^help$", TemplateView.as_view(template_name="webflow/help.html"), name="help"),
@@ -59,10 +61,7 @@ urlpatterns = [
     ),
     url("^api/v1/infrastructure/", include("infrastructure.urls.api")),
     url("^infrastructure/", include("infrastructure.urls.templates")),
-
     url("^api/", include(router.urls)),
-
     url("^sentry-debug/", trigger_error),
-
     url('__debug__/', include(debug_toolbar.urls)),
 ]

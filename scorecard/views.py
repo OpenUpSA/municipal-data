@@ -1,4 +1,3 @@
-
 import json
 
 from django.shortcuts import redirect
@@ -24,6 +23,7 @@ from django.conf import settings
 from constance import config
 from django.db.models import F, Q
 
+
 class GeographyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Geography.objects.all()
     serializer_class = serializers.GeographySerializer
@@ -41,6 +41,7 @@ def infra_dict(project):
         "expenditure_amount": project.amount,
         "url": reverse('project-detail-view', args=[project.id]),
     }
+
 
 class LocateView(TemplateView):
     template_name = "webflow/locate.html"
@@ -81,6 +82,7 @@ class LocateView(TemplateView):
                 indent=4 if settings.DEBUG else None
             ),
         }
+
 
 class GeographyDetailView(TemplateView):
     template_name = "webflow/muni-profile.html"
@@ -269,6 +271,7 @@ class GeographyDetailView(TemplateView):
         }
         return page_context
 
+
 class GeographyPDFView(GeographyDetailView):
     def get(self, request, *args, **kwargs):
         # render as pdf
@@ -303,3 +306,14 @@ class SitemapView(TemplateView):
 
     def get_context_data(self):
         return {"geos": Geography.objects.all()}
+
+
+class HomePage(TemplateView):
+    template_name = "webflow/index.html"
+
+    def get_context_data(self, *args, **kwargs):
+        page_context = {
+            "page_title": "Municipal Money",
+            "page_description": "An initiative of the National Treasury, which has collected extensive municipal financial data over several years and aims to share it with the public.",
+        }
+        return page_context
