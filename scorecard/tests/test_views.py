@@ -57,4 +57,49 @@ class GeographyDetailViewTestCase(TransactionTestCase):
         self.assertIsInstance(page_data["cube_names"], dict)
         # Test for municipality category descriptions
         self.assertIsInstance(page_data["municipal_category_descriptions"], dict)
-        print("_")
+
+
+@override_settings(
+    SITE_ID=2,
+    STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage",
+)
+class IndexViewTestCase(TransactionTestCase):
+    def test_metatags(self):
+        client = Client()
+        response = client.get("/")
+
+        self.assertIn("<title>Municipal Money</title>", str(response.content))
+        self.assertIn(
+            '<meta content="An initiative of the National Treasury, which has collected extensive municipal financial data over several years and aims to share it with the public." name="description">',
+            str(response.content),
+        )
+        self.assertIn(
+            '<meta content="Municipal Money" property="og:title">',
+            str(response.content),
+        )
+        self.assertIn(
+            '<meta content="An initiative of the National Treasury, which has collected extensive municipal financial data over several years and aims to share it with the public." property="og:description">',
+            str(response.content),
+        )
+        self.assertIn(
+            '<meta content="/static/webflow/images/municipal-money-opengraph-wide.png" property="og:image">',
+            str(response.content),
+        )
+        self.assertIn(
+            '<meta content="Municipal Money" property="twitter:title">',
+            str(response.content),
+        )
+        self.assertIn(
+            '<meta content="An initiative of the National Treasury, which has collected extensive municipal financial data over several years and aims to share it with the public." property="twitter:description">',
+            str(response.content),
+        )
+        self.assertIn(
+            '<meta content="/static/webflow/images/municipal-money-opengraph-wide.png" property="twitter:image">',
+            str(response.content),
+        )
+        self.assertIn(
+            '<meta property="og:type" content="website">', str(response.content)
+        )
+        self.assertIn(
+            '<meta content="summary" name="twitter:card">', str(response.content)
+        )
