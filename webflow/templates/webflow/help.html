@@ -1,17 +1,17 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Thu Jan 12 2023 05:02:28 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="6200e32ae569ed2f9e14bbf9" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Fri Jan 13 2023 14:41:12 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="6200e32ae569ed2f9e14bbf9" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
-  <meta content="Learn about Municipal Money, the municipal budget process and our budget data" name="description">
+  <meta content="{{ page_description }}" name="description">
   <meta content="{{ page_title }}" property="og:title">
-  <meta content="Learn about Municipal Money, the municipal budget process and our budget data" property="og:description">
+  <meta content="{{ page_description }}" property="og:description">
   <meta content="{% static 'webflow/images/municipal-money-opengraph-wide.png' %}" property="og:image">
   <meta content="Help Center | Municipal Money" property="twitter:title">
   <meta content="Learn about Municipal Money, the municipal budget process and our budget data" property="twitter:description">
   <meta content="{% static 'webflow/images/municipal-money-opengraph-wide.png' %}" property="twitter:image">
   <meta property="og:type" content="website">
-  <meta content="summary_large_image" name="twitter:card">
+  <meta content="summary" name="twitter:card">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <link href="{% static 'webflow/css/normalize.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'webflow/css/components.css' %}" rel="stylesheet" type="text/css">
@@ -229,13 +229,10 @@
         hyphens: auto;
       }
     </style>
-<link rel="stylesheet" href="{% static 'scss/municipal-money.css' %}">
-<meta name="description" content="{{ page_description }}">
 <meta name="twitter:title" content="{{ page_title }}">
 <meta name="twitter:description" content="{{ page_description }}">
-<meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@MunicipalMoney">
-<meta property="og:description" content="{{ page_description }}">
+<link rel="stylesheet" href="{% static 'scss/municipal-money.css' %}">
 {% stylesheet "scorecard" %}
 {% if NO_INDEX %}<meta name="robots" content="noindex">{% endif %}
 </head>
@@ -334,7 +331,7 @@
             <div class="link-text link-text--site-nav">Home</div>
             <div class="plate plate--black-trans-4 plate--rounded"></div>
           </a>
-          <a href="https://municipalmoney.gov.za/infrastructure/projects/" target="_blank" class="nav-link nav-link--mobile w-inline-block">
+          <a href="/infrastructure/projects/" target="_blank" class="nav-link nav-link--mobile w-inline-block">
             <div class="link-text link-text--site-nav">Infrastructure Projects</div>
             <div class="plate plate--black-trans-4 plate--rounded"></div>
           </a>
