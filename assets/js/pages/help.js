@@ -13,10 +13,8 @@ const videoStorage = 'https://munimoney-media.s3.eu-west-1.amazonaws.com/info-vi
 const infoVideo = $('#training .sub-section');
 const title = '.informational-video_title';
 const desc = '.informational-video_info p';
-const toggleLang = '.language-dropdown .dropdown-toggle';
+const toggleLang = '.is-language-dropdown .dropdown-toggle';
 const downloadBtn = '.informational-video_download-button';
-const currentLang = '.language-dropdown .dropdown__current-select';
-const currentSize = '.size-dropdown .dropdown__current-select';
 
 const videos = {
   'Introduction to Municipal Finance': {
@@ -179,14 +177,12 @@ $.each(videos, function (name, value) {
     videoBlock.find(downloadBtn).attr('href', `${videoStorage}${defaultFile[1]}`);
   });
   this.dropdownSize.$element.on('option-select', (e) => {
-    videoBlock.find(downloadBtn).attr('href', `${videoStorage}${e.detail} xxxxx`);
+    videoBlock.find(downloadBtn).attr('href', `${videoStorage}${e.detail}`);
   });
 
   // Disable language dropdown with only one option
-  if (value.languages.length <= 1 && videoBlock.find(toggleLang).length > 0) {
-    videoBlock.find(toggleLang)[0].style.cursor = 'default';
-    videoBlock.find(toggleLang)[0].style.pointerEvents = 'none';
-    videoBlock.find(toggleLang)[0].style.opacity = '0.7';
+  if (value.languages.length <= 1) {
+    $(videoBlock.find(toggleLang)).addClass("dropdown-toggle--grey");
   }
 
   const videoEmbed = `<iframe frameborder='0' src='https://www.youtube.com/embed/${value.embed}'></iframe>`;
@@ -200,19 +196,3 @@ $.each(videos, function (name, value) {
 });
 
 $('.informational-video_block:first').hide();
-
-function dropdownlist(e) {
-  setTimeout(() => {
-    if (e.currentTarget.children[0].attributes['aria-expanded'].value == 'true') {
-      e.currentTarget.children[0].children[1].style.opacity = 0;
-    }
-  }, 0);
-}
-function showcurrent(e) {
-  $(currentLang).attr('style', '');
-  $(currentSize).attr('style', '');
-}
-
-$('body').on('click', showcurrent);
-$('.language-dropdown').on('click', dropdownlist);
-$('.size-dropdown').on('click', dropdownlist);
