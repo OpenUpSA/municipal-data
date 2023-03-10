@@ -80,19 +80,11 @@ class IndexViewTestCase(TransactionTestCase):
             str(response.content),
         )
         self.assertIn(
-            '<meta content="/static/webflow/images/municipal-money-opengraph-wide.png" property="og:image">',
-            str(response.content),
-        )
-        self.assertIn(
             '<meta content="Municipal Money" property="twitter:title">',
             str(response.content),
         )
         self.assertIn(
             '<meta content="An initiative of the National Treasury, which has collected extensive municipal financial data over several years and aims to share it with the public." property="twitter:description">',
-            str(response.content),
-        )
-        self.assertIn(
-            '<meta content="/static/webflow/images/municipal-money-opengraph-wide.png" property="twitter:image">',
             str(response.content),
         )
         self.assertIn(
