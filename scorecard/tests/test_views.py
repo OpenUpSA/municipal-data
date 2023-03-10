@@ -59,11 +59,9 @@ class GeographyDetailViewTestCase(TransactionTestCase):
         self.assertIsInstance(page_data["municipal_category_descriptions"], dict)
 
 
-@override_settings(
-    SITE_ID=2,
-    STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage",
-)
 class IndexViewTestCase(TransactionTestCase):
+    serialized_rollback = True
+
     def test_metatags(self):
         client = Client()
         response = client.get("/")
