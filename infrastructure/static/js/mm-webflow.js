@@ -277,6 +277,7 @@ function mmWebflow(js) {
 
       var removeFilters = function (payload) {
         me.search.clearFacets(payload.fieldName);
+        updateURLSearch(fieldName, null);
         triggerSearch();
       };
 
