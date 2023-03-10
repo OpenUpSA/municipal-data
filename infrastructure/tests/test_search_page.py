@@ -95,6 +95,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.wait_until_text_in(".page-heading", "2019/2020")
         self.wait_until_text_in("#municipality-dropdown", "Buffalo City")
         self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#search-total-forecast", "R4,000")
 
         self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
         self.wait_until_text_in("#result-list-container", "ADMINISTRATIVE AND CORPORATE SUPPORT")
@@ -133,6 +134,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         )
 
         self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#search-total-forecast", "R12,000")
 
         self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
         self.wait_until_text_in("#result-list-container", "ADMINISTRATIVE AND CORPORATE SUPPORT")
@@ -254,6 +256,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.click("#Search-Button")
 
         self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#search-total-forecast", "R7,000")
         self.wait_until_text_in("#result-list-container", "P-CIN RDS ROADS")
         self.wait_until_text_in("#result-list-container", "R7.00 K")
 
@@ -276,6 +279,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.wait_until_text_in(".page-heading", "2019/2020")
         self.wait_until_text_in("#municipality-dropdown", "Buffalo City")
         self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#search-total-forecast", "Not available")
         self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
         self.wait_until_text_in("#result-list-container > a.narrow-card_wrapper-2.w-inline-block > div.narrow-card_last-column-2", "")
 
@@ -302,6 +306,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.wait_until_text_in("#type-dropdown", "New")
         self.wait_until_text_in("#functions-dropdown", "Administrative and Corporate Support")
         self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#search-total-forecast", "Not available")
         self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
 
     def test_search_events(self):
@@ -322,22 +327,27 @@ class CapitalSearchTest(BaseSeleniumTestCase):
             f"{self.live_server_url}/infrastructure/projects/?municipality=Buffalo+City"
         )
         self.wait_until_text_in(".search-detail_projects", "2")
+        self.wait_until_text_in("#search-total-forecast", "R14,000")
 
         # Press enter key
         self.enter_text("#Infrastructure-Search-Input", "P-CIN RDS ROADS")
         selenium.find_element_by_css_selector("#Infrastructure-Search-Input").send_keys(Keys.RETURN)
         self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#search-total-forecast", "R7,000")
         # Click clear filter button
         self.click(".clear-filter__text")
         self.wait_until_text_in(".search-detail_projects", "2")
+        self.wait_until_text_in("#search-total-forecast", "R14,000")
         # Add a filter with a dropdown menu
         self.click("#functions-dropdown .chart-dropdown_trigger")
         self.selenium.find_elements_by_css_selector("#functions-dropdown .chart-dropdown_list a")[1].click()
         self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#search-total-forecast", "R7,000")
         # Remove filters with a dropdown menu
         self.click("#functions-dropdown")
         self.click("#functions-dropdown")
         self.wait_until_text_in(".search-detail_projects", "2")
+        self.wait_until_text_in("#search-total-forecast", "R14,000")
 
     def test_back_button(self):
         geography = Geography.objects.get(geo_code="BUF")
@@ -357,6 +367,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
             f"{self.live_server_url}/infrastructure/projects/?municipality=Buffalo+City"
         )
         self.wait_until_text_in(".search-detail_projects", "2")
+        self.wait_until_text_in("#search-total-forecast", "R14,000")
 
         # Add a filter with a dropdown menu
         self.click("#functions-dropdown .chart-dropdown_trigger")
