@@ -60,16 +60,21 @@ def stack_chart(services_queryset, bill_totals_queryset):
         household_class = HouseholdClass.objects.filter(name=class_name)
         filtered_queryset = is_range(household_class, bill_totals_queryset)
 
-        available_years = []
+        bill_years = []
         for bills in filtered_queryset:
             if bills["household_class__name"] == class_name:
-                available_years.append(bills["financial_year__budget_year"])
+                bill_years.append(bills["financial_year__budget_year"])
+        service_years = []
+        for service in services_queryset:
+            if service["household_class__name"] == class_name:
+                service_years.append(service["financial_year__budget_year"])
+        available_years = bill_years + service_years
 
         services = HouseholdService.objects.all().values("name")
         for s in services:
             service_total_data[s["name"]] = {"x": [], "y": []}
         for result in services_queryset:
-            if result["financial_year__budget_year"] in available_years:
+            if result["financial_year__budget_year"] in set(available_years):
                 if result["total"]:
                     service_total_data[result["service__name"]]["x"].append(
                         result["financial_year__budget_year"]

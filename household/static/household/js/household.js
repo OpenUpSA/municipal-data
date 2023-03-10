@@ -44,7 +44,7 @@ function income_chart(incomeData, container, yearly_percent) {
   var percArr = [];
   for (var i = 0; i < years.length; i++) {
     var value = yearly_percent[years[i]];
-    if (value !== '' && value !== '-') {
+    if (value !== '' && value !== '-' && value !== undefined) {
       percArr.push(`<b style="padding-top:5px">${value} %</b>`);
     } else {
       percArr.push('N/A');
