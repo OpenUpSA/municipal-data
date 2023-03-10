@@ -19,7 +19,7 @@ const currentLang = '.language-dropdown .dropdown__current-select';
 const currentSize = '.size-dropdown .dropdown__current-select';
 
 const videos = {
-  'Introduction to Municapal Finance': {
+  'Introduction to Municipal Finance': {
     description: '',
     embed: 'HeQiX_e8ubg',
     languages: [
@@ -30,11 +30,11 @@ const videos = {
       ['Zulu', 'zulu'],
     ],
     files: {
-      eng: [[66.9, 'Municipal_Money%3A_Intro_to_Municipal_Finance_English.mp4'], [27.7, 'compressed/Municipal%2BMoney_%2BIntro%2Bto%2BMunicipal%2BFinance%2BEnglish.mp4']],
-      xhosa: [[73.2, 'Municipal_Money%3A_Intro_to_Municipal_Finance_isiXhosa.mp4'], [30.4, 'compressed/Municipal%2BMoney_%2BIntro%2Bto%2BMunicipal%2BFinance%2BisiXhosa.mp4']],
-      afr: [[82.5, 'Municipal_Money%3A_Intro_to_Municipal_Finance_Afrikaans.mp4'], [27.8, 'compressed/Municipal%2BMoney_%2BIntro%2Bto%2BMunicipal%2BFinance%2BAfrikaans.mp4']],
-      sotho: [[76.9, 'Municipal_Money%3A_Intro_to_Municipal_Finance_Sotho.mp4'], [27.7, 'compressed/Municipal%2BMoney_%2BIntro%2Bto%2BMunicipal%2BFinance%2BSotho.mp4']],
-      zulu: [[87.2, 'Municipal_Money%3A_Intro_to_Municipal_Finance_Zulu.mp4'], [31.3, 'compressed/Municipal%2BMoney_%2BIntro%2Bto%2BMunicipal%2BFinance%2BZulu.mp4']],
+      eng: [["66.9 MB", 'Municipal_Money%3A_Intro_to_Municipal_Finance_English.mp4'], ["27.7 MB", 'compressed/Municipal%2BMoney_%2BIntro%2Bto%2BMunicipal%2BFinance%2BEnglish.mp4']],
+      xhosa: [["73.2 MB", 'Municipal_Money%3A_Intro_to_Municipal_Finance_isiXhosa.mp4'], ["30.4 MB", 'compressed/Municipal%2BMoney_%2BIntro%2Bto%2BMunicipal%2BFinance%2BisiXhosa.mp4']],
+      afr: [["82.5 MB", 'Municipal_Money%3A_Intro_to_Municipal_Finance_Afrikaans.mp4'], ["27.8 MB", 'compressed/Municipal%2BMoney_%2BIntro%2Bto%2BMunicipal%2BFinance%2BAfrikaans.mp4']],
+      sotho: [["76.9 MB", 'Municipal_Money%3A_Intro_to_Municipal_Finance_Sotho.mp4'], ["27.7 MB", 'compressed/Municipal%2BMoney_%2BIntro%2Bto%2BMunicipal%2BFinance%2BSotho.mp4']],
+      zulu: [["87.2 MB", 'Municipal_Money%3A_Intro_to_Municipal_Finance_Zulu.mp4'], ["31.3 MB", 'compressed/Municipal%2BMoney_%2BIntro%2Bto%2BMunicipal%2BFinance%2BZulu.mp4']],
     },
     sectionMarkers: ['intro'],
   },
@@ -45,7 +45,7 @@ const videos = {
       ['English', 'eng'],
     ],
     files: {
-      eng: [[22.7, 'Municipal_Money%3A_Irregular%2C_Fruitless_and_Wasteful_Expenditure.mp4'], [9.0, 'compressed/Municipal%2BMoney_%2BIrregular%2C%2BFruitless%2Band%2BWasteful%2BExpenditure.mp4']],
+      eng: [["22.7 MB", 'Municipal_Money%3A_Irregular%2C_Fruitless_and_Wasteful_Expenditure.mp4'], ["9.0 MB", 'compressed/Municipal%2BMoney_%2BIrregular%2C%2BFruitless%2Band%2BWasteful%2BExpenditure.mp4']],
     },
     sectionMarkers: ['wasteful-expenditure'],
   },
@@ -56,7 +56,7 @@ const videos = {
       ['English', 'eng'],
     ],
     files: {
-      eng: [[13.6, 'Municipal_Money%3A_Liquidity.mp4'], [10.7, 'compressed/Municipal%2BMoney_%2BLiquidity.mp4']],
+      eng: [["13.6 MB", 'Municipal_Money%3A_Liquidity.mp4'], ["10.7 MB", 'compressed/Municipal%2BMoney_%2BLiquidity.mp4']],
     },
     sectionMarkers: ['liquidity-ratio', 'current-ratio'],
   },
@@ -67,7 +67,7 @@ const videos = {
       ['English', 'eng'],
     ],
     files: {
-      eng: [[6.0, 'Municipal_Money%3A_Sources_of_Income.mp4']],
+      eng: [["6.0 MB", 'Municipal_Money%3A_Sources_of_Income.mp4']],
     },
     sectionMarkers: ['income'],
   },
@@ -78,7 +78,7 @@ const videos = {
       ['English', 'eng'],
     ],
     files: {
-      eng: [[12.5, 'Municipal_Money%3A_Spending_of_the_Capital_Budget.mp4'], [4.5, 'compressed/Municipal%2BMoney_%2BSpending%2Bof%2Bthe%2BCapital%2BBudget.mp4']],
+      eng: [["12.5 MB", 'Municipal_Money%3A_Spending_of_the_Capital_Budget.mp4'], ["4.5 MB", 'compressed/Municipal%2BMoney_%2BSpending%2Bof%2Bthe%2BCapital%2BBudget.mp4']],
     },
     sectionMarkers: ['capital-budget'],
   },
@@ -89,7 +89,7 @@ const videos = {
       ['English', 'eng'],
     ],
     files: {
-      eng: [[13.8, 'Municipal_Money%3A_Spending_of_the_Operating_Budget.mp4'], [5.1, 'compressed/Municipal%2BMoney_%2BSpending%2Bof%2Bthe%2BOperating%2BBudget.mp4']],
+      eng: [["13.8 MB", 'Municipal_Money%3A_Spending_of_the_Operating_Budget.mp4'], ["5.1 MB", 'compressed/Municipal%2BMoney_%2BSpending%2Bof%2Bthe%2BOperating%2BBudget.mp4']],
     },
     sectionMarkers: ['operating-budget'],
   },
@@ -100,7 +100,7 @@ const videos = {
       ['English', 'eng'],
     ],
     files: {
-      eng: [[11.8, 'Municipal_Money%3A_Spending_on_Repairs_%26_Maintenance.mp4'], [4.9, 'compressed/Municipal%2BMoney_%2BSpending%2Bon%2BRepairs%2B_%2BMaintenance.mp4']],
+      eng: [["11.8 MB", 'Municipal_Money%3A_Spending_on_Repairs_%26_Maintenance.mp4'], ["4.9 MB", 'compressed/Municipal%2BMoney_%2BSpending%2Bon%2BRepairs%2B_%2BMaintenance.mp4']],
     },
     sectionMarkers: ['repairs-maintenance'],
   },
@@ -111,7 +111,7 @@ const videos = {
       ['English', 'eng'],
     ],
     files: {
-      eng: [[22.5, 'Municipal_Money%3A_Cash_Balances_and_Cash_Coverage.mp4'], [7.0, 'compressed/Municipal%2BMoney_%2BCash%2BBalances%2Band%2BCash%2BCoverage.mp4']],
+      eng: [["22.5 MB", 'Municipal_Money%3A_Cash_Balances_and_Cash_Coverage.mp4'], ["7.0 MB", 'compressed/Municipal%2BMoney_%2BCash%2BBalances%2Band%2BCash%2BCoverage.mp4']],
     },
     sectionMarkers: ['cash-balance', 'cash-coverage'],
   },
@@ -122,7 +122,7 @@ const videos = {
       ['English', 'eng'],
     ],
     files: {
-      eng: [[11.8, "Municipal_Money%3A_Debtors'_Collections_Ratio.mp4"], [4.5, 'compressed/Municipal%2BMoney%2BDebtors_%2BCollections%2BRatio.mp4']],
+      eng: [["11.8 MB", "Municipal_Money%3A_Debtors'_Collections_Ratio.mp4"], ["4.5 MB", 'compressed/Municipal%2BMoney%2BDebtors_%2BCollections%2BRatio.mp4']],
     },
     sectionMarkers: ['collection-rate'],
   },
@@ -133,7 +133,7 @@ const videos = {
       ['English', 'eng'],
     ],
     files: {
-      eng: [[57.4, 'Municipal_Money%3A_Conditional_Grants.mp4'], [8.7, 'compressed/Municipal_Money%3A_Conditional_Grants.mp4']],
+      eng: [["57.4 MB", 'Municipal_Money%3A_Conditional_Grants.mp4'], ["8.7 MB", 'compressed/Municipal_Money%3A_Conditional_Grants.mp4']],
     },
     sectionMarkers: ['grants'],
   },
@@ -144,7 +144,7 @@ const videos = {
       ['English', 'eng'],
     ],
     files: {
-      eng: [[129.6, 'Municipal_Money%3A_Household_Bills.mp4'], [13.9, 'compressed/Municipal_Money%3A_Household_Bills.mp4']],
+      eng: [["129.6 MB", 'Municipal_Money%3A_Household_Bills.mp4'], ["13.9 MB", 'compressed/Municipal_Money%3A_Household_Bills.mp4']],
     },
     sectionMarkers: ['household'],
   },
@@ -155,7 +155,7 @@ const videos = {
       ['English', 'eng'],
     ],
     files: {
-      eng: [[12.2, 'Municipal_Money%3A_Capital_Projects.mp4'], [3.0, 'compressed/Municipal_Money%3A_Capital_Projects.mp4']],
+      eng: [["12.2 MB", 'Municipal_Money%3A_Capital_Projects.mp4'], ["3.0 MB", 'compressed/Municipal_Money%3A_Capital_Projects.mp4']],
     },
     sectionMarkers: ['municipal-budget'],
   },
@@ -179,7 +179,7 @@ $.each(videos, function (name, value) {
     videoBlock.find(downloadBtn).attr('href', `${videoStorage}${defaultFile[1]}`);
   });
   this.dropdownSize.$element.on('option-select', (e) => {
-    videoBlock.find(downloadBtn).attr('href', `${videoStorage}${e.detail}`);
+    videoBlock.find(downloadBtn).attr('href', `${videoStorage}${e.detail} xxxxx`);
   });
 
   // Disable language dropdown with only one option
