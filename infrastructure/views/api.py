@@ -119,8 +119,8 @@ class ProjectSearch(generics.ListCreateAPIView):
         "function": "function",
         "project_type": "project_type",
         "geography__province_name": "province",
-        "quarterly__financial_year__budget_year":"financial_year",
-        "expenditure__budget_phase__name":"quarterly_phase",
+        "quarterly__financial_year__budget_year": "financial_year",
+        "expenditure__budget_phase__name": "quarterly_phase",
     }
 
     order_fields = {
@@ -139,7 +139,9 @@ class ProjectSearch(generics.ListCreateAPIView):
         queryset = self.add_filters(queryset, request.GET, self.annual_fieldmap)
         queryset = self.text_search(queryset, search_query)
 
-        queryset = queryset | self.add_filters(self.get_queryset(), request.GET, self.quarterly_fieldmap)
+        queryset = queryset | self.add_filters(
+            self.get_queryset(), request.GET, self.quarterly_fieldmap
+        )
         queryset = self.text_search(queryset, search_query)
 
         facets = self.get_facets(queryset)
@@ -189,7 +191,7 @@ class ProjectSearch(generics.ListCreateAPIView):
 
     def get_facets(self, qs):
         def facet_query(field):
-            return qs.values(field).annotate(count=Count(field))
+            return qs.values(field).annotate(count=Count("id", distinct=True))
 
         facet_muni = facet_query("geography__name")
         facet_type = facet_query("project_type")
