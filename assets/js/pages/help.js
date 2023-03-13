@@ -136,7 +136,7 @@ const videos = {
     sectionMarkers: ['grants'],
   },
   'Household Bills': {
-    description: 'Income source originating from residents',
+    description: 'Income sources originating from residents',
     embed: 'GwvMI2GVwCg',
     languages: [
       ['English', 'eng'],
