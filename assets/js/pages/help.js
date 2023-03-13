@@ -147,7 +147,7 @@ const videos = {
     sectionMarkers: ['household'],
   },
   'Capital Projects': {
-    description: 'Short overview of municipal budgeting with regards to capital projects.',
+    description: 'Short overview of municipal budgeting with regard to capital projects.',
     embed: 'i7KdL1b9tPk',
     languages: [
       ['English', 'eng'],
