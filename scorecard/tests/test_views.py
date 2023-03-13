@@ -5,6 +5,7 @@ from django.test import (
     TransactionTestCase,
     Client,
     override_settings,
+    SimpleTestCase,
 )
 
 from . import (
@@ -59,9 +60,7 @@ class GeographyDetailViewTestCase(TransactionTestCase):
         self.assertIsInstance(page_data["municipal_category_descriptions"], dict)
 
 
-class IndexViewTestCase(TransactionTestCase):
-    serialized_rollback = True
-
+class IndexViewTestCase(SimpleTestCase):
     def test_metatags(self):
         client = Client()
         response = client.get("/")
