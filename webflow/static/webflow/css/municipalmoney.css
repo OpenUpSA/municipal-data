@@ -5644,7 +5644,7 @@ figure {
   padding-top: 32px;
   padding-bottom: 32px;
   grid-column-gap: 32px;
-  grid-row-gap: 32px;
+  grid-row-gap: 16px;
   border-top: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
 }
@@ -5816,6 +5816,10 @@ figure {
   -ms-flex-direction: column;
   flex-direction: column;
   grid-row-gap: 10px;
+}
+
+.rich-text.is-space-below {
+  margin-bottom: 24px;
 }
 
 @media screen and (max-width: 991px) {
