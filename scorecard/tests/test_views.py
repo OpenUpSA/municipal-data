@@ -5,7 +5,7 @@ from django.test import (
     TransactionTestCase,
     Client,
     override_settings,
-    SimpleTestCase,
+    TestCase,
 )
 
 from . import (
@@ -60,7 +60,7 @@ class GeographyDetailViewTestCase(TransactionTestCase):
         self.assertIsInstance(page_data["municipal_category_descriptions"], dict)
 
 
-class IndexViewTestCase(SimpleTestCase):
+class IndexViewTestCase(TestCase):
     def test_metatags(self):
         client = Client()
         response = client.get("/")
