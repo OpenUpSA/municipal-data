@@ -18,7 +18,7 @@ const downloadBtn = '.informational-video_download-button';
 
 const videos = {
   'Introduction to Municipal Finance': {
-    description: '',
+    description: 'An overview of where Municipal Money fits into the process of participating in local government.',
     embed: 'HeQiX_e8ubg',
     languages: [
       ['English', 'eng'],
@@ -36,8 +36,8 @@ const videos = {
     },
     sectionMarkers: ['intro'],
   },
-  'Irregular, Fruitless and Wasteful Expenditure': {
-    description: '',
+  'Unauthorized, Irregular, Fruitless and Wasteful Expenditure': {
+    description: 'Expediture that was not budgeted for.',
     embed: 'WVZBVJTh0u0',
     languages: [
       ['English', 'eng'],
@@ -48,7 +48,7 @@ const videos = {
     sectionMarkers: ['wasteful-expenditure'],
   },
   Liquidity: {
-    description: '',
+    description: 'Ability to meet liabilities.',
     embed: '6WUDTN7kBZI',
     languages: [
       ['English', 'eng'],
@@ -59,7 +59,7 @@ const videos = {
     sectionMarkers: ['liquidity-ratio', 'current-ratio'],
   },
   'Sources of Income': {
-    description: '',
+    description: 'Where a municipality draws revenue from.',
     embed: 'zb2Wph6Mbpo',
     languages: [
       ['English', 'eng'],
@@ -70,7 +70,7 @@ const videos = {
     sectionMarkers: ['income'],
   },
   'Spending of the Capital Budget': {
-    description: '',
+    description: 'The Capital Budget is allocated to spending on infrastructure projects.',
     embed: 'L7rfUkK5PJI',
     languages: [
       ['English', 'eng'],
@@ -81,7 +81,7 @@ const videos = {
     sectionMarkers: ['capital-budget'],
   },
   'Spending of the Operating Budget': {
-    description: '',
+    description: 'The Operating Budget is for day to day spending such as salaries, water and electricity.',
     embed: 'r8_W4Yn0Oz8',
     languages: [
       ['English', 'eng'],
@@ -92,7 +92,7 @@ const videos = {
     sectionMarkers: ['operating-budget'],
   },
   'Spending on Repairs & Maintenance': {
-    description: '',
+    description: 'Maintenance and renewal of infrastructure',
     embed: 'f2CdUnsEBXA',
     languages: [
       ['English', 'eng'],
@@ -103,7 +103,7 @@ const videos = {
     sectionMarkers: ['repairs-maintenance'],
   },
   'Cash Balances and Cash Coverage': {
-    description: '',
+    description: 'Cash balance is money left after paying expenses. Cash coverage is the ability to cover recurring costs.',
     embed: '-sGcopgP4u0',
     languages: [
       ['English', 'eng'],
@@ -114,7 +114,7 @@ const videos = {
     sectionMarkers: ['cash-balance', 'cash-coverage'],
   },
   "Debtors' Collections Ratio": {
-    description: '',
+    description: 'How well a municipality is meeting it\'s revenue targets',
     embed: 'A15Fvwcx_OY',
     languages: [
       ['English', 'eng'],
@@ -125,7 +125,7 @@ const videos = {
     sectionMarkers: ['collection-rate'],
   },
   'Conditional Grants': {
-    description: '',
+    description: 'A municipalities revenue source originating from National Government that has rules on where it should be spent',
     embed: 'bXL3p5khtio',
     languages: [
       ['English', 'eng'],
@@ -136,7 +136,7 @@ const videos = {
     sectionMarkers: ['grants'],
   },
   'Household Bills': {
-    description: '',
+    description: 'Income source originating from residents',
     embed: 'GwvMI2GVwCg',
     languages: [
       ['English', 'eng'],
@@ -147,7 +147,7 @@ const videos = {
     sectionMarkers: ['household'],
   },
   'Capital Projects': {
-    description: '',
+    description: 'Short overview of municipal budgeting with regards to capital projects.',
     embed: 'i7KdL1b9tPk',
     languages: [
       ['English', 'eng'],
