@@ -65,7 +65,7 @@ const videos = {
       ['English', 'eng'],
     ],
     files: {
-      eng: [['Full size 6.0 MB', 'Municipal_Money%3A_Sources_of_Income.mp4']],
+      eng: [['Small size 6.0 MB', 'Municipal_Money%3A_Sources_of_Income.mp4']],
     },
     sectionMarkers: ['income'],
   },
