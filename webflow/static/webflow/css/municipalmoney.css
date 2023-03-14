@@ -2785,11 +2785,6 @@ figure {
   background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04));
 }
 
-.dropdown-toggle.dropdown-toggle--grey {
-  color: rgba(77, 77, 77, 0.4);
-  cursor: default;
-}
-
 .dropdown-toggle.dropdown-toggle--grey:hover {
   background-image: none;
 }
@@ -2816,6 +2811,15 @@ figure {
   -webkit-flex: 0 auto;
   -ms-flex: 0 auto;
   flex: 0 auto;
+}
+
+.dropdown-toggle.dropdown-toggle--disabled {
+  color: rgba(77, 77, 77, 0.4);
+  cursor: default;
+}
+
+.dropdown-toggle.dropdown-toggle--disabled:hover {
+  background-image: none;
 }
 
 .dropdown-list {
