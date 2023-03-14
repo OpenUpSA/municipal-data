@@ -185,7 +185,7 @@ $.each(videos, function (name, value) {
     $(videoBlock.find(toggleLang)).addClass('dropdown-toggle--grey');
   }
 
-  const videoEmbed = `<iframe frameborder='0' src='https://www.youtube.com/embed/${value.embed}'></iframe>`;
+  const videoEmbed = `<iframe width='100%' height='100%' frameborder='0' src='https://www.youtube.com/embed/${value.embed}'></iframe>`;
   videoBlock.find('.informational-video_video-wrapper').html(videoEmbed);
   videoBlock.appendTo(infoVideo);
   if (value.sectionMarkers.length > 0) {
