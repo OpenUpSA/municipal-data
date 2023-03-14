@@ -812,7 +812,7 @@ function mmWebflow(js) {
     setValue($('.geography .municipality, .breadcrumbs .municipality'), js.geography.name);
     setValue($('.geography .ward'), js.ward_location);
     // TODO remove
-    $('.project-detail_text.municipality').html(`<a href="/infrastructure/projects?province=${js.geography.province_name}&municipality=${js.geography.name}">${js.geography.name}</a>`);
+    $('.project-detail_text.municipality').html(`<a href="/profiles/municipality-${js.geography.geo_code}">${js.geography.name}</a>`);
     $('.breadcrumbs__crumb:first').attr('href', '/infrastructure/projects');
     $('.breadcrumbs .province').attr('href', `/infrastructure/projects?province=${js.geography.province_name}`);
     $('.breadcrumbs .municipality').attr('href', `/infrastructure/projects?province=${js.geography.province_name}&municipality=${js.geography.name}`);

@@ -95,7 +95,7 @@ class CapitalProjectTest(BaseSeleniumTestCase):
 
         self.href_contains_url(
             ".project-detail_text.municipality",
-            f"{self.live_server_url}/infrastructure/projects?province=Eastern%20Cape&municipality=Buffalo%20City",
+            f"{self.live_server_url}/profiles/municipality-BUF",
         )
 
         self.wait_until_text_in(".subsection-chart_wrapper .project-detail_heading", "NO DATA AVAILABLE")
