@@ -182,7 +182,7 @@ $.each(videos, function (name, value) {
 
   // Disable language dropdown with only one option
   if (value.languages.length <= 1) {
-    $(videoBlock.find(toggleLang)).addClass('dropdown-toggle--grey');
+    $(videoBlock.find(toggleLang)).addClass('dropdown-toggle--disabled');
   }
 
   const videoEmbed = `<iframe width='100%' height='100%' frameborder='0' src='https://www.youtube.com/embed/${value.embed}'></iframe>`;
