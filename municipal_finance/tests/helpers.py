@@ -53,3 +53,7 @@ class BaseSeleniumTestCase(LiveServerTestCase):
 
     def click(self, selector):
         self.selenium.find_element_by_css_selector(selector).click()
+
+    def href_contains_url(self, selector, link):
+        element = self.selenium.find_elements_by_css_selector(f"{selector} [href]")[0]
+        self.assertEquals(element.get_attribute("href"), link)
