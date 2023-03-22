@@ -4,7 +4,7 @@ class Icon {
   constructor($template, iconClasses, color) {
     this.$element = $template.clone();
     this.$element.removeClass("audit-outcome__icon--green audit-outcome__icon--yellow");
-    this.$element.addClass(`audit-outcome__icon--${ color }`);
+    this.$element.addClass(`audit-outcome__icon--${color}`);
     this.$element.find("div").attr("class", iconClasses);
   }
 
@@ -63,8 +63,16 @@ export class AuditOpinions {
     this.$element = $(this.selector);
     logIfUnequal(1, this.$element.length);
     reports.values.forEach((report, index) => {
-      const $element = this.$element.find(`.audit-outcome:eq(${ index })`);
+      const $element = this.$element.find(`.audit-outcome:eq(${index})`);
       new ReportCard($element, report);
     });
+
+    $(`${this.selector} .expand-block`).on('click', ((e) => {
+      gtag('event', 'about_indicator', {
+        category: "More info",
+        action: "Expand",
+        label: `audit-outcomes ${$(e.target).text()}`,
+      });
+    }));
   }
 }

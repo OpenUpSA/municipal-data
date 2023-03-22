@@ -10,7 +10,9 @@ $(() => {
     $iframe.attr('src', `${this.href}?autoplay=1`);
     ga('send', 'event', 'play-video', $btn.data('lang'));
     gtag('event', 'play_video', {
-      lang: $btn.data('lang'),
+      category: 'Portal video',
+      action: 'Play',
+      label: $btn.data('lang'),
     });
   });
 
@@ -20,10 +22,25 @@ $(() => {
       $iframe.attr('src', `${$target.attr('href')}?autoplay=1`);
       ga('send', 'event', 'play-video', $target.data('lang'));
       gtag('event', 'play_video', {
-        lang: $btn.data('lang'),
+        category: 'Portal video',
+        action: 'Open modal',
+        label: $btn.data('lang'),
       });
     })
     .on('hide.bs.modal', () => {
       $iframe.attr('src', '');
     });
+
+  $('.btn-group a').on('click', (e) => {
+    const cubeName = $(e.target).parents('.cube').find('.btn-group').children()
+      .remove()
+      .end()
+      .text()
+      .trim();
+    gtag('event', 'click_cube', {
+      category: 'Portal Cubes',
+      action: 'Click',
+      label: `${cubeName} - ${$(e.target).text()}`,
+    });
+  });
 });

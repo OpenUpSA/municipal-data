@@ -22,6 +22,15 @@ class OfficeContact {
       "fas fa-user-alt",
       `${office.secretary.title} ${office.secretary.name}`
     ).insertAfter($innerHeading);
+
+    this.$staffExpand = this.$element.find(".expand-block__trigger");
+    this.$staffExpand.on('click', ((e) => {
+      gtag('event', 'contact_info', {
+        category: "Contacts",
+        action: "Expand",
+        label: `${office.role}`,
+      });
+    }));
   }
 
   makeItem(iconClasses, value, linkType) {
@@ -65,10 +74,10 @@ export class ContactSection {
     if (emails.length >= 2) {
       const body = `You can explore Municipal Finance for ${geography.name}  at ${window.location}`;
       const url = ('mailto:' +
-                 emails.slice(0,2).join(';') +
-                 '?cc=feedback@municipalmoney.gov.za' +
-                 '&subject=' + encodeURIComponent('Feedback via Municipal Money') +
-                 '&body=\n\n\n' + encodeURIComponent(body));
+        emails.slice(0, 2).join(';') +
+        '?cc=feedback@municipalmoney.gov.za' +
+        '&subject=' + encodeURIComponent('Feedback via Municipal Money') +
+        '&body=\n\n\n' + encodeURIComponent(body));
       this.$element.find(".button--email-muni")
         .attr("href", url)
         .css("display", "grid");
@@ -96,7 +105,7 @@ export class ContactSection {
       muniContact.street_address_2,
       muniContact.street_address_3,
       muniContact.street_address_4,
-    ].forEach((line) => {if (line) address += `${line}\n`;});
+    ].forEach((line) => { if (line) address += `${line}\n`; });
     if (address) {
       const addressBlock = this.$element.find(".muni-address");
       addressBlock.css("display", "block");
@@ -109,6 +118,19 @@ export class ContactSection {
         .css("display", "inline");
     }
 
+    this.$staffLinks = this.$contactContainer.find(".expand-block__trigger a");
+    this.$muniLinks = this.$element.find("a");
+    this.callTagEvent(this.$staffLinks, `${$(e.target).text()}`);
+    this.callTagEvent(this.$muniLinks, "Municipal wide contacts");
+  }
 
+  callTagEvent(target, label) {
+    target.on('click', ((e) => {
+      gtag('event', "contact_info", {
+        category: "Contacts",
+        action: "Click",
+        label: label,
+      });
+    }));
   }
 }
