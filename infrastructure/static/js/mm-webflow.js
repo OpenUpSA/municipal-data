@@ -144,7 +144,7 @@ function mmWebflow(js) {
         var me = this;
 
         optionElement.click(() => {
-          $('.chart-dropdown_list').removeClass("w--open");
+          $('.chart-dropdown_list').removeClass('w--open');
           me.setSelected(label.text);
           ev(label);
         });
