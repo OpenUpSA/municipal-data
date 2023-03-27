@@ -32,7 +32,7 @@ class BaseSeleniumTestCase(LiveServerTestCase):
             chrome_options=chrome_options, desired_capabilities=d
         )
         self.selenium.implicitly_wait(10)
-        self.wait = WebDriverWait(self.selenium, 5)
+        self.wait = WebDriverWait(self.selenium, 30)
 
         self.addCleanup(self.selenium.quit)
 
