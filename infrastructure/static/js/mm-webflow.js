@@ -135,6 +135,10 @@ function mmWebflow(js) {
         $(this.el).find('.dropdown-link').remove();
       },
 
+      hideOptions() {
+        this.el.triggerHandler('w-close.w-dropdown');
+      },
+
       setSelected(label) {
         this.selectedElement.find('.text-block').text(label);
       },
@@ -144,8 +148,8 @@ function mmWebflow(js) {
         var me = this;
 
         optionElement.click(() => {
-          $('.chart-dropdown_list').removeClass('w--open');
           me.setSelected(label.text);
+          me.hideOptions();
           ev(label);
         });
 
