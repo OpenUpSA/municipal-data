@@ -335,7 +335,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.wait_until_text_in(".search-detail_projects", "1")
         self.wait_until_text_in("#search-total-forecast", "R7,000")
         # Click clear filter button
-        self.click("#clear-filters-button")
+        self.click(".clear-filters-button")
         self.wait_until_text_in(".search-detail_projects", "2")
         self.wait_until_text_in("#search-total-forecast", "R14,000")
         # Add a filter with a dropdown menu
