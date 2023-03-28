@@ -328,7 +328,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         selenium.find_element_by_css_selector("#Infrastructure-Search-Input").send_keys(Keys.RETURN)
         self.wait_until_text_in(".search-detail_projects", "1")
         # Click clear filter button
-        self.click(".clear-filter__text")
+        self.click("#clear-filters-button")
         self.wait_until_text_in(".search-detail_projects", "2")
         # Add a filter with a dropdown menu
         self.click("#functions-dropdown .chart-dropdown_trigger")
