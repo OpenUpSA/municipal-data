@@ -1,5 +1,5 @@
 {% load static %}
-<!DOCTYPE html><!--  This site was created in Webflow. https://www.webflow.com  --><!--  Last Published: Thu Sep 01 2022 09:52:58 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5db2adb5e800a54297f2f9a6" data-wf-site="5db2adb5e800a59830f2f99c"><head>
+<!DOCTYPE html><!--  This site was created in Webflow. https://www.webflow.com  --><!--  Last Published: Tue Mar 28 2023 07:39:44 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5db2adb5e800a54297f2f9a6" data-wf-site="5db2adb5e800a59830f2f99c"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_title }}" property="og:title">
@@ -9,6 +9,8 @@
   <link href="/static/css/normalize.css" rel="stylesheet" type="text/css">
   <link href="/static/css/webflow.css" rel="stylesheet" type="text/css">
   <link href="/static/css/muni-money-infra.webflow.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
   <script type="text/javascript">
       WebFont.load({
@@ -25,7 +27,7 @@
         n.className += t + "js", ("ontouchstart" in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch")
       }(window, document);
     </script>
-  <link href="/static/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="/static/images/favicon.png" rel="shortcut icon" type="image/x-icon">
   <link href="/static/images/webclip.png" rel="apple-touch-icon">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" crossorigin="">
@@ -349,7 +351,7 @@
       <div class="row">
         <div class="col col-4 col-sm-12">
           <div class="footer__logos">
-            <a href="http://www.treasury.go.za" target="_blank" class="footer__logo w-inline-block"><img src="/static/images/treasury-logo.611e78e53f15.png" srcset="/static/images/treasury-logo.611e78e53f15-p-500.png 500w, images/treasury-logo.611e78e53f15.png 600w" sizes="(max-width: 479px) 86vw, 200px" alt="" class="image-2"></a>
+            <a href="http://www.treasury.go.za" target="_blank" class="footer__logo w-inline-block"><img src="/static/images/treasury-logo.611e78e53f15.png" sizes="(max-width: 479px) 86vw, 200px" srcset="/static/images/treasury-logo.611e78e53f15-p-500.png 500w, images/treasury-logo.611e78e53f15.png 600w" alt="" class="image-2"></a>
             <a href="http://www.openup.org.za" target="_blank" class="footer__logo _2 w-inline-block"><img src="/static/images/code4sa-logo.831760fd7c32.png" alt="" class="image-3"></a>
           </div>
         </div>
