@@ -310,7 +310,7 @@ function mmWebflow(js) {
         dropdown.on('selectedoption', addFilter);
       });
 
-      $('.clear-filters-button').on('click', () => {
+      $('#clear-filters-button').on('click', () => {
         $('#Infrastructure-Search-Input').val('');
         me.provinceDropDown.reset();
         me.municipalityDropDown.reset();
