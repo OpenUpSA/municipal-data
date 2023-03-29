@@ -29,9 +29,9 @@ const videos = {
     ],
     files: {
       eng: [['66.9 MB (Full size)', 'Municipal_Money%3A_Intro_to_Municipal_Finance_English.mp4'], ['14.9 MB (Small size)', 'compressed/Municipal_Money%3A_Intro_to_Municipal_Finance_English.mp4']],
-      xhosa: [['73.2 MB (Full size)', 'Municipal_Money%3A_Intro_to_Municipal_Finance_isiXhosa.mp4'], ['30.4 MB (Small size)', 'compressed/Municipal_Money%3A_Intro_to_Municipal_Finance_isiXhosa.mp4']],
-      afr: [['82.5 MB (Full size)', 'Municipal_Money%3A_Intro_to_Municipal_Finance_Afrikaans.mp4'], ['27.8 MB (Small size)', 'compressed/Municipal_Money%3A_Intro_to_Municipal_Finance_Afrikaans.mp4']],
-      sotho: [['76.9 MB (Full size)', 'Municipal_Money%3A_Intro_to_Municipal_Finance_Sotho.mp4'], ['27.7 MB (Small size)', 'compressed/Municipal_Money%3A_Intro_to_Municipal_Finance_Sotho.mp4']],
+      xhosa: [['73.2 MB (Full size)', 'Municipal_Money%3A_Intro_to_Municipal_Finance_isiXhosa.mp4'], ['14.9 MB (Small size)', 'compressed/Municipal_Money%3A_Intro_to_Municipal_Finance_isiXhosa.mp4']],
+      afr: [['82.5 MB (Full size)', 'Municipal_Money%3A_Intro_to_Municipal_Finance_Afrikaans.mp4'], ['14.7 MB (Small size)', 'compressed/Municipal_Money%3A_Intro_to_Municipal_Finance_Afrikaans.mp4']],
+      sotho: [['76.9 MB (Full size)', 'Municipal_Money%3A_Intro_to_Municipal_Finance_Sotho.mp4'], ['14.2 MB (Small size)', 'compressed/Municipal_Money%3A_Intro_to_Municipal_Finance_Sotho.mp4']],
       zulu: [['87.2 MB (Full size)', 'Municipal_Money%3A_Intro_to_Municipal_Finance_Zulu.mp4'], ['14.9 MB (Small size)', 'compressed/Municipal_Money%3A_Intro_to_Municipal_Finance_Zulu.mp4']],
     },
     sectionMarkers: ['intro'],
