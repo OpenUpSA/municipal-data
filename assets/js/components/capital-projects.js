@@ -21,5 +21,6 @@ export class CapitalProjectList {
       row.attr('href', project.url);
       row.insertAfter(tableHeader);
     });
+    this.$element.find('.video_download-button').attr('href', '/help#municipal-budget-video');
   }
 }
