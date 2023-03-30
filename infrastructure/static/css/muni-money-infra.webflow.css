@@ -230,7 +230,7 @@ a {
 }
 
 .section {
-  position: relative;
+  position: static;
   z-index: 1;
   padding-top: 42px;
 }
@@ -259,6 +259,8 @@ a {
 }
 
 .section.page-header {
+  position: relative;
+  z-index: 2;
   padding-bottom: 24px;
   background-color: rgba(0, 0, 0, 0.03);
 }
