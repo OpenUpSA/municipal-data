@@ -181,6 +181,50 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.assertEquals(download_column_headers(), headers)
         self.assertEquals(project_download_data(), project_row)
 
+    def test_project_download_with_quarterly(self):
+        geography = Geography.objects.get(geo_code="BUF")
+        financial_year = FinancialYear.objects.get(budget_year="2019/2020")
+
+        project_data = {
+            "function": "Administrative and Corporate Support",
+            "project_description": "P-CNIN FURN & OFF EQUIP",
+            "project_number": "PC002003005_00002",
+        }
+
+        project = Project.objects.create(
+            **project_base(geography, financial_year), **project_data
+        )
+        create_expenditure(project, 2000, "Audited Outcome", "2017/2018")
+        create_expenditure(project, 3000, "Full Year Forecast", "2018/2019")
+        create_expenditure(project, 4000, "Budget year", "2019/2020")
+        create_expenditure(project, 5000, "Budget year", "2020/2021")
+        create_expenditure(project, 6000, "Budget year", "2021/2022")
+
+        url = f"{self.live_server_url}/infrastructure/download?budget_phase=Budget+year&financial_year=2019%2F2020"
+
+        response = urllib.request.urlopen(url)
+        contents = response.readlines()
+        self.assertEquals(len(contents), 2)
+
+        quarterly_data = {
+            "function": "Economic Development/Planning",
+            "project_description": "P-CIN RDS ROADS",
+            "project_number": "PC001002006001_00028",
+        }
+
+        # Add quarterly project and check that the number of projects increases
+        project = Project.objects.create(
+            **project_base(geography, financial_year), **quarterly_data
+        )
+        create_expenditure(project, 7000, "Original Budget", "2019/2020")
+        ProjectQuarterlySpend.objects.create(
+            project=project, financial_year=financial_year, q1=1000
+        )
+
+        response = urllib.request.urlopen(url)
+        contents = response.readlines()
+        self.assertEquals(len(contents), 3)
+
     def test_search_projects(self):
         geography = Geography.objects.get(geo_code="BUF")
         financial_year = FinancialYear.objects.get(budget_year="2019/2020")
