@@ -4,7 +4,13 @@ from scorecard.models import Geography
 from municipal_finance.tests.helpers import BaseSeleniumTestCase
 from selenium.webdriver.common.keys import Keys
 from infrastructure.tests import utils
-from infrastructure.models import FinancialYear, Project, Expenditure, BudgetPhase, ProjectQuarterlySpend
+from infrastructure.models import (
+    FinancialYear,
+    Project,
+    Expenditure,
+    BudgetPhase,
+    ProjectQuarterlySpend,
+)
 
 import urllib.request
 from constance.test import override_config
@@ -14,15 +20,18 @@ def download_column_headers():
     columns = "province,municipality,project_number,project_description,project_type,function,asset_class,mtsf_service_outcome,own_strategic_objectives,iudf,budget phase,financial year,amount,latitude,longitude"
     return columns
 
+
 def project_download_data():
     project_data = 'Eastern Cape,Buffalo City,PC002003005_00002,P-CNIN FURN & OFF EQUIP,New,Administrative and Corporate Support,Furniture and Office Equipment,"An efficient, effective and development-oriented public service",OWN MUNICIPAL STRATEGIC OBJECTIVE,Growth,Budget year,2019/2020,4000.00,0.0,0.0'
     return project_data
 
+
 def get_download_row(row_contents):
-    row = row_contents.decode('utf-8')
-    row = row.strip('\n')
-    row = row.strip('\r')
+    row = row_contents.decode("utf-8")
+    row = row.strip("\n")
+    row = row.strip("\r")
     return row
+
 
 def create_expenditure(project, amount, phase, year):
     budget_phase = BudgetPhase.objects.get(name=phase)
@@ -35,6 +44,7 @@ def create_expenditure(project, amount, phase, year):
         amount=amount,
     )
     return expenditure
+
 
 def project_base(geography, year):
     return {
@@ -50,6 +60,7 @@ def project_base(geography, year):
         "latitude": "0",
         "latest_implementation_year": year,
     }
+
 
 def project_one():
     return {
@@ -98,7 +109,9 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.wait_until_text_in("#search-total-forecast", "R4,000")
 
         self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
-        self.wait_until_text_in("#result-list-container", "ADMINISTRATIVE AND CORPORATE SUPPORT")
+        self.wait_until_text_in(
+            "#result-list-container", "ADMINISTRATIVE AND CORPORATE SUPPORT"
+        )
         self.wait_until_text_in("#result-list-container", "R4.00 K")
 
         results = selenium.find_element_by_css_selector("#result-list-container")
@@ -113,7 +126,6 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         create_expenditure(project, 4000, "Budget year", "2019/2020")
         create_expenditure(project, 5000, "Budget year", "2020/2021")
         create_expenditure(project, 6000, "Budget year", "2021/2022")
-
 
         financial_year = FinancialYear.objects.get(budget_year="2020/2021")
         project_two = {
@@ -153,7 +165,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         download_button.click()
         self.assertEquals(download_button.get_attribute("href"), f"{self.live_server_url}/infrastructure/download?budget_phase=Budget+year&financial_year=2019%2F2020")
 
-    def test_download_url(self):
+    def test_project_download(self):
         geography = Geography.objects.get(geo_code="BUF")
         financial_year = FinancialYear.objects.get(budget_year="2019/2020")
 
@@ -163,7 +175,9 @@ class CapitalSearchTest(BaseSeleniumTestCase):
             "project_number": "PC002003005_00002",
         }
 
-        project = Project.objects.create(**project_base(geography, financial_year), **project_data)
+        project = Project.objects.create(
+            **project_base(geography, financial_year), **project_data
+        )
         create_expenditure(project, 2000, "Audited Outcome", "2017/2018")
         create_expenditure(project, 3000, "Full Year Forecast", "2018/2019")
         create_expenditure(project, 4000, "Budget year", "2019/2020")
