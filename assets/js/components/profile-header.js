@@ -95,6 +95,7 @@ export class ProfileHeader {
     if (messages.length > 0) {
       showProfileNotice(messages.join('<br />'));
     }
+    $('#tutorial-video .video_download-button').attr('href', '/help#intro-video');
   }
 
   populateInfo($container) {

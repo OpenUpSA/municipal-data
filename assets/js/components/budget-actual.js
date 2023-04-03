@@ -30,6 +30,7 @@ export class TimeSeriesSection {
 
     this._initChart();
     this._initLegend();
+    this.$element.find('.video_download-button').attr('href', '/help#income-video');
   }
 
   _initChart() {
