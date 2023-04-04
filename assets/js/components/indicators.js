@@ -325,8 +325,8 @@ export class IndicatorSection {
     this.comparisonButtonsContainer.insertBefore(this.chartContainer);
 
     this.getSimilarMunis('similar-same-province').then((similarProv) => {
-      if (similarProv.length === undefined || similarProv.length == 0) {
-        this.$element.find('.w-dropdown-list a[data-option=similar-same-province]').hide();
+      if (similarProv.length > 0) {
+        this.$element.find('.w-dropdown-list a[data-option=similar-same-province]').show();
       }
     });
   }
