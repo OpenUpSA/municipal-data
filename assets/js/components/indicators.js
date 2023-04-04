@@ -324,10 +324,11 @@ export class IndicatorSection {
     this.comparisonButtonsContainer = $('<p></p>');
     this.comparisonButtonsContainer.insertBefore(this.chartContainer);
 
-    const similarProv = this.getSimilarMunis('similar-same-province');
-    if (similarProv.length === undefined || similarProv.length == 0) {
-      this.$element.find('.w-dropdown-list a[data-option=similar-same-province]').hide();
-    }
+    this.getSimilarMunis('similar-same-province').then((similarProv) => {
+      if (similarProv.length === undefined || similarProv.length == 0) {
+        this.$element.find('.w-dropdown-list a[data-option=similar-same-province]').hide();
+      }
+    });
   }
 
   highlightComparisonButton(container, muniId) {
