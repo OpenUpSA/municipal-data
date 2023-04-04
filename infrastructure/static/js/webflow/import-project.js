@@ -106,11 +106,24 @@ exports.transformDOM = function(window, $) {
         };\
         data.push(quarter_chart);\
       }\
+      var quarterTotal = 0;\
+      for (const quarter in quarter_data) {\
+        quarterTotal += quarter_data[quarter][1];\
+      }\
+      var quarter_chart = {\
+        x: ['Total Quarterly Expenditure'],\
+        y: [quarterTotal],\
+        type: 'bar',\
+        hoverinfo: 'text',\
+        text: 'R ' + Humanize.compactInteger(quarterTotal, 1),\
+        name: 'Total Spending',\
+      };\
+      data.push(quarter_chart);\
       var layout = {\
         margin: {\
           t: 10\
         },\
-        barmode: 'stack',\
+        barmode: 'relative',\
         xaxis: {\
           title: 'Financial Year ' + implementation_year\
         },\

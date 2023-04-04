@@ -1,5 +1,5 @@
 {% load static %}
-<!DOCTYPE html><!--  This site was created in Webflow. https://www.webflow.com  --><!--  Last Published: Thu Sep 01 2022 09:52:58 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5db2adb5e800a54297f2f9a6" data-wf-site="5db2adb5e800a59830f2f99c"><head>
+<!DOCTYPE html><!--  This site was created in Webflow. https://www.webflow.com  --><!--  Last Published: Tue Mar 28 2023 14:04:14 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5db2adb5e800a54297f2f9a6" data-wf-site="5db2adb5e800a59830f2f99c"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_title }}" property="og:title">
@@ -9,6 +9,8 @@
   <link href="/static/css/normalize.css" rel="stylesheet" type="text/css">
   <link href="/static/css/webflow.css" rel="stylesheet" type="text/css">
   <link href="/static/css/muni-money-infra.webflow.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
   <script type="text/javascript">
       WebFont.load({
@@ -25,7 +27,7 @@
         n.className += t + "js", ("ontouchstart" in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch")
       }(window, document);
     </script>
-  <link href="/static/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="/static/images/favicon.png" rel="shortcut icon" type="image/x-icon">
   <link href="/static/images/webclip.png" rel="apple-touch-icon">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" crossorigin="">
@@ -349,7 +351,7 @@
       <div class="row">
         <div class="col col-4 col-sm-12">
           <div class="footer__logos">
-            <a href="http://www.treasury.go.za" target="_blank" class="footer__logo w-inline-block"><img src="/static/images/treasury-logo.611e78e53f15.png" srcset="/static/images/treasury-logo.611e78e53f15-p-500.png 500w, images/treasury-logo.611e78e53f15.png 600w" sizes="(max-width: 479px) 86vw, 200px" alt="" class="image-2"></a>
+            <a href="http://www.treasury.go.za" target="_blank" class="footer__logo w-inline-block"><img src="/static/images/treasury-logo.611e78e53f15.png" sizes="(max-width: 479px) 86vw, 200px" srcset="/static/images/treasury-logo.611e78e53f15-p-500.png 500w, images/treasury-logo.611e78e53f15.png 600w" alt="" class="image-2"></a>
             <a href="http://www.openup.org.za" target="_blank" class="footer__logo _2 w-inline-block"><img src="/static/images/code4sa-logo.831760fd7c32.png" alt="" class="image-3"></a>
           </div>
         </div>
@@ -402,7 +404,7 @@
 <script src="/static/js/humanize.js"></script>
 <script src="{% static 'household/js/plotly.js' %}"></script>
 <script>function amount_convert(value){    var total = Humanize.compactInteger(value[0], 1);    return 'Spent in '+ value + '<br>' + 'R '+ total;  }  function extract_quarters(data){    return data[1];  }  function add_rand(value){    return 'R ' + Humanize.compactInteger(value, 1);  }  </script>
-<script>$(document).ready(function() {    var chartColors = [      '#4fb2db',      '#4ba39c',      '#7558a6',      '#ff73a0',      '#ffac54',      '#ff9061',      '#826a6c',      '#5b74d9',      '#98ceb4',    ];    var pageData = {{page_data_json|safe}};    var js = JSON.parse(pageData['data']);    mmWebflow(js);    var original_data = {{original_data|safe}};    var adjusted_data = {{adjusted_data|safe}};    var quarter_data = {{quarter_data|safe}};    var implementation_year = '{{implementation_year|safe}}';    if (quarter_data) {      data = [];      var original_chart = {        x: original_data.labels,        y: original_data.data,        hoverinfo: 'text',        text: original_data.data.map(add_rand),        type: 'bar',        name: 'Original Budget',      };      data.push(original_chart);      var adjusted_chart = {        x: adjusted_data.labels,        y: adjusted_data.data,        hoverinfo: 'text',        text: adjusted_data.data.map(add_rand),        type: 'bar',        name: 'Adjusted Budget',      };      data.push(adjusted_chart);      for (const quarter in quarter_data) {        var total = Humanize.compactInteger(quarter_data[quarter][1], 1);        var quarter_name = quarter_data[quarter][0];        var quarter_chart = {          x: ['Quarterly Expenditure'],          y: [quarter_data[quarter][1]],          type: 'bar',          hoverinfo: 'text',          text: 'Spent in ' + quarter_name + '<br>' + 'R ' + total,          name: quarter_name + ' Spending',        };        data.push(quarter_chart);      }      var layout = {        margin: {          t: 10        },        barmode: 'stack',        xaxis: {          title: 'Financial Year ' + implementation_year        },        colorway: chartColors,      };      var config = {        displayModeBar: false,        responsive: true,      };      Plotly.newPlot('chart', data, layout, config);    }  });  </script>
+<script>$(document).ready(function() {    var chartColors = [      '#4fb2db',      '#4ba39c',      '#7558a6',      '#ff73a0',      '#ffac54',      '#ff9061',      '#826a6c',      '#5b74d9',      '#98ceb4',    ];    var pageData = {{page_data_json|safe}};    var js = JSON.parse(pageData['data']);    mmWebflow(js);    var original_data = {{original_data|safe}};    var adjusted_data = {{adjusted_data|safe}};    var quarter_data = {{quarter_data|safe}};    var implementation_year = '{{implementation_year|safe}}';    if (quarter_data) {      data = [];      var original_chart = {        x: original_data.labels,        y: original_data.data,        hoverinfo: 'text',        text: original_data.data.map(add_rand),        type: 'bar',        name: 'Original Budget',      };      data.push(original_chart);      var adjusted_chart = {        x: adjusted_data.labels,        y: adjusted_data.data,        hoverinfo: 'text',        text: adjusted_data.data.map(add_rand),        type: 'bar',        name: 'Adjusted Budget',      };      data.push(adjusted_chart);      for (const quarter in quarter_data) {        var total = Humanize.compactInteger(quarter_data[quarter][1], 1);        var quarter_name = quarter_data[quarter][0];        console.log(quarter_data[quarter][1]);        var quarter_chart = {          x: ['Quarterly Expenditure'],          y: [quarter_data[quarter][1]],          type: 'bar',          hoverinfo: 'text',          text: 'Spent in ' + quarter_name + '<br>' + 'R ' + total,          name: quarter_name + ' Spending',        };        data.push(quarter_chart);      }      var quarterTotal = 0;      for (const quarter in quarter_data) {        quarterTotal += quarter_data[quarter][1];      }      var quarter_chart = {        x: ['Total Quarterly Expenditure'],        y: [quarterTotal],        type: 'bar',        hoverinfo: 'text',        text: 'R ' + Humanize.compactInteger(quarterTotal, 1),        name: 'Total Spending',      };      data.push(quarter_chart);      var layout = {        margin: {          t: 10        },        barmode: 'relative',        xaxis: {          title: 'Financial Year ' + implementation_year        },        colorway: chartColors,      };      var config = {        displayModeBar: false,        responsive: true,      };      Plotly.newPlot('chart', data, layout, config);    }  });  </script>
 <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');{% if GOOGLE_ANALYTICS_ID %}ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');{% endif %}ga('send', 'pageview');</script>
 <script src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_GA4_TAG }}"></script>
 <script>window.dataLayer = window.dataLayer || [];    function gtag() { dataLayer.push(arguments); }    gtag('js', new Date());    gtag('config', '{{ GOOGLE_GA4_TAG }}');  </script>
