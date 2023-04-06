@@ -11,6 +11,9 @@ from rest_framework import viewsets
 from .. import models
 from .. import serializers
 
+import re
+PHRASE_RE = re.compile(r'"([^"]*)("|$)')
+from django.db.models import Q
 
 class CoordinatesPagination(PageNumberPagination):
     page_query_param = "page"
@@ -163,7 +166,21 @@ class ProjectSearch(generics.ListCreateAPIView):
         if len(text) == 0:
             return qs
 
-        return qs.filter(content_search=SearchQuery(text))
+        search_field = "content_search"
+        field_queries = Q()
+
+        phrases = [p[0].strip() for p in PHRASE_RE.findall(text)]
+        phrases = [p for p in phrases if p]
+        terms = PHRASE_RE.sub("", text).strip()
+
+        if terms:
+            compound_statement = SearchQuery(terms, config="english")
+
+        field_queries.add(Q(**{search_field: compound_statement}), Q.OR)
+
+        print(field_queries)
+        return qs.filter(field_queries)
+        #return qs.filter(content_search=SearchQuery(text))
 
     def aggregations(self, qs, params):
         financial_year = params.get("financial_year")
