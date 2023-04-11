@@ -332,7 +332,8 @@ export class IndicatorSection {
 
     this.getSimilarMunis('similar-same-province').then((similarProv) => {
       if (similarProv.length > 0) {
-        this.$element.find('.w-dropdown-list a[data-option=similar-same-province]').show();
+        this.$element.find('.w-dropdown-list a[data-option=similar-same-province]').removeClass('dropdown-link--disabled');
+        this.$element.find('.w-dropdown-list a[data-option=similar-same-province]').css('pointer-events', 'initial');
       }
     });
   }
