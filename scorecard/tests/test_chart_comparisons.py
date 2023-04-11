@@ -22,4 +22,10 @@ class ScorecardComparisonTest(BaseSeleniumTestCase):
             f"{section_id} .w-dropdown-list a[data-option=similar-same-province]"
         )
         self.click(f"{section_id} .muni-compare .dropdown")
-        self.assertFalse(element.is_displayed())
+        self.assertTrue(element.is_displayed())
+
+        classes = element.get_attribute("class")
+        self.assertContains(classes, "dropdown-link--disabled")
+
+        point_enabled = element.value_of_css_property("pointer-events")
+        self.assertEquals(point_enabled, "none")
