@@ -25,7 +25,7 @@ class ScorecardComparisonTest(BaseSeleniumTestCase):
         self.assertTrue(element.is_displayed())
 
         classes = element.get_attribute("class")
-        self.assertContains(classes, "dropdown-link--disabled")
+        self.assertIn("dropdown-link--disabled", classes)
 
         point_enabled = element.value_of_css_property("pointer-events")
         self.assertEquals(point_enabled, "none")
