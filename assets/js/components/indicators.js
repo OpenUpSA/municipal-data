@@ -18,9 +18,9 @@ const indicatorMetricClass = {
 };
 
 const miifCategoryMap = {
-  'A': 'metro',
-  'B': 'local',
-  'C': 'district',
+  A: 'metro',
+  B: 'local',
+  C: 'district',
 };
 
 function comparePeriod(a, b) {
