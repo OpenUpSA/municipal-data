@@ -196,3 +196,14 @@ $.each(videos, function (name, value) {
 });
 
 $('.informational-video_block:first').hide();
+
+$('.informational-video_download-button').on('click', (e) => {
+  let title = $(e.currentTarget.parentElement.parentElement.parentElement).find('.informational-video_title').text();
+  let language = $(e.currentTarget.parentElement).find('.is-language-dropdown .dropdown__current-select').text();
+  let size = $(e.currentTarget.parentElement).find('.is-size-dropdown .dropdown__current-select').text();
+  gtag('event', 'video_download', {
+    category: 'Video',
+    action: 'Download',
+    label: `${title} - ${language} - ${size}`,
+  });
+});
