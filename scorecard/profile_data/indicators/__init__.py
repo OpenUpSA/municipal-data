@@ -24,8 +24,6 @@ from .codes import (
 )
 from collections import defaultdict
 
-import logging
-logger = logging.Logger(__name__)
 
 def get_indicator_calculators(has_comparisons=None):
     calculators = [
@@ -273,52 +271,8 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         GAPD_label = "Governance, Administration, Planning and Development"
 
         results = api_data.results["expenditure_functional_breakdown"]
+        results.extend(api_data.results["expenditure_functional_breakdown_v2"])
         grouped_results = []
-
-        for year, yeargroup in groupby(results, lambda r: r["financial_year_end.year"]):
-            yeargroup_list = list(yeargroup)
-            if len(yeargroup_list) == 0:
-                continue
-            total = sum(x["amount.sum"] for x in yeargroup_list)
-            try:
-                GAPD_total = 0.0
-                year_name = (
-                    "%d" % year
-                    if year != api_data.budget_year
-                    else ("%s budget" % year)
-                )
-
-                for result in yeargroup_list:
-                    # only do budget for budget year, use AUDA for others
-                    if api_data.check_budget_actual(year, result["amount_type.code"]):
-                        if result["function.category_label"] in GAPD_categories:
-                            GAPD_total += result["amount.sum"]
-                        else:
-                            grouped_results.append(
-                                {
-                                    "amount": result["amount.sum"],
-                                    "percent": percent(result["amount.sum"], total),
-                                    "item": result["function.category_label"],
-                                    "date": year_name,
-                                }
-                            )
-
-                grouped_results.append(
-                    {
-                        "amount": GAPD_total,
-                        "percent": percent(GAPD_total, total),
-                        "item": GAPD_label,
-                        "date": year_name,
-                    }
-                )
-            except (KeyError, IndexError):
-                continue
-
-        grouped_results = sorted(
-            grouped_results, key=lambda r: (r["date"], r["item"]))
-
-        # Get data from V2 cube
-        results = api_data.results["expenditure_functional_breakdown_v2"]
 
         for year, yeargroup in groupby(results, lambda r: r["financial_year_end.year"]):
             yeargroup_list = list(yeargroup)
