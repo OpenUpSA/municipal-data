@@ -6,6 +6,7 @@ from infrastructure.tests import utils
 
 from constance.test import override_config
 
+
 def mock_project_one():
     mock_data = { 'Function': 'Administrative and Corporate Support',
         'Project Description': 'P-CNIN FURN & OFF EQUIP',
@@ -26,6 +27,7 @@ def mock_project_one():
     }
     yield mock_data
 
+
 def mock_project_two():
     mock_data = { 'Function': 'Economic Development/Planning',
         'Project Description': 'P-CIN RDS ROADS',
@@ -45,6 +47,7 @@ def mock_project_two():
         'Budget year 2021/22': 11000.0
     }
     yield mock_data
+
 
 def mock_project_next_financial_year():
     mock_data = { 'Function': 'Administrative and Corporate Support',
@@ -72,7 +75,9 @@ class ScorecardIndicatorTest(BaseSeleniumTestCase):
 
     def setUp(self):
         super(ScorecardIndicatorTest, self).setUp()
-        Site.objects.filter(id=2).update(domain='municipalmoney.org.za', name='Scorecard')
+        Site.objects.filter(id=2).update(
+            domain="municipalmoney.org.za", name="Scorecard"
+        )
 
     def test_indicator(self):
         geography = Geography.objects.get(geo_code="BUF")
@@ -80,7 +85,9 @@ class ScorecardIndicatorTest(BaseSeleniumTestCase):
         utils.load_file(geography, mock_project_two(), "2019/2020")
 
         selenium = self.selenium
-        selenium.get("%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/"))
+        selenium.get(
+            "%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/")
+        )
 
         self.wait_until_text_in("#capital-projects", "2019-2020")
         self.wait_until_text_in("#capital-projects", "P-CNIN FURN & OFF EQUIP")
@@ -96,8 +103,23 @@ class ScorecardIndicatorTest(BaseSeleniumTestCase):
         utils.load_file(geography, mock_project_next_financial_year(), "2020/2021")
 
         selenium = self.selenium
-        selenium.get("%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/"))
+        selenium.get(
+            "%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/")
+        )
 
         self.wait_until_text_in("#capital-projects", "2020-2021")
         self.wait_until_text_in("#capital-projects", "R12 000")
         self.wait_until_text_in("#capital-projects", "Showing 1 of 1")
+
+    @override_config(CAPITAL_PROJECT_SUMMARY_YEAR="2020/2021")
+    def test_comparison_drowndown_no_data(self):
+        geography = Geography.objects.get(geo_code="BUF")
+        utils.load_file(geography, mock_project_next_financial_year(), "2020/2021")
+
+        selenium = self.selenium
+        selenium.get(
+            "%s%s" % (self.live_server_url, "/profiles/municipality-BUF-buffalo-city/")
+        )
+        self.wait_until_text_in(
+            "#local-income-sources .section-header .dropdown", "Not available"
+        )

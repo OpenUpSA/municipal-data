@@ -24,6 +24,7 @@ class AbstractIncomeSection {
     logIfUnequal(1, this.$element.length);
     this.sectionData = sectionData;
     this.$chartContainer = this.$element.find('.indicator-chart');
+    this.$element.find('.video_download-button').attr('href', '/help#income-video');
   }
 }
 
@@ -113,10 +114,11 @@ export class LocalIncomeSection extends AbstractIncomeSection {
     if (this.sectionData.revenueSources.local.amount === null) value = 'Not available';
     else value = formatForType('R', this.sectionData.revenueSources.local.amount);
     this.$element.find('.indicator-metric__value').text(value);
+    this.$element.find('.video_download-button').attr('href', '/help#income-video');
   }
 
   _initChart() {
-    if (this.sectionData.revenueSources.local.amount === null) {
+    if (this.sectionData.revenueSources.local.amount === null || this._year === null) {
       this.$chartContainer.text('Data not available yet');
     } else {
       this.chart = new BarChart(this.$chartContainer[0])
@@ -132,24 +134,33 @@ export class LocalIncomeSection extends AbstractIncomeSection {
   }
 
   _initChartData() {
-    const items = this.sectionData.revenueBreakdown.values.filter((item) => item.amount_type === 'AUDA');
-    items.forEach((item) => item.color = localColor);
-    const yearGroups = _.groupBy(items, 'date');
-    this._year = _.max(_.keys(yearGroups));
-    this._chartData = yearGroups;
+    if (this.sectionData.revenueBreakdown.values.length === 0) {
+      this._year = null;
+      this._chartData = null;
+    } else {
+      const items = this.sectionData.revenueBreakdown.values.filter((item) => item.amount_type === 'AUDA');
+      items.forEach((item) => item.color = localColor);
+      const yearGroups = _.groupBy(items, 'date');
+      this._year = _.max(_.keys(yearGroups));
+      this._chartData = yearGroups;
+    }
   }
 
   _initDropdown() {
-    const options = [
-      [
-        `${formatFinancialYear(this._year)} ${formatPhase('AUDA')}`,
-        {
-          year: this._year,
-          phase: 'AUDA',
-        },
-      ],
-    ];
-
+    let options = [];
+    if (this._year === null) {
+      options.push(['Not available', {}]);
+    } else {
+      options = [
+        [
+          `${formatFinancialYear(this._year)} ${formatPhase('AUDA')}`,
+          {
+            year: this._year,
+            phase: 'AUDA',
+          },
+        ],
+      ];
+    }
     const initialOption = options[0];
     this.dropdown = new Dropdown(this.$element.find('.fy-select'), options, initialOption[0]);
     this.dropdown.$element.on('option-select', (e) => this.selectData(e.detail));
@@ -163,6 +174,7 @@ export class TransfersSection extends AbstractIncomeSection {
     this._initChart();
     const initialPeriodOption = this._initDropdown();
     this.selectData(initialPeriodOption[1]);
+    this.$element.find('.video_download-button').attr('href', '/help#income-video');
   }
 
   _initChart() {
@@ -287,6 +299,7 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
       const indicatorValue = types.national_conditional_grants;
       this.$element.find('.indicator-metric__value').text(formatForType('R', indicatorValue));
     }
+    this.$element.find('.video_download-button').attr('href', '/help#grants-video');
   }
 
   _initLegend() {

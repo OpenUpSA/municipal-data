@@ -277,6 +277,7 @@ function mmWebflow(js) {
 
       var removeFilters = function (payload) {
         me.search.clearFacets(payload.fieldName);
+        updateURLSearch(fieldName, null);
         triggerSearch();
       };
 
@@ -576,8 +577,14 @@ function mmWebflow(js) {
 
     function showResults(response) {
       $('.search-detail-value').text(utils.formatNumber(response.count));
-      $('#search-total-forecast').text(utils.formatHuman(response.results.aggregations.total));
-      $('.search-detail__amount .units-label').text(utils.formatUnits(response.results.aggregations.total));
+      const forecastTotal = response.results.aggregations.total;
+      if (forecastTotal == null) {
+        $('#search-total-forecast').text('Not available');
+        $('.search-detail__amount .units-label').text('');
+      } else {
+        $('#search-total-forecast').text(utils.formatHuman(forecastTotal));
+        $('.search-detail__amount .units-label').text(utils.formatUnits(forecastTotal));
+      }
       var resultItem = mmListView.resultRowTemplate.clone();
 
       if (response.results.projects.length) {
@@ -665,7 +672,7 @@ function mmWebflow(js) {
       }
     });
     $('#Search-Button').on('click', () => {
-	    listView.search.addFacet('q', $('#Infrastructure-Search-Input').val());
+      listView.search.addFacet('q', $('#Infrastructure-Search-Input').val());
 
       const params = new URLSearchParams();
       params.set('q', $('#Infrastructure-Search-Input').val());
@@ -677,13 +684,13 @@ function mmWebflow(js) {
       const url = `?${queryString}`;
       history.pushState(null, '', url);
 
-	    triggerSearch();
+      triggerSearch();
     });
     $('#Download-Button').on('click', function (e) {
-	    // e.preventDefault();
-	    var url = triggerDownload();
-	    $('#Download-Button').attr('href', url);
-	    $(this).click();
+      // e.preventDefault();
+      var url = triggerDownload();
+      $('#Download-Button').attr('href', url);
+      $(this).click();
     });
 
     $('.load-more_wrapper a').click((e) => {
@@ -727,7 +734,7 @@ function mmWebflow(js) {
     function formatCoordinates(latitude, longitude) {
       if (
         latitude != undefined && latitude != 0
-                && longitude != undefined && longitude != 0
+        && longitude != undefined && longitude != 0
       ) return coordinates = `${latitude}, ${longitude}`;
       return '';
     }
@@ -812,6 +819,7 @@ function mmWebflow(js) {
     setValue($('.geography .municipality, .breadcrumbs .municipality'), js.geography.name);
     setValue($('.geography .ward'), js.ward_location);
     // TODO remove
+    $('.project-detail_text.municipality').html(`<a href="/profiles/municipality-${js.geography.geo_code}">${js.geography.name}</a>`);
     $('.breadcrumbs__crumb:first').attr('href', '/infrastructure/projects');
     $('.breadcrumbs .province').attr('href', `/infrastructure/projects?province=${js.geography.province_name}`);
     $('.breadcrumbs .municipality').attr('href', `/infrastructure/projects?province=${js.geography.province_name}&municipality=${js.geography.name}`);

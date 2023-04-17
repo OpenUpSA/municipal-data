@@ -88,11 +88,14 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         create_expenditure(project, 9000, "Budget year", "2021/2022")
 
         selenium = self.selenium
-        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/?municipality=Buffalo+City"))
+        selenium.get(
+            f"{self.live_server_url}/infrastructure/projects/?municipality=Buffalo+City"
+        )
 
         self.wait_until_text_in(".page-heading", "2019/2020")
         self.wait_until_text_in("#municipality-dropdown", "Buffalo City")
         self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#search-total-forecast", "R4,000")
 
         self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
         self.wait_until_text_in("#result-list-container", "ADMINISTRATIVE AND CORPORATE SUPPORT")
@@ -126,9 +129,12 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         create_expenditure(project, 14000, "Budget year", "2022/2023")
 
         selenium = self.selenium
-        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/?financial_year=2020%2F2021"))
+        selenium.get(
+            f"{self.live_server_url}/infrastructure/projects/?financial_year=2020%2F2021"
+        )
 
         self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#search-total-forecast", "R12,000")
 
         self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
         self.wait_until_text_in("#result-list-container", "ADMINISTRATIVE AND CORPORATE SUPPORT")
@@ -139,7 +145,9 @@ class CapitalSearchTest(BaseSeleniumTestCase):
 
     def download_button_exists(self):
         selenium = self.selenium
-        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/"))
+        selenium.get(
+            f"{self.live_server_url}/infrastructure/projects/"
+        )
 
         download_button = selenium.find_element_by_id('Download-Button')
         download_button.click()
@@ -193,7 +201,9 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         ProjectQuarterlySpend.objects.create(project=project, financial_year=financial_year, q1=1000)
 
         selenium = self.selenium
-        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/"))
+        selenium.get(
+            f"{self.live_server_url}/infrastructure/projects/"
+        )
 
         self.wait_until_text_in(".search-detail_projects", "2")
         self.wait_until_text_in("#search-total-forecast", "R4,000")
@@ -229,7 +239,9 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         create_expenditure(project, 12000, "Full Year Forecast", "2018/2019")
 
         selenium = self.selenium
-        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/?municipality=Buffalo+City"))
+        selenium.get(
+            f"{self.live_server_url}/infrastructure/projects/?municipality=Buffalo+City"
+        )
 
         self.wait_until_text_in(".page-heading", "2019/2020")
         self.wait_until_text_in("#municipality-dropdown", "Buffalo City")
@@ -244,6 +256,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.click("#Search-Button")
 
         self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#search-total-forecast", "R7,000")
         self.wait_until_text_in("#result-list-container", "P-CIN RDS ROADS")
         self.wait_until_text_in("#result-list-container", "R7.00 K")
 
@@ -259,11 +272,14 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         ProjectQuarterlySpend.objects.create(project=project, financial_year=financial_year, q1=1000)
 
         selenium = self.selenium
-        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/?municipality=Buffalo+City"))
+        selenium.get(
+            f"{self.live_server_url}/infrastructure/projects/?municipality=Buffalo+City"
+        )
 
         self.wait_until_text_in(".page-heading", "2019/2020")
         self.wait_until_text_in("#municipality-dropdown", "Buffalo City")
         self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#search-total-forecast", "Not available")
         self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
         self.wait_until_text_in("#result-list-container > a.narrow-card_wrapper-2.w-inline-block > div.narrow-card_last-column-2", "")
 
@@ -279,7 +295,9 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         ProjectQuarterlySpend.objects.create(project=project, financial_year=financial_year, q1=1000)
 
         selenium = self.selenium
-        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/?q=cnin&province=Eastern+Cape&municipality=Buffalo+City&project_type=New&function=Administrative+and+Corporate+Support"))
+        selenium.get(
+            f"{self.live_server_url}/infrastructure/projects/?q=cnin&province=Eastern+Cape&municipality=Buffalo+City&project_type=New&function=Administrative+and+Corporate+Support"
+        )
 
         self.wait_until_text_in(".page-heading", "2019/2020")
         self.assertEquals(selenium.find_element_by_css_selector("#Infrastructure-Search-Input").get_attribute('value'), "cnin")
@@ -288,6 +306,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.wait_until_text_in("#type-dropdown", "New")
         self.wait_until_text_in("#functions-dropdown", "Administrative and Corporate Support")
         self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#search-total-forecast", "Not available")
         self.wait_until_text_in("#result-list-container", "P-CNIN FURN & OFF EQUIP")
 
     def test_search_events(self):
@@ -304,24 +323,31 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         create_expenditure(project, 7000, "Budget year", "2019/2020")
 
         selenium = self.selenium
-        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/?municipality=Buffalo+City"))
+        selenium.get(
+            f"{self.live_server_url}/infrastructure/projects/?municipality=Buffalo+City"
+        )
         self.wait_until_text_in(".search-detail_projects", "2")
+        self.wait_until_text_in("#search-total-forecast", "R14,000")
 
         # Press enter key
         self.enter_text("#Infrastructure-Search-Input", "P-CIN RDS ROADS")
         selenium.find_element_by_css_selector("#Infrastructure-Search-Input").send_keys(Keys.RETURN)
         self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#search-total-forecast", "R7,000")
         # Click clear filter button
         self.click(".clear-filter__text")
         self.wait_until_text_in(".search-detail_projects", "2")
+        self.wait_until_text_in("#search-total-forecast", "R14,000")
         # Add a filter with a dropdown menu
         self.click("#functions-dropdown .chart-dropdown_trigger")
         self.selenium.find_elements_by_css_selector("#functions-dropdown .chart-dropdown_list a")[1].click()
         self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#search-total-forecast", "R7,000")
         # Remove filters with a dropdown menu
         self.click("#functions-dropdown")
         self.click("#functions-dropdown")
         self.wait_until_text_in(".search-detail_projects", "2")
+        self.wait_until_text_in("#search-total-forecast", "R14,000")
 
     def test_back_button(self):
         geography = Geography.objects.get(geo_code="BUF")
@@ -337,8 +363,11 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         create_expenditure(project, 7000, "Budget year", "2019/2020")
 
         selenium = self.selenium
-        selenium.get("%s%s" % (self.live_server_url, "/infrastructure/projects/?municipality=Buffalo+City"))
+        selenium.get(
+            f"{self.live_server_url}/infrastructure/projects/?municipality=Buffalo+City"
+        )
         self.wait_until_text_in(".search-detail_projects", "2")
+        self.wait_until_text_in("#search-total-forecast", "R14,000")
 
         # Add a filter with a dropdown menu
         self.click("#functions-dropdown .chart-dropdown_trigger")
@@ -350,3 +379,64 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         selenium.back()
         self.wait_until_text_in(".search-detail_projects", "2")
         self.wait_until_text_in("#functions-dropdown .text-block", "All Functions")
+
+        # Add and remove a filter with a dropdown menu
+        self.click("#functions-dropdown .chart-dropdown_trigger")
+        self.selenium.find_elements_by_css_selector("#functions-dropdown .chart-dropdown_list a")[1].click()
+        self.click("#functions-dropdown .chart-dropdown_trigger")
+        self.selenium.find_elements_by_css_selector("#functions-dropdown .chart-dropdown_list a")[0].click()
+
+        # Click back button
+        selenium.back()
+        self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#functions-dropdown .text-block", "Administrative and Corporate Support")
+
+    def test_dropdown_visible(self):
+        # This is done by checking if the last item in the dropdown can be clicked
+        geography = Geography.objects.get(geo_code="BUF")
+        financial_year = FinancialYear.objects.get(budget_year="2019/2020")
+        project = Project.objects.create(
+            **project_base(geography, financial_year), **project_one()
+        )
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+        new_project = {
+            "function": "Economic Development/Planning",
+            "project_description": "P-CIN RDS ROADS",
+            "project_number": "2",
+        }
+        project = Project.objects.create(
+            **project_base(geography, financial_year), **new_project
+        )
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+
+        new_project = {
+            "function": "Housing",
+            "project_description": "P-CIN RDS ROADS",
+            "project_number": "3",
+        }
+        project = Project.objects.create(
+            **project_base(geography, financial_year), **new_project
+        )
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+        new_project = {
+            "function": "Roads",
+            "project_description": "P-CIN RDS ROADS",
+            "project_number": "4",
+        }
+        project = Project.objects.create(
+            **project_base(geography, financial_year), **new_project
+        )
+        create_expenditure(project, 7000, "Budget year", "2019/2020")
+
+        selenium = self.selenium
+        selenium.get(
+            f"{self.live_server_url}/infrastructure/projects/?municipality=Buffalo+City"
+        )
+        self.wait_until_text_in(".search-detail_projects", "4")
+
+        self.click("#functions-dropdown .chart-dropdown_trigger")
+        self.selenium.find_elements_by_css_selector(
+            "#functions-dropdown .chart-dropdown_list a"
+        )[4].click()
+        self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#functions-dropdown .text-block", "Roads")

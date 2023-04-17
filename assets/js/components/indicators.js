@@ -54,6 +54,7 @@ export class IndicatorSection {
     this._initCalculation();
     this._initSectionPeriod();
     this._initMetric();
+    this._initEvents();
 
     this.comparisonMenu = new ComparisonMenu(selector, this.key);
     this.comparisonMenu.$element.on('option-select', ((e) => {
@@ -76,6 +77,24 @@ export class IndicatorSection {
     return 'Not available';
   }
 
+  _initEvents() {
+    $(`${this.selector} .expand-block`).on('click', ((e) => {
+      gtag('event', 'more_info', {
+        category: 'More info',
+        action: 'Expand',
+        label: `${this.key} ${$(e.target).text()}`,
+      });
+    }));
+
+    $(`${this.selector} .indicator-calculation__formula-actual`).on('click', ((e) => {
+      gtag('event', 'formula_click', {
+        category: 'Formulas',
+        action: 'Follow link',
+        label: `${this.key} ${$(e.target).text()}`,
+      });
+    }));
+  }
+
   _initCategoryInfo() {
     const miifCategory = this.geography.miif_category;
     const categoryName = this.geography.category_name;
@@ -86,6 +105,7 @@ export class IndicatorSection {
     $label.text(`${miifCategory} ${categoryName}`);
     $description.text(this.municipalCategoryDescriptions[miifCategory]);
     $link.attr('href', '/help#similar-munis');
+    this.$element.find('.video_download-button').attr('href', `/help#${this.selector.substring(1)}-video`);
   }
 
   _initCalculation() {
