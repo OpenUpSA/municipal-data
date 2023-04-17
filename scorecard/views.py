@@ -317,3 +317,13 @@ class HomePage(TemplateView):
             "page_description": "An initiative of the National Treasury, which has collected extensive municipal financial data over several years and aims to share it with the public.",
         }
         return page_context
+
+class HelpPage(TemplateView):
+    template_name = "webflow/help.html"
+
+    def get_context_data(self, *args, **kwargs):
+        page_context = {
+            "page_title": "Municipal Money",
+            "page_description": "Learn about Municipal Money, the municipal budget process and our budget data",
+        }
+        return page_context
