@@ -14,7 +14,6 @@ from .resources import (
 )
 
 
-# expenditure_functional_breakdown
 class TestExpenditureFunctionalBreakdown(_IndicatorTestCase):
     def test_result(self):
         # Load sample data
