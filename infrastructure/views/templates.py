@@ -30,8 +30,8 @@ class ListView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["page_data_json"] = {"data": json.dumps(projects)}
 
-        context["page_title"] = "Municipal Money"
-        context["page_description"]= "Capital Project Search"
+        context["page_title"] = "Infrastructure Projects - Municipal Money"
+        context["page_description"]= "Infrastructure project search"
 
         return context
 
@@ -79,8 +79,8 @@ class DetailView(TemplateView):
             is_quarters = True
         context["is_quarters"] = is_quarters
 
-        context["page_title"] = "Municipal Money"
-        context["page_description"]= "Capital Project Details"
+        context["page_title"] = "Project details - Municipal Money"
+        context["page_description"]= "Infrastructure project details"
 
         return context
 

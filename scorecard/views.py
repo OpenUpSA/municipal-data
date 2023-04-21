@@ -323,7 +323,7 @@ class HelpPage(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         page_context = {
-            "page_title": "Municipal Money",
+            "page_title": "Help centre - Municipal Money",
             "page_description": "Learn about Municipal Money, the municipal budget process and our budget data",
         }
         return page_context
