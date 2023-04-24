@@ -79,7 +79,7 @@ class DetailView(TemplateView):
             is_quarters = True
         context["is_quarters"] = is_quarters
 
-        context["page_title"] = "Project details - Municipal Money"
+        context["page_title"] = f"{project['project_description']} - {project['geography']['name']} - Municipal Money"
         context["page_description"]= "Infrastructure project details"
 
         return context
