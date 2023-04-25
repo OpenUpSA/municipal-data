@@ -135,6 +135,10 @@ function mmWebflow(js) {
         $(this.el).find('.dropdown-link').remove();
       },
 
+      hideOptions() {
+        this.el.triggerHandler('w-close.w-dropdown');
+      },
+
       setSelected(label) {
         this.selectedElement.find('.text-block').text(label);
       },
@@ -145,6 +149,7 @@ function mmWebflow(js) {
 
         optionElement.click(() => {
           me.setSelected(label.text);
+          me.hideOptions();
           ev(label);
         });
 
@@ -310,7 +315,7 @@ function mmWebflow(js) {
         dropdown.on('selectedoption', addFilter);
       });
 
-      $('.clear-filter__text').on('click', () => {
+      $('#clear-filters-button').on('click', () => {
         $('#Infrastructure-Search-Input').val('');
         me.provinceDropDown.reset();
         me.municipalityDropDown.reset();
@@ -331,28 +336,28 @@ function mmWebflow(js) {
         $('#result-list-container .narrow-card_wrapper-2').remove();
       },
 
-	    loadSearchFromUrl(queryString) {
+      loadSearchFromUrl(queryString) {
         this.provinceDropDown.setEnabled(true);
         this.municipalityDropDown.setEnabled(true);
         this.typeDropDown.setEnabled(true);
         this.functionDropDown.setEnabled(true);
         const params = new URLSearchParams(queryString);
-		    for (const [key, value] of params) {
+        for (const [key, value] of params) {
           listView.search.addFacet(key, value);
           if (key == 'province') {
-			    $('#province-dropdown .text-block').text(value);
+            $('#province-dropdown .text-block').text(value);
           } else if (key == 'municipality') {
-			    $('#municipality-dropdown .text-block').text(value);
+            $('#municipality-dropdown .text-block').text(value);
           } else if (key == 'project_type') {
-			    $('#type-dropdown .text-block').text(value);
+            $('#type-dropdown .text-block').text(value);
           } else if (key == 'function') {
-			    $('#functions-dropdown .text-block').text(value);
+            $('#functions-dropdown .text-block').text(value);
           } else if (key == 'q') {
-			    $('#Infrastructure-Search-Input').val(value);
+            $('#Infrastructure-Search-Input').val(value);
           }
-		    }
+        }
         triggerSearch();
-	    },
+      },
 
       onLoading(clearResults) {
         if (clearResults || clearResults == undefined) this.clearProjectResults();
