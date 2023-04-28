@@ -17,6 +17,12 @@ const indicatorMetricClass = {
   '': '.indicator-metric--no-status',
 };
 
+const miifCategoryMap = {
+  A: 'metro',
+  B: 'local',
+  C: 'district',
+};
+
 function comparePeriod(a, b) {
   if (a.period < b.period) {
     return -1;
@@ -102,7 +108,7 @@ export class IndicatorSection {
     const $label = $category.find('.label');
     const $description = $category.find('.tooltip__description');
     const $link = $category.find('.tooltip__link');
-    $label.text(`${miifCategory} ${categoryName}`);
+    $label.text(`category ${miifCategory} ${miifCategoryMap[this.geography.category]} municipalities`);
     $description.text(this.municipalCategoryDescriptions[miifCategory]);
     $link.attr('href', '/help#similar-munis');
     this.$element.find('.video_download-button').attr('href', `/help#${this.selector.substring(1)}-video`);
@@ -323,6 +329,13 @@ export class IndicatorSection {
   _initComparisonButtons() {
     this.comparisonButtonsContainer = $('<p></p>');
     this.comparisonButtonsContainer.insertBefore(this.chartContainer);
+
+    this.getSimilarMunis('similar-same-province').then((similarProv) => {
+      if (similarProv.length > 0) {
+        this.$element.find('.w-dropdown-list a[data-option=similar-same-province]').removeClass('dropdown-link--disabled');
+        this.$element.find('.w-dropdown-list a[data-option=similar-same-province]').css('pointer-events', 'initial');
+      }
+    });
   }
 
   highlightComparisonButton(container, muniId) {
