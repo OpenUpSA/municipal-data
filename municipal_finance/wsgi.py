@@ -1,5 +1,5 @@
 """
-WSGI config for code4sa project.
+WSGI config for OpenUp project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

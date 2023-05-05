@@ -1,5 +1,5 @@
 // extend the default Wazimap ProfileMaps object to work for us
-// https://github.com/Code4SA/wazimap/blob/master/wazimap/static/js/profile_map.js
+// https://github.com/OpenUpSA/wazimap/blob/master/wazimap/static/js/profile_map.js
 
 const BaseProfileMaps = ProfileMaps;
 ProfileMaps = function () {
