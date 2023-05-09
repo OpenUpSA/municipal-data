@@ -16,6 +16,7 @@ import {
   NationalConditionalGrantsSection,
   ProvincialTransfersSection,
 } from '../components/income.js';
+import { SpendingBreakdownSection } from '../components/spending.js';
 import {
   TimeSeriesSection,
   AdjustmentsSection,
@@ -99,12 +100,9 @@ export default class ProfilePage {
     });
 
     // Spending
-    $('#what-is-money-spent-on .financial-period').empty();
-    $('#what-is-money-spent-on .indicator-chart')
-      .addClass('chart-container')
-      .attr('data-chart', 'grouped-bar-expenditure_functional_breakdown')
-      .attr('data-unit', 'currency');
-    new HorizontalGroupedBarChart().discover(pageData);
+    errorBoundary(() => {
+      new SpendingBreakdownSection('#what-is-money-spent-on', pageData.indicators.local_revenue_breakdown);
+    });
 
     // Household bills
     errorBoundary(() => {
