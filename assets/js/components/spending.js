@@ -1,8 +1,5 @@
 import GroupedBarChartHoriz from 'municipal-money-charts/src/components/MunicipalCharts/GroupedBarChartHoriz';
-import {
-  logIfUnequal,
-  formatForType,
-} from '../utils.js';
+import logIfUnequal from '../utils.js';
 
 
 class SpendingSection {
@@ -18,18 +15,11 @@ class SpendingSection {
 export class SpendingBreakdownSection extends SpendingSection {
   constructor(selector, sectionData) {
     super(selector, sectionData);
-    this._initIndicator();
     this._initChart();
   }
 
-  _initIndicator() {
-    let value;
-    if (this.sectionData.total === null) value = 'Not available';
-    else value = formatForType('R', this.sectionData.total);
-    this.$element.find('.indicator-metric__value').text(value);
-  }
-
   _initChart() {
+    this.$element.find('.financial-period').text('');
     if (this.sectionData.total === null) {
       this.$chartContainer.text('Data not available yet.');
     } else {
@@ -84,9 +74,5 @@ export class SpendingBreakdownSection extends SpendingSection {
         ]
       }
     ];
-  }
-
-  selectData(selection) {
-    console.log('Not implemented');
   }
 }
