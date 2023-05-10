@@ -101,7 +101,7 @@ export default class ProfilePage {
 
     // Spending
     errorBoundary(() => {
-      new SpendingBreakdownSection('#what-is-money-spent-on', pageData.indicators.local_revenue_breakdown);
+      new SpendingBreakdownSection('#what-is-money-spent-on', pageData.indicators.expenditure_functional_breakdown);
     });
 
     // Household bills

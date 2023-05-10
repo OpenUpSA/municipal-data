@@ -24,6 +24,7 @@ from .codes import (
 )
 from collections import defaultdict
 
+
 def get_indicator_calculators(has_comparisons=None):
     calculators = [
         CashCoverage,
@@ -110,7 +111,6 @@ class LocalRevenueBreakdown(IndicatorCalculator):
 
     @classmethod
     def get_muni_specifics(cls, api_data):
-
         v1_groups = [
             ("Property rates", ["0200", "0300"]),
             ("Service Charges", ["0400"]),
@@ -261,6 +261,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
 
     @classmethod
     def get_muni_specifics(cls, api_data):
+        """
         GAPD_categories = {
             "Budget & Treasury Office",
             "Executive & Council",
@@ -268,10 +269,27 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
             "Corporate Services",
         }
         GAPD_label = "Governance, Administration, Planning and Development"
-
+        """
         results = api_data.results["expenditure_functional_breakdown"]
         grouped_results = []
 
+        for key, group in groupby(
+            sorted(results, key=lambda x: x["function.category_label"]),
+            key=lambda x: x["function.category_label"],
+        ):
+            group_list = list(group)
+            tmp_values = []
+            for group in group_list:
+                tmp_values.append(
+                    {
+                        "year": group["financial_year_end.year"],
+                        "value": group["amount.sum"],
+                    }
+                )
+
+            grouped_results.append({"category": key, "values": tmp_values})
+
+        """
         for year, yeargroup in groupby(results, lambda r: r["financial_year_end.year"]):
             yeargroup_list = list(yeargroup)
             if len(yeargroup_list) == 0:
@@ -313,4 +331,5 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
 
         grouped_results = sorted(
             grouped_results, key=lambda r: (r["date"], r["item"]))
+        """
         return {"values": grouped_results}
