@@ -1,6 +1,5 @@
 import GroupedBarChartHoriz from 'municipal-money-charts/src/components/MunicipalCharts/GroupedBarChartHoriz';
 
-
 class SpendingSection {
   constructor(selector, sectionData) {
     this.$element = $(selector);
