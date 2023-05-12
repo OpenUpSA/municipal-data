@@ -261,7 +261,6 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
 
     @classmethod
     def get_muni_specifics(cls, api_data):
-        """
         GAPD_categories = {
             "Budget & Treasury Office",
             "Executive & Council",
@@ -269,67 +268,50 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
             "Corporate Services",
         }
         GAPD_label = "Governance, Administration, Planning and Development"
-        """
+
         results = api_data.results["expenditure_functional_breakdown"]
         grouped_results = []
+        GAPD_total = 0.0
+        GAPD_values = []
 
-        for key, group in groupby(
+        for category, yeargroup in groupby(
             sorted(results, key=lambda x: x["function.category_label"]),
             key=lambda x: x["function.category_label"],
         ):
-            group_list = list(group)
-            tmp_values = []
-            for group in group_list:
-                tmp_values.append(
-                    {
-                        "year": group["financial_year_end.year"],
-                        "value": group["amount.sum"],
-                    }
-                )
-
-            grouped_results.append({"category": key, "values": tmp_values})
-
-        """
-        for year, yeargroup in groupby(results, lambda r: r["financial_year_end.year"]):
             yeargroup_list = list(yeargroup)
             if len(yeargroup_list) == 0:
                 continue
-            total = sum(x["amount.sum"] for x in yeargroup_list)
-            try:
-                GAPD_total = 0.0
-                year_name = (
-                    "%d" % year
-                    if year != api_data.budget_year
-                    else ("%s budget" % year)
-                )
+            tmp_values = []
 
-                for result in yeargroup_list:
-                    # only do budget for budget year, use AUDA for others
-                    if api_data.check_budget_actual(year, result["amount_type.code"]):
-                        if result["function.category_label"] in GAPD_categories:
-                            GAPD_total += result["amount.sum"]
-                        else:
-                            grouped_results.append(
-                                {
-                                    "amount": result["amount.sum"],
-                                    "percent": percent(result["amount.sum"], total),
-                                    "item": result["function.category_label"],
-                                    "date": year_name,
-                                }
-                            )
-
-                grouped_results.append(
+            for result in yeargroup_list:
+                if result["function.category_label"] in GAPD_categories:
+                    GAPD_total += result["amount.sum"]
+                else:
+                    tmp_values.append(
+                        {
+                            "year": result["financial_year_end.year"],
+                            "value": result["amount.sum"],
+                        }
+                    )
+                GAPD_values.append(
                     {
-                        "amount": GAPD_total,
-                        "percent": percent(GAPD_total, total),
-                        "item": GAPD_label,
-                        "date": year_name,
+                        "year": result["financial_year_end.year"],
+                        "value": GAPD_total,
                     }
                 )
-            except (KeyError, IndexError):
-                continue
+            if tmp_values:
+                grouped_results.append({"category": category, "values": tmp_values})
 
-        grouped_results = sorted(
-            grouped_results, key=lambda r: (r["date"], r["item"]))
-        """
+        unique_data = {}
+        for d in GAPD_values:
+            year = d["year"]
+            if year not in unique_data:
+                unique_data[year] = d["value"]
+            else:
+                unique_data[year] += d["value"]
+        GAPD_result = [
+            {"year": year, "value": value} for year, value in unique_data.items()
+        ]
+        grouped_results.append({"category": GAPD_label, "values": GAPD_result})
+
         return {"values": grouped_results}
