@@ -55,6 +55,28 @@ def get_indicator_calculators(has_comparisons=None):
 class RevenueSources(IndicatorCalculator):
     name = "revenue_sources"
     has_comparisons = False
+    formula = {
+        "text": "= Total revenue",
+        "actual": [
+            "=",
+            {
+                "cube": "revenue_breakdown_v1",
+                "item_codes": V1_INCOME_LOCAL_CODES,
+                "amount_type": "AUDA",
+            }
+        ],
+    }
+    formula_v2 = {
+        "text": "= Total revenue",
+        "actual": [
+            "=",
+            {
+                "cube": "revenue_breakdown_v2",
+                "item_codes": V2_INCOME_LOCAL_CODES,
+                "amount_type": "AUDA",
+            }
+        ],
+    }
 
     @classmethod
     def get_muni_specifics(cls, api_data):
