@@ -129,6 +129,28 @@ class RevenueSources(IndicatorCalculator):
 class LocalRevenueBreakdown(IndicatorCalculator):
     name = "local_revenue_breakdown"
     has_comparisons = False
+    formula = {
+        "text": "= Breakdown of local income",
+        "actual": [
+            "=",
+            {
+                "cube": "revenue_breakdown_v1",
+                "item_codes": ["0200", "0300", "0400", "0700", "0800", "1000", "1100", "1300", "1400", "1500", "1700", "1800"],
+                "amount_type": "AUDA",
+            }
+        ],
+    }
+    formula_v2 = {
+        "text": "= Breakdown of local income",
+        "actual": [
+            "=",
+            {
+                "cube": "revenue_breakdown_v2",
+                "item_codes": ["0200", "0300", "0400", "0500", "0600", "0800", "0900", "1000", "1100", "1200", "1300", "1400", "1600", "1700"],
+                "amount_type": "AUDA",
+            }
+        ],
+    }
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -198,6 +220,28 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
     result_type = "%"
     noun = "expenditure"
     has_comparisons = True
+    formula = {
+        "text": "= Breakdown of local income",
+        "actual": [
+            "=",
+            {
+                "cube": "revenue_breakdown_v1",
+                "item_codes": ["0200", "0300", "0400", "0700", "0800", "1000", "1100", "1300", "1400", "1500", "1700", "1800"],
+                "amount_type": "AUDA",
+            }
+        ],
+    }
+    formula_v2 = {
+        "text": "= Breakdown of local income",
+        "actual": [
+            "=",
+            {
+                "cube": "revenue_breakdown_v2",
+                "item_codes": ["0200", "0300", "0400", "0500", "0600", "0800", "0900", "1000", "1100", "1200", "1300", "1400", "1600", "1700"],
+                "amount_type": "AUDA",
+            }
+        ],
+    }
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -239,6 +283,28 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
     result_type = "%"
     noun = "expenditure"
     has_comparisons = True
+    formula = {
+        "text": "= Total expenditure on salaries and wages",
+        "actual": [
+            "=",
+            {
+                "cube": "expenditure_breakdown_v1",
+                "item_codes": ["3000", "3100"],
+                "amount_type": "AUDA",
+            }
+        ],
+    }
+    formula_v2 = {
+        "text": "= Total expenditure on salaries and wages",
+        "actual": [
+            "=",
+            {
+                "cube": "expenditure_breakdown_v2",
+                "item_codes": ["2000"],
+                "amount_type": "AUDA",
+            }
+        ],
+    }
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -280,6 +346,28 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
 class ExpenditureFunctionalBreakdown(IndicatorCalculator):
     name = "expenditure_functional_breakdown"
     has_comparisons = False
+    formula = {
+        "text": "= All functional expenditure",
+        "actual": [
+            "=",
+            {
+                "cube": "expenditure_functional_breakdown",
+                "item_codes": [],
+                "amount_type": "AUDA",
+            }
+        ],
+    }
+    formula_v2 = {
+        "text": "= All functional expenditure",
+        "actual": [
+            "=",
+            {
+                "cube": "expenditure_functional_breakdown_v2",
+                "item_codes": [],
+                "amount_type": "AUDA",
+            }
+        ],
+    }
 
     @classmethod
     def get_muni_specifics(cls, api_data):
