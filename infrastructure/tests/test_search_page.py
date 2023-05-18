@@ -335,7 +335,7 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.wait_until_text_in(".search-detail_projects", "1")
         self.wait_until_text_in("#search-total-forecast", "R7,000")
         # Click clear filter button
-        self.click(".clear-filter__text")
+        self.click("#clear-filters-button")
         self.wait_until_text_in(".search-detail_projects", "2")
         self.wait_until_text_in("#search-total-forecast", "R14,000")
         # Add a filter with a dropdown menu
@@ -380,9 +380,11 @@ class CapitalSearchTest(BaseSeleniumTestCase):
         self.wait_until_text_in(".search-detail_projects", "2")
         self.wait_until_text_in("#functions-dropdown .text-block", "All Functions")
 
-        # Add and remove a filter with a dropdown menu
+        # Add and also remove a filter with a dropdown menu before clicking back
         self.click("#functions-dropdown .chart-dropdown_trigger")
         self.selenium.find_elements_by_css_selector("#functions-dropdown .chart-dropdown_list a")[1].click()
+        self.wait_until_text_in(".search-detail_projects", "1")
+        self.wait_until_text_in("#functions-dropdown .text-block", "Administrative and Corporate Support")
         self.click("#functions-dropdown .chart-dropdown_trigger")
         self.selenium.find_elements_by_css_selector("#functions-dropdown .chart-dropdown_list a")[0].click()
 

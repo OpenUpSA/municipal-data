@@ -28,7 +28,7 @@ urlpatterns = [
     url(r"^$", views.HomePage.as_view(), name="homepage"),
     url(r"^about", lambda request: redirect("/")),
     url(r"^faq", lambda request: redirect("/help")),
-    url(r"^help$", TemplateView.as_view(template_name="webflow/help.html"), name="help"),
+    url(r"^help$", views.HelpPage.as_view(), name="help"),
     url(r"^terms$", TemplateView.as_view(
         template_name="webflow/terms.html"), name="terms"),
     url(r"^sitemap.txt", views.SitemapView.as_view(), name="sitemap"),
