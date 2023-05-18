@@ -164,7 +164,7 @@ class ProjectSearch(generics.ListCreateAPIView):
             return qs
 
         result = qs.filter(
-            Q(project_description__contains=text) | Q(content_search=SearchQuery(text))
+            Q(project_description__icontains=text) | Q(content_search=SearchQuery(text))
         )
         return result
 
