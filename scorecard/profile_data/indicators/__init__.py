@@ -317,17 +317,17 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                                 }
                             )
 
-                grouped_results.append(
-                    {
-                        "amount": GAPD_total,
-                        "percent": percent(GAPD_total, total),
-                        "item": GAPD_label,
-                        "date": year_name,
-                    }
-                )
+                if GAPD_total > 0:
+                    grouped_results.append(
+                        {
+                            "amount": GAPD_total,
+                            "percent": percent(GAPD_total, total),
+                            "item": GAPD_label,
+                            "date": year_name,
+                        }
+                    )
             except (KeyError, IndexError):
                 continue
 
         grouped_results = sorted(grouped_results, key=lambda r: (r["date"], r["item"]))
-
         return {"values": grouped_results}
