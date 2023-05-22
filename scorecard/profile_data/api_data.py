@@ -446,11 +446,7 @@ class ApiData(object):
                 "cube": "incexp_v2",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "item.code": [
-                        "2000", "2100", "2200", "2300", "2400",
-                        "2500", "2600", "2700", "2800", "2900",
-                        "3000",
-                    ],
+                    "item.code": V2_SPENDING_CODES,
                     "amount_type.code": ["ADJB"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
@@ -480,11 +476,7 @@ class ApiData(object):
                 "cube": "incexp_v2",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "item.code": [
-                        "2000", "2100", "2200", "2300", "2400",
-                        "2500", "2600", "2700", "2800", "2900",
-                        "3000",
-                    ],
+                    "item.code": V2_SPENDING_CODES,
                     "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
@@ -850,6 +842,25 @@ class ApiData(object):
                 "cut": {
                     "item.code": ["4600"],
                     "amount_type.code": ["AUDA", "ORGB"],
+                    "demarcation.code": [self.geo_code],
+                    "period_length.length": ["year"],
+                    "financial_year_end.year": self.years + [self.budget_year],
+                },
+                "drilldown": [
+                    "function.category_label",
+                    "financial_year_end.year",
+                    "amount_type.code",
+                ],
+                "query_type": "aggregate",
+                "results_structure": self.noop_structure,
+                "order": "financial_year_end.year:desc,function.category_label:asc",
+            },
+            "expenditure_functional_breakdown_v2": {
+                "cube": "incexp_v2",
+                "aggregate": "amount.sum",
+                "cut": {
+                    "item.code": V2_SPENDING_CODES,
+                    "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
                     "financial_year_end.year": self.years + [self.budget_year],
