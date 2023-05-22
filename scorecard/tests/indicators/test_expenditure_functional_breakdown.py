@@ -289,12 +289,6 @@ class TestExpenditureFunctionalBreakdown(_IndicatorTestCase):
                         "date": "2020",
                     },
                     {
-                        "amount": 0.0,
-                        "percent": 0.0,
-                        "item": "Governance, Administration, Planning and Development",
-                        "date": "2020",
-                    },
-                    {
                         "amount": 7973764641.0,
                         "percent": 22.05,
                         "item": "Municipal governance and administration",
