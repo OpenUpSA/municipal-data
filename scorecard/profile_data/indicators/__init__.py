@@ -135,7 +135,7 @@ class LocalRevenueBreakdown(IndicatorCalculator):
             "=",
             {
                 "cube": "revenue_breakdown_v1",
-                "item_codes": ["0200", "0300", "0400", "0700", "0800", "1000", "1100", "1300", "1400", "1500", "1700", "1800"],
+                "item_codes": V1_INCOME_LOCAL_CODES,
                 "amount_type": "AUDA",
             }
         ],
@@ -146,7 +146,7 @@ class LocalRevenueBreakdown(IndicatorCalculator):
             "=",
             {
                 "cube": "revenue_breakdown_v2",
-                "item_codes": ["0200", "0300", "0400", "0500", "0600", "0800", "0900", "1000", "1100", "1200", "1300", "1400", "1600", "1700"],
+                "item_codes": V2_INCOME_LOCAL_CODES,
                 "amount_type": "AUDA",
             }
         ],
@@ -221,23 +221,23 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
     noun = "expenditure"
     has_comparisons = True
     formula = {
-        "text": "= Breakdown of local income",
+        "text": "= Expenditure for services rendered by a contractor",
         "actual": [
             "=",
             {
                 "cube": "revenue_breakdown_v1",
-                "item_codes": ["0200", "0300", "0400", "0700", "0800", "1000", "1100", "1300", "1400", "1500", "1700", "1800"],
+                "item_codes": V1_INCOME_LOCAL_CODES,
                 "amount_type": "AUDA",
             }
         ],
     }
     formula_v2 = {
-        "text": "= Breakdown of local income",
+        "text": "= Expenditure for services rendered by a contractor",
         "actual": [
             "=",
             {
                 "cube": "revenue_breakdown_v2",
-                "item_codes": ["0200", "0300", "0400", "0500", "0600", "0800", "0900", "1000", "1100", "1200", "1300", "1400", "1600", "1700"],
+                "item_codes": V2_INCOME_LOCAL_CODES,
                 "amount_type": "AUDA",
             }
         ],
