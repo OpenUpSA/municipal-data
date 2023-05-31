@@ -19,8 +19,12 @@ from .budget_actual import (
 from .codes import (
     V1_INCOME_LOCAL_CODES,
     V1_INCOME_TRANSFERS_CODES,
+    V1_INCOME_ITEMS,
+    V1_SPENDING_CODES,
     V2_INCOME_LOCAL_CODES,
     V2_INCOME_TRANSFERS_CODES,
+    V2_INCOME_ITEMS,
+    V2_SPENDING_CODES,
 )
 from collections import defaultdict
 
@@ -61,7 +65,7 @@ class RevenueSources(IndicatorCalculator):
             "=",
             {
                 "cube": "revenue_breakdown_v1",
-                "item_codes": V1_INCOME_LOCAL_CODES,
+                "item_codes": V1_INCOME_ITEMS,
                 "amount_type": "AUDA",
             }
         ],
@@ -72,7 +76,7 @@ class RevenueSources(IndicatorCalculator):
             "=",
             {
                 "cube": "revenue_breakdown_v2",
-                "item_codes": V2_INCOME_LOCAL_CODES,
+                "item_codes": V2_INCOME_ITEMS,
                 "amount_type": "AUDA",
             }
         ],
@@ -135,7 +139,7 @@ class LocalRevenueBreakdown(IndicatorCalculator):
             "=",
             {
                 "cube": "revenue_breakdown_v1",
-                "item_codes": V1_INCOME_LOCAL_CODES,
+                "item_codes": V1_INCOME_ITEMS,
                 "amount_type": "AUDA",
             }
         ],
@@ -146,7 +150,7 @@ class LocalRevenueBreakdown(IndicatorCalculator):
             "=",
             {
                 "cube": "revenue_breakdown_v2",
-                "item_codes": V2_INCOME_LOCAL_CODES,
+                "item_codes": V2_INCOME_ITEMS,
                 "amount_type": "AUDA",
             }
         ],
@@ -225,8 +229,8 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
         "actual": [
             "=",
             {
-                "cube": "revenue_breakdown_v1",
-                "item_codes": V1_INCOME_LOCAL_CODES,
+                "cube": "expenditure_breakdown_v1",
+                "item_codes": ["4200"],
                 "amount_type": "AUDA",
             }
         ],
@@ -236,8 +240,8 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
         "actual": [
             "=",
             {
-                "cube": "revenue_breakdown_v2",
-                "item_codes": V2_INCOME_LOCAL_CODES,
+                "cube": "expenditure_breakdown_v2",
+                "item_codes": ["2700"],
                 "amount_type": "AUDA",
             }
         ],
@@ -352,7 +356,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
             "=",
             {
                 "cube": "expenditure_functional_breakdown",
-                "item_codes": [],
+                "item_codes": ["4600"],
                 "amount_type": "AUDA",
             }
         ],
@@ -363,7 +367,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
             "=",
             {
                 "cube": "expenditure_functional_breakdown_v2",
-                "item_codes": [],
+                "item_codes": V2_SPENDING_CODES,
                 "amount_type": "AUDA",
             }
         ],
