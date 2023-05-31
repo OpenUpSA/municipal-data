@@ -28,6 +28,7 @@ from .codes import (
 )
 from collections import defaultdict
 
+
 def get_indicator_calculators(has_comparisons=None):
     calculators = [
         CashCoverage,
@@ -67,7 +68,7 @@ class RevenueSources(IndicatorCalculator):
                 "cube": "revenue_breakdown_v1",
                 "item_codes": V1_INCOME_ITEMS,
                 "amount_type": "AUDA",
-            }
+            },
         ],
     }
     formula_v2 = {
@@ -78,7 +79,7 @@ class RevenueSources(IndicatorCalculator):
                 "cube": "revenue_breakdown_v2",
                 "item_codes": V2_INCOME_ITEMS,
                 "amount_type": "AUDA",
-            }
+            },
         ],
     }
 
@@ -97,8 +98,12 @@ class RevenueSources(IndicatorCalculator):
             items = v1_data[year]
 
         results = {
-            "local": {"amount": 0, },
-            "government": {"amount": 0, },
+            "local": {
+                "amount": 0,
+            },
+            "government": {
+                "amount": 0,
+            },
             "year": year,
             "ref": api_data.references["lges"],
         }
@@ -141,7 +146,7 @@ class LocalRevenueBreakdown(IndicatorCalculator):
                 "cube": "revenue_breakdown_v1",
                 "item_codes": V1_INCOME_ITEMS,
                 "amount_type": "AUDA",
-            }
+            },
         ],
     }
     formula_v2 = {
@@ -152,13 +157,12 @@ class LocalRevenueBreakdown(IndicatorCalculator):
                 "cube": "revenue_breakdown_v2",
                 "item_codes": V2_INCOME_ITEMS,
                 "amount_type": "AUDA",
-            }
+            },
         ],
     }
 
     @classmethod
     def get_muni_specifics(cls, api_data):
-
         v1_groups = [
             ("Property rates", ["0200", "0300"]),
             ("Service Charges", ["0400"]),
@@ -197,7 +201,7 @@ class LocalRevenueBreakdown(IndicatorCalculator):
         values = []
         year_name = "%d" % year
         amount_type = "AUDA"
-        for (label, codes) in groups:
+        for label, codes in groups:
             amount = 0
             has_valid_result = False
             for code in codes:
@@ -232,7 +236,7 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
                 "cube": "expenditure_breakdown_v1",
                 "item_codes": ["4200"],
                 "amount_type": "AUDA",
-            }
+            },
         ],
     }
     formula_v2 = {
@@ -243,7 +247,7 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
                 "cube": "expenditure_breakdown_v2",
                 "item_codes": ["2700"],
                 "amount_type": "AUDA",
-            }
+            },
         ],
     }
 
@@ -295,7 +299,7 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
                 "cube": "expenditure_breakdown_v1",
                 "item_codes": ["3000", "3100"],
                 "amount_type": "AUDA",
-            }
+            },
         ],
     }
     formula_v2 = {
@@ -306,7 +310,7 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
                 "cube": "expenditure_breakdown_v2",
                 "item_codes": ["2000"],
                 "amount_type": "AUDA",
-            }
+            },
         ],
     }
 
@@ -338,7 +342,11 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
                 staff = None
 
             values.append(
-                {"date": year, "result": staff, "rating": "", }
+                {
+                    "date": year,
+                    "result": staff,
+                    "rating": "",
+                }
             )
 
         return {
@@ -358,7 +366,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                 "cube": "expenditure_functional_breakdown",
                 "item_codes": ["4600"],
                 "amount_type": "AUDA",
-            }
+            },
         ],
     }
     formula_v2 = {
@@ -369,7 +377,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                 "cube": "expenditure_functional_breakdown_v2",
                 "item_codes": V2_SPENDING_CODES,
                 "amount_type": "AUDA",
-            }
+            },
         ],
     }
 
@@ -425,6 +433,5 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
             except (KeyError, IndexError):
                 continue
 
-        grouped_results = sorted(
-            grouped_results, key=lambda r: (r["date"], r["item"]))
+        grouped_results = sorted(grouped_results, key=lambda r: (r["date"], r["item"]))
         return {"values": grouped_results}
