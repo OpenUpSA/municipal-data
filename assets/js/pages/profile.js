@@ -4,6 +4,7 @@ import {
 import { ContactSection } from '../components/contacts.js';
 import { TextField } from '../components/common.js';
 import { IndicatorSection, OverUnderSection } from '../components/indicators.js';
+import { FormulaSection } from '../components/formula.js';
 import { AuditOpinions } from '../components/audit-opinions.js';
 import { ProfileHeader } from '../components/profile-header.js';
 import { InPageNav } from '../components/in-page-nav.js';
@@ -58,6 +59,17 @@ export default class ProfilePage {
     initSection(IndicatorSection, '#collection-rate', 'current_debtors_collection_rate');
     initSection(IndicatorSection, '#wages-salaries', 'expenditure_trends_staff');
     initSection(IndicatorSection, '#contractor-services', 'expenditure_trends_contracting');
+
+    initSection(FormulaSection, '#income-summary', 'revenue_sources');
+    initSection(FormulaSection, '#local-income-sources', 'local_revenue_breakdown');
+    //initSection(FormulaSection, '#types of transfers', '');
+    //initSection(FormulaSection, '#equitable share', '');
+    //initSection(FormulaSection, '#national conditional grants', '');
+    //initSection(FormulaSection, '#provincial transfers', '');
+    //initSection(FormulaSection, '#income-budget-actual-time', '');
+    //initSection(FormulaSection, '#income-adjustments', '');
+    initSection(FormulaSection, '#what-is-money-spent-on', 'expenditure_functional_breakdown');
+    //initSection(FormulaSection, '#spending-budget-actual-time', '');
 
     errorBoundary(() => {
       new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);

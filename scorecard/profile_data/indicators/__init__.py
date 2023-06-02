@@ -60,6 +60,7 @@ def get_indicator_calculators(has_comparisons=None):
 class RevenueSources(IndicatorCalculator):
     name = "revenue_sources"
     has_comparisons = False
+    reference = "solgf"
     formula = {
         "text": "= Total revenue",
         "actual": [
@@ -140,6 +141,7 @@ class RevenueSources(IndicatorCalculator):
 class LocalRevenueBreakdown(IndicatorCalculator):
     name = "local_revenue_breakdown"
     has_comparisons = False
+    reference = "solgf"
     formula = {
         "text": "= Breakdown of local income",
         "actual": [
@@ -221,9 +223,11 @@ class LocalRevenueBreakdown(IndicatorCalculator):
                         "amount_type": amount_type,
                     }
                 )
-        results["formula"] = cls.formula
-        results["formula_v2"] = cls.formula_v2
-        return {"values": values}
+        return {
+            "values": values,
+            "formula" : cls.formula,
+            "formula_v2" : cls.formula_v2,
+        }
 
 
 class ExpenditureTrendsContracting(IndicatorCalculator):
@@ -231,6 +235,7 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
     result_type = "%"
     noun = "expenditure"
     has_comparisons = True
+    reference = "solgf"
     formula = {
         "text": "= Expenditure for services rendered by a contractor",
         "actual": [
@@ -296,6 +301,7 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
     result_type = "%"
     noun = "expenditure"
     has_comparisons = True
+    reference = "solgf"
     formula = {
         "text": "= Total expenditure on salaries and wages",
         "actual": [
@@ -365,8 +371,9 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
 class ExpenditureFunctionalBreakdown(IndicatorCalculator):
     name = "expenditure_functional_breakdown"
     has_comparisons = False
+    reference = "solgf"
     formula = {
-        "text": "= All functional expenditure",
+        "text": "= All expenditure by function",
         "actual": [
             "=",
             {
@@ -377,7 +384,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         ],
     }
     formula_v2 = {
-        "text": "= All functional expenditure",
+        "text": "= All expenditure by function",
         "actual": [
             "=",
             {
