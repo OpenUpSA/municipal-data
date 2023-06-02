@@ -132,6 +132,8 @@ class RevenueSources(IndicatorCalculator):
                 results["rating"] = "ave"
             else:
                 results["rating"] = "bad"
+        results["formula"] = cls.formula
+        results["formula_v2"] = cls.formula_v2
         return results
 
 
@@ -219,7 +221,8 @@ class LocalRevenueBreakdown(IndicatorCalculator):
                         "amount_type": amount_type,
                     }
                 )
-
+        results["formula"] = cls.formula
+        results["formula_v2"] = cls.formula_v2
         return {"values": values}
 
 
@@ -283,6 +286,8 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
         return {
             "values": values,
             "result_type": cls.result_type,
+            "formula" : cls.formula,
+            "formula_v2" : cls.formula_v2,
         }
 
 
@@ -352,6 +357,8 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
         return {
             "values": values,
             "result_type": cls.result_type,
+            "formula" : cls.formula,
+            "formula_v2" : cls.formula_v2,
         }
 
 
@@ -434,4 +441,8 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                 continue
 
         grouped_results = sorted(grouped_results, key=lambda r: (r["date"], r["item"]))
-        return {"values": grouped_results}
+        return {
+            "values": grouped_results,
+            "formula" : cls.formula,
+            "formula_v2" : cls.formula_v2,
+        }
