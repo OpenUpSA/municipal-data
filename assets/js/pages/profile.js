@@ -62,14 +62,14 @@ export default class ProfilePage {
 
     initSection(FormulaSection, '#income-summary', 'revenue_sources');
     initSection(FormulaSection, '#local-income-sources', 'local_revenue_breakdown');
-    //initSection(FormulaSection, '#types of transfers', '');
-    //initSection(FormulaSection, '#equitable share', '');
-    //initSection(FormulaSection, '#national conditional grants', '');
-    //initSection(FormulaSection, '#provincial transfers', '');
-    //initSection(FormulaSection, '#income-budget-actual-time', '');
-    //initSection(FormulaSection, '#income-adjustments', '');
+    // initSection(FormulaSection, '#types of transfers', '');
+    // initSection(FormulaSection, '#equitable share', '');
+    // initSection(FormulaSection, '#national conditional grants', '');
+    // initSection(FormulaSection, '#provincial transfers', '');
+    // initSection(FormulaSection, '#income-budget-actual-time', '');
+    // initSection(FormulaSection, '#income-adjustments', '');
     initSection(FormulaSection, '#what-is-money-spent-on', 'expenditure_functional_breakdown');
-    //initSection(FormulaSection, '#spending-budget-actual-time', '');
+    // initSection(FormulaSection, '#spending-budget-actual-time', '');
 
     errorBoundary(() => {
       new CapitalProjectList(pageData.infrastructure_summary, pageData.geography);
