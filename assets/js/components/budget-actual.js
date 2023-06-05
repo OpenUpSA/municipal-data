@@ -31,6 +31,7 @@ export class TimeSeriesSection {
     this._initChart();
     this._initLegend();
     this.$element.find('.video_download-button').attr('href', '/help#income-video');
+    this.$element.find('.expand-block__content_inner:eq(1)').html('<a href="/help#formula-faq">How is this caluclated</a>');
   }
 
   _initChart() {
@@ -120,5 +121,6 @@ export class AdjustmentsSection {
     this.$element.find('.indicator-chart__legend').css('display', 'block');
 
     this.$element.find('.section-header__info-right').text(formatFinancialYear(this._year));
+    this.$element.find('.expand-block__content_inner:eq(1)').html('<a href="/help#formula-faq">How is this caluclated</a>');
   }
 }
