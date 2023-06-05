@@ -60,7 +60,7 @@ def get_indicator_calculators(has_comparisons=None):
 class RevenueSources(IndicatorCalculator):
     name = "revenue_sources"
     has_comparisons = False
-    reference = "solgf"
+    reference = "lges"
     formula = {
         "text": "= Total revenue",
         "actual": [
@@ -141,7 +141,7 @@ class RevenueSources(IndicatorCalculator):
 class LocalRevenueBreakdown(IndicatorCalculator):
     name = "local_revenue_breakdown"
     has_comparisons = False
-    reference = "solgf"
+    reference = "lges"
     formula = {
         "text": "= Breakdown of local income",
         "actual": [
@@ -225,8 +225,9 @@ class LocalRevenueBreakdown(IndicatorCalculator):
                 )
         return {
             "values": values,
-            "formula" : cls.formula,
-            "formula_v2" : cls.formula_v2,
+            "formula": cls.formula,
+            "formula_v2": cls.formula_v2,
+            "ref": api_data.references["lges"],
         }
 
 
@@ -235,7 +236,7 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
     result_type = "%"
     noun = "expenditure"
     has_comparisons = True
-    reference = "solgf"
+    reference = "lges"
     formula = {
         "text": "= Expenditure for services rendered by a contractor",
         "actual": [
@@ -276,7 +277,11 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
                     contracting_code = "4200"
 
                 total = sum(x["amount.sum"] for x in results)
-                contracting_items = [x["amount.sum"] for x in results if x["item.code"] == contracting_code]
+                contracting_items = [
+                    x["amount.sum"]
+                    for x in results
+                    if x["item.code"] == contracting_code
+                ]
                 contracting = percent(contracting_items[0], total)
                 # Prefer KeyError but crash before we use it in case we have more than expectexd
                 assert len(contracting_items) <= 1
@@ -285,14 +290,19 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
                 contracting = None
 
             values.append(
-                {"date": year, "result": contracting, "rating": "", }
+                {
+                    "date": year,
+                    "result": contracting,
+                    "rating": "",
+                }
             )
 
         return {
             "values": values,
             "result_type": cls.result_type,
-            "formula" : cls.formula,
-            "formula_v2" : cls.formula_v2,
+            "formula": cls.formula,
+            "formula_v2": cls.formula_v2,
+            "ref": api_data.references["lges"],
         }
 
 
@@ -301,7 +311,7 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
     result_type = "%"
     noun = "expenditure"
     has_comparisons = True
-    reference = "solgf"
+    reference = "lges"
     formula = {
         "text": "= Total expenditure on salaries and wages",
         "actual": [
@@ -363,15 +373,16 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
         return {
             "values": values,
             "result_type": cls.result_type,
-            "formula" : cls.formula,
-            "formula_v2" : cls.formula_v2,
+            "formula": cls.formula,
+            "formula_v2": cls.formula_v2,
+            "ref": api_data.references["lges"],
         }
 
 
 class ExpenditureFunctionalBreakdown(IndicatorCalculator):
     name = "expenditure_functional_breakdown"
     has_comparisons = False
-    reference = "solgf"
+    reference = "lges"
     formula = {
         "text": "= All expenditure by function",
         "actual": [
@@ -450,6 +461,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         grouped_results = sorted(grouped_results, key=lambda r: (r["date"], r["item"]))
         return {
             "values": grouped_results,
-            "formula" : cls.formula,
-            "formula_v2" : cls.formula_v2,
+            "formula": cls.formula,
+            "formula_v2": cls.formula_v2,
+            "ref": api_data.references["lges"],
         }
