@@ -4,7 +4,6 @@ export default class DropdownMenu {
   constructor(container, options, initialSelectionLabel) {
     this.$element = $(container).find('.dropdown');
     const selectedOption = 'dropdown-link--current';
-    logIfUnequal(1, this.$element.length);
 
     this.$optionTemplate = this.$element.find('.w-dropdown-list a').first().clone();
     this.$optionTemplate.removeClass(selectedOption);
