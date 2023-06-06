@@ -118,18 +118,21 @@ export class ContactSection {
         .css("display", "inline");
     }
 
-    this.$staffLinks = this.$contactContainer.find(".expand-block__trigger a");
-    this.$muniLinks = this.$element.find("a");
-    this.callTagEvent(this.$staffLinks, `${$(e.target).text()}`);
-    this.callTagEvent(this.$muniLinks, "Municipal wide contacts");
-  }
+    this.$staffLinks = this.$contactContainer.find(".profile-info__item a");
+    this.$muniLinks = this.$element.find(".layout-grid__col a");
 
-  callTagEvent(target, label) {
-    target.on('click', ((e) => {
+    this.$staffLinks.on('click', ((e) => {
       gtag('event', "contact_info", {
         category: "Contacts",
         action: "Click",
-        label: label,
+        label: `${$(e.target).text()}`,
+      });
+    }));
+    this.$muniLinks.on('click', ((e) => {
+      gtag('event', "contact_info", {
+        category: "Contacts",
+        action: "Click",
+        label: "Municipal wide contacts",
       });
     }));
   }
