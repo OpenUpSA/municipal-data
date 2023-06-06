@@ -69,7 +69,7 @@ class RevenueSourcesTests(SimpleTestCase):
                 "actual": [
                     "=",
                     {
-                        "cube": "revenue_breakdown_v1",
+                        "cube": "incexp",
                         "item_codes": [
                             "0200",
                             "0300",
@@ -95,7 +95,7 @@ class RevenueSourcesTests(SimpleTestCase):
                 "actual": [
                     "=",
                     {
-                        "cube": "revenue_breakdown_v2",
+                        "cube": "incexp_v2",
                         "item_codes": [
                             "0200",
                             "0300",
@@ -175,7 +175,7 @@ class RevenueSourcesTests(SimpleTestCase):
                 "actual": [
                     "=",
                     {
-                        "cube": "revenue_breakdown_v1",
+                        "cube": "incexp",
                         "item_codes": [
                             "0200",
                             "0300",
@@ -201,7 +201,7 @@ class RevenueSourcesTests(SimpleTestCase):
                 "actual": [
                     "=",
                     {
-                        "cube": "revenue_breakdown_v2",
+                        "cube": "incexp_v2",
                         "item_codes": [
                             "0200",
                             "0300",
