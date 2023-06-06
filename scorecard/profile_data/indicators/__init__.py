@@ -66,7 +66,7 @@ class RevenueSources(IndicatorCalculator):
         "actual": [
             "=",
             {
-                "cube": "revenue_breakdown_v1",
+                "cube": "incexp",
                 "item_codes": V1_INCOME_ITEMS,
                 "amount_type": "AUDA",
             },
@@ -77,7 +77,7 @@ class RevenueSources(IndicatorCalculator):
         "actual": [
             "=",
             {
-                "cube": "revenue_breakdown_v2",
+                "cube": "incexp_v2",
                 "item_codes": V2_INCOME_ITEMS,
                 "amount_type": "AUDA",
             },
@@ -147,7 +147,7 @@ class LocalRevenueBreakdown(IndicatorCalculator):
         "actual": [
             "=",
             {
-                "cube": "revenue_breakdown_v1",
+                "cube": "incexp",
                 "item_codes": V1_INCOME_ITEMS,
                 "amount_type": "AUDA",
             },
@@ -158,7 +158,7 @@ class LocalRevenueBreakdown(IndicatorCalculator):
         "actual": [
             "=",
             {
-                "cube": "revenue_breakdown_v2",
+                "cube": "incexp_v2",
                 "item_codes": V2_INCOME_ITEMS,
                 "amount_type": "AUDA",
             },
@@ -242,7 +242,7 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
         "actual": [
             "=",
             {
-                "cube": "expenditure_breakdown_v1",
+                "cube": "incexp",
                 "item_codes": ["4200"],
                 "amount_type": "AUDA",
             },
@@ -253,7 +253,7 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
         "actual": [
             "=",
             {
-                "cube": "expenditure_breakdown_v2",
+                "cube": "incexp_v2",
                 "item_codes": ["2700"],
                 "amount_type": "AUDA",
             },
@@ -317,7 +317,7 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
         "actual": [
             "=",
             {
-                "cube": "expenditure_breakdown_v1",
+                "cube": "incexp",
                 "item_codes": ["3000", "3100"],
                 "amount_type": "AUDA",
             },
@@ -328,7 +328,7 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
         "actual": [
             "=",
             {
-                "cube": "expenditure_breakdown_v2",
+                "cube": "incexp_v2",
                 "item_codes": ["2000"],
                 "amount_type": "AUDA",
             },
@@ -388,7 +388,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         "actual": [
             "=",
             {
-                "cube": "expenditure_functional_breakdown",
+                "cube": "incexp",
                 "item_codes": ["4600"],
                 "amount_type": "AUDA",
             },
@@ -399,7 +399,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         "actual": [
             "=",
             {
-                "cube": "expenditure_functional_breakdown_v2",
+                "cube": "incexp_v2",
                 "item_codes": V2_SPENDING_CODES,
                 "amount_type": "AUDA",
             },
