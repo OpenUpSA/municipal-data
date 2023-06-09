@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django_q.tasks import async_task, fetch
+from django_q.tasks import async_task
 from import_export.admin import ImportExportModelAdmin
 
 from .models import (
@@ -68,7 +68,7 @@ admin.site.register([Config], ConfigAdmin)
 
 class BaseUpdateAdmin(admin.ModelAdmin):
     list_display = ("user", "datetime", "deleted", "inserted", "processing_completed",)
-    readonly_fields = ("user", "deleted", "inserted",)
+    readonly_fields = ("user", "deleted", "inserted", "processing_completed",)
     task_function = None
     task_name = None
 
@@ -95,14 +95,6 @@ class BaseUpdateAdmin(admin.ModelAdmin):
                 hook='municipal_finance.summarise_data.summarise_task'
             )
 
-
-    def processing_completed(self, obj):
-        task = fetch(obj.id)
-        if task:
-            return task.success
-
-    processing_completed.boolean = True
-    processing_completed.short_description = "Processing completed"
 
 @admin.register(MunicipalStaffContactsUpdate)
 class MunicipalStaffContactsUpdateAdmin(BaseUpdateAdmin):
