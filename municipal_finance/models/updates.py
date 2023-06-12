@@ -21,7 +21,7 @@ class BaseUpdate(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     deleted = models.BigIntegerField(null=True)
     inserted = models.BigIntegerField(null=True)
-    processing_completed = models.TextField(null=True)
+    task_id = models.TextField(null=True)
     file = models.FileField(
         upload_to=UpdateFilePath(),
         max_length=255,

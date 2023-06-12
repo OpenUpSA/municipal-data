@@ -164,5 +164,4 @@ class Updater(ABC):
                     objects = cls.facts_cls.objects.bulk_create(objects)
                     self.update_obj.inserted += len(objects)
             # Save the status of the update
-            self.update_obj.processing_completed = "Processing completed successfully"
             self.update_obj.save()
