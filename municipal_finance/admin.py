@@ -94,6 +94,7 @@ class BaseUpdateAdmin(admin.ModelAdmin):
                 batch_size=10000,
                 hook='municipal_finance.summarise_data.summarise_task'
             )
+            obj.save()
 
 
     def processing_completed(self, obj):
