@@ -68,7 +68,7 @@ admin.site.register([Config], ConfigAdmin)
 
 class BaseUpdateAdmin(admin.ModelAdmin):
     list_display = ("user", "datetime", "deleted", "inserted", "processing_completed")
-    readonly_fields = ("user", "deleted", "inserted","task_id")
+    readonly_fields = ("user", "deleted", "inserted","status")
     task_function = None
     task_name = None
 
@@ -87,7 +87,7 @@ class BaseUpdateAdmin(admin.ModelAdmin):
         )
         # Queue task
         if not change:
-            obj.task_id = async_task(
+            obj.status = async_task(
                 self.task_function,
                 obj,
                 task_name=self.task_name,
@@ -98,9 +98,7 @@ class BaseUpdateAdmin(admin.ModelAdmin):
 
 
     def processing_completed(self, obj):
-        print("_____id_______")
-        print(obj.task_id)
-        task = fetch(str(obj.task_id))
+        task = fetch(str(obj.status))
         if task:
             return task.success
 
