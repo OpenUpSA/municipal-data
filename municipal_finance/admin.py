@@ -87,23 +87,21 @@ class BaseUpdateAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         # Set the user to the current user
-        if not obj.pk:
-            obj.user = request.user
+        obj.user = request.user
         # Process default save behavior
         super(BaseUpdateAdmin, self).save_model(request, obj, form, change)
         # Queue task
-        obj.task_id = async_task(
-            self.task_function,
-            obj,
-            task_name=self.task_name,
-            batch_size=10000,
-            hook="municipal_finance.summarise_data.summarise_task",
-        )
-        obj.save()
+        if not change:
+            obj.task_id = async_task(
+                self.task_function,
+                obj,
+                task_name=self.task_name,
+                batch_size=10000,
+                hook="municipal_finance.summarise_data.summarise_task",
+            )
+            obj.save()
 
     def processing_completed(self, obj):
-        print("_________task_id__________")
-        print(obj.task_id)
         task = fetch(obj.task_id)
         if task:
             if task.result:
