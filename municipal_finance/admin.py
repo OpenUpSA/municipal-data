@@ -68,7 +68,7 @@ admin.site.register([Config], ConfigAdmin)
 
 class BaseUpdateAdmin(admin.ModelAdmin):
     list_display = ("user", "datetime", "deleted", "inserted", "processing_completed")
-    readonly_fields = ("user", "deleted", "inserted")
+    readonly_fields = ("user", "deleted", "inserted", "import_report")
 
     task_function = None
     task_name = None
@@ -102,8 +102,15 @@ class BaseUpdateAdmin(admin.ModelAdmin):
             obj.save()
 
     def processing_completed(self, obj):
-        task = fetch(obj.status)
+        task = fetch(str(obj.status))
         if task:
+            if task.result:
+                error_result = task.result.splitlines()[-1]
+                if error_result.startswith("KeyError"):
+                    item_code = error_result.split(":")[1]
+                    obj.import_report = f"Please check that the following item code exists in the corresponding items table for this upload: {item_code}"
+                    obj.save()
+
             return task.success
 
     processing_completed.boolean = True
