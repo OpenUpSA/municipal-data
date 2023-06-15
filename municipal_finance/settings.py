@@ -181,6 +181,7 @@ CONSTANCE_CONFIG = {
         "display on summary and search pages.",
         "year_select",
     ],
+    "IS_SCORECARD_COMPILED": [False, "Has the scorecard been compiled after uploading ", bool]
 }
 
 ROOT_URLCONF = "municipal_finance.urls"

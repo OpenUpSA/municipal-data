@@ -7,6 +7,7 @@ from import_export.admin import ImportExportModelAdmin, ExportMixin
 from import_export.signals import post_import
 from import_export.formats import base_formats
 from django.dispatch import receiver
+from django.core.signals import request_started
 
 from .models import (
     Geography,
@@ -90,3 +91,10 @@ class MunicipalityProfilesCompilationAdmin(admin.ModelAdmin):
             obj.last_audit_quarter,
             task_name="Compile municipal profiles"
         )
+
+    @receiver(request_started)
+    def admin_opened(sender, **kwargs):
+        if config.IS_SCORECARD_COMPILED:
+            MunicipalityProfilesCompilation._meta.verbose_name_plural = "Municipality Profile Compilations ✅"
+        else:
+            MunicipalityProfilesCompilation._meta.verbose_name_plural = "Municipality Profile Compilations ❌"
