@@ -95,6 +95,6 @@ class MunicipalityProfilesCompilationAdmin(admin.ModelAdmin):
     @receiver(request_started)
     def admin_opened(sender, **kwargs):
         if config.IS_SCORECARD_COMPILED:
-            MunicipalityProfilesCompilation._meta.verbose_name_plural = "Municipality Profile Compilations ✅"
+            MunicipalityProfilesCompilation._meta.verbose_name_plural = "Municipality Profile Compilations ✅ Profiles compiled"
         else:
-            MunicipalityProfilesCompilation._meta.verbose_name_plural = "Municipality Profile Compilations ❌"
+            MunicipalityProfilesCompilation._meta.verbose_name_plural = "Municipality Profile Compilations ❌ Compile required"
