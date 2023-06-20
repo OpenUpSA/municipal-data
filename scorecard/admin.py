@@ -54,6 +54,8 @@ class MunicipalityProfilesCompilationAdmin(admin.ModelAdmin):
     readonly_fields = (
         "user",
     )
+    change_list_template = 'admin/profile_list_form.html'
+    add_form_template = 'admin/profile_add_form.html'
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(MunicipalityProfilesCompilationAdmin, self).get_form(
