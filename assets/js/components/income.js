@@ -8,6 +8,7 @@ import {
   formatForType,
   locale,
   formatPhase,
+  populateHelpSection,
 } from '../utils.js';
 import Dropdown from './dropdown.js';
 import LegendItem from './legend.js';
@@ -175,7 +176,7 @@ export class TransfersSection extends AbstractIncomeSection {
     const initialPeriodOption = this._initDropdown();
     this.selectData(initialPeriodOption[1]);
     this.$element.find('.video_download-button').attr('href', '/help#income-video');
-    this.$element.find('.expand-block__content_inner:eq(1)').html('<a href="/help#formula-faq">How is this caluclated</a>');
+    populateHelpSection(this.$element);
   }
 
   _initChart() {
@@ -301,7 +302,7 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
       this.$element.find('.indicator-metric__value').text(formatForType('R', indicatorValue));
     }
     this.$element.find('.video_download-button').attr('href', '/help#grants-video');
-    this.$element.find('.expand-block__content_inner:eq(1)').html('<a href="/help#formula-faq">How is this caluclated</a>');
+    populateHelpSection(this.$element);
   }
 
   _initLegend() {
@@ -407,7 +408,7 @@ export class ProvincialTransfersSection extends AbstractIncomeSection {
     this._initLegend();
     const initialPeriodOption = this._initDropdown();
     this.selectData(initialPeriodOption[1]);
-    this.$element.find('.expand-block__content_inner:eq(1)').html('<a href="/help#formula-faq">How is this caluclated</a>');
+    populateHelpSection(this.$element);
   }
 
   _initChart() {

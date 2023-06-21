@@ -126,3 +126,7 @@ export function errorBoundary(f) {
 export function arrayJoin(array, separator) {
   return array.reduce((result, value, index) => result.concat(value, separator), []).slice(0, -1);
 }
+
+export function populateHelpSection(element) {
+  element.find('.expand-block__content_inner:eq(1)').html('<a href="/help#formula-faq">How is this calculated</a>');
+}
