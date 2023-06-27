@@ -191,11 +191,17 @@ $.each(videos, function (name, value) {
   if (value.sectionMarkers.length > 0) {
     $.each(value.sectionMarkers, (name, marker) => {
       $(`<div id=${marker}-video style='scroll-margin-top: 60px;'></div>`).insertBefore(videoBlock);
+      videoBlock.find('.information-video_share-link').attr("href", `help#${marker}-video`);
     });
   }
 });
 
 $('.informational-video_block:first').hide();
+
+$('.information-video_share-link').on('click', (e) => {
+  e.preventDefault();
+  navigator.clipboard.writeText(e.target.attributes[0].baseURI);
+});
 
 $('.informational-video_download-button').on('click', (e) => {
   const title = $(e.currentTarget.parentElement.parentElement.parentElement).find('.informational-video_title').text();
