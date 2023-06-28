@@ -191,7 +191,7 @@ $.each(videos, function (name, value) {
   if (value.sectionMarkers.length > 0) {
     $.each(value.sectionMarkers, (name, marker) => {
       $(`<div id=${marker}-video style='scroll-margin-top: 60px;'></div>`).insertBefore(videoBlock);
-      videoBlock.find('.information-video_share-link').attr("href", `help#${marker}-video`);
+      videoBlock.find('.information-video_share-link').attr('href', `help#${marker}-video`);
     });
   }
 });
