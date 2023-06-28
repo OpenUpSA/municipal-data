@@ -85,7 +85,7 @@ from .updates import (
 from .demarcation_changes import DemarcationChanges
 
 from .data_summaries import Summary
-
+from .bulk_download import BulkDownload
 
 class AuditOpinionFacts(models.Model):
     demarcation_code = models.TextField()
