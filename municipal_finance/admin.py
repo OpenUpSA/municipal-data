@@ -95,11 +95,8 @@ class BaseUpdateAdmin(admin.ModelAdmin):
                 hook='municipal_finance.summarise_data.summarise_task'
             )
             async_task(
-                self.task_function,
-                obj,
-                task_name=self.task_name,
-                batch_size=10000,
-                hook='municipal_finance.bulk_download.generate_download'
+                "municipal_finance.bulk_download.generate_download",
+                task_name="Make bulk download",
             )
 
 

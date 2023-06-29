@@ -1,6 +1,8 @@
-from storages.backends.s3boto3 import S3Boto3Storage
 import os
+from django.conf import settings
 import boto3
+
+from storages.backends.s3boto3 import S3Boto3Storage
 
 
 class MediaStorage(S3Boto3Storage):
@@ -8,7 +10,16 @@ class MediaStorage(S3Boto3Storage):
     file_overwrite = False
 
 
-def upload_file(file_name, bucket):
-    s3_client = boto3.client("s3")
-    response = s3_client.upload_file(file_name, bucket, f"{file_name}_object")
-    return True
+def upload_object(object, name, bucket):
+    s3 = boto3.client(
+        "s3",
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+    )
+    response = s3.put_object(
+        Body=object,
+        Bucket=bucket,
+        Key=f"{name}_object",
+    )
+    # response = s3.upload_file(name, bucket, f"{name}_object")
+    return response
