@@ -97,7 +97,7 @@ class BaseUpdateAdmin(admin.ModelAdmin):
             async_task(
                 "municipal_finance.bulk_download.generate_download",
                 task_name="Make bulk download",
-                cube=self.model,
+                cube_model=self.cube_model,
             )
 
 
@@ -145,7 +145,7 @@ class AgedDebtorFactsV2UpdateAdmin(BaseUpdateAdmin):
 
 @admin.register(AgedCreditorFactsV2Update)
 class AgedCreditorFactsV2UpdateAdmin(BaseUpdateAdmin):
-    model = AgedCreditorItemsV2
+    cube_model = AgedCreditorItemsV2
     task_function = "municipal_finance.update.update_aged_creditor_facts_v2"
     task_name = "Aged Creditor Facts v2 update"
 
