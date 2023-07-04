@@ -1,6 +1,8 @@
 import csv
-from io import StringIO
+import StringIO
+import xlsxwriter
 
+from django.core.files.storage import default_storage
 from django.db import transaction
 
 from municipal_finance.models.bulk_download import BulkDownload
@@ -11,18 +13,17 @@ logger = logging.Logger(__name__)
 
 
 @transaction.atomic
-def generate_download():
-    # Pull data
+def generate_download(**kwargs):
+    # Pull data from relevent cube
+    logger.warn(f"_______{kwargs['cube']}_____")
+    #items = kwargs["cube"].objects.all()
 
-    # Upload file to bucket
-    file_to_save = StringIO()
-    csv.writer(file_to_save).writerows("file_data")
-    file_to_save = bytes(file_to_save.getvalue(), encoding="utf-8")
-    dev = upload_object(file_to_save, "dev.json", "munimoney-bulk-downloads")
-    url = "asdf-timestamp.json"
+    # Add data to a file object and upload to S3
+    with default_storage.open('dev.xlsx', 'w') as f:
+        f.write('dev')
 
-    logger.warn(f"_______{dev}_____")
-    # Store file URL
-    BulkDownload.objects.create(
-        file_url=url,
-    )
+    # Store file name and URL
+    # https://munimoney-bulk-downloads.s3.eu-west-1.amazonaws.com/dev.json
+    # BulkDownload.objects.create(
+    #    file_url=url,
+    # )
