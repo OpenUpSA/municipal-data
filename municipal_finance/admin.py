@@ -26,6 +26,19 @@ from .models import (
     CapitalTypeV2,
     DemarcationChanges,
 )
+from .models import (
+    MunicipalStaffContacts,
+    AgedCreditorFactsV2,
+    UIFWExpenseFacts,
+    AuditOpinionFacts,
+    IncexpFactsV2,
+    CflowFactsV2,
+    RepairsMaintenanceFactsV2,
+    AgedDebtorFactsV2,
+    CapitalFactsV2,
+    GrantFactsV2,
+    FinancialPositionFactsV2,
+)
 from .resources import (
     AgedDebtorItemsV2Resource,
     AgedCreditorItemsV2Resource,
@@ -103,67 +116,77 @@ class BaseUpdateAdmin(admin.ModelAdmin):
 
 @admin.register(MunicipalStaffContactsUpdate)
 class MunicipalStaffContactsUpdateAdmin(BaseUpdateAdmin):
+    cube_model = MunicipalStaffContacts
     task_function = "municipal_finance.update.update_municipal_staff_contacts"
     task_name = "Municipal staff contacts update"
 
 
 @admin.register(UIFWExpenseFactsUpdate)
 class UIFWExpenseFactsUpdateAdmin(BaseUpdateAdmin):
+    cube_model = UIFWExpenseFacts
     task_function = "municipal_finance.update.update_uifw_expense_facts"
     task_name = "UIFW Expense Facts update"
 
 
 @admin.register(AuditOpinionFactsUpdate)
 class AuditOpinionFactsUpdateAdmin(BaseUpdateAdmin):
+    cube_model = AuditOpinionFacts
     task_function = "municipal_finance.update.update_audit_opinion_facts"
     task_name = "Audit Opinion Facts update"
 
 
 @admin.register(IncomeExpenditureV2Update)
 class IncomeExpenditureV2UpdateAdmin(BaseUpdateAdmin):
+    cube_model = IncexpFactsV2
     task_function = "municipal_finance.update.update_income_expenditure_v2"
     task_name = "Income & Expenditure v2 update"
 
 
 @admin.register(CashFlowV2Update)
 class CashFlowV2UpdateAdmin(BaseUpdateAdmin):
+    cube_model = CflowFactsV2
     task_function = "municipal_finance.update.update_cash_flow_v2"
     task_name = "Cash flow v2 update"
 
 
 @admin.register(RepairsMaintenanceV2Update)
 class RepairsMaintenanceV2UpdateAdmin(BaseUpdateAdmin):
+    cube_model = RepairsMaintenanceFactsV2
     task_function = "municipal_finance.update.update_repairs_maintenance_v2"
     task_name = "Repairs & Maintenance v2 update"
 
 
 @admin.register(AgedDebtorFactsV2Update)
 class AgedDebtorFactsV2UpdateAdmin(BaseUpdateAdmin):
+    cube_model = AgedDebtorFactsV2
     task_function = "municipal_finance.update.update_aged_debtor_facts_v2"
     task_name = "Aged Debtor Facts v2 update"
 
 
 @admin.register(AgedCreditorFactsV2Update)
 class AgedCreditorFactsV2UpdateAdmin(BaseUpdateAdmin):
-    cube_model = AgedCreditorItemsV2
+    cube_model = AgedCreditorFactsV2
     task_function = "municipal_finance.update.update_aged_creditor_facts_v2"
     task_name = "Aged Creditor Facts v2 update"
 
 
 @admin.register(CapitalFactsV2Update)
 class CapitalFactsV2UpdateAdmin(BaseUpdateAdmin):
+    cube_model = CapitalFactsV2
     task_function = "municipal_finance.update.update_capital_facts_v2"
     task_name = "Capital Facts v2 update"
 
 
 @admin.register(GrantFactsV2Update)
 class GrantFactsV2UpdateAdmin(BaseUpdateAdmin):
+    cube_model = GrantFactsV2
     task_function = "municipal_finance.update.update_grant_facts_v2"
     task_name = "Grant Facts v2 update"
 
 
 @admin.register(FinancialPositionFactsV2Update)
 class FinancialPositionFactsV2UpdateAdmin(BaseUpdateAdmin):
+    cube_model = FinancialPositionFactsV2
     task_function = "municipal_finance.update.update_financial_position_facts_v2"
     task_name = "FinancialPosition Facts v2 update"
 
@@ -224,6 +247,7 @@ class CapitalTypeV2Admin(ImportExportModelAdmin):
 
 @admin.register(DemarcationChanges)
 class DemarcationChangesAdmin(admin.ModelAdmin):
+    cube_model = DemarcationChanges
     list_display = (
         "date",
         "old_code",
