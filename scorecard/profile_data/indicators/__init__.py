@@ -269,8 +269,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         }
         GAPD_label = "Governance, Administration, Planning and Development"
 
-        results = api_data.results["expenditure_functional_breakdown"]
-        results.extend(api_data.results["expenditure_functional_breakdown_v2"])
+        results = api_data.results["expenditure_functional_breakdown_v2"]
         grouped_results = []
         GAPD_total = 0.0
         GAPD_values = []
