@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'verbose_name_plural': 'Bulk Downloads',
-                'db_table': 'bulk_doownload',
+                'db_table': 'bulk_download',
             },
         ),
     ]
