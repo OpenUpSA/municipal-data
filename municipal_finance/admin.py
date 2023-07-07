@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django_q.tasks import async_task
+from django_q.tasks import async_task, fetch
 from import_export.admin import ImportExportModelAdmin
 
 from .models import (
@@ -80,8 +80,9 @@ admin.site.register([Config], ConfigAdmin)
 
 
 class BaseUpdateAdmin(admin.ModelAdmin):
-    list_display = ("user", "datetime", "deleted", "inserted",)
-    readonly_fields = ("user", "deleted", "inserted",)
+    list_display = ("user", "datetime", "deleted", "inserted", "processing_completed")
+    readonly_fields = ("user", "deleted", "inserted", "import_report")
+
     task_function = None
     task_name = None
 
@@ -91,27 +92,47 @@ class BaseUpdateAdmin(admin.ModelAdmin):
         else:
             return super(BaseUpdateAdmin, self).get_exclude(request, obj)
 
+    def has_change_permission(self, request, obj=None):
+        super(BaseUpdateAdmin, self).has_change_permission(request, obj)
+
+    def has_delete_permission(self, request, obj=None):
+        super(BaseUpdateAdmin, self).has_delete_permission(request, obj)
+
     def save_model(self, request, obj, form, change):
         # Set the user to the current user
         obj.user = request.user
         # Process default save behavior
-        super(BaseUpdateAdmin, self).save_model(
-            request, obj, form, change
-        )
+        super(BaseUpdateAdmin, self).save_model(request, obj, form, change)
         # Queue task
         if not change:
-            async_task(
+            obj.task_id = async_task(
                 self.task_function,
                 obj,
                 task_name=self.task_name,
                 batch_size=10000,
-                hook='municipal_finance.summarise_data.summarise_task'
+                hook="municipal_finance.summarise_data.summarise_task",
             )
             async_task(
                 "municipal_finance.bulk_download.generate_download",
                 task_name="Make bulk download",
                 cube_model=self.cube_model,
             )
+            obj.save()
+
+    def processing_completed(self, obj):
+        task = fetch(obj.task_id)
+        if task:
+            if task.result:
+                error_result = task.result.splitlines()[-1]
+                if error_result.startswith("KeyError"):
+                    item_code = error_result.split(":")[1]
+                    obj.import_report = f"Please check that the following item code exists in the corresponding items table for this upload: {item_code}"
+                    obj.save()
+
+            return task.success
+
+    processing_completed.boolean = True
+    processing_completed.short_description = "Processing completed"
 
 
 @admin.register(MunicipalStaffContactsUpdate)
@@ -194,55 +215,82 @@ class FinancialPositionFactsV2UpdateAdmin(BaseUpdateAdmin):
 @admin.register(AgedCreditorItemsV2)
 class AgedCreditorItemsV2Admin(ImportExportModelAdmin):
     resource_class = AgedCreditorItemsV2Resource
-    list_display = ("code", "label",)
+    list_display = (
+        "code",
+        "label",
+    )
 
 
 @admin.register(AgedDebtorItemsV2)
 class AgedDebtorItemsV2Admin(ImportExportModelAdmin):
     resource_class = AgedDebtorItemsV2Resource
-    list_display = ("code", "label",)
+    list_display = (
+        "code",
+        "label",
+    )
 
 
 @admin.register(CflowItemsV2)
 class CashFlowItemsV2Admin(ImportExportModelAdmin):
     resource_class = CashflowItemsV2Resource
-    list_display = ("code", "label",)
+    list_display = (
+        "code",
+        "label",
+    )
 
 
 @admin.register(IncexpItemsV2)
 class IncexpItemsV2Admin(ImportExportModelAdmin):
     resource_class = IncexpItemsV2Resource
-    list_display = ("code", "label",)
+    list_display = (
+        "code",
+        "label",
+    )
 
 
 @admin.register(FinancialPositionItemsV2)
 class FinancialPositionItemsV2Admin(ImportExportModelAdmin):
     resource_class = FinancialPositionItemsV2Resource
-    list_display = ("code", "label",)
+    list_display = (
+        "code",
+        "label",
+    )
 
 
 @admin.register(RepairsMaintenanceItemsV2)
 class RepairsMaintenanceItemsV2Admin(ImportExportModelAdmin):
     resource_class = RepairsMaintenanceItemsV2Resource
-    list_display = ("code", "label",)
+    list_display = (
+        "code",
+        "label",
+    )
 
 
 @admin.register(GovernmentFunctionsV2)
 class GovernmentFunctionsV2Admin(ImportExportModelAdmin):
     resource_class = GovernmentFunctionsV2Resource
-    list_display = ("code", "label",)
+    list_display = (
+        "code",
+        "label",
+    )
 
 
 @admin.register(GrantTypesV2)
 class GrantTypesV2Admin(ImportExportModelAdmin):
     resource_class = GrantTypesV2Resource
-    list_display = ("code", "name",)
+    list_display = (
+        "code",
+        "name",
+    )
 
 
 @admin.register(CapitalTypeV2)
 class CapitalTypeV2Admin(ImportExportModelAdmin):
     resource_class = CapitalTypeV2Resource
-    list_display = ("code", "label",)
+    list_display = (
+        "code",
+        "label",
+    )
 
 
 @admin.register(DemarcationChanges)
