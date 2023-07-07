@@ -1,4 +1,5 @@
 import xlsxwriter
+from datetime import datetime
 
 from django.core.files.storage import default_storage
 from django.db import transaction
@@ -24,7 +25,9 @@ def generate_download(**kwargs):
 
 def export_to_excel(cube_model):
     queryset = cube_model.objects.all()
-    excel_file = "my_model_data.xlsx"
+    now = datetime.now()
+    timestamp = now.datetime.strftime("%Y-%m-%d_%H-%M-%S")
+    excel_file = f"bulk_data{timestamp}.xlsx"
     workbook = xlsxwriter.Workbook(excel_file, {"constant_memory": True})
     worksheet = workbook.add_worksheet()
 
