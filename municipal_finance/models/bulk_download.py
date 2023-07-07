@@ -2,7 +2,7 @@ from django.db import models
 
 
 class BulkDownload(models.Model):
-    file_url = models.TextField()
+    file_name = models.TextField()
 
     class Meta:
         db_table = "bulk_doownload"

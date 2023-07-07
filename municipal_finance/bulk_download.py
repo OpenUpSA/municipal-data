@@ -14,26 +14,26 @@ logger = logging.Logger(__name__)
 @transaction.atomic
 def generate_download(**kwargs):
     # Pull data from relevent cube
-    export_to_excel(kwargs["cube_model"])
+    file_name = export_to_excel(kwargs["cube_model"])
 
     # Store file name and URL
-    # https://munimoney-bulk-downloads.s3.eu-west-1.amazonaws.com/dev.json
-    # BulkDownload.objects.create(
-    #    file_url=url,
-    # )
+    # file_name = aged_creditor_facts_v2_2023-07-07_23-49-37.xlsx
+    # s3_url = "https://munimoney-media.s3.eu-west-1.amazonaws.com/bulk_data/"
+    BulkDownload.objects.create(
+        file_name=file_name",
+    )
 
 
 def export_to_excel(cube_model):
     queryset = cube_model.objects.all()
     now = datetime.now()
-    timestamp = now.datetime.strftime("%Y-%m-%d_%H-%M-%S")
-    excel_file = f"bulk_data{timestamp}.xlsx"
+    timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
+    excel_file = f"{cube_model._meta.db_table}_{timestamp}.xlsx"
     workbook = xlsxwriter.Workbook(excel_file, {"constant_memory": True})
     worksheet = workbook.add_worksheet()
 
     # Generalise header for different cube columns
     headers = [field.verbose_name.title() for field in cube_model._meta.get_fields()]
-    # logger.warn(f"_______{headers}_____")
     for col, header in enumerate(headers):
         worksheet.write(0, col, header)
 
@@ -54,8 +54,9 @@ def export_to_excel(cube_model):
                 worksheet.write(row, col, value)
                 col += 1
         row += 1
+    file = default_storage.open(excel_file, 'wb')
+    workbook = xlsxwriter.Workbook(file)
     workbook.close()
-
-    file = default_storage.open("bulk_downloads", "wb")
-    workbook.save(file)
     file.close()
+
+    return excel_file
