@@ -1,4 +1,6 @@
 import xlsxwriter
+import sys
+import hashlib
 from datetime import datetime
 
 from django.core.files.storage import default_storage
@@ -13,23 +15,35 @@ logger = logging.Logger(__name__)
 
 @transaction.atomic
 def generate_download(**kwargs):
-    # Pull data from relevent cube
-    file_name = export_to_excel(kwargs["cube_model"])
-
-    # Store file name and URL
-    # file_name = aged_creditor_facts_v2_2023-07-07_23-49-37.xlsx
-    # s3_url = "https://munimoney-media.s3.eu-west-1.amazonaws.com/bulk_data/"
-    BulkDownload.objects.create(
-        file_name=file_name",
-    )
-
-
-def export_to_excel(cube_model):
-    queryset = cube_model.objects.all()
     now = datetime.now()
     timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
-    excel_file = f"{cube_model._meta.db_table}_{timestamp}.xlsx"
-    workbook = xlsxwriter.Workbook(excel_file, {"constant_memory": True})
+
+    # Pull data from relevent cube
+    file = dump_cube_to_excel(kwargs["cube_model"], timestamp)
+
+    # Store file name and URL
+    BulkDownload.objects.create(
+        file_name=file["slug"],
+    )
+
+    # Draw metadata for this dump
+    metadata = {
+        "last updated": timestamp,
+    }
+    metadata.update(file)
+    file = default_storage.open("index.json", "wb")
+    file.write(metadata)
+    file.close()
+
+    # Aggregate all metadata
+
+
+def dump_cube_to_excel(cube_model, timestamp):
+    queryset = cube_model.objects.all()
+
+    file_name = f"{cube_model._meta.db_table}_{timestamp}.xlsx"
+    file = default_storage.open(file_name, "wb")
+    workbook = xlsxwriter.Workbook(file, {"constant_memory": True})
     worksheet = workbook.add_worksheet()
 
     # Generalise header for different cube columns
@@ -44,7 +58,6 @@ def export_to_excel(cube_model):
             # Handle related fields
             if field.concrete:
                 if field.is_relation:
-                    value = str(getattr(item, field.name))
                     if field.many_to_many or field.one_to_many:
                         value = ", ".join(
                             str(obj) for obj in getattr(item, field.name).all()
@@ -54,9 +67,21 @@ def export_to_excel(cube_model):
                 worksheet.write(row, col, value)
                 col += 1
         row += 1
-    file = default_storage.open(excel_file, 'wb')
-    workbook = xlsxwriter.Workbook(file)
+
     workbook.close()
     file.close()
 
-    return excel_file
+    md5 = hashlib.md5()
+    sha1 = hashlib.sha1()
+    with default_storage.open(file_name, "rb") as f:
+        data = f.read()
+        md5.update(data)
+        sha1.update(data)
+        size = sys.getsizeof(data)
+
+    return {
+        "slug": file_name,
+        "sha1": sha1.hexdigest(),
+        "md5": md5.hexdigest(),
+        "file size": size,
+    }
