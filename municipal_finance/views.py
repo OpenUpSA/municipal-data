@@ -112,6 +112,8 @@ def docs(request):
             'items': items,
         })
 
+    bulk_downloads = get_bulk_downloads()
+
     return render(request, 'docs.html', {
         'cubes': cubes,
     })
@@ -289,3 +291,10 @@ def table(request, cube_name):
         'cube_model': cube,
         'cubes': cubes,
     })
+
+@xframe_options_exempt
+def get_bulk_downloads(request):
+
+    return {
+        'dev': "dev",
+    }
