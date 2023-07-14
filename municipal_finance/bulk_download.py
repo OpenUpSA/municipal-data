@@ -43,12 +43,14 @@ def generate_download(**kwargs):
     else:
         file_names = dump_cube_to_excel(cube_model, timestamp)
 
+
+    logger.warn(f"____________{file_names}")
     # Draw metadata for this dump
     file_metadata = []
     for name in file_names:
         md5 = hashlib.md5()
         sha1 = hashlib.sha1()
-        with default_storage.open(name, "rb") as f:
+        with default_storage.open(f"{storage_dir}/{cube_name}/{name}", "rb") as f:
             data = f.read()
             md5.update(data)
             sha1.update(data)
@@ -56,16 +58,16 @@ def generate_download(**kwargs):
 
         file_metadata.append(
             {
-                "file name": name,
+                "file_name": name,
                 "md5": md5.hexdigest(),
                 "sha1": sha1.hexdigest(),
-                "file size": size,
+                "file_size": size,
             }
         )
 
     metadata = {
         cube_name: {
-            "last updated": timestamp,
+            "last_updated": timestamp,
             "files": file_metadata,
         }
     }
@@ -73,13 +75,14 @@ def generate_download(**kwargs):
     with default_storage.open(f"{storage_dir}/{cube_name}/index.json", "w") as file:
         json.dump(metadata, file)
 
+    # Aggregate all metadata
     aggregate_index = f"{storage_dir}/index.json"
     if default_storage.exists(aggregate_index):
         with default_storage.open(aggregate_index, "r") as file:
             data = json.load(file)
 
         data[cube_name] = {
-            "last updated": timestamp,
+            "last_updated": timestamp,
             "files": file_metadata,
         }
 
@@ -94,8 +97,9 @@ def generate_download(**kwargs):
 def dump_cube_to_excel(cube_model, timestamp):
     queryset = cube_model.objects.all()
     max_rows = 1000000
-    file_name = f"{storage_dir}/{cube_model._meta.db_table}/{cube_model._meta.db_table}_{timestamp}.xlsx"
-    file = default_storage.open(file_name, "wb")
+    #file_name = f"{storage_dir}/{cube_model._meta.db_table}/{cube_model._meta.db_table}_{timestamp}.xlsx"
+    file_name = f"{cube_model._meta.db_table}_{timestamp}.xlsx"
+    file = default_storage.open(f"{storage_dir}/{cube_model._meta.db_table}/{file_name}", "wb")
     workbook = xlsxwriter.Workbook(file, {"constant_memory": True})
     worksheet = workbook.add_worksheet()
 
@@ -148,9 +152,10 @@ def split_dump_to_excel(cube_model, timestamp):
 
             row = 1
             current_year = item.financial_year
-            file_name = f"{storage_dir}/{cube_model._meta.db_table}/{cube_model._meta.db_table}_{current_year}__{timestamp}.xlsx"
-            files.append(file_name)
-            file = default_storage.open(file_name, "wb")
+            #file_name = f"{storage_dir}/{cube_model._meta.db_table}/{cube_model._meta.db_table}_{current_year}__{timestamp}.xlsx"
+            file_name = f"{cube_model._meta.db_table}_{current_year}__{timestamp}.xlsx"
+            files.append(f"{file_name}")
+            file = default_storage.open(f"{storage_dir}/{cube_model._meta.db_table}/{file_name}", "wb")
             workbook = xlsxwriter.Workbook(file, {"constant_memory": True})
             worksheet = workbook.add_worksheet()
 

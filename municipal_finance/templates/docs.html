@@ -170,7 +170,14 @@
 
     <h1 id="bulkdownloads">Bulk Downloads</h1>
 
+    {% for key, value in bulk_downloads.items %}
+      <p>{{ key }}</p>
+      
+      {% for file in value.files %}
+      <p><a href="{{ storage_url }}/minio/municipal-money/media/{{ file.file_name }}">{{ file.file_name }}</a> {{ file.file_size|filesizeformat }}</p>
 
+      {% endfor %}
+    {% endfor %}
 
     <h1 id="general">Using the API</h1>
 
