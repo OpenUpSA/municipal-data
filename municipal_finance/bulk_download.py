@@ -27,6 +27,11 @@ split_cubes = [
     "incexp_facts_v2",
 ]
 
+disable_xlsx = [
+    "incexp_facts",
+    "incexp_facts_v2",
+]
+
 storage_dir = "bulk_downloads"
 
 
@@ -41,15 +46,15 @@ def generate_download(**kwargs):
 
     # Pull data from relevent cube
     if cube_name in split_cubes:
-        file_names = split_dump_to_excel(queryset, cube_model, timestamp)
-        # file_names = dump_cube_to_excel(cube_model, timestamp)
-        test = split_dump_to_csv(queryset, cube_model, timestamp)
+        if cube_name in disable_xlsx:
+            file_names = split_dump_to_csv(queryset, cube_model, timestamp)
+        else:
+            file_names = split_dump_to_xlsx(queryset, cube_model, timestamp)
+            file_names.extend(split_dump_to_csv(queryset, cube_model, timestamp))
     else:
-        file_names = dump_cube_to_excel(queryset, cube_model, timestamp)
-        test = dump_cube_to_csv(queryset, cube_model, timestamp)
+        file_names = dump_cube_to_xlsx(queryset, cube_model, timestamp)
+        file_names.extend(dump_cube_to_csv(queryset, cube_model, timestamp))
 
-    logger.warn(f"____________{file_names}")
-    logger.warn(f"____________{test}")
     # Draw metadata for this dump
     file_metadata = []
     for name in file_names:
@@ -99,7 +104,7 @@ def generate_download(**kwargs):
             json.dump(metadata, file)
 
 
-def dump_cube_to_excel(queryset, cube_model, timestamp):
+def dump_cube_to_xlsx(queryset, cube_model, timestamp):
     max_rows = 1000000
     file_name = f"{cube_model._meta.db_table}_{timestamp}.xlsx"
     f = default_storage.open(
@@ -139,7 +144,7 @@ def dump_cube_to_excel(queryset, cube_model, timestamp):
     return [file_name]
 
 
-def split_dump_to_excel(queryset, cube_model, timestamp):
+def split_dump_to_xlsx(queryset, cube_model, timestamp):
     current_year = 0
     max_rows = 1000000
     files = []
@@ -199,8 +204,8 @@ def dump_cube_to_csv(queryset, cube_model, timestamp):
     field_names = [field.name for field in cube_model._meta.fields]
 
     f = default_storage.open(
-            f"{storage_dir}/{cube_model._meta.db_table}/{file_name}", "wb"
-        )
+        f"{storage_dir}/{cube_model._meta.db_table}/{file_name}", "wb"
+    )
     writer = csv.DictWriter(f, fieldnames=field_names)
     writer.writeheader()
     for item in queryset:
@@ -214,11 +219,7 @@ def dump_cube_to_csv(queryset, cube_model, timestamp):
 def split_dump_to_csv(queryset, cube_model, timestamp):
     current_year = 0
     files = []
-
-    file_name = f"{cube_model._meta.db_table}_{timestamp}.csv"
-
     field_names = [field.name for field in cube_model._meta.fields]
-    files.append(f"{file_name}")
 
     for item in queryset:
         if item.financial_year != current_year:
@@ -241,4 +242,4 @@ def split_dump_to_csv(queryset, cube_model, timestamp):
             writer.writerow(row)
 
     f.close()
-    return [file_name]
+    return files
