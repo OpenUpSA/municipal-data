@@ -169,9 +169,10 @@
     {% endfor %}
 
     <h1 id="bulkdownloads">Bulk Downloads</h1>
+    <p><a>Metadata for all cubes</a></p>
 
     {% for key, value in bulk_downloads.items %}
-      <p>{{ key }}</p>
+      <p>{{ key }} - <a>Metadata</a></p>
       
       {% for file in value.files %}
       <p><a href="{{ storage_url }}/minio/municipal-money/media/{{ file.file_name }}">{{ file.file_name }}</a> {{ file.file_size|filesizeformat }}</p>
