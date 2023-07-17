@@ -2,6 +2,7 @@ import xlsxwriter
 import sys
 import hashlib
 import json
+import csv
 from datetime import datetime
 
 from django.core.files.storage import default_storage
@@ -36,15 +37,19 @@ def generate_download(**kwargs):
     cube_model = kwargs["cube_model"]
     cube_name = kwargs["cube_model"]._meta.db_table
 
+    queryset = cube_model.objects.select_related().all()
+
     # Pull data from relevent cube
     if cube_name in split_cubes:
-        file_names = split_dump_to_excel(cube_model, timestamp)
+        file_names = split_dump_to_excel(queryset, cube_model, timestamp)
         # file_names = dump_cube_to_excel(cube_model, timestamp)
+        test = split_dump_to_csv(queryset, cube_model, timestamp)
     else:
-        file_names = dump_cube_to_excel(cube_model, timestamp)
-
+        file_names = dump_cube_to_excel(queryset, cube_model, timestamp)
+        test = dump_cube_to_csv(queryset, cube_model, timestamp)
 
     logger.warn(f"____________{file_names}")
+    logger.warn(f"____________{test}")
     # Draw metadata for this dump
     file_metadata = []
     for name in file_names:
@@ -94,13 +99,13 @@ def generate_download(**kwargs):
             json.dump(metadata, file)
 
 
-def dump_cube_to_excel(cube_model, timestamp):
-    queryset = cube_model.objects.all()
+def dump_cube_to_excel(queryset, cube_model, timestamp):
     max_rows = 1000000
-    #file_name = f"{storage_dir}/{cube_model._meta.db_table}/{cube_model._meta.db_table}_{timestamp}.xlsx"
     file_name = f"{cube_model._meta.db_table}_{timestamp}.xlsx"
-    file = default_storage.open(f"{storage_dir}/{cube_model._meta.db_table}/{file_name}", "wb")
-    workbook = xlsxwriter.Workbook(file, {"constant_memory": True})
+    f = default_storage.open(
+        f"{storage_dir}/{cube_model._meta.db_table}/{file_name}", "wb"
+    )
+    workbook = xlsxwriter.Workbook(f, {"constant_memory": True})
     worksheet = workbook.add_worksheet()
 
     # Generalise header for different cube columns
@@ -130,13 +135,11 @@ def dump_cube_to_excel(cube_model, timestamp):
             row = 0
 
     workbook.close()
-    file.close()
+    f.close()
     return [file_name]
 
 
-def split_dump_to_excel(cube_model, timestamp):
-    queryset = cube_model.objects.all().order_by("financial_year")
-
+def split_dump_to_excel(queryset, cube_model, timestamp):
     current_year = 0
     max_rows = 1000000
     files = []
@@ -146,17 +149,18 @@ def split_dump_to_excel(cube_model, timestamp):
         if item.financial_year != current_year:
             try:
                 workbook.close()
-                file.close()
+                f.close()
             except:
                 pass
 
             row = 1
             current_year = item.financial_year
-            #file_name = f"{storage_dir}/{cube_model._meta.db_table}/{cube_model._meta.db_table}_{current_year}__{timestamp}.xlsx"
             file_name = f"{cube_model._meta.db_table}_{current_year}__{timestamp}.xlsx"
             files.append(f"{file_name}")
-            file = default_storage.open(f"{storage_dir}/{cube_model._meta.db_table}/{file_name}", "wb")
-            workbook = xlsxwriter.Workbook(file, {"constant_memory": True})
+            f = default_storage.open(
+                f"{storage_dir}/{cube_model._meta.db_table}/{file_name}", "wb"
+            )
+            workbook = xlsxwriter.Workbook(f, {"constant_memory": True})
             worksheet = workbook.add_worksheet()
 
             # Generalise header for different cube columns
@@ -185,5 +189,56 @@ def split_dump_to_excel(cube_model, timestamp):
             row = 0
 
     workbook.close()
-    file.close()
+    f.close()
     return files
+
+
+def dump_cube_to_csv(queryset, cube_model, timestamp):
+    file_name = f"{cube_model._meta.db_table}_{timestamp}.csv"
+
+    field_names = [field.name for field in cube_model._meta.fields]
+
+    f = default_storage.open(
+            f"{storage_dir}/{cube_model._meta.db_table}/{file_name}", "wb"
+        )
+    writer = csv.DictWriter(f, fieldnames=field_names)
+    writer.writeheader()
+    for item in queryset:
+        row = {field: getattr(item, field) for field in field_names}
+        writer.writerow(row)
+
+    f.close()
+    return [file_name]
+
+
+def split_dump_to_csv(queryset, cube_model, timestamp):
+    current_year = 0
+    files = []
+
+    file_name = f"{cube_model._meta.db_table}_{timestamp}.csv"
+
+    field_names = [field.name for field in cube_model._meta.fields]
+    files.append(f"{file_name}")
+
+    for item in queryset:
+        if item.financial_year != current_year:
+            try:
+                f.close()
+            except:
+                pass
+
+            current_year = item.financial_year
+            file_name = f"{cube_model._meta.db_table}_{current_year}__{timestamp}.csv"
+            files.append(f"{file_name}")
+            f = default_storage.open(
+                f"{storage_dir}/{cube_model._meta.db_table}/{file_name}", "wb"
+            )
+
+            writer = csv.DictWriter(f, fieldnames=field_names)
+            writer.writeheader()
+        else:
+            row = {field: getattr(item, field) for field in field_names}
+            writer.writerow(row)
+
+    f.close()
+    return [file_name]
