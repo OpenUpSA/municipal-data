@@ -35,7 +35,7 @@ class MunicipalStaffContactsUpdateTestCase(TransactionTestCase):
             change=None,
         )
         self.assertEquals(obj.user, self.user)
-        record = OrmQ.objects.latest('id')
+        record = OrmQ.objects.get(id=2)
         self.assertEquals(
             record.func(),
             'municipal_finance.update.update_municipal_staff_contacts',
