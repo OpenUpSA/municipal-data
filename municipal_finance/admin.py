@@ -123,7 +123,7 @@ class BaseUpdateAdmin(admin.ModelAdmin):
         try:
             task = fetch(obj.task_id)
         except:
-            pass
+            task = None
         if task:
             if task.result:
                 error_result = task.result.splitlines()[-1]
