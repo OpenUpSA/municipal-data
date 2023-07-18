@@ -120,7 +120,10 @@ class BaseUpdateAdmin(admin.ModelAdmin):
             obj.save()
 
     def processing_completed(self, obj):
-        task = fetch(obj.task_id)
+        try:
+            task = fetch(obj.task_id)
+        except:
+            pass
         if task:
             if task.result:
                 error_result = task.result.splitlines()[-1]
