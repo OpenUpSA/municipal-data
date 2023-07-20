@@ -454,7 +454,7 @@ DEFAULT_FILE_STORAGE = "municipal_finance.storage.MediaStorage"
 AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID", "")
 AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY", "")
 AWS_STORAGE_BUCKET_NAME = env.str(
-    "AWS_STORAGE_BUCKET_NAME", "munimoney-media"
+    "AWS_STORAGE_BUCKET_NAME", "munimoney-media-test"
 )
 AWS_DEFAULT_ACL = "public-read"
 AWS_BUCKET_ACL = "public-read"
