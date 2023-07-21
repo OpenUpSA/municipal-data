@@ -8,6 +8,7 @@ from datetime import datetime
 from django.core.files.storage import default_storage
 from django.db import transaction
 
+
 import logging
 
 logger = logging.Logger(__name__)
@@ -41,6 +42,7 @@ def generate_download(**kwargs):
     timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
     cube_model = kwargs["cube_model"]
     cube_name = kwargs["cube_model"]._meta.db_table
+    file_names = {}
 
     queryset = cube_model.objects.all().defer("id")
     field_names = [field.name for field in cube_model._meta.fields]
@@ -53,37 +55,37 @@ def generate_download(**kwargs):
         if cube_name in disable_xlsx:
             file_names = split_dump_to_csv(queryset, field_names, cube_model, timestamp)
         else:
-            file_names = split_dump_to_xlsx(
+            xlsx_files = split_dump_to_xlsx(
                 queryset, field_names, cube_model, timestamp
             )
-            file_names.extend(
-                split_dump_to_csv(queryset, field_names, cube_model, timestamp)
-            )
+            csv_files = split_dump_to_csv(queryset, field_names, cube_model, timestamp)
+            for year in csv_files.keys():
+                file_names[year] = xlsx_files[year] + csv_files[year]
     else:
-        file_names = dump_cube_to_xlsx(queryset, field_names, cube_model, timestamp)
-        file_names.extend(
-            dump_cube_to_csv(queryset, field_names, cube_model, timestamp)
-        )
+        xlsx_files = dump_cube_to_xlsx(queryset, field_names, cube_model, timestamp)
+        csv_files = dump_cube_to_csv(queryset, field_names, cube_model, timestamp)
+        file_names["All"] = xlsx_files["All"] + csv_files["All"]
 
     # Draw metadata for this dump
-    file_metadata = []
-    for name in file_names:
-        md5 = hashlib.md5()
-        sha1 = hashlib.sha1()
-        with default_storage.open(f"{storage_dir}/{cube_name}/{name}", "rb") as f:
-            data = f.read()
-            md5.update(data)
-            sha1.update(data)
-            size = sys.getsizeof(data)
-
-        file_metadata.append(
-            {
-                "file_name": name,
-                "md5": md5.hexdigest(),
-                "sha1": sha1.hexdigest(),
-                "file_size": size,
-            }
-        )
+    file_metadata = {}
+    for file_year in file_names:
+        file_metadata[file_year] = []
+        for name in file_names[file_year]:
+            md5 = hashlib.md5()
+            sha1 = hashlib.sha1()
+            with default_storage.open(f"{storage_dir}/{cube_name}/{name}", "rb") as f:
+                data = f.read()
+                md5.update(data)
+                sha1.update(data)
+                size = sys.getsizeof(data)
+            file_metadata[file_year].append(
+                {
+                    "file_name": name,
+                    "md5": md5.hexdigest(),
+                    "sha1": sha1.hexdigest(),
+                    "file_size": size,
+                }
+            )
 
     metadata = {
         cube_name: {
@@ -150,13 +152,15 @@ def dump_cube_to_xlsx(queryset, field_names, cube_model, timestamp):
 
     workbook.close()
     f.close()
-    return [file_name]
+    return {"All": [file_name]}
 
 
 def split_dump_to_xlsx(queryset, field_names, cube_model, timestamp):
     current_year = 0
     max_rows = 1000000
     files = []
+    files_dev = {}
+
     for item in queryset:
         col = 0
 
@@ -171,6 +175,7 @@ def split_dump_to_xlsx(queryset, field_names, cube_model, timestamp):
             current_year = item.financial_year
             file_name = f"{cube_model._meta.db_table}_{current_year}__{timestamp}.xlsx"
             files.append(f"{file_name}")
+            files_dev[current_year] = [file_name]
             f = default_storage.open(
                 f"{storage_dir}/{cube_model._meta.db_table}/{file_name}", "wb"
             )
@@ -201,7 +206,7 @@ def split_dump_to_xlsx(queryset, field_names, cube_model, timestamp):
 
     workbook.close()
     f.close()
-    return files
+    return files_dev
 
 
 def dump_cube_to_csv(queryset, field_names, cube_model, timestamp):
@@ -217,12 +222,13 @@ def dump_cube_to_csv(queryset, field_names, cube_model, timestamp):
         writer.writerow(row)
 
     f.close()
-    return [file_name]
+    return {"All": [file_name]}
 
 
 def split_dump_to_csv(queryset, field_names, cube_model, timestamp):
     current_year = 0
     files = []
+    files_dev = {}
 
     for item in queryset:
         if item.financial_year != current_year:
@@ -234,6 +240,7 @@ def split_dump_to_csv(queryset, field_names, cube_model, timestamp):
             current_year = item.financial_year
             file_name = f"{cube_model._meta.db_table}_{current_year}__{timestamp}.csv"
             files.append(f"{file_name}")
+            files_dev[current_year] = [file_name]
             f = default_storage.open(
                 f"{storage_dir}/{cube_model._meta.db_table}/{file_name}", "wb"
             )
@@ -245,4 +252,4 @@ def split_dump_to_csv(queryset, field_names, cube_model, timestamp):
             writer.writerow(row)
 
     f.close()
-    return files
+    return files_dev
