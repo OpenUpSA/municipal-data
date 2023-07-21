@@ -7,6 +7,7 @@ from datetime import datetime
 
 from django.core.files.storage import default_storage
 from django.db import transaction
+from django.conf import settings
 
 
 import logging
@@ -32,8 +33,6 @@ disable_xlsx = [
     "incexp_facts",
     "incexp_facts_v2",
 ]
-
-storage_dir = "bulk_downloads"
 
 
 @transaction.atomic
@@ -73,7 +72,9 @@ def generate_download(**kwargs):
         for name in file_names[file_year]:
             md5 = hashlib.md5()
             sha1 = hashlib.sha1()
-            with default_storage.open(f"{storage_dir}/{cube_name}/{name}", "rb") as f:
+            with default_storage.open(
+                f"{settings.BULK_DOWNLOAD_DIR}/{cube_name}/{name}", "rb"
+            ) as f:
                 data = f.read()
                 md5.update(data)
                 sha1.update(data)
@@ -94,11 +95,13 @@ def generate_download(**kwargs):
         }
     }
 
-    with default_storage.open(f"{storage_dir}/{cube_name}/index.json", "w") as file:
+    with default_storage.open(
+        f"{settings.BULK_DOWNLOAD_DIR}/{cube_name}/index.json", "w"
+    ) as file:
         json.dump(metadata, file)
 
     # Aggregate all metadata
-    aggregate_index = f"{storage_dir}/index.json"
+    aggregate_index = f"{settings.BULK_DOWNLOAD_DIR}/index.json"
     if default_storage.exists(aggregate_index):
         with default_storage.open(aggregate_index, "r") as file:
             data = json.load(file)
@@ -120,7 +123,7 @@ def dump_cube_to_xlsx(queryset, field_names, cube_model, timestamp):
     max_rows = 1000000
     file_name = f"{cube_model._meta.db_table}_{timestamp}.xlsx"
     f = default_storage.open(
-        f"{storage_dir}/{cube_model._meta.db_table}/{file_name}", "wb"
+        f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}", "wb"
     )
     workbook = xlsxwriter.Workbook(f, {"constant_memory": True})
     worksheet = workbook.add_worksheet()
@@ -177,7 +180,8 @@ def split_dump_to_xlsx(queryset, field_names, cube_model, timestamp):
             files.append(f"{file_name}")
             files_dev[current_year] = [file_name]
             f = default_storage.open(
-                f"{storage_dir}/{cube_model._meta.db_table}/{file_name}", "wb"
+                f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}",
+                "wb",
             )
             workbook = xlsxwriter.Workbook(f, {"constant_memory": True})
             worksheet = workbook.add_worksheet()
@@ -213,7 +217,7 @@ def dump_cube_to_csv(queryset, field_names, cube_model, timestamp):
     file_name = f"{cube_model._meta.db_table}_{timestamp}.csv"
 
     f = default_storage.open(
-        f"{storage_dir}/{cube_model._meta.db_table}/{file_name}", "wb"
+        f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}", "wb"
     )
     writer = csv.DictWriter(f, fieldnames=field_names)
     writer.writeheader()
@@ -242,7 +246,8 @@ def split_dump_to_csv(queryset, field_names, cube_model, timestamp):
             files.append(f"{file_name}")
             files_dev[current_year] = [file_name]
             f = default_storage.open(
-                f"{storage_dir}/{cube_model._meta.db_table}/{file_name}", "wb"
+                f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}",
+                "wb",
             )
 
             writer = csv.DictWriter(f, fieldnames=field_names)
