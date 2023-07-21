@@ -118,7 +118,7 @@ def docs(request):
             'items': items,
         })
 
-    bulk_downloads = get_bulk_downloads(request)
+    bulk_downloads = get_bulk_downloads()
 
     return render(request, 'docs.html', {
         'cubes': cubes,
@@ -301,14 +301,12 @@ def table(request, cube_name):
     })
 
 
-def get_bulk_downloads(request):
-    storage_dir = "bulk_downloads"
-    aggregate_index = f"{storage_dir}/index.json"
-    data = ""
+def get_bulk_downloads():
+    aggregate_index = f"{settings.BULK_DOWNLOAD_DIR}/index.json"
 
     if default_storage.exists(aggregate_index):
         with default_storage.open(aggregate_index, "r") as file:
             data = json.load(file)
-
-    logger.warn(f"_______{data}")
-    return data
+        return data
+    else:
+        return ""
