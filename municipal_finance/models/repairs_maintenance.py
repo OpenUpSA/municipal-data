@@ -65,6 +65,9 @@ class RepairsMaintenanceItemsV2(RepairsMaintenanceItems):
         db_table = "repairs_maintenance_items_v2"
         verbose_name_plural = "Repairs & Maintenance Items (v2)"
 
+    def __str__(self):
+        return self.code
+
 
 class RepairsMaintenanceFactsV2(RepairsMaintenanceFacts):
     item = models.ForeignKey(

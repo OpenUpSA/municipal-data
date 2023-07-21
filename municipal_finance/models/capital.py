@@ -85,6 +85,9 @@ class CapitalTypeV2(models.Model):
         db_table = "capital_type_v2"
         verbose_name_plural = "Capital Items (v2)"
 
+    def __str__(self):
+        return self.code
+
 
 class CapitalItemsV2(CapitalItems):
     id = SmallAutoField(primary_key=True)
@@ -92,6 +95,9 @@ class CapitalItemsV2(CapitalItems):
 
     class Meta:
         db_table = "capital_items_v2"
+
+    def __str__(self):
+        return self.code
 
 
 class CapitalFactsV2(CapitalFacts):

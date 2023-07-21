@@ -69,6 +69,8 @@ class CflowItemsV2(CflowItems):
         db_table = "cflow_items_v2"
         verbose_name_plural = "Cash Flow Items (v2)"
 
+    def __str__(self):
+        return self.code
 
 class CflowFactsV2(CflowFacts):
     id = models.BigAutoField(primary_key=True)

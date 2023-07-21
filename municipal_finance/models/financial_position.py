@@ -69,6 +69,8 @@ class FinancialPositionItemsV2(BsheetItems):
         db_table = "financial_position_items_v2"
         verbose_name_plural = "Balance Sheet Items (v2)"
 
+    def __str__(self):
+        return self.code
 
 class FinancialPositionFactsV2(BsheetFacts):
     item = models.ForeignKey(
