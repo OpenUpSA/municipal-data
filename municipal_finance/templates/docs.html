@@ -181,7 +181,11 @@
             <td><p>{{ key }}</p></td>
             {% for file in file_year %}
               <td>
-                <p><a href="{{ storage_url }}/munimoney-media/media/bulk_downloads/{{ key }}/{{ file.file_name }}" target=”_blank”>{{ file.file_name }}</a> {{ file.file_size|filesizeformat }}</p>
+                <p>
+                  <a href="{{ storage_url }}/munimoney-media/media/bulk_downloads/{{ key }}/{{ file.file_name }}" target=”_blank”>
+                    {{ file.format|upper }} {{ file.file_size|filesizeformat }}
+                  </a>
+                </p>
               </td>
             {% endfor %}
           </tr>

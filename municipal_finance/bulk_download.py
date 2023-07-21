@@ -1,5 +1,6 @@
 import xlsxwriter
 import sys
+import os
 import hashlib
 import json
 import csv
@@ -85,6 +86,7 @@ def generate_download(**kwargs):
                     "md5": md5.hexdigest(),
                     "sha1": sha1.hexdigest(),
                     "file_size": size,
+                    "format": os.path.splitext(name)[1][1:],
                 }
             )
 
