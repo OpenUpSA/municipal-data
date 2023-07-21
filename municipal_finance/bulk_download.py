@@ -35,6 +35,8 @@ disable_xlsx = [
     "incexp_facts_v2",
 ]
 
+xlsx_max_rows = 1000000
+
 
 @transaction.atomic
 def generate_download(**kwargs):
@@ -122,7 +124,6 @@ def generate_download(**kwargs):
 
 
 def dump_cube_to_xlsx(queryset, field_names, cube_model, timestamp):
-    max_rows = 1000000
     file_name = f"{cube_model._meta.db_table}_{timestamp}.xlsx"
     f = default_storage.open(
         f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}", "wb"
@@ -134,24 +135,16 @@ def dump_cube_to_xlsx(queryset, field_names, cube_model, timestamp):
     for col, header in enumerate(field_names):
         worksheet.write(0, col, header)
 
-    row = 1
-    for item in queryset:
-        col = 0
-        for field in cube_model._meta.get_fields():
-            # Handle related fields
-            if field.concrete:
-                if field.is_relation:
-                    if field.many_to_many or field.one_to_many:
-                        value = ", ".join(
-                            str(obj) for obj in getattr(item, field.name).all()
-                        )
-                else:
-                    value = getattr(item, field.name)
-                worksheet.write(row, col, value)
-                col += 1
-        row += 1
+    row_num = 1
+    for row in queryset:
+        col_num = 0
+        for field in field_names:
+            value = getattr(row, field)
+            worksheet.write(row_num, col_num, str(value))
+            col_num += 1
+        row_num += 1
 
-        if row > max_rows:
+        if row > xlsx_max_rows:
             worksheet = workbook.add_worksheet()
             row = 0
 
@@ -162,22 +155,21 @@ def dump_cube_to_xlsx(queryset, field_names, cube_model, timestamp):
 
 def split_dump_to_xlsx(queryset, field_names, cube_model, timestamp):
     current_year = 0
-    max_rows = 1000000
     files = []
     files_dev = {}
 
-    for item in queryset:
+    for row in queryset:
         col = 0
 
-        if item.financial_year != current_year:
+        if row.financial_year != current_year:
             try:
                 workbook.close()
                 f.close()
             except:
                 pass
 
-            row = 1
-            current_year = item.financial_year
+            row_num = 1
+            current_year = row.financial_year
             file_name = f"{cube_model._meta.db_table}_{current_year}__{timestamp}.xlsx"
             files.append(f"{file_name}")
             files_dev[current_year] = [file_name]
@@ -192,23 +184,16 @@ def split_dump_to_xlsx(queryset, field_names, cube_model, timestamp):
             for col, header in enumerate(field_names):
                 worksheet.write(0, col, header)
         else:
-            for field in cube_model._meta.get_fields():
-                # Handle related fields
-                if field.concrete:
-                    if field.is_relation:
-                        if field.many_to_many or field.one_to_many:
-                            value = ", ".join(
-                                str(obj) for obj in getattr(item, field.name).all()
-                            )
-                    else:
-                        value = getattr(item, field.name)
-                    worksheet.write(row, col, value)
-                    col += 1
-            row += 1
+            col_num = 0
+            for field in field_names:
+                value = getattr(row, field)
+                worksheet.write(row_num, col_num, str(value))
+                col_num += 1
+            row_num += 1
 
-        if row > max_rows:
+        if row_num > xlsx_max_rows:
             worksheet = workbook.add_worksheet()
-            row = 0
+            row_num = 0
 
     workbook.close()
     f.close()
