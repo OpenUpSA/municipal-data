@@ -450,7 +450,7 @@ Q_CLUSTER = {
     "ack_failures": True,  # Dequeue failed tasks
 }
 
-DEFAULT_FILE_STORAGE = "municipal_finance.storage.MediaStorage"
+DEFAULT_FILE_STORAGE = env.str("DEFAULT_FILE_STORAGE", "municipal_finance.storage.MediaStorage")
 AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID", "")
 AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY", "")
 AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME", "")
@@ -461,7 +461,7 @@ AWS_S3_OBJECT_PARAMETERS = {
 AWS_S3_ENDPOINT_URL = env.str("AWS_S3_ENDPOINT_URL", None)
 AWS_DEFAULT_ACL = "public-read"
 AWS_BUCKET_ACL = "public-read"
-BULK_DOWNLOAD_DIR = env.str("BULK_DOWNLOAD_DIR", "")
+BULK_DOWNLOAD_DIR = env.str("BULK_DOWNLOAD_DIR", "bulk_downloads")
 
 if DEBUG:
     AWS_AUTO_CREATE_BUCKET = True
