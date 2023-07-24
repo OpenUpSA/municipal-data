@@ -11,10 +11,6 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 import json
 
-import logging
-
-logger = logging.Logger(__name__)
-
 DUMP_FORMATS = ['csv', 'xlsx']
 FORMATS = DUMP_FORMATS + ['json']
 

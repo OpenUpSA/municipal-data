@@ -11,10 +11,6 @@ from django.db import transaction
 from django.conf import settings
 
 
-import logging
-
-logger = logging.Logger(__name__)
-
 split_cubes = [
     "bsheet_facts",
     "financial_position_facts_v2",
@@ -36,6 +32,8 @@ disable_xlsx = [
 ]
 
 xlsx_max_rows = 1000000
+all_years = "All"
+metadata_index = "index.json"
 
 
 @transaction.atomic
@@ -43,7 +41,7 @@ def generate_download(**kwargs):
     now = datetime.now()
     timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
     cube_model = kwargs["cube_model"]
-    cube_name = kwargs["cube_model"]._meta.db_table
+    cube_name = cube_model._meta.db_table
     file_names = {}
 
     queryset = cube_model.objects.all().defer("id")
@@ -52,7 +50,7 @@ def generate_download(**kwargs):
     if "id" in field_names:
         field_names.remove("id")
 
-    # Pull data from relevent cube
+    # Fetch data from relevent cube
     if cube_name in split_cubes:
         if cube_name in disable_xlsx:
             file_names = split_dump_to_csv(queryset, field_names, cube_model, timestamp)
@@ -66,7 +64,7 @@ def generate_download(**kwargs):
     else:
         xlsx_files = dump_cube_to_xlsx(queryset, field_names, cube_model, timestamp)
         csv_files = dump_cube_to_csv(queryset, field_names, cube_model, timestamp)
-        file_names["All"] = xlsx_files["All"] + csv_files["All"]
+        file_names[all_years] = xlsx_files[all_years] + csv_files[all_years]
 
     # Draw metadata for this dump
     file_metadata = {}
@@ -100,12 +98,12 @@ def generate_download(**kwargs):
     }
 
     with default_storage.open(
-        f"{settings.BULK_DOWNLOAD_DIR}/{cube_name}/index.json", "w"
+        f"{settings.BULK_DOWNLOAD_DIR}/{cube_name}/{metadata_index}", "w"
     ) as file:
         json.dump(metadata, file)
 
     # Aggregate all metadata
-    aggregate_index = f"{settings.BULK_DOWNLOAD_DIR}/index.json"
+    aggregate_index = f"{settings.BULK_DOWNLOAD_DIR}/{metadata_index}"
     if default_storage.exists(aggregate_index):
         with default_storage.open(aggregate_index, "r") as file:
             data = json.load(file)
@@ -150,7 +148,7 @@ def dump_cube_to_xlsx(queryset, field_names, cube_model, timestamp):
 
     workbook.close()
     f.close()
-    return {"All": [file_name]}
+    return {all_years: [file_name]}
 
 
 def split_dump_to_xlsx(queryset, field_names, cube_model, timestamp):
@@ -213,7 +211,7 @@ def dump_cube_to_csv(queryset, field_names, cube_model, timestamp):
         writer.writerow(row)
 
     f.close()
-    return {"All": [file_name]}
+    return {all_years: [file_name]}
 
 
 def split_dump_to_csv(queryset, field_names, cube_model, timestamp):
