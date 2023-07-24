@@ -144,7 +144,7 @@ def dump_cube_to_xlsx(queryset, field_names, cube_model, timestamp):
             col_num += 1
         row_num += 1
 
-        if row > xlsx_max_rows:
+        if row_num > xlsx_max_rows:
             worksheet = workbook.add_worksheet()
             row = 0
 
