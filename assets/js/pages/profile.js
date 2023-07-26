@@ -100,9 +100,12 @@ export default class ProfilePage {
     });
 
     // Spending
-    errorBoundary(() => {
-      new SpendingBreakdownSection('#what-is-money-spent-on', pageData.indicators.expenditure_functional_breakdown);
-    });
+    $('#what-is-money-spent-on .financial-period').empty();
+    $('#what-is-money-spent-on .indicator-chart')
+      .addClass('chart-container')
+      .attr('data-chart', 'grouped-bar-expenditure_functional_breakdown')
+      .attr('data-unit', 'currency');
+    new HorizontalGroupedBarChart().discover(pageData);
 
     // Household bills
     errorBoundary(() => {
