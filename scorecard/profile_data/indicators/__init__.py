@@ -72,8 +72,12 @@ class RevenueSources(IndicatorCalculator):
             items = v1_data[year]
 
         results = {
-            "local": {"amount": 0, },
-            "government": {"amount": 0, },
+            "local": {
+                "amount": 0,
+            },
+            "government": {
+                "amount": 0,
+            },
             "year": year,
             "ref": api_data.references["lges"],
         }
@@ -149,7 +153,7 @@ class LocalRevenueBreakdown(IndicatorCalculator):
         values = []
         year_name = "%d" % year
         amount_type = "AUDA"
-        for (label, codes) in groups:
+        for label, codes in groups:
             amount = 0
             has_valid_result = False
             for code in codes:
@@ -194,7 +198,11 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
                     contracting_code = "4200"
 
                 total = sum(x["amount.sum"] for x in results)
-                contracting_items = [x["amount.sum"] for x in results if x["item.code"] == contracting_code]
+                contracting_items = [
+                    x["amount.sum"]
+                    for x in results
+                    if x["item.code"] == contracting_code
+                ]
                 contracting = percent(contracting_items[0], total)
                 # Prefer KeyError but crash before we use it in case we have more than expectexd
                 assert len(contracting_items) <= 1
@@ -203,7 +211,11 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
                 contracting = None
 
             values.append(
-                {"date": year, "result": contracting, "rating": "", }
+                {
+                    "date": year,
+                    "result": contracting,
+                    "rating": "",
+                }
             )
 
         return {
@@ -246,7 +258,11 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
                 staff = None
 
             values.append(
-                {"date": year, "result": staff, "rating": "", }
+                {
+                    "date": year,
+                    "result": staff,
+                    "rating": "",
+                }
             )
 
         return {
@@ -274,45 +290,42 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         GAPD_total = 0.0
         GAPD_values = []
 
-        for year, yeargroup in groupby(results, lambda r: r["financial_year_end.year"]):
+        for category, yeargroup in groupby(
+            sorted(results, key=lambda x: x["function.category_label"]),
+            key=lambda x: x["function.category_label"],
+        ):
             yeargroup_list = list(yeargroup)
             if len(yeargroup_list) == 0:
                 continue
-            total = sum(x["amount.sum"] for x in yeargroup_list)
-            try:
-                GAPD_total = 0.0
-                year_name = (
-                    "%d" % year
-                    if year != api_data.budget_year
-                    else ("%s budget" % year)
-                )
-
-                for result in yeargroup_list:
-                    # only do budget for budget year, use AUDA for others
-                    if api_data.check_budget_actual(year, result["amount_type.code"]):
-                        if result["function.category_label"] in GAPD_categories:
-                            GAPD_total += result["amount.sum"]
-                        else:
-                            grouped_results.append(
-                                {
-                                    "amount": result["amount.sum"],
-                                    "percent": percent(result["amount.sum"], total),
-                                    "item": result["function.category_label"],
-                                    "date": year_name,
-                                }
-                            )
-
-                grouped_results.append(
+            tmp_values = []
+            for result in yeargroup_list:
+                if result["function.category_label"] in GAPD_categories:
+                    GAPD_total += result["amount.sum"]
+                else:
+                    tmp_values.append(
+                        {
+                            "year": result["financial_year_end.year"],
+                            "value": result["amount.sum"],
+                        }
+                    )
+                GAPD_values.append(
                     {
-                        "amount": GAPD_total,
-                        "percent": percent(GAPD_total, total),
-                        "item": GAPD_label,
-                        "date": year_name,
+                        "year": result["financial_year_end.year"],
+                        "value": GAPD_total,
                     }
                 )
-            except (KeyError, IndexError):
-                continue
+            if tmp_values:
+                grouped_results.append({"category": category, "values": tmp_values})
 
-        grouped_results = sorted(
-            grouped_results, key=lambda r: (r["date"], r["item"]))
+        unique_data = {}
+        for d in GAPD_values:
+            year = d["year"]
+            if year not in unique_data:
+                unique_data[year] = d["value"]
+            else:
+                unique_data[year] += d["value"]
+        GAPD_result = [
+            {"year": year, "value": value} for year, value in unique_data.items()
+        ]
+        grouped_results.append({"category": GAPD_label, "values": GAPD_result})
         return {"values": grouped_results}
