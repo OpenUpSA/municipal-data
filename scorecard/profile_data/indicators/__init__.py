@@ -284,8 +284,21 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
             "Corporate Services",
         }
         GAPD_label = "Governance, Administration, Planning and Development"
-        results = api_data.results["expenditure_functional_breakdown"]
-        results.extend(api_data.results["expenditure_functional_breakdown_v2"])
+        #results = api_data.results["expenditure_functional_breakdown"]
+        #results.extend(api_data.results["expenditure_functional_breakdown_v2"])
+        # remove overlapping results
+        results_v1 = []
+        for item in api_data.results["expenditure_functional_breakdown"]:
+            if item["financial_year_end.year"] < 2019:
+                results_v1.append(item)
+
+        results_v2 = api_data.results["expenditure_functional_breakdown_v2"]
+
+        print("______________")
+        print(f'{results_v1}')
+        print("______________")
+        print(f'{results_v2}')
+        results = results_v1 + results_v2
         grouped_results = []
         GAPD_total = 0.0
         GAPD_values = []
