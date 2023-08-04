@@ -52,6 +52,10 @@ def get_indicator_calculators(has_comparisons=None):
     else:
         return [calc for calc in calculators if calc.has_comparisons == has_comparisons]
 
+def sort_by_year(data):
+        for category in data:
+            category["values"].sort(key=lambda x: x["year"])
+        return data
 
 class RevenueSources(IndicatorCalculator):
     name = "revenue_sources"
@@ -284,8 +288,6 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
             "Corporate Services",
         }
         GAPD_label = "Governance, Administration, Planning and Development"
-        #results = api_data.results["expenditure_functional_breakdown"]
-        #results.extend(api_data.results["expenditure_functional_breakdown_v2"])
         # remove overlapping results
         results_v1 = []
         for item in api_data.results["expenditure_functional_breakdown"]:
@@ -294,10 +296,6 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
 
         results_v2 = api_data.results["expenditure_functional_breakdown_v2"]
 
-        print("______________")
-        print(f'{results_v1}')
-        print("______________")
-        print(f'{results_v2}')
         results = results_v1 + results_v2
         grouped_results = []
         GAPD_total = 0.0
@@ -328,7 +326,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                     }
                 )
             if tmp_values:
-                grouped_results.append({"category": category, "values": tmp_values})
+                grouped_results.append({"category": category, "values": sort_by_year(tmp_values)})
 
         unique_data = {}
         for d in GAPD_values:
@@ -340,5 +338,5 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         GAPD_result = [
             {"year": year, "value": value} for year, value in unique_data.items()
         ]
-        grouped_results.append({"category": GAPD_label, "values": GAPD_result})
+        grouped_results.append({"category": GAPD_label, "values": sort_by_year(GAPD_result)})
         return {"values": grouped_results}
