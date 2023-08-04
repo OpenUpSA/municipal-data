@@ -326,7 +326,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                     }
                 )
             if tmp_values:
-                grouped_results.append({"category": category, "values": sort_by_year(tmp_values)})
+                grouped_results.append({"category": category, "values": tmp_values})
 
         unique_data = {}
         for d in GAPD_values:
@@ -338,5 +338,5 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         GAPD_result = [
             {"year": year, "value": value} for year, value in unique_data.items()
         ]
-        grouped_results.append({"category": GAPD_label, "values": sort_by_year(GAPD_result)})
-        return {"values": grouped_results}
+        grouped_results.append({"category": GAPD_label, "values": GAPD_result})
+        return {"values": sort_by_year(grouped_results)}
