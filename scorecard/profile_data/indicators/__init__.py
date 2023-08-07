@@ -288,6 +288,8 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         results = api_data.results["expenditure_functional_breakdown"]
         results.extend(api_data.results["expenditure_functional_breakdown_v2"])
         grouped_results = []
+        GAPD_total = 0.0
+        GAPD_values = []
 
         for year, yeargroup in groupby(results, lambda r: r["financial_year_end.year"]):
             yeargroup_list = list(yeargroup)

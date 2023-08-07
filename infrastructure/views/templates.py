@@ -30,6 +30,9 @@ class ListView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["page_data_json"] = {"data": json.dumps(projects)}
 
+        context["page_title"] = "Infrastructure Projects - Municipal Money"
+        context["page_description"]= "Infrastructure project search"
+
         return context
 
 
@@ -54,8 +57,12 @@ class DetailView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["page_data_json"] = {"data": json.dumps(project)}
 
-        context["implementation_year"] = project["latest_implementation_year"]["budget_year"]
-        year = models.FinancialYear.objects.get(budget_year=context["implementation_year"])
+        context["implementation_year"] = project["latest_implementation_year"][
+            "budget_year"
+        ]
+        year = models.FinancialYear.objects.get(
+            budget_year=context["implementation_year"]
+        )
 
         project_quarters = models.ProjectQuarterlySpend.objects.filter(
             project__id=kwargs["pk"], financial_year=year
@@ -75,6 +82,10 @@ class DetailView(TemplateView):
         if project_quarters:
             is_quarters = True
         context["is_quarters"] = is_quarters
+
+        context["page_title"] = f"{project['project_description']} - {project['geography']['name']} - Municipal Money"
+        context["page_description"]= "Infrastructure project details"
+
         return context
 
 
@@ -103,15 +114,36 @@ def download_csv(request):
         "longitude",
     ]
 
-    queryset = models.Project.objects.prefetch_related(
+    annual_fieldmap = {
+        "geography__name": "municipality",
+        "function": "function",
+        "project_type": "project_type",
+        "geography__province_name": "province",
+        "expenditure__budget_phase__name": "budget_phase",
+        "expenditure__financial_year__budget_year": "financial_year",
+        "latest_implementation_year__budget_year": "financial_year",
+    }
+
+    quarterly_fieldmap = {
+        "geography__name": "municipality",
+        "function": "function",
+        "project_type": "project_type",
+        "geography__province_name": "province",
+        "quarterly__financial_year__budget_year": "financial_year",
+        "expenditure__budget_phase__name": "quarterly_phase",
+    }
+
+    base_queryset = models.Project.objects.prefetch_related(
         "geography",
         "expenditure",
         "expenditure__financial_year",
         "expenditure__budget_phase",
     )
-    queryset = filters(queryset, request.GET)
+    queryset = filters(base_queryset, request.GET, annual_fieldmap)
     queryset = text_search(queryset, request.GET.get("q", ""))
-    queryset = queryset.order_by("expenditure__amount")
+
+    queryset = queryset | filters(base_queryset, request.GET, quarterly_fieldmap)
+    queryset = text_search(queryset, request.GET.get("q", ""))
 
     writer = csv.DictWriter(response, fieldnames=csv_fields)
     writer.writeheader()
@@ -131,7 +163,7 @@ def download_csv(request):
         "expenditure__amount",
         "latitude",
         "longitude",
-    ):
+    ).distinct("project_number"):
         # budget_phase = request.GET.get("budget_phase", "Budget year")
         # financial_year = request.GET.get("financial_year", "2019/2020")
         # try:
@@ -165,21 +197,12 @@ def download_csv(request):
     return response
 
 
-def filters(queryset, params):
-    fieldmap = {
-        "function": "function",
-        "project_type": "project_type",
-        "municipality": "geography__name",
-        "province": "geography__province_name",
-        "budget_phase": "expenditure__budget_phase__name",
-        "financial_year": "expenditure__financial_year__budget_year",
-    }
+def filters(qs, params, filter_map):
     query_dict = {}
-    for k, v in fieldmap.items():
-        if k in params:
-            query_dict[v] = params[k]
-
-    return queryset.filter(**query_dict)
+    for k, v in filter_map.items():
+        if v in params:
+            query_dict[k] = params[v]
+    return qs.filter(**query_dict)
 
 
 def text_search(qs, text):

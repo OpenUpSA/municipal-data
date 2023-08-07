@@ -1,0 +1,2514 @@
+[
+{
+  "model": "scorecard.geography",
+  "pk": 154,
+  "fields": {
+    "geo_level": "municipality",
+    "geo_code": "BUF",
+    "name": "Buffalo City",
+    "long_name": "Buffalo City, Eastern Cape",
+    "square_kms": 2751.69154949282,
+    "parent_level": "province",
+    "parent_code": "EC",
+    "province_name": "Eastern Cape",
+    "province_code": "EC",
+    "category": "A",
+    "miif_category": "A",
+    "population": 781026,
+    "postal_address_1": "P O BOX 134",
+    "postal_address_2": "EAST LONDON",
+    "postal_address_3": "5200",
+    "street_address_1": "Trust Bank Centre",
+    "street_address_2": "C/O Oxford & North Street",
+    "street_address_3": "East London",
+    "street_address_4": "5200",
+    "phone_number": "043 705 2000",
+    "fax_number": "043 743 8568",
+    "url": "http://www.buffalocity.gov.za"
+  }
+},
+{
+  "model": "scorecard.municipalityprofile",
+  "pk": "BUF",
+  "fields": {
+    "data": {
+      "indicators": {
+        "grants": {
+          "totals": {
+            "2020": {},
+            "2021": {}
+          },
+          "snapshot_date": {
+            "year": 2020,
+            "quarter": "1"
+          },
+          "equitable_share": {
+            "2020": [],
+            "2021": []
+          },
+          "provincial_transfers": {
+            "2020": []
+          },
+          "national_conditional_grants": {
+            "2020": [],
+            "2021": []
+          }
+        },
+        "cash_balance": {
+          "ref": {
+            "url": "http://mfma.treasury.gov.za/Media_Releases/The%20state%20of%20local%20government%20finances/Pages/default.aspx",
+            "title": "State of Local Government Finances"
+          },
+          "values": [],
+          "formula": {
+            "text": "= Cash available at year end",
+            "actual": [
+              "=",
+              {
+                "cube": "cflow",
+                "item_codes": [
+                  "4200"
+                ],
+                "amount_type": "AUDA"
+              }
+            ]
+          },
+          "last_year": 2020,
+          "formula_v2": {
+            "text": "= Cash available at year end",
+            "actual": [
+              "=",
+              {
+                "cube": "cflow_v2",
+                "item_codes": [
+                  "0430"
+                ],
+                "amount_type": "AUDA"
+              }
+            ]
+          },
+          "result_type": "R"
+        },
+        "cash_coverage": {
+          "ref": {
+            "url": "http://mfma.treasury.gov.za/Media_Releases/The%20state%20of%20local%20government%20finances/Pages/default.aspx",
+            "title": "State of Local Government Finances"
+          },
+          "values": [],
+          "formula": {
+            "text": "= Cash available at year end / Operating Expenditure per month",
+            "actual": [
+              "=",
+              {
+                "cube": "cflow",
+                "item_codes": [
+                  "4200"
+                ],
+                "amount_type": "AUDA"
+              },
+              "/",
+              "(",
+              {
+                "cube": "incexp",
+                "item_codes": [
+                  "4600"
+                ],
+                "amount_type": "AUDA"
+              },
+              "/",
+              "12",
+              ")"
+            ]
+          },
+          "last_year": 2020,
+          "formula_v2": {
+            "text": "= Cash available at year end / Operating Expenditure per month",
+            "actual": [
+              "=",
+              {
+                "cube": "cflow_v2",
+                "item_codes": [
+                  "0430"
+                ],
+                "amount_type": "AUDA"
+              },
+              "/",
+              "(",
+              {
+                "cube": "incexp_v2",
+                "item_codes": [
+                  "2000",
+                  "2100",
+                  "2200",
+                  "2300",
+                  "2400",
+                  "2500",
+                  "2600",
+                  "2700",
+                  "2800",
+                  "2900",
+                  "3000"
+                ],
+                "amount_type": "AUDA"
+              },
+              "/",
+              "12",
+              ")"
+            ]
+          },
+          "result_type": "months"
+        },
+        "current_ratio": {
+          "ref": {
+            "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx",
+            "title": "Circular 71"
+          },
+          "values": [],
+          "formula": {
+            "text": "= Current Assets / Current Liabilities",
+            "actual": [
+              "=",
+              {
+                "cube": "bsheet",
+                "item_codes": [
+                  "2150"
+                ],
+                "amount_type": "AUDA"
+              },
+              "/",
+              {
+                "cube": "bsheet",
+                "item_codes": [
+                  "1600"
+                ],
+                "amount_type": "AUDA"
+              }
+            ]
+          },
+          "last_year": 2020,
+          "formula_v2": {
+            "text": "= Current Assets / Current Liabilities",
+            "actual": [
+              "=",
+              {
+                "cube": "financial_position_v2",
+                "item_codes": [
+                  "0120",
+                  "0130",
+                  "0140",
+                  "0150",
+                  "0160",
+                  "0170"
+                ],
+                "amount_type": "AUDA"
+              },
+              "/",
+              {
+                "cube": "financial_position_v2",
+                "item_codes": [
+                  "0330",
+                  "0340",
+                  "0350",
+                  "0360",
+                  "0370"
+                ],
+                "amount_type": "AUDA"
+              }
+            ]
+          },
+          "result_type": "ratio"
+        },
+        "liquidity_ratio": {
+          "ref": {
+            "url": "http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx",
+            "title": "Municipal Budget and Reporting Regulations"
+          },
+          "values": [],
+          "formula": {
+            "text": "= (Cash + Call Investment Deposits) / Current Liabilities",
+            "actual": [
+              "=",
+              {
+                "cube": "bsheet",
+                "item_codes": [
+                  "1800",
+                  "2200"
+                ],
+                "amount_type": "AUDA"
+              },
+              "/",
+              {
+                "cube": "bsheet",
+                "item_codes": [
+                  "1600"
+                ],
+                "amount_type": "AUDA"
+              }
+            ]
+          },
+          "last_year": 2020,
+          "formula_v2": {
+            "text": "= (Cash + Call Investment Deposits) / Current Liabilities",
+            "actual": [
+              "=",
+              {
+                "cube": "financial_position_v2",
+                "item_codes": [
+                  "0120",
+                  "0130"
+                ],
+                "amount_type": "AUDA"
+              },
+              "/",
+              {
+                "cube": "financial_position_v2",
+                "item_codes": [
+                  "0330",
+                  "0340",
+                  "0350",
+                  "0360",
+                  "0370"
+                ],
+                "amount_type": "AUDA"
+              }
+            ]
+          },
+          "result_type": "ratio"
+        },
+        "revenue_sources": {
+          "ref": {
+            "url": "http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx",
+            "title": "Local Government Equitable Share"
+          },
+          "year": 2020,
+          "local": {},
+          "total": null,
+          "rating": "good",
+          "government": {}
+        },
+        "uifw_expenditure": {
+          "ref": {
+            "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx",
+            "title": "Circular 71"
+          },
+          "values": [],
+          "formula": {
+            "text": "= (Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure) * 100",
+            "actual": [
+              "=",
+              "(",
+              {
+                "cube": "uifwexp",
+                "item_codes": [
+                  "irregular",
+                  "fruitless",
+                  "unauthorised"
+                ]
+              },
+              "/",
+              {
+                "cube": "incexp",
+                "item_codes": [
+                  "4600"
+                ],
+                "amount_type": "AUDA"
+              },
+              ")",
+              "*",
+              "100"
+            ]
+          },
+          "last_year": 2020,
+          "formula_v2": {
+            "text": "= (Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure) * 100",
+            "actual": [
+              "=",
+              "(",
+              {
+                "cube": "uifwexp",
+                "item_codes": [
+                  "irregular",
+                  "fruitless",
+                  "unauthorised"
+                ]
+              },
+              "/",
+              {
+                "cube": "incexp_v2",
+                "item_codes": [
+                  "2000",
+                  "2100",
+                  "2200",
+                  "2300",
+                  "2400",
+                  "2500",
+                  "2600",
+                  "2700",
+                  "2800",
+                  "2900",
+                  "3000"
+                ],
+                "amount_type": "AUDA"
+              },
+              ")",
+              "*",
+              "100"
+            ]
+          },
+          "result_type": "%"
+        },
+        "income_adjustments": {
+          "2020": []
+        },
+        "income_time_series": [],
+        "spending_adjustments": {
+          "2020": []
+        },
+        "spending_time_series": [],
+        "capital_budget_spending": {
+          "ref": {
+            "url": "http://mfma.treasury.gov.za/Media_Releases/Reports%20to%20Parliament/Pages/default.aspx",
+            "title": "Over and under spending reports to parliament"
+          },
+          "values": [],
+          "formula": {
+            "text": "= ((Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure) * 100",
+            "actual": [
+              "=",
+              "(",
+              "(",
+              {
+                "cube": "capital",
+                "item_codes": [
+                  "4100"
+                ],
+                "amount_type": "AUDA"
+              },
+              "-",
+              {
+                "cube": "capital",
+                "item_codes": [
+                  "4100"
+                ],
+                "amount_type": "ADJB"
+              },
+              ")",
+              "/",
+              {
+                "cube": "capital",
+                "item_codes": [
+                  "4100"
+                ],
+                "amount_type": "ADJB"
+              },
+              ")",
+              "*",
+              "100"
+            ]
+          },
+          "last_year": 2020,
+          "formula_v2": {
+            "text": "= ((Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure) * 100",
+            "actual": [
+              "=",
+              "(",
+              "(",
+              {
+                "cube": "capital_v2",
+                "amount_type": "AUDA",
+                "item_description": "capital type code NEW, RENEWAL, UPGRADING"
+              },
+              "-",
+              {
+                "cube": "capital_v2",
+                "amount_type": "ADJB",
+                "item_description": "capital type code NEW, RENEWAL, UPGRADING"
+              },
+              ")",
+              "/",
+              {
+                "cube": "capital_v2",
+                "amount_type": "ADJB",
+                "item_description": "capital type code NEW, RENEWAL, UPGRADING"
+              },
+              ")",
+              "*",
+              "100"
+            ]
+          },
+          "result_type": "%"
+        },
+        "local_revenue_breakdown": {
+          "values": []
+        },
+        "expenditure_trends_staff": {
+          "values": [],
+          "result_type": "%"
+        },
+        "operating_budget_spending": {
+          "ref": {
+            "url": "http://mfma.treasury.gov.za/Media_Releases/Reports%20to%20Parliament/Pages/default.aspx",
+            "title": "Over and under spending reports to parliament"
+          },
+          "values": [],
+          "formula": {
+            "text": "= ((Actual Operating Expenditure - Budget Operating Expenditure) / Budgeted Operating Expenditure) * 100",
+            "actual": [
+              "=",
+              "(",
+              "(",
+              {
+                "cube": "incexp",
+                "item_codes": [
+                  "4600"
+                ],
+                "amount_type": "AUDA"
+              },
+              "-",
+              {
+                "cube": "incexp",
+                "item_codes": [
+                  "4600"
+                ],
+                "amount_type": "ADJB"
+              },
+              ")",
+              "/",
+              {
+                "cube": "incexp",
+                "item_codes": [
+                  "4600"
+                ],
+                "amount_type": "ADJB"
+              },
+              ")",
+              "*",
+              "100"
+            ]
+          },
+          "last_year": 2020,
+          "formula_v2": {
+            "text": "= ((Actual Operating Expenditure - Budget Operating Expenditure) / Budgeted Operating Expenditure) * 100",
+            "actual": [
+              "=",
+              "(",
+              "(",
+              {
+                "cube": "incexp_v2",
+                "item_codes": [
+                  "2000",
+                  "2100",
+                  "2200",
+                  "2300",
+                  "2400",
+                  "2500",
+                  "2600",
+                  "2700",
+                  "2800",
+                  "2900",
+                  "3000"
+                ],
+                "amount_type": "AUDA"
+              },
+              "-",
+              {
+                "cube": "incexp_v2",
+                "item_codes": [
+                  "2000",
+                  "2100",
+                  "2200",
+                  "2300",
+                  "2400",
+                  "2500",
+                  "2600",
+                  "2700",
+                  "2800",
+                  "2900",
+                  "3000"
+                ],
+                "amount_type": "ADJB"
+              },
+              ")",
+              "/",
+              {
+                "cube": "incexp_v2",
+                "item_codes": [
+                  "2000",
+                  "2100",
+                  "2200",
+                  "2300",
+                  "2400",
+                  "2500",
+                  "2600",
+                  "2700",
+                  "2800",
+                  "2900",
+                  "3000"
+                ],
+                "amount_type": "ADJB"
+              },
+              ")",
+              "*",
+              "100"
+            ]
+          },
+          "result_type": "%"
+        },
+        "repairs_maintenance_spending": {
+          "ref": {
+            "url": "http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx",
+            "title": "Circular 71"
+          },
+          "values": [],
+          "formula": {
+            "text": "= (Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)) * 100",
+            "actual": [
+              "=",
+              "(",
+              {
+                "cube": "capital",
+                "item_codes": [
+                  "4100"
+                ],
+                "amount_type": "AUDA"
+              },
+              "/",
+              "(",
+              {
+                "cube": "bsheet",
+                "item_codes": [
+                  "1300"
+                ],
+                "amount_type": "AUDA"
+              },
+              "+",
+              {
+                "cube": "bsheet",
+                "item_codes": [
+                  "1401"
+                ],
+                "amount_type": "AUDA"
+              },
+              ")",
+              ")",
+              "*",
+              "100"
+            ]
+          },
+          "last_year": 2020,
+          "formula_v2": {
+            "text": "= (Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)) * 100",
+            "actual": [
+              "=",
+              "(",
+              {
+                "cube": "capital_v2",
+                "amount_type": "AUDA",
+                "item_description": "capital type code REPAIR_MNT Total"
+              },
+              "/",
+              "(",
+              {
+                "cube": "financial_position_v2",
+                "item_codes": [
+                  "0240",
+                  "0220"
+                ],
+                "amount_type": "AUDA"
+              },
+              ")",
+              ")",
+              "*",
+              "100"
+            ]
+          },
+          "result_type": "%"
+        },
+        "expenditure_trends_contracting": {
+          "values": [],
+          "result_type": "%"
+        },
+        "current_debtors_collection_rate": {
+          "ref": {
+            "url": "http://mfma.treasury.gov.za/RegulationsandGazettes/Municipal%20Budget%20and%20Reporting%20Regulations/Pages/default.aspx",
+            "title": "Municipal Budget and Reporting Regulations"
+          },
+          "values": [],
+          "formula": {
+            "text": "= (Collected Revenue / Billed Revenue) * 100",
+            "actual": [
+              "=",
+              "(",
+              {
+                "cube": "cflow",
+                "item_codes": [
+                  "3010",
+                  "3030",
+                  "3040",
+                  "3050",
+                  "3060",
+                  "3070",
+                  "3100"
+                ],
+                "amount_type": "AUDA"
+              },
+              "/",
+              {
+                "cube": "incexp",
+                "item_codes": [
+                  "0200",
+                  "0400",
+                  "1000",
+                  "less item code",
+                  "2000"
+                ],
+                "amount_type": "AUDA"
+              },
+              ")",
+              "*",
+              "100"
+            ]
+          },
+          "last_year": 2020,
+          "formula_v2": {
+            "text": "= (Collected Revenue / Billed Revenue) * 100",
+            "actual": [
+              "=",
+              "(",
+              {
+                "cube": "cflow_v2",
+                "item_codes": [
+                  "0120",
+                  "0130",
+                  "0280"
+                ],
+                "amount_type": "AUDA"
+              },
+              "/",
+              {
+                "cube": "incexp_v2",
+                "item_codes": [
+                  "0200",
+                  "0300",
+                  "0400",
+                  "0500",
+                  "0600",
+                  "0800",
+                  "0900",
+                  "1000"
+                ],
+                "amount_type": "AUDA"
+              },
+              ")",
+              "*",
+              "100"
+            ]
+          },
+          "result_type": "%"
+        },
+        "expenditure_functional_breakdown": {
+          "values": []
+        }
+      },
+      "demarcation": {
+        "land_lost": [],
+        "land_gained": []
+      },
+      "muni_contact": {
+        "url": "http://www.buffalocity.gov.za",
+        "phone_number": "043 705 2000",
+        "street_address_1": "Trust Bank Centre",
+        "street_address_2": "C/O Oxford & North Street",
+        "street_address_3": "East London",
+        "street_address_4": "5200"
+      },
+      "mayoral_staff": {
+        "officials": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "updated_date": "October 2020"
+      },
+      "audit_opinions": {
+        "values": []
+      }
+    }
+  }
+},
+{
+  "model": "scorecard.mediangroup",
+  "pk": "national",
+  "fields": {
+    "data": {
+      "cash_balance": {
+        "A": {
+          "2018": 1030610737.0,
+          "2019": 4463888790.0,
+          "2020": 3565042477.0
+        },
+        "B1": {
+          "2019": -282182153.0,
+          "2020": 21777523.0
+        },
+        "B3": {
+          "2018": 36719746.0,
+          "2019": 270738131.5,
+          "2020": 397205770.0
+        },
+        "C1": {
+          "2018": 224561587.0,
+          "2019": 116603074.0,
+          "2020": 212720150.0
+        },
+        "C2": {
+          "2019": 187126.0,
+          "2020": 1592964571.0
+        }
+      },
+      "cash_coverage": {
+        "A": {
+          "2018": 1.75,
+          "2019": 2.9000000000000004,
+          "2020": 7.95
+        },
+        "B1": {
+          "2019": 0,
+          "2020": 0.1
+        },
+        "B3": {
+          "2018": 6.4,
+          "2019": 4.25,
+          "2020": 6.45
+        },
+        "C1": {
+          "2018": 38.900000000000006,
+          "2019": 11.299999999999999,
+          "2020": 23.4
+        },
+        "C2": {
+          "2019": 0.0,
+          "2020": 11.2
+        }
+      },
+      "current_ratio": {
+        "A": {
+          "2018": 0.91,
+          "2019": 0.59,
+          "2020": 0.5499999999999999
+        },
+        "B1": {
+          "2018": 11.39,
+          "2019": 5.3,
+          "2020": 0.64
+        },
+        "B3": {
+          "2018": 1.3,
+          "2019": 2.0549999999999997,
+          "2020": 2.85
+        },
+        "C1": {
+          "2018": 6.255,
+          "2019": 3.89,
+          "2020": 2.6
+        },
+        "C2": {
+          "2019": 1.17,
+          "2020": 0.86
+        }
+      },
+      "liquidity_ratio": {
+        "A": {
+          "2018": 0.23,
+          "2020": 0.024999999999999994
+        },
+        "B3": {
+          "2018": 0.35,
+          "2019": 2.12,
+          "2020": 3.73
+        },
+        "C1": {
+          "2018": 6.015000000000001,
+          "2019": 3.715,
+          "2020": 6.69
+        },
+        "C2": {
+          "2019": 0.05,
+          "2020": 0.19
+        }
+      },
+      "uifw_expenditure": {
+        "A": {
+          "2018": 7.475,
+          "2019": 6.51,
+          "2020": 8.809999999999999
+        },
+        "B1": {
+          "2018": 6.29,
+          "2019": 13.81,
+          "2020": 4.24
+        },
+        "B3": {
+          "2018": 87.665,
+          "2019": 3.295,
+          "2020": 5.51
+        },
+        "C1": {
+          "2018": 52.6,
+          "2019": 12.825,
+          "2020": 4.61
+        },
+        "C2": {
+          "2019": 17.84,
+          "2020": 18.12
+        }
+      },
+      "expenditure_trends_staff": {
+        "A": {
+          "2018": 27.509999999999998,
+          "2019": 28.415,
+          "2020": 29.565
+        },
+        "B1": {
+          "2018": 24.79,
+          "2019": 25.88,
+          "2020": 27.05
+        },
+        "B3": {
+          "2018": 5.565,
+          "2019": 33.989999999999995,
+          "2020": 33.675
+        },
+        "C1": {
+          "2018": 7.5,
+          "2019": 51.205,
+          "2020": 39.07
+        },
+        "C2": {
+          "2019": 39.92,
+          "2020": 43.1
+        }
+      },
+      "operating_budget_spending": {
+        "A": {
+          "2020": 7.5
+        },
+        "B1": {
+          "2020": -1.2
+        },
+        "B3": {
+          "2020": -10.15
+        },
+        "C1": {
+          "2020": -33.2
+        },
+        "C2": {
+          "2020": 6.0
+        }
+      },
+      "repairs_maintenance_spending": {
+        "A": {
+          "2018": 2.08,
+          "2019": 2.91,
+          "2020": 247.015
+        },
+        "B3": {
+          "2018": 1.48,
+          "2019": 1.37,
+          "2020": 0.92
+        },
+        "C1": {
+          "2018": 3.04,
+          "2019": 1.65,
+          "2020": 0.86
+        },
+        "C2": {
+          "2020": 0.32
+        }
+      },
+      "expenditure_trends_contracting": {
+        "A": {
+          "2018": 10.195,
+          "2019": 9.77,
+          "2020": 9.530000000000001
+        },
+        "B1": {
+          "2018": 11.42,
+          "2019": 10.31,
+          "2020": 14.0
+        },
+        "B3": {
+          "2018": 0.22000000000000003,
+          "2019": 7.405,
+          "2020": 6.244999999999999
+        },
+        "C1": {
+          "2018": 2.38,
+          "2019": 4.8100000000000005,
+          "2020": 1.87
+        },
+        "C2": {
+          "2019": 13.29,
+          "2020": 18.91
+        }
+      },
+      "current_debtors_collection_rate": {
+        "A": {
+          "2018": 1.25,
+          "2019": -0.24,
+          "2020": 37.714999999999996
+        },
+        "B1": {
+          "2019": 0.01
+        },
+        "B3": {
+          "2018": 6.58,
+          "2019": 0.745,
+          "2020": 6.805
+        },
+        "C1": {
+          "2018": -0.65,
+          "2019": 5.114999999999999
+        },
+        "C2": {
+          "2020": 44.91
+        }
+      }
+    }
+  }
+},
+{
+  "model": "scorecard.mediangroup",
+  "pk": "provincial",
+  "fields": {
+    "data": {
+      "cash_balance": {
+        "EC": {
+          "A": {
+            "2018": 1747525755.0,
+            "2019": 1812430290.0,
+            "2020": 10352028664.0
+          },
+          "B3": {
+            "2018": 36719746.0,
+            "2019": 270738131.5,
+            "2020": 397205770.0
+          },
+          "C1": {
+            "2018": 3709386.0,
+            "2019": 197066171.0,
+            "2020": 212720150.0
+          },
+          "C2": {
+            "2019": 187126.0,
+            "2020": 1592964571.0
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": 313695719.0,
+            "2019": 7115347290.0,
+            "2020": -3221943710.0
+          },
+          "B1": {
+            "2019": -282182153.0,
+            "2020": 21777523.0
+          },
+          "C1": {
+            "2018": 445413788.0,
+            "2019": 36139977.0
+          }
+        }
+      },
+      "cash_coverage": {
+        "EC": {
+          "A": {
+            "2018": 3.4,
+            "2019": 3.2,
+            "2020": 15.9
+          },
+          "B3": {
+            "2018": 6.4,
+            "2019": 4.25,
+            "2020": 6.45
+          },
+          "C1": {
+            "2018": 0.4,
+            "2019": 20.9,
+            "2020": 23.4
+          },
+          "C2": {
+            "2019": 0.0,
+            "2020": 11.2
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": 0.1,
+            "2019": 2.6,
+            "2020": 0
+          },
+          "B1": {
+            "2019": 0,
+            "2020": 0.1
+          },
+          "C1": {
+            "2018": 77.4,
+            "2019": 1.7
+          }
+        }
+      },
+      "current_ratio": {
+        "EC": {
+          "A": {
+            "2018": 1.28,
+            "2019": 1.14,
+            "2020": 1.15
+          },
+          "B3": {
+            "2018": 1.3,
+            "2019": 2.0549999999999997,
+            "2020": 2.85
+          },
+          "C1": {
+            "2018": 12.36,
+            "2019": 7.55,
+            "2020": 2.6
+          },
+          "C2": {
+            "2019": 1.17,
+            "2020": 0.86
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": 0.54,
+            "2019": 0.04,
+            "2020": -0.05
+          },
+          "B1": {
+            "2018": 11.39,
+            "2019": 5.3,
+            "2020": 0.64
+          },
+          "C1": {
+            "2018": 0.15,
+            "2019": 0.23
+          }
+        }
+      },
+      "liquidity_ratio": {
+        "EC": {
+          "A": {
+            "2018": 0.32,
+            "2020": 0.18
+          },
+          "B3": {
+            "2018": 0.35,
+            "2019": 2.12,
+            "2020": 3.73
+          },
+          "C1": {
+            "2018": 12.07,
+            "2019": 7.41,
+            "2020": 6.69
+          },
+          "C2": {
+            "2019": 0.05,
+            "2020": 0.19
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": 0.14,
+            "2020": -0.13
+          },
+          "C1": {
+            "2018": -0.04,
+            "2019": 0.02
+          }
+        }
+      },
+      "uifw_expenditure": {
+        "EC": {
+          "A": {
+            "2018": 6.12,
+            "2019": 2.73,
+            "2020": 4.08
+          },
+          "B3": {
+            "2018": 87.665,
+            "2019": 3.295,
+            "2020": 5.51
+          },
+          "C1": {
+            "2018": 0.3,
+            "2019": 1.24,
+            "2020": 4.61
+          },
+          "C2": {
+            "2019": 17.84,
+            "2020": 18.12
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": 8.83,
+            "2019": 10.29,
+            "2020": 13.54
+          },
+          "B1": {
+            "2018": 6.29,
+            "2019": 13.81,
+            "2020": 4.24
+          },
+          "C1": {
+            "2018": 104.9,
+            "2019": 24.41
+          }
+        }
+      },
+      "expenditure_trends_staff": {
+        "EC": {
+          "A": {
+            "2018": 30.12,
+            "2019": 29.8,
+            "2020": 28.17
+          },
+          "B3": {
+            "2018": 5.565,
+            "2019": 33.989999999999995,
+            "2020": 33.675
+          },
+          "C1": {
+            "2018": 34.58,
+            "2019": 33.93,
+            "2020": 39.07
+          },
+          "C2": {
+            "2019": 39.92,
+            "2020": 43.1
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": 24.9,
+            "2019": 27.03,
+            "2020": 30.96
+          },
+          "B1": {
+            "2018": 24.79,
+            "2019": 25.88,
+            "2020": 27.05
+          },
+          "C1": {
+            "2018": -19.58,
+            "2019": 68.48
+          }
+        }
+      },
+      "operating_budget_spending": {
+        "EC": {
+          "A": {
+            "2020": 9.7
+          },
+          "B3": {
+            "2020": -10.15
+          },
+          "C1": {
+            "2020": -33.2
+          },
+          "C2": {
+            "2020": 6.0
+          }
+        },
+        "GT": {
+          "A": {
+            "2020": 5.3
+          },
+          "B1": {
+            "2020": -1.2
+          }
+        }
+      },
+      "repairs_maintenance_spending": {
+        "EC": {
+          "A": {
+            "2018": 1.91,
+            "2019": 1.92,
+            "2020": 1.95
+          },
+          "B3": {
+            "2018": 1.48,
+            "2019": 1.37,
+            "2020": 0.92
+          },
+          "C1": {
+            "2018": 3.04,
+            "2019": 2.5,
+            "2020": 0.86
+          },
+          "C2": {
+            "2020": 0.32
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": 2.25,
+            "2019": 3.9,
+            "2020": 492.08
+          },
+          "C1": {
+            "2019": 0.8
+          }
+        }
+      },
+      "expenditure_trends_contracting": {
+        "EC": {
+          "A": {
+            "2018": 11.16,
+            "2019": 9.85,
+            "2020": 8.71
+          },
+          "B3": {
+            "2018": 0.22000000000000003,
+            "2019": 7.405,
+            "2020": 6.244999999999999
+          },
+          "C1": {
+            "2018": 2.38,
+            "2019": 2.91,
+            "2020": 1.87
+          },
+          "C2": {
+            "2019": 13.29,
+            "2020": 18.91
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": 9.23,
+            "2019": 9.69,
+            "2020": 10.35
+          },
+          "B1": {
+            "2018": 11.42,
+            "2019": 10.31,
+            "2020": 14.0
+          },
+          "C1": {
+            "2019": 6.71
+          }
+        }
+      },
+      "current_debtors_collection_rate": {
+        "EC": {
+          "A": {
+            "2020": 75.02
+          },
+          "B3": {
+            "2018": 6.58,
+            "2019": 0.745,
+            "2020": 6.805
+          },
+          "C1": {
+            "2018": -1.29,
+            "2019": 0.36
+          },
+          "C2": {
+            "2020": 44.91
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": 1.25,
+            "2019": -0.24,
+            "2020": 0.41
+          },
+          "B1": {
+            "2019": 0.01
+          },
+          "C1": {
+            "2018": -0.01,
+            "2019": 9.87
+          }
+        }
+      }
+    }
+  }
+},
+{
+  "model": "scorecard.ratingcountgroup",
+  "pk": "national",
+  "fields": {
+    "data": {
+      "cash_balance": {
+        "A": {
+          "2018": {
+            "good": 2
+          },
+          "2019": {
+            "good": 2
+          },
+          "2020": {
+            "bad": 1,
+            "good": 1
+          }
+        },
+        "B1": {
+          "2019": {
+            "bad": 1
+          },
+          "2020": {
+            "good": 1
+          }
+        },
+        "B3": {
+          "2018": {
+            "good": 1
+          },
+          "2019": {
+            "bad": 1,
+            "good": 1
+          },
+          "2020": {
+            "good": 2
+          }
+        },
+        "C1": {
+          "2018": {
+            "good": 2
+          },
+          "2019": {
+            "good": 2
+          },
+          "2020": {
+            "good": 1
+          }
+        },
+        "C2": {
+          "2019": {
+            "good": 1
+          },
+          "2020": {
+            "good": 1
+          }
+        }
+      },
+      "cash_coverage": {
+        "A": {
+          "2018": {
+            "bad": 1,
+            "good": 1
+          },
+          "2019": {
+            "ave": 1,
+            "good": 1
+          },
+          "2020": {
+            "bad": 1,
+            "good": 1
+          }
+        },
+        "B1": {
+          "2019": {
+            "bad": 1
+          },
+          "2020": {
+            "bad": 1
+          }
+        },
+        "B3": {
+          "2018": {
+            "good": 1
+          },
+          "2019": {
+            "bad": 1,
+            "good": 1
+          },
+          "2020": {
+            "good": 2
+          }
+        },
+        "C1": {
+          "2018": {
+            "bad": 1,
+            "good": 1
+          },
+          "2019": {
+            "ave": 1,
+            "good": 1
+          },
+          "2020": {
+            "good": 1
+          }
+        },
+        "C2": {
+          "2019": {
+            "bad": 1
+          },
+          "2020": {
+            "good": 1
+          }
+        }
+      },
+      "current_ratio": {
+        "A": {
+          "2018": {
+            "ave": 1,
+            "bad": 1
+          },
+          "2019": {
+            "ave": 1,
+            "bad": 1
+          },
+          "2020": {
+            "ave": 1,
+            "bad": 1
+          }
+        },
+        "B1": {
+          "2018": {
+            "good": 1
+          },
+          "2019": {
+            "good": 1
+          },
+          "2020": {
+            "bad": 1
+          }
+        },
+        "B3": {
+          "2018": {
+            "bad": 1,
+            "good": 1
+          },
+          "2019": {
+            "good": 2
+          },
+          "2020": {
+            "good": 2
+          }
+        },
+        "C1": {
+          "2018": {
+            "bad": 1,
+            "good": 1
+          },
+          "2019": {
+            "bad": 1,
+            "good": 1
+          },
+          "2020": {
+            "good": 1
+          }
+        },
+        "C2": {
+          "2019": {
+            "ave": 1
+          },
+          "2020": {
+            "bad": 1
+          }
+        }
+      },
+      "liquidity_ratio": {
+        "A": {
+          "2018": {
+            "bad": 2
+          },
+          "2020": {
+            "bad": 2
+          }
+        },
+        "B3": {
+          "2018": {
+            "bad": 1
+          },
+          "2019": {
+            "good": 1
+          },
+          "2020": {
+            "good": 1
+          }
+        },
+        "C1": {
+          "2018": {
+            "bad": 1,
+            "good": 1
+          },
+          "2019": {
+            "bad": 1,
+            "good": 1
+          },
+          "2020": {
+            "good": 1
+          }
+        },
+        "C2": {
+          "2019": {
+            "bad": 1
+          },
+          "2020": {
+            "bad": 1
+          }
+        }
+      },
+      "uifw_expenditure": {
+        "A": {
+          "2018": {
+            "bad": 2
+          },
+          "2019": {
+            "bad": 2
+          },
+          "2020": {
+            "bad": 2
+          }
+        },
+        "B1": {
+          "2018": {
+            "bad": 1
+          },
+          "2019": {
+            "bad": 1
+          },
+          "2020": {
+            "bad": 1
+          }
+        },
+        "B3": {
+          "2018": {
+            "bad": 2
+          },
+          "2019": {
+            "bad": 2
+          },
+          "2020": {
+            "bad": 2
+          }
+        },
+        "C1": {
+          "2018": {
+            "bad": 2
+          },
+          "2019": {
+            "bad": 2
+          },
+          "2020": {
+            "bad": 1
+          }
+        },
+        "C2": {
+          "2019": {
+            "bad": 1
+          },
+          "2020": {
+            "bad": 1
+          }
+        }
+      },
+      "expenditure_trends_staff": {
+        "A": {
+          "2018": {
+            "": 2
+          },
+          "2019": {
+            "": 2
+          },
+          "2020": {
+            "": 2
+          }
+        },
+        "B1": {
+          "2018": {
+            "": 1
+          },
+          "2019": {
+            "": 1
+          },
+          "2020": {
+            "": 1
+          }
+        },
+        "B3": {
+          "2018": {
+            "": 2
+          },
+          "2019": {
+            "": 2
+          },
+          "2020": {
+            "": 2
+          }
+        },
+        "C1": {
+          "2018": {
+            "": 2
+          },
+          "2019": {
+            "": 2
+          },
+          "2020": {
+            "": 1
+          }
+        },
+        "C2": {
+          "2019": {
+            "": 1
+          },
+          "2020": {
+            "": 1
+          }
+        }
+      },
+      "operating_budget_spending": {
+        "A": {
+          "2020": {
+            "ave": 2
+          }
+        },
+        "B1": {
+          "2020": {
+            "good": 1
+          }
+        },
+        "B3": {
+          "2020": {
+            "bad": 1,
+            "good": 1
+          }
+        },
+        "C1": {
+          "2020": {
+            "bad": 1
+          }
+        },
+        "C2": {
+          "2020": {
+            "ave": 1
+          }
+        }
+      },
+      "repairs_maintenance_spending": {
+        "A": {
+          "2018": {
+            "bad": 2
+          },
+          "2019": {
+            "bad": 2
+          },
+          "2020": {
+            "bad": 1,
+            "good": 1
+          }
+        },
+        "B3": {
+          "2018": {
+            "bad": 1
+          },
+          "2019": {
+            "bad": 1
+          },
+          "2020": {
+            "bad": 1
+          }
+        },
+        "C1": {
+          "2018": {
+            "bad": 1
+          },
+          "2019": {
+            "bad": 2
+          },
+          "2020": {
+            "bad": 1
+          }
+        },
+        "C2": {
+          "2020": {
+            "bad": 1
+          }
+        }
+      },
+      "expenditure_trends_contracting": {
+        "A": {
+          "2018": {
+            "": 2
+          },
+          "2019": {
+            "": 2
+          },
+          "2020": {
+            "": 2
+          }
+        },
+        "B1": {
+          "2018": {
+            "": 1
+          },
+          "2019": {
+            "": 1
+          },
+          "2020": {
+            "": 1
+          }
+        },
+        "B3": {
+          "2018": {
+            "": 2
+          },
+          "2019": {
+            "": 2
+          },
+          "2020": {
+            "": 2
+          }
+        },
+        "C1": {
+          "2018": {
+            "": 1
+          },
+          "2019": {
+            "": 2
+          },
+          "2020": {
+            "": 1
+          }
+        },
+        "C2": {
+          "2019": {
+            "": 1
+          },
+          "2020": {
+            "": 1
+          }
+        }
+      },
+      "current_debtors_collection_rate": {
+        "A": {
+          "2018": {
+            "bad": 1
+          },
+          "2019": {
+            "bad": 1
+          },
+          "2020": {
+            "bad": 2
+          }
+        },
+        "B1": {
+          "2019": {
+            "bad": 1
+          }
+        },
+        "B3": {
+          "2018": {
+            "bad": 1
+          },
+          "2019": {
+            "bad": 2
+          },
+          "2020": {
+            "bad": 2
+          }
+        },
+        "C1": {
+          "2018": {
+            "bad": 2
+          },
+          "2019": {
+            "bad": 2
+          }
+        },
+        "C2": {
+          "2020": {
+            "bad": 1
+          }
+        }
+      }
+    }
+  }
+},
+{
+  "model": "scorecard.ratingcountgroup",
+  "pk": "provincial",
+  "fields": {
+    "data": {
+      "cash_balance": {
+        "EC": {
+          "A": {
+            "2018": {
+              "good": 1
+            },
+            "2019": {
+              "good": 1
+            },
+            "2020": {
+              "good": 1
+            }
+          },
+          "B3": {
+            "2018": {
+              "good": 1
+            },
+            "2019": {
+              "bad": 1,
+              "good": 1
+            },
+            "2020": {
+              "good": 2
+            }
+          },
+          "C1": {
+            "2018": {
+              "good": 1
+            },
+            "2019": {
+              "good": 1
+            },
+            "2020": {
+              "good": 1
+            }
+          },
+          "C2": {
+            "2019": {
+              "good": 1
+            },
+            "2020": {
+              "good": 1
+            }
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": {
+              "good": 1
+            },
+            "2019": {
+              "good": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          },
+          "B1": {
+            "2019": {
+              "bad": 1
+            },
+            "2020": {
+              "good": 1
+            }
+          },
+          "C1": {
+            "2018": {
+              "good": 1
+            },
+            "2019": {
+              "good": 1
+            }
+          }
+        }
+      },
+      "cash_coverage": {
+        "EC": {
+          "A": {
+            "2018": {
+              "good": 1
+            },
+            "2019": {
+              "good": 1
+            },
+            "2020": {
+              "good": 1
+            }
+          },
+          "B3": {
+            "2018": {
+              "good": 1
+            },
+            "2019": {
+              "bad": 1,
+              "good": 1
+            },
+            "2020": {
+              "good": 2
+            }
+          },
+          "C1": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "good": 1
+            },
+            "2020": {
+              "good": 1
+            }
+          },
+          "C2": {
+            "2019": {
+              "bad": 1
+            },
+            "2020": {
+              "good": 1
+            }
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "ave": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          },
+          "B1": {
+            "2019": {
+              "bad": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          },
+          "C1": {
+            "2018": {
+              "good": 1
+            },
+            "2019": {
+              "ave": 1
+            }
+          }
+        }
+      },
+      "current_ratio": {
+        "EC": {
+          "A": {
+            "2018": {
+              "ave": 1
+            },
+            "2019": {
+              "ave": 1
+            },
+            "2020": {
+              "ave": 1
+            }
+          },
+          "B3": {
+            "2018": {
+              "bad": 1,
+              "good": 1
+            },
+            "2019": {
+              "good": 2
+            },
+            "2020": {
+              "good": 2
+            }
+          },
+          "C1": {
+            "2018": {
+              "good": 1
+            },
+            "2019": {
+              "good": 1
+            },
+            "2020": {
+              "good": 1
+            }
+          },
+          "C2": {
+            "2019": {
+              "ave": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "bad": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          },
+          "B1": {
+            "2018": {
+              "good": 1
+            },
+            "2019": {
+              "good": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          },
+          "C1": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "bad": 1
+            }
+          }
+        }
+      },
+      "liquidity_ratio": {
+        "EC": {
+          "A": {
+            "2018": {
+              "bad": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          },
+          "B3": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "good": 1
+            },
+            "2020": {
+              "good": 1
+            }
+          },
+          "C1": {
+            "2018": {
+              "good": 1
+            },
+            "2019": {
+              "good": 1
+            },
+            "2020": {
+              "good": 1
+            }
+          },
+          "C2": {
+            "2019": {
+              "bad": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": {
+              "bad": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          },
+          "C1": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "bad": 1
+            }
+          }
+        }
+      },
+      "uifw_expenditure": {
+        "EC": {
+          "A": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "bad": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          },
+          "B3": {
+            "2018": {
+              "bad": 2
+            },
+            "2019": {
+              "bad": 2
+            },
+            "2020": {
+              "bad": 2
+            }
+          },
+          "C1": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "bad": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          },
+          "C2": {
+            "2019": {
+              "bad": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "bad": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          },
+          "B1": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "bad": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          },
+          "C1": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "bad": 1
+            }
+          }
+        }
+      },
+      "expenditure_trends_staff": {
+        "EC": {
+          "A": {
+            "2018": {
+              "": 1
+            },
+            "2019": {
+              "": 1
+            },
+            "2020": {
+              "": 1
+            }
+          },
+          "B3": {
+            "2018": {
+              "": 2
+            },
+            "2019": {
+              "": 2
+            },
+            "2020": {
+              "": 2
+            }
+          },
+          "C1": {
+            "2018": {
+              "": 1
+            },
+            "2019": {
+              "": 1
+            },
+            "2020": {
+              "": 1
+            }
+          },
+          "C2": {
+            "2019": {
+              "": 1
+            },
+            "2020": {
+              "": 1
+            }
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": {
+              "": 1
+            },
+            "2019": {
+              "": 1
+            },
+            "2020": {
+              "": 1
+            }
+          },
+          "B1": {
+            "2018": {
+              "": 1
+            },
+            "2019": {
+              "": 1
+            },
+            "2020": {
+              "": 1
+            }
+          },
+          "C1": {
+            "2018": {
+              "": 1
+            },
+            "2019": {
+              "": 1
+            }
+          }
+        }
+      },
+      "operating_budget_spending": {
+        "EC": {
+          "A": {
+            "2020": {
+              "ave": 1
+            }
+          },
+          "B3": {
+            "2020": {
+              "bad": 1,
+              "good": 1
+            }
+          },
+          "C1": {
+            "2020": {
+              "bad": 1
+            }
+          },
+          "C2": {
+            "2020": {
+              "ave": 1
+            }
+          }
+        },
+        "GT": {
+          "A": {
+            "2020": {
+              "ave": 1
+            }
+          },
+          "B1": {
+            "2020": {
+              "good": 1
+            }
+          }
+        }
+      },
+      "repairs_maintenance_spending": {
+        "EC": {
+          "A": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "bad": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          },
+          "B3": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "bad": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          },
+          "C1": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "bad": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          },
+          "C2": {
+            "2020": {
+              "bad": 1
+            }
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "bad": 1
+            },
+            "2020": {
+              "good": 1
+            }
+          },
+          "C1": {
+            "2019": {
+              "bad": 1
+            }
+          }
+        }
+      },
+      "expenditure_trends_contracting": {
+        "EC": {
+          "A": {
+            "2018": {
+              "": 1
+            },
+            "2019": {
+              "": 1
+            },
+            "2020": {
+              "": 1
+            }
+          },
+          "B3": {
+            "2018": {
+              "": 2
+            },
+            "2019": {
+              "": 2
+            },
+            "2020": {
+              "": 2
+            }
+          },
+          "C1": {
+            "2018": {
+              "": 1
+            },
+            "2019": {
+              "": 1
+            },
+            "2020": {
+              "": 1
+            }
+          },
+          "C2": {
+            "2019": {
+              "": 1
+            },
+            "2020": {
+              "": 1
+            }
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": {
+              "": 1
+            },
+            "2019": {
+              "": 1
+            },
+            "2020": {
+              "": 1
+            }
+          },
+          "B1": {
+            "2018": {
+              "": 1
+            },
+            "2019": {
+              "": 1
+            },
+            "2020": {
+              "": 1
+            }
+          },
+          "C1": {
+            "2019": {
+              "": 1
+            }
+          }
+        }
+      },
+      "current_debtors_collection_rate": {
+        "EC": {
+          "A": {
+            "2020": {
+              "bad": 1
+            }
+          },
+          "B3": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "bad": 2
+            },
+            "2020": {
+              "bad": 2
+            }
+          },
+          "C1": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "bad": 1
+            }
+          },
+          "C2": {
+            "2020": {
+              "bad": 1
+            }
+          }
+        },
+        "GT": {
+          "A": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "bad": 1
+            },
+            "2020": {
+              "bad": 1
+            }
+          },
+          "B1": {
+            "2019": {
+              "bad": 1
+            }
+          },
+          "C1": {
+            "2018": {
+              "bad": 1
+            },
+            "2019": {
+              "bad": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}
+]
