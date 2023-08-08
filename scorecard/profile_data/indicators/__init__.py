@@ -21,6 +21,7 @@ from .codes import (
     V1_INCOME_TRANSFERS_CODES,
     V2_INCOME_LOCAL_CODES,
     V2_INCOME_TRANSFERS_CODES,
+    V2_FUNCTIONAL_BREAKDOWN,
 )
 from collections import defaultdict
 
@@ -56,6 +57,18 @@ def sort_by_year(data):
         for category in data:
             category["values"].sort(key=lambda x: x["year"])
         return data
+
+def make_custom_breakdown(api_data):
+        custom_breakdown = []
+
+        for amount in api_data:
+            category = V2_FUNCTIONAL_BREAKDOWN[amount["function.label"]]
+            temp = {
+                "category": category,
+                "values":{"year":[amount["financial_year_end.year"]], "value":amount["amount.sum"]}
+            }
+            custom_breakdown.append(temp)
+        return custom_breakdown
 
 class RevenueSources(IndicatorCalculator):
     name = "revenue_sources"
@@ -294,7 +307,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
             if item["financial_year_end.year"] < 2019 and item["amount_type.code"] == "AUDA":
                 results_v1.append(item)
 
-        results_v2 = api_data.results["expenditure_functional_breakdown_v2"]
+        results_v2 = make_custom_breakdown(api_data.results["expenditure_functional_breakdown_v2"])
 
         results = results_v1 + results_v2
         grouped_results = []

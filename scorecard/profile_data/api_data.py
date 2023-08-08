@@ -866,9 +866,9 @@ class ApiData(object):
                     "financial_year_end.year": self.years + [self.budget_year],
                 },
                 "drilldown": [
-                    "function.category_label",
+                    "function.label",
                     "financial_year_end.year",
-                    "amount_type.code",
+                    "function.code"
                 ],
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
