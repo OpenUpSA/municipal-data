@@ -53,22 +53,34 @@ def get_indicator_calculators(has_comparisons=None):
     else:
         return [calc for calc in calculators if calc.has_comparisons == has_comparisons]
 
+
 def sort_by_year(data):
-        for category in data:
-            category["values"].sort(key=lambda x: x["year"])
-        return data
+    for category in data:
+        category["values"].sort(key=lambda x: x["year"])
+    return data
+
 
 def make_custom_breakdown(api_data):
-        custom_breakdown = []
+    func_breakdown = []
 
-        for amount in api_data:
-            category = V2_FUNCTIONAL_BREAKDOWN[amount["function.label"]]
-            temp = {
-                "category": category,
-                "values":{"year":[amount["financial_year_end.year"]], "value":amount["amount.sum"]}
-            }
-            custom_breakdown.append(temp)
-        return custom_breakdown
+    for item in api_data:
+        category = V2_FUNCTIONAL_BREAKDOWN[item["function.label"]]
+        temp = {
+            "function.category_label": category,
+            "financial_year_end.year": item["financial_year_end.year"],
+            "amount.sum": item["amount.sum"],
+        }
+        func_breakdown.append(temp)
+
+    # aggregate amounts from the same categories
+    result = {}
+    for item in func_breakdown:
+        if item["function.category_label"] in result:
+            result[item["function.category_label"]]["amount.sum"] += item["amount.sum"]
+        else:
+            result[item["function.category_label"]] = item
+    return list(result.values())
+
 
 class RevenueSources(IndicatorCalculator):
     name = "revenue_sources"
@@ -304,10 +316,15 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         # remove overlapping results
         results_v1 = []
         for item in api_data.results["expenditure_functional_breakdown"]:
-            if item["financial_year_end.year"] < 2019 and item["amount_type.code"] == "AUDA":
+            if (
+                item["financial_year_end.year"] < 2019
+                and item["amount_type.code"] == "AUDA"
+            ):
                 results_v1.append(item)
 
-        results_v2 = make_custom_breakdown(api_data.results["expenditure_functional_breakdown_v2"])
+        results_v2 = make_custom_breakdown(
+            api_data.results["expenditure_functional_breakdown_v2"]
+        )
 
         results = results_v1 + results_v2
         grouped_results = []
@@ -339,7 +356,12 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                     }
                 )
             if tmp_values:
-                grouped_results.append({"category": category, "values": tmp_values})
+                grouped_results.append(
+                    {
+                        "category": result["function.category_label"],
+                        "values": tmp_values,
+                    }
+                )
 
         unique_data = {}
         for d in GAPD_values:

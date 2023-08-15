@@ -868,11 +868,11 @@ class ApiData(object):
                 "drilldown": [
                     "function.label",
                     "financial_year_end.year",
-                    "function.code"
+                    "function.code",
                 ],
                 "query_type": "aggregate",
                 "results_structure": self.noop_structure,
-                "order": "financial_year_end.year:desc,function.category_label:asc",
+                "order": "financial_year_end.year:desc,function.label:asc",
             },
             "expenditure_trends": {
                 "cube": "incexp",
