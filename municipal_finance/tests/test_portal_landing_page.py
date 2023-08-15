@@ -29,17 +29,17 @@ class TestPortalHome(BaseSeleniumTestCase):
 
         self.wait_until_text_in("#header h1", "Municipal Finance Data")
 
-        self.wait_until_text_in("#years h2", "5 years of data")
-        self.wait_until_text_in("#years p", "Financial years 2017-2018 to 2022-2023.")
+        self.wait_until_text_in("#years-summary h2", "5 years of data")
+        self.wait_until_text_in("#years-summary p", "Financial years 2017-2018 to 2022-2023.")
 
-        self.wait_until_text_in("#municipalities h2", "9 municipalities")
+        self.wait_until_text_in("#municipalities-summary h2", "9 municipalities")
         self.wait_until_text_in(
-            "#municipalities p", "2 metros, 3 district and 4 local municipalities."
+            "#municipalities-summary p", "2 metros, 3 district and 4 local municipalities."
         )
 
-        self.wait_until_text_in("#facts h2", "2 124 242 facts")
+        self.wait_until_text_in("#facts-summary h2", "2 124 242 facts")
         self.wait_until_text_in(
-            "#facts p",
+            "#facts-summary p",
             "Budgeted and actual figures for income and expenditure, cash flow and lots more.",
         )
 
