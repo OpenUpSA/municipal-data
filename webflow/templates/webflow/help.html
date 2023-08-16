@@ -1,6 +1,6 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Tue Jun 27 2023 09:22:44 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="6200e32ae569ed2f9e14bbf9" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Wed Aug 02 2023 09:03:17 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="6200e32ae569ed2f9e14bbf9" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_description }}" name="description">
@@ -954,7 +954,14 @@
                 <p>These are all the videos used on Municipal Money for learning about monitoring and managing municipal finances. You are welcome to download and share these for you and others to learn from. Please make sure you acknowledge the source of these videos as <a href="https://municipalmoney.gov.za/">https://municipalmoney.gov.za</a>.</p>
                 <p>The <em>Full size</em> videos are the maximum quality but cost more data to download. The <em>Small size</em> videos are made smaller so you can save data and share them on WhatsApp.</p>
               </div>
-              <div class="informational-video_block">
+              <div class="w-embed">
+                <style>
+                    .informational-video_block {
+                      scroll-margin-top: 60px;
+                    }
+                  </style>
+              </div>
+              <div id="test" class="informational-video_block">
                 <div class="informational-video_video-wrapper">
                   <div class="informational-video_video w-video w-embed"></div>
                 </div>
