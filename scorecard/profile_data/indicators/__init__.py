@@ -73,13 +73,17 @@ def make_custom_breakdown(api_data):
         func_breakdown.append(temp)
 
     # aggregate amounts from the same categories
-    result = {}
+    result = []
+    temp = {}
+
     for item in func_breakdown:
-        if item["function.category_label"] in result:
-            result[item["function.category_label"]]["amount.sum"] += item["amount.sum"]
+        key = (item["function.category_label"], item["financial_year_end.year"])
+        if key not in temp:
+            temp[key] = item
+            result.append(item)
         else:
-            result[item["function.category_label"]] = item
-    return list(result.values())
+            temp[key]["amount.sum"] += item["amount.sum"]
+    return result
 
 
 class RevenueSources(IndicatorCalculator):
@@ -322,9 +326,12 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
             ):
                 results_v1.append(item)
 
-        results_v2 = make_custom_breakdown(
-            api_data.results["expenditure_functional_breakdown_v2"]
-        )
+        results_v2 = []
+        for item in api_data.results["expenditure_functional_breakdown_v2"]:
+            if item["financial_year_end.year"] >= 2019:
+                results_v2.append(item)
+
+        results_v2 = make_custom_breakdown(results_v2)
 
         results = results_v1 + results_v2
         grouped_results = []
