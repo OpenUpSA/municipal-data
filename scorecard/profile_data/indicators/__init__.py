@@ -72,8 +72,12 @@ class RevenueSources(IndicatorCalculator):
             items = v1_data[year]
 
         results = {
-            "local": {"amount": 0, },
-            "government": {"amount": 0, },
+            "local": {
+                "amount": 0,
+            },
+            "government": {
+                "amount": 0,
+            },
             "year": year,
             "ref": api_data.references["lges"],
         }
@@ -194,7 +198,11 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
                     contracting_code = "4200"
 
                 total = sum(x["amount.sum"] for x in results)
-                contracting_items = [x["amount.sum"] for x in results if x["item.code"] == contracting_code]
+                contracting_items = [
+                    x["amount.sum"]
+                    for x in results
+                    if x["item.code"] == contracting_code
+                ]
                 contracting = percent(contracting_items[0], total)
                 # Prefer KeyError but crash before we use it in case we have more than expectexd
                 assert len(contracting_items) <= 1
@@ -203,7 +211,11 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
                 contracting = None
 
             values.append(
-                {"date": year, "result": contracting, "rating": "", }
+                {
+                    "date": year,
+                    "result": contracting,
+                    "rating": "",
+                }
             )
 
         return {
@@ -246,7 +258,11 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
                 staff = None
 
             values.append(
-                {"date": year, "result": staff, "rating": "", }
+                {
+                    "date": year,
+                    "result": staff,
+                    "rating": "",
+                }
             )
 
         return {
@@ -269,7 +285,8 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         }
         GAPD_label = "Governance, Administration, Planning and Development"
 
-        results = api_data.results["expenditure_functional_breakdown_v2"]
+        results = api_data.results["expenditure_functional_breakdown"]
+        results.extend(api_data.results["expenditure_functional_breakdown_v2"])
         grouped_results = []
         GAPD_total = 0.0
         GAPD_values = []
@@ -302,17 +319,17 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                                 }
                             )
 
-                grouped_results.append(
-                    {
-                        "amount": GAPD_total,
-                        "percent": percent(GAPD_total, total),
-                        "item": GAPD_label,
-                        "date": year_name,
-                    }
-                )
+                if GAPD_total > 0:
+                    grouped_results.append(
+                        {
+                            "amount": GAPD_total,
+                            "percent": percent(GAPD_total, total),
+                            "item": GAPD_label,
+                            "date": year_name,
+                        }
+                    )
             except (KeyError, IndexError):
                 continue
 
-        grouped_results = sorted(
-            grouped_results, key=lambda r: (r["date"], r["item"]))
+        grouped_results = sorted(grouped_results, key=lambda r: (r["date"], r["item"]))
         return {"values": grouped_results}
