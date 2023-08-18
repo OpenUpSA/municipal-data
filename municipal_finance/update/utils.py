@@ -4,6 +4,7 @@ from abc import abstractmethod, ABC
 from itertools import groupby, zip_longest
 from functools import reduce
 from contextlib import closing
+from constance import config
 
 from django.db.models import Q
 from django.db import transaction
@@ -159,4 +160,5 @@ class Updater(ABC):
                     objects = cls.facts_cls.objects.bulk_create(objects)
                     self.update_obj.inserted += len(objects)
             # Save the status of the update
+            config.IS_SCORECARD_COMPILED  = False
             self.update_obj.save(update_fields=["deleted", "inserted"])

@@ -7,6 +7,7 @@ from import_export.admin import ImportExportModelAdmin, ExportMixin
 from import_export.signals import post_import
 from import_export.formats import base_formats
 from django.dispatch import receiver
+from django.core.signals import request_started
 
 from .models import (
     Geography,
@@ -34,7 +35,7 @@ class GeographyAdmin(ImportExportModelAdmin, ExportMixin):
         return [f for f in formats if f().can_import()]
 
 
-@receiver(post_import, dispatch_uid='post_import')
+@receiver(post_import, dispatch_uid="post_import")
 def post_import(model, **kwargs):
     new_geo = GeographyUpdate()
     new_geo.save()
@@ -50,9 +51,9 @@ class MunicipalityProfilesCompilationAdmin(admin.ModelAdmin):
         "last_uifw_year",
         "last_audit_quarter",
     )
-    readonly_fields = (
-        "user",
-    )
+    readonly_fields = ("user",)
+    change_list_template = "admin/profile_list_form.html"
+    add_form_template = "admin/profile_add_form.html"
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(MunicipalityProfilesCompilationAdmin, self).get_form(
@@ -72,14 +73,17 @@ class MunicipalityProfilesCompilationAdmin(admin.ModelAdmin):
         if obj is None:
             return ("user",)
         else:
-            return super(MunicipalityProfilesCompilationAdmin, self).get_exclude(request, obj)
+            return super(MunicipalityProfilesCompilationAdmin, self).get_exclude(
+                request, obj
+            )
 
     def save_model(self, request, obj, form, change):
         # Set the user to the current user
         obj.user = request.user
         # Process default save behavior
         super(MunicipalityProfilesCompilationAdmin, self).save_model(
-            request, obj, form, change)
+            request, obj, form, change
+        )
         # Queue task
         async_task(
             "scorecard.compile_profiles.compile_data",
@@ -88,5 +92,16 @@ class MunicipalityProfilesCompilationAdmin(admin.ModelAdmin):
             obj.last_opinion_year,
             obj.last_uifw_year,
             obj.last_audit_quarter,
-            task_name="Compile municipal profiles"
+            task_name="Compile municipal profiles",
         )
+
+    @receiver(request_started)
+    def admin_opened(sender, **kwargs):
+        if config.IS_SCORECARD_COMPILED:
+            MunicipalityProfilesCompilation._meta.verbose_name_plural = (
+                "Municipality Profile Compilations ✅ Profiles compiled"
+            )
+        else:
+            MunicipalityProfilesCompilation._meta.verbose_name_plural = (
+                "Municipality Profile Compilations ❌ Compile required"
+            )

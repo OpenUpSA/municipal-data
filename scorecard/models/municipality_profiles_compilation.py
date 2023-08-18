@@ -14,3 +14,4 @@ class MunicipalityProfilesCompilation(models.Model):
     class Meta:
         db_table = 'municipality_profiles_compilation'
         verbose_name = "Municipality Profile Compilation"
+        verbose_name_plural = "Municipality Profile Compilations"

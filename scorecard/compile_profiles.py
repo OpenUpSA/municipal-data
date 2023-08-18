@@ -12,6 +12,7 @@ from requests.packages.urllib3.util.retry import Retry
 from requests_futures.sessions import FuturesSession
 from concurrent.futures import ThreadPoolExecutor
 from django.conf import settings
+from constance import config
 
 from .models import (
     MunicipalityProfile,
@@ -392,3 +393,4 @@ def compile_data(
     )
     compile_medians(municipalities)
     compile_rating_counts(municipalities)
+    config.IS_SCORECARD_COMPILED  = True
