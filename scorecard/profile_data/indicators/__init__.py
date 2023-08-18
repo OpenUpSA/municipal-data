@@ -24,6 +24,7 @@ from .codes import (
 )
 from collections import defaultdict
 
+
 def get_indicator_calculators(has_comparisons=None):
     calculators = [
         CashCoverage,
@@ -110,7 +111,6 @@ class LocalRevenueBreakdown(IndicatorCalculator):
 
     @classmethod
     def get_muni_specifics(cls, api_data):
-
         v1_groups = [
             ("Property rates", ["0200", "0300"]),
             ("Service Charges", ["0400"]),
@@ -269,8 +269,10 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         }
         GAPD_label = "Governance, Administration, Planning and Development"
 
-        results = api_data.results["expenditure_functional_breakdown"]
+        results = api_data.results["expenditure_functional_breakdown_v2"]
         grouped_results = []
+        GAPD_total = 0.0
+        GAPD_values = []
 
         for year, yeargroup in groupby(results, lambda r: r["financial_year_end.year"]):
             yeargroup_list = list(yeargroup)

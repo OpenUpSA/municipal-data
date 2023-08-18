@@ -1,4 +1,3 @@
-
 from django.db import models
 
 from django.contrib.auth.models import User
@@ -7,7 +6,6 @@ from django.utils.deconstruct import deconstructible
 
 @deconstructible
 class UpdateFilePath(object):
-
     def __call__(self, instance, filename):
         ext = filename.split(".")[-1]
         timestamp = instance.datetime.strftime("%Y-%m-%d_%H-%M-%S")
@@ -21,6 +19,8 @@ class BaseUpdate(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     deleted = models.BigIntegerField(null=True)
     inserted = models.BigIntegerField(null=True)
+    task_id = models.TextField(null=True, editable=False)
+    import_report = models.TextField(null=True)
     file = models.FileField(
         upload_to=UpdateFilePath(),
         max_length=255,

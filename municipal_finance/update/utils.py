@@ -39,20 +39,19 @@ def period_code_details(code):
 
 
 def all_to_code_dict(model):
-    return dict(map(
-        lambda o: (o.code, o),
-        model.objects.all(),
-    ))
+    return dict(
+        map(
+            lambda o: (o.code, o),
+            model.objects.all(),
+        )
+    )
 
 
 def build_unique_query_params_with_period(rows):
     keys = set(
         map(
             lambda o: o[0],
-            groupby(
-                filter(None, rows),
-                lambda o: (o.demarcation_code, o.period_code)
-            ),
+            groupby(filter(None, rows), lambda o: (o.demarcation_code, o.period_code)),
         )
     )
     query_params = map(
@@ -72,8 +71,7 @@ def build_unique_query_params_with_year(rows):
         map(
             lambda o: o[0],
             groupby(
-                filter(None, rows),
-                lambda o: (o.demarcation_code, o.financial_year)
+                filter(None, rows), lambda o: (o.demarcation_code, o.financial_year)
             ),
         )
     )
@@ -93,10 +91,7 @@ def build_unique_query_params_with_role(rows):
     keys = set(
         map(
             lambda o: o[0],
-            groupby(
-                filter(None, rows),
-                lambda o: (o.demarcation_code, o.role)
-            ),
+            groupby(filter(None, rows), lambda o: (o.demarcation_code, o.role)),
         )
     )
     query_params = map(
@@ -140,7 +135,7 @@ class Updater(ABC):
         with transaction.atomic():
             # Delete the existing matching records
             self.update_obj.deleted = 0
-            self.update_obj.file.open('r')
+            self.update_obj.file.open("r")
             with closing(self.update_obj.file) as file:
                 lines = iter(file)
                 next(lines)  # Skip header
@@ -152,7 +147,7 @@ class Updater(ABC):
                     self.update_obj.deleted += count
             # Add the records from the dataset
             self.update_obj.inserted = 0
-            self.update_obj.file.open('r')
+            self.update_obj.file.open("r")
             with closing(self.update_obj.file) as file:
                 lines = iter(file)
                 next(lines)  # Skip header
@@ -166,4 +161,4 @@ class Updater(ABC):
                     self.update_obj.inserted += len(objects)
             # Save the status of the update
             config.IS_SCORECARD_COMPILED  = False
-            self.update_obj.save()
+            self.update_obj.save(update_fields=["deleted", "inserted"])

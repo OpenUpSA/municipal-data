@@ -16,6 +16,7 @@ import {
   NationalConditionalGrantsSection,
   ProvincialTransfersSection,
 } from '../components/income.js';
+import { SpendingBreakdownSection } from '../components/spending.js';
 import {
   TimeSeriesSection,
   AdjustmentsSection,

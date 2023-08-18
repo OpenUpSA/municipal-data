@@ -1,5 +1,5 @@
 from django.contrib.postgres.search import SearchQuery
-from django.db.models import Count
+from django.db.models import Count, Q
 
 # from django.views.decorators.cache import cache_page
 # from django.utils.decorators import method_decorator
@@ -163,7 +163,10 @@ class ProjectSearch(generics.ListCreateAPIView):
         if len(text) == 0:
             return qs
 
-        return qs.filter(content_search=SearchQuery(text))
+        result = qs.filter(
+            Q(project_description__icontains=text) | Q(content_search=SearchQuery(text))
+        )
+        return result
 
     def aggregations(self, qs, params):
         financial_year = params.get("financial_year")

@@ -93,8 +93,9 @@ def get_muni_comparison(geo, objects):
     for calculator in get_indicator_calculators(has_comparisons=True):
         name = calculator.name
         objects.get(group_id='national')
-        national = national_group[name][geo.miif_category]
-        comparisons[name]['national']['dev_cat'] = national
-        provincial = provincial_group[name][geo.province_code][geo.miif_category]
-        comparisons[name]['provincial']['dev_cat'] = provincial
+        if name in national_group and geo.miif_category in provincial_group[name][geo.province_code]:
+            national = national_group[name][geo.miif_category]
+            comparisons[name]['national']['dev_cat'] = national
+            provincial = provincial_group[name][geo.province_code][geo.miif_category]
+            comparisons[name]['provincial']['dev_cat'] = provincial
     return comparisons

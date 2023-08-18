@@ -112,10 +112,22 @@ Run
 ```
 docker-compose run --rm scorecard python manage.py dumpdata --indent 2 \
     scorecard.geography \
-    municipal_finance.municipalityprofile \
-    municipal_finance.mediangroup \
-    municipal_finance.ratingcountgroup \
+    scorecard.municipalityprofile \
+    scorecard.mediangroup \
+    scorecard.ratingcountgroup \
     > demo-data.json
+```
+
+For household bills run
+```
+docker compose run --rm scorecard python manage.py dumpdata --indent 2 \
+    household.FinancialYear \
+    household.BudgetPhase \
+    household.HouseholdClass \
+    household.HouseholdService \
+    household.HouseholdServiceTotal \
+    household.HouseholdBillTotal \
+    > demo-househousehold.json
 ```
 
 Run git diff and check that the diff looks sensible - that you're only adding/modifying
