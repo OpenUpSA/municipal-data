@@ -57,7 +57,7 @@ def get_indicator_calculators(has_comparisons=None):
 def sort_by_year(data):
     for category in data:
         category["values"].sort(key=lambda x: x["year"])
-    return data
+    return sorted(data, key=lambda x: x['category'])
 
 
 def make_custom_breakdown(api_data):
