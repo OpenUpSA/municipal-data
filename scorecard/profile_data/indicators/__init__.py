@@ -66,7 +66,7 @@ def make_custom_breakdown(api_data):
     for item in api_data:
         category = V2_FUNCTIONAL_BREAKDOWN[item["function.label"]]
         temp = {
-            "function.category_label": category.strip(),
+            "function.category_label": category,
             "financial_year_end.year": item["financial_year_end.year"],
             "amount.sum": item["amount.sum"],
         }
@@ -345,7 +345,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                 continue
             tmp_values = []
             for result in yeargroup_list:
-                if result["function.category_label"] in GAPD_categories:
+                if result["function.category_label"].strip() in GAPD_categories:
                     GAPD_values[result["financial_year_end.year"]] += result["amount.sum"]
                 else:
                     tmp_values.append(
