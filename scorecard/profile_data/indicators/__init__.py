@@ -66,7 +66,7 @@ def make_custom_breakdown(api_data):
     for item in api_data:
         category = V2_FUNCTIONAL_BREAKDOWN[item["function.label"]]
         temp = {
-            "function.category_label": category,
+            "function.category_label": category.strip(),
             "financial_year_end.year": item["financial_year_end.year"],
             "amount.sum": item["amount.sum"],
         }
@@ -332,12 +332,10 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                 results_v2.append(item)
 
         results_v2 = make_custom_breakdown(results_v2)
-
         results = results_v1 + results_v2
-        grouped_results = []
-        GAPD_total = 0.0
-        GAPD_values = []
 
+        grouped_results = []
+        GAPD_values = defaultdict(int)
         for category, yeargroup in groupby(
             sorted(results, key=lambda x: x["function.category_label"]),
             key=lambda x: x["function.category_label"],
@@ -348,7 +346,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
             tmp_values = []
             for result in yeargroup_list:
                 if result["function.category_label"] in GAPD_categories:
-                    GAPD_total += result["amount.sum"]
+                    GAPD_values[result["financial_year_end.year"]] += result["amount.sum"]
                 else:
                     tmp_values.append(
                         {
@@ -356,12 +354,6 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                             "value": result["amount.sum"],
                         }
                     )
-                GAPD_values.append(
-                    {
-                        "year": result["financial_year_end.year"],
-                        "value": GAPD_total,
-                    }
-                )
             if tmp_values:
                 grouped_results.append(
                     {
@@ -370,15 +362,12 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                     }
                 )
 
-        unique_data = {}
-        for d in GAPD_values:
-            year = d["year"]
-            if year not in unique_data:
-                unique_data[year] = d["value"]
-            else:
-                unique_data[year] += d["value"]
-        GAPD_result = [
-            {"year": year, "value": value} for year, value in unique_data.items()
-        ]
+        GAPD_result = []
+        for k, v in GAPD_values.items():
+            tmp_dict = {}
+            tmp_dict["year"] = k
+            tmp_dict["value"] = v
+            GAPD_result.append(tmp_dict)
+
         grouped_results.append({"category": GAPD_label, "values": GAPD_result})
         return {"values": sort_by_year(grouped_results)}
