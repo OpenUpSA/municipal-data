@@ -302,9 +302,8 @@ def table(request, cube_name):
 
 
 def get_bulk_downloads():
-    aggregate_index = f"{settings.BULK_DOWNLOAD_DIR}/index.json"
-
-    logger.warn(f"___aggregate_index___{aggregate_index}")
+    aggregate_index = f"media/{settings.BULK_DOWNLOAD_DIR}/index.json"
+    logger.warn(f"___aggregate_index_1__{aggregate_index}")
 
     if default_storage.exists(aggregate_index):
         logger.warn(f"___exists__=__true")
