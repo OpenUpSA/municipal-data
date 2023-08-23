@@ -169,12 +169,12 @@
     {% endfor %}
 
     <h1 id="bulkdownloads">Bulk Downloads</h1>
-    <p><a href="{{ storage_url }}/munimoney-media/media/bulk_downloads/index.json" target=”_blank”>Metadata for all cubes</a></p>
+    <p><a href="{{ storage_url }}/media/bulk_downloads/index.json" target=”_blank”>Metadata for all cubes</a></p>
 
     <table class="bulk-downloads">
       {% for key, value in bulk_downloads.items %}
         <tr class="bulk-downloads">
-          <td colspan="3">{{ key }} (<a href="{{ storage_url }}/munimoney-media/media/bulk_downloads/{{ key }}/index.json" target=”_blank”>Metadata</a>)</td>
+          <td colspan="3">{{ key }} (<a href="{{ storage_url }}/media/bulk_downloads/{{ key }}/index.json" target=”_blank”>Metadata</a>)</td>
         </tr>
         {% for key, file_year in value.files.items %}
           <tr class="attribute">
@@ -182,7 +182,7 @@
             {% for file in file_year %}
               <td>
                 <p>
-                  <a href="{{ storage_url }}/munimoney-media/media/bulk_downloads/{{ key }}/{{ file.file_name }}" target=”_blank”>
+                  <a href="{{ storage_url }}/media/bulk_downloads/{{ key }}/{{ file.file_name }}" target=”_blank”>
                     {{ file.format|upper }} {{ file.file_size|filesizeformat }}
                   </a>
                 </p>
