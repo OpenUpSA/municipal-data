@@ -118,6 +118,7 @@ def docs(request):
         })
 
     bulk_downloads = get_bulk_downloads()
+    logger.warn(f"____bulk_downloads____{bulk_downloads}")
 
     return render(request, 'docs.html', {
         'cubes': cubes,
@@ -303,9 +304,10 @@ def table(request, cube_name):
 def get_bulk_downloads():
     aggregate_index = f"{settings.BULK_DOWNLOAD_DIR}/index.json"
 
-    logger.warn(f"__aggregate_index__{aggregate_index}")
+    logger.warn(f"___aggregate_index___{aggregate_index}")
 
     if default_storage.exists(aggregate_index):
+        logger.warn(f"___exists__=__true")
         with default_storage.open(aggregate_index, "r") as file:
             data = json.load(file)
         return data
