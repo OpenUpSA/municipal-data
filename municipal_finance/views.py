@@ -10,6 +10,9 @@ from municipal_finance import settings
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 import json
+import logging
+
+logger = logging.Logger(__name__)
 
 DUMP_FORMATS = ['csv', 'xlsx']
 FORMATS = DUMP_FORMATS + ['json']
@@ -299,6 +302,8 @@ def table(request, cube_name):
 
 def get_bulk_downloads():
     aggregate_index = f"{settings.BULK_DOWNLOAD_DIR}/index.json"
+
+    logger.warn(f"__aggregate_index__{aggregate_index}")
 
     if default_storage.exists(aggregate_index):
         with default_storage.open(aggregate_index, "r") as file:
