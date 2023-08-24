@@ -118,7 +118,6 @@ def docs(request):
         })
 
     bulk_downloads = get_bulk_downloads()
-    logger.warn(f"____bulk_downloads____{bulk_downloads}")
 
     return render(request, 'docs.html', {
         'cubes': cubes,
@@ -303,9 +302,9 @@ def table(request, cube_name):
 
 def get_bulk_downloads():
     aggregate_index = f"{settings.BULK_DOWNLOAD_DIR}/index.json"
-    #directory_path = ''
-    #file_paths = default_storage.listdir(directory_path)[1]
-    #logger.warn(f"____file_paths____{file_paths}")
+    directory_path = ''
+    file_paths = default_storage.listdir(directory_path)[1]
+    logger.warn(f"____file_paths____{file_paths}")
 
     if default_storage.exists(aggregate_index):
         with default_storage.open(aggregate_index, "r") as file:
