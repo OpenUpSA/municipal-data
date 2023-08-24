@@ -176,9 +176,9 @@
         <tr class="bulk-downloads">
           <td colspan="3">{{ key }} (<a href="{{ storage_url }}/media/bulk_downloads/{{ key }}/index.json" target=”_blank”>Metadata</a>)</td>
         </tr>
-        {% for key, file_year in value.files.items %}
+        {% for file_key, file_year in value.files.items %}
           <tr class="attribute">
-            <td><p>{{ key }}</p></td>
+            <td><p>{{ file_key }}</p></td>
             {% for file in file_year %}
               <td>
                 <p>
