@@ -10,9 +10,7 @@ from municipal_finance import settings
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 import json
-import logging
 
-logger = logging.Logger(__name__)
 
 DUMP_FORMATS = ['csv', 'xlsx']
 FORMATS = DUMP_FORMATS + ['json']
@@ -304,7 +302,6 @@ def get_bulk_downloads():
     aggregate_index = f"{settings.BULK_DOWNLOAD_DIR}/index.json"
     directory_path = ''
     file_paths = default_storage.listdir(directory_path)[1]
-    logger.warn(f"____file_paths____{file_paths}")
 
     if default_storage.exists(aggregate_index):
         with default_storage.open(aggregate_index, "r") as file:
