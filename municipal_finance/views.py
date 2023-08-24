@@ -303,14 +303,11 @@ def table(request, cube_name):
 
 def get_bulk_downloads():
     aggregate_index = f"{settings.BULK_DOWNLOAD_DIR}/index.json"
-    logger.warn(f"___index_1____{aggregate_index}")
-
-    directory_path = ''
-    file_paths = default_storage.listdir(directory_path)[1]
-    logger.warn(f"____file_paths____{file_paths}")
+    #directory_path = ''
+    #file_paths = default_storage.listdir(directory_path)[1]
+    #logger.warn(f"____file_paths____{file_paths}")
 
     if default_storage.exists(aggregate_index):
-        logger.warn(f"___exists__=__true")
         with default_storage.open(aggregate_index, "r") as file:
             data = json.load(file)
         return data
