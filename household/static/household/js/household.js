@@ -3,9 +3,9 @@ function amount_convert(value) {
 }
 function sortCategories(a, b) {
   const categoryOrder = [
-    "Indigent HH receiving FBS",
-    "Affordable Range",
-    "Middle Income Range"
+    'Indigent HH receiving FBS',
+    'Affordable Range',
+    'Middle Income Range',
   ];
 
   const indexA = categoryOrder.indexOf(a.name);
