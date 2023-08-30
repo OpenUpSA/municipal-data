@@ -1,6 +1,17 @@
 function amount_convert(value) {
   return `R ${value.toString()}`;
 }
+function sortCategories(a, b) {
+  const categoryOrder = [
+    "Indigent HH receiving FBS",
+    "Affordable Range",
+    "Middle Income Range"
+  ];
+
+  const indexA = categoryOrder.indexOf(a.name);
+  const indexB = categoryOrder.indexOf(b.name);
+  return indexA - indexB;
+}
 function overall_chart(container, chartData) {
   var data = [];
   let xaxis = [];
@@ -25,6 +36,7 @@ function overall_chart(container, chartData) {
   };
   var config = { displayModeBar: false, responsive: true };
 
+  data.sort(sortCategories);
   Plotly.newPlot(container, data, layout, config);
 }
 
