@@ -213,3 +213,5 @@ $('.informational-video_download-button').on('click', (e) => {
     label: `${title} - ${language} - ${size}`,
   });
 });
+
+$('#features a').attr('href', `${DATA_PORTAL_URL}/docs#general`);

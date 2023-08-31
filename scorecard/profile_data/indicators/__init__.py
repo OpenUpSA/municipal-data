@@ -19,8 +19,12 @@ from .budget_actual import (
 from .codes import (
     V1_INCOME_LOCAL_CODES,
     V1_INCOME_TRANSFERS_CODES,
+    V1_INCOME_ITEMS,
+    V1_SPENDING_CODES,
     V2_INCOME_LOCAL_CODES,
     V2_INCOME_TRANSFERS_CODES,
+    V2_INCOME_ITEMS,
+    V2_SPENDING_CODES,
 )
 from collections import defaultdict
 
@@ -56,6 +60,29 @@ def get_indicator_calculators(has_comparisons=None):
 class RevenueSources(IndicatorCalculator):
     name = "revenue_sources"
     has_comparisons = False
+    reference = "lges"
+    formula = {
+        "text": "= Total revenue",
+        "actual": [
+            "=",
+            {
+                "cube": "incexp",
+                "item_codes": V1_INCOME_ITEMS,
+                "amount_type": "AUDA",
+            },
+        ],
+    }
+    formula_v2 = {
+        "text": "= Total revenue",
+        "actual": [
+            "=",
+            {
+                "cube": "incexp_v2",
+                "item_codes": V2_INCOME_ITEMS,
+                "amount_type": "AUDA",
+            },
+        ],
+    }
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -72,8 +99,12 @@ class RevenueSources(IndicatorCalculator):
             items = v1_data[year]
 
         results = {
-            "local": {"amount": 0, },
-            "government": {"amount": 0, },
+            "local": {
+                "amount": 0,
+            },
+            "government": {
+                "amount": 0,
+            },
             "year": year,
             "ref": api_data.references["lges"],
         }
@@ -102,12 +133,37 @@ class RevenueSources(IndicatorCalculator):
                 results["rating"] = "ave"
             else:
                 results["rating"] = "bad"
+        results["formula"] = cls.formula
+        results["formula_v2"] = cls.formula_v2
         return results
 
 
 class LocalRevenueBreakdown(IndicatorCalculator):
     name = "local_revenue_breakdown"
     has_comparisons = False
+    reference = "lges"
+    formula = {
+        "text": "= Breakdown of local income",
+        "actual": [
+            "=",
+            {
+                "cube": "incexp",
+                "item_codes": V1_INCOME_ITEMS,
+                "amount_type": "AUDA",
+            },
+        ],
+    }
+    formula_v2 = {
+        "text": "= Breakdown of local income",
+        "actual": [
+            "=",
+            {
+                "cube": "incexp_v2",
+                "item_codes": V2_INCOME_ITEMS,
+                "amount_type": "AUDA",
+            },
+        ],
+    }
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -149,7 +205,7 @@ class LocalRevenueBreakdown(IndicatorCalculator):
         values = []
         year_name = "%d" % year
         amount_type = "AUDA"
-        for (label, codes) in groups:
+        for label, codes in groups:
             amount = 0
             has_valid_result = False
             for code in codes:
@@ -167,8 +223,12 @@ class LocalRevenueBreakdown(IndicatorCalculator):
                         "amount_type": amount_type,
                     }
                 )
-
-        return {"values": values}
+        return {
+            "values": values,
+            "formula": cls.formula,
+            "formula_v2": cls.formula_v2,
+            "ref": api_data.references["lges"],
+        }
 
 
 class ExpenditureTrendsContracting(IndicatorCalculator):
@@ -176,6 +236,29 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
     result_type = "%"
     noun = "expenditure"
     has_comparisons = True
+    reference = "lges"
+    formula = {
+        "text": "= Expenditure for services rendered by a contractor",
+        "actual": [
+            "=",
+            {
+                "cube": "incexp",
+                "item_codes": ["4200"],
+                "amount_type": "AUDA",
+            },
+        ],
+    }
+    formula_v2 = {
+        "text": "= Expenditure for services rendered by a contractor",
+        "actual": [
+            "=",
+            {
+                "cube": "incexp_v2",
+                "item_codes": ["2700"],
+                "amount_type": "AUDA",
+            },
+        ],
+    }
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -194,7 +277,11 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
                     contracting_code = "4200"
 
                 total = sum(x["amount.sum"] for x in results)
-                contracting_items = [x["amount.sum"] for x in results if x["item.code"] == contracting_code]
+                contracting_items = [
+                    x["amount.sum"]
+                    for x in results
+                    if x["item.code"] == contracting_code
+                ]
                 contracting = percent(contracting_items[0], total)
                 # Prefer KeyError but crash before we use it in case we have more than expectexd
                 assert len(contracting_items) <= 1
@@ -203,12 +290,19 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
                 contracting = None
 
             values.append(
-                {"date": year, "result": contracting, "rating": "", }
+                {
+                    "date": year,
+                    "result": contracting,
+                    "rating": "",
+                }
             )
 
         return {
             "values": values,
             "result_type": cls.result_type,
+            "formula": cls.formula,
+            "formula_v2": cls.formula_v2,
+            "ref": api_data.references["lges"],
         }
 
 
@@ -217,6 +311,29 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
     result_type = "%"
     noun = "expenditure"
     has_comparisons = True
+    reference = "lges"
+    formula = {
+        "text": "= Total expenditure on salaries and wages",
+        "actual": [
+            "=",
+            {
+                "cube": "incexp",
+                "item_codes": ["3000", "3100"],
+                "amount_type": "AUDA",
+            },
+        ],
+    }
+    formula_v2 = {
+        "text": "= Total expenditure on salaries and wages",
+        "actual": [
+            "=",
+            {
+                "cube": "incexp_v2",
+                "item_codes": ["2000"],
+                "amount_type": "AUDA",
+            },
+        ],
+    }
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -246,18 +363,48 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
                 staff = None
 
             values.append(
-                {"date": year, "result": staff, "rating": "", }
+                {
+                    "date": year,
+                    "result": staff,
+                    "rating": "",
+                }
             )
 
         return {
             "values": values,
             "result_type": cls.result_type,
+            "formula": cls.formula,
+            "formula_v2": cls.formula_v2,
+            "ref": api_data.references["lges"],
         }
 
 
 class ExpenditureFunctionalBreakdown(IndicatorCalculator):
     name = "expenditure_functional_breakdown"
     has_comparisons = False
+    reference = "lges"
+    formula = {
+        "text": "= All expenditure by function",
+        "actual": [
+            "=",
+            {
+                "cube": "incexp",
+                "item_codes": ["4600"],
+                "amount_type": "AUDA",
+            },
+        ],
+    }
+    formula_v2 = {
+        "text": "= All expenditure by function",
+        "actual": [
+            "=",
+            {
+                "cube": "incexp_v2",
+                "item_codes": V2_SPENDING_CODES,
+                "amount_type": "AUDA",
+            },
+        ],
+    }
 
     @classmethod
     def get_muni_specifics(cls, api_data):
@@ -313,6 +460,10 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
             except (KeyError, IndexError):
                 continue
 
-        grouped_results = sorted(
-            grouped_results, key=lambda r: (r["date"], r["item"]))
-        return {"values": grouped_results}
+        grouped_results = sorted(grouped_results, key=lambda r: (r["date"], r["item"]))
+        return {
+            "values": grouped_results,
+            "formula": cls.formula,
+            "formula_v2": cls.formula_v2,
+            "ref": api_data.references["lges"],
+        }

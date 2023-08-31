@@ -8,6 +8,7 @@ import {
   formatForType,
   locale,
   formatPhase,
+  populateHelpSection,
 } from '../utils.js';
 import Dropdown from './dropdown.js';
 import LegendItem from './legend.js';
@@ -175,6 +176,7 @@ export class TransfersSection extends AbstractIncomeSection {
     const initialPeriodOption = this._initDropdown();
     this.selectData(initialPeriodOption[1]);
     this.$element.find('.video_download-button').attr('href', '/help#income-video');
+    populateHelpSection(this.$element);
   }
 
   _initChart() {
@@ -196,8 +198,8 @@ export class TransfersSection extends AbstractIncomeSection {
       for (const phase in phases) {
         const types = phases[phase];
         if ('national_conditional_grants' in types
-            && 'provincial_transfers' in types
-            && 'equitable_share' in types) {
+          && 'provincial_transfers' in types
+          && 'equitable_share' in types) {
           options.push([
             `${formatFinancialYear(year)} ${formatPhase(phase)}`,
             {
@@ -243,7 +245,7 @@ export class TransfersSection extends AbstractIncomeSection {
       ];
       this.chart.data(data);
       const indicatorValue = types.equitable_share
-            + types.national_conditional_grants + types.provincial_transfers;
+        + types.national_conditional_grants + types.provincial_transfers;
       this.$element.find('.indicator-metric__value').text(formatForType('R', indicatorValue));
     }
   }
@@ -300,6 +302,7 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
       this.$element.find('.indicator-metric__value').text(formatForType('R', indicatorValue));
     }
     this.$element.find('.video_download-button').attr('href', '/help#grants-video');
+    populateHelpSection(this.$element);
   }
 
   _initLegend() {
@@ -405,6 +408,7 @@ export class ProvincialTransfersSection extends AbstractIncomeSection {
     this._initLegend();
     const initialPeriodOption = this._initDropdown();
     this.selectData(initialPeriodOption[1]);
+    populateHelpSection(this.$element);
   }
 
   _initChart() {

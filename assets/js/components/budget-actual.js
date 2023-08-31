@@ -9,6 +9,7 @@ import {
   locale,
   formatPhase,
   humaniseRand,
+  populateHelpSection,
 } from '../utils.js';
 import Dropdown from './dropdown.js';
 import LegendItem from './legend.js';
@@ -31,6 +32,7 @@ export class TimeSeriesSection {
     this._initChart();
     this._initLegend();
     this.$element.find('.video_download-button').attr('href', '/help#income-video');
+    populateHelpSection(this.$element);
   }
 
   _initChart() {
@@ -120,5 +122,6 @@ export class AdjustmentsSection {
     this.$element.find('.indicator-chart__legend').css('display', 'block');
 
     this.$element.find('.section-header__info-right').text(formatFinancialYear(this._year));
+    populateHelpSection(this.$element);
   }
 }

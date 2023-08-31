@@ -13,6 +13,28 @@ PROVINCIAL_CODE = re.compile("^00\d\d$")
 class Grants(IndicatorCalculator):
     name = "grants"
     has_comparisons = False
+    formula = {
+        "text": "= Breakdown of income from grants",
+        "actual": [
+            "=",
+            {
+                "cube": "grants_v1",
+                "item_codes": [],
+                "amount_type": "AUDA",
+            },
+        ],
+    }
+    formula_v2 = {
+        "text": "= Breakdown of income from grants",
+        "actual": [
+            "=",
+            {
+                "cube": "grants_v2",
+                "item_codes": [],
+                "amount_type": "AUDA",
+            },
+        ],
+    }
 
     @classmethod
     def get_muni_specifics(cls, api_data):
