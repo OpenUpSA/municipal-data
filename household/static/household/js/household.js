@@ -1,20 +1,45 @@
 function amount_convert(value) {
   return `R ${value.toString()}`;
 }
-function sortCategories(a, b) {
-  const categoryOrder = [
-    'Indigent HH receiving FBS',
-    'Affordable Range',
-    'Middle Income Range',
-  ];
+function sortByClass(classMap) {
+  return function (a, b) {
+    const indexA = classMap.findIndex(obj => obj.name === a.name);
+    const indexB = classMap.findIndex(obj => obj.name === b.name);
 
-  const indexA = categoryOrder.indexOf(a.name);
-  const indexB = categoryOrder.indexOf(b.name);
-  return indexA - indexB;
+    if (indexA !== -1) {
+      a.name = classMap[indexA].chartKey;
+    }
+    if (indexB !== -1) {
+      b.name = classMap[indexB].chartKey;
+    }
+    return indexA - indexB;
+  }
+}
+function sortByClass2(classMap) {
+  return function (a, b) {
+    const indexA = classMap.findIndex(obj => obj.name === a.name);
+    const indexB = classMap.findIndex(obj => obj.name === b.name);
+
+    if (indexA !== -1) {
+      a.name = classMap[indexA].chartKey;
+      a.color = classMap[indexA].barColor.color;
+    }
+    if (indexB !== -1) {
+      b.name = classMap[indexB].chartKey;
+      b.color = classMap[indexB].barColor.color;
+    }
+    return indexA - indexB;
+  }
 }
 function overall_chart(container, chartData) {
   var data = [];
   let xaxis = [];
+  const classMap = [
+    { name: 'Indigent HH receiving FBS', chartKey: 'Indigent (Example A)', barColor: { color: 'rgb(0, 166, 81)' }, },
+    { name: 'Affordable Range', chartKey: 'Affordable (Example B)', barColor: { color: 'rgb(251, 176, 59)' }, },
+    { name: 'Middle Income Range', chartKey: 'Middle Income (Example C)', barColor: { color: 'rgb(237, 28, 36)' }, },
+  ];
+
   for (const [income, value] of Object.entries(chartData)) {
     var region = {
       name: income,
@@ -25,6 +50,12 @@ function overall_chart(container, chartData) {
       text: value.y.map(amount_convert),
     };
     xaxis = _.union(xaxis, value.x);
+
+    classMap.forEach(item => {
+      if (item.name == income) {
+        region.marker = item.barColor;
+      }
+    });
     data.push(region);
   }
   var layout = {
@@ -35,8 +66,7 @@ function overall_chart(container, chartData) {
     },
   };
   var config = { displayModeBar: false, responsive: true };
-
-  data.sort(sortCategories);
+  data.sort(sortByClass(classMap));
   Plotly.newPlot(container, data, layout, config);
 }
 
