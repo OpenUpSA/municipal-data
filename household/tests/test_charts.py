@@ -144,7 +144,7 @@ class HouseholdTest(BaseSeleniumTestCase):
         indigent_section = "#indigent-income-over-time"
 
         self.wait_until_text_in(
-            income_section, "Monthly Total for Income Levels Over Time"
+            income_section, "Comparison of monthly bills between example households"
         )
         self.wait_until_text_in(income_section, "Affordable Range")
         self.wait_until_text_in(income_section, "Indigent HH receiving FBS")
