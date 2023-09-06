@@ -57,7 +57,7 @@ def get_indicator_calculators(has_comparisons=None):
 def sort_by_year(data):
     for category in data:
         category["values"].sort(key=lambda x: x["year"])
-    return sorted(data, key=lambda x: x['category'])
+    return sorted(data, key=lambda x: x["category"])
 
 
 def make_custom_breakdown(api_data):
@@ -326,13 +326,38 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
             ):
                 results_v1.append(item)
 
+        # Combine Community & Social Services and Public Safety
+        comm_results = []
+        public_results = []
+        combined_results_v1 = []
+        for item in results_v1:
+            if item["function.category_label"] == "Community & Social Services":
+                comm_results.append(item)
+            elif item["function.category_label"] == "Public Safety":
+                public_results.append(item)
+            else:
+                combined_results_v1.append(item)
+        for item in public_results:
+            for result in comm_results:
+                if (
+                    result["financial_year_end.year"] == item["financial_year_end.year"]
+                    and result["amount_type.code"] == item["amount_type.code"]
+                ):
+                    res = {
+                        "function.category_label": result["function.category_label"],
+                        "financial_year_end.year": result["financial_year_end.year"],
+                        "amount_type.code": result["amount_type.code"],
+                        "amount.sum": result["amount.sum"] + item["amount.sum"],
+                    }
+            combined_results_v1.append(res)
+
         results_v2 = []
         for item in api_data.results["expenditure_functional_breakdown_v2"]:
             if item["financial_year_end.year"] >= 2019:
                 results_v2.append(item)
 
         results_v2 = make_custom_breakdown(results_v2)
-        results = results_v1 + results_v2
+        results = combined_results_v1 + results_v2
 
         grouped_results = []
         GAPD_values = defaultdict(int)
@@ -346,7 +371,9 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
             tmp_values = []
             for result in yeargroup_list:
                 if result["function.category_label"].strip() in GAPD_categories:
-                    GAPD_values[result["financial_year_end.year"]] += result["amount.sum"]
+                    GAPD_values[result["financial_year_end.year"]] += result[
+                        "amount.sum"
+                    ]
                 else:
                     tmp_values.append(
                         {
