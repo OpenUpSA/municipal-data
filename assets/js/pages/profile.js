@@ -103,6 +103,7 @@ export default class ProfilePage {
     errorBoundary(() => {
       new SpendingBreakdownSection('#what-is-money-spent-on', pageData.indicators.expenditure_functional_breakdown);
     });
+    $("#what-is-money-spent-on .indicator-detail").append("<a href='/help'>See FAQ</a>");
 
     // Household bills
     errorBoundary(() => {
