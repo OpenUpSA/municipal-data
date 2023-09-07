@@ -15,22 +15,6 @@ function sortByClass(classMap) {
     return indexA - indexB;
   };
 }
-function sortByClass2(classMap) {
-  return function (a, b) {
-    const indexA = classMap.findIndex((obj) => obj.name === a.name);
-    const indexB = classMap.findIndex((obj) => obj.name === b.name);
-
-    if (indexA !== -1) {
-      a.name = classMap[indexA].chartKey;
-      a.color = classMap[indexA].barColor.color;
-    }
-    if (indexB !== -1) {
-      b.name = classMap[indexB].chartKey;
-      b.color = classMap[indexB].barColor.color;
-    }
-    return indexA - indexB;
-  };
-}
 function overall_chart(container, chartData) {
   var data = [];
   let xaxis = [];
