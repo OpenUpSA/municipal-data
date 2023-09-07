@@ -27,3 +27,6 @@ class GovernmentFunctionsV2(GovernmentFunctions):
     class Meta:
         db_table = "government_functions_v2"
         verbose_name_plural = "Goverment Functions (v2)"
+
+    def __str__(self):
+        return self.code

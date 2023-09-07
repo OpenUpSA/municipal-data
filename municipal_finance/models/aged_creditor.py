@@ -77,6 +77,9 @@ class AgedCreditorItemsV2(AgedCreditorItems):
         db_table = "aged_creditor_items_v2"
         verbose_name_plural = "Aged Creditor Items (v2)"
 
+    def __str__(self):
+        return self.code
+
 
 class AgedCreditorFactsV2(AgedCreditorFacts):
     item = models.ForeignKey(
