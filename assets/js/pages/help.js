@@ -217,7 +217,7 @@ $('.informational-video_download-button').on('click', (e) => {
 $('#features a').attr('href', `${DATA_PORTAL_URL}/docs#general`);
 
 // Functional breakdown table
-$("#features").append(
+$('#features').append(
   `<section class="sub-section">
   <div id="func-breakdown-faq" class="sub-section__link"></div>
   <h3 class="heading">Spending functional breakdown</h3>
@@ -348,5 +348,5 @@ $("#features").append(
     .func-breakdown td {
       vertical-align: top;
     }
-  </style>`
+  </style>`,
 );
