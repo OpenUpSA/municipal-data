@@ -1,0 +1,2113 @@
+[
+{
+  "model": "household.financialyear",
+  "pk": 1,
+  "fields": {
+    "budget_year": "2015/16"
+  }
+},
+{
+  "model": "household.financialyear",
+  "pk": 2,
+  "fields": {
+    "budget_year": "2016/17"
+  }
+},
+{
+  "model": "household.financialyear",
+  "pk": 3,
+  "fields": {
+    "budget_year": "2017/18"
+  }
+},
+{
+  "model": "household.financialyear",
+  "pk": 4,
+  "fields": {
+    "budget_year": "2018/19"
+  }
+},
+{
+  "model": "household.financialyear",
+  "pk": 5,
+  "fields": {
+    "budget_year": "2019/20"
+  }
+},
+{
+  "model": "household.financialyear",
+  "pk": 6,
+  "fields": {
+    "budget_year": "2020/21"
+  }
+},
+{
+  "model": "household.financialyear",
+  "pk": 7,
+  "fields": {
+    "budget_year": "2021/22"
+  }
+},
+{
+  "model": "household.budgetphase",
+  "pk": 1,
+  "fields": {
+    "name": "Audited Outcome"
+  }
+},
+{
+  "model": "household.budgetphase",
+  "pk": 2,
+  "fields": {
+    "name": "Original Budget"
+  }
+},
+{
+  "model": "household.budgetphase",
+  "pk": 3,
+  "fields": {
+    "name": "Adjusted Budget"
+  }
+},
+{
+  "model": "household.budgetphase",
+  "pk": 4,
+  "fields": {
+    "name": "Budget Year"
+  }
+},
+{
+  "model": "household.budgetphase",
+  "pk": 5,
+  "fields": {
+    "name": "Full Year Forecast"
+  }
+},
+{
+  "model": "household.householdclass",
+  "pk": 1,
+  "fields": {
+    "name": "Middle Income Range",
+    "min_value": "0.00",
+    "max_value": "10000.00"
+  }
+},
+{
+  "model": "household.householdclass",
+  "pk": 2,
+  "fields": {
+    "name": "Affordable Range",
+    "min_value": "0.00",
+    "max_value": "10000.00"
+  }
+},
+{
+  "model": "household.householdclass",
+  "pk": 3,
+  "fields": {
+    "name": "Indigent HH receiving FBS",
+    "min_value": "0.00",
+    "max_value": "10000.00"
+  }
+},
+{
+  "model": "household.householdservice",
+  "pk": 1,
+  "fields": {
+    "name": "Property rates"
+  }
+},
+{
+  "model": "household.householdservice",
+  "pk": 2,
+  "fields": {
+    "name": "Electricity: Basic levy"
+  }
+},
+{
+  "model": "household.householdservice",
+  "pk": 3,
+  "fields": {
+    "name": "Electricity: Consumption"
+  }
+},
+{
+  "model": "household.householdservice",
+  "pk": 4,
+  "fields": {
+    "name": "Water: Basic levy"
+  }
+},
+{
+  "model": "household.householdservice",
+  "pk": 5,
+  "fields": {
+    "name": "Water: Consumption"
+  }
+},
+{
+  "model": "household.householdservice",
+  "pk": 6,
+  "fields": {
+    "name": "Sanitation"
+  }
+},
+{
+  "model": "household.householdservice",
+  "pk": 7,
+  "fields": {
+    "name": "Refuse removal"
+  }
+},
+{
+  "model": "household.householdservice",
+  "pk": 8,
+  "fields": {
+    "name": "Other"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 193,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 194,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 3,
+    "total": "599.27"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 195,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 8,
+    "total": "39.41"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 196,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 1,
+    "total": "405.26"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 197,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 7,
+    "total": "184.30"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 198,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 6,
+    "total": "104.74"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 199,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 200,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 5,
+    "total": "297.94"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 201,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 202,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 3,
+    "total": "59.92"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 203,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 8,
+    "total": "39.41"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 204,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 1,
+    "total": "121.57"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 205,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 7,
+    "total": "184.31"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 206,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 6,
+    "total": "95.69"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 207,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 208,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 5,
+    "total": "71.50"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 209,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 210,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 3,
+    "total": "1198.54"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 211,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 8,
+    "total": "39.41"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 212,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 1,
+    "total": "567.37"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 213,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 7,
+    "total": "184.31"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 214,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 6,
+    "total": "294.33"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 215,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 216,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 5,
+    "total": "357.53"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 217,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 218,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 3,
+    "total": "610.84"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 219,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 8,
+    "total": "43.04"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 220,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 1,
+    "total": "444.16"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 221,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 7,
+    "total": "202.36"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 222,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 6,
+    "total": "115.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 223,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 224,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 5,
+    "total": "326.24"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 225,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 226,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 3,
+    "total": "61.08"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 227,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 8,
+    "total": "43.04"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 228,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 1,
+    "total": "133.24"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 229,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 7,
+    "total": "202.37"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 230,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 6,
+    "total": "105.07"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 231,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 232,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 5,
+    "total": "78.29"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 233,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 234,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 3,
+    "total": "1221.67"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 235,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 8,
+    "total": "43.04"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 236,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 1,
+    "total": "621.84"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 237,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 7,
+    "total": "202.37"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 238,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 6,
+    "total": "323.17"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 239,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 240,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 5,
+    "total": "391.50"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 241,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 242,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 3,
+    "total": "652.62"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 243,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 8,
+    "total": "46.91"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 244,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 1,
+    "total": "444.16"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 245,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 7,
+    "total": "220.57"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 246,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 6,
+    "total": "125.35"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 247,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 248,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 2,
+    "service": 5,
+    "total": "355.60"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 249,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 250,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 3,
+    "total": "65.26"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 251,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 8,
+    "total": "46.91"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 252,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 1,
+    "total": "133.24"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 253,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 7,
+    "total": "220.58"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 254,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 6,
+    "total": "114.53"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 255,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 256,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 3,
+    "service": 5,
+    "total": "85.34"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 257,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 258,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 3,
+    "total": "1305.23"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 259,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 8,
+    "total": "46.91"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 260,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 1,
+    "total": "621.84"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 261,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 7,
+    "total": "220.58"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 262,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 6,
+    "total": "352.26"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 263,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 264,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 1,
+    "service": 5,
+    "total": "426.74"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 265,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 2,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 266,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 2,
+    "service": 3,
+    "total": "737.92"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 267,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 2,
+    "service": 8,
+    "total": "51.28"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 268,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 2,
+    "service": 1,
+    "total": "484.13"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 269,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 2,
+    "service": 7,
+    "total": "241.20"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 270,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 2,
+    "service": 6,
+    "total": "137.13"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 271,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 2,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 272,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 2,
+    "service": 5,
+    "total": "389.03"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 273,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 3,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 274,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 3,
+    "service": 3,
+    "total": "70.77"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 275,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 3,
+    "service": 8,
+    "total": "51.30"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 276,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 3,
+    "service": 1,
+    "total": "116.19"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 277,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 3,
+    "service": 7,
+    "total": "241.74"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 278,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 3,
+    "service": 6,
+    "total": "86.16"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 279,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 3,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 280,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 3,
+    "service": 5,
+    "total": "93.36"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 281,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 1,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 282,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 1,
+    "service": 3,
+    "total": "1475.82"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 283,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 1,
+    "service": 8,
+    "total": "51.28"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 284,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 1,
+    "service": 1,
+    "total": "677.81"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 285,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 1,
+    "service": 7,
+    "total": "241.21"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 286,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 1,
+    "service": 6,
+    "total": "385.37"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 287,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 1,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 288,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 1,
+    "service": 5,
+    "total": "466.85"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 289,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 2,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 290,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 2,
+    "service": 3,
+    "total": "737.92"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 291,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 2,
+    "service": 8,
+    "total": "51.28"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 292,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 2,
+    "service": 1,
+    "total": "484.13"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 293,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 2,
+    "service": 7,
+    "total": "241.20"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 294,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 2,
+    "service": 6,
+    "total": "137.13"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 295,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 2,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 296,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 2,
+    "service": 5,
+    "total": "389.03"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 297,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 3,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 298,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 3,
+    "service": 3,
+    "total": "70.77"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 299,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 3,
+    "service": 8,
+    "total": "51.30"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 300,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 3,
+    "service": 1,
+    "total": "116.19"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 301,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 3,
+    "service": 7,
+    "total": "241.74"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 302,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 3,
+    "service": 6,
+    "total": "86.16"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 303,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 3,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 304,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 3,
+    "service": 5,
+    "total": "93.36"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 305,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 1,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 306,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 1,
+    "service": 3,
+    "total": "1475.82"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 307,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 1,
+    "service": 8,
+    "total": "51.28"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 308,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 1,
+    "service": 1,
+    "total": "677.81"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 309,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 1,
+    "service": 7,
+    "total": "241.21"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 310,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 1,
+    "service": 6,
+    "total": "385.37"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 311,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 1,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 312,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 1,
+    "service": 5,
+    "total": "466.85"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 313,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 2,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 314,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 2,
+    "service": 3,
+    "total": "2506.36"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 315,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 2,
+    "service": 8,
+    "total": "180.62"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 316,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 2,
+    "service": 1,
+    "total": "1699.62"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 317,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 2,
+    "service": 7,
+    "total": "853.72"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 318,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 2,
+    "service": 6,
+    "total": "485.39"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 319,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 2,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 320,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 2,
+    "service": 5,
+    "total": "1385.02"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 321,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 3,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 322,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 3,
+    "service": 3,
+    "total": "240.37"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 323,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 3,
+    "service": 8,
+    "total": "181.02"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 324,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 3,
+    "service": 1,
+    "total": "407.90"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 325,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 3,
+    "service": 7,
+    "total": "861.16"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 326,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 3,
+    "service": 6,
+    "total": "306.93"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 327,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 3,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 328,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 3,
+    "service": 5,
+    "total": "334.53"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 329,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 1,
+    "service": 2,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 330,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 1,
+    "service": 3,
+    "total": "5012.65"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 331,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 1,
+    "service": 8,
+    "total": "180.62"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 332,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 1,
+    "service": 1,
+    "total": "2379.52"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 333,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 1,
+    "service": 7,
+    "total": "853.76"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 334,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 1,
+    "service": 6,
+    "total": "1364.01"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 335,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 1,
+    "service": 4,
+    "total": "0.00"
+  }
+},
+{
+  "model": "household.householdservicetotal",
+  "pk": 336,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 1,
+    "service": 5,
+    "total": "1662.06"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 25,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 2,
+    "percent": 0.0,
+    "total": "1630.92"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 26,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 3,
+    "percent": 0.0,
+    "total": "572.40"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 27,
+  "fields": {
+    "geography": 154,
+    "financial_year": 2,
+    "budget_phase": 1,
+    "household_class": 1,
+    "percent": 0.0,
+    "total": "2641.49"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 28,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 2,
+    "percent": 6.79,
+    "total": "1741.64"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 29,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 3,
+    "percent": 8.86,
+    "total": "623.09"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 30,
+  "fields": {
+    "geography": 154,
+    "financial_year": 3,
+    "budget_phase": 1,
+    "household_class": 1,
+    "percent": 6.14,
+    "total": "2803.59"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 31,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 2,
+    "percent": 5.95,
+    "total": "1845.22"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 32,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 3,
+    "percent": 6.86,
+    "total": "665.86"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 33,
+  "fields": {
+    "geography": 154,
+    "financial_year": 4,
+    "budget_phase": 1,
+    "household_class": 1,
+    "percent": 6.06,
+    "total": "2973.56"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 34,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 2,
+    "percent": 0.0,
+    "total": "2040.69"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 35,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 3,
+    "percent": 0.0,
+    "total": "659.52"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 36,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 3,
+    "household_class": 1,
+    "percent": 0.0,
+    "total": "3298.33"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 37,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 2,
+    "percent": 10.59,
+    "total": "2040.69"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 38,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 3,
+    "percent": -0.95,
+    "total": "659.52"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 39,
+  "fields": {
+    "geography": 154,
+    "financial_year": 5,
+    "budget_phase": 2,
+    "household_class": 1,
+    "percent": 10.92,
+    "total": "3298.33"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 40,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 2,
+    "percent": 23.37,
+    "total": "7110.71"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 41,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 3,
+    "percent": 25.15,
+    "total": "2331.93"
+  }
+},
+{
+  "model": "household.householdbilltotal",
+  "pk": 42,
+  "fields": {
+    "geography": 154,
+    "financial_year": 6,
+    "budget_phase": 4,
+    "household_class": 1,
+    "percent": 22.93,
+    "total": "11452.62"
+  }
+}
+]

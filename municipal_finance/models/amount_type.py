@@ -20,3 +20,6 @@ class AmountTypeV2(models.Model):
     class Meta:
         db_table = "amount_type_v2"
         verbose_name_plural = "Amount Type (v2)"
+
+    def __str__(self):
+        return self.code

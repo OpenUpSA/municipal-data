@@ -1,13 +1,16 @@
 from django.http import Http404
 from django.shortcuts import render
+from django.core.files.storage import default_storage
 
 from .cubes import get_manager
 from .utils import jsonify, serialize, check_page_size
 from .models.data_summaries import Summary
+from municipal_finance import settings
 
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 import json
+
 
 DUMP_FORMATS = ['csv', 'xlsx']
 FORMATS = DUMP_FORMATS + ['json']
@@ -112,8 +115,12 @@ def docs(request):
             'items': items,
         })
 
+    bulk_downloads = get_bulk_downloads()
+
     return render(request, 'docs.html', {
         'cubes': cubes,
+        'bulk_downloads': bulk_downloads,
+        'storage_url': settings.AWS_S3_ENDPOINT_URL,
     })
 
 
@@ -289,3 +296,16 @@ def table(request, cube_name):
         'cube_model': cube,
         'cubes': cubes,
     })
+
+
+def get_bulk_downloads():
+    aggregate_index = f"{settings.BULK_DOWNLOAD_DIR}/index.json"
+    directory_path = ''
+    file_paths = default_storage.listdir(directory_path)[1]
+
+    if default_storage.exists(aggregate_index):
+        with default_storage.open(aggregate_index, "r") as file:
+            data = json.load(file)
+        return data
+    else:
+        return ""

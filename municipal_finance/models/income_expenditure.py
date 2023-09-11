@@ -31,6 +31,9 @@ class IncexpItemsV2(IncexpItems):
         db_table = "incexp_items_v2"
         verbose_name_plural = "Income & Expenditure Items (v2)"
 
+    def __str__(self):
+        return self.code
+
 
 class IncexpFacts(models.Model):
     demarcation_code = models.TextField()

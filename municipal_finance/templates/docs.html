@@ -168,6 +168,31 @@
       </table>
     {% endfor %}
 
+    <h1 id="bulkdownloads">Bulk Downloads</h1>
+    <p><a href="{{ storage_url }}/media/bulk_downloads/index.json" target=”_blank”>Metadata for all cubes</a></p>
+
+    <table class="bulk-downloads">
+      {% for key, value in bulk_downloads.items %}
+        <tr class="bulk-downloads">
+          <td colspan="3">{{ key }} (<a href="{{ storage_url }}/media/bulk_downloads/{{ key }}/index.json" target=”_blank”>Metadata</a>)</td>
+        </tr>
+        {% for file_key, file_year in value.files.items %}
+          <tr class="attribute">
+            <td><p>{{ file_key }}</p></td>
+            {% for file in file_year %}
+              <td>
+                <p>
+                  <a href="{{ storage_url }}/media/bulk_downloads/{{ key }}/{{ file.file_name }}" target=”_blank”>
+                    {{ file.format|upper }} {{ file.file_size|filesizeformat }}
+                  </a>
+                </p>
+              </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      {% endfor %}
+    </table>
+
     <h1 id="general">Using the API</h1>
 
     <p>The API endpoint is <code>http://municipaldata.treasury.gov.za/api</code></p>

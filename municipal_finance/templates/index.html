@@ -19,13 +19,13 @@
   <section>
     <div class="container">
       <div class="row">
-        <div class="col-sm-4" id="years">
+        <div class="col-sm-4" id="years-summary">
           <h2>{{ summary.years.count }} years of data</h2>
           <p class="lead">Financial years {{ summary.years.min|add:"-1"|stringformat:"i" }}-{{summary.years.min|stringformat:"i" }}
             to {{ summary.years.max|add:"-1"|stringformat:"i" }}-{{ summary.years.max|stringformat:"i" }}.</p>
         </div>
 
-        <div class="col-sm-4" id="municipalities">
+        <div class="col-sm-4" id="municipalities-summary">
           <h2>{{ summary.municipalities.total }} municipalities*</h2>
           <p class="lead">
             {{ summary.municipalities.metros }} metros, {{ summary.municipalities.districts }} district and {{summary.municipalities.munis }} local municipalities.
@@ -33,7 +33,7 @@
           </p>
         </div>
 
-        <div class="col-sm-4" id="facts">
+        <div class="col-sm-4" id="facts-summary">
           <h2>{{ summary.facts.count }} facts</h2>
           <p class="lead">Budgeted and actual figures for income and expenditure, cash flow and lots more.</p>
         </div>
@@ -87,7 +87,7 @@
                           <a class="pill pill-info" data-toggle="tooltip" title="{{ cube_detail.1.description }}"><span class="glyphicon glyphicon-info-sign"></span></a>
                           <div class="pill"><a href="/docs#cube-{{ cube.slug }}">Documentation</a></div>
                           {% if cube.no_data == None %}
-                            <div class="pill"><a href="/table/{{ cube.slug }}">Explore Data</a></div>
+                            <div class="pill"><a href="/table/{{ cube.slug }}" value="{{ cube_detail.1.label }}">Explore Data</a></div>
                           {% endif %}
                         </div>
                       </div>
@@ -101,6 +101,12 @@
         </div>
 
         <div class="col-md-4">
+          <h3>Bulk Data Downloads</h3>
+
+          <p class="lead">Explore and download bulk data.</p>
+          <a href="/docs#bulkdownloads" class="btn btn-primary btn-lg">Bulk Downloads</a>
+
+          <br>
           <h3>Municipal Money Website</h3>
 
           <p class="lead">Explore municipal financial performance around South Africa.</p>

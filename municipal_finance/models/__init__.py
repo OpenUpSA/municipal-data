@@ -96,4 +96,3 @@ class AuditOpinionFacts(models.Model):
 
     class Meta:
         db_table = "audit_opinion_facts"
-

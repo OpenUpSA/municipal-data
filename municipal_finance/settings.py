@@ -181,6 +181,7 @@ CONSTANCE_CONFIG = {
         "display on summary and search pages.",
         "year_select",
     ],
+    "IS_SCORECARD_COMPILED": [False, "Has the scorecard been compiled after uploading ", bool]
 }
 
 ROOT_URLCONF = "municipal_finance.urls"
@@ -450,30 +451,21 @@ Q_CLUSTER = {
     "ack_failures": True,  # Dequeue failed tasks
 }
 
-if not DEBUG:
-    DEFAULT_FILE_STORAGE = "municipal_finance.storage.MediaStorage"
-    AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID", "")
-    AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY", "")
-    AWS_STORAGE_BUCKET_NAME = env.str(
-        "AWS_STORAGE_BUCKET_NAME", "munimoney-media"
-    )
-    AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
-    AWS_S3_OBJECT_PARAMETERS = {
-        "CacheControl": "max-age=86400",
-    }
-else:
-    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-    AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY")
-    AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME")
-    AWS_DEFAULT_ACL = "public-read"
-    AWS_BUCKET_ACL = "public-read"
+DEFAULT_FILE_STORAGE = env.str("DEFAULT_FILE_STORAGE", "municipal_finance.storage.MediaStorage")
+AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID", "")
+AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY", "")
+AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME", "")
+AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=86400",
+}
+AWS_S3_ENDPOINT_URL = env.str("AWS_S3_ENDPOINT_URL", None)
+AWS_DEFAULT_ACL = "public-read"
+AWS_BUCKET_ACL = "public-read"
+BULK_DOWNLOAD_DIR = env.str("BULK_DOWNLOAD_DIR", "bulk_downloads")
+
+if DEBUG:
     AWS_AUTO_CREATE_BUCKET = True
-    AWS_S3_ENDPOINT_URL = env.str("AWS_S3_ENDPOINT_URL", None)
-    AWS_S3_REGION_NAME = env.str("AWS_S3_REGION_NAME", None)
-    AWS_S3_SECURE_URLS = env.bool("AWS_S3_SECURE_URLS", True)
-    AWS_S3_CUSTOM_DOMAIN = env.str("AWS_S3_CUSTOM_DOMAIN", None)
-    AWS_S3_FILE_OVERWRITE = False
 
 # Do NOT use this for feature flags. Just use it to tell the outside world
 # which environment messages e.g. logs or errors are coming from.

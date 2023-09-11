@@ -1,5 +1,23 @@
 [
 {
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$qSS54dHL6kZl$7ukhs+8TTggLSdtA1YVdjMB+hfdzBJO5zxveQjq/Dbc=",
+    "last_login": "2023-01-10T11:53:06.079Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-01-10T11:35:52.720Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
   "model": "scorecard.geography",
   "pk": 2,
   "fields": {
@@ -962,6 +980,59 @@
           "result_type": "ratio"
         },
         "revenue_sources": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+        },
+        "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+          },
           "ref": {
             "url": "http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx",
             "title": "Local Government Equitable Share"
@@ -1489,6 +1560,59 @@
           "result_type": "%"
         },
         "local_revenue_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
           "values": [
             {
               "date": "2020",
@@ -1541,6 +1665,33 @@
           ]
         },
         "expenditure_trends_staff": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "3000",
+                        "3100"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
           "values": [
             {
               "date": 2020,
@@ -1799,6 +1950,32 @@
           "result_type": "%"
         },
         "expenditure_trends_contracting": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4200"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2700"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
           "values": [
             {
               "date": 2020,
@@ -1938,6 +2115,42 @@
           "result_type": "%"
         },
         "expenditure_functional_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4600"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000",
+                        "2100",
+                        "2200",
+                        "2300",
+                        "2400",
+                        "2500",
+                        "2600",
+                        "2700",
+                        "2800",
+                        "2900",
+                        "3000"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
           "values": [
             {
               "values": [
@@ -2858,6 +3071,59 @@
           "result_type": "ratio"
         },
         "revenue_sources": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+            },
+            "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+          },
           "ref": {
             "url": "http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx",
             "title": "Local Government Equitable Share"
@@ -3262,6 +3528,59 @@
           "result_type": "%"
         },
         "local_revenue_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
           "values": [
             {
               "date": "2020",
@@ -3296,6 +3615,33 @@
           ]
         },
         "expenditure_trends_staff": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "3000",
+                        "3100"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
           "values": [
             {
               "date": 2020,
@@ -3554,6 +3900,32 @@
           "result_type": "%"
         },
         "expenditure_trends_contracting": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4200"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2700"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
           "values": [
             {
               "date": 2020,
@@ -3692,6 +4064,42 @@
           "result_type": "%"
         },
         "expenditure_functional_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4600"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000",
+                        "2100",
+                        "2200",
+                        "2300",
+                        "2400",
+                        "2500",
+                        "2600",
+                        "2700",
+                        "2800",
+                        "2900",
+                        "3000"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
           "values": []
         }
       },
@@ -4462,6 +4870,59 @@
           "result_type": "ratio"
         },
         "revenue_sources": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+          },
           "ref": {
             "url": "http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx",
             "title": "Local Government Equitable Share"
@@ -4854,6 +5315,59 @@
           "result_type": "%"
         },
         "local_revenue_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
           "values": [
             {
               "date": "2020",
@@ -4888,6 +5402,33 @@
           ]
         },
         "expenditure_trends_staff": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "3000",
+                        "3100"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
           "values": [
             {
               "date": 2020,
@@ -5146,6 +5687,32 @@
           "result_type": "%"
         },
         "expenditure_trends_contracting": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4200"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2700"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
           "values": [
             {
               "date": 2020,
@@ -5285,6 +5852,42 @@
           "result_type": "%"
         },
         "expenditure_functional_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4600"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000",
+                        "2100",
+                        "2200",
+                        "2300",
+                        "2400",
+                        "2500",
+                        "2600",
+                        "2700",
+                        "2800",
+                        "2900",
+                        "3000"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
           "values": []
         }
       },
@@ -5971,6 +6574,59 @@
           "result_type": "ratio"
         },
         "revenue_sources": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+          },
           "ref": {
             "url": "http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx",
             "title": "Local Government Equitable Share"
@@ -6363,9 +7019,89 @@
           "result_type": "%"
         },
         "local_revenue_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
           "values": []
         },
         "expenditure_trends_staff": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "3000",
+                        "3100"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
           "values": [
             {
               "date": 2020,
@@ -6624,6 +7360,32 @@
           "result_type": "%"
         },
         "expenditure_trends_contracting": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4200"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2700"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
           "values": [
             {
               "date": 2020,
@@ -6762,6 +7524,42 @@
           "result_type": "%"
         },
         "expenditure_functional_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4600"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000",
+                        "2100",
+                        "2200",
+                        "2300",
+                        "2400",
+                        "2500",
+                        "2600",
+                        "2700",
+                        "2800",
+                        "2900",
+                        "3000"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
           "values": []
         }
       },
@@ -7539,6 +8337,59 @@
           "result_type": "ratio"
         },
         "revenue_sources": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+            },
+            "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+          },
           "ref": {
             "url": "http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx",
             "title": "Local Government Equitable Share"
@@ -7979,6 +8830,59 @@
           "result_type": "%"
         },
         "local_revenue_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
           "values": [
             {
               "date": "2020",
@@ -8025,6 +8929,33 @@
           ]
         },
         "expenditure_trends_staff": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "3000",
+                        "3100"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
           "values": [
             {
               "date": 2020,
@@ -8283,6 +9214,32 @@
           "result_type": "%"
         },
         "expenditure_trends_contracting": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4200"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2700"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
           "values": [
             {
               "date": 2020,
@@ -8420,6 +9377,42 @@
           "result_type": "%"
         },
         "expenditure_functional_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4600"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000",
+                        "2100",
+                        "2200",
+                        "2300",
+                        "2400",
+                        "2500",
+                        "2600",
+                        "2700",
+                        "2800",
+                        "2900",
+                        "3000"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
           "values": []
         }
       },
@@ -9171,6 +10164,59 @@
           "result_type": "ratio"
         },
         "revenue_sources": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+            },
+            "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+          },
           "ref": {
             "url": "http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx",
             "title": "Local Government Equitable Share"
@@ -9674,6 +10720,59 @@
           "result_type": "%"
         },
         "local_revenue_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
           "values": [
             {
               "date": "2020",
@@ -9720,6 +10819,33 @@
           ]
         },
         "expenditure_trends_staff": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "3000",
+                        "3100"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
           "values": [
             {
               "date": 2020,
@@ -9978,6 +11104,32 @@
           "result_type": "%"
         },
         "expenditure_trends_contracting": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4200"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2700"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
           "values": [
             {
               "date": 2020,
@@ -10116,6 +11268,42 @@
           "result_type": "%"
         },
         "expenditure_functional_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4600"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000",
+                        "2100",
+                        "2200",
+                        "2300",
+                        "2400",
+                        "2500",
+                        "2600",
+                        "2700",
+                        "2800",
+                        "2900",
+                        "3000"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
           "values": []
         }
       },
@@ -10944,6 +12132,59 @@
           "result_type": "ratio"
         },
         "revenue_sources": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+            },
+            "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+          },
           "ref": {
             "url": "http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx",
             "title": "Local Government Equitable Share"
@@ -11459,6 +12700,59 @@
           "result_type": "%"
         },
         "local_revenue_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
           "values": [
             {
               "date": "2020",
@@ -11511,6 +12805,33 @@
           ]
         },
         "expenditure_trends_staff": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "3000",
+                        "3100"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
           "values": [
             {
               "date": 2020,
@@ -11769,6 +13090,32 @@
           "result_type": "%"
         },
         "expenditure_trends_contracting": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4200"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2700"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
           "values": [
             {
               "date": 2020,
@@ -11908,6 +13255,42 @@
           "result_type": "%"
         },
         "expenditure_functional_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4600"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000",
+                        "2100",
+                        "2200",
+                        "2300",
+                        "2400",
+                        "2500",
+                        "2600",
+                        "2700",
+                        "2800",
+                        "2900",
+                        "3000"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
           "values": []
         }
       },
@@ -12309,6 +13692,59 @@
           "result_type": "ratio"
         },
         "revenue_sources": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+            },
+            "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+          },
           "ref": {
             "url": "http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx",
             "title": "Local Government Equitable Share"
@@ -12528,9 +13964,89 @@
           "result_type": "%"
         },
         "local_revenue_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
           "values": []
         },
         "expenditure_trends_staff": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "3000",
+                        "3100"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
           "values": [
             {
               "date": 2020,
@@ -12789,6 +14305,32 @@
           "result_type": "%"
         },
         "expenditure_trends_contracting": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4200"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2700"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
           "values": [
             {
               "date": 2020,
@@ -12929,6 +14471,42 @@
           "result_type": "%"
         },
         "expenditure_functional_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4600"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000",
+                        "2100",
+                        "2200",
+                        "2300",
+                        "2400",
+                        "2500",
+                        "2600",
+                        "2700",
+                        "2800",
+                        "2900",
+                        "3000"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
           "values": []
         }
       },
@@ -13645,6 +15223,59 @@
           "result_type": "ratio"
         },
         "revenue_sources": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+            },
+            "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Total revenue"
+          },
           "ref": {
             "url": "http://mfma.treasury.gov.za/Media_Releases/LGESDiscussions/Pages/default.aspx",
             "title": "Local Government Equitable Share"
@@ -14160,6 +15791,59 @@
           "result_type": "%"
         },
         "local_revenue_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0700",
+                        "0800",
+                        "1000",
+                        "1100",
+                        "1300",
+                        "1400",
+                        "1500",
+                        "1700",
+                        "1800",
+                        "1600",
+                        "1610"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "0200",
+                        "0300",
+                        "0400",
+                        "0500",
+                        "0600",
+                        "0800",
+                        "0900",
+                        "1000",
+                        "1100",
+                        "1200",
+                        "1300",
+                        "1400",
+                        "1600",
+                        "1700",
+                        "1500"
+                    ]
+                }
+            ],
+            "text": "= Breakdown of local income"
+          },
           "values": [
             {
               "date": "2020",
@@ -14206,6 +15890,33 @@
           ]
         },
         "expenditure_trends_staff": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "3000",
+                        "3100"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000"
+                    ]
+                }
+            ],
+            "text": "= Total expenditure on salaries and wages"
+          },
           "values": [
             {
               "date": 2020,
@@ -14464,6 +16175,32 @@
           "result_type": "%"
         },
         "expenditure_trends_contracting": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4200"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2700"
+                    ]
+                }
+            ],
+            "text": "= Expenditure for services rendered by a contractor"
+          },
           "values": [
             {
               "date": 2020,
@@ -14601,6 +16338,42 @@
           "result_type": "%"
         },
         "expenditure_functional_breakdown": {
+          "formula": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp",
+                    "item_codes": [
+                        "4600"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
+          "formula_v2": {
+            "actual": [
+                "=",
+                {
+                    "amount_type": "AUDA",
+                    "cube": "incexp_v2",
+                    "item_codes": [
+                        "2000",
+                        "2100",
+                        "2200",
+                        "2300",
+                        "2400",
+                        "2500",
+                        "2600",
+                        "2700",
+                        "2800",
+                        "2900",
+                        "3000"
+                    ]
+                }
+            ],
+            "text": "= All expenditure by function"
+          },
           "values": []
         }
       },

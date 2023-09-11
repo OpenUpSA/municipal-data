@@ -1,6 +1,6 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Mon Apr 24 2023 10:24:10 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="6200e32ae569ed2f9e14bbf9" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Wed Aug 02 2023 09:03:17 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="6200e32ae569ed2f9e14bbf9" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_description }}" name="description">
@@ -26,7 +26,6 @@
         }
       });
     </script>
-  <!-- [if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" type="text/javascript"></script><![endif] -->
   <script type="text/javascript">
       ! function(o, c) {
         var n = c.documentElement,
@@ -266,7 +265,7 @@
           </div>
           <div id="w-node-_54ec1572-a19d-23ac-5a5a-133d4c7ba1a7-4c7ba190" class="nav-search">
             <div class="nav-search___input w-form">
-              <form id="wf-form-Navigation-Search" name="wf-form-Navigation-Search" data-name="Navigation Search" method="get" class="search-input">
+              <form id="wf-form-Navigation-Search" name="wf-form-Navigation-Search" data-name="Navigation Search" method="get" class="search-input" data-wf-page-id="6200e32ae569ed2f9e14bbf9" data-wf-element-id="54ec1572-a19d-23ac-5a5a-133d4c7ba1a9">
                 <div class="search-input__icon">
                   <div class="fas fa-search"></div>
                 </div><input type="text" class="search-input__field w-input" maxlength="256" name="municipality-search-2" data-name="Municipality Search 2" placeholder="Find a municipality..." id="municipality-search-2">
@@ -379,7 +378,7 @@
       <div class="menu-items">
         <div class="nav-search nav-search--mobile">
           <div class="nav-search___input w-form">
-            <form id="email-form" name="email-form" data-name="Email Form" method="get" class="search-input">
+            <form id="email-form" name="email-form" data-name="Email Form" method="get" class="search-input" data-wf-page-id="6200e32ae569ed2f9e14bbf9" data-wf-element-id="11e1769b-c4cb-1324-05ee-2a6af34ada63">
               <div class="search-input__icon">
                 <div class="fas fa-search"></div>
               </div><input type="text" class="search-input__field search-input__field--mobile w-input" maxlength="256" name="Municipality-Search" data-name="Municipality Search" placeholder="Find a municipality..." id="municipality-search">
@@ -460,6 +459,10 @@
                 <div class="sidebar-link__wrapper">
                   <a href="#household-bills" class="sidebar-link w-inline-block">
                     <div class="sidebar-link__label truncate">Household Bills</div>
+                    <div class="plate plate--rounded plate--black-trans-4"></div>
+                  </a>
+                  <a href="#formula-faq" class="sidebar-link w-inline-block">
+                    <div class="sidebar-link__label truncate">Formula details</div>
                     <div class="plate plate--rounded plate--black-trans-4"></div>
                   </a>
                 </div>
@@ -929,6 +932,13 @@
                 </div>
               </div>
             </section>
+            <section class="sub-section">
+              <div id="formula-faq" class="sub-section__link"></div>
+              <h3 class="heading">Formula details</h3>
+              <div target="_blank" class="rich-text is-space-below w-richtext">
+                <p>Some indicators draw from data that is not available in the Data Explorer however this data is available via the API. <a href="#">More details on the API are available here</a>.</p>
+              </div>
+            </section>
           </section>
           <section id="training" class="grid grid--32px">
             <div class="section-heading__wrapper">
@@ -944,7 +954,14 @@
                 <p>These are all the videos used on Municipal Money for learning about monitoring and managing municipal finances. You are welcome to download and share these for you and others to learn from. Please make sure you acknowledge the source of these videos as <a href="https://municipalmoney.gov.za/">https://municipalmoney.gov.za</a>.</p>
                 <p>The <em>Full size</em> videos are the maximum quality but cost more data to download. The <em>Small size</em> videos are made smaller so you can save data and share them on WhatsApp.</p>
               </div>
-              <div class="informational-video_block">
+              <div class="w-embed">
+                <style>
+                    .informational-video_block {
+                      scroll-margin-top: 60px;
+                    }
+                  </style>
+              </div>
+              <div id="test" class="informational-video_block">
                 <div class="informational-video_video-wrapper">
                   <div class="informational-video_video w-video w-embed"></div>
                 </div>
@@ -994,6 +1011,10 @@
                       </a>
                     </div>
                   </div>
+                  <a href="#" class="information-video_share-link w-inline-block">
+                    <div class="fas fa-link"></div>
+                    <div class="information-video_share-link_url">Copy sharing link</div>
+                  </a>
                 </div>
               </div>
             </section>
@@ -1340,7 +1361,6 @@
   </div>
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=5fb612add2bb520fe31c5c1a" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="{% static 'webflow/js/municipalmoney.js' %}" type="text/javascript"></script>
-  <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
   <script>
       // when the DOM is ready
       $(document).ready(function() {

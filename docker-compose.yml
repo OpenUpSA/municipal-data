@@ -74,6 +74,7 @@ services:
       - AWS_S3_ENDPOINT_URL=http://minio:9000
       - AWS_S3_SECURE_URLS=True
       - AWS_S3_CUSTOM_DOMAIN
+      - BULK_DOWNLOAD_DIR=bulk_downloads
     working_dir: /app
     ports:
       - '8002:8002'
@@ -105,6 +106,7 @@ services:
       - AWS_S3_ENDPOINT_URL=http://minio:9000
       - AWS_S3_SECURE_URLS=True
       - AWS_S3_CUSTOM_DOMAIN
+      - BULK_DOWNLOAD_DIR=bulk_downloads
     working_dir: /app
     depends_on:
       - postgres
@@ -138,6 +140,7 @@ services:
       - AWS_S3_CUSTOM_DOMAIN
       - DJANGO_DEBUG_TOOLBAR
       - NO_INDEX
+      - BULK_DOWNLOAD_DIR=bulk_downloads
     working_dir: /app
     depends_on:
       - postgres
