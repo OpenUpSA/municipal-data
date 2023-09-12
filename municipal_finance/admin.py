@@ -55,6 +55,7 @@ from .resources import (
 from django import forms
 from constance.admin import ConstanceAdmin, ConstanceForm, Config
 from infrastructure import models
+from settings import UPDATE_BULK_DOWNLOADS
 
 
 class CustomConfigForm(ConstanceForm):
@@ -112,11 +113,12 @@ class BaseUpdateAdmin(admin.ModelAdmin):
                 batch_size=10000,
                 hook="municipal_finance.summarise_data.summarise_task",
             )
-            async_task(
-                "municipal_finance.bulk_download.generate_download",
-                task_name="Make bulk download",
-                cube_model=self.cube_model,
-            )
+            if UPDATE_BULK_DOWNLOADS:
+                async_task(
+                    "municipal_finance.bulk_download.generate_download",
+                    task_name="Make bulk download",
+                    cube_model=self.cube_model,
+                )
             obj.save()
 
     def processing_completed(self, obj):
