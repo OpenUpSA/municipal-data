@@ -30,7 +30,7 @@ docker-compose run --rm scorecard yarn dev
 ```
 docker-compose up -d postgres
 docker-compose run --rm scorecard python manage.py migrate
-docker-compose run --rm scorecard python manage.py loaddata demo-data infra-demo-data seeddata
+docker-compose run --rm scorecard python manage.py loaddata demo-data demo-household infra-demo-data seeddata
 docker-compose up scorecard
 ```
 

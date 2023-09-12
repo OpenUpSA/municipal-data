@@ -11,7 +11,6 @@ export class FormulaSection {
     this.$element = $(selector);
 
     this._initCalculation();
-    console.log(key);
   }
 
   _initCalculation() {

@@ -144,11 +144,11 @@ class HouseholdTest(BaseSeleniumTestCase):
         indigent_section = "#indigent-income-over-time"
 
         self.wait_until_text_in(
-            income_section, "Monthly Total for Income Levels Over Time"
+            income_section, "Comparison of monthly bills between example households"
         )
-        self.wait_until_text_in(income_section, "Affordable Range")
-        self.wait_until_text_in(income_section, "Indigent HH receiving FBS")
-        self.wait_until_text_in(income_section, "Middle Income Range")
+        self.wait_until_text_in(income_section, "Affordable (Example B)")
+        self.wait_until_text_in(income_section, "Indigent (Example A)")
+        self.wait_until_text_in(income_section, "Middle Income (Example C)")
         self.wait_until_text_in(income_section, "2020/21")
         self.wait_until_text_in(income_section, "2021/22")
 
