@@ -23,6 +23,7 @@ from .codes import (
     V1_SPENDING_CODES,
     V2_INCOME_LOCAL_CODES,
     V2_INCOME_TRANSFERS_CODES,
+    V2_FUNCTIONAL_BREAKDOWN,
     V2_INCOME_ITEMS,
     V2_SPENDING_CODES,
 )
@@ -55,6 +56,38 @@ def get_indicator_calculators(has_comparisons=None):
         return calculators
     else:
         return [calc for calc in calculators if calc.has_comparisons == has_comparisons]
+
+
+def sort_by_year(data):
+    for category in data:
+        category["values"].sort(key=lambda x: x["year"])
+    return sorted(data, key=lambda x: x["category"])
+
+
+def make_custom_breakdown(api_data):
+    func_breakdown = []
+
+    for item in api_data:
+        category = V2_FUNCTIONAL_BREAKDOWN[item["function.label"]]
+        temp = {
+            "function.category_label": category,
+            "financial_year_end.year": item["financial_year_end.year"],
+            "amount.sum": item["amount.sum"],
+        }
+        func_breakdown.append(temp)
+
+    # aggregate amounts from the same categories
+    result = []
+    temp = {}
+
+    for item in func_breakdown:
+        key = (item["function.category_label"], item["financial_year_end.year"])
+        if key not in temp:
+            temp[key] = item
+            result.append(item)
+        else:
+            temp[key]["amount.sum"] += item["amount.sum"]
+    return result
 
 
 class RevenueSources(IndicatorCalculator):
@@ -415,54 +448,88 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
             "Corporate Services",
         }
         GAPD_label = "Governance, Administration, Planning and Development"
+        # remove overlapping results
+        results_v1 = []
+        for item in api_data.results["expenditure_functional_breakdown"]:
+            if (
+                item["financial_year_end.year"] < 2019
+                and item["amount_type.code"] == "AUDA"
+            ):
+                results_v1.append(item)
 
-        results = api_data.results["expenditure_functional_breakdown_v2"]
+        # Combine Community & Social Services and Public Safety
+        comm_results = []
+        public_results = []
+        combined_results_v1 = []
+        for item in results_v1:
+            if item["function.category_label"] == "Community & Social Services":
+                comm_results.append(item)
+            elif item["function.category_label"] == "Public Safety":
+                public_results.append(item)
+            else:
+                combined_results_v1.append(item)
+        for item in public_results:
+            for result in comm_results:
+                if (
+                    result["financial_year_end.year"] == item["financial_year_end.year"]
+                    and result["amount_type.code"] == item["amount_type.code"]
+                ):
+                    res = {
+                        "function.category_label": result["function.category_label"],
+                        "financial_year_end.year": result["financial_year_end.year"],
+                        "amount_type.code": result["amount_type.code"],
+                        "amount.sum": result["amount.sum"] + item["amount.sum"],
+                    }
+            combined_results_v1.append(res)
+
+        results_v2 = []
+        for item in api_data.results["expenditure_functional_breakdown_v2"]:
+            if item["financial_year_end.year"] >= 2019:
+                results_v2.append(item)
+
+        results_v2 = make_custom_breakdown(results_v2)
+        results = combined_results_v1 + results_v2
+
         grouped_results = []
-        GAPD_total = 0.0
-        GAPD_values = []
-
-        for year, yeargroup in groupby(results, lambda r: r["financial_year_end.year"]):
+        GAPD_values = defaultdict(int)
+        for category, yeargroup in groupby(
+            sorted(results, key=lambda x: x["function.category_label"]),
+            key=lambda x: x["function.category_label"],
+        ):
             yeargroup_list = list(yeargroup)
             if len(yeargroup_list) == 0:
                 continue
-            total = sum(x["amount.sum"] for x in yeargroup_list)
-            try:
-                GAPD_total = 0.0
-                year_name = (
-                    "%d" % year
-                    if year != api_data.budget_year
-                    else ("%s budget" % year)
-                )
-
-                for result in yeargroup_list:
-                    # only do budget for budget year, use AUDA for others
-                    if api_data.check_budget_actual(year, result["amount_type.code"]):
-                        if result["function.category_label"] in GAPD_categories:
-                            GAPD_total += result["amount.sum"]
-                        else:
-                            grouped_results.append(
-                                {
-                                    "amount": result["amount.sum"],
-                                    "percent": percent(result["amount.sum"], total),
-                                    "item": result["function.category_label"],
-                                    "date": year_name,
-                                }
-                            )
-
+            tmp_values = []
+            for result in yeargroup_list:
+                if result["function.category_label"].strip() in GAPD_categories:
+                    GAPD_values[result["financial_year_end.year"]] += result[
+                        "amount.sum"
+                    ]
+                else:
+                    tmp_values.append(
+                        {
+                            "year": result["financial_year_end.year"],
+                            "value": result["amount.sum"],
+                        }
+                    )
+            if tmp_values:
                 grouped_results.append(
                     {
-                        "amount": GAPD_total,
-                        "percent": percent(GAPD_total, total),
-                        "item": GAPD_label,
-                        "date": year_name,
+                        "category": result["function.category_label"],
+                        "values": tmp_values,
                     }
                 )
-            except (KeyError, IndexError):
-                continue
 
-        grouped_results = sorted(grouped_results, key=lambda r: (r["date"], r["item"]))
+        GAPD_result = []
+        for k, v in GAPD_values.items():
+            tmp_dict = {}
+            tmp_dict["year"] = k
+            tmp_dict["value"] = v
+            GAPD_result.append(tmp_dict)
+
+        grouped_results.append({"category": GAPD_label, "values": GAPD_result})
         return {
-            "values": grouped_results,
+            "values": sort_by_year(grouped_results),
             "formula": cls.formula,
             "formula_v2": cls.formula_v2,
             "ref": api_data.references["lges"],

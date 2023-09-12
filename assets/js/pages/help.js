@@ -215,3 +215,138 @@ $('.informational-video_download-button').on('click', (e) => {
 });
 
 $('#features a').attr('href', `${DATA_PORTAL_URL}/docs#general`);
+
+// Functional breakdown table
+$('#features').append(
+  `<section class="sub-section">
+  <div id="func-breakdown-faq" class="sub-section__link"></div>
+  <h3 class="heading">Spending functional breakdown</h3>
+  <h4>Categorization of government functions</h4>
+  <div target="_blank" class="rich-text is-space-below w-richtext">
+    <table class="func-breakdown">
+       <tr>
+        <td><b>Category</b></td>
+        <td><b>Function</b></td>
+      </tr>
+      <tr>
+          <td>Community & Social Services</td>
+          <td>
+            Aged Care<br>
+            Agricultural<br>
+            Animal Care and Diseases<br>
+            Cemeteries, Funeral Parlours and Crematoriums<br>
+            Child Care Facilities<br>
+            Civil Defence<br>
+            Cleansing<br>
+            Community Halls and Facilities<br>
+            Consumer Protection<br>
+            Control of Public Nuisances<br>
+            Cultural Matters<br>
+            Disaster Management<br>
+            Education<br>
+            Fencing and Fences<br>
+            Fire Fighting and Protection<br>
+            Indigenous and Customary Law<br>
+            Industrial Promotion<br>
+            Language Policy<br>
+            Libraries and Archives<br>
+            Licensing and Control of Animals<br>
+            Literacy Programmes<br>
+            Media Services<br>
+            Museums and Art Galleries<br>
+            Police Forces, Traffic and Street Parking Control<br>
+            Population Development<br>
+            Pounds<br>
+            Provincial Cultural Matters<br>
+            Theatres<br>
+            Zoo's
+          </td>
+      </tr>
+      <tr>
+          <td>Electricity</td>
+          <td>Electricity<br>Street Lighting and Signal Systems</td>
+      </tr>
+      <tr>
+          <td>Environmental Protection</td>
+          <td>Biodiversity and Landscape<br>Coastal Protection<br>Indigenous Forests<br>Nature Conservation<br>Pollution Control<br>Soil Conservation</td>
+      </tr>
+      <tr>
+          <td>Governance, Administration, Planning and Development</td>
+          <td>
+            Administrative and Corporate Support<br>
+            Asset Management<br>
+            Billboards<br>Central City Improvement District<br>
+            Corporate Wide Strategic Planning (IDPs, LEDs)<br>
+            Development Facilitation<br>
+            Economic Development/Planning<br>
+            Finance<br>
+            Fleet Management<br>
+            Governance Function<br>
+            Human Resources<br>
+            Information Technology<br>
+            Legal Services<br>
+            Licensing and Regulation<br>
+            Marketing, Customer Relations, Publicity and Media Co-ordination<br>
+            Mayor and Council<br>
+            Municipal Manager, Town Secretary and Chief Executive<br>
+            Project Management Unit<br>
+            Property Services<br>
+            Provincial Planning<br>
+            Regional Planning and Development<br>
+            Risk Management<br>
+            Security Services<br>
+            Supply Chain Management<br>
+            Support to Local Municipalities<br>
+            Town Planning, Building Regulations and Enforcement, and City Engineer<br>
+            Valuation Service
+          </td>
+      </tr>
+      <tr>
+          <td>Health</td>
+          <td>
+            Ambulance<br>
+            Chemical Safety<br>
+            Food Control<br>
+            Health Services<br>
+            Health Surveillance and Prevention of Communicable Diseases including immunizations<br>
+            Laboratory Services<br>
+            Vector Control
+          </td>
+      </tr>
+      <tr>
+          <td>Housing</td>
+          <td>Housing<br>Informal Settlements</td>
+      </tr>
+      <tr>
+          <td>Other</td>
+          <td>Abattoirs<br>Air Transport<br>Forestry<br>Markets<br>Nonelectric Energy<br>Tourism</td>
+      </tr>
+      <tr>
+          <td>Road Transport</td>
+          <td>Public Transport<br>Road and Traffic Regulation<br>Roads<br>Taxi Ranks</td>
+      </tr>
+      <tr>
+          <td>Sport And Recreation</td>
+          <td>Beaches and Jetties<br>Casinos, Racing, Gambling, Wagering<br>Community Parks (including Nurseries)<br>Recreational Facilities<br>Sports Grounds and Stadiums</td>
+      </tr>
+      <tr>
+          <td>Waste Management</td>
+          <td>Recycling<br>Solid Waste Disposal (Landfill Sites)<br>Solid Waste Removal<br>Street Cleaning</td>
+      </tr>
+      <tr>
+          <td>Waste Water Management</td>
+          <td>Public Toilets<br>Sewerage<br>Storm Water Management<br>Waste Water Treatment</td>
+      </tr>
+      <tr>
+          <td>Water</td>
+          <td>Water Distribution<br>Water Storage<br>Water Treatment</td>
+      </tr>
+    </table>
+  </div>
+  </section>
+  <style>
+    .func-breakdown td {
+      vertical-align: top;
+    }
+  </style>`,
+);
