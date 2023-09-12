@@ -458,27 +458,35 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
                 results_v1.append(item)
 
         # Combine Community & Social Services and Public Safety
-        comm_results = []
+        community_results = []
         public_results = []
         combined_results_v1 = []
         for item in results_v1:
             if item["function.category_label"] == "Community & Social Services":
-                comm_results.append(item)
+                community_results.append(item)
             elif item["function.category_label"] == "Public Safety":
                 public_results.append(item)
             else:
                 combined_results_v1.append(item)
-        for item in public_results:
-            for result in comm_results:
+        for public in public_results:
+            res = {
+                "function.category_label": public["function.category_label"],
+                "financial_year_end.year": public["financial_year_end.year"],
+                "amount_type.code": public["amount_type.code"],
+                "amount.sum": public["amount.sum"],
+            }
+
+            for community in community_results:
                 if (
-                    result["financial_year_end.year"] == item["financial_year_end.year"]
-                    and result["amount_type.code"] == item["amount_type.code"]
+                    community["financial_year_end.year"]
+                    == public["financial_year_end.year"]
+                    and community["amount_type.code"] == public["amount_type.code"]
                 ):
                     res = {
-                        "function.category_label": result["function.category_label"],
-                        "financial_year_end.year": result["financial_year_end.year"],
-                        "amount_type.code": result["amount_type.code"],
-                        "amount.sum": result["amount.sum"] + item["amount.sum"],
+                        "function.category_label": community["function.category_label"],
+                        "financial_year_end.year": community["financial_year_end.year"],
+                        "amount_type.code": community["amount_type.code"],
+                        "amount.sum": community["amount.sum"] + public["amount.sum"],
                     }
             combined_results_v1.append(res)
 
