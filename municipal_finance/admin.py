@@ -55,7 +55,7 @@ from .resources import (
 from django import forms
 from constance.admin import ConstanceAdmin, ConstanceForm, Config
 from infrastructure import models
-from settings import UPDATE_BULK_DOWNLOADS
+from .settings import UPDATE_BULK_DOWNLOADS
 
 
 class CustomConfigForm(ConstanceForm):

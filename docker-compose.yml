@@ -26,6 +26,7 @@ services:
       - AWS_S3_SECURE_URLS=True
       - AWS_S3_CUSTOM_DOMAIN
       - UPDATE_BULK_DOWNLOADS=False
+      - BULK_DOWNLOAD_DIR=bulk_downloads_dev
       - DJANGO_DEBUG_TOOLBAR
     ports:
       - '8001:8001'
