@@ -52,13 +52,21 @@ def generate_download(**kwargs):
 
     # Fetch data from relevent cube
     if cube_name in split_cubes:
+        year_list = (
+            cube_model.objects.all()
+            .defer("id")
+            .distinct()
+            .values_list("financial_year", flat=True)
+        )
         if cube_name in disable_xlsx:
-            file_names = split_dump_to_csv(queryset, field_names, cube_model, timestamp)
+            file_names = split_dump_to_csv(
+                field_names, cube_model, timestamp, year_list
+            )
         else:
             xlsx_files = split_dump_to_xlsx(
-                queryset, field_names, cube_model, timestamp
+                field_names, cube_model, timestamp, year_list
             )
-            csv_files = split_dump_to_csv(queryset, field_names, cube_model, timestamp)
+            csv_files = split_dump_to_csv(field_names, cube_model, timestamp, year_list)
             for year in csv_files.keys():
                 file_names[year] = xlsx_files[year] + csv_files[year]
     else:
@@ -151,51 +159,45 @@ def dump_cube_to_xlsx(queryset, field_names, cube_model, timestamp):
     return {all_years: [file_name]}
 
 
-def split_dump_to_xlsx(queryset, field_names, cube_model, timestamp):
-    current_year = 0
-    files = []
-    files_dev = {}
+def split_dump_to_xlsx(field_names, cube_model, timestamp, year_list):
+    files = {}
 
-    for row in queryset:
-        col = 0
+    for year in year_list:
+        file_name = f"{cube_model._meta.db_table}_{year}__{timestamp}.xlsx"
+        file_path = (
+            f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}"
+        )
+        files[year] = [file_name]
+        queryset_year = cube_model.objects.filter(financial_year=year).defer("id")
+        total_rows = queryset_year.count()
+        num_chunks = (total_rows // xlsx_max_rows) + 1
 
-        if row.financial_year != current_year:
-            try:
-                workbook.close()
-                f.close()
-            except:
-                pass
-
-            row_num = 1
-            current_year = row.financial_year
-            file_name = f"{cube_model._meta.db_table}_{current_year}__{timestamp}.xlsx"
-            files.append(f"{file_name}")
-            files_dev[current_year] = [file_name]
-            f = default_storage.open(
-                f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}",
-                "wb",
-            )
-            workbook = xlsxwriter.Workbook(f, {"constant_memory": True})
+        with default_storage.open(file_path, "wb") as file:
+            workbook = xlsxwriter.Workbook(file, {"constant_memory": True})
             worksheet = workbook.add_worksheet()
 
-            # Generalise header for different cube columns
-            for col, header in enumerate(field_names):
-                worksheet.write(0, col, header)
-        else:
-            col_num = 0
-            for field in field_names:
-                value = getattr(row, field)
-                worksheet.write(row_num, col_num, str(value))
-                col_num += 1
-            row_num += 1
+            for col_num, header in enumerate(field_names):
+                worksheet.write(0, col_num, header)
 
-        if row_num > xlsx_max_rows:
-            worksheet = workbook.add_worksheet()
-            row_num = 0
+            # Write data in chunks
+            current_row = 1
+            for chunk_number in range(num_chunks):
+                start_row = chunk_number * xlsx_max_rows
+                end_row = min((chunk_number + 1) * xlsx_max_rows, total_rows)
+                chunk = queryset_year[start_row:end_row]
 
-    workbook.close()
-    f.close()
-    return files_dev
+                for row_num, row in enumerate(chunk):
+                    for col_num, field in enumerate(cube_model._meta.get_fields()):
+                        if field.name != "id":
+                            value = getattr(row, field.name)
+                            worksheet.write(
+                                current_row + row_num, col_num - 1, str(value)
+                            )
+
+                current_row += len(chunk)
+
+            workbook.close()
+    return files
 
 
 def dump_cube_to_csv(queryset, field_names, cube_model, timestamp):
@@ -214,32 +216,20 @@ def dump_cube_to_csv(queryset, field_names, cube_model, timestamp):
     return {all_years: [file_name]}
 
 
-def split_dump_to_csv(queryset, field_names, cube_model, timestamp):
-    current_year = 0
-    files = []
-    files_dev = {}
+def split_dump_to_csv(field_names, cube_model, timestamp, year_list):
+    files = {}
+    for year in year_list:
+        queryset_new = cube_model.objects.filter(financial_year=year).defer("id")
+        file_name = f"{cube_model._meta.db_table}_{year}__{timestamp}.csv"
+        file_path = (
+            f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}"
+        )
+        files[year] = [file_name]
 
-    for item in queryset:
-        if item.financial_year != current_year:
-            try:
-                f.close()
-            except:
-                pass
-
-            current_year = item.financial_year
-            file_name = f"{cube_model._meta.db_table}_{current_year}__{timestamp}.csv"
-            files.append(f"{file_name}")
-            files_dev[current_year] = [file_name]
-            f = default_storage.open(
-                f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}",
-                "wb",
-            )
-
-            writer = csv.DictWriter(f, fieldnames=field_names)
+        with default_storage.open(file_path, "wb") as file:
+            writer = csv.DictWriter(file, fieldnames=field_names)
             writer.writeheader()
-        else:
-            row = {field: getattr(item, field) for field in field_names}
-            writer.writerow(row)
-
-    f.close()
-    return files_dev
+            for item in queryset_new:
+                row = {field: getattr(item, field) for field in field_names}
+                writer.writerow(row)
+    return files
