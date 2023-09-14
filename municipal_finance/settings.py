@@ -469,7 +469,7 @@ if DEBUG:
 
 # Do NOT use this for feature flags. Just use it to tell the outside world
 # which environment messages e.g. logs or errors are coming from.
-ENVIRONMENT = env.str("ENVIRONMENT")
+SENTRY_ENVIRONMENT = env.str("SENTRY_ENVIRONMENT")
 
 SENTRY_DSN = env.str("SENTRY_DSN", None)
 SENTRY_PERF_SAMPLE_RATE = env.float("SENTRY_PERF_SAMPLE_RATE", 0.1)
@@ -482,7 +482,7 @@ if SENTRY_DSN:
         dsn=SENTRY_DSN,
         integrations=[DjangoIntegration()],
         traces_sample_rate=SENTRY_PERF_SAMPLE_RATE,
-        environment=ENVIRONMENT,
+        environment=SENTRY_ENVIRONMENT,
 
         # If you wish to associate users to errors (assuming you are using
         # django.contrib.auth) you may enable sending PII data.
