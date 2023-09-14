@@ -19,8 +19,8 @@ class UpdateAgedCreditorFactsV2(TransactionTestCase):
     serialized_rollback = True
 
     def setUp(self):
-        self.aggregate_index = f"bulk_downloads/index.json"
-        self.cube_index = f"bulk_downloads/aged_creditor_facts_v2/index.json"
+        self.aggregate_index = f"bulk_downloads_dev/index.json"
+        self.cube_index = f"bulk_downloads_dev/aged_creditor_facts_v2/index.json"
 
         import_data(
             AgedCreditorFactsV2Resource,
