@@ -108,6 +108,7 @@ services:
       - AWS_S3_ENDPOINT_URL=http://minio:9000
       - AWS_S3_SECURE_URLS=True
       - AWS_S3_CUSTOM_DOMAIN
+      - UPDATE_BULK_DOWNLOADS=True
       - BULK_DOWNLOAD_DIR=bulk_downloads_dev
     working_dir: /app
     depends_on:
