@@ -26,6 +26,8 @@ YEAR_ITEM_DRILLDOWN = [
 def generate_target_years(origin_year):
     return list(reversed(range(origin_year - 3, origin_year + 1)))
 
+def generate_five_target_years(origin_year):
+    return list(reversed(range(origin_year - 4, origin_year + 1)))
 
 class APIOverloadedException(BaseException):
     pass
@@ -37,6 +39,7 @@ class ApiData(object):
         self.client = client
         self.last_audit_year = last_audit_year
         self.years = generate_target_years(last_audit_year)
+        self.five_years = generate_five_target_years(last_audit_year)
         self.audit_opinion_years = generate_target_years(last_opinion_year)
         self.uifw_years = generate_target_years(last_uifw_year)
         self.last_audit_quarter = last_audit_quarter
@@ -844,7 +847,7 @@ class ApiData(object):
                     "amount_type.code": ["AUDA", "ORGB"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
-                    "financial_year_end.year": self.years + [self.budget_year],
+                    "financial_year_end.year": self.five_years + [self.budget_year],
                 },
                 "drilldown": [
                     "function.category_label",
@@ -863,7 +866,7 @@ class ApiData(object):
                     "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
-                    "financial_year_end.year": self.years + [self.budget_year],
+                    "financial_year_end.year": self.five_years + [self.budget_year],
                 },
                 "drilldown": [
                     "function.label",
