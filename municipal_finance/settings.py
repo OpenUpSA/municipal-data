@@ -483,7 +483,9 @@ if SENTRY_DSN:
         dsn=SENTRY_DSN,
         integrations=[DjangoIntegration()],
         traces_sample_rate=SENTRY_PERF_SAMPLE_RATE,
+        profiles_sample_rate=SENTRY_PERF_SAMPLE_RATE,
         environment=SENTRY_ENVIRONMENT,
+
 
         # If you wish to associate users to errors (assuming you are using
         # django.contrib.auth) you may enable sending PII data.
