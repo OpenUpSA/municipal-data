@@ -16,7 +16,7 @@ services:
       - DJANGO_SECRET_KEY=not-so-secret
       - SITE_ID=2
       - DATA_PORTAL_URL=http://portal:8002
-      - ENVIRONMENT=development
+      - SENTRY_ENVIRONMENT=development
       - SENTRY_DSN
       - SENTRY_PERF_SAMPLE_RATE
       - AWS_ACCESS_KEY_ID=minio-access-key
@@ -64,7 +64,7 @@ services:
     environment:
       - DATABASE_URL=postgres://municipal_finance:municipal_finance@postgres/municipal_finance
       - DJANGO_SECRET_KEY=not-so-secret
-      - ENVIRONMENT=development
+      - SENTRY_ENVIRONMENT=development
       - SENTRY_DSN
       - SENTRY_PERF_SAMPLE_RATE
       - SITE_ID=3
@@ -96,7 +96,7 @@ services:
     environment:
       - DATABASE_URL=postgres://municipal_finance:municipal_finance@postgres/municipal_finance
       - DJANGO_SECRET_KEY=not-so-secret
-      - ENVIRONMENT=development
+      - SENTRY_ENVIRONMENT=development
       - SENTRY_DSN
       - SENTRY_PERF_SAMPLE_RATE
       - SITE_ID=2
@@ -132,7 +132,7 @@ services:
       - DJANGO_SECRET_KEY=not-so-secret
       - SITE_ID=2
       - DATA_PORTAL_URL=http://portal:8002
-      - ENVIRONMENT=development
+      - SENTRY_ENVIRONMENT=development
       - SENTRY_DSN
       - SENTRY_PERF_SAMPLE_RATE
       - AWS_ACCESS_KEY_ID=minio-access-key
