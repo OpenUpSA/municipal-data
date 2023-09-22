@@ -452,7 +452,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         results_v1 = []
         for item in api_data.results["expenditure_functional_breakdown"]:
             if (
-                item["financial_year_end.year"] < 2019
+                item["financial_year_end.year"] < 2020
                 and item["amount_type.code"] == "AUDA"
             ):
                 results_v1.append(item)
