@@ -9,6 +9,9 @@ from datetime import datetime
 from django.core.files.storage import default_storage
 from django.db import transaction
 from django.conf import settings
+import logging
+
+logger = logging.Logger(__name__)
 
 
 split_cubes = [
@@ -54,10 +57,11 @@ def generate_download(**kwargs):
     if cube_name in split_cubes:
         year_list = (
             cube_model.objects.all()
-            .defer("id")
             .distinct()
             .values_list("financial_year", flat=True)
         )
+
+        logger.warn(f"___Year list: {year_list}")
         if cube_name in disable_xlsx:
             file_names = split_dump_to_csv(
                 field_names, cube_model, timestamp, year_list
