@@ -55,7 +55,7 @@ from .resources import (
 from django import forms
 from constance.admin import ConstanceAdmin, ConstanceForm, Config
 from infrastructure import models
-from .settings import UPDATE_BULK_DOWNLOADS
+from .settings import UPDATE_BULK_DOWNLOADS, BULK_DUMP_TIMEOUT
 
 
 class CustomConfigForm(ConstanceForm):
@@ -146,7 +146,7 @@ def follow_up_tasks(task):
                 "municipal_finance.bulk_download.generate_download",
                 task_name="Make bulk download",
                 cube_model=task.kwargs["cube_model"],
-                timeout=72000
+                timeout=BULK_DUMP_TIMEOUT
             )
 
 
