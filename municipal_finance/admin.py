@@ -146,6 +146,7 @@ def follow_up_tasks(task):
                 "municipal_finance.bulk_download.generate_download",
                 task_name="Make bulk download",
                 cube_model=task.kwargs["cube_model"],
+                timeout=72000
             )
 
 
