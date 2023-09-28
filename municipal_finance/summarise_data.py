@@ -62,14 +62,6 @@ FACT_TABLES = [
 ]
 
 
-def summarise_task(task):
-    if task.success:
-        async_task(
-            "municipal_finance.summarise_data.summarise",
-            task_name="Summarise Data",
-        )
-
-
 @transaction.atomic
 def summarise():
     count_facts = 0
