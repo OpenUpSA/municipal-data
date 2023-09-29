@@ -55,7 +55,7 @@ from .resources import (
 from django import forms
 from constance.admin import ConstanceAdmin, ConstanceForm, Config
 from infrastructure import models
-from .settings import UPDATE_BULK_DOWNLOADS
+from .settings import UPDATE_BULK_DOWNLOADS, BULK_DUMP_TIMEOUT
 
 
 class CustomConfigForm(ConstanceForm):
@@ -111,14 +111,9 @@ class BaseUpdateAdmin(admin.ModelAdmin):
                 obj,
                 task_name=self.task_name,
                 batch_size=10000,
-                hook="municipal_finance.summarise_data.summarise_task",
+                hook="municipal_finance.admin.follow_up_tasks",
+                cube_model=self.cube_model,
             )
-            if UPDATE_BULK_DOWNLOADS:
-                async_task(
-                    "municipal_finance.bulk_download.generate_download",
-                    task_name="Make bulk download",
-                    cube_model=self.cube_model,
-                )
             obj.save()
 
     def processing_completed(self, obj):
@@ -138,6 +133,21 @@ class BaseUpdateAdmin(admin.ModelAdmin):
 
     processing_completed.boolean = True
     processing_completed.short_description = "Processing completed"
+
+
+def follow_up_tasks(task):
+    if task.success:
+        async_task(
+            "municipal_finance.summarise_data.summarise",
+            task_name="Summarise Data",
+        )
+        if UPDATE_BULK_DOWNLOADS:
+            async_task(
+                "municipal_finance.bulk_download.generate_download",
+                task_name="Make bulk download",
+                cube_model=task.kwargs["cube_model"],
+                timeout=BULK_DUMP_TIMEOUT
+            )
 
 
 @admin.register(MunicipalStaffContactsUpdate)

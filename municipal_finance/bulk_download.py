@@ -54,10 +54,10 @@ def generate_download(**kwargs):
     if cube_name in split_cubes:
         year_list = (
             cube_model.objects.all()
-            .defer("id")
             .distinct()
             .values_list("financial_year", flat=True)
         )
+
         if cube_name in disable_xlsx:
             file_names = split_dump_to_csv(
                 field_names, cube_model, timestamp, year_list

@@ -438,6 +438,7 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 150,
 }
 
+BULK_DUMP_TIMEOUT = 36000 # 10 hours
 Q_CLUSTER = {
     "name": "DjangORM",
     "workers": 1,

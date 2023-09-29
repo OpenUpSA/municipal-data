@@ -91,6 +91,6 @@ class AgedDebtorFactsUpdater(Updater):
         )
 
 
-def update_aged_debtor_facts_v2(update_obj, batch_size):
+def update_aged_debtor_facts_v2(update_obj, batch_size, **kwargs):
     updater = AgedDebtorFactsUpdater(update_obj, batch_size)
     updater.update()
