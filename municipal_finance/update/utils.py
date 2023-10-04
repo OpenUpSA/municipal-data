@@ -8,7 +8,8 @@ from constance import config
 
 from django.db.models import Q
 from django.db import transaction
-
+import logging
+logger = logging.Logger(__name__)
 
 MONTH_TYPE_RE = re.compile(r"^M\d{2}$")
 
@@ -136,6 +137,7 @@ class Updater(ABC):
             # Delete the existing matching records
             self.update_obj.deleted = 0
             self.update_obj.file.open("r")
+            logger.warn(f"______{self.update_obj.file.url}")
             with closing(self.update_obj.file) as file:
                 lines = iter(file)
                 next(lines)  # Skip header
