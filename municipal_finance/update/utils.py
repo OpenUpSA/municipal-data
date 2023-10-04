@@ -8,7 +8,9 @@ from constance import config
 
 from django.db.models import Q
 from django.db import transaction
+
 import logging
+import botocore
 logger = logging.Logger(__name__)
 
 MONTH_TYPE_RE = re.compile(r"^M\d{2}$")
@@ -136,8 +138,13 @@ class Updater(ABC):
         with transaction.atomic():
             # Delete the existing matching records
             self.update_obj.deleted = 0
-            logger.warn(f"______{self.update_obj.file.url}")
-            self.update_obj.file.open("r")
+            logger.warn(f"___file___{self.update_obj.file.url}")
+            try:
+                self.update_obj.file.open("r")
+            except botocore.exceptions.ClientError as error:
+                logger.warn(f"___error___{error.response['Error']['Message']}")
+                raise error
+
             with closing(self.update_obj.file) as file:
                 lines = iter(file)
                 next(lines)  # Skip header
