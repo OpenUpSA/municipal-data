@@ -136,8 +136,8 @@ class Updater(ABC):
         with transaction.atomic():
             # Delete the existing matching records
             self.update_obj.deleted = 0
-            self.update_obj.file.open("r")
             logger.warn(f"______{self.update_obj.file.url}")
+            self.update_obj.file.open("r")
             with closing(self.update_obj.file) as file:
                 lines = iter(file)
                 next(lines)  # Skip header
