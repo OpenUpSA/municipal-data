@@ -75,6 +75,6 @@ class CashFlowFactsV2Updater(Updater):
         )
 
 
-def update_cash_flow_v2(update_obj, batch_size):
+def update_cash_flow_v2(update_obj, batch_size, **kwargs):
     updater = CashFlowFactsV2Updater(update_obj, batch_size)
     updater.update()

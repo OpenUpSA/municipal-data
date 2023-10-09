@@ -85,6 +85,6 @@ class AgedCreditorFactsUpdater(Updater):
         )
 
 
-def update_aged_creditor_facts_v2(update_obj, batch_size):
+def update_aged_creditor_facts_v2(update_obj, batch_size, **kwargs):
     updater = AgedCreditorFactsUpdater(update_obj, batch_size)
     updater.update()

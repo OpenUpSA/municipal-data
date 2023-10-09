@@ -79,7 +79,7 @@ class IncomeExpenditureFactsV2Updater(Updater):
         )
 
 
-def update_income_expenditure_v2(update_obj, batch_size):
+def update_income_expenditure_v2(update_obj, batch_size, **kwargs):
     updater = IncomeExpenditureFactsV2Updater(
         update_obj, batch_size,
     )
