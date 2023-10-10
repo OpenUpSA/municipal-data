@@ -9,9 +9,6 @@ from constance import config
 from django.db.models import Q
 from django.db import transaction
 
-import logging
-import botocore
-logger = logging.Logger(__name__)
 
 MONTH_TYPE_RE = re.compile(r"^M\d{2}$")
 
@@ -138,9 +135,7 @@ class Updater(ABC):
         with transaction.atomic():
             # Delete the existing matching records
             self.update_obj.deleted = 0
-            logger.warn(f"___file___{self.update_obj.file.url}")
             self.update_obj.file.open("r")
-
             with closing(self.update_obj.file) as file:
                 lines = iter(file)
                 next(lines)  # Skip header
@@ -165,5 +160,5 @@ class Updater(ABC):
                     objects = cls.facts_cls.objects.bulk_create(objects)
                     self.update_obj.inserted += len(objects)
             # Save the status of the update
-            config.IS_SCORECARD_COMPILED  = False
+            config.IS_SCORECARD_COMPILED = False
             self.update_obj.save(update_fields=["deleted", "inserted"])
