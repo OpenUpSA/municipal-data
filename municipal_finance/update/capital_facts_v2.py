@@ -80,6 +80,6 @@ class CapitalFactsV2Updater(Updater):
         )
 
 
-def update_capital_facts_v2(update_obj, batch_size):
+def update_capital_facts_v2(update_obj, batch_size, **kwargs):
     updater = CapitalFactsV2Updater(update_obj, batch_size)
     updater.update()

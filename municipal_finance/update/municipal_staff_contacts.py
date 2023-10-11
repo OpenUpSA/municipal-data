@@ -58,6 +58,6 @@ class MunicipalStaffContactsUpdater(Updater):
         )
 
 
-def update_municipal_staff_contacts(update_obj, batch_size):
+def update_municipal_staff_contacts(update_obj, batch_size, **kwargs):
     updater = MunicipalStaffContactsUpdater(update_obj, batch_size)
     updater.update()

@@ -160,5 +160,5 @@ class Updater(ABC):
                     objects = cls.facts_cls.objects.bulk_create(objects)
                     self.update_obj.inserted += len(objects)
             # Save the status of the update
-            config.IS_SCORECARD_COMPILED  = False
+            config.IS_SCORECARD_COMPILED = False
             self.update_obj.save(update_fields=["deleted", "inserted"])

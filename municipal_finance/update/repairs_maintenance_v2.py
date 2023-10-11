@@ -75,7 +75,7 @@ class RepairsMaintenanceFactsV2Updater(Updater):
         )
 
 
-def update_repairs_maintenance_v2(update_obj, batch_size):
+def update_repairs_maintenance_v2(update_obj, batch_size, **kwargs):
     updater = RepairsMaintenanceFactsV2Updater(
         update_obj, batch_size,
     )

@@ -70,6 +70,6 @@ class GrantFactsUpdater(Updater):
         )
 
 
-def update_grant_facts_v2(update_obj, batch_size):
+def update_grant_facts_v2(update_obj, batch_size, **kwargs):
     updater = GrantFactsUpdater(update_obj, batch_size)
     updater.update()

@@ -56,6 +56,6 @@ class FinancialPositionFactsUpdater(Updater):
         )
 
 
-def update_uifw_expense_facts(update_obj, batch_size):
+def update_uifw_expense_facts(update_obj, batch_size, **kwargs):
     updater = FinancialPositionFactsUpdater(update_obj, batch_size)
     updater.update()

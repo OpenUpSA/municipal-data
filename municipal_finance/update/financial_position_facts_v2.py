@@ -70,6 +70,6 @@ class FinancialPositionFactsUpdater(Updater):
         )
 
 
-def update_financial_position_facts_v2(update_obj, batch_size):
+def update_financial_position_facts_v2(update_obj, batch_size, **kwargs):
     updater = FinancialPositionFactsUpdater(update_obj, batch_size)
     updater.update()

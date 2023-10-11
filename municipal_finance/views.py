@@ -120,7 +120,7 @@ def docs(request):
     return render(request, 'docs.html', {
         'cubes': cubes,
         'bulk_downloads': bulk_downloads,
-        'storage_url': settings.AWS_S3_ENDPOINT_URL,
+        'storage_url': settings.S3_URL_PREFIX,
     })
 
 

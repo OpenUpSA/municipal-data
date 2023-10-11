@@ -52,6 +52,6 @@ class AuditOpinionFactsUpdater(Updater):
         )
 
 
-def update_audit_opinion_facts(update_obj, batch_size):
+def update_audit_opinion_facts(update_obj, batch_size, **kwargs):
     updater = AuditOpinionFactsUpdater(update_obj, batch_size)
     updater.update()
