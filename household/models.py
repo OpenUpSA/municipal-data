@@ -82,7 +82,7 @@ class HouseholdServiceTotal(models.Model):
     budget_phase = models.ForeignKey(BudgetPhase, on_delete=models.CASCADE)
     household_class = models.ForeignKey(HouseholdClass, on_delete=models.CASCADE)
     service = models.ForeignKey(HouseholdService, on_delete=models.CASCADE)
-    total = models.DecimalField(max_digits=25, decimal_places=2, null=True)
+    total = models.DecimalField(max_digits=20, decimal_places=2, null=True)
 
     objects = models.Manager()
     summary = HouseholdServiceTotalQuerySet.as_manager()
@@ -126,7 +126,7 @@ class HouseholdBillTotal(models.Model):
     budget_phase = models.ForeignKey(BudgetPhase, on_delete=models.CASCADE)
     household_class = models.ForeignKey(HouseholdClass, on_delete=models.CASCADE)
     percent = models.FloatField(null=True)
-    total = models.DecimalField(max_digits=15, decimal_places=2, null=True)
+    total = models.DecimalField(max_digits=20, decimal_places=2, null=True)
 
     objects = models.Manager()
     summary = HouseholdBillTotalQuerySet.as_manager()
