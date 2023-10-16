@@ -5,7 +5,7 @@ from django.core.files.storage import default_storage
 from .cubes import get_manager
 from .utils import jsonify, serialize, check_page_size
 from .models.data_summaries import Summary
-from municipal_finance import settings
+from municipal_finance import settings, storage
 
 from django.views.decorators.clickjacking import xframe_options_exempt
 
@@ -300,10 +300,8 @@ def table(request, cube_name):
 
 def get_bulk_downloads():
     aggregate_index = f"{settings.BULK_DOWNLOAD_DIR}/index.json"
+    index = storage.amazon_s3(aggregate_index)
 
-    if default_storage.exists(aggregate_index):
-        with default_storage.open(aggregate_index, "r") as file:
-            data = json.load(file)
+    with open(index.name) as file:
+        data = json.load(file)
         return data
-    else:
-        return ""
