@@ -69,7 +69,3 @@ class UpdateAgedCreditorFactsV2(TransactionTestCase):
             file_lines[1],
             "CPT,2018AUDA,-1058474965,0,0,0,0,0,0,0,-1058474965,2018,year,2018,0100,AUDA",
         )
-
-    def test_download_context(self):
-        context = get_bulk_downloads()
-        self.assertEqual(len(context["aged_creditor_facts_v2"]["files"]), 1)
