@@ -1,3 +1,4 @@
+from django.conf import settings
 from .utils import *
 from .indicator_calculator import IndicatorCalculator
 from .current_ratio import CurrentRatio
@@ -28,7 +29,6 @@ from .codes import (
     V2_SPENDING_CODES,
 )
 from collections import defaultdict
-from . import settings
 
 
 def get_indicator_calculators(has_comparisons=None):
