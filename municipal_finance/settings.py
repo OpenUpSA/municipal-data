@@ -487,20 +487,18 @@ if SENTRY_DSN:
         traces_sample_rate=SENTRY_PERF_SAMPLE_RATE,
         profiles_sample_rate=SENTRY_PERF_SAMPLE_RATE,
         environment=SENTRY_ENVIRONMENT,
-
-
         # If you wish to associate users to errors (assuming you are using
         # django.contrib.auth) you may enable sending PII data.
-        send_default_pii=True
+        send_default_pii=True,
     )
 
-DEBUG_TOOLBAR = os.environ.get(
-    "DJANGO_DEBUG_TOOLBAR", "false").lower() == "true"
-logger.info("Django Debug Toolbar %s." %
-            "enabled" if DEBUG_TOOLBAR else "disabled")
+DEBUG_TOOLBAR = os.environ.get("DJANGO_DEBUG_TOOLBAR", "false").lower() == "true"
+logger.info("Django Debug Toolbar %s." % "enabled" if DEBUG_TOOLBAR else "disabled")
 DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": "municipal_finance.settings.show_toolbar_check"
 }
+
+MSCOA_CUTOFF_YEAR = 2020
 
 
 def show_toolbar_check(request):

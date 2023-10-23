@@ -1,3 +1,4 @@
+from django.conf import settings
 from .utils import *
 from .indicator_calculator import IndicatorCalculator
 from .current_ratio import CurrentRatio
@@ -452,7 +453,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
         results_v1 = []
         for item in api_data.results["expenditure_functional_breakdown"]:
             if (
-                item["financial_year_end.year"] < 2020
+                item["financial_year_end.year"] < settings.MSCOA_CUTOFF_YEAR
                 and item["amount_type.code"] == "AUDA"
             ):
                 results_v1.append(item)
@@ -492,7 +493,7 @@ class ExpenditureFunctionalBreakdown(IndicatorCalculator):
 
         results_v2 = []
         for item in api_data.results["expenditure_functional_breakdown_v2"]:
-            if item["financial_year_end.year"] >= 2019:
+            if item["financial_year_end.year"] > settings.MSCOA_CUTOFF_YEAR:
                 results_v2.append(item)
 
         results_v2 = make_custom_breakdown(results_v2)
