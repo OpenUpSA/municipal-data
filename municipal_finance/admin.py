@@ -25,6 +25,7 @@ from .models import (
     GrantTypesV2,
     CapitalTypeV2,
     DemarcationChanges,
+    ItemCodeSchema,
 )
 from .models import (
     MunicipalStaffContacts,
@@ -146,7 +147,7 @@ def follow_up_tasks(task):
                 "municipal_finance.bulk_download.generate_download",
                 task_name="Make bulk download",
                 cube_model=task.kwargs["cube_model"],
-                timeout=BULK_DUMP_TIMEOUT
+                timeout=BULK_DUMP_TIMEOUT,
             )
 
 
@@ -318,3 +319,26 @@ class DemarcationChangesAdmin(admin.ModelAdmin):
         "old_code_transition",
         "new_code_transition",
     )
+
+
+@admin.register(ItemCodeSchema)
+class ItemCodeSchemaAdmin(admin.ModelAdmin):
+    list_display = ("user", "datetime")
+    readonly_fields = ("user", "import_report")
+
+    task_function = "municipal_finance.update.update_item_code_schema"
+    task_name = "Item Code Schema update"
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super(BaseUpdateAdmin, self).save_model(request, obj, form, change)
+
+        if not change:
+            obj.task_id = async_task(
+                self.task_function,
+                obj,
+                task_name=self.task_name,
+                batch_size=10000,
+            )
+            obj.save()
+    

@@ -116,3 +116,21 @@ class AuditOpinionFactsUpdate(BaseUpdate):
     class Meta:
         db_table = "audit_opinion_facts_update"
         verbose_name = "Audit Opinion Facts Update"
+
+
+class ItemCodeSchema(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, models.DO_NOTHING)
+    datetime = models.DateTimeField(auto_now_add=True)
+    task_id = models.TextField(null=True, editable=False)
+    import_report = models.TextField(null=True)
+    file = models.FileField(
+        upload_to=UpdateFilePath(),
+        max_length=255,
+    )
+
+    file_path = "updates/item_code_schema/"
+
+    class Meta:
+        db_table = "item_code_schema"
+        verbose_name = "Item Code Schema"
