@@ -331,7 +331,6 @@ class ItemCodeSchemaAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         obj.user = request.user
-        super(BaseUpdateAdmin, self).save_model(request, obj, form, change)
 
         if not change:
             obj.task_id = async_task(
@@ -341,4 +340,3 @@ class ItemCodeSchemaAdmin(admin.ModelAdmin):
                 batch_size=10000,
             )
             obj.save()
-    
