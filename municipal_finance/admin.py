@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django_q.tasks import async_task, fetch
+from django.core.files.storage import default_storage
 from import_export.admin import ImportExportModelAdmin
 
 from .models import (
@@ -331,6 +332,7 @@ class ItemCodeSchemaAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         obj.user = request.user
+        super(ItemCodeSchemaAdmin, self).save_model(request, obj, form, change)
 
         if not change:
             obj.task_id = async_task(
