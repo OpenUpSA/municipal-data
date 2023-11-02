@@ -324,8 +324,8 @@ class DemarcationChangesAdmin(admin.ModelAdmin):
 
 @admin.register(ItemCodeSchema)
 class ItemCodeSchemaAdmin(admin.ModelAdmin):
-    list_display = ("user", "datetime")
-    readonly_fields = ("user", "import_report")
+    list_display = ("user", "datetime", "version")
+    readonly_fields = ("user",)
 
     task_function = "municipal_finance.update.update_item_code_schema"
     task_name = "Item Code Schema update"

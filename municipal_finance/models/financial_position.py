@@ -2,6 +2,7 @@ from django.db import models
 
 from .small_auto_field import SmallAutoField
 from .amount_type import AmountTypeV2
+from .updates import ItemCodeSchema
 
 
 class BsheetItems(models.Model):
@@ -64,6 +65,9 @@ class BsheetFactsV1(BsheetFacts):
 class FinancialPositionItemsV2(BsheetItems):
     id = SmallAutoField(primary_key=True)
     code = models.TextField(unique=True)
+    version = models.ForeignKey(
+        ItemCodeSchema, on_delete=models.CASCADE, blank=True, null=True
+    )
 
     class Meta:
         db_table = "financial_position_items_v2"
@@ -71,6 +75,7 @@ class FinancialPositionItemsV2(BsheetItems):
 
     def __str__(self):
         return self.code
+
 
 class FinancialPositionFactsV2(BsheetFacts):
     item = models.ForeignKey(
