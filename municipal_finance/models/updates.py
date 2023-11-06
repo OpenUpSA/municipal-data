@@ -123,7 +123,7 @@ class ItemCodeSchema(models.Model):
     user = models.ForeignKey(User, models.DO_NOTHING)
     datetime = models.DateTimeField(auto_now_add=True)
     task_id = models.TextField(null=True, editable=False)
-    version = models.CharField(max_length=10)
+    version = models.CharField(max_length=10, unique=True)
     file = models.FileField(
         upload_to=UpdateFilePath(),
         max_length=255,

@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django_q.tasks import async_task, fetch
-from django.core.files.storage import default_storage
 from import_export.admin import ImportExportModelAdmin
 
 from .models import (
@@ -54,6 +53,7 @@ from .resources import (
     CapitalTypeV2Resource,
 )
 
+from .forms import FinPosForm
 from django import forms
 from constance.admin import ConstanceAdmin, ConstanceForm, Config
 from infrastructure import models
@@ -224,6 +224,7 @@ class GrantFactsV2UpdateAdmin(BaseUpdateAdmin):
 
 @admin.register(FinancialPositionFactsV2Update)
 class FinancialPositionFactsV2UpdateAdmin(BaseUpdateAdmin):
+    form = FinPosForm
     cube_model = FinancialPositionFactsV2
     task_function = "municipal_finance.update.update_financial_position_facts_v2"
     task_name = "FinancialPosition Facts v2 update"

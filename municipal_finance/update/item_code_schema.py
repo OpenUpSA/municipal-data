@@ -1,6 +1,9 @@
 from django.core.files.storage import default_storage
 import xlrd
 
+from municipal_finance.models import (
+    FinancialPositionItemsV2,
+)
 
 schema_codes = {
     "A6": "finpos",
@@ -8,6 +11,11 @@ schema_codes = {
     "A7": "cashflow",
     "A4": "incexp",
 }
+
+schema_codes_tmp = {
+    "A6": "finpos",
+}
+
 
 def update_item_code_schema(update_obj, batch_size, **kwargs):
     print("__________")
@@ -19,8 +27,11 @@ def update_item_code_schema(update_obj, batch_size, **kwargs):
     sheet = workbook.sheet_by_index(0)
 
     for i in range(sheet.nrows):
-        if sheet.row_values(i)[0].strip() != "":
-            print(sheet.row_values(i))
+        schema_code = sheet.row_values(i)[0].strip()
+        if schema_code != "" and schema_code in schema_codes_tmp:
+            label = sheet.row_values(i)[4].strip()
+            code = sheet.row_values(i)[1].strip()
 
-    # For each model of item code update add codes with the corresponding schema version
-    # It should also be possible to update item codes of a matching schema version
+            FinancialPositionItemsV2.objects.create(
+                code=code, label=label, version=update_obj
+            )

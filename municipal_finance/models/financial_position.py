@@ -64,12 +64,13 @@ class BsheetFactsV1(BsheetFacts):
 
 class FinancialPositionItemsV2(BsheetItems):
     id = SmallAutoField(primary_key=True)
-    code = models.TextField(unique=True)
+    code = models.TextField()
     version = models.ForeignKey(
         ItemCodeSchema, on_delete=models.CASCADE, blank=True, null=True
     )
 
     class Meta:
+        unique_together = ("code", "version")
         db_table = "financial_position_items_v2"
         verbose_name_plural = "Balance Sheet Items (v2)"
 
