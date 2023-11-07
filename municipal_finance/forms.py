@@ -3,10 +3,11 @@ from .models import FinancialPositionFactsV2
 from municipal_finance.models.updates import ItemCodeSchema
 
 class FinPosForm(forms.ModelForm):
-    version = forms.ModelChoiceField(
-        queryset=ItemCodeSchema.objects.all().values_list('version', flat=True),
-        required=True,
-        empty_label='Select a version'
+    most_recent_version = ItemCodeSchema.objects.latest('version')
+    version = forms.CharField(
+        initial=most_recent_version.version if most_recent_version else "",
+        disabled=True,
+        label='Schema version'
     )
     class Meta:
         model = FinancialPositionFactsV2

@@ -1,6 +1,5 @@
-
+from django.db.models import Max
 import csv
-
 from collections import namedtuple
 
 from ..models import (
@@ -40,6 +39,13 @@ class FinancialPositionFactsReader(object):
 class FinancialPositionFactsUpdater(Updater):
     facts_cls = FinancialPositionFactsV2
     reader_cls = FinancialPositionFactsReader
+    schema_version = FinancialPositionItemsV2.objects.aggregate(version=Max('version'))['version']
+    finpos_items = FinancialPositionItemsV2.objects.filter(version=schema_version)
+
+    finpos_dict = {}
+    for item in finpos_items:
+        finpos_dict[str(item)] = item
+
     references_cls = {
         "items": FinancialPositionItemsV2,
         "amount_types": AmountTypeV2,
@@ -56,7 +62,7 @@ class FinancialPositionFactsUpdater(Updater):
             financial_period
         ) = period_code_details(row.period_code)
         amount = int(row.amount) if row.amount else None
-        item = self.references["items"][row.item_code]
+        item = self.finpos_dict[row.item_code]
         amount_type = self.references["amount_types"][amount_type_code]
         return self.facts_cls(
             demarcation_code=row.demarcation_code,
