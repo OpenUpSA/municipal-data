@@ -27,7 +27,6 @@ FinancialPositionFactRow = namedtuple(
 
 
 class FinancialPositionFactsReader(object):
-
     def __init__(self, data):
         self._reader = csv.reader(data)
 
@@ -39,7 +38,9 @@ class FinancialPositionFactsReader(object):
 class FinancialPositionFactsUpdater(Updater):
     facts_cls = FinancialPositionFactsV2
     reader_cls = FinancialPositionFactsReader
-    schema_version = FinancialPositionItemsV2.objects.aggregate(version=Max('version'))['version']
+    schema_version = FinancialPositionItemsV2.objects.aggregate(version=Max("version"))[
+        "version"
+    ]
     finpos_items = FinancialPositionItemsV2.objects.filter(version=schema_version)
 
     finpos_dict = {}
@@ -59,7 +60,7 @@ class FinancialPositionFactsUpdater(Updater):
             financial_year,
             amount_type_code,
             period_length,
-            financial_period
+            financial_period,
         ) = period_code_details(row.period_code)
         amount = int(row.amount) if row.amount else None
         item = self.finpos_dict[row.item_code]
