@@ -1,4 +1,4 @@
-
+from django.db.models import Max
 import csv
 import requests
 
@@ -34,7 +34,6 @@ IncomeExpenditureFactRow = namedtuple(
 
 
 class IncomeExpenditureFactsReader(object):
-
     def __init__(self, data):
         self._reader = csv.reader(data)
 
@@ -51,6 +50,13 @@ class IncomeExpenditureFactsV2Updater(Updater):
         "items": IncexpItemsV2,
         "functions": GovernmentFunctionsV2,
     }
+    schema_version = references_cls["items"].objects.aggregate(version=Max("version"))[
+        "version"
+    ]
+    ref_items = references_cls["items"].objects.filter(version=schema_version)
+    item_map = {}
+    for item in ref_items:
+        item_map[str(item)] = item
 
     def build_unique_query(self, rows):
         return build_unique_query_params_with_period(rows)
@@ -60,10 +66,10 @@ class IncomeExpenditureFactsV2Updater(Updater):
             financial_year,
             amount_type_code,
             period_length,
-            financial_period
+            financial_period,
         ) = period_code_details(row.period_code)
         amount = int(row.amount) if row.amount else None
-        item = self.references["items"][row.item_code]
+        item = self.item_map["items"][row.item_code]
         function = self.references["functions"][row.function_code]
         amount_type = self.references["amount_types"][amount_type_code]
         return IncexpFactsV2(
@@ -81,6 +87,7 @@ class IncomeExpenditureFactsV2Updater(Updater):
 
 def update_income_expenditure_v2(update_obj, batch_size, **kwargs):
     updater = IncomeExpenditureFactsV2Updater(
-        update_obj, batch_size,
+        update_obj,
+        batch_size,
     )
     updater.update()

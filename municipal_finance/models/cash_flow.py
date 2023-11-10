@@ -2,6 +2,7 @@ from django.db import models
 
 from .small_auto_field import SmallAutoField
 from .amount_type import AmountTypeV2
+from .updates import ItemCodeSchema
 
 
 class CflowFacts(models.Model):
@@ -36,9 +37,7 @@ class CflowItemsV1(CflowItems):
 
 class CflowFactsV1(CflowFacts):
     item_code = models.ForeignKey(
-        CflowItemsV1,
-        models.DO_NOTHING,
-        db_column="item_code"
+        CflowItemsV1, models.DO_NOTHING, db_column="item_code"
     )
     amount_type_code = models.TextField()
 
@@ -63,14 +62,19 @@ class CflowFactsV1(CflowFacts):
 
 class CflowItemsV2(CflowItems):
     id = SmallAutoField(primary_key=True)
-    code = models.TextField(unique=True)
+    code = models.TextField()
+    version = models.ForeignKey(
+        ItemCodeSchema, on_delete=models.CASCADE, blank=True, null=True
+    )
 
     class Meta:
+        unique_together = ("code", "version")
         db_table = "cflow_items_v2"
         verbose_name_plural = "Cash Flow Items (v2)"
 
     def __str__(self):
         return self.code
+
 
 class CflowFactsV2(CflowFacts):
     id = models.BigAutoField(primary_key=True)
