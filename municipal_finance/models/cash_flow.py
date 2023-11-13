@@ -68,7 +68,7 @@ class CflowItemsV2(CflowItems):
     )
 
     class Meta:
-        unique_together = ("code", "version")
+        #unique_together = ("code", "version")
         db_table = "cflow_items_v2"
         verbose_name_plural = "Cash Flow Items (v2)"
 
