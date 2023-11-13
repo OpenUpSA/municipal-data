@@ -56,7 +56,6 @@ class CapitalFactsV2Updater(Updater):
     for item in ref_items:
         item_map[str(item)] = item
 
-
     def build_unique_query(self, rows):
         return build_unique_query_params_with_period(rows)
 
