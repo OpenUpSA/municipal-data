@@ -34,21 +34,6 @@ class Migration(migrations.Migration):
             name='code',
             field=models.TextField(),
         ),
-        migrations.CreateModel(
-            name='ItemCodeSchema',
-            fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('datetime', models.DateTimeField(auto_now_add=True)),
-                ('task_id', models.TextField(editable=False, null=True)),
-                ('version', models.CharField(max_length=10, unique=True)),
-                ('file', models.FileField(max_length=255, upload_to=municipal_finance.models.updates.UpdateFilePath())),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL)),
-            ],
-            options={
-                'verbose_name': 'Item Code Schema',
-                'db_table': 'item_code_schema',
-            },
-        ),
         migrations.AddField(
             model_name='capitalitemsv2',
             name='version',
