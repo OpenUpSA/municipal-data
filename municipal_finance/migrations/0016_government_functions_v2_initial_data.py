@@ -11,7 +11,7 @@ from ..resources import GovernmentFunctionsV2Resource
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('municipal_finance', '0015_cashflow_items_v2_initial_data'),
+        ('municipal_finance', '0014_amount_type_v2_initial_data'),
     ]
 
     operations = [

@@ -3,7 +3,15 @@
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
-import municipal_finance.models.updates
+
+from . import run_data_import
+
+from ..resources import (
+    CashflowItemsV2Resource,
+    IncexpItemsV2Resource,
+    FinancialPositionItemsV2Resource,
+    CapitalItemsV2Resource
+)
 
 
 class Migration(migrations.Migration):
@@ -66,4 +74,13 @@ class Migration(migrations.Migration):
             name='incexpitemsv2',
             unique_together={('code', 'version')},
         ),
+        run_data_import(CashflowItemsV2Resource, 'cash_flow_items_v2.csv'),
+        run_data_import(
+            IncexpItemsV2Resource, 'income_expenditure_items_v2.csv',
+        ),
+        run_data_import(
+            FinancialPositionItemsV2Resource,
+            'financial_position_items_v2.csv',
+        ),
+        run_data_import(CapitalItemsV2Resource, 'capital_items_v2.csv'),
     ]
