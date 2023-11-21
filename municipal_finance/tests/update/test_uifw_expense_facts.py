@@ -9,7 +9,6 @@ from ...utils import import_data
 from ...models import (
     UIFWExpenseFacts,
     UIFWExpenseFactsUpdate,
-    ItemCodeSchema,
 )
 
 from ..resources import UIFWExpenseFactsResource
@@ -34,10 +33,6 @@ class UpdateAgedDebtorFactsV2(TransactionTestCase):
         self.insert_obj = UIFWExpenseFactsUpdate.objects.create(
             user=self.user,
             file=File(open(f"{FIXTURES_PATH}/insert.csv", "rb")),
-        )
-        ItemCodeSchema.objects.get_or_create(
-            id=1,
-            version=0,
         )
         self.update_obj = UIFWExpenseFactsUpdate.objects.create(
             user=self.user,
