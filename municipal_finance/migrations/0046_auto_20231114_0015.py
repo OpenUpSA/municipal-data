@@ -7,6 +7,8 @@ import django.db.models.deletion
 from . import run_data_import
 
 from ..resources import (
+    CapitalTypeV2Resource,
+    CapitalItemsV1Resource,
     CashflowItemsV2Resource,
     IncexpItemsV2Resource,
     FinancialPositionItemsV2Resource,
@@ -74,6 +76,8 @@ class Migration(migrations.Migration):
             name='incexpitemsv2',
             unique_together={('code', 'version')},
         ),
+        run_data_import(CapitalItemsV1Resource, 'capital_items_v1.csv'),
+        run_data_import(CapitalTypeV2Resource, 'capital_type_v2.csv'),
         run_data_import(CashflowItemsV2Resource, 'cash_flow_items_v2.csv'),
         run_data_import(
             IncexpItemsV2Resource, 'income_expenditure_items_v2.csv',
