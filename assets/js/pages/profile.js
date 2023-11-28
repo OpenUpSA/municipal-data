@@ -151,8 +151,7 @@ export default class ProfilePage {
     const householdPercent = pageData.household_percent;
 
     $('#income-over-time .indicator-metric').hide();
-
-    if (householdPercent.Middle) {
+    if (chartData) {
       $('#income-over-time .financial-period').empty();
       overall_chart($('#income-over-time .indicator-chart')[0], chartData);
 
