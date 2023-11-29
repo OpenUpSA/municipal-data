@@ -69,7 +69,7 @@ class IncomeExpenditureFactsV2Updater(Updater):
             financial_period,
         ) = period_code_details(row.period_code)
         amount = int(row.amount) if row.amount else None
-        item = self.item_map["items"][row.item_code]
+        item = self.item_map[row.item_code]
         function = self.references["functions"][row.function_code]
         amount_type = self.references["amount_types"][amount_type_code]
         return IncexpFactsV2(
