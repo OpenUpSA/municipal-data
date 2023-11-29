@@ -159,6 +159,8 @@ class FileTest(TransactionTestCase):
 
         self.assertEquals(AnnualSpendFile.objects.all().count(), 0)
         orm_count = OrmQ.objects.count()
+        print("______OrmQ_count______")
+        print(OrmQ.objects.count())
 
         # the app name, the name of the model and the name of the view
         upload_url = reverse('admin:infrastructure_annualspendfile_add')
@@ -170,6 +172,8 @@ class FileTest(TransactionTestCase):
         spend_file = AnnualSpendFile.objects.get(id=1)
         self.assertEquals(spend_file.status, AnnualSpendFile.PROGRESS)
 
+        print("______OrmQ_count______")
+        print(OrmQ.objects.count())
         self.assertEqual(OrmQ.objects.count(), orm_count + 1)
         task = OrmQ.objects.get(id=orm_count+1)
         task_method = task.func()
