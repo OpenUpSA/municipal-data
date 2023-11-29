@@ -323,14 +323,12 @@ class DemarcationChangesAdmin(admin.ModelAdmin):
 
 @admin.register(ItemCodeSchema)
 class ItemCodeSchemaAdmin(admin.ModelAdmin):
-    list_display = ("user", "datetime", "version")
-    readonly_fields = ("user",)
+    list_display = ("datetime", "version")
 
     task_function = "municipal_finance.update.update_item_code_schema"
     task_name = "Item Code Schema update"
 
     def save_model(self, request, obj, form, change):
-        obj.user = request.user
         super(ItemCodeSchemaAdmin, self).save_model(request, obj, form, change)
 
         if not change:

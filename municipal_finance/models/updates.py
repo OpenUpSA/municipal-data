@@ -120,7 +120,6 @@ class AuditOpinionFactsUpdate(BaseUpdate):
 
 class ItemCodeSchema(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, models.DO_NOTHING)
     datetime = models.DateTimeField(auto_now_add=True)
     task_id = models.TextField(null=True, editable=False)
     version = models.CharField(max_length=10, unique=True)
