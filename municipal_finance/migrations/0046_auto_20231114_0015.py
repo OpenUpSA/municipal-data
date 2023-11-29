@@ -16,6 +16,12 @@ from ..resources import (
 )
 
 
+def add_new_schema(apps, schema_editor):
+    schema = apps.get_model('municipal_finance', 'ItemCodeSchema')
+    version = schema(version=0)
+    version.save()
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -76,6 +82,7 @@ class Migration(migrations.Migration):
             name='incexpitemsv2',
             unique_together={('code', 'version')},
         ),
+        migrations.RunPython(add_new_schema),
         run_data_import(CapitalItemsV1Resource, 'capital_items_v1.csv'),
         run_data_import(CapitalTypeV2Resource, 'capital_type_v2.csv'),
         run_data_import(CashflowItemsV2Resource, 'cash_flow_items_v2.csv'),

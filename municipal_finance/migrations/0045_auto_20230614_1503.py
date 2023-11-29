@@ -6,12 +6,6 @@ import django.db.models.deletion
 import municipal_finance.models.updates
 
 
-def add_new_schema(apps, schema_editor):
-    schema = apps.get_model('municipal_finance', 'ItemCodeSchema')
-    version = schema(version=0)
-    version.save()
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -143,5 +137,4 @@ class Migration(migrations.Migration):
                 'db_table': 'item_code_schema',
             },
         ),
-        migrations.RunPython(add_new_schema),
     ]
