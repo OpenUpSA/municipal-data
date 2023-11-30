@@ -15,4 +15,70 @@ class Migration(migrations.Migration):
             name='code',
             field=models.TextField(primary_key=True, serialize=False),
         ),
+        migrations.AlterField(
+            model_name='capitalitemsv2',
+            name='code',
+            field=models.TextField(),
+        ),
+        migrations.AlterField(
+            model_name='cflowitemsv2',
+            name='code',
+            field=models.TextField(),
+        ),
+        migrations.AlterField(
+            model_name='financialpositionitemsv2',
+            name='code',
+            field=models.TextField(),
+        ),
+        migrations.AlterField(
+            model_name='incexpitemsv2',
+            name='code',
+            field=models.TextField(),
+        ),
+        migrations.AddField(
+            model_name='capitalitemsv2',
+            name='version',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='municipal_finance.ItemCodeSchema'),
+        ),
+        migrations.AddField(
+            model_name='cflowitemsv2',
+            name='version',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='municipal_finance.ItemCodeSchema'),
+        ),
+        migrations.AddField(
+            model_name='financialpositionitemsv2',
+            name='version',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='municipal_finance.ItemCodeSchema'),
+        ),
+        migrations.AddField(
+            model_name='incexpitemsv2',
+            name='version',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='municipal_finance.ItemCodeSchema'),
+        ),
+        migrations.AlterUniqueTogether(
+            name='capitalitemsv2',
+            unique_together={('code', 'version')},
+        ),
+        migrations.AlterUniqueTogether(
+            name='financialpositionitemsv2',
+            unique_together={('code', 'version')},
+        ),
+        migrations.AlterUniqueTogether(
+            name='incexpitemsv2',
+            unique_together={('code', 'version')},
+        ),
+        migrations.CreateModel(
+            name='ItemCodeSchema',
+            fields=[
+                ('id', models.AutoField(primary_key=True, serialize=False)),
+                ('datetime', models.DateTimeField(auto_now_add=True)),
+                ('task_id', models.TextField(editable=False, null=True)),
+                ('version', models.CharField(max_length=10, unique=True)),
+                ('file', models.FileField(max_length=255, upload_to=municipal_finance.models.updates.UpdateFilePath())),
+            ],
+            options={
+                'verbose_name': 'Item Code Schema',
+                'db_table': 'item_code_schema',
+            },
+        ),
     ]
