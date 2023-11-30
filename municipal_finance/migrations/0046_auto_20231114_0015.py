@@ -3,6 +3,7 @@
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
+import municipal_finance.models.updates
 
 from . import run_data_import
 
@@ -81,6 +82,20 @@ class Migration(migrations.Migration):
         migrations.AlterUniqueTogether(
             name='incexpitemsv2',
             unique_together={('code', 'version')},
+        ),
+        migrations.CreateModel(
+            name='ItemCodeSchema',
+            fields=[
+                ('id', models.AutoField(primary_key=True, serialize=False)),
+                ('datetime', models.DateTimeField(auto_now_add=True)),
+                ('task_id', models.TextField(editable=False, null=True)),
+                ('version', models.CharField(max_length=10, unique=True)),
+                ('file', models.FileField(max_length=255, upload_to=municipal_finance.models.updates.UpdateFilePath())),
+            ],
+            options={
+                'verbose_name': 'Item Code Schema',
+                'db_table': 'item_code_schema',
+            },
         ),
         migrations.RunPython(add_new_schema),
         run_data_import(CapitalItemsV1Resource, 'capital_items_v1.csv'),
