@@ -25,4 +25,9 @@ class Migration(migrations.Migration):
                 'db_table': 'item_code_schema',
             },
         ),
+        migrations.AlterField(
+            model_name='conditionalgranttypesv1',
+            name='code',
+            field=models.TextField(primary_key=True, serialize=False),
+        ),
     ]

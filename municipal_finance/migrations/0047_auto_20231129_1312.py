@@ -94,9 +94,4 @@ class Migration(migrations.Migration):
             'financial_position_items_v2.csv',
         ),
         run_data_import(CapitalItemsV2Resource, 'capital_items_v2.csv'),
-        migrations.AlterField(
-            model_name='conditionalgranttypesv1',
-            name='code',
-            field=models.TextField(primary_key=True, serialize=False),
-        ),
     ]
