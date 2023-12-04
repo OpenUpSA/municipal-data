@@ -9,6 +9,8 @@ FIXTURES_PATH = "municipal_finance/fixtures/tests/update/"
 
 
 class UpdateItemSchema(TransactionTestCase):
+    serialized_rollback = True
+
     def setUp(self):
         self.insert_obj = ItemCodeSchema.objects.create(
             version=1,
