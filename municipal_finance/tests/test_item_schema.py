@@ -23,14 +23,15 @@ class UpdateItemSchema(TransactionTestCase):
 
     def test_schema_codes(self):
         items = CflowItemsV2.objects.all()
-        self.assertEqual(items.count(), 0)
+        self.assertEqual(items.count(), 32)
 
         update_item_code_schema(
             self.insert_obj,
             batch_size=4,
         )
         uploaded_items = CflowItemsV2.objects.all()
-        self.assertEqual(uploaded_items.count(), 5)
+        # Expecting 5 more items
+        self.assertEqual(uploaded_items.count(), 37)
 
         item_code = CflowItemsV2.objects.get(code="0110")
         self.assertEqual(item_code.code, "0110")
