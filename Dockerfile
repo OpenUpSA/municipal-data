@@ -1,4 +1,4 @@
-FROM nikolaik/python-nodejs:python3.11-nodejs20
+FROM nikolaik/python-nodejs:python3.9-nodejs21
 
 ENV POETRY_VIRTUALENVS_CREATE false \
     PIP_NO_CACHE_DIR off \
