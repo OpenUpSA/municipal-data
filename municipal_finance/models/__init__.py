@@ -81,6 +81,7 @@ from .updates import (
     GrantFactsV2Update,
     CapitalFactsV2Update,
     AuditOpinionFactsUpdate,
+    ItemCodeSchema,
 )
 from .demarcation_changes import DemarcationChanges
 

@@ -54,6 +54,7 @@ class CashflowItemsV2Resource(resources.ModelResource):
             "position_in_return_form",
             "return_form_structure",
             "composition",
+            "version",
         )
 
 
