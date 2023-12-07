@@ -6,6 +6,7 @@ from .government_functions import (
     GovernmentFunctionsV2,
 )
 from .amount_type import AmountTypeV2
+from .updates import ItemCodeSchema
 
 
 class CapitalItems(models.Model):
@@ -40,9 +41,7 @@ class CapitalItemsV1(CapitalItems):
 class CapitalFactsV1(CapitalFacts):
     amount_type_code = models.TextField()
     function_code = models.ForeignKey(
-        GovernmentFunctionsV1,
-        models.DO_NOTHING,
-        db_column="function_code"
+        GovernmentFunctionsV1, models.DO_NOTHING, db_column="function_code"
     )
     item_code = models.ForeignKey(
         CapitalItemsV1,
@@ -91,9 +90,13 @@ class CapitalTypeV2(models.Model):
 
 class CapitalItemsV2(CapitalItems):
     id = SmallAutoField(primary_key=True)
-    code = models.TextField(unique=True)
+    code = models.TextField()
+    version = models.ForeignKey(
+        ItemCodeSchema, on_delete=models.CASCADE, blank=True, null=True
+    )
 
     class Meta:
+        unique_together = ("code", "version")
         db_table = "capital_items_v2"
 
     def __str__(self):

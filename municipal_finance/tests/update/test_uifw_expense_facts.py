@@ -1,4 +1,3 @@
-
 from django.test import TransactionTestCase
 from django.core.files import File
 from django.contrib.auth.models import User
@@ -27,7 +26,9 @@ class UpdateAgedDebtorFactsV2(TransactionTestCase):
             f"{FIXTURES_PATH}/uifw_expense_facts.csv",
         )
         self.user = User.objects.create_user(
-            username="sample", email="sample@some.co", password="testpass",
+            username="sample",
+            email="sample@some.co",
+            password="testpass",
         )
         self.insert_obj = UIFWExpenseFactsUpdate.objects.create(
             user=self.user,
