@@ -3,7 +3,7 @@ import unittest
 from infrastructure import models
 from scorecard.models import Geography
 from django.db import transaction
-import xlrd
+import xlrd3 as xlrd
 import logging
 import json
 

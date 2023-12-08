@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from django.contrib.admin.sites import AdminSite
 from django_q.models import OrmQ
 import rest_framework.response
-import xlrd
 
 from infrastructure.models import FinancialYear, QuarterlySpendFile, AnnualSpendFile, Expenditure, Project, BudgetPhase, ProjectQuarterlySpend
 from infrastructure.tests import utils
