@@ -1,6 +1,6 @@
 {% load static %}
 {% load staticfiles pipeline json_script_escape %}
-<!DOCTYPE html><!--  Last Published: Fri Sep 01 2023 10:11:51 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="6200e32ae569ed1bcc14bbed" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
+<!DOCTYPE html><!--  Last Published: Mon Dec 11 2023 07:18:16 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="6200e32ae569ed1bcc14bbed" data-wf-site="5fb612add2bb520fe31c5c1a"><head>
   <meta charset="utf-8">
   <title>{{ page_title }}</title>
   <meta content="{{ page_description }}" name="description">
@@ -737,9 +737,32 @@
           <div class="grid grid--16px">
             <h5 class="footer-heading heading heading--clear">Feedback</h5>
             <div class="footer__links">
-              <a href="mailto: feedback@municipalmoney.gov.za" class="footer-link w-inline-block">
-                <div>feedback@municipalmoney.gov.za</div>
+              <a data-w-id="c4a9cf34-221d-0dc5-4207-a2e6e9d831d2" href="#" class="footer-link is-email-feedback w-inline-block">
+                <div class="icon icon--16px icon--margin-right-8px">
+                  <div class="fas fa-envelope"></div>
+                </div>
+                <div>Email</div>
               </a>
+              <div class="footer_email-disclaimer">
+                <div class="footer_email-disclaimer_modal">
+                  <div class="card is-modal">
+                    <div class="modal-header">
+                      <h3 class="modal-title">Feedback Disclaimer</h3>
+                      <a href="#" class="modal-close w-inline-block">
+                        <div class="icon icon--24px">
+                          <div class="fas fa-times"></div>
+                        </div>
+                      </a>
+                    </div>
+                    <div class="w-richtext">
+                      <p>Please note that Municipal Money is an initiative by the <a href="https://www.treasury.gov.za/" target="_blank">National Treasury</a> to provide information to the public on how their municipality is spending public funds to improve service delivery.</p>
+                      <p>Only queries to <a href="mailto:feedback@municipalmoney.gov.za">feedback@municipalmoney.gov.za</a> that pertain to the information available on the site or technical difficulties to access the information will be responded to. Account related queries must be directed to the relevant department at the respective municipality. Kindly contact the respective municipality directly for such contact details.</p>
+                      <p>The National Treasury do not deal with account related queries and therefore receipt of this email is not acknowledged or recorded.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-close is-bg"></div>
+              </div>
               <a href="https://www.facebook.com/MunicipalMoneySA/" target="_blank" class="footer-link w-inline-block">
                 <div class="icon icon--16px icon--margin-right-8px">
                   <div class="fab fa-facebook-f"></div>
