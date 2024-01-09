@@ -20,15 +20,6 @@ from ..resources import (
 )
 
 
-def populate_items_id(apps, schema_editor):
-    item_model = apps.get_model("municipal_finance", "agedcreditoritemsv1")
-    db_alias = schema_editor.connection.alias
-    items = item_model.objects.using(db_alias).all()
-    for i, item in enumerate(items):
-        item.id = i + 1
-    item_model.objects.using(db_alias).bulk_update(items, ["id"])
-
-
 def index_keys(apps, schema_editor):
     item_model = apps.get_model("municipal_finance", "agedcreditoritemsv1")
     fact_model = apps.get_model("municipal_finance", "agedcreditorfactsv1")
@@ -127,11 +118,5 @@ class Migration(migrations.Migration):
             AgedCreditorItemsV2Resource,
             "aged_creditor_items_v2.csv",
         ),
-        migrations.RunPython(populate_items_id),
-        #migrations.AlterField(
-        #    model_name='agedcreditoritemsv1',
-        #    name='id',
-        #    field=models.AutoField(primary_key=True, serialize=False),
-        #),
         migrations.RunPython(index_keys),
     ]
