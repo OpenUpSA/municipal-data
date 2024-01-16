@@ -25,6 +25,7 @@ from .models import (
     GrantTypesV2,
     CapitalTypeV2,
     DemarcationChanges,
+    ItemCodeSchema,
 )
 from .models import (
     MunicipalStaffContacts,
@@ -52,6 +53,7 @@ from .resources import (
     CapitalTypeV2Resource,
 )
 
+from .forms import FinPosForm
 from django import forms
 from constance.admin import ConstanceAdmin, ConstanceForm, Config
 from infrastructure import models
@@ -119,17 +121,15 @@ class BaseUpdateAdmin(admin.ModelAdmin):
     def processing_completed(self, obj):
         try:
             task = fetch(obj.task_id)
-        except:
-            task = None
-        if task:
             if task.result:
                 error_result = task.result.splitlines()[-1]
                 if error_result.startswith("KeyError"):
                     item_code = error_result.split(":")[1]
                     obj.import_report = f"Please check that the following item code exists in the corresponding items table for this upload: {item_code}"
                     obj.save()
-
             return task.success
+        except:
+            pass
 
     processing_completed.boolean = True
     processing_completed.short_description = "Processing completed"
@@ -146,7 +146,7 @@ def follow_up_tasks(task):
                 "municipal_finance.bulk_download.generate_download",
                 task_name="Make bulk download",
                 cube_model=task.kwargs["cube_model"],
-                timeout=BULK_DUMP_TIMEOUT
+                timeout=BULK_DUMP_TIMEOUT,
             )
 
 
@@ -222,6 +222,7 @@ class GrantFactsV2UpdateAdmin(BaseUpdateAdmin):
 
 @admin.register(FinancialPositionFactsV2Update)
 class FinancialPositionFactsV2UpdateAdmin(BaseUpdateAdmin):
+    form = FinPosForm
     cube_model = FinancialPositionFactsV2
     task_function = "municipal_finance.update.update_financial_position_facts_v2"
     task_name = "FinancialPosition Facts v2 update"
@@ -318,3 +319,23 @@ class DemarcationChangesAdmin(admin.ModelAdmin):
         "old_code_transition",
         "new_code_transition",
     )
+
+
+@admin.register(ItemCodeSchema)
+class ItemCodeSchemaAdmin(admin.ModelAdmin):
+    list_display = ("datetime", "version")
+
+    task_function = "municipal_finance.update.update_item_code_schema"
+    task_name = "Item Code Schema update"
+
+    def save_model(self, request, obj, form, change):
+        super(ItemCodeSchemaAdmin, self).save_model(request, obj, form, change)
+
+        if not change:
+            obj.task_id = async_task(
+                self.task_function,
+                obj,
+                task_name=self.task_name,
+                batch_size=10000,
+            )
+            obj.save()

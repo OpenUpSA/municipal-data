@@ -174,11 +174,10 @@ class FileTest(TransactionTestCase):
         task = OrmQ.objects.first()
         task_file_id = task.task()["args"][0]
         task_method = task.func()
-        self.assertEqual(task_method, 'infrastructure.upload.process_annual_document')
+        self.assertEqual(task_method, "infrastructure.upload.process_annual_document")
         self.assertEqual(task_file_id, spend_file.id)
         # run the code
         process_annual_document(task_file_id)
-
         self.assertEquals(AnnualSpendFile.objects.count(), 1)
         spend_file = AnnualSpendFile.objects.first()
         self.assertEquals(spend_file.status, AnnualSpendFile.SUCCESS)
@@ -186,7 +185,7 @@ class FileTest(TransactionTestCase):
 
         response = self.client.get("/api/v1/infrastructure/search/")
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'PC002003005_00002')
+        self.assertContains(response, "PC002003005_00002")
 
 
     def test_file_upload_fail(self):

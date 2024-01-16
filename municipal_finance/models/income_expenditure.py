@@ -2,6 +2,7 @@ from django.db import models
 
 from .small_auto_field import SmallAutoField
 from .amount_type import AmountTypeV2
+from .updates import ItemCodeSchema
 from .government_functions import GovernmentFunctionsV2
 
 
@@ -25,9 +26,13 @@ class IncexpItemsV1(IncexpItems):
 
 class IncexpItemsV2(IncexpItems):
     id = SmallAutoField(primary_key=True)
-    code = models.TextField(unique=True)
+    code = models.TextField()
+    version = models.ForeignKey(
+        ItemCodeSchema, on_delete=models.CASCADE, blank=True, null=True
+    )
 
     class Meta:
+        unique_together = ("code", "version")
         db_table = "incexp_items_v2"
         verbose_name_plural = "Income & Expenditure Items (v2)"
 
