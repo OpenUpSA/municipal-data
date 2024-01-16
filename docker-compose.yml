@@ -5,8 +5,8 @@ services:
     build:
       context: .
       args:
-        USER_ID: ${USER_ID:-101}
-        GROUP_ID: ${GROUP_ID:-101}
+        USER_ID: ${USER_ID:-1001}
+        GROUP_ID: ${GROUP_ID:-1001}
     command: bin/wait-for-postgres.sh python manage.py runserver 0.0.0.0:8001
     volumes:
       - ".:/app"
@@ -54,8 +54,8 @@ services:
     build:
       context: .
       args:
-        USER_ID: ${USER_ID:-101}
-        GROUP_ID: ${GROUP_ID:-101}
+        USER_ID: ${USER_ID:-1001}
+        GROUP_ID: ${GROUP_ID:-1001}
       dockerfile: Dockerfile
     command: bin/wait-for-postgres.sh python manage.py runserver 0.0.0.0:8002
     # command: bin/wait-for-postgres.sh gunicorn --limit-request-line 7168 --worker-class gevent municipal_finance.wsgi:application -t 600 --log-file - -b 0.0.0.0:8002
@@ -88,8 +88,8 @@ services:
     build:
       context: .
       args:
-        USER_ID: ${USER_ID:-101}
-        GROUP_ID: ${GROUP_ID:-101}
+        USER_ID: ${USER_ID:-1001}
+        GROUP_ID: ${GROUP_ID:-1001}
     command: bin/wait-for-postgres.sh python manage.py qcluster
     volumes:
       - ".:/app"
@@ -120,8 +120,8 @@ services:
     build:
       context: .
       args:
-        USER_ID: ${USER_ID:-101}
-        GROUP_ID: ${GROUP_ID:-101}
+        USER_ID: ${USER_ID:-1001}
+        GROUP_ID: ${GROUP_ID:-1001}
       dockerfile: Dockerfile-test
     command: bin/wait-for-postgres.sh python manage.py test municipal_finance scorecard infrastructure household
     volumes:
