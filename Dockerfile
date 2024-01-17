@@ -21,20 +21,12 @@ RUN pip install -r /requirements.txt
 
 COPY . /app
 
-RUN set -ex; \
-  adduser --system --group django; \
-  /app/chown.sh
-
 WORKDIR /app
 
 RUN set -ex; \
-  mkdir /app/.yarn-cahce; \
-  yarn config set cache-folder /app/.yarn-cache; \
   yarn; \
   yarn build; \
   yarn lint
-
-USER django
 
 EXPOSE 5000
 CMD /app/bin/start-web.sh
