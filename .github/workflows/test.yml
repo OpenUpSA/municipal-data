@@ -9,8 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Configure variables to run container under host user ID
-        run: export USER_ID=$(id -u) && export GROUP_ID=$(id -g)
       # Rebuild static files because we mount to /app overriding those in the image
       - run: docker-compose run --rm scorecard yarn
       - run: docker-compose run --rm scorecard yarn build

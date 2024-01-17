@@ -120,7 +120,7 @@ docker-compose run --rm scorecard python manage.py dumpdata --indent 2 \
 
 For household bills run
 ```
-docker compose run --rm scorecard python manage.py dumpdata --indent 2 \
+docker-compose run --rm scorecard python manage.py dumpdata --indent 2 \
     household.FinancialYear \
     household.BudgetPhase \
     household.HouseholdClass \

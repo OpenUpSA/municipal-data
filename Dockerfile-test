@@ -26,21 +26,20 @@ RUN pip install -r /requirements-test.txt
 
 COPY . /app
 
-ARG USER_ID=1001
-ARG GROUP_ID=1001
-
 RUN set -ex; \
-  addgroup --gid $GROUP_ID --system django; \
-  adduser --system --uid $USER_ID --gid $GROUP_ID django; \
-  chown -R django:django /app
-USER django
+  adduser --system --group django; \
+  /app/chown.sh
 
 WORKDIR /app
 
 RUN set -ex; \
+  mkdir /app/.yarn-cahce; \
+  yarn config set cache-folder /app/.yarn-cache; \
   yarn; \
   yarn build; \
   yarn lint
+
+USER django
 
 EXPOSE 5000
 CMD /app/bin/start-web.sh
