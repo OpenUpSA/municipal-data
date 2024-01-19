@@ -21,6 +21,15 @@ RUN pip install -r /requirements.txt
 
 COPY . /app
 
+ARG USER_ID=1001
+ARG GROUP_ID=1001
+
+RUN set -ex; \
+  addgroup --gid $GROUP_ID --system django; \
+  adduser --system --home /home/django --uid $USER_ID --gid $GROUP_ID django
+USER django
+
+COPY --chown=django:django . /app
 WORKDIR /app
 
 RUN set -ex; \
