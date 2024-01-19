@@ -19,8 +19,6 @@ RUN set -ex; \
 ADD requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
-COPY . /app
-
 ARG USER_ID=1001
 ARG GROUP_ID=1001
 
