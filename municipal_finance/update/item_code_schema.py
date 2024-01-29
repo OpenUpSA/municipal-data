@@ -1,5 +1,5 @@
 from django.core.files.storage import default_storage
-import xlrd
+import xlrd3 as xlrd
 
 from municipal_finance.models import (
     FinancialPositionItemsV2,
