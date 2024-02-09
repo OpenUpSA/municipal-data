@@ -26,7 +26,7 @@ export default class ComparisonMenu {
       this.$dropdown.triggerHandler('w-close.w-dropdown');
 
       // Hide key when selecting no comparison
-      if (option == "none") {
+      if (option == 'none') {
         this.$element.next().empty();
       }
 
