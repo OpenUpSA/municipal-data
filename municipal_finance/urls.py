@@ -3,19 +3,25 @@ from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 from django.conf.urls import include
 from django.contrib import admin
+from django.views.generic.base import RedirectView
+
 
 from . import views
 
 
 # This cache is reset on each deployment. Corresponding caching headers are
 # sent to the client, too.
-API_CACHE_SECS = 5 * 60 # 5 minutes
+API_CACHE_SECS = 5 * 60  # 5 minutes
 
 urlpatterns = [
-    url('admin/', admin.site.urls),
+    url("admin/", admin.site.urls),
     url(r"^$", cache_page(API_CACHE_SECS)(views.index), name="homepage"),
     url(r"^docs$", cache_page(API_CACHE_SECS)(views.docs)),
-    url(r"^terms", TemplateView.as_view(template_name="terms.html"), name="terms"),
+    url(
+        r"^terms",
+        RedirectView.as_view(url="https://municipalmoney.gov.za/terms", permanent=False),
+        name="termsa",
+    ),
     url(r"^table/(?P<cube_name>[\w_]+)/$", views.table, name="table"),
     url(r"^api/?$", views.api_root),
     url(r"^api/status$", views.status),
