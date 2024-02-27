@@ -25,6 +25,11 @@ export default class ComparisonMenu {
       // Close a dropdown when one of its options are selected
       this.$dropdown.triggerHandler('w-close.w-dropdown');
 
+      // Hide key when selecting no comparison
+      if (option == 'none') {
+        this.$element.next().empty();
+      }
+
       ga('send', 'event', 'compare-in-chart', `${key} ${option}`);
       gtag('event', 'compare_in_chart', {
         category: 'Charts',
