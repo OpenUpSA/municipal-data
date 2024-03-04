@@ -5,7 +5,7 @@ make municipal finance information available to the public. It is made up of a c
 
 In production, the two sites are served by one Django instance, using the hostname to determine which site to serve. In development, we use the SITE_ID environment variable to select the site, and run two instances when needed:
 
-| Site                                 | Production URL                         | docker-compose service name | Django Sites ID |
+| Site                                 | Production URL                         | docker compose service name | Django Sites ID |
 |--------------------------------------|----------------------------------------|-----------------------------|-----------------|
 | Public-friendly site                 | https://municipalmoney.gov.za/         | scorecard                   | 2               |
 | Data exploration/download UI and API | https://municipaldata.treasury.gov.za/ | portal                      | 3               |
@@ -24,14 +24,14 @@ financials and link to the production data/API site for detail.
 In one terminal, run
 
 ```
-docker-compose run --rm scorecard yarn dev
+docker compose run --rm scorecard yarn dev
 ```
 
 ```
-docker-compose up -d postgres
-docker-compose run --rm scorecard python manage.py migrate
-docker-compose run --rm scorecard python manage.py loaddata demo-data demo-household infra-demo-data seeddata
-docker-compose up scorecard
+docker compose up -d postgres
+docker compose run --rm scorecard python manage.py migrate
+docker compose run --rm scorecard python manage.py loaddata demo-data demo-household infra-demo-data seeddata
+docker compose up scorecard
 ```
 
 If you are working on the javascript or CSS on the site also run `yarn dev` in another terminal.
@@ -39,33 +39,33 @@ If you are working on the javascript or CSS on the site also run `yarn dev` in a
 Import seed data for cube items
 
 ```
-docker-compose run --rm scorecard python manage.py loaddata aged_creditor_items_v1
+docker compose run --rm scorecard python manage.py loaddata aged_creditor_items_v1
 ```
 
 To create an admin user for local development, run
 
 ```
-docker-compose run --rm scorecard python manage.py createsuperuser
+docker compose run --rm scorecard python manage.py createsuperuser
 ```
 
 
 ### Data portal website
 
-If you want to run the API and data portal locally using `docker-compose` you also need to:
+If you want to run the API and data portal locally using `docker compose` you also need to:
 
 1. Dump the production database.
-2. Load the production database dump into your `docker-compose` postgres instance
+2. Load the production database dump into your `docker compose` postgres instance
    (this will take at least 40 minutes) with something like:
 
 ```
-docker-compose run --rm -v /home/user/folder-containing-dumpdata/:/data \
+docker compose run --rm -v /home/user/folder-containing-dumpdata/:/data \
    portal pg_restore -h postgres -U municipal_finance -d municipal_finance /data/dumpfile
 ```
 
 3. Run the data portal:
 
 ```
-docker-compose up portal
+docker compose up portal
 ```
 
 ### Linting JavaScript
@@ -73,13 +73,13 @@ docker-compose up portal
 Run ESLint using
 
 ```
-docker-compose run --rm scorecard yarn lint
+docker compose run --rm scorecard yarn lint
 ```
 
 Automatically fix problems
 
 ```
-docker-compose run --rm scorecard yarn lint --fix
+docker compose run --rm scorecard yarn lint --fix
 ```
 
 ### Demo data
@@ -110,7 +110,7 @@ Run a profile rebuild.
 Run
 
 ```
-docker-compose run --rm scorecard python manage.py dumpdata --indent 2 \
+docker compose run --rm scorecard python manage.py dumpdata --indent 2 \
     scorecard.geography \
     scorecard.municipalityprofile \
     scorecard.mediangroup \

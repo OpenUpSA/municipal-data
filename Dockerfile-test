@@ -1,4 +1,4 @@
-FROM nikolaik/python-nodejs:python3.7-nodejs16
+FROM nikolaik/python-nodejs:python3.9-nodejs21
 
 ENV POETRY_VIRTUALENVS_CREATE false \
     PIP_NO_CACHE_DIR off \
@@ -18,23 +18,21 @@ RUN set -ex; \
 RUN apt-get update && \
     apt-get install -y chromium-driver
 
-RUN pip install -U setuptools==45.3.0
+RUN pip install -U setuptools==69.0.2
 ADD requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 ADD requirements-test.txt /requirements-test.txt
 RUN pip install -r /requirements-test.txt
-
-COPY . /app
 
 ARG USER_ID=1001
 ARG GROUP_ID=1001
 
 RUN set -ex; \
   addgroup --gid $GROUP_ID --system django; \
-  adduser --system --uid $USER_ID --gid $GROUP_ID django; \
-  chown -R django:django /app
+  adduser --system --home /home/django --uid $USER_ID --gid $GROUP_ID django
 USER django
 
+COPY --chown=django:django . /app
 WORKDIR /app
 
 RUN set -ex; \

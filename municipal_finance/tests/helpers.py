@@ -10,22 +10,25 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 import logging
+
 logger = logging.Logger(__name__)
 
 
 class HTMLFilter(HTMLParser):
     text = ""
+
     def handle_data(self, data):
         self.text += data
 
-class BaseSeleniumTestCase(LiveServerTestCase):
 
+class BaseSeleniumTestCase(LiveServerTestCase):
     def setUp(self):
         super(BaseSeleniumTestCase, self).setUp()
 
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("headless")
         chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
         d = DesiredCapabilities.CHROME
         d["loggingPrefs"] = {"browser": "ALL"}
         self.selenium = webdriver.Chrome(

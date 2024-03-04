@@ -1,4 +1,4 @@
-FROM nikolaik/python-nodejs:python3.7-nodejs16
+FROM nikolaik/python-nodejs:python3.9-nodejs21
 
 ENV POETRY_VIRTUALENVS_CREATE false \
     PIP_NO_CACHE_DIR off \
@@ -19,23 +19,20 @@ RUN set -ex; \
 ADD requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
-COPY . /app
-
 ARG USER_ID=1001
 ARG GROUP_ID=1001
 
 RUN set -ex; \
   addgroup --gid $GROUP_ID --system django; \
-  adduser --system --uid $USER_ID --gid $GROUP_ID django; \
-  chown -R django:django /app
+  adduser --system --home /home/django --uid $USER_ID --gid $GROUP_ID django
 USER django
 
+COPY --chown=django:django . /app
 WORKDIR /app
 
 RUN set -ex; \
   yarn; \
-  yarn build
-
+  yarn build;
 
 EXPOSE 5000
 CMD /app/bin/start-web.sh
