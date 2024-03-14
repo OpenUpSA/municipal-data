@@ -10,10 +10,11 @@ from municipal_finance import settings
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 import json
+from collections import OrderedDict
 
 
-DUMP_FORMATS = ['csv', 'xlsx']
-FORMATS = DUMP_FORMATS + ['json']
+DUMP_FORMATS = ["csv", "xlsx"]
+FORMATS = DUMP_FORMATS + ["json"]
 
 
 def get_cube(name):
@@ -99,29 +100,42 @@ def docs(request):
     cubes = []
     for cube_name in manager.list_cubes():
         cube = manager.get_cube(cube_name)
-        (model,) = cube.model.to_dict(),
-        if 'item' in model['dimensions'].keys():
-            if 'position_in_return_form' \
-               in model['dimensions']['item']['attributes'].keys():
-                items = cube.members('item',
-                                     order='item.position_in_return_form:asc')['data']
+        (model,) = (cube.model.to_dict(),)
+        if "item" in model["dimensions"].keys():
+            if (
+                "position_in_return_form"
+                in model["dimensions"]["item"]["attributes"].keys()
+            ):
+                items = cube.members("item", order="item.position_in_return_form:asc")[
+                    "data"
+                ]
             else:
-                items = cube.members('item')['data']
+                items = cube.members("item")["data"]
         else:
             items = None
-        cubes.append({
-            'model': model,
-            'name': cube_name,
-            'items': items,
-        })
+        cubes.append(
+            {
+                "model": model,
+                "name": cube_name,
+                "items": items,
+            }
+        )
 
     bulk_downloads = get_bulk_downloads()
+    sorted_keys = sorted(bulk_downloads.keys())
+    ordered_bulk_downloads = OrderedDict(
+        (key, bulk_downloads[key]) for key in sorted_keys
+    )
 
-    return render(request, 'docs.html', {
-        'cubes': cubes,
-        'bulk_downloads': bulk_downloads,
-        'storage_url': f"{settings.AWS_S3_ENDPOINT_URL}/{settings.AWS_STORAGE_BUCKET_NAME}/media/{settings.BULK_DOWNLOAD_DIR}",
-    })
+    return render(
+        request,
+        "docs.html",
+        {
+            "cubes": cubes,
+            "bulk_downloads": ordered_bulk_downloads,
+            "storage_url": f"{settings.AWS_S3_ENDPOINT_URL}/{settings.AWS_STORAGE_BUCKET_NAME}/media/{settings.BULK_DOWNLOAD_DIR}",
+        },
+    )
 
 
 @xframe_options_exempt
