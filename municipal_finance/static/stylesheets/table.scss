@@ -24,7 +24,8 @@ h3 {
   font-size: 16px;
 }
 
-h4, h5 {
+h4,
+h5 {
   font-size: 14px;
   font-weight: bold;
 }
@@ -52,6 +53,7 @@ label {
       color: white;
     }
   }
+
   h1.site-notice {
     margin: -1px 0px 0px 140px;
     font-size: 16px;
@@ -80,6 +82,7 @@ label {
 
     li.text {
       padding: 7px 0px 0px 0px;
+
       a {
         color: white;
         text-decoration: underline;
@@ -176,6 +179,7 @@ label {
       float: left;
       width: 33%;
     }
+
     label {
       margin-bottom: 2px;
     }
@@ -195,15 +199,25 @@ label {
   padding: 10px;
   border-top: 1px solid #ccc;
 
-  td, th {
+  td,
+  th {
     padding: 2px;
     white-space: nowrap;
+  }
+
+  tr.item-undefined:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  tr.item-undefined:nth-child(odd) {
+    background-color: #ffffff;
   }
 
   .item-heading td {
     font-weight: bold;
     text-transform: uppercase;
   }
+
   .item-subtotal td {
     font-weight: bold;
   }
