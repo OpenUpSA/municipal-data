@@ -205,12 +205,8 @@ label {
     white-space: nowrap;
   }
 
-  tr.item-undefined:nth-child(even) {
+  [class*="item-"]:nth-of-type(even) {
     background-color: #dddddd;
-  }
-
-  tr.item-undefined:nth-child(odd) {
-    background-color: #ffffff;
   }
 
   .item-heading td {
