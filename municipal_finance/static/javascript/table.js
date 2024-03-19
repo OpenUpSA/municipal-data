@@ -741,6 +741,7 @@
         th.setAttribute('colspan', muniColumns * Math.max(functions.length, 1));
         th.setAttribute('title', muni.demarcation_code);
         tr.appendChild(th);
+        $(tr).addClass('sticky-row');
       }
 
       // function headings
@@ -752,6 +753,7 @@
             th.innerText = func.label;
             th.setAttribute('colspan', cube.columns.length);
             tr.appendChild(th);
+            $(tr).addClass('sticky-row');
           });
         });
       }
@@ -764,6 +766,7 @@
             var th = document.createElement('th');
             th.innerText = columns.label;
             tr.appendChild(th);
+            $(tr).addClass('sticky-row');
           });
         });
       }
