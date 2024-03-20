@@ -200,9 +200,9 @@
       // amount types per year
       // TODO HACK
       var amountTypes = [{ code: 'ACT', label: 'Actual' }, { code: 'ADJB', label: 'Adjusted Budget' }, { code: 'AUDA', label: 'Audited Actual' },
-        { code: 'IBY1', label: 'Forecast 1 year ahead of budget year' },
-        { code: 'IBY2', label: 'Forecast 2 years ahead of budget year' },
-        { code: 'ORGB', label: 'Original Budget' }, { code: 'PAUD', label: 'Pre-audit' }];
+      { code: 'IBY1', label: 'Forecast 1 year ahead of budget year' },
+      { code: 'IBY2', label: 'Forecast 2 years ahead of budget year' },
+      { code: 'ORGB', label: 'Original Budget' }, { code: 'PAUD', label: 'Pre-audit' }];
 
       self.amountTypes = {};
       _.each(self.years, (year) => {
@@ -659,8 +659,6 @@
       }
 
       if (cube.rowHeadings || !cube.hasItems) {
-        this.renderRowHeadings();
-
         if (municipalities) {
           if (CUBE_NAME == 'capital_v2') {
             var columns = [];
@@ -686,37 +684,6 @@
       this.renderDownloadLinks();
     },
 
-    renderRowHeadings() {
-      // render row headings table
-      var table = this.$('.row-headings').empty()[0];
-      var blanks = 1;
-
-      if (cube.columns.length > 1) blanks++;
-      if (!_.isEmpty(this.filters.get('functions'))) blanks++;
-      if (CUBE_NAME == 'capital_v2') blanks++;
-
-      for (var i = 0; i < blanks; i++) {
-        var spacer = $('<th>').html('&nbsp;').addClass('spacer');
-        table.insertRow().appendChild(spacer[0]);
-      }
-
-      for (i = 0; i < (cube.rowHeadings || []).length; i++) {
-        var heading = cube.rowHeadings[i];
-        var tr = table.insertRow();
-        var td;
-
-        $(tr).addClass(`item-${heading.class}`);
-
-        td = tr.insertCell();
-        td.innerText = heading.code;
-        if (heading.label) {
-          td = tr.insertCell();
-          td.innerText = heading.label;
-          td.setAttribute('title', heading.label);
-        }
-      }
-    },
-
     renderColHeadings() {
       var table = this.$('.values').empty()[0];
       var functions = this.functionHeadings();
@@ -733,6 +700,7 @@
 
       // municipality headings
       var tr = table.insertRow();
+      $(tr).append("<th class='spacer'></th>");
       var munis = this.filters.get('municipalities');
       for (var i = 0; i < munis.length; i++) {
         var muni = municipalities[munis[i]];
@@ -741,19 +709,20 @@
         th.setAttribute('colspan', muniColumns * Math.max(functions.length, 1));
         th.setAttribute('title', muni.demarcation_code);
         tr.appendChild(th);
-        $(tr).addClass('sticky-row');
+        $(tr).addClass('sticky-row-first');
       }
 
       // function headings
       if (cube.hasFunctions && !_.isEmpty(functions)) {
         tr = table.insertRow();
+        $(tr).append("<th class='spacer'></th>");
         _.times(munis.length, () => {
           _.each(functions, (func) => {
             var th = document.createElement('th');
             th.innerText = func.label;
             th.setAttribute('colspan', cube.columns.length);
             tr.appendChild(th);
-            $(tr).addClass('sticky-row');
+            $(tr).addClass('sticky-row-second');
           });
         });
       }
@@ -761,12 +730,13 @@
       // column (aggregate) headings
       if (CUBE_NAME == 'capital_v2' || cube.columns.length > 1) {
         tr = table.insertRow();
+        $(tr).append("<th class='spacer'></th>");
         _.times(munis.length, () => {
           _.each(valueColumns, (columns) => {
             var th = document.createElement('th');
             th.innerText = columns.label;
             tr.appendChild(th);
-            $(tr).addClass('sticky-row');
+            $(tr).addClass('sticky-row-second');
           });
         });
       }
@@ -804,6 +774,8 @@
           var tr = table.insertRow();
           $(tr).addClass(`item-${heading.class}`);
 
+          let rowHeading = `<td class='headcol'>${heading.code} ${heading.label}</td>`;
+          $(tr).prepend(rowHeading);
           // highlight?
           if (highlights[heading.code]) toHighlight.push(table.rows.length - 1);
 
