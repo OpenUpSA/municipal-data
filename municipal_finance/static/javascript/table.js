@@ -200,9 +200,9 @@
       // amount types per year
       // TODO HACK
       var amountTypes = [{ code: 'ACT', label: 'Actual' }, { code: 'ADJB', label: 'Adjusted Budget' }, { code: 'AUDA', label: 'Audited Actual' },
-      { code: 'IBY1', label: 'Forecast 1 year ahead of budget year' },
-      { code: 'IBY2', label: 'Forecast 2 years ahead of budget year' },
-      { code: 'ORGB', label: 'Original Budget' }, { code: 'PAUD', label: 'Pre-audit' }];
+        { code: 'IBY1', label: 'Forecast 1 year ahead of budget year' },
+        { code: 'IBY2', label: 'Forecast 2 years ahead of budget year' },
+        { code: 'ORGB', label: 'Original Budget' }, { code: 'PAUD', label: 'Pre-audit' }];
 
       self.amountTypes = {};
       _.each(self.years, (year) => {
@@ -774,7 +774,7 @@
           var tr = table.insertRow();
           $(tr).addClass(`item-${heading.class}`);
 
-          let rowHeading = `<td class='headcol'>${heading.code} ${heading.label}</td>`;
+          const rowHeading = `<td class='headcol'>${heading.code} ${heading.label}</td>`;
           $(tr).prepend(rowHeading);
           // highlight?
           if (highlights[heading.code]) toHighlight.push(table.rows.length - 1);
