@@ -700,7 +700,7 @@
 
       // municipality headings
       var tr = table.insertRow();
-      $(tr).append("<th class='spacer'></th>");
+      $(tr).append("<th class='headcol spacer'></th>");
       var munis = this.filters.get('municipalities');
       for (var i = 0; i < munis.length; i++) {
         var muni = municipalities[munis[i]];
@@ -715,7 +715,7 @@
       // function headings
       if (cube.hasFunctions && !_.isEmpty(functions)) {
         tr = table.insertRow();
-        $(tr).append("<th class='spacer'></th>");
+        $(tr).append("<th class='headcol spacer'></th>");
         _.times(munis.length, () => {
           _.each(functions, (func) => {
             var th = document.createElement('th');
@@ -730,7 +730,7 @@
       // column (aggregate) headings
       if (CUBE_NAME == 'capital_v2' || cube.columns.length > 1) {
         tr = table.insertRow();
-        $(tr).append("<th class='spacer'></th>");
+        $(tr).append("<th class='headcol spacer'></th>");
         _.times(munis.length, () => {
           _.each(valueColumns, (columns) => {
             var th = document.createElement('th');

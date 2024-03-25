@@ -146,7 +146,6 @@ label {
     margin: 0px -10px 0px -15px;
     background-color: $header-bg;
     padding: 5px 15px;
-    border-bottom: 1px solid #ccc;
     border-right: 1px solid #ccc;
   }
 
@@ -218,10 +217,6 @@ label {
     width: $row-heading-width;
     float: left;
 
-    th.spacer {
-      border-bottom: 1px solid white;
-    }
-
     td {
       max-width: $row-heading-width;
       text-overflow: ellipsis;
@@ -238,13 +233,6 @@ label {
     }
   }
 
-  .headcol {
-    position: sticky;
-    top: 0;
-    left: 0;
-    float: left;
-  }
-
   .sticky-row-first {
     position: sticky;
     top: 0;
@@ -259,18 +247,12 @@ label {
     th {
       font-weight: bold;
       text-align: center;
-      border-bottom: 1px solid #ccc;
       border-right: 5px solid white;
     }
 
     tr:first-child th {
       background-color: $nt-red;
       color: white;
-      border-bottom-color: #7f1a1d;
-
-      .spacer {
-        background-color: #efefef;
-      }
     }
 
     tr:nth-child(2) th {
@@ -280,6 +262,15 @@ label {
     td {
       text-align: right;
       padding-left: 10px;
+    }
+
+    .headcol {
+      position: sticky;
+      top: 43.28px;
+      left: 0;
+      width: 100%;
+      text-align: left;
+      background-color: white;
     }
   }
 
