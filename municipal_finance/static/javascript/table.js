@@ -902,6 +902,10 @@
 
       this.state = new State();
       this.loadState();
+
+      if(this.state.attributes.municipalities.length === 0){
+        this.state.attributes.municipalities = ['BUF', 'CPT', 'EKU', 'JHB', 'TSH', 'MAN', 'NMA', 'ETH'];
+      }
       this.state.on('change', this.saveState, this);
 
       this.filterView = new FilterView({ filters: this.filters, state: this.state });
