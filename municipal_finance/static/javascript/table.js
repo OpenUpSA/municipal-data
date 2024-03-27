@@ -614,6 +614,16 @@
         .fail(() => {
           alert('An error occurred.\nPlease try a different selection or try again later.');
         });
+
+      if (this.filters.get('amountType') == "AUDA") {
+        var $selectedElements = $('.year-chooser input[value]').filter(function() {
+          return parseInt($(this).val()) > parseInt(SELECT_YEAR.replace(/\s+/g, ''));
+        });
+        $selectedElements.prop('disabled', true);
+      }
+      else{
+        $(".year-chooser input").prop('disabled', false);
+      }
     },
 
     makeDownloadUrl(parts, pagesize) {
@@ -906,6 +916,7 @@
       if(this.state.attributes.municipalities.length === 0){
         this.state.attributes.municipalities = ['BUF', 'CPT', 'EKU', 'JHB', 'TSH', 'MAN', 'NMA', 'ETH'];
       }
+      this.state.attributes.year = parseInt(SELECT_YEAR.replace(/\s+/g, ''))
       this.state.on('change', this.saveState, this);
 
       this.filterView = new FilterView({ filters: this.filters, state: this.state });
