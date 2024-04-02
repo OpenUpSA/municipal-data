@@ -620,10 +620,26 @@
           return parseInt($(this).val()) > parseInt(SELECT_YEAR.replace(/\s+/g, ''));
         });
         $selectedElements.prop('disabled', true);
+        $selectedElements.parent().addClass('greyed');
       }
       else{
         $(".year-chooser input").prop('disabled', false);
+        $(".year-chooser input").parent().removeClass('greyed');
       }
+
+      $('.year-chooser .greyed').hover(function() {
+        if ($(this).hasClass("greyed")) {
+          $('#year-popup').show();
+        }
+      }, function() {
+        $('#year-popup').hide();
+      });
+
+      $('.year-chooser').mousemove(function(e) {
+        var x = e.pageX;
+        var y = e.pageY;
+        $('#year-popup').css({'top': y, 'left': x});
+      });
     },
 
     makeDownloadUrl(parts, pagesize) {
