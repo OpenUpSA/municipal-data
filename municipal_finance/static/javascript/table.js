@@ -615,30 +615,29 @@
           alert('An error occurred.\nPlease try a different selection or try again later.');
         });
 
-      if (this.filters.get('amountType') == "AUDA") {
-        var $selectedElements = $('.year-chooser input[value]').filter(function() {
+      if (this.filters.get('amountType') == 'AUDA') {
+        var $selectedElements = $('.year-chooser input[value]').filter(function () {
           return parseInt($(this).val()) > parseInt(SELECT_YEAR.replace(/\s+/g, ''));
         });
         $selectedElements.prop('disabled', true);
         $selectedElements.parent().addClass('greyed');
-      }
-      else{
-        $(".year-chooser input").prop('disabled', false);
-        $(".year-chooser input").parent().removeClass('greyed');
+      } else {
+        $('.year-chooser input').prop('disabled', false);
+        $('.year-chooser input').parent().removeClass('greyed');
       }
 
-      $('.year-chooser .greyed').hover(function() {
-        if ($(this).hasClass("greyed")) {
+      $('.year-chooser .greyed').hover(function () {
+        if ($(this).hasClass('greyed')) {
           $('#year-popup').show();
         }
-      }, function() {
+      }, () => {
         $('#year-popup').hide();
       });
 
-      $('.year-chooser').mousemove(function(e) {
+      $('.year-chooser').mousemove((e) => {
         var x = e.pageX;
         var y = e.pageY;
-        $('#year-popup').css({'top': y, 'left': x});
+        $('#year-popup').css({ top: y, left: x });
       });
     },
 
@@ -929,10 +928,10 @@
       this.state = new State();
       this.loadState();
 
-      if(this.state.attributes.municipalities.length === 0){
+      if (this.state.attributes.municipalities.length === 0) {
         this.state.attributes.municipalities = ['BUF', 'CPT', 'EKU', 'JHB', 'TSH', 'MAN', 'NMA', 'ETH'];
       }
-      this.state.attributes.year = parseInt(SELECT_YEAR.replace(/\s+/g, ''))
+      this.state.attributes.year = parseInt(SELECT_YEAR.replace(/\s+/g, ''));
       this.state.on('change', this.saveState, this);
 
       this.filterView = new FilterView({ filters: this.filters, state: this.state });
