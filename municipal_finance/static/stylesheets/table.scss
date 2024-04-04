@@ -254,9 +254,15 @@ label {
       background-color: $nt-red;
       color: white;
     }
+    tr:first-child th:first-child {
+      background-color: white;
+    }
 
     tr:nth-child(2) th {
       background-color: #efefef;
+    }
+    tr:nth-child(2) th:first-child {
+      background-color: white;
     }
 
     td {
@@ -265,9 +271,8 @@ label {
     }
     .headcol {
       position: sticky;
-      top: 43.28px;
       left: 0;
-      width: 100%;
+      width: 300px;
       text-align: left;
     }
   }
