@@ -1,6 +1,7 @@
 from django.http import Http404
 from django.shortcuts import render
 from django.core.files.storage import default_storage
+from constance import config
 
 from .cubes import get_manager
 from .utils import jsonify, serialize, check_page_size
@@ -298,6 +299,7 @@ def members(request, cube_name, member_ref):
 def table(request, cube_name):
     manager = get_manager()
     cubes = {}
+    select_year = config.LAST_AUDIT_YEAR
     for name in manager.list_cubes():
         if name not in ['municipalities', 'officials']:
             cubes[name] = {
@@ -309,6 +311,7 @@ def table(request, cube_name):
         'cube_name': cube_name,
         'cube_model': cube,
         'cubes': cubes,
+        'select_year': select_year,
     })
 
 

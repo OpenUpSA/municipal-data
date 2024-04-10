@@ -146,7 +146,6 @@ label {
     margin: 0px -10px 0px -15px;
     background-color: $header-bg;
     padding: 5px 15px;
-    border-bottom: 1px solid #ccc;
     border-right: 1px solid #ccc;
   }
 
@@ -222,10 +221,6 @@ label {
     width: $row-heading-width;
     float: left;
 
-    th.spacer {
-      border-bottom: 1px solid white;
-    }
-
     td {
       max-width: $row-heading-width;
       text-overflow: ellipsis;
@@ -235,39 +230,63 @@ label {
 
   .table-scroll-area {
     overflow: auto;
+    height: 100%;
 
     table {
       float: left;
     }
   }
 
+  .sticky-row-first {
+    position: sticky;
+    top: 0;
+  }
+
+  .sticky-row-second {
+    position: sticky;
+    top: 21.64px;
+  }
+
   .values {
     th {
       font-weight: bold;
       text-align: center;
-      border-bottom: 1px solid #ccc;
       border-right: 5px solid white;
     }
 
     tr:first-child th {
       background-color: $nt-red;
       color: white;
-      border-bottom-color: #7f1a1d;
+    }
+    tr:first-child th:first-child {
+      background-color: white;
     }
 
     tr:nth-child(2) th {
       background-color: #efefef;
+    }
+    tr:nth-child(2) th:first-child {
+      background-color: white;
     }
 
     td {
       text-align: right;
       padding-left: 10px;
     }
+    .headcol {
+      position: sticky;
+      left: 0;
+      width: 300px;
+      text-align: left;
+    }
   }
 
   tr.hover td,
   tr.toggled td {
     background-color: gold;
+  }
+  .headcol {
+    background-color: white;
   }
 }
 
@@ -316,4 +335,18 @@ label {
 // prevent boxes from getting in the way
 .article-header .downloads {
   z-index: 10;
+}
+
+#year-popup {
+  display: none;
+  position: fixed;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  z-index: 99999;
+}
+
+.greyed {
+  color: #999;
 }

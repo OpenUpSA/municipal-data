@@ -67,7 +67,7 @@
 
       <div class="note"><strong>Note:</strong> A value of "<strong>·</strong>" indicates no amount has been submitted by the municipality.</div>
     </header>
-
+    <div id="year-popup">This year contains no data for the selected amount type.</div>
     <aside class="table-controls">
       <header>
         {{ cube_model.description }}
@@ -127,7 +127,6 @@
     </aside>
 
     <section class="table-display">
-      <table class="row-headings"></table>
       <div class="table-scroll-area">
         <table class="values"></table>
       </div>
@@ -157,7 +156,7 @@
 {% include '_terms_modal.html' %}
 
 <script>
-
+var SELECT_YEAR = '{{ select_year }}';
 var MUNI_DATA_API = '{{ API_URL }}';
 var CUBE_NAME = '{{ cube_name|escapejs }}';
 var CUBES = {{ cubes|jsonify|safe }};
