@@ -1,5 +1,8 @@
 from django.core.files.storage import default_storage
 import xlrd3 as xlrd
+import logging
+
+logger = logging.Logger(__name__)
 
 from municipal_finance.models import (
     FinancialPositionItemsV2,
@@ -29,6 +32,11 @@ def update_item_code_schema(update_obj, batch_size, **kwargs):
                 label = sheet.row_values(i)[4].strip()
                 code = sheet.row_values(i)[8].strip()
 
-                schema_codes[schema_code].objects.create(
-                    code=code, label=label, version=update_obj
-                )
+                try:
+                    schema_codes[schema_code].objects.create(
+                        code=code, label=label, version=update_obj
+                    )
+                except Exception as error:
+                    logger.warn(
+                        f"Item code {code} was not created from {key}. Reason: {error}"
+                    )
