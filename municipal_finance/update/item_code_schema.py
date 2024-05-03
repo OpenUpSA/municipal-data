@@ -29,14 +29,9 @@ def update_item_code_schema(update_obj, batch_size, **kwargs):
         for i in range(sheet.nrows):
             schema_code = sheet.row_values(i)[0].strip()
             if schema_code != "" and schema_code in schema_codes:
-                label = sheet.row_values(i)[4].strip()
-                code = sheet.row_values(i)[8].strip()
+                label = sheet.row_values(i)[8].strip()
+                code = sheet.row_values(i)[1].strip()
 
-                try:
-                    schema_codes[schema_code].objects.create(
-                        code=code, label=label, version=update_obj
-                    )
-                except Exception as error:
-                    logger.warn(
-                        f"Item code {code} was not created from {key}. Reason: {error}"
-                    )
+                schema_codes[schema_code].objects.create(
+                    code=code, label=label, version=update_obj
+                )
