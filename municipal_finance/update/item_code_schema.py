@@ -24,7 +24,7 @@ def update_item_code_schema(update_obj, batch_size, **kwargs):
     workbook = xlrd.open_workbook(file_contents=file.read())
 
     for item_key in schema_codes:
-        if item_key in sheet.row_values(i):
+        if item_key in workbook.sheet_names():
             sheet = workbook.sheet_by_name(item_key)
 
             for i in range(sheet.nrows):
