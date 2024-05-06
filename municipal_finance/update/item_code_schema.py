@@ -1,8 +1,6 @@
 from django.core.files.storage import default_storage
 import xlrd3 as xlrd
-import logging
 
-logger = logging.Logger(__name__)
 
 from municipal_finance.models import (
     FinancialPositionItemsV2,
