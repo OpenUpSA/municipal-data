@@ -24,13 +24,17 @@ def update_item_code_schema(update_obj, batch_size, **kwargs):
     for item_key in schema_codes:
         if item_key in workbook.sheet_names():
             sheet = workbook.sheet_by_name(item_key)
+            item_codes = {}
 
             for i in range(sheet.nrows):
                 schema_code = sheet.row_values(i)[0].strip()
                 if schema_code != "" and schema_code in schema_codes:
-                    label = sheet.row_values(i)[8].strip()
+                    desc = sheet.row_values(i)[2].strip()
+                    desc = desc.split("/")[-1].strip()
                     code = sheet.row_values(i)[1].strip()
+                    item_codes[code] = desc
 
-                    schema_codes[schema_code].objects.create(
-                        code=code, label=label, version=update_obj
-                    )
+            for key in item_codes:
+                schema_codes[schema_code].objects.create(
+                    code=key, label=item_codes[key], version=update_obj
+                )
