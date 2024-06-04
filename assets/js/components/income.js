@@ -341,8 +341,8 @@ export class NationalConditionalGrantsSection extends AbstractIncomeSection {
       this._transferredLabel = {};
       this._spentLabel = {};
       for (const year in this._chartData) {
-        let legendYear = this.sectionData.snapshot_date.year;
-        let legendQuarter = this.sectionData.snapshot_date.quarter;
+        const legendYear = this.sectionData.snapshot_date.year;
+        const legendQuarter = this.sectionData.snapshot_date.quarter;
 
         this._transferredLabel[year] = `Amount transferred up to ${legendYear} Q${legendQuarter}`;
         this._spentLabel[year] = `Amount spent up to ${legendYear} Q${legendQuarter}`;
