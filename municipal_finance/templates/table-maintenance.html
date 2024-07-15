@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% load pipeline jsonify staticfiles %}
+
+{% block title %}Municipal Money Data - {{ cube_model.label }}{% endblock %}
+{% block description %}Current and historical Municipal {{ cube_model.label }} data from the National Treasury{% endblock %}
+
+{% block body-class %}table-page{% endblock %}
+
+{% block head-css %}
+{% stylesheet "table" %}
+{% endblock %}
+
+{% block content %}
+<header id="header">
+  <div class="container-fluid">
+    <div class="pull-right">
+      <ul class="list-unstyled">
+        <li id="terms-ok" class="text hidden">You've accepted the <a data-toggle="modal" href="#terms-modal">Terms of Use</a></li>
+        <li>
+          <a class="btn btn-default" href="/" target="_blank"><i class="fa fa-question-circle"></i> Help</a>
+        </li>
+      </ul>
+    </div>
+
+    <img src="{% static 'images/treasury-logo.png' %}" class="logo">
+    {% if site_notices %}
+        <h1 class="site-notice"><a href="/">Municipal Finance Data Tables</a></h1>
+        {% for notice in site_notices %}<div class="site-notice">{{ notice.content | safe }}</div>{% endfor %}
+
+    {% else %}
+      <h1><a href="/">Municipal Finance Data Tables</a></h1>
+    {% endif %}
+  </div>
+</header>
+
+<h2>The Data Explorer API is currently under maintenance</h2>
+
+{% include '_terms_modal.html' %}
+
+<script>
+var SELECT_YEAR = '{{ select_year }}';
+var MUNI_DATA_API = '{{ API_URL }}';
+var CUBE_NAME = '{{ cube_name|escapejs }}';
+var CUBES = {{ cubes|jsonify|safe }};
+</script>
+
+<script>
+</script>
+{% endblock %}
+
+{% block js %}
+{% javascript "table" %}
+{{ block.super }}
+{% endblock %}
