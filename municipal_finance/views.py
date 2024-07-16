@@ -87,7 +87,7 @@ def index(request):
         "Unauthorised, Irregular, Fruitless and Wasteful Expenditure" : {"cube_info":[{"slug":"uifwexp"}]},
     }
 
-    return render(request, 'maintenance.html', {
+    return render(request, 'index.html', {
         'cubes': cubes,
         'cube_count': len(cube_names),
         'summary': summary_dict,
@@ -307,7 +307,7 @@ def table(request, cube_name):
                 'name': name,
             }
     cube = manager.get_cube(cube_name).model.to_dict()
-    return render(request, 'table-maintenance.html', {
+    return render(request, 'table.html', {
         'cube_name': cube_name,
         'cube_model': cube,
         'cubes': cubes,
