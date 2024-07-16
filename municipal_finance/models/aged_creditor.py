@@ -25,6 +25,7 @@ class AgedCreditorFacts(models.Model):
     l30_amount = models.BigIntegerField(null=True)
     l60_amount = models.BigIntegerField(null=True)
     l90_amount = models.BigIntegerField(null=True)
+    l91_amount = models.BigIntegerField(null=True)
     total_amount = models.BigIntegerField(null=True)
     financial_year = models.IntegerField()
     period_length = models.TextField()

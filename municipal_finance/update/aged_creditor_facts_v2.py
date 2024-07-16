@@ -25,6 +25,7 @@ AgedCreditorFactRow = namedtuple(
         "l30_amount",
         "l60_amount",
         "l90_amount",
+        "l91_amount",
         "l120_amount",
         "l150_amount",
         "l180_amount",
@@ -81,6 +82,7 @@ class AgedCreditorFactsUpdater(Updater):
             l30_amount=int(float(row.l30_amount)),
             l60_amount=int(float(row.l60_amount)),
             l90_amount=int(float(row.l90_amount)),
+            l91_amount=int(float(row.l91_amount)),
             total_amount=int(float(row.total_amount)),
         )
 
