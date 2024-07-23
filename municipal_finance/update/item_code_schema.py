@@ -12,7 +12,7 @@ from municipal_finance.models import (
 schema_codes = {
     "A6": FinancialPositionItemsV2,
     "SA34A": CapitalItemsV2,
-    "A7": CflowItemsV2,
+    "SA30": CflowItemsV2,
     "A4": IncexpItemsV2,
 }
 
