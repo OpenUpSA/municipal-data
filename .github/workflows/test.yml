@@ -12,21 +12,21 @@ jobs:
       - name: Configure variables to run container under host user ID
         run: export USER_ID=$(id -u) && export GROUP_ID=$(id -g)
       # Rebuild static files because we mount to /app overriding those in the image
-      - run: docker-compose run --rm scorecard yarn
-      - run: docker-compose run --rm scorecard yarn build
-      - run: docker-compose run --rm scorecard python manage.py collectstatic --no-input
-      - run: docker-compose run --rm scorecard bin/wait-for-postgres.sh python manage.py migrate
+      - run: docker compose run --rm scorecard yarn
+      - run: docker compose run --rm scorecard yarn build
+      - run: docker compose run --rm scorecard python manage.py collectstatic --no-input
+      - run: docker compose run --rm scorecard bin/wait-for-postgres.sh python manage.py migrate
       - name: Run tests
-        run: docker-compose run --rm test
+        run: docker compose run --rm test
       # Ensure that the demodata fixture can be loaded and the data is available in the API
       # - smoke test
       # - ensure development environment setup is maintained.
       - name: Load demo data fixture
-        run: docker-compose run --rm scorecard bin/wait-for-postgres.sh python manage.py loaddata demo-data demo-household seeddata
+        run: docker compose run --rm scorecard bin/wait-for-postgres.sh python manage.py loaddata demo-data demo-household seeddata
       - name: Start server
-        run: docker-compose up -d
+        run: docker compose up -d
       - name: "Smoke test: Check that demo data is returned by typical request to server"
         run: wget --retry-connrefused --waitretry=3 --read-timeout=10 --timeout=10 --tries=10 -O-  "http://localhost:8001/profiles/municipality-TSH-city-of-tshwane/" | grep "Gauteng"
-      - run: docker-compose logs scorecard
+      - run: docker compose logs scorecard
         if: ${{ always() }}
 
