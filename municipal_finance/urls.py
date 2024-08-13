@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
+from django.views.generic import RedirectView
 from django.conf.urls import include
 from django.contrib import admin
 from django.views.generic.base import RedirectView
@@ -61,4 +62,5 @@ urlpatterns = [
             content_type="text/plain",
         ),
     ),
+    url(r"^favicon\.ico$", RedirectView.as_view(url="/static/images/favicon.ico")),
 ]

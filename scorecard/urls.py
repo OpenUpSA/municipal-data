@@ -3,6 +3,7 @@ from django.conf.urls import include
 from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
+from django.views.generic import RedirectView
 from rest_framework import routers
 from django.contrib import admin
 import debug_toolbar
@@ -60,6 +61,7 @@ urlpatterns = [
             content_type="text/plain",
         ),
     ),
+    url(r"^favicon\.ico$", RedirectView.as_view(url="/static/images/favicon.ico")),
     url("^api/v1/infrastructure/", include("infrastructure.urls.api")),
     url("^infrastructure/", include("infrastructure.urls.templates")),
     url("^api/", include(router.urls)),
