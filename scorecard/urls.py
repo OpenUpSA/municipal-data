@@ -55,6 +55,7 @@ urlpatterns = [
         regex="^robots.txt$",
         view=lambda r: HttpResponse(
             "User-agent: *\nAllow: /\n"
+            "Crawl-Delay: 120 \n"
             + "Sitemap: https://municipalmoney.gov.za/sitemap.txt",
             content_type="text/plain",
         ),

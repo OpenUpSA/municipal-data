@@ -4,7 +4,7 @@ from django.views.generic.base import TemplateView
 from django.conf.urls import include
 from django.contrib import admin
 from django.views.generic.base import RedirectView
-
+from django.http import HttpResponse
 
 from . import views
 
@@ -19,7 +19,9 @@ urlpatterns = [
     url(r"^docs$", cache_page(API_CACHE_SECS)(views.docs)),
     url(
         r"^terms",
-        RedirectView.as_view(url="https://municipalmoney.gov.za/terms", permanent=False),
+        RedirectView.as_view(
+            url="https://municipalmoney.gov.za/terms", permanent=False
+        ),
         name="termsa",
     ),
     url(r"^table/(?P<cube_name>[\w_]+)/$", views.table, name="table"),
@@ -49,5 +51,14 @@ urlpatterns = [
     url(
         r"^api/cubes/(?P<cube_name>[\w_]+)/members/(?P<member_ref>[\w_.]+)$",
         cache_page(API_CACHE_SECS)(views.members),
+    ),
+    url(
+        regex="^robots.txt$",
+        view=lambda r: HttpResponse(
+            "User-agent: *\nAllow: /\n"
+            "Crawl-Delay: 120 \n"
+            + "Sitemap: https://municipalmoney.gov.za/sitemap.txt",
+            content_type="text/plain",
+        ),
     ),
 ]
