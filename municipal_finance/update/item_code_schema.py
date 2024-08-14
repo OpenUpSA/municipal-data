@@ -35,6 +35,7 @@ def update_item_code_schema(update_obj, batch_size, **kwargs):
                     item_codes[code] = desc
 
             for key in item_codes:
-                schema_codes[schema_code].objects.create(
-                    code=key, label=item_codes[key], version=update_obj
+                schema_codes[schema_code].objects.update_or_create(
+                    code=key,
+                    defaults={'label': item_codes[key]}
                 )
