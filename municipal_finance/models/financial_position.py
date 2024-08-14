@@ -9,7 +9,7 @@ class BsheetItems(models.Model):
     label = models.TextField()
     position_in_return_form = models.IntegerField(null=True)
     return_form_structure = models.TextField(null=True)
-    composition = models.TextField(null=True)
+    composition = models.TextField(blank=True, null=True)
 
     class Meta:
         abstract = True
