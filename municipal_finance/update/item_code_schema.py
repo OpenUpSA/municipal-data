@@ -30,7 +30,7 @@ def update_item_code_schema(update_obj, batch_size, **kwargs):
                 schema_code = sheet.row_values(i)[0].strip()
                 if schema_code != "" and schema_code in schema_codes:
                     desc = sheet.row_values(i)[2].strip()
-                    desc = desc.split("/")[-1].strip()
+                    desc = desc.split(" / ")[-1].strip()
                     code = sheet.row_values(i)[1].strip()
                     item_codes[code] = desc
 
