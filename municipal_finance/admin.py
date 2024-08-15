@@ -308,6 +308,14 @@ class CapitalTypeV2Admin(ImportExportModelAdmin):
         "label",
     )
 
+@admin.register(CapitalItemsV2)
+class CapitalItemsV2Admin(ImportExportModelAdmin):
+    resource_class = CapitalItemsV2Resource
+    list_display = (
+        "code",
+        "label",
+    )
+
 
 @admin.register(DemarcationChanges)
 class DemarcationChangesAdmin(admin.ModelAdmin):

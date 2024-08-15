@@ -9,7 +9,7 @@ class BsheetItems(models.Model):
     label = models.TextField()
     position_in_return_form = models.IntegerField(null=True)
     return_form_structure = models.TextField(null=True)
-    composition = models.TextField(null=True)
+    composition = models.TextField(blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -72,7 +72,7 @@ class FinancialPositionItemsV2(BsheetItems):
     class Meta:
         unique_together = ("code", "version")
         db_table = "financial_position_items_v2"
-        verbose_name_plural = "Balance Sheet Items (v2)"
+        verbose_name_plural = "Financial Position(Balance Sheet) Items (v2)"
 
     def __str__(self):
         return self.code

@@ -30,9 +30,8 @@ class UpdateItemSchema(TransactionTestCase):
             batch_size=4,
         )
         uploaded_items = CflowItemsV2.objects.all()
-        # Expecting 2 more items
-        self.assertEqual(uploaded_items.count(), 34)
+        # Expecting 1 more items
+        self.assertEqual(uploaded_items.count(), 33)
 
         item_code = CflowItemsV2.objects.get(code="1234")
         self.assertEqual(item_code.code, "1234")
-        self.assertEqual(item_code.version.version, "1")

@@ -13,7 +13,7 @@ class CapitalItems(models.Model):
     label = models.TextField()
     position_in_return_form = models.IntegerField(null=True)
     return_form_structure = models.TextField(null=True)
-    composition = models.TextField(null=True)
+    composition = models.TextField(blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -82,7 +82,7 @@ class CapitalTypeV2(models.Model):
 
     class Meta:
         db_table = "capital_type_v2"
-        verbose_name_plural = "Capital Items (v2)"
+        verbose_name_plural = "Capital Type (v2)"
 
     def __str__(self):
         return self.code
@@ -96,8 +96,9 @@ class CapitalItemsV2(CapitalItems):
     )
 
     class Meta:
-        unique_together = ("code", "version")
         db_table = "capital_items_v2"
+        unique_together = ("code", "version")
+        verbose_name_plural = "Capital Items (v2)"
 
     def __str__(self):
         return self.code

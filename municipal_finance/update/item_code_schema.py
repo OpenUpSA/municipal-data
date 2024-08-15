@@ -30,11 +30,12 @@ def update_item_code_schema(update_obj, batch_size, **kwargs):
                 schema_code = sheet.row_values(i)[0].strip()
                 if schema_code != "" and schema_code in schema_codes:
                     desc = sheet.row_values(i)[2].strip()
-                    desc = desc.split("/")[-1].strip()
+                    desc = desc.split(" / ")[-1].strip()
                     code = sheet.row_values(i)[1].strip()
                     item_codes[code] = desc
 
             for key in item_codes:
-                schema_codes[schema_code].objects.create(
-                    code=key, label=item_codes[key], version=update_obj
+                schema_codes[schema_code].objects.update_or_create(
+                    code=key,
+                    defaults={'label': item_codes[key]}
                 )
