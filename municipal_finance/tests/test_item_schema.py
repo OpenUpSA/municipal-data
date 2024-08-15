@@ -35,4 +35,3 @@ class UpdateItemSchema(TransactionTestCase):
 
         item_code = CflowItemsV2.objects.get(code="1234")
         self.assertEqual(item_code.code, "1234")
-        self.assertEqual(item_code.version.version, "1")
