@@ -27,6 +27,12 @@ split_cubes = [
 ]
 
 disable_xlsx = [
+    "bsheet_facts",
+    "financial_position_facts_v2",
+    "capital_facts",
+    "capital_facts_v2",
+    "cflow_facts",
+    "cflow_facts_v2",
     "incexp_facts",
     "incexp_facts_v2",
 ]
