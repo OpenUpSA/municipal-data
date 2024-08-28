@@ -26,13 +26,8 @@ split_cubes = [
     "incexp_facts_v2",
 ]
 
+# disable cubes with years that have more than more million rows
 disable_xlsx = [
-    "bsheet_facts",
-    "financial_position_facts_v2",
-    "capital_facts",
-    "capital_facts_v2",
-    "cflow_facts",
-    "cflow_facts_v2",
     "incexp_facts",
     "incexp_facts_v2",
 ]
@@ -59,9 +54,7 @@ def generate_download(**kwargs):
     # Fetch data from relevent cube
     if cube_name in split_cubes:
         year_list = (
-            cube_model.objects.all()
-            .distinct()
-            .values_list("financial_year", flat=True)
+            cube_model.objects.all().distinct().values_list("financial_year", flat=True)
         )
 
         if cube_name in disable_xlsx:
@@ -137,35 +130,13 @@ def generate_download(**kwargs):
 
 def dump_cube_to_xlsx(queryset, field_names, cube_model, timestamp):
     file_name = f"{cube_model._meta.db_table}_{timestamp}.xlsx"
-    f = default_storage.open(
-        f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}", "wb"
-    )
-    workbook = xlsxwriter.Workbook(f, {"constant_memory": True})
-    worksheet = workbook.add_worksheet()
-
-    # Generalise header for different cube columns
-    for col, header in enumerate(field_names):
-        worksheet.write(0, col, header)
-
-    row_num = 1
-    for row in queryset:
-        col_num = 0
-        for field in field_names:
-            value = getattr(row, field)
-            worksheet.write(row_num, col_num, str(value))
-            col_num += 1
-        row_num += 1
-
-        if row_num > xlsx_max_rows:
-            worksheet = workbook.add_worksheet()
-            row = 0
-
-    workbook.close()
-    f.close()
+    file_path = f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}"
+    write_xlsx(field_names, queryset, file_path)
     return {all_years: [file_name]}
 
 
 def split_dump_to_xlsx(field_names, cube_model, timestamp, year_list):
+    # Write each year to a separate file
     files = {}
 
     for year in year_list:
@@ -175,67 +146,54 @@ def split_dump_to_xlsx(field_names, cube_model, timestamp, year_list):
         )
         files[year] = [file_name]
         queryset_year = cube_model.objects.filter(financial_year=year).defer("id")
-        total_rows = queryset_year.count()
-        num_chunks = (total_rows // xlsx_max_rows) + 1
-
-        with default_storage.open(file_path, "wb") as file:
-            workbook = xlsxwriter.Workbook(file, {"constant_memory": True})
-            worksheet = workbook.add_worksheet()
-
-            for col_num, header in enumerate(field_names):
-                worksheet.write(0, col_num, header)
-
-            # Write data in chunks
-            current_row = 1
-            for chunk_number in range(num_chunks):
-                start_row = chunk_number * xlsx_max_rows
-                end_row = min((chunk_number + 1) * xlsx_max_rows, total_rows)
-                chunk = queryset_year[start_row:end_row]
-
-                for row_num, row in enumerate(chunk):
-                    for col_num, field in enumerate(cube_model._meta.get_fields()):
-                        if field.name != "id":
-                            value = getattr(row, field.name)
-                            worksheet.write(
-                                current_row + row_num, col_num - 1, str(value)
-                            )
-
-                current_row += len(chunk)
-
-            workbook.close()
+        write_xlsx(field_names, queryset_year, file_path)
     return files
+
+
+def write_xlsx(field_names, queryset, file_path):
+    data = queryset.values(*field_names)
+
+    with default_storage.open(file_path, "wb") as file:
+        workbook = xlsxwriter.Workbook(file, {"constant_memory": True})
+        worksheet = workbook.add_worksheet()
+
+        for col_num, header in enumerate(field_names):
+            worksheet.write(0, col_num, header)
+
+        # Write the header row
+        for col_num, fieldname in enumerate(field_names):
+            worksheet.write(0, col_num, fieldname)
+        # Write the data rows
+        for row_num, row in enumerate(data, start=1):
+            for col_num, fieldname in enumerate(field_names):
+                worksheet.write(row_num, col_num, row[fieldname])
+
+        workbook.close()
 
 
 def dump_cube_to_csv(queryset, field_names, cube_model, timestamp):
     file_name = f"{cube_model._meta.db_table}_{timestamp}.csv"
-
-    f = default_storage.open(
-        f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}", "wb"
-    )
-    writer = csv.DictWriter(f, fieldnames=field_names)
-    writer.writeheader()
-    for item in queryset:
-        row = {field: getattr(item, field) for field in field_names}
-        writer.writerow(row)
-
-    f.close()
+    write_csv(field_names, queryset, cube_model, file_name)
     return {all_years: [file_name]}
 
 
 def split_dump_to_csv(field_names, cube_model, timestamp, year_list):
+    # Write each year to a separate file
     files = {}
     for year in year_list:
-        queryset_new = cube_model.objects.filter(financial_year=year).defer("id")
+        queryset = cube_model.objects.filter(financial_year=year).defer("id")
         file_name = f"{cube_model._meta.db_table}_{year}__{timestamp}.csv"
-        file_path = (
-            f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}"
-        )
         files[year] = [file_name]
-
-        with default_storage.open(file_path, "wb") as file:
-            writer = csv.DictWriter(file, fieldnames=field_names)
-            writer.writeheader()
-            for item in queryset_new:
-                row = {field: getattr(item, field) for field in field_names}
-                writer.writerow(row)
+        write_csv(field_names, queryset, cube_model, file_name)
     return files
+
+
+def write_csv(field_names, queryset, cube_model, file_name):
+    file_path = f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}"
+    data = queryset.values(*field_names)
+
+    with default_storage.open(file_path, "wb") as file:
+        writer = csv.DictWriter(file, fieldnames=field_names)
+        writer.writeheader()
+        for row in data:
+            writer.writerow(row)
