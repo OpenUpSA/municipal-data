@@ -26,10 +26,18 @@ split_cubes = [
     "incexp_facts_v2",
 ]
 
-# disable cubes with years that have more than more million rows
+# Disable cubes with years that have more than more million rows
 disable_xlsx = [
     "incexp_facts",
     "incexp_facts_v2",
+]
+
+related_fields = [
+    "item_id",
+    "amount_type",
+    "capital_type_id",
+    "function_id",
+    "grant_type_id",
 ]
 
 xlsx_max_rows = 1000000
@@ -45,7 +53,7 @@ def generate_download(**kwargs):
     cube_name = cube_model._meta.db_table
     file_names = {}
 
-    queryset = cube_model.objects.all().defer("id")
+    queryset = cube_model.objects.select_related("item").all()
     field_names = [field.name for field in cube_model._meta.fields]
 
     if "id" in field_names:
