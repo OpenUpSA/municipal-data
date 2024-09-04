@@ -7,6 +7,7 @@ import csv
 from datetime import datetime
 
 from django.core.files.storage import default_storage
+from django.db.models import ForeignKey
 from django.db import transaction
 from django.conf import settings
 
@@ -32,14 +33,6 @@ disable_xlsx = [
     "incexp_facts_v2",
 ]
 
-related_fields = [
-    "item_id",
-    "amount_type",
-    "capital_type_id",
-    "function_id",
-    "grant_type_id",
-]
-
 xlsx_max_rows = 1000000
 all_years = "All"
 metadata_index = "index.json"
@@ -53,7 +46,7 @@ def generate_download(**kwargs):
     cube_name = cube_model._meta.db_table
     file_names = {}
 
-    queryset = cube_model.objects.select_related("item").all()
+    queryset = cube_model.objects.select_related().all()
     field_names = [field.name for field in cube_model._meta.fields]
 
     if "id" in field_names:
@@ -138,8 +131,7 @@ def generate_download(**kwargs):
 
 def dump_cube_to_xlsx(queryset, field_names, cube_model, timestamp):
     file_name = f"{cube_model._meta.db_table}_{timestamp}.xlsx"
-    file_path = f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}"
-    write_xlsx(field_names, queryset, file_path)
+    write_to_xlsx(field_names, queryset, cube_model, file_name)
     return {all_years: [file_name]}
 
 
@@ -149,39 +141,42 @@ def split_dump_to_xlsx(field_names, cube_model, timestamp, year_list):
 
     for year in year_list:
         file_name = f"{cube_model._meta.db_table}_{year}__{timestamp}.xlsx"
-        file_path = (
-            f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}"
-        )
         files[year] = [file_name]
         queryset_year = cube_model.objects.filter(financial_year=year).defer("id")
-        write_xlsx(field_names, queryset_year, file_path)
+        write_to_xlsx(field_names, queryset_year, cube_model, file_name)
     return files
 
 
-def write_xlsx(field_names, queryset, file_path):
-    data = queryset.values(*field_names)
+def write_to_xlsx(field_names, queryset, cube_model, file_name):
+    file_path = f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}"
 
     with default_storage.open(file_path, "wb") as file:
-        workbook = xlsxwriter.Workbook(file, {"constant_memory": True})
+        workbook = xlsxwriter.Workbook(file)
         worksheet = workbook.add_worksheet()
 
-        for col_num, header in enumerate(field_names):
-            worksheet.write(0, col_num, header)
+        header_written = False
 
-        # Write the header row
-        for col_num, fieldname in enumerate(field_names):
-            worksheet.write(0, col_num, fieldname)
-        # Write the data rows
-        for row_num, row in enumerate(data, start=1):
-            for col_num, fieldname in enumerate(field_names):
-                worksheet.write(row_num, col_num, row[fieldname])
+        row_num = 0
+        for fact in queryset:
+            fields = get_related_fields(fact)
+
+            # Write the header row
+            if not header_written:
+                for col_num, field_name in enumerate(fields.keys()):
+                    worksheet.write(row_num, col_num, field_name)
+                header_written = True
+                row_num += 1
+            # Write the data rows
+            for col_num, field_value in enumerate(fields.values()):
+                worksheet.write(row_num, col_num, field_value)
+            row_num += 1
 
         workbook.close()
 
 
 def dump_cube_to_csv(queryset, field_names, cube_model, timestamp):
     file_name = f"{cube_model._meta.db_table}_{timestamp}.csv"
-    write_csv(field_names, queryset, cube_model, file_name)
+    write_to_csv(field_names, queryset, cube_model, file_name)
     return {all_years: [file_name]}
 
 
@@ -192,16 +187,32 @@ def split_dump_to_csv(field_names, cube_model, timestamp, year_list):
         queryset = cube_model.objects.filter(financial_year=year).defer("id")
         file_name = f"{cube_model._meta.db_table}_{year}__{timestamp}.csv"
         files[year] = [file_name]
-        write_csv(field_names, queryset, cube_model, file_name)
+        write_to_csv(field_names, queryset, cube_model, file_name)
     return files
 
 
-def write_csv(field_names, queryset, cube_model, file_name):
+def write_to_csv(field_names, queryset, cube_model, file_name):
     file_path = f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}"
-    data = queryset.values(*field_names)
-
     with default_storage.open(file_path, "wb") as file:
-        writer = csv.DictWriter(file, fieldnames=field_names)
-        writer.writeheader()
-        for row in data:
-            writer.writerow(row)
+        writer = csv.writer(file)
+
+        header_written = False
+
+        for fact in queryset:
+            fields = get_related_fields(fact)
+
+            if not header_written:
+                writer.writerow(fields.keys())
+                header_written = True
+
+            writer.writerow(fields.values())
+
+
+def get_related_fields(instance):
+    fields = {}
+    for field in instance._meta.get_fields():
+        value = getattr(instance, field.name)
+        if isinstance(field, ForeignKey):
+            value = str(value) if value else None
+        fields[field.name] = value
+    return fields
