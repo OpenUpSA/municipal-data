@@ -63,11 +63,11 @@ class UpdateAgedCreditorFactsV2(TransactionTestCase):
         file_lines = data.splitlines()
         self.assertEqual(
             file_lines[0],
-            "demarcation_code,period_code,g1_amount,l1_amount,l120_amount,l150_amount,l180_amount,l30_amount,l60_amount,l90_amount,total_amount,financial_year,period_length,financial_period,item,amount_type",
+            "id,demarcation_code,period_code,g1_amount,l1_amount,l120_amount,l150_amount,l180_amount,l30_amount,l60_amount,l90_amount,total_amount,financial_year,period_length,financial_period,item,amount_type",
         )
         self.assertEqual(
             file_lines[1],
-            "CPT,2018AUDA,-1058474965,0,0,0,0,0,0,0,-1058474965,2018,year,2018,0100,AUDA",
+            "1,CPT,2018AUDA,-1058474965,0,0,0,0,0,0,0,-1058474965,2018,year,2018,0100,AUDA",
         )
 
     def test_download_context(self):
