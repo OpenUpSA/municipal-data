@@ -46,7 +46,7 @@ def generate_download(**kwargs):
     cube_name = cube_model._meta.db_table
     file_names = {}
 
-    queryset = cube_model.objects.select_related().all()
+    queryset = cube_model.objects.select_related().all().defer("id")
     field_names = [field.name for field in cube_model._meta.fields]
 
     if "id" in field_names:
