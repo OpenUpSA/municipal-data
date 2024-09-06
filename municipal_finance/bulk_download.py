@@ -11,7 +11,6 @@ from django.core.files.storage import default_storage
 from django.db import transaction
 from django.conf import settings
 
-
 # Map cube names to call the get_cube function
 cubes_map = {
     "financial_position_facts_v2": "financial_position_v2",
@@ -138,8 +137,6 @@ def cube_to_csv(cube_model, timestamp):
         page_size=1000000,
         page_max=1000000,
     )
-    print("______")
-    print(result)
     field_names = result["data"][0].keys()
     write_to_csv(field_names, result, cube_model, file_name)
     return {all_years: [file_name]}
