@@ -14,7 +14,7 @@ MONTH_TYPE_RE = re.compile(r"^M\d{2}$")
 
 PERIOD_CODE_RE = re.compile(
     r"^(?P<year>\d{4})"
-    r"(?P<type>IBY1|IBY2|ADJB|ORGB|AUDA|PAUD|ITY1|ITY2|TABB|TRFR|SCHD)?"
+    r"(?P<type>IBY1|IBY2|ADJB|ORGB|AUDA|PAUD|ITY1|ITY2|TABB|TRFR|SCHD|RAUD)?"
     r"(M(?P<month>\d{2}))?$"
 )
 
@@ -35,7 +35,7 @@ def period_code_details(code):
             details["month"] or details["year"],
         )
     else:
-        return None
+        raise Exception(f"Period code does not exist: {code}")
 
 
 def all_to_code_dict(model):
