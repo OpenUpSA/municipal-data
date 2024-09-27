@@ -25,6 +25,19 @@ class Command(BaseCommand):
                 "0170",
                 "0180",
             ],
+            "0310": [
+                "0210",
+                "0220",
+                "0230",
+                "0240",
+                "0250",
+                "0260",
+                "0270",
+                "0280",
+                "0290",
+                "0300",
+            ],
+            "0320": ["0190", "0310"],
             "0430": ["0350", "0360", "0370", "0380", "0390", "0400", "0410", "0420"],
             "0490": ["0450", "0460", "0470", "0480"],
             "0500": ["0430", "0490"],
@@ -72,5 +85,7 @@ class Command(BaseCommand):
                                 demarcation_code=muni_code,
                                 amount_type=amount_type_model,
                                 period_length="year",
-                                amount=sub_total,
+                                defaults={
+                                    'amount': sub_total,
+                                }
                             )
