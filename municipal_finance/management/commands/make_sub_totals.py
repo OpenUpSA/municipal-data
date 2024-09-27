@@ -77,13 +77,16 @@ class Command(BaseCommand):
                         item_code = FinancialPositionItemsV2.objects.get(code=item_key)
 
                         if sub_total != 0:
-                            FinancialPositionFactsV2.objects.update_or_create(
-                                financial_year=fin_year,
-                                financial_period=fin_year,
-                                period_code=f"{fin_year}{amount_type_model.code}",
-                                item_id=item_code.id,
-                                demarcation_code=muni_code,
-                                amount_type=amount_type_model,
-                                period_length="year",
-                                amount=sub_total,
-                            )
+                            try:
+                                FinancialPositionFactsV2.objects.update_or_create(
+                                    financial_year=fin_year,
+                                    financial_period=fin_year,
+                                    period_code=f"{fin_year}{amount_type_model.code}",
+                                    item_id=item_code.id,
+                                    demarcation_code=muni_code,
+                                    amount_type=amount_type_model,
+                                    period_length="year",
+                                    amount=sub_total,
+                                )
+                            except (ValueError, TypeError) as e:
+                                pass
