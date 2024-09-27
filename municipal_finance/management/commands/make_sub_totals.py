@@ -15,7 +15,22 @@ class Command(BaseCommand):
     help = "Make sub totals"
 
     def handle(self, *args, **options):
-        total_items = {"0190": [], "0200": []}
+        total_items = {
+            "0190": [
+                "0120",
+                "0130",
+                "0140",
+                "0150",
+                "0160",
+                "0170",
+                "0180",
+            ],
+            "0430": ["0350", "0360", "0370", "0380", "0390", "0400", "0410", "0420"],
+            "0490": ["0450", "0460", "0470", "0480"],
+            "0500": ["0430", "0490"],
+            "0510": ["0320", "0500"],
+            "0560": ["0530", "0540", "0550"],
+        }
 
         year_list = ["2018", "2019", "2020", "2021", "2022"]
 
@@ -44,7 +59,6 @@ class Command(BaseCommand):
                             if finpos:
                                 if finpos[0].amount:
                                     sub_total += finpos[0].amount
-                                    print(finpos[0].amount)
 
                         amount_type_model = AmountTypeV2.objects.get(id=amount_type)
                         item_code = FinancialPositionItemsV2.objects.get(code=item_key)
