@@ -50,13 +50,6 @@ class IncomeExpenditureFactsV2Updater(Updater):
         "items": IncexpItemsV2,
         "functions": GovernmentFunctionsV2,
     }
-    schema_version = references_cls["items"].objects.aggregate(version=Max("version"))[
-        "version"
-    ]
-    ref_items = references_cls["items"].objects.filter(version=schema_version)
-    item_map = {}
-    for item in ref_items:
-        item_map[str(item)] = item
 
     def build_unique_query(self, rows):
         return build_unique_query_params_with_period(rows)
@@ -69,7 +62,7 @@ class IncomeExpenditureFactsV2Updater(Updater):
             financial_period,
         ) = period_code_details(row.period_code)
         amount = int(row.amount) if row.amount else None
-        item = self.item_map[row.item_code]
+        item = self.references["items"][row.item_code]
         function = self.references["functions"][row.function_code]
         amount_type = self.references["amount_types"][amount_type_code]
         return IncexpFactsV2(
