@@ -164,10 +164,13 @@ def api_root(request):
     endpoints = [
         request.build_absolute_uri('/api/cubes'),
     ]
-    return jsonify({
-        'endpoints': endpoints,
-        'documentation': 'https://municipaldata.treasury.gov.za/docs',
-    })
+    if settings.API_MAINTENANCE:
+        return jsonify("API undergoing maintenance")
+    else:
+        return jsonify({
+            'endpoints': endpoints,
+            'documentation': 'https://municipaldata.treasury.gov.za/docs',
+        })
 
 
 @xframe_options_exempt
@@ -307,12 +310,15 @@ def table(request, cube_name):
                 'name': name,
             }
     cube = manager.get_cube(cube_name).model.to_dict()
-    return render(request, 'table.html', {
-        'cube_name': cube_name,
-        'cube_model': cube,
-        'cubes': cubes,
-        'select_year': select_year,
-    })
+    if settings.API_MAINTENANCE:
+        return render(request, 'table-maintenance.html')
+    else:
+        return render(request, 'table.html', {
+            'cube_name': cube_name,
+            'cube_model': cube,
+            'cubes': cubes,
+            'select_year': select_year,
+        })
 
 
 def get_bulk_downloads():

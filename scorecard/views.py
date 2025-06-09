@@ -309,7 +309,10 @@ class SitemapView(TemplateView):
 
 
 class HomePage(TemplateView):
-    template_name = "webflow/index.html"
+    if settings.SCORECARD_MAINTENANCE:
+        template_name = "webflow/index-maintenance.html"
+    else:
+        template_name = "webflow/index.html"
 
     def get_context_data(self, *args, **kwargs):
         page_context = {
