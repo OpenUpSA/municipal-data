@@ -300,6 +300,8 @@ def members(request, cube_name, member_ref):
 
 @xframe_options_exempt
 def table(request, cube_name):
+    if settings.API_MAINTENANCE:
+        return render(request, 'table-maintenance.html')
     manager = get_manager()
     cubes = {}
     select_year = config.LAST_AUDIT_YEAR
@@ -310,15 +312,12 @@ def table(request, cube_name):
                 'name': name,
             }
     cube = manager.get_cube(cube_name).model.to_dict()
-    if settings.API_MAINTENANCE:
-        return render(request, 'table-maintenance.html')
-    else:
-        return render(request, 'table.html', {
-            'cube_name': cube_name,
-            'cube_model': cube,
-            'cubes': cubes,
-            'select_year': select_year,
-        })
+    return render(request, 'table.html', {
+        'cube_name': cube_name,
+        'cube_model': cube,
+        'cubes': cubes,
+        'select_year': select_year,
+    })
 
 
 def get_bulk_downloads():
