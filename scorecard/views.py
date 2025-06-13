@@ -85,7 +85,10 @@ class LocateView(TemplateView):
 
 
 class GeographyDetailView(TemplateView):
-    template_name = "webflow/muni-profile.html"
+    if settings.SCORECARD_MAINTENANCE:
+        template_name = "webflow/muni-profile-maintenance.html"
+    else:
+        template_name = "webflow/muni-profile.html"
 
     def dispatch(self, *args, **kwargs):
         self.geo_id = self.kwargs.get("geography_id", None)

@@ -51,6 +51,8 @@ def get_cube_with_last_updated(connection, manager, name):
 
 @xframe_options_exempt
 def index(request):
+    if settings.API_MAINTENANCE:
+        return render(request, 'index-maintenance.html')
     manager = get_manager()
     cube_names = manager.list_cubes()
     with manager.get_engine().connect() as connection:
