@@ -167,7 +167,7 @@ def api_root(request):
         request.build_absolute_uri('/api/cubes'),
     ]
     if settings.API_MAINTENANCE:
-        return jsonify("API undergoing maintenance")
+        return jsonify("Down for maintenance")
     else:
         return jsonify({
             'endpoints': endpoints,
