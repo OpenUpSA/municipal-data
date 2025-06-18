@@ -10,11 +10,14 @@ from . import models
 from . import api as api_views
 from django.http import HttpResponse
 from infrastructure.utils import chart_quarters
+from municipal_finance import settings
 
 
 class ListView(TemplateView):
-
-    template_name = "infrastructure/search.djhtml"
+    if settings.SCORECARD_MAINTENANCE:
+        template_name = "infrastructure/search-maintenance.djhtml"
+    else:
+        template_name = "infrastructure/search.djhtml"
 
     def get_context_data(self, **kwargs):
         view = api_views.ProjectViewSet.as_view({"get": "list"})
