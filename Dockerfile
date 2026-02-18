@@ -16,6 +16,7 @@ RUN set -ex; \
   rm -rf /var/lib/apt/lists/*
 
 
+RUN pip install -U setuptools==69.0.2
 ADD requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
