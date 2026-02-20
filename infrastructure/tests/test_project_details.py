@@ -1,3 +1,5 @@
+from unittest import mock
+
 from django.test import Client, override_settings
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -7,8 +9,20 @@ from django_q.models import OrmQ
 from infrastructure.models import FinancialYear, Project, AnnualSpendFile, ProjectQuarterlySpend, Expenditure, BudgetPhase
 from infrastructure.upload import process_annual_document
 from scorecard.models import Geography
+from scorecard.tests.test_geography import request_mock
 
 from municipal_finance.tests.helpers import BaseSeleniumTestCase
+
+
+bbox_coords = {
+    "min_lat": -33.0,
+    "max_lat": -32.0,
+    "min_lon": 27.0,
+    "max_lon": 28.0,
+    "centre_lat": -32.5,
+    "centre_lon": 27.5,
+    "parts": 1,
+}
 
 
 def create_expenditure(self, amount, phase, year):
@@ -28,6 +42,7 @@ def create_expenditure(self, amount, phase, year):
     SITE_ID=2,
     STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage",
 )
+@mock.patch('requests.get', side_effect=request_mock(bbox_coords))
 class CapitalProjectTest(BaseSeleniumTestCase):
     fixtures = ["seeddata"]
 
@@ -67,9 +82,9 @@ class CapitalProjectTest(BaseSeleniumTestCase):
 
         super(CapitalProjectTest, self).setUp()
 
-        Site.objects.filter(id=2).update(domain='municipalmoney.org.za', name='Scorecard')
+        Site.objects.filter(id=2).update(domain='localhost', name='Scorecard')
 
-    def test_project_details(self):
+    def test_project_details(self, mock_get):
         selenium = self.selenium
         selenium.get(f"{self.live_server_url}/infrastructure/projects/{self.project.id}")
 
@@ -104,7 +119,7 @@ class CapitalProjectTest(BaseSeleniumTestCase):
 
         self.wait_until_text_in(".subsection-chart_wrapper .project-detail_heading", "NO DATA AVAILABLE")
 
-    def test_quarterly_chart(self):
+    def test_quarterly_chart(self, mock_get):
         self.quarterly_spend = ProjectQuarterlySpend.objects.create(
             project=self.project,
             financial_year=self.fy,
