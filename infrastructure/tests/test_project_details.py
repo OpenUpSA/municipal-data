@@ -1,4 +1,4 @@
-from django.test import Client
+from django.test import Client, override_settings
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
@@ -24,6 +24,10 @@ def create_expenditure(self, amount, phase, year):
     return expenditure
 
 
+@override_settings(
+    SITE_ID=2,
+    STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage",
+)
 class CapitalProjectTest(BaseSeleniumTestCase):
     fixtures = ["seeddata"]
 
