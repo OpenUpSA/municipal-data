@@ -18,7 +18,6 @@ RUN set -ex; \
 RUN apt-get update && \
     apt-get install -y chromium-driver
 
-RUN pip install -U setuptools==69.0.2
 ADD requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 ADD requirements-test.txt /requirements-test.txt
