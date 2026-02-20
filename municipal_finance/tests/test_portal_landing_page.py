@@ -1,5 +1,7 @@
 from municipal_finance.tests.helpers import BaseSeleniumTestCase
 from django.test import override_settings
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 from municipal_finance.models.data_summaries import Summary
 
@@ -55,6 +57,9 @@ class TestPortalHome(BaseSeleniumTestCase):
             selenium.find_elements_by_css_selector(".cube-list")[0].is_displayed()
         )
         self.click(".group")  # Expand accordion
+        self.wait.until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, ".cube-list"))
+        )
         self.assertTrue(
             selenium.find_elements_by_css_selector(".cube-list")[0].is_displayed()
         )
