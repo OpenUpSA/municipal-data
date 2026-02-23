@@ -15,7 +15,6 @@ RUN set -ex; \
   apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
   rm -rf /var/lib/apt/lists/*
 
-
 ADD requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 

@@ -99,7 +99,8 @@ class TestGeographies(TestCase):
 
         self.assertDictEqual(parent_json, js_parent)
 
-    def test_geography_with_bbox(self):
+    @mock.patch('requests.get', side_effect=request_mock(cpt_coords))
+    def test_geography_with_bbox(self, mock_get):
         js_parent = serializers.GeographySerializer(
         self.parent_geography, context={
                                                     "request": None, "full": True}).data
@@ -123,7 +124,8 @@ class TestBoundingBoxes(TestCase):
                   for x in ["min_lon", "min_lat", "max_lon", "max_lat"]]
         self.assertEquals(coords, bbox)
 
-    def test_request(self):
+    @mock.patch('requests.get', side_effect=request_mock(cpt_coords))
+    def test_request(self, mock_get):
         muni = fixtures["parent_map"]
         muni["geo_code"] = "CPT"
 
