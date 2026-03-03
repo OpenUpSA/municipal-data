@@ -1,3 +1,4 @@
+from django.contrib.sites.models import Site
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponsePermanentRedirect
 
@@ -37,7 +38,11 @@ class SiteMiddleware(object):
         return self.get_response(request)
     
     def process_request(self, request):
-        site = get_current_site(request)
+        try:
+            site = get_current_site(request)
+        except Site.DoesNotExist:
+            request.urlconf = 'municipal_finance.urls'
+            return
         if site.name == 'Scorecard':
             request.urlconf = 'scorecard.urls'
         else:
