@@ -22,11 +22,11 @@ ARG USER_ID=1001
 ARG GROUP_ID=1001
 
 RUN set -ex; \
-  addgroup --gid $GROUP_ID --system django; \
-  adduser --system --home /home/django --uid $USER_ID --gid $GROUP_ID django
-USER django
+  getent group $GROUP_ID || addgroup --gid $GROUP_ID --system django; \
+  getent passwd $USER_ID || adduser --system --home /home/django --uid $USER_ID --gid $GROUP_ID django
+USER $USER_ID
 
-COPY --chown=django:django . /app
+COPY --chown=$USER_ID:$GROUP_ID . /app
 WORKDIR /app
 
 RUN set -ex; \

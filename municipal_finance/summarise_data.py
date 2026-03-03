@@ -70,9 +70,14 @@ def summarise():
     for table in FACT_TABLES:
         years += get_years(table)
 
-    min_year = min(years)
-    max_year = max(years)
-    count_years = len(set(years))
+    if years:
+        min_year = min(years)
+        max_year = max(years)
+        count_years = len(set(years))
+    else:
+        min_year = None
+        max_year = None
+        count_years = 0
 
     Summary.objects.update_or_create(
         type="years",
