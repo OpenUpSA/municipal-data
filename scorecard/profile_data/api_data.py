@@ -153,7 +153,7 @@ class ApiData(object):
             official = officials.get(role)
             if official:
                 secretary = officials.get(secretaries[role])
-                if secretary["name"] is None:
+                if secretary is None or secretary["name"] is None:
                     secretary = None
                 if secretary:
                     official["secretary"] = secretary
