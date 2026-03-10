@@ -400,7 +400,11 @@ PIPELINE = {
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = "municipal_finance.pipeline.GzipManifestPipelineStorage"
+import sys
+if "test" in sys.argv:
+    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+else:
+    STATICFILES_STORAGE = "municipal_finance.pipeline.GzipManifestPipelineStorage"
 
 WHITENOISE_MIMETYPES = {
     '.map': 'application/octet-stream',
