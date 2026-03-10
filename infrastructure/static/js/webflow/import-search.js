@@ -1,5 +1,5 @@
 exports.transformHTML = function(html) {
-  let newHtml = "{% load staticfiles pipeline %}\n" + html;
+  let newHtml = "{% load static pipeline %}\n" + html;
   newHtml = newHtml.replace(/"(?:\.\.\/)*(js|css|images|fonts)([^"]+)"/g, "\"/static/$1$2\"");
   newHtml = newHtml.replace(/"index.html"/g, '"/"');
   return newHtml;

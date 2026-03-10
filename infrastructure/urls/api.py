@@ -1,4 +1,4 @@
-from django.conf.urls import include, url
+from django.urls import re_path
 from rest_framework import routers
 from .. import views
 
@@ -8,7 +8,7 @@ router.register(r"budget_phases", views.BudgetPhaseViewSet)
 router.register(r"projects", views.ProjectViewSet)
 
 urlpatterns = [
-    url(r"^search", views.ProjectSearch.as_view(), name="search"),
-    url(r"^coordinates", views.ProjectCoordinates.as_view(), name="coordinates"),
+    re_path(r"^search", views.ProjectSearch.as_view(), name="search"),
+    re_path(r"^coordinates", views.ProjectCoordinates.as_view(), name="coordinates"),
 ]
 urlpatterns += router.urls

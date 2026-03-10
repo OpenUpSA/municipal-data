@@ -9,7 +9,7 @@ class SmallAutoField(models.AutoField):
         return "smallserial"
 
     def get_internal_type(self):
-        return "PositiveSmallIntegerField¶"
+        return "PositiveSmallIntegerField"
 
     def to_python(self, value):
         if value is None:

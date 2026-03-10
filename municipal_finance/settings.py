@@ -496,7 +496,8 @@ if SENTRY_DSN:
 DEBUG_TOOLBAR = os.environ.get("DJANGO_DEBUG_TOOLBAR", "false").lower() == "true"
 logger.info("Django Debug Toolbar %s." % "enabled" if DEBUG_TOOLBAR else "disabled")
 DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK": "municipal_finance.settings.show_toolbar_check"
+    "SHOW_TOOLBAR_CALLBACK": "municipal_finance.settings.show_toolbar_check",
+    "IS_RUNNING_TESTS": False,
 }
 
 MSCOA_CUTOFF_YEAR = 2020

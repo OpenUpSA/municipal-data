@@ -1,12 +1,12 @@
-from django.conf.urls import include, url
+from django.urls import re_path
 from .. import views
 
 urlpatterns = [
-    url(r"^projects/$", views.ListView.as_view(), name="project-list-view"),
-    url(
+    re_path(r"^projects/$", views.ListView.as_view(), name="project-list-view"),
+    re_path(
         r"^projects/(?P<pk>\d+)/$",
         views.DetailView.as_view(),
         name="project-detail-view",
     ),
-    url(r"^download$", views.download_csv, name="download_csv"),
+    re_path(r"^download$", views.download_csv, name="download_csv"),
 ]
