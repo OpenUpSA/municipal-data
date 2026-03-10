@@ -12,7 +12,7 @@ from pipeline.compilers import SubProcessCompiler
 
 
 class GzipManifestPipelineStorage(PipelineMixin, CompressedManifestStaticFilesStorage):
-    pass
+    manifest_strict = False
 
 
 class PyScssCompiler(SubProcessCompiler):
