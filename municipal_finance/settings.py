@@ -400,7 +400,11 @@ PIPELINE = {
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = "municipal_finance.pipeline.GzipManifestPipelineStorage"
+import sys
+if "test" in sys.argv:
+    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+else:
+    STATICFILES_STORAGE = "municipal_finance.pipeline.GzipManifestPipelineStorage"
 
 WHITENOISE_MIMETYPES = {
     '.map': 'application/octet-stream',
@@ -496,7 +500,8 @@ if SENTRY_DSN:
 DEBUG_TOOLBAR = os.environ.get("DJANGO_DEBUG_TOOLBAR", "false").lower() == "true"
 logger.info("Django Debug Toolbar %s." % "enabled" if DEBUG_TOOLBAR else "disabled")
 DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK": "municipal_finance.settings.show_toolbar_check"
+    "SHOW_TOOLBAR_CALLBACK": "municipal_finance.settings.show_toolbar_check",
+    "IS_RUNNING_TESTS": False,
 }
 
 MSCOA_CUTOFF_YEAR = 2020
