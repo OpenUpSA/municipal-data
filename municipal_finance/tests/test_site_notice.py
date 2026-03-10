@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from scorecard.tests import import_data
 from scorecard.tests.resources import (
@@ -11,6 +11,9 @@ from scorecard.tests.resources import (
 from site_config.models import SiteNotice
 
 
+@override_settings(
+    STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage",
+)
 class TestSiteNotice(TestCase):
     fixtures = ["seeddata"]
 
