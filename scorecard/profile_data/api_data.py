@@ -342,7 +342,7 @@ class ApiData(object):
                 "cube": "financial_position_v2",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "item.code": ["0240"],
+                    "item.code": ["0230"],
                     "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
