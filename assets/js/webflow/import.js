@@ -93,6 +93,7 @@ ga('send', 'pageview');\
     gtag('js', new Date());\
     gtag('config', '{{ GOOGLE_GA4_TAG }}');\
   ");
+  addScriptToBody(window, { async: '', src: 'https://w.appzi.io/w.js?token=xFzEQ' });
 
   $('.site-notice').html(`{% for notice in site_notices %}
   <div class='container'>
