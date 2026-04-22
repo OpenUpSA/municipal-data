@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 import dj_database_url
 import os
+import sys
 import environ
 import logging
 
@@ -400,7 +401,10 @@ PIPELINE = {
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = "municipal_finance.pipeline.GzipManifestPipelineStorage"
+if "test" in sys.argv:
+    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+else:
+    STATICFILES_STORAGE = "municipal_finance.pipeline.GzipManifestPipelineStorage"
 
 WHITENOISE_MIMETYPES = {
     '.map': 'application/octet-stream',
