@@ -89,6 +89,7 @@ class IncexpItemsV2Resource(resources.ModelResource):
         fields = (
             "code",
             "label",
+            "subcategory",
             "position_in_return_form",
             "return_form_structure",
             "composition",

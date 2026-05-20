@@ -27,6 +27,7 @@ def add_new_schema(apps, schema_editor):
 class Migration(migrations.Migration):
     dependencies = [
         ("municipal_finance", "0003_add_item_codes"),
+        ("municipal_finance", "0003b_add_incexp_subcategory"),
     ]
 
     operations = [

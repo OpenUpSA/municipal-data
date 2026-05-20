@@ -27,6 +27,7 @@ class IncexpItemsV1(IncexpItems):
 class IncexpItemsV2(IncexpItems):
     id = SmallAutoField(primary_key=True)
     code = models.TextField()
+    subcategory = models.TextField(blank=True, null=True)
     version = models.ForeignKey(
         ItemCodeSchema, on_delete=models.CASCADE, blank=True, null=True
     )
