@@ -275,12 +275,13 @@ class GeographyDetailView(TemplateView):
 class GeographyPDFView(GeographyDetailView):
     def get(self, request, *args, **kwargs):
         # render as pdf
-        path = "/profiles/%s-%s-%s?print=1" % (
+        path = "/profiles/%s-%s-%s/?print=1" % (
             self.geo_level,
             self.geo_code,
             self.geo.slug,
         )
-        url = request.build_absolute_uri(path)
+        # Use localhost to avoid external redirect and SSL overhead
+        url = "http://localhost:5000" + path
         # !!! This relies on GeographyDetailView validating the user-provided
         # input to the path to avoid arbitraty command execution
         command = ["node", "assets/js/makepdf.js", url]
@@ -289,8 +290,11 @@ class GeographyPDFView(GeographyDetailView):
                 command,
                 check=True,
                 stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT
+                stderr=subprocess.STDOUT,
+                timeout=120,
             )
+        except subprocess.TimeoutExpired as e:
+            raise Exception("PDF generation timed out") from e
         except subprocess.CalledProcessError as e:
             print(e.output)
             raise e
