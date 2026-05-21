@@ -14,6 +14,15 @@ from pipeline.compilers import SubProcessCompiler
 class GzipManifestPipelineStorage(PipelineMixin, CompressedManifestStaticFilesStorage):
     manifest_strict = False
 
+    # Silence errors from vega-lite missing some map tiles
+    def post_process(self, paths, dry_run=False, **options):
+        for result in super().post_process(paths, dry_run=dry_run, **options):
+            name, hashed_name, processed = result
+            if isinstance(processed, Exception) and '.map' in str(processed):
+                yield name, hashed_name, True
+            else:
+                yield result
+
 
 class PyScssCompiler(SubProcessCompiler):
     output_extension = 'css'
