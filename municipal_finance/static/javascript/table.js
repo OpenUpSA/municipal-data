@@ -1054,4 +1054,21 @@
     },
   });
   exports.view = new MainView();
+
+  function adjustLayout() {
+    var articleHeader = document.querySelector('.article-header');
+    var h2 = document.querySelector('.article-header h2');
+    var note = document.querySelector('.article-header .note');
+    var controls = document.querySelector('.table-controls');
+    var display = document.querySelector('.table-display');
+    if (!articleHeader || !h2) return;
+    var dropdown = articleHeader.querySelector('.dropdown');
+    var lastEl = dropdown || h2;
+    var contentTop = Math.round(lastEl.getBoundingClientRect().bottom) + 8;
+    if (note) note.style.top = Math.round(h2.getBoundingClientRect().top) + 'px';
+    if (controls) controls.style.top = contentTop + 'px';
+    if (display) display.style.top = contentTop + 'px';
+  }
+  adjustLayout();
+  window.addEventListener('resize', adjustLayout);
 }(window));
