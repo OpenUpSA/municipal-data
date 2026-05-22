@@ -94,6 +94,17 @@ class IncexpItemsV2Resource(resources.ModelResource):
             "composition",
         )
 
+    def get_queryset(self):
+        # subcategory is added in a later migration; defer it so lookups don't
+        # fail when this resource is used during migration 0004
+        return super().get_queryset().defer("subcategory")
+
+    def save_instance(self, instance, using_transactions=True, dry_run=False):
+        self.before_save_instance(instance, using_transactions, dry_run)
+        if not (not using_transactions and dry_run):
+            instance.save(update_fields=list(self._meta.fields))
+        self.after_save_instance(instance, using_transactions, dry_run)
+
 
 class BsheetItemsV1Resource(resources.ModelResource):
     class Meta:
