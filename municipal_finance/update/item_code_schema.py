@@ -27,15 +27,24 @@ def update_item_code_schema(update_obj, batch_size, **kwargs):
             item_codes = {}
 
             for i in range(sheet.nrows):
-                schema_code = sheet.row_values(i)[0].strip()
+                row = sheet.row_values(i)
+                schema_code = row[0].strip()
                 if schema_code != "" and schema_code in schema_codes:
-                    desc = sheet.row_values(i)[2].strip()
+                    desc = row[2].strip()
                     desc = desc.split(" / ")[-1].strip()
-                    code = sheet.row_values(i)[1].strip()
-                    item_codes[code] = desc
+                    code = row[1].strip()
+                    subcategory = None
+                    if schema_code == "A4" and len(row) > 9 and row[9]:
+                        parts = str(row[9]).strip().split(":")
+                        if len(parts) >= 2:
+                            subcategory = parts[1].strip()
+                    item_codes[code] = (desc, subcategory)
 
-            for key in item_codes:
+            for key, (label, subcategory) in item_codes.items():
+                defaults = {'label': label}
+                if subcategory is not None:
+                    defaults['subcategory'] = subcategory
                 schema_codes[schema_code].objects.update_or_create(
                     code=key,
-                    defaults={'label': item_codes[key]}
+                    defaults=defaults
                 )

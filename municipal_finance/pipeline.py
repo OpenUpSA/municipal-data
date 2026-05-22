@@ -25,9 +25,12 @@ class PyScssCompiler(SubProcessCompiler):
         if not outdated and not force:
             return
 
-        result = scss.compiler.compile_file(
-            infile,
-            search_path=settings.PYSCSS_LOAD_PATHS)
+        try:
+            result = scss.compiler.compile_file(
+                infile,
+                search_path=settings.PYSCSS_LOAD_PATHS)
+        except Exception as e:
+            raise type(e)("Error compiling {}: {}".format(infile, e)) from e
 
         with codecs.open(outfile, 'w', encoding='utf-8') as f:
             f.write(result)

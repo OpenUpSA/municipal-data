@@ -217,6 +217,34 @@ label {
     font-weight: bold;
   }
 
+  .subcategory-header td {
+    font-weight: bold;
+    background-color: #e8e8e8 !important;
+    border-top: 2px solid #bbb;
+    text-align: left !important;
+    padding: 8px 4px 4px 4px;
+    color: #444;
+    font-size: 0.9em;
+    letter-spacing: 0.03em;
+  }
+
+  .has-subcategory .headcol {
+    padding-left: 16px;
+  }
+
+  .subcategory-subtotal td {
+    font-weight: bold;
+    border-top: 1px solid #bbb;
+    border-bottom: 2px solid #bbb;
+    background-color: #e8e8e8 !important;
+    text-align: right;
+  }
+
+  .subcategory-subtotal .headcol {
+    text-align: left !important;
+    font-style: italic;
+  }
+
   .row-headings {
     width: $row-heading-width;
     float: left;
@@ -278,6 +306,18 @@ label {
       left: 0;
       width: 300px;
       text-align: left;
+    }
+
+    &.has-subcategories [class*="item-"]:nth-of-type(even) {
+      background-color: transparent;
+    }
+
+    &.has-subcategories .row-alt td {
+      background-color: #dddddd;
+    }
+
+    &.has-subcategories .row-alt .headcol {
+      background-color: white;
     }
   }
 
