@@ -1065,9 +1065,9 @@
     var dropdown = articleHeader.querySelector('.dropdown');
     var lastEl = dropdown || h2;
     var contentTop = Math.round(lastEl.getBoundingClientRect().bottom) + 8;
-    if (note) note.style.top = Math.round(h2.getBoundingClientRect().top) + 'px';
-    if (controls) controls.style.top = contentTop + 'px';
-    if (display) display.style.top = contentTop + 'px';
+    if (note) note.style.top = `${Math.round(h2.getBoundingClientRect().top)}px`;
+    if (controls) controls.style.top = `${contentTop}px`;
+    if (display) display.style.top = `${contentTop}px`;
   }
   adjustLayout();
   window.addEventListener('resize', adjustLayout);
