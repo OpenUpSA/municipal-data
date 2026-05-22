@@ -104,7 +104,24 @@ class IncexpItemsV2Resource(resources.ModelResource):
     def save_instance(self, instance, using_transactions=True, dry_run=False):
         self.before_save_instance(instance, using_transactions, dry_run)
         if not (not using_transactions and dry_run):
-            instance.save(update_fields=list(self._meta.fields))
+            import_fields = [
+                f for f in instance._meta.concrete_fields
+                if not f.primary_key and f.name != 'subcategory'
+            ]
+            if instance.pk is not None:
+                instance.save(update_fields=[f.name for f in import_fields])
+            else:
+                # Django 2.2: update_fields forces UPDATE and breaks INSERT,
+                # so use _do_insert directly with subcategory excluded
+                pk = instance._do_insert(
+                    instance.__class__._default_manager,
+                    'default',
+                    import_fields,
+                    True,
+                    False,
+                )
+                instance.pk = pk
+                instance._state.adding = False
         self.after_save_instance(instance, using_transactions, dry_run)
 
 
