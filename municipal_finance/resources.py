@@ -1,4 +1,5 @@
 from import_export import resources
+from import_export.instance_loaders import ModelInstanceLoader
 
 from .models import (
     AmountType,
@@ -82,10 +83,16 @@ class IncexpItemsV1Resource(resources.ModelResource):
         import_id_fields = ("code",)
 
 
+class IncexpItemsV2InstanceLoader(ModelInstanceLoader):
+    def get_queryset(self):
+        return self.resource._meta.model.objects.all().defer("subcategory")
+
+
 class IncexpItemsV2Resource(resources.ModelResource):
     class Meta:
         model = IncexpItemsV2
         import_id_fields = ("code",)
+        instance_loader_class = IncexpItemsV2InstanceLoader
         fields = (
             "code",
             "label",
@@ -93,6 +100,29 @@ class IncexpItemsV2Resource(resources.ModelResource):
             "return_form_structure",
             "composition",
         )
+
+    def save_instance(self, instance, using_transactions=True, dry_run=False):
+        self.before_save_instance(instance, using_transactions, dry_run)
+        if not (not using_transactions and dry_run):
+            import_fields = [
+                f for f in instance._meta.concrete_fields
+                if not f.primary_key and f.name != 'subcategory'
+            ]
+            if instance.pk is not None:
+                instance.save(update_fields=[f.name for f in import_fields])
+            else:
+                # Django 2.2: update_fields forces UPDATE and breaks INSERT,
+                # so use _do_insert directly with subcategory excluded
+                pk = instance._do_insert(
+                    instance.__class__._default_manager,
+                    'default',
+                    import_fields,
+                    True,
+                    False,
+                )
+                instance.pk = pk
+                instance._state.adding = False
+        self.after_save_instance(instance, using_transactions, dry_run)
 
 
 class BsheetItemsV1Resource(resources.ModelResource):

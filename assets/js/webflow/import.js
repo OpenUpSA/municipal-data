@@ -5,6 +5,10 @@ exports.transformHTML = function (html) {
   newHtml = newHtml.replace(/"help.html"/g, '"/help"');
   newHtml = newHtml.replace(/"terms.html"/g, '"/terms"');
   newHtml = newHtml.replace(/"locate.html"/g, '"/locate"');
+  newHtml = newHtml.replace(
+    /<script src="https:\/\/kit\.fontawesome\.com\/[^"]+\.js"[^>]*><\/script>/g,
+    '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous">',
+  );
   return newHtml;
 };
 
@@ -93,6 +97,7 @@ ga('send', 'pageview');\
     gtag('js', new Date());\
     gtag('config', '{{ GOOGLE_GA4_TAG }}');\
   ");
+  addScriptToBody(window, { async: '', src: 'https://w.appzi.io/w.js?token=bOjmw' });
 
   $('.site-notice').html(`{% for notice in site_notices %}
   <div class='container'>
