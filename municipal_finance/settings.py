@@ -49,6 +49,9 @@ NO_INDEX = env.bool("NO_INDEX", False)
 
 ALLOWED_HOSTS = ["*"]
 
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 
 # Application definition
 
@@ -97,6 +100,7 @@ API_URL = DATA_PORTAL_URL + "/api"
 MAPIT = {"url": "https://mapit.code4sa.org", "generation": "2"}
 
 MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
     "django.middleware.gzip.GZipMiddleware",
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     "municipal_finance.middleware.RedirectsMiddleware",
