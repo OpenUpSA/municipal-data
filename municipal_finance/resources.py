@@ -101,7 +101,7 @@ class IncexpItemsV2Resource(resources.ModelResource):
             "composition",
         )
 
-    def save_instance(self, instance, using_transactions=True, dry_run=False):
+    def save_instance(self, instance, new=False, using_transactions=True, dry_run=False):
         self.before_save_instance(instance, using_transactions, dry_run)
         if not (not using_transactions and dry_run):
             import_fields = [
