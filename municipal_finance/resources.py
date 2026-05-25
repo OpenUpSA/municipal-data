@@ -111,16 +111,17 @@ class IncexpItemsV2Resource(resources.ModelResource):
             if instance.pk is not None:
                 instance.save(update_fields=[f.name for f in import_fields])
             else:
-                # Django 2.2: update_fields forces UPDATE and breaks INSERT,
-                # so use _do_insert directly with subcategory excluded
-                pk = instance._do_insert(
+                returning_fields = instance._meta.db_returning_fields
+                results = instance._do_insert(
                     instance.__class__._default_manager,
                     'default',
                     import_fields,
-                    True,
+                    returning_fields,
                     False,
                 )
-                instance.pk = pk
+                if results:
+                    for value, field in zip(results[0], returning_fields):
+                        setattr(instance, field.attname, value)
                 instance._state.adding = False
         self.after_save_instance(instance, using_transactions, dry_run)
 
