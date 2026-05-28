@@ -23,7 +23,7 @@ class ApiErrorHandler(object):
             logger.exception('Something went wrong!')
             return jsonify({
                 'status': 'error',
-                'message': exception,
+                'message': str(exception),
             }, status=status)
 
 
