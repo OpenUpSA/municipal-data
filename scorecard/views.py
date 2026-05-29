@@ -98,7 +98,7 @@ class GeographyDetailView(TemplateView):
 
         # check slug
         if kwargs.get("slug") or self.geo.slug:
-            if kwargs["slug"] != self.geo.slug:
+            if kwargs.get("slug") != self.geo.slug:
                 kwargs["slug"] = self.geo.slug
                 url = "/profiles/%s-%s-%s/" % (
                     self.geo_level,
