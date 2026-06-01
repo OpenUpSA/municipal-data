@@ -1,7 +1,10 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.conf import settings
 
 
+@override_settings(
+    STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage",
+)
 class TestNoIndex(TestCase):
 
     def test_indexing_is_allowed(self):

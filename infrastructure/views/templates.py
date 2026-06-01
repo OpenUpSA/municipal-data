@@ -45,11 +45,19 @@ class DetailView(TemplateView):
         return "%s?full" % api_url
 
     def get_context_data(self, **kwargs):
+        from django.http import Http404
+
         view = api_views.ProjectViewSet.as_view({"get": "retrieve"})
         self.request.path = self.get_full_serialize_url(kwargs["pk"])
+        response = view(self.request, **kwargs).render()
+        if response.status_code != 200:
+            raise Http404
 
-        project = view(self.request, **kwargs).render().content
-        project = json.loads(project)
+        project = json.loads(response.content)
+
+        ly = project.get("latest_implementation_year")
+        if not ly:
+            raise Http404
 
         project["view"] = "detail"
         project["summary_year"] = config.CAPITAL_PROJECT_SUMMARY_YEAR
@@ -57,9 +65,7 @@ class DetailView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["page_data_json"] = {"data": json.dumps(project)}
 
-        context["implementation_year"] = project["latest_implementation_year"][
-            "budget_year"
-        ]
+        context["implementation_year"] = ly["budget_year"]
         year = models.FinancialYear.objects.get(
             budget_year=context["implementation_year"]
         )

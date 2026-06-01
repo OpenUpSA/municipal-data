@@ -49,6 +49,9 @@ NO_INDEX = env.bool("NO_INDEX", False)
 
 ALLOWED_HOSTS = ["*"]
 
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 
 # Application definition
 
@@ -97,6 +100,7 @@ API_URL = DATA_PORTAL_URL + "/api"
 MAPIT = {"url": "https://mapit.code4sa.org", "generation": "2"}
 
 MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
     "django.middleware.gzip.GZipMiddleware",
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     "municipal_finance.middleware.RedirectsMiddleware",
@@ -401,6 +405,7 @@ PIPELINE = {
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
+import sys
 if "test" in sys.argv:
     STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 else:
@@ -500,7 +505,8 @@ if SENTRY_DSN:
 DEBUG_TOOLBAR = os.environ.get("DJANGO_DEBUG_TOOLBAR", "false").lower() == "true"
 logger.info("Django Debug Toolbar %s." % "enabled" if DEBUG_TOOLBAR else "disabled")
 DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK": "municipal_finance.settings.show_toolbar_check"
+    "SHOW_TOOLBAR_CALLBACK": "municipal_finance.settings.show_toolbar_check",
+    "IS_RUNNING_TESTS": False,
 }
 
 MSCOA_CUTOFF_YEAR = 2020

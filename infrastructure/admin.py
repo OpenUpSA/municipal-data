@@ -1,6 +1,4 @@
-from django.contrib import admin
-from django.conf.urls import url
-from django.contrib import messages
+from django.contrib import admin, messages
 
 from . import models
 from .forms import UploadQuarterlyFileForm, UploadAnnualFileForm

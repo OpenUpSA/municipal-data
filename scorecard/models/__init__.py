@@ -1,6 +1,6 @@
 
 from django.db import models
-from django.contrib.postgres.fields import JSONField
+from django.db.models import JSONField
 
 from .geography import Geography, GeographyUpdate, LocationNotFound
 from .municipality_profiles_compilation import (
