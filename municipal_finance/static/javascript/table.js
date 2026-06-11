@@ -56,6 +56,7 @@
   };
   cube.hasAmountType = !!cube.model.dimensions.amount_type;
   cube.hasItems = !!cube.model.dimensions.item;
+  cube.hasGrants = !!cube.model.dimensions.grant;
   cube.hasMonths = !!cube.model.dimensions.period_length && CUBE_NAME != 'incexp';
   cube.columns = _.map(cube.model.measures, (m) => `${m.ref}.sum`);
 
@@ -85,6 +86,14 @@
     } else {
       cube.order = 'item.code:asc';
     }
+  } else if (cube.hasGrants) {
+    cube.drilldown = ['demarcation.code', 'demarcation.label', 'grant.code', 'grant.label'];
+    cube.rowHeadingMeta = {
+      code: 'grant.code',
+      label: 'grant.label',
+      class: null,
+    };
+    cube.order = 'grant.code:asc';
   }
   // do we have government functions?
   cube.hasFunctions = !!cube.model.dimensions.function;
@@ -541,6 +550,22 @@
     },
 
     preload() {
+      if (cube.hasGrants) {
+        var self = this;
+        spinnerStart();
+        $.get(`${MUNI_DATA_API}/cubes/${CUBE_NAME}/members/grant?order=${cube.order}`, (data) => {
+          cube.rowHeadings = _.select(data.data, (d) => d['grant.label']);
+          cube.rowHeadings = _.map(cube.rowHeadings, (h) => ({
+            code: h['grant.code'],
+            label: h['grant.label'],
+            class: null,
+            subcategory: undefined,
+          }));
+          cube.trigger('change');
+        }).always(spinnerStop);
+        return;
+      }
+
       if (!cube.hasItems) return;
 
       var self = this;
@@ -678,7 +703,7 @@
     },
 
     render() {
-      if (!cube.hasItems) {
+      if (!cube.hasItems && !cube.hasGrants) {
         // use year labels as items
         cube.rowHeadings = [{ code: this.filters.get('year'), label: null }];
       }
