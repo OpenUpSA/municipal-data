@@ -48,6 +48,7 @@ class DetailView(TemplateView):
         from django.http import Http404
 
         view = api_views.ProjectViewSet.as_view({"get": "retrieve"})
+        self.request.path = self.get_full_serialize_url(kwargs["pk"])
         response = view(self.request, **kwargs).render()
         if response.status_code != 200:
             raise Http404
