@@ -155,7 +155,7 @@
 
     preload() {
       this.preloadMunis();
-      this.preloadAmountTypes();
+      this.preloadYearsAndAmountTypes();
       this.preloadFunctions();
     },
 
@@ -187,46 +187,111 @@
       }).always(spinnerStop);
     },
 
-    preloadAmountTypes() {
+    // Load the years and amount types that actually have data for this cube,
+    // rather than assuming a fixed range. For cubes with amount types this is
+    // derived from a single aggregate query, broken down by financial year and
+    // period length, so each year offers only the amount types that have
+    // submitted values - and only those relevant to the current annual/monthly
+    // view (e.g. budgets and audited actuals annually, actuals monthly).
+    preloadYearsAndAmountTypes() {
       var self = this;
+      var hasPeriodLength = !!cube.model.dimensions.period_length;
 
-      // TODO HACK
-      self.years = [2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009];
+      var applyData = (years, amountTypes) => {
+        self.years = years;
+        // amountTypes is keyed { year: { 'year'|'month': [{code, label}] } }
+        self.amountTypes = amountTypes;
 
-      self.renderYears();
+        self.renderYears();
 
-      // sanity check pre-loaded year
-      var year = self.filters.get('year');
-      year = _.contains(self.years, year) ? year : self.years[0];
-      self.filters.set('year', year, { silent: true });
+        // sanity check pre-loaded year against what's actually available
+        var year = self.filters.get('year');
+        if (!_.contains(self.years, year)) year = self.years[0];
+        self.filters.set('year', year, { silent: true });
 
-      // sanity check pre-loaded month
-      var month = self.filters.get('month');
-      month = parseInt(month);
-      if (isNaN(month) || month < 1 || month > 12) month = '';
-      self.filters.set('month', month, { silent: true });
+        // sanity check pre-loaded month
+        var month = parseInt(self.filters.get('month'));
+        if (isNaN(month) || month < 1 || month > 12) month = '';
+        self.filters.set('month', month, { silent: true });
 
-      // amount types per year
-      // TODO HACK
-      var amountTypes = [{ code: 'ACT', label: 'Actual' }, { code: 'ADJB', label: 'Adjusted Budget' }, { code: 'AUDA', label: 'Audited Actual' },
-        { code: 'IBY1', label: 'Forecast 1 year ahead of budget year' },
-        { code: 'IBY2', label: 'Forecast 2 years ahead of budget year' },
-        { code: 'ORGB', label: 'Original Budget' }, { code: 'PAUD', label: 'Pre-audit' }];
+        // sanity check pre-loaded amount type against the chosen year/period
+        if (cube.hasAmountType) {
+          var types = self.amountTypesFor(year);
+          var type = self.filters.get('amountType');
+          if (!type || !_.any(types, (at) => at.code == type)) {
+            type = types.length ? types[0].code : null;
+          }
+          self.filters.set('amountType', type, { silent: true });
+        }
 
-      self.amountTypes = {};
-      _.each(self.years, (year) => {
-        self.amountTypes[year] = amountTypes;
-      });
+        $('.loading').hide();
+        self.filters.trigger('change');
+      };
 
-      // sanity check pre-loaded amount type
-      var type = self.filters.get('amountType') || 'AUDA';
-      if (!type || !_.any(self.amountTypes[year], (at) => at.code == type)) {
-        type = self.amountTypes[year][0].code;
+      // Cubes with amount types and measures: one aggregate gives us both the
+      // populated years and, per year and period length, the amount types that
+      // have data.
+      if (cube.hasAmountType && !_.isEmpty(cube.model.measures)) {
+        var drilldown = ['amount_type.code', 'amount_type.label', 'financial_year_end.year'];
+        if (hasPeriodLength) drilldown.push('period_length.length');
+
+        var url = `${MUNI_DATA_API}/cubes/${CUBE_NAME}/aggregate?`
+          + `drilldown=${drilldown.join('|')}`
+          + `&aggregates=${cube.columns.join('|')}`
+          + '&order=financial_year_end.year:desc';
+
+        spinnerStart();
+        $.get(url, (resp) => {
+          var byYear = {};
+          _.each(resp.cells, (cell) => {
+            // skip combinations where every measure is empty
+            if (!_.any(cube.columns, (c) => cell[c] != null)) return;
+
+            var year = cell['financial_year_end.year'];
+            // bucket by period length so annual and monthly views each show
+            // only their applicable amount types; cubes without a period
+            // length are all treated as annual ('year').
+            var period = hasPeriodLength ? (cell['period_length.length'] || 'year') : 'year';
+            var code = cell['amount_type.code'];
+
+            byYear[year] = byYear[year] || {};
+            byYear[year][period] = byYear[year][period] || [];
+            if (!_.any(byYear[year][period], (at) => at.code == code)) {
+              byYear[year][period].push({ code, label: cell['amount_type.label'] || code });
+            }
+          });
+
+          // stable, sensible ordering: alphabetical by code puts AUDA first
+          // for historical years and a budget type first for the current year
+          _.each(byYear, (periods) => {
+            _.each(periods, (types) => types.sort((a, b) => a.code.localeCompare(b.code)));
+          });
+
+          var years = _.map(_.keys(byYear), Number).sort((a, b) => b - a);
+          applyData(years, byYear);
+        }).always(spinnerStop).fail(() => applyData([], {}));
+        return;
       }
-      self.filters.set('amountType', type, { silent: true });
 
-      $('.loading').hide();
-      self.filters.trigger('change');
+      // Cubes without amount types (or without measures): just load the
+      // distinct years that have data.
+      spinnerStart();
+      $.get(`${MUNI_DATA_API}/cubes/${CUBE_NAME}/members/financial_year_end?order=financial_year_end.year:desc`, (resp) => {
+        var years = _.chain(resp.data)
+          .pluck('financial_year_end.year')
+          .compact()
+          .map(Number)
+          .value();
+        applyData(years, {});
+      }).always(spinnerStop).fail(() => applyData([], {}));
+    },
+
+    // The amount types available for a year, given whether the current view is
+    // annual or a specific month. Falls back to whichever period bucket exists.
+    amountTypesFor(year) {
+      var byPeriod = (this.amountTypes && this.amountTypes[year]) || {};
+      var key = (cube.hasMonths && this.filters.get('month')) ? 'month' : 'year';
+      return byPeriod[key] || byPeriod.year || byPeriod.month || [];
     },
 
     // government functions
@@ -367,8 +432,9 @@
         $chooser.closest('section').show();
         $chooser.empty();
 
-        for (var i = 0; i < this.amountTypes[year].length; i++) {
-          var at = this.amountTypes[year][i];
+        var types = this.amountTypesFor(year);
+        for (var i = 0; i < types.length; i++) {
+          var at = types[i];
           $chooser.append($('<option />').val(at.code).text(at.label));
         }
         $chooser.val(chosen);
@@ -477,10 +543,11 @@
       var year = parseInt(this.$('input[name=year]:checked').val());
       this.filters.set('year', year);
 
-      // sanity check amount type
+      // sanity check amount type against the newly chosen year
       var at = this.filters.get('amountType');
-      if (!_.isEmpty(this.amountTypes) && !_.any(this.amountTypes[year], (a) => a.code == at)) {
-        this.filters.set('amountType', this.amountTypes[year][0].code);
+      var types = this.amountTypesFor(year);
+      if (!_.isEmpty(types) && !_.any(types, (a) => a.code == at)) {
+        this.filters.set('amountType', types[0].code);
       }
     },
 
@@ -490,6 +557,14 @@
 
     monthChanged(e) {
       this.filters.set('month', $(e.target).val());
+
+      // switching between annual and monthly views can change which amount
+      // types have data, so re-check the current selection is still valid
+      var at = this.filters.get('amountType');
+      var types = this.amountTypesFor(this.filters.get('year'));
+      if (!_.isEmpty(types) && !_.any(types, (a) => a.code == at)) {
+        this.filters.set('amountType', types[0].code);
+      }
     },
 
     functionsChanged(e) {
