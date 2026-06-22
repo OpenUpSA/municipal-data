@@ -78,7 +78,7 @@ def index(request):
         "Financial Position" : {"cube_info":[{"slug":"bsheet", "version":"V1"}, {"slug":"financial_position_v2", "version":"V2"}], "formerly":"Balance Sheet"},
         "Capital Aquisition" : {"cube_info":[{"slug":"capital", "version":"V1"}, {"slug":"capital_v2", "version":"V2"}]},
         "Cash Flow" : {"cube_info":[{"slug":"cflow", "version":"V1"}, {"slug":"cflow_v2", "version":"V2"}]},
-        "Grants" : {"cube_info":[{"slug":"conditional_grants", "version":"V1", "no_data":"True"}, {"slug":"grants_v2", "version":"V2", "no_data":"True"}], "formerly":"Conditional Grants"},
+        "Grants" : {"cube_info":[{"slug":"conditional_grants", "version":"V1"}, {"slug":"grants_v2", "version":"V2"}], "formerly":"Conditional Grants"},
         "Demarcation Changes" : {"cube_info":[{"slug":"demarcation_changes", "no_data":"True"}]},
         "Income and Expenditure" : {"cube_info":[{"slug":"incexp", "version":"V1"}, {"slug":"incexp_v2", "version":"V2"}]},
         "Municipal Officials" : {"cube_info":[{"slug":"officials"}]},
