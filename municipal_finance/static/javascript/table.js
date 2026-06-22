@@ -648,17 +648,12 @@
       spinnerStart();
       $.get(`${MUNI_DATA_API}/cubes/${CUBE_NAME}/members/item?order=${cube.order}`, (data) => {
         // we only care about items that have a label
-        const hasSubcategory = !!(cube.model.dimensions.item && cube.model.dimensions.item.attributes.subcategory);
         cube.rowHeadings = _.select(data.data, (d) => d[cube.rowHeadingMeta.label]);
         cube.rowHeadings = _.map(cube.rowHeadings, (h) => ({
           code: h[cube.rowHeadingMeta.code],
           label: h[cube.rowHeadingMeta.label],
           class: h[cube.rowHeadingMeta.class],
-          subcategory: hasSubcategory ? (h['item.subcategory'] || null) : undefined,
         }));
-        if (hasSubcategory) {
-          cube.rowHeadings = _.sortBy(cube.rowHeadings, (h) => [h.subcategory || '￿', h.code]);
-        }
         cube.trigger('change');
       }).always(spinnerStop);
     },
@@ -899,57 +894,10 @@
 
       // values
       if (!_.isEmpty(cells)) {
-        var currentSubcategory = null;
-        var altRow = 0;
-        var subcategoryItems = [];
-        const useSubcategoryAlternating = cube.rowHeadings.some((h) => h.subcategory !== undefined);
-        if (useSubcategoryAlternating) $(table).addClass('has-subcategories');
-        const subcategoryCounts = _.countBy(cube.rowHeadings, (h) => h.subcategory || '');
-
-        const insertSubtotalRow = (label, items) => {
-          if (!label || items.length <= 1) return;
-          var subtotalTr = table.insertRow();
-          $(subtotalTr).addClass('subcategory-subtotal');
-          $(subtotalTr).html(`<td class='headcol'>Total ${_.escape(label)}</td>`);
-          for (var j = 0; j < munis.length; j++) {
-            var muni = municipalities[munis[j]];
-            for (var a = 0; a < cube.columns.length; a++) {
-              var total = null;
-              for (var k = 0; k < items.length; k++) {
-                var item_data = cells[items[k].code];
-                if (item_data) item_data = item_data[muni.demarcation_code];
-                if (item_data && item_data[0]) {
-                  var val = item_data[0][cube.columns[a]];
-                  if (val != null && _.isNumber(val)) total = (total || 0) + val;
-                }
-              }
-              subtotalTr.insertCell().innerText = total != null ? this.format(total) : '·';
-            }
-          }
-        };
-
         for (var i = 0; i < cube.rowHeadings.length; i++) {
           var heading = cube.rowHeadings[i];
-
-          // insert subcategory group header when subcategory changes
-          if (heading.subcategory !== undefined && heading.subcategory !== currentSubcategory) {
-            insertSubtotalRow(currentSubcategory, subcategoryItems);
-            subcategoryItems = [];
-            currentSubcategory = heading.subcategory;
-            altRow = 0;
-            if (currentSubcategory) {
-              var headerTr = table.insertRow();
-              $(headerTr).addClass('subcategory-header');
-              $(headerTr).html(`<td class='headcol' colspan='9999'>${_.escape(currentSubcategory)}</td>`);
-            }
-          }
-
           var tr = table.insertRow();
           $(tr).addClass(`item-${heading.class}`);
-          if (heading.subcategory) $(tr).addClass('has-subcategory');
-          if (useSubcategoryAlternating && altRow % 2 !== 0 && subcategoryCounts[heading.subcategory || ''] > 2) $(tr).addClass('row-alt');
-          altRow++;
-          subcategoryItems.push(heading);
 
           const rowHeading = `<td class='headcol'>${heading.code} ${heading.label}</td>`;
           $(tr).prepend(rowHeading);
@@ -986,7 +934,6 @@
             }
           }
         }
-        insertSubtotalRow(currentSubcategory, subcategoryItems);
       }
 
       // highlighted rows
