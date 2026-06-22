@@ -671,7 +671,23 @@
         return;
       }
 
+      // For cubes with amount types, don't query until the amount type has been
+      // resolved by preloadYearsAndAmountTypes. Querying without it omits the
+      // amount_type.code cut, so the aggregate sums across every amount type and
+      // returns inflated values. The preload triggers another change once the
+      // amount type is set, which re-runs this with the correct cut.
+      if (cube.hasAmountType && !this.filters.get('amountType')) {
+        this.cells.set({ items: [], meta: {} });
+        return;
+      }
+
       this.cells.set('items', cells);
+
+      // Tag this request so that responses from superseded requests are
+      // ignored: several preloads each trigger an update on first load, and
+      // those in-flight requests can return out of order.
+      this.requestSeq = (this.requestSeq || 0) + 1;
+      var requestSeq = this.requestSeq;
 
       var parts = {
         drilldown: cube.drilldown,
@@ -702,6 +718,8 @@
 
       spinnerStart();
       $.get(self.makeUrl(parts), (data) => {
+        // a newer request was issued after this one; ignore the stale response
+        if (requestSeq !== self.requestSeq) return;
         if (data.total_cell_count > 0) {
           self.downloadUrl = self.makeDownloadUrl(parts, aggregating ? data.total_cell_count : data.total_fact_count);
           self.cells.set('items', self.cells.get('items').concat(aggregating ? data.cells : data.data));
