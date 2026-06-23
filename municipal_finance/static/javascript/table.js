@@ -188,22 +188,14 @@
     },
 
     // Load the years and amount types that actually have data for this cube,
-    // rather than assuming a fixed range. For modern cubes with amount types
-    // this is derived from a single aggregate query, broken down by financial
-    // year and period length, so each year offers only the amount types that
-    // have submitted values - and only those relevant to the current
-    // annual/monthly view (e.g. budgets and audited actuals annually, actuals
-    // monthly). Where that aggregate is unavailable or too slow (legacy cubes,
-    // cubes without measures) we fall back to the cheaper members endpoints.
+    // rather than assuming a fixed range. For cubes with amount types this is
+    // derived from a single aggregate query, broken down by financial year and
+    // period length, so each year offers only the amount types that have
+    // submitted values - and only those relevant to the current annual/monthly
+    // view (e.g. budgets and audited actuals annually, actuals monthly).
     preloadYearsAndAmountTypes() {
       var self = this;
       var hasPeriodLength = !!cube.model.dimensions.period_length;
-
-      // The legacy (v1) cubes sit on much larger fact tables whose full-table
-      // aggregate never returns in reasonable time, so don't attempt it for
-      // them - go straight to the cheaper members endpoints. The modern cubes
-      // use a `..._v2` fact table.
-      var isLegacyCube = !/_v2$/.test(cube.model.fact_table || '');
 
       var applyData = (years, amountTypes) => {
         self.years = years;
@@ -236,42 +228,10 @@
         self.filters.trigger('change');
       };
 
-      var loadFromMembers = () => {
-        spinnerStart();
-        $.get(`${MUNI_DATA_API}/cubes/${CUBE_NAME}/members/financial_year_end?order=financial_year_end.year:desc`, (resp) => {
-          var years = _.chain(resp.data)
-            .pluck('financial_year_end.year')
-            .compact()
-            .map(Number)
-            .value();
-
-          if (!cube.hasAmountType) {
-            applyData(years, {});
-            return;
-          }
-
-          spinnerStart();
-          $.get(`${MUNI_DATA_API}/cubes/${CUBE_NAME}/members/amount_type`, (atResp) => {
-            var types = _.chain(atResp.data)
-              .map((d) => ({ code: d['amount_type.code'], label: d['amount_type.label'] || d['amount_type.code'] }))
-              .filter((t) => t.code)
-              .value();
-            types.sort((a, b) => a.code.localeCompare(b.code));
-
-            // no per-year/period breakdown here, so offer every amount type
-            // under both the annual and monthly buckets for every year
-            var byYear = {};
-            _.each(years, (year) => { byYear[year] = { year: types, month: types }; });
-            applyData(years, byYear);
-          }).always(spinnerStop).fail(() => applyData(years, {}));
-        }).always(spinnerStop).fail(() => applyData([], {}));
-      };
-
       // Cubes with amount types and measures: one aggregate gives us both the
       // populated years and, per year and period length, the amount types that
-      // have data. Legacy cubes skip this (see isLegacyCube) and fall back to
-      // members below.
-      if (cube.hasAmountType && !_.isEmpty(cube.model.measures) && !isLegacyCube) {
+      // have data.
+      if (cube.hasAmountType && !_.isEmpty(cube.model.measures)) {
         var drilldown = ['amount_type.code', 'amount_type.label', 'financial_year_end.year'];
         if (hasPeriodLength) drilldown.push('period_length.length');
 
@@ -281,47 +241,49 @@
           + '&order=financial_year_end.year:desc';
 
         spinnerStart();
-        // Cap the aggregate: it scans the whole fact table, and the large
-        // legacy cubes can take minutes (or never return). On timeout or
-        // error, fall back to the cheaper members endpoints.
-        $.ajax({ url, dataType: 'json', timeout: 20000 })
-          .done((resp) => {
-            var byYear = {};
-            _.each(resp.cells, (cell) => {
-              // skip combinations where every measure is empty
-              if (!_.any(cube.columns, (c) => cell[c] != null)) return;
+        $.get(url, (resp) => {
+          var byYear = {};
+          _.each(resp.cells, (cell) => {
+            // skip combinations where every measure is empty
+            if (!_.any(cube.columns, (c) => cell[c] != null)) return;
 
-              var year = cell['financial_year_end.year'];
-              // bucket by period length so annual and monthly views each show
-              // only their applicable amount types; cubes without a period
-              // length are all treated as annual ('year').
-              var period = hasPeriodLength ? (cell['period_length.length'] || 'year') : 'year';
-              var code = cell['amount_type.code'];
+            var year = cell['financial_year_end.year'];
+            // bucket by period length so annual and monthly views each show
+            // only their applicable amount types; cubes without a period
+            // length are all treated as annual ('year').
+            var period = hasPeriodLength ? (cell['period_length.length'] || 'year') : 'year';
+            var code = cell['amount_type.code'];
 
-              byYear[year] = byYear[year] || {};
-              byYear[year][period] = byYear[year][period] || [];
-              if (!_.any(byYear[year][period], (at) => at.code == code)) {
-                byYear[year][period].push({ code, label: cell['amount_type.label'] || code });
-              }
-            });
+            byYear[year] = byYear[year] || {};
+            byYear[year][period] = byYear[year][period] || [];
+            if (!_.any(byYear[year][period], (at) => at.code == code)) {
+              byYear[year][period].push({ code, label: cell['amount_type.label'] || code });
+            }
+          });
 
-            // stable, sensible ordering: alphabetical by code puts AUDA first
-            // for historical years and a budget type first for the current year
-            _.each(byYear, (periods) => {
-              _.each(periods, (types) => types.sort((a, b) => a.code.localeCompare(b.code)));
-            });
+          // stable, sensible ordering: alphabetical by code puts AUDA first
+          // for historical years and a budget type first for the current year
+          _.each(byYear, (periods) => {
+            _.each(periods, (types) => types.sort((a, b) => a.code.localeCompare(b.code)));
+          });
 
-            var years = _.map(_.keys(byYear), Number).sort((a, b) => b - a);
-            applyData(years, byYear);
-          })
-          .always(spinnerStop)
-          .fail(loadFromMembers);
+          var years = _.map(_.keys(byYear), Number).sort((a, b) => b - a);
+          applyData(years, byYear);
+        }).always(spinnerStop).fail(() => applyData([], {}));
         return;
       }
 
       // Cubes without amount types (or without measures): just load the
       // distinct years that have data.
-      loadFromMembers();
+      spinnerStart();
+      $.get(`${MUNI_DATA_API}/cubes/${CUBE_NAME}/members/financial_year_end?order=financial_year_end.year:desc`, (resp) => {
+        var years = _.chain(resp.data)
+          .pluck('financial_year_end.year')
+          .compact()
+          .map(Number)
+          .value();
+        applyData(years, {});
+      }).always(spinnerStop).fail(() => applyData([], {}));
     },
 
     // The amount types available for a year, given whether the current view is
