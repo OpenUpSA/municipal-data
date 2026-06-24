@@ -433,12 +433,26 @@
         $chooser.empty();
 
         var types = this.amountTypesFor(year);
+        if (chosen && !_.any(types, (a) => a.code == chosen)) {
+          types = types.concat([{ code: chosen, label: this.amountTypeLabel(chosen) }]);
+        }
         for (var i = 0; i < types.length; i++) {
           var at = types[i];
           $chooser.append($('<option />').val(at.code).text(at.label));
         }
         $chooser.val(chosen);
       }
+    },
+
+    amountTypeLabel(code) {
+      var label = null;
+      _.each(this.amountTypes, (periods) => {
+        _.each(periods, (types) => {
+          var match = _.find(types, (at) => at.code == code);
+          if (match) label = match.label;
+        });
+      });
+      return label || code;
     },
 
     renderFunctions() {
@@ -542,13 +556,6 @@
     yearChanged(e) {
       var year = parseInt(this.$('input[name=year]:checked').val());
       this.filters.set('year', year);
-
-      // sanity check amount type against the newly chosen year
-      var at = this.filters.get('amountType');
-      var types = this.amountTypesFor(year);
-      if (!_.isEmpty(types) && !_.any(types, (a) => a.code == at)) {
-        this.filters.set('amountType', types[0].code);
-      }
     },
 
     amountTypeChanged(e) {
@@ -733,30 +740,11 @@
           alert('An error occurred.\nPlease try a different selection or try again later.');
         });
 
-      if (this.filters.get('amountType') == 'AUDA') {
-        var $selectedElements = $('.year-chooser input[value]').filter(function () {
-          return parseInt($(this).val()) > parseInt(SELECT_YEAR.replace(/\s+/g, ''));
-        });
-        $selectedElements.prop('disabled', true);
-        $selectedElements.parent().addClass('greyed');
-      } else {
-        $('.year-chooser input').prop('disabled', false);
-        $('.year-chooser input').parent().removeClass('greyed');
-      }
-
-      $('.year-chooser .greyed').hover(function () {
-        if ($(this).hasClass('greyed')) {
-          $('#year-popup').show();
-        }
-      }, () => {
-        $('#year-popup').hide();
-      });
-
-      $('.year-chooser').mousemove((e) => {
-        var x = e.pageX;
-        var y = e.pageY;
-        $('#year-popup').css({ top: y, left: x });
-      });
+      // keep every year selectable regardless of the chosen amount type - if a
+      // year has no data for the selected amount type the table simply shows no
+      // values for it, rather than the control being disabled
+      $('.year-chooser input').prop('disabled', false);
+      $('.year-chooser input').parent().removeClass('greyed');
     },
 
     makeDownloadUrl(parts, pagesize) {
