@@ -206,7 +206,11 @@
 
         // sanity check pre-loaded year against what's actually available
         var year = self.filters.get('year');
-        if (!_.contains(self.years, year)) year = self.years[0];
+        if (!_.contains(self.years, year)) {
+          // Default to the most recent year that has audited outcome (AUDA)
+          // data, falling back to the latest year overall when none do.
+          year = (cube.hasAmountType && self.latestYearWith('AUDA')) || self.years[0];
+        }
         self.filters.set('year', year, { silent: true });
 
         // sanity check pre-loaded month
@@ -219,7 +223,9 @@
           var types = self.amountTypesFor(year);
           var type = self.filters.get('amountType');
           if (!type || !_.any(types, (at) => at.code == type)) {
-            type = types.length ? types[0].code : null;
+            // prefer audited outcome (AUDA) when available for this year
+            var preferred = _.findWhere(types, { code: 'AUDA' });
+            type = preferred ? preferred.code : (types.length ? types[0].code : null);
           }
           self.filters.set('amountType', type, { silent: true });
         }
@@ -284,6 +290,15 @@
           .value();
         applyData(years, {});
       }).always(spinnerStop).fail(() => applyData([], {}));
+    },
+
+    // The most recent year whose annual amount types include the given code.
+    // Relies on this.years being sorted newest-first.
+    latestYearWith(code) {
+      return _.find(this.years, (y) => {
+        var byPeriod = (this.amountTypes && this.amountTypes[y]) || {};
+        return _.any(byPeriod.year || [], (at) => at.code == code);
+      });
     },
 
     // The amount types available for a year, given whether the current view is
