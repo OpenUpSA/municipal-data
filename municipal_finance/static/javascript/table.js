@@ -225,7 +225,8 @@
           if (!type || !_.any(types, (at) => at.code == type)) {
             // prefer audited outcome (AUDA) when available for this year
             var preferred = _.findWhere(types, { code: 'AUDA' });
-            type = preferred ? preferred.code : (types.length ? types[0].code : null);
+            var fallback = types.length ? types[0].code : null;
+            type = preferred ? preferred.code : fallback;
           }
           self.filters.set('amountType', type, { silent: true });
         }
