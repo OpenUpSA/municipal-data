@@ -95,7 +95,7 @@ class UpdateAgedCreditorFactsV2(TransactionTestCase):
         file_lines = data.splitlines()
         self.assertEqual(
             file_lines[0],
-            "demarcation.code,demarcation.label,item.code,item.label,item.position_in_return_form,item.return_form_structure,item.composition,financial_year_end.year,period_length.length,financial_period.period,amount_type.code,amount_type.label,g1_amount,l1_amount,l120_amount,l150_amount,l180_amount,l30_amount,l60_amount,l90_amount,total_amount",
+            "Demarcation Code,Name,Code,Label,Position in Return Form,Return Form Structure,Composition,Year End,Length,Period,Code,Label,Over 1 Year,181 Days - 1 Year,91 - 120 Days,121 - 150 Days,151 - 180 Days,30 Days And Below,31 - 60 Days,61 - 90 Days,Total",
         )
         self.assertEqual(
             file_lines[1],

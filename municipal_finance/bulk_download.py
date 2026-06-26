@@ -138,7 +138,8 @@ def cube_to_csv(cube_model, timestamp):
         page_max=1000000,
     )
     field_names = result["data"][0].keys()
-    write_to_csv(field_names, result, cube_model, file_name)
+    headers = field_labels(cube, field_names)
+    write_to_csv(headers, result, cube_model, file_name)
     return {all_years: [file_name]}
 
 
@@ -156,17 +157,41 @@ def split_cube_to_csv(cube_model, timestamp, year_list):
         )
 
         field_names = result["data"][0].keys()
+        headers = field_labels(cube, field_names)
         files[year] = [file_name]
-        write_to_csv(field_names, result, cube_model, file_name)
+        write_to_csv(headers, result, cube_model, file_name)
     return files
 
 
-def write_to_csv(field_names, result, cube_model, file_name):
+def field_labels(cube, field_names):
+    """Map babbage field refs (e.g. ``l120_amount``, ``demarcation.code``) to the
+    human-readable labels shown on the data explorer tables, falling back to the
+    ref itself when no label is defined in the cube model."""
+    model = cube.model.to_dict()
+    measures = model.get("measures", {})
+    dimensions = model.get("dimensions", {})
+
+    headers = []
+    for ref in field_names:
+        label = None
+        if ref in measures:
+            label = measures[ref].get("label")
+        elif "." in ref:
+            dim_name, attr_name = ref.split(".", 1)
+            attribute = (
+                dimensions.get(dim_name, {}).get("attributes", {}).get(attr_name, {})
+            )
+            label = attribute.get("label")
+        headers.append(label or ref)
+    return headers
+
+
+def write_to_csv(headers, result, cube_model, file_name):
     file_path = f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}"
     with default_storage.open(file_path, "wb") as file:
         writer = csv.writer(file)
 
-        writer.writerow(field_names)
+        writer.writerow(headers)
         for fact in result["data"]:
             writer.writerow(fact.values())
 
