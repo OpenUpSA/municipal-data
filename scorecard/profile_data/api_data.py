@@ -88,9 +88,17 @@ class ApiData(object):
 
     def response_to_results(self, response, query):
         self.raise_if_overloaded(response)
-        self.raise_if_paged(response)
         ApiClient.raise_for_status(response)
-        response_dict = response.json()
+        try:
+            response_dict = response.json()
+        except ValueError:
+            raise Exception(
+                "Expected a JSON response from %s but could not decode the "
+                "body (status %s): %r" % (
+                    response.url, response.status_code, response.text[:500]
+                )
+            )
+        self.raise_if_paged(response, response_dict)
         if query["query_type"] == "facts":
             return query["results_structure"](query, response_dict["data"])
         elif query["query_type"] == "aggregate":
@@ -101,11 +109,14 @@ class ApiData(object):
     def raise_if_overloaded(self, response):
         DB_TIMEOUT_MSG = "(psycopg2.extensions.QueryCanceledError) canceling statement due to statement timeout\n"
         if response.status_code == 500:
-            if response.json().get("message") == DB_TIMEOUT_MSG:
+            try:
+                message = response.json().get("message")
+            except ValueError:
+                message = None
+            if message == DB_TIMEOUT_MSG:
                 raise APIOverloadedException("API Overloaded")
 
-    def raise_if_paged(self, response):
-        body = response.json()
+    def raise_if_paged(self, response, body):
         if (
             body.get("total_cell_count") == body.get("page_size")
             and body.get("total_cell_count") is not None

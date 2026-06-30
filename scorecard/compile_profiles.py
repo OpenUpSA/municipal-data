@@ -364,7 +364,7 @@ def compile_data(
 ):
     # Setup the client
     http_client = FuturesSession(
-        executor=ThreadPoolExecutor(max_workers=10)
+        executor=ThreadPoolExecutor(max_workers=5)
     )
     http_client.mount(
         f'{urlparse(api_url).scheme}://',
@@ -372,7 +372,7 @@ def compile_data(
             max_retries=Retry(
                 total=5,
                 backoff_factor=1,
-                status_forcelist=[500]
+                status_forcelist=[500, 502, 503, 504]
             ),
         ),
     )
