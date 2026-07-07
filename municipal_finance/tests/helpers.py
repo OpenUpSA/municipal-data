@@ -4,7 +4,6 @@ import unicodedata
 
 from django.contrib.staticfiles.testing import LiveServerTestCase
 from selenium import webdriver
-from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -26,14 +25,13 @@ class BaseSeleniumTestCase(LiveServerTestCase):
         super(BaseSeleniumTestCase, self).setUp()
 
         chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument("headless")
+        chrome_options.add_argument("--headless=new")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
-        d = DesiredCapabilities.CHROME
-        d["loggingPrefs"] = {"browser": "ALL"}
-        self.selenium = webdriver.Chrome(
-            chrome_options=chrome_options, desired_capabilities=d
-        )
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--window-size=1920,1080")
+        chrome_options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
+        self.selenium = webdriver.Chrome(options=chrome_options)
         self.selenium.implicitly_wait(10)
         self.wait = WebDriverWait(self.selenium, 5)
 
