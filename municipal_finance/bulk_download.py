@@ -1,5 +1,4 @@
 import xlsxwriter
-import sys
 import os
 import hashlib
 import json
@@ -7,9 +6,17 @@ import csv
 from datetime import datetime
 from .views import get_cube
 
+from sqlalchemy import select
+from babbage.query import Cuts, Fields
+
 from django.core.files.storage import default_storage
-from django.db import transaction
 from django.conf import settings
+
+# Stream data from the DB in chunks of this size
+stream_chunk_size = 10000
+
+# Limit the size of the blocks used when hashing a finished file
+hash_block_size = 8 * 1024 * 1024
 
 # Map cube names to call the get_cube function
 cubes_map = {
@@ -54,7 +61,6 @@ all_years = "All"
 metadata_index = "index.json"
 
 
-@transaction.atomic
 def generate_download(**kwargs):
     now = datetime.now()
     timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
@@ -129,37 +135,55 @@ def write_to_xlsx(field_names, queryset, cube_model, file_name):
         workbook.close()
 
 
+def stream_cube_facts(cube, cuts=None):
+    """Stream every fact of a cube to disk without loading it to memory."""
+
+    query = select(columns=None).select_from(cube.fact_table)
+    bindings = []
+    _, query, bindings = Cuts(cube).apply(query, bindings, cuts)
+    query = cube.restrict_joins(query, bindings)
+    field_refs, query, bindings = Fields(cube).apply(query, bindings, None)
+    query = cube.restrict_joins(query, bindings)
+
+    def rows():
+        connection = cube.engine.connect()
+        try:
+            result = connection.execution_options(
+                stream_results=True
+            ).execute(query)
+            while True:
+                batch = result.fetchmany(stream_chunk_size)
+                if not batch:
+                    break
+                for row in batch:
+                    yield dict(row.items())
+        finally:
+            connection.close()
+
+    return field_refs, rows()
+
+
 def cube_to_csv(cube_model, timestamp):
     file_name = f"{cube_model._meta.db_table}_{timestamp}.csv"
     cube = get_cube(cubes_map[cube_model._meta.db_table])
-    result = cube.facts(
-        page=1,
-        page_size=1000000,
-        page_max=1000000,
-    )
-    field_names = result["data"][0].keys()
-    headers = field_labels(cube, field_names)
-    write_to_csv(headers, result, cube_model, file_name)
+    field_refs, rows = stream_cube_facts(cube)
+    headers = field_labels(cube, field_refs)
+    write_to_csv(headers, rows, cube_model, file_name)
     return {all_years: [file_name]}
 
 
 def split_cube_to_csv(cube_model, timestamp, year_list):
-    file_name = f"{cube_model._meta.db_table}_{timestamp}.csv"
     cube = get_cube(cubes_map[cube_model._meta.db_table])
     files = {}
 
     for year in year_list:
-        result = cube.facts(
-            page=1,
-            page_size=1000000,
-            page_max=1000000,
-            cuts=f"financial_year_end.year:{year}",
+        file_name = f"{cube_model._meta.db_table}_{year}__{timestamp}.csv"
+        field_refs, rows = stream_cube_facts(
+            cube, cuts=f"financial_year_end.year:{year}"
         )
-
-        field_names = result["data"][0].keys()
-        headers = field_labels(cube, field_names)
+        headers = field_labels(cube, field_refs)
         files[year] = [file_name]
-        write_to_csv(headers, result, cube_model, file_name)
+        write_to_csv(headers, rows, cube_model, file_name)
     return files
 
 
@@ -186,13 +210,13 @@ def field_labels(cube, field_names):
     return headers
 
 
-def write_to_csv(headers, result, cube_model, file_name):
+def write_to_csv(headers, rows, cube_model, file_name):
     file_path = f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}"
     with default_storage.open(file_path, "wb") as file:
         writer = csv.writer(file)
 
         writer.writerow(headers)
-        for fact in result["data"]:
+        for fact in rows:
             writer.writerow(fact.values())
 
 
@@ -203,13 +227,14 @@ def save_metadata(file_names, cube_name, timestamp):
         for name in file_names[file_year]:
             md5 = hashlib.md5()
             sha1 = hashlib.sha1()
+            size = 0
             with default_storage.open(
                 f"{settings.BULK_DOWNLOAD_DIR}/{cube_name}/{name}", "rb"
             ) as f:
-                data = f.read()
-                md5.update(data)
-                sha1.update(data)
-                size = sys.getsizeof(data)
+                for block in iter(lambda: f.read(hash_block_size), b""):
+                    md5.update(block)
+                    sha1.update(block)
+                    size += len(block)
             file_metadata[file_year].append(
                 {
                     "file_name": name,
