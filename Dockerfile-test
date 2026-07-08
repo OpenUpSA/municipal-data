@@ -15,8 +15,19 @@ RUN set -ex; \
   apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
   rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && \
-    apt-get install -y chromium-driver
+ARG CHROME_VERSION=150.0.7871.49
+RUN set -ex; \
+    apt-get update; \
+    apt-get install -y chromium-driver unzip; \
+    base="https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64"; \
+    curl -sSL -o /tmp/chrome.zip "${base}/chrome-linux64.zip"; \
+    curl -sSL -o /tmp/chromedriver.zip "${base}/chromedriver-linux64.zip"; \
+    unzip -q /tmp/chrome.zip -d /opt; \
+    unzip -q /tmp/chromedriver.zip -d /opt; \
+    ln -sf /opt/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver; \
+    rm -f /tmp/chrome.zip /tmp/chromedriver.zip; \
+    rm -rf /var/lib/apt/lists/*
+ENV CHROME_BIN=/opt/chrome-linux64/chrome
 
 ADD requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt

@@ -1,6 +1,7 @@
 from datetime import datetime
 from html.parser import HTMLParser
 import os
+import sys
 import tempfile
 import unicodedata
 
@@ -37,7 +38,29 @@ class BaseSeleniumTestCase(LiveServerTestCase):
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--window-size=1920,1080")
         chrome_options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
-        self.selenium = webdriver.Chrome(options=chrome_options)
+
+        chrome_bin = os.environ.get("CHROME_BIN")
+        if chrome_bin:
+            chrome_options.binary_location = chrome_bin
+
+        driver_log = os.path.join(tempfile.mkdtemp(), "chromedriver.log")
+        try:
+            self.selenium = webdriver.Chrome(
+                options=chrome_options,
+                service_args=["--verbose"],
+                service_log_path=driver_log,
+            )
+        except Exception:
+            try:
+                with open(driver_log) as f:
+                    sys.stderr.write(
+                        "\n===== ChromeDriver verbose log =====\n"
+                        + f.read()
+                        + "\n===== end ChromeDriver log =====\n"
+                    )
+            except OSError:
+                pass
+            raise
         self.selenium.implicitly_wait(10)
         self.wait = WebDriverWait(self.selenium, 5)
 
