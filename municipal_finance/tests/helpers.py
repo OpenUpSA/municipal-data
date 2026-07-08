@@ -1,5 +1,7 @@
 from datetime import datetime
 from html.parser import HTMLParser
+import os
+import tempfile
 import unicodedata
 
 from django.contrib.staticfiles.testing import LiveServerTestCase
@@ -23,6 +25,10 @@ class HTMLFilter(HTMLParser):
 class BaseSeleniumTestCase(LiveServerTestCase):
     def setUp(self):
         super(BaseSeleniumTestCase, self).setUp()
+
+        home = os.environ.get("HOME", "")
+        if not (home and os.access(home, os.W_OK)):
+            os.environ["HOME"] = tempfile.mkdtemp()
 
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--headless=new")
