@@ -84,68 +84,13 @@ def generate_download(**kwargs):
         )
 
         if cube_name in all_years_cubes:
-            file_names[all_years] = cube_to_csv(cube_model, timestamp)[all_years]
+            file_names.update(cube_to_files(cube_model, timestamp, with_xlsx=False))
 
-        if cube_name in disable_xlsx:
-            file_names.update(split_cube_to_csv(cube_model, timestamp, year_list))
-        else:
-            # xlsx_files = split_dump_to_xlsx(
-            #    field_names, cube_model, timestamp, year_list
-            # )
-            csv_files = split_cube_to_csv(cube_model, timestamp, year_list)
-            for year in csv_files.keys():
-                file_names[year] = csv_files[year]  # + xlsx_files[year]
+        file_names.update(split_cube_to_files(cube_model, timestamp, year_list))
     else:
-        # xlsx_files = dump_cube_to_xlsx(queryset, field_names, cube_model, timestamp)
-        csv_files = cube_to_csv(cube_model, timestamp)
-        file_names[all_years] = csv_files[all_years]  # + xlsx_files[all_years]
+        file_names.update(cube_to_files(cube_model, timestamp))
 
     save_metadata(file_names, cube_name, timestamp)
-
-
-def dump_cube_to_xlsx(queryset, field_names, cube_model, timestamp):
-    file_name = f"{cube_model._meta.db_table}_{timestamp}.xlsx"
-    write_to_xlsx(field_names, queryset, cube_model, file_name)
-    return {all_years: [file_name]}
-
-
-def split_dump_to_xlsx(field_names, cube_model, timestamp, year_list):
-    # Write each year to a separate file
-    files = {}
-
-    for year in year_list:
-        file_name = f"{cube_model._meta.db_table}_{year}__{timestamp}.xlsx"
-        files[year] = [file_name]
-        queryset_year = cube_model.objects.filter(financial_year=year).defer("id")
-        write_to_xlsx(field_names, queryset_year, cube_model, file_name)
-    return files
-
-
-def write_to_xlsx(field_names, queryset, cube_model, file_name):
-    file_path = f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}"
-
-    with default_storage.open(file_path, "wb") as file:
-        workbook = xlsxwriter.Workbook(file)
-        worksheet = workbook.add_worksheet()
-
-        header_written = False
-
-        row_num = 0
-        for fact in queryset:
-            fields = get_related_fields(fact)
-
-            # Write the header row
-            if not header_written:
-                for col_num, field_name in enumerate(fields.keys()):
-                    worksheet.write(row_num, col_num, field_name)
-                header_written = True
-                row_num += 1
-            # Write the data rows
-            for col_num, field_value in enumerate(fields.values()):
-                worksheet.write(row_num, col_num, field_value)
-            row_num += 1
-
-        workbook.close()
 
 
 def stream_cube_facts(cube, cuts=None):
@@ -176,27 +121,38 @@ def stream_cube_facts(cube, cuts=None):
     return field_refs, rows()
 
 
-def cube_to_csv(cube_model, timestamp):
-    file_name = f"{cube_model._meta.db_table}_{timestamp}.csv"
-    cube = get_cube(cubes_map[cube_model._meta.db_table])
+def xlsx_allowed(cube_name, row_count):
+    return cube_name not in disable_xlsx and row_count <= xlsx_max_rows
+
+
+def cube_to_files(cube_model, timestamp, with_xlsx=True):
+    cube_name = cube_model._meta.db_table
+    cube = get_cube(cubes_map[cube_name])
     field_refs, rows = stream_cube_facts(cube)
     headers = field_labels(cube, field_refs)
-    write_to_csv(headers, rows, cube_model, file_name)
-    return {all_years: [file_name]}
+    write_xlsx = with_xlsx and xlsx_allowed(cube_name, cube_model.objects.count())
+    file_names = write_facts(
+        headers, rows, cube_name, f"{cube_name}_{timestamp}", write_xlsx
+    )
+    return {all_years: file_names}
 
 
-def split_cube_to_csv(cube_model, timestamp, year_list):
-    cube = get_cube(cubes_map[cube_model._meta.db_table])
+def split_cube_to_files(cube_model, timestamp, year_list):
+    cube_name = cube_model._meta.db_table
+    cube = get_cube(cubes_map[cube_name])
     files = {}
 
     for year in year_list:
-        file_name = f"{cube_model._meta.db_table}_{year}__{timestamp}.csv"
         field_refs, rows = stream_cube_facts(
             cube, cuts=f"financial_year_end.year:{year}"
         )
         headers = field_labels(cube, field_refs)
-        files[year] = [file_name]
-        write_to_csv(headers, rows, cube_model, file_name)
+        write_xlsx = xlsx_allowed(
+            cube_name, cube_model.objects.filter(financial_year=year).count()
+        )
+        files[year] = write_facts(
+            headers, rows, cube_name, f"{cube_name}_{year}__{timestamp}", write_xlsx
+        )
     return files
 
 
@@ -223,14 +179,58 @@ def field_labels(cube, field_names):
     return headers
 
 
-def write_to_csv(headers, rows, cube_model, file_name):
-    file_path = f"{settings.BULK_DOWNLOAD_DIR}/{cube_model._meta.db_table}/{file_name}"
-    with default_storage.open(file_path, "wb") as file:
-        writer = csv.writer(file)
+def storage_path(cube_name, file_name):
+    return f"{settings.BULK_DOWNLOAD_DIR}/{cube_name}/{file_name}"
 
+
+def write_facts(headers, rows, cube_name, base_name, write_xlsx):
+    """Write the streamed facts to csv, and to xlsx alongside it when write_xlsx
+    is set. Both formats are written from a single pass over the rows, because
+    rows is a one-shot generator and reading it again means a second scan of the
+    fact table. Returns the names of the files written."""
+    csv_name = f"{base_name}.csv"
+    file_names = [csv_name]
+
+    with default_storage.open(storage_path(cube_name, csv_name), "wb") as csv_file:
+        writer = csv.writer(csv_file)
         writer.writerow(headers)
-        for fact in rows:
-            writer.writerow(fact.values())
+
+        if not write_xlsx:
+            for fact in rows:
+                writer.writerow(fact.values())
+            return file_names
+
+        xlsx_name = f"{base_name}.xlsx"
+        with default_storage.open(
+            storage_path(cube_name, xlsx_name), "wb"
+        ) as xlsx_file:
+            # constant_memory writes each row to disk instead of holding the
+            # whole sheet in memory
+            workbook = xlsxwriter.Workbook(
+                xlsx_file,
+                {
+                    "constant_memory": True,
+                    "strings_to_formulas": False,
+                    "strings_to_urls": False,
+                },
+            )
+            worksheet = workbook.add_worksheet()
+
+            for col_num, header in enumerate(headers):
+                worksheet.write(0, col_num, header)
+
+            row_num = 1
+            for fact in rows:
+                values = list(fact.values())
+                writer.writerow(values)
+                for col_num, value in enumerate(values):
+                    worksheet.write(row_num, col_num, value)
+                row_num += 1
+
+            workbook.close()
+
+    file_names.append(xlsx_name)
+    return file_names
 
 
 def save_metadata(file_names, cube_name, timestamp):
@@ -241,9 +241,7 @@ def save_metadata(file_names, cube_name, timestamp):
             md5 = hashlib.md5()
             sha1 = hashlib.sha1()
             size = 0
-            with default_storage.open(
-                f"{settings.BULK_DOWNLOAD_DIR}/{cube_name}/{name}", "rb"
-            ) as f:
+            with default_storage.open(storage_path(cube_name, name), "rb") as f:
                 for block in iter(lambda: f.read(hash_block_size), b""):
                     md5.update(block)
                     sha1.update(block)
@@ -265,9 +263,7 @@ def save_metadata(file_names, cube_name, timestamp):
         }
     }
 
-    with default_storage.open(
-        f"{settings.BULK_DOWNLOAD_DIR}/{cube_name}/{metadata_index}", "w"
-    ) as file:
+    with default_storage.open(storage_path(cube_name, metadata_index), "w") as file:
         json.dump(metadata, file)
 
     # Aggregate all metadata
