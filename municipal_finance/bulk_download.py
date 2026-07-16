@@ -49,6 +49,16 @@ split_cubes = [
     "incexp_facts_v2",
 ]
 
+# Split cubes that also get a single file covering every year
+all_years_cubes = [
+    "aged_debtor_facts_v2",
+    "capital_facts_v2",
+    "cflow_facts_v2",
+    "financial_position_facts_v2",
+    "grant_facts_v2",
+    "incexp_facts_v2",
+]
+
 # Disable cubes with years that have more than more million rows per year
 disable_xlsx = [
     "cflow_facts_v2",
@@ -73,8 +83,11 @@ def generate_download(**kwargs):
             cube_model.objects.all().distinct().values_list("financial_year", flat=True)
         )
 
+        if cube_name in all_years_cubes:
+            file_names[all_years] = cube_to_csv(cube_model, timestamp)[all_years]
+
         if cube_name in disable_xlsx:
-            file_names = split_cube_to_csv(cube_model, timestamp, year_list)
+            file_names.update(split_cube_to_csv(cube_model, timestamp, year_list))
         else:
             # xlsx_files = split_dump_to_xlsx(
             #    field_names, cube_model, timestamp, year_list
