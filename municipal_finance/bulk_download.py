@@ -28,10 +28,15 @@ cubes_map = {
     "grant_facts_v2": "grants_v2",
     "incexp_facts_v2": "incexp_v2",
     "audit_opinion_facts": "audit_opinions",
-    "municipal_staff_contacts": "municipalities",
     "repairs_maintenance_facts_v2": "repmaint_v2",
     "uifwexp_facts_v1": "uifwexp",
 }
+
+# Cubes that are not published, so no bulk download is generated for them even
+# though their data is still updated through the admin.
+excluded_cubes = [
+    "municipal_staff_contacts",
+]
 
 # Controls which cubes to split by year
 split_cubes = [
@@ -77,6 +82,9 @@ def generate_download(**kwargs):
     cube_model = kwargs["cube_model"]
     cube_name = cube_model._meta.db_table
     file_names = {}
+
+    if cube_name in excluded_cubes:
+        return
 
     if cube_name in split_cubes:
         year_list = (

@@ -81,8 +81,6 @@ def index(request):
         "Grants" : {"cube_info":[{"slug":"conditional_grants", "version":"V1"}, {"slug":"grants_v2", "version":"V2"}], "formerly":"Conditional Grants"},
         "Demarcation Changes" : {"cube_info":[{"slug":"demarcation_changes", "no_data":"True"}]},
         "Income and Expenditure" : {"cube_info":[{"slug":"incexp", "version":"V1"}, {"slug":"incexp_v2", "version":"V2"}]},
-        "Municipal Officials" : {"cube_info":[{"slug":"officials"}]},
-        "Municipalities" : {"cube_info":[{"slug":"municipalities"}]},
         "Repairs and Maintenance" : {"cube_info":[{"slug":"repmaint", "version":"V1"}, {"slug":"repmaint_v2", "version":"V2"}]},
         "Unauthorised, Irregular, Fruitless and Wasteful Expenditure" : {"cube_info":[{"slug":"uifwexp"}]},
     }
@@ -298,6 +296,8 @@ def members(request, cube_name, member_ref):
 @xframe_options_exempt
 def table(request, cube_name):
     manager = get_manager()
+    if cube_name in ['municipalities', 'officials']:
+        raise Http404('No such cube: %s' % cube_name)
     cubes = {}
     select_year = config.LAST_AUDIT_YEAR
     for name in manager.list_cubes():
@@ -316,11 +316,15 @@ def table(request, cube_name):
 
 
 def get_bulk_downloads():
+    from .bulk_download import excluded_cubes
+
     aggregate_index = f"{settings.BULK_DOWNLOAD_DIR}/index.json"
 
     if default_storage.exists(aggregate_index):
         with default_storage.open(aggregate_index, "r") as file:
             data = json.load(file)
+        for cube_name in excluded_cubes:
+            data.pop(cube_name, None)
         return data
     else:
         return ""
