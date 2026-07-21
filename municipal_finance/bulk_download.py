@@ -32,8 +32,6 @@ cubes_map = {
     "uifwexp_facts_v1": "uifwexp",
 }
 
-# Cubes that are not published, so no bulk download is generated for them even
-# though their data is still updated through the admin.
 excluded_cubes = [
     "municipal_staff_contacts",
 ]
