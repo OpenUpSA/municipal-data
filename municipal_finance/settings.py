@@ -460,6 +460,7 @@ Q_CLUSTER = {
     "poll": 5,
     "max_attempts": 1,
     "ack_failures": True,  # Dequeue failed tasks
+    "max_rss": 250000,  # KB
 }
 
 DEFAULT_FILE_STORAGE = env.str("DEFAULT_FILE_STORAGE", "municipal_finance.storage.MediaStorage")
