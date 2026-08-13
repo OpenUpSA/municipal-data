@@ -316,9 +316,9 @@ def table(request, cube_name):
 
 
 def get_bulk_downloads():
-    from .bulk_download import excluded_cubes
+    from .bulk_download import excluded_cubes, metadata_index, storage_path
 
-    aggregate_index = f"{settings.BULK_DOWNLOAD_DIR}/index.json"
+    aggregate_index = storage_path(metadata_index)
 
     if default_storage.exists(aggregate_index):
         with default_storage.open(aggregate_index, "r") as file:
@@ -327,4 +327,4 @@ def get_bulk_downloads():
             data.pop(cube_name, None)
         return data
     else:
-        return ""
+        return {}

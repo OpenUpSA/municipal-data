@@ -185,8 +185,9 @@ def field_labels(cube, field_names):
     return headers
 
 
-def storage_path(cube_name, file_name):
-    return f"{settings.BULK_DOWNLOAD_DIR}/{cube_name}/{file_name}"
+def storage_path(*parts):
+    components = [settings.BULK_DOWNLOAD_DIR, *parts]
+    return "/".join(part for part in components if part)
 
 
 def write_facts(headers, rows, cube_name, base_name, write_xlsx):
@@ -273,7 +274,7 @@ def save_metadata(file_names, cube_name, timestamp):
         json.dump(metadata, file)
 
     # Aggregate all metadata
-    aggregate_index = f"{settings.BULK_DOWNLOAD_DIR}/{metadata_index}"
+    aggregate_index = storage_path(metadata_index)
     if default_storage.exists(aggregate_index):
         with default_storage.open(aggregate_index, "r") as file:
             data = json.load(file)
