@@ -1,9 +1,15 @@
 name: Test
 on:
+  # master and staging are tested by the Deploy workflow, which calls this one
+  # via workflow_call, so they are excluded here to avoid running twice.
   push:
+    branches-ignore:
+      - master
+      - staging
   pull_request:
   schedule:
     - cron: "0 0 * * 0" # weekly
+  workflow_call:
 jobs:
   test:
     runs-on: ubuntu-latest
