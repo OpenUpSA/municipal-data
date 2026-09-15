@@ -150,7 +150,7 @@ services:
     tty: true
 
   minio:
-    image: "minio/minio:RELEASE.2019-10-12T01-39-57Z"
+    image: "quay.io/minio/minio:RELEASE.2022-01-08T03-11-54Z"
     volumes:
       - minio_data:/data
     ports:
@@ -162,7 +162,7 @@ services:
     command: minio --compat server data
 
   minio-client:
-    image: "minio/mc:RELEASE.2019-12-17T23-26-28Z"
+    image: "quay.io/minio/mc:RELEASE.2022-01-07T06-01-38Z"
     depends_on:
       - minio
     environment:
