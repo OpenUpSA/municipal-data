@@ -171,25 +171,48 @@
     <h1 id="bulkdownloads">Bulk Downloads</h1>
     <p><a href="{{ storage_url }}/index.json" target=”_blank”>Metadata for all cubes</a></p>
 
-    <table class="bulk-downloads">
+    <div class="bulk-downloads-toolbar" id="bulk-downloads-toolbar">
+      <label class="bulk-select-all">
+        <input type="checkbox" id="bulk-select-all"> Select all
+      </label>
+      <span class="bulk-selection-summary" id="bulk-selection-summary">No files selected</span>
+      <button type="button" class="btn btn-default" id="bulk-download-selected" disabled>Download selected</button>
+      <button type="button" class="btn btn-default" id="bulk-download-script" disabled>Download script</button>
+    </div>
+
+    <table class="bulk-downloads" id="bulk-downloads">
       {% for key, value in bulk_downloads.items %}
-        <tr class="bulk-downloads">
-          <td colspan="3">{{ key|format_cube_name }} (<a href="{{ storage_url }}/{{ key }}/index.json" target=”_blank”>Metadata</a>)</td>
-        </tr>
-        {% for file_key, file_year in value.files.items %}
-          <tr class="attribute">
-            <td><p>{{ file_key }}</p></td>
-            {% for file in file_year %}
-              <td>
-                <p>
-                  <a href="{{ storage_url }}/{{ key }}/{{ file.file_name }}" target=”_blank”>
-                    {{ file.format|upper }} {{ file.file_size|filesizeformat }}
-                  </a>
-                </p>
-              </td>
-            {% endfor %}
+        <tbody class="bulk-cube">
+          <tr class="bulk-downloads">
+            <td colspan="3">
+              <label class="bulk-cube-label">
+                <input type="checkbox" class="bulk-cube-check"> {{ key|format_cube_name }}
+              </label>
+              (<a href="{{ storage_url }}/{{ key }}/index.json" target="_blank">Metadata</a>)
+            </td>
           </tr>
-        {% endfor %}
+          {% for file_key, file_year in value.files.items %}
+            <tr class="attribute">
+              <td><p>{{ file_key }}</p></td>
+              {% for file in file_year %}
+                <td>
+                  <p>
+                    <label class="bulk-file-label">
+                      <input type="checkbox" class="bulk-file-check"
+                             data-url="{{ storage_url }}/{{ key }}/{{ file.file_name }}"
+                             data-name="{{ file.file_name }}"
+                             data-size="{{ file.file_size }}"
+                             data-md5="{{ file.md5 }}">
+                      <a href="{{ storage_url }}/{{ key }}/{{ file.file_name }}" target="_blank">
+                        {{ file.format|upper }} {{ file.file_size|filesizeformat }}
+                      </a>
+                    </label>
+                  </p>
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
       {% endfor %}
     </table>
 
