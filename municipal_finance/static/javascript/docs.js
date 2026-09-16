@@ -64,7 +64,7 @@ $(() => {
       value /= 1024;
       unit += 1;
     }
-    return (unit === 0 ? value : value.toFixed(1)) + ' ' + units[unit];
+    return `${unit === 0 ? value : value.toFixed(1)} ${units[unit]}`;
   }
 
   function selected() {
@@ -96,7 +96,7 @@ $(() => {
       $summary.text('No files selected');
     } else {
       $summary.text(
-        count + (count === 1 ? ' file' : ' files') + ', ' + formatSize(bytes)
+        `${count} ${count === 1 ? 'file' : 'files'}, ${formatSize(bytes)}`,
       );
     }
 
@@ -109,7 +109,7 @@ $(() => {
     iframe.style.display = 'none';
     iframe.src = url;
     document.body.appendChild(iframe);
-    window.setTimeout(function () {
+    window.setTimeout(() => {
       document.body.removeChild(iframe);
     }, 120000);
   }
@@ -118,9 +118,9 @@ $(() => {
     var lines = [
       '#!/bin/sh',
       '# Municipal Money bulk download',
-      '# Generated ' + new Date().toISOString(),
+      `# Generated ${new Date().toISOString()}`,
       '#',
-      '# Downloads the files selected on ' + window.location.origin + '/docs#bulkdownloads',
+      `# Downloads the files selected on ${window.location.origin}/docs#bulkdownloads`,
       '# Re-running the script resumes any partial downloads rather than',
       '# starting them again.',
       '',
@@ -141,14 +141,14 @@ $(() => {
 
     $selected.each(function () {
       var $file = $(this);
-      lines.push('download "' + $file.data('url') + '" "' + $file.data('name') + '"');
+      lines.push(`download "${$file.data('url')}" "${$file.data('name')}"`);
     });
 
     lines.push('');
     lines.push('cat > md5sums.txt <<\'EOF\'');
     $selected.each(function () {
       var $file = $(this);
-      lines.push($file.data('md5') + '  ' + $file.data('name'));
+      lines.push(`${$file.data('md5')}  ${$file.data('name')}`);
     });
     lines.push('EOF');
     lines.push('');
@@ -179,30 +179,30 @@ $(() => {
     refresh();
   });
 
-  $downloadSelected.on('click', function () {
+  $downloadSelected.on('click', () => {
     var $selected = selected();
     if (!$selected.length) return;
 
     if ($selected.length > MAX_DIRECT_DOWNLOADS) {
       window.alert(
-        'You have selected ' + $selected.length + ' files. Browsers handle more ' +
-        'than ' + MAX_DIRECT_DOWNLOADS + ' downloads at once poorly, and a ' +
-        'failed download cannot be resumed.\n\n' +
-        'Use "Download script" instead -- it fetches the same files, resumes ' +
-        'where it left off, and verifies them.'
+        `You have selected ${$selected.length} files. Browsers handle more than `
+        + `${MAX_DIRECT_DOWNLOADS} downloads at once poorly, and a failed `
+        + 'download cannot be resumed.\n\n'
+        + 'Use "Download script" instead -- it fetches the same files, resumes '
+        + 'where it left off, and verifies them.',
       );
       return;
     }
 
     $selected.each(function (index) {
       var url = $(this).data('url');
-      window.setTimeout(function () {
+      window.setTimeout(() => {
         downloadInBackground(url);
       }, index * DOWNLOAD_INTERVAL_MS);
     });
   });
 
-  $downloadScript.on('click', function () {
+  $downloadScript.on('click', () => {
     var $selected = selected();
     if (!$selected.length) return;
 
