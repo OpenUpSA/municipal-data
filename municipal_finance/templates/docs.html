@@ -172,9 +172,6 @@
     <p><a href="{{ storage_url }}/index.json" target=”_blank”>Metadata for all cubes</a></p>
 
     <div class="bulk-downloads-toolbar" id="bulk-downloads-toolbar">
-      <label class="bulk-select-all">
-        <input type="checkbox" id="bulk-select-all"> Select all
-      </label>
       <span class="bulk-selection-summary" id="bulk-selection-summary">No files selected</span>
       <button type="button" class="btn btn-default" id="bulk-download-selected" disabled>Download selected</button>
       <button type="button" class="btn btn-default" id="bulk-download-script" disabled>Download script</button>
@@ -201,7 +198,6 @@
                       <input type="checkbox" class="bulk-file-check"
                              data-url="{{ storage_url }}/{{ key }}/{{ file.file_name }}"
                              data-name="{{ file.file_name }}"
-                             data-size="{{ file.file_size }}"
                              data-md5="{{ file.md5 }}">
                       <a href="{{ storage_url }}/{{ key }}/{{ file.file_name }}" target="_blank">
                         {{ file.format|upper }} {{ file.file_size|filesizeformat }}

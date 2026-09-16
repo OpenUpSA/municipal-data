@@ -51,21 +51,9 @@ $(() => {
   var $table = $('#bulk-downloads');
   if (!$table.length) return;
 
-  var $selectAll = $('#bulk-select-all');
   var $summary = $('#bulk-selection-summary');
   var $downloadSelected = $('#bulk-download-selected');
   var $downloadScript = $('#bulk-download-script');
-
-  function formatSize(bytes) {
-    var units = ['bytes', 'KB', 'MB', 'GB', 'TB'];
-    var value = bytes;
-    var unit = 0;
-    while (value >= 1024 && unit < units.length - 1) {
-      value /= 1024;
-      unit += 1;
-    }
-    return `${unit === 0 ? value : value.toFixed(1)} ${units[unit]}`;
-  }
 
   function selected() {
     return $table.find('.bulk-file-check:checked');
@@ -83,21 +71,12 @@ $(() => {
       var $cube = $(this);
       refreshParent($cube.find('.bulk-cube-check'), $cube.find('.bulk-file-check'));
     });
-    refreshParent($selectAll, $table.find('.bulk-file-check'));
-
-    var $selected = selected();
-    var count = $selected.length;
-    var bytes = 0;
-    $selected.each(function () {
-      bytes += parseInt($(this).data('size'), 10) || 0;
-    });
+    var count = selected().length;
 
     if (count === 0) {
       $summary.text('No files selected');
     } else {
-      $summary.text(
-        `${count} ${count === 1 ? 'file' : 'files'}, ${formatSize(bytes)}`,
-      );
+      $summary.text(`${count} ${count === 1 ? 'file' : 'files'} selected`);
     }
 
     $downloadSelected.prop('disabled', count === 0);
@@ -171,11 +150,6 @@ $(() => {
   $table.on('change', '.bulk-cube-check', function () {
     var checked = $(this).prop('checked');
     $(this).closest('tbody.bulk-cube').find('.bulk-file-check').prop('checked', checked);
-    refresh();
-  });
-
-  $selectAll.on('change', function () {
-    $table.find('.bulk-file-check').prop('checked', $(this).prop('checked'));
     refresh();
   });
 
