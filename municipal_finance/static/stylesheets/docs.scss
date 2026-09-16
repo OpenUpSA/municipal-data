@@ -82,6 +82,23 @@ table.dimensions {
   }
 }
 
+.bulk-downloads-toolbar {
+  width: 60%;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+
+  .bulk-selection-summary {
+    margin-right: 15px;
+    color: #666;
+  }
+
+  .btn {
+    margin-right: 5px;
+  }
+}
+
 table.bulk-downloads {
   width: 60%;
   .bulk-downloads {
@@ -94,6 +111,16 @@ table.bulk-downloads {
   }
   td {
     padding: 5px;
+  }
+
+  .bulk-cube-label,
+  .bulk-file-label {
+    margin: 0;
+    font-weight: inherit;
+  }
+
+  input[type="checkbox"] {
+    margin-right: 5px;
   }
 }
 
