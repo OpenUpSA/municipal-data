@@ -150,7 +150,9 @@ services:
     tty: true
 
   minio:
-    image: "quay.io/minio/minio:RELEASE.2022-01-08T03-11-54Z"
+    image: "bitnamilegacy/minio:2022.1.8"
+    user: root
+    entrypoint: ["minio"]
     volumes:
       - minio_data:/data
     ports:
@@ -159,10 +161,10 @@ services:
       - MINIO_ACCESS_KEY=minio-access-key
       - MINIO_SECRET_KEY=minio-secret-key
       - MINIO_DOMAIN=minio
-    command: minio --compat server data
+    command: --compat server /data
 
   minio-client:
-    image: "quay.io/minio/mc:RELEASE.2022-01-07T06-01-38Z"
+    image: "bitnamilegacy/minio-client:2022.1.7"
     depends_on:
       - minio
     environment:
@@ -171,9 +173,9 @@ services:
       - MINIO_DOMAIN=minio
     entrypoint: >
       /bin/sh -c "
-      /usr/bin/mc config host add --quiet --api s3v4 local http://minio:9000 minio-access-key minio-secret-key;
-      /usr/bin/mc mb  local/municipal-money;
-      /usr/bin/mc policy set public local/municipal-money;
+      mc config host add --quiet --api s3v4 local http://minio:9000 minio-access-key minio-secret-key;
+      mc mb  local/municipal-money;
+      mc policy set public local/municipal-money;
       "
 
 volumes:
