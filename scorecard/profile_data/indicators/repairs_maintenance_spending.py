@@ -1,5 +1,6 @@
 
 from .series import SeriesIndicator
+from .codes import V2_PPE_CODE, V2_INVESTMENT_PROPERTY_CODE
 from .utils import (
     percent,
     populate_periods,
@@ -63,7 +64,7 @@ class RepairsMaintenanceSpending(SeriesIndicator):
             "(",
             {
                 "cube": "financial_position_v2",
-                "item_codes": ["0240", "0220"],
+                "item_codes": [V2_PPE_CODE, V2_INVESTMENT_PROPERTY_CODE],
                 "amount_type": "AUDA",
             },
             ")",

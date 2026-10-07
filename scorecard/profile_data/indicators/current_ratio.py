@@ -1,5 +1,6 @@
 
 from .series import SeriesIndicator
+from .codes import V2_CURRENT_ASSETS_CODES, V2_CURRENT_LIABILITIES_CODES
 from .utils import (
     ratio,
     sum_item_amounts,
@@ -43,13 +44,13 @@ class CurrentRatio(SeriesIndicator):
             "=", 
             {
                 "cube": "financial_position_v2",
-                "item_codes": ["0120", "0130", "0140", "0150", "0160", "0170"],
+                "item_codes": V2_CURRENT_ASSETS_CODES,
                 "amount_type": "AUDA",
             },
             "/",
             {
                 "cube": "financial_position_v2",
-                "item_codes": ["0330", "0340", "0350", "0360", "0370"],
+                "item_codes": V2_CURRENT_LIABILITIES_CODES,
                 "amount_type": "AUDA",
             },
         ],
@@ -105,12 +106,12 @@ class CurrentRatio(SeriesIndicator):
         )
         for key, result in grouped_results:
             periods.setdefault(key, {})
-            periods[key]["assets"] = sum_item_amounts(result, [
-                "0120", "0130", "0140", "0150", "0160", "0170",
-            ])
-            periods[key]["liabilities"] = sum_item_amounts(result, [
-                "0330", "0340", "0350", "0360", "0370",
-            ])
+            periods[key]["assets"] = sum_item_amounts(
+                result, V2_CURRENT_ASSETS_CODES
+            )
+            periods[key]["liabilities"] = sum_item_amounts(
+                result, V2_CURRENT_LIABILITIES_CODES
+            )
         # Filter out periods that don't have all the required data
         periods = filter_for_all_keys(periods, [
             "assets", "liabilities",

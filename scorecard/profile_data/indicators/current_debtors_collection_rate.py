@@ -1,5 +1,6 @@
 
 from .series import SeriesIndicator
+from .codes import V2_BILLED_REVENUE_CODES
 from .utils import (
     percent,
     group_items_by_year,
@@ -60,9 +61,7 @@ class CurrentDebtorsCollectionRate(SeriesIndicator):
             "/",
             {
                 "cube": "incexp_v2",
-                "item_codes": [
-                    "0200", "0300", "0400", "0500", "0600", "0800", "0900", "1000",
-                ],
+                "item_codes": V2_BILLED_REVENUE_CODES,
                 "amount_type": "AUDA",
             },
             ")",
@@ -129,9 +128,9 @@ class CurrentDebtorsCollectionRate(SeriesIndicator):
         grouped_results = group_items_by_year(results["incexp_auda_years_v2"])
         for key, result in grouped_results:
             periods.setdefault(key, {})
-            periods[key]["billed_revenue"] = sum_item_amounts(result, [
-                "0200", "0300", "0400", "0500", "0600", "0800", "0900", "1000",
-            ])
+            periods[key]["billed_revenue"] = sum_item_amounts(
+                result, V2_BILLED_REVENUE_CODES
+            )
         # Filter out periods that don't have all the required data
         # print(periods)
         periods = filter_for_all_keys(periods, [

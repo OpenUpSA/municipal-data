@@ -300,25 +300,25 @@ class RevenueSourcesTests(SimpleTestCase):
                 ],
                 "revenue_budget_actual_v2": [
                     {
-                        "item.code": "1300",
+                        "item.code": "1500",
                         "amount.sum": 200,
                         "financial_year_end.year": 2050,
                         "amount_type.code": "ORGB",
                     },
                     {
-                        "item.code": "1300",
+                        "item.code": "1500",
                         "amount.sum": 210,
                         "financial_year_end.year": 2050,
                         "amount_type.code": "ADJB",
                     },
                     {
-                        "item.code": "1400",
+                        "item.code": "0800",
                         "amount.sum": 300,
                         "financial_year_end.year": 2050,
                         "amount_type.code": "ORGB",
                     },
                     {
-                        "item.code": "1400",
+                        "item.code": "0800",
                         "amount.sum": 320,
                         "financial_year_end.year": 2050,
                         "amount_type.code": "AUDA",

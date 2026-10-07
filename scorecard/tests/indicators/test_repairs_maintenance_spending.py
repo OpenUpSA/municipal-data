@@ -263,7 +263,7 @@ class TestRepairsMaintenanceSpending(_IndicatorTestCase):
                         "(",
                         {
                             "cube": "financial_position_v2",
-                            "item_codes": ["0240", "0220"],
+                            "item_codes": ["0230", "0220"],
                             "amount_type": "AUDA",
                         },
                         ")",
