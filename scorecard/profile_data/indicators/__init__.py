@@ -27,6 +27,8 @@ from .codes import (
     V2_FUNCTIONAL_BREAKDOWN,
     V2_INCOME_ITEMS,
     V2_SPENDING_CODES,
+    V2_STAFF_CODES,
+    V2_CONTRACTING_CODE,
 )
 from collections import defaultdict
 
@@ -212,14 +214,17 @@ class LocalRevenueBreakdown(IndicatorCalculator):
             ("Other", ["1700", "1800"]),
         ]
         v2_groups = [
-            ("Property rates", ["0200"]),
+            ("Property rates", ["0200", "1800"]),
             ("Service Charges", ["0300", "0400", "0500", "0600"]),
-            ("Rental income", ["0800"]),
-            ("Interest and investments", ["0900", "1000", "1100"]),
-            ("Fines", ["1200"]),
-            ("Licenses and Permits", ["1300"]),
-            ("Agency services", ["1400"]),
-            ("Other", ["1600", "1700"]),
+            ("Rental income", ["1300", "1400"]),
+            ("Interest and investments", ["0900", "1000", "1100", "1200", "2300"]),
+            ("Fines", ["2000"]),
+            ("Licenses and Permits", ["1500", "2100"]),
+            ("Agency services", ["0800"]),
+            ("Other", [
+                "0700", "1550", "1570", "1590", "1600", "1700", "1900", "2400",
+                "2500", "2600", "2700", "2800",
+            ]),
         ]
         v1_results = defaultdict(lambda: dict())
         v2_results = defaultdict(lambda: dict())
@@ -288,7 +293,7 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
             "=",
             {
                 "cube": "incexp_v2",
-                "item_codes": ["2700"],
+                "item_codes": [V2_CONTRACTING_CODE],
                 "amount_type": "AUDA",
             },
         ],
@@ -305,7 +310,7 @@ class ExpenditureTrendsContracting(IndicatorCalculator):
             try:
                 if year in v2_results:
                     results = v2_results[year]
-                    contracting_code = "2700"
+                    contracting_code = V2_CONTRACTING_CODE
                 else:
                     results = v1_results[year]
                     contracting_code = "4200"
@@ -363,7 +368,7 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
             "=",
             {
                 "cube": "incexp_v2",
-                "item_codes": ["2000"],
+                "item_codes": V2_STAFF_CODES,
                 "amount_type": "AUDA",
             },
         ],
@@ -380,7 +385,7 @@ class ExpenditureTrendsStaff(IndicatorCalculator):
             try:
                 if year in v2_results:
                     results = v2_results[year]
-                    staff_codes = ["2000"]
+                    staff_codes = V2_STAFF_CODES
                 else:
                     results = v1_results[year]
                     staff_codes = ["3000", "3100"]

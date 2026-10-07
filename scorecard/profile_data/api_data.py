@@ -15,6 +15,11 @@ from .indicators.codes import (
     V1_SPENDING_TOTAL_CODE,
     V1_SPENDING_CODES,
     V2_SPENDING_CODES,
+    V2_CURRENT_ASSETS_CODES,
+    V2_CURRENT_LIABILITIES_CODES,
+    V2_BILLED_REVENUE_CODES,
+    V2_INVESTMENT_PROPERTY_CODE,
+    V2_PPE_CODE,
 )
 from .api_client import ApiClient
 
@@ -353,7 +358,7 @@ class ApiData(object):
                 "cube": "financial_position_v2",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "item.code": ["0240"],
+                    "item.code": [V2_PPE_CODE],
                     "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
@@ -368,7 +373,7 @@ class ApiData(object):
                 "cube": "financial_position_v2",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "item.code": ["0220"],
+                    "item.code": [V2_INVESTMENT_PROPERTY_CODE],
                     "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],
@@ -552,8 +557,8 @@ class ApiData(object):
                 "aggregate": "amount.sum",
                 "cut": {
                     "item.code": [
-                        "0120", "0130", "0140", "0150", "0160", "0170",
-                        "0330", "0340", "0350", "0360", "0370",
+                        *V2_CURRENT_ASSETS_CODES,
+                        *V2_CURRENT_LIABILITIES_CODES,
                     ],
                     "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
@@ -629,10 +634,7 @@ class ApiData(object):
                 "cube": "incexp_v2",
                 "aggregate": "amount.sum",
                 "cut": {
-                    "item.code": [
-                        "0200", "0300", "0400", "0500", "0600",
-                        "0800", "0900", "1000",
-                    ],
+                    "item.code": V2_BILLED_REVENUE_CODES,
                     "amount_type.code": ["AUDA"],
                     "demarcation.code": [self.geo_code],
                     "period_length.length": ["year"],

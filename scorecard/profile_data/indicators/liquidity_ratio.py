@@ -1,5 +1,10 @@
 
 from .series import SeriesIndicator
+from .codes import (
+    V2_CASH_CODE,
+    V2_SHORT_TERM_INVESTMENTS_CODE,
+    V2_CURRENT_LIABILITIES_CODES,
+)
 from .utils import (
     ratio,
     group_items_by_year,
@@ -42,13 +47,13 @@ class LiquidityRatio(SeriesIndicator):
             "=", 
             {
                 "cube": "financial_position_v2",
-                "item_codes": ["0120", "0130"],
+                "item_codes": [V2_CASH_CODE, V2_SHORT_TERM_INVESTMENTS_CODE],
                 "amount_type": "AUDA",
             },
             "/",
             {
                 "cube": "financial_position_v2",
-                "item_codes": ["0330", "0340", "0350", "0360", "0370"],
+                "item_codes": V2_CURRENT_LIABILITIES_CODES,
                 "amount_type": "AUDA",
             },
         ],
@@ -104,11 +109,13 @@ class LiquidityRatio(SeriesIndicator):
         )
         for key, result in grouped_results:
             periods.setdefault(key, {})
-            periods[key]["cash"] = result.get("0120")
-            periods[key]["call_investment_deposits"] = result.get("0130")
-            periods[key]["total_current_liabilities"] = sum_item_amounts(result, [
-                "0330", "0340", "0350", "0360", "0370",
-            ])
+            periods[key]["cash"] = result.get(V2_CASH_CODE)
+            periods[key]["call_investment_deposits"] = result.get(
+                V2_SHORT_TERM_INVESTMENTS_CODE, 0
+            )
+            periods[key]["total_current_liabilities"] = sum_item_amounts(
+                result, V2_CURRENT_LIABILITIES_CODES
+            )
         # Filter out periods that don't have all the required data
         periods = filter_for_all_keys(periods, [
             "cash",
