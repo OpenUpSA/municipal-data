@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 import codecs
+import threading
 
 import scss
 
@@ -23,6 +24,7 @@ class GzipManifestPipelineStorage(PipelineMixin, CompressedManifestStaticFilesSt
             else:
                 yield result
 
+_scss_lock = threading.Lock()
 
 class PyScssCompiler(SubProcessCompiler):
     output_extension = 'css'
@@ -35,11 +37,12 @@ class PyScssCompiler(SubProcessCompiler):
             return
 
         try:
-            result = scss.compiler.compile_file(
-                infile,
-                search_path=settings.PYSCSS_LOAD_PATHS)
+            with _scss_lock:
+                result = scss.compiler.compile_file(
+                    infile,
+                    search_path=settings.PYSCSS_LOAD_PATHS)
         except Exception as e:
-            raise type(e)("Error compiling {}: {}".format(infile, e)) from e
+            raise Exception("Error compiling {}: {}".format(infile, e)) from e
 
         with codecs.open(outfile, 'w', encoding='utf-8') as f:
             f.write(result)
