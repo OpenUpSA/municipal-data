@@ -106,13 +106,13 @@ class TestCurrentRatio(_IndicatorTestCase):
                         "=", 
                         {
                             "cube": "financial_position_v2",
-                            "item_codes": ["0120", "0130", "0140", "0150", "0160", "0170"],
+                            "item_codes": ["0120", "0125", "0130", "0140", "0150", "0160", "0170", "0180"],
                             "amount_type": "AUDA",
                         },
                         "/",
                         {
                             "cube": "financial_position_v2",
-                            "item_codes": ["0330", "0340", "0350", "0360", "0370"],
+                            "item_codes": ["0330", "0340", "0350", "0360", "0370", "0380", "0390", "0400", "0410", "0420"],
                             "amount_type": "AUDA",
                         },
                     ],
