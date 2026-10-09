@@ -20,6 +20,18 @@ def google_analytics(request):
     return {"GOOGLE_ANALYTICS_ID": ga_id, "GOOGLE_GA4_TAG": gtag_id}
 
 
+def hotjar(request):
+    """
+    Add the Hotjar (Contentsquare) tag ID to the context on the Scorecard site.
+    """
+    hotjar_id = None
+
+    if get_current_site(request).name == "Scorecard":
+        hotjar_id = getattr(settings, "HOTJAR_SCORECARD_ID", None)
+
+    return {"HOTJAR_ID": hotjar_id}
+
+
 def search_engine_index(request):
     """
     Prevent a specific site from being indexed by search engines

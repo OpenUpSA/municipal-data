@@ -44,6 +44,7 @@ GOOGLE_ANALYTICS_DATA_ID = env.str("GOOGLE_ANALYTICS_DATA", None)
 GOOGLE_ANALYTICS_SCORECARD_ID = env.str("GOOGLE_ANALYTICS_SCORECARD", None)
 GOOGLE_GA4_DATA_ID = env.str("GOOGLE_GA4_DATA", None)
 GOOGLE_GA4_SCORECARD_ID = env.str("GOOGLE_GA4_SCORECARD", None)
+HOTJAR_SCORECARD_ID = env.str("HOTJAR_SCORECARD", None)
 
 NO_INDEX = env.bool("NO_INDEX", False)
 
@@ -251,6 +252,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
                 "municipal_finance.context_processors.google_analytics",
+                "municipal_finance.context_processors.hotjar",
                 "municipal_finance.context_processors.search_engine_index",
                 "municipal_finance.context_processors.sentry_dsn",
                 "municipal_finance.context_processors.api_details",

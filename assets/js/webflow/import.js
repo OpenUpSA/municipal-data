@@ -98,6 +98,9 @@ ga('send', 'pageview');\
     gtag('config', '{{ GOOGLE_GA4_TAG }}');\
   ");
   addScriptToBody(window, { async: '', src: 'https://w.appzi.io/w.js?token=bOjmw' });
+  window.document.body.appendChild(window.document.createTextNode('{% if HOTJAR_ID %}'));
+  addScriptToBody(window, { defer: '', src: 'https://t.contentsquare.net/uxa/{{ HOTJAR_ID }}.js' });
+  window.document.body.appendChild(window.document.createTextNode('{% endif %}\n'));
 
   $('.site-notice').html(`{% for notice in site_notices %}
   <div class='container'>
