@@ -51,6 +51,13 @@ const geocodeAddressEngine = new Bloodhound({
 geocodeAddressEngine.initialize();
 
 const geocodeEngine = function (query, sync, cb) {
+  let answered = false;
+  function finish(geos) {
+    if (answered) return;
+    answered = true;
+    _.defer(() => cb(geos));
+  }
+
   // first use google to geocode the address, handling caching,
   // the translate coordinates into places using our api
   function found(datums) {
@@ -70,13 +77,48 @@ const geocodeEngine = function (query, sync, cb) {
           };
         });
 
-        cb(geos);
-      });
+        finish(geos);
+      }).fail(() => finish([]));
     }
   }
 
-  geocodeAddressEngine.search(query, found, found);
+  geocodeAddressEngine.search(query, found, (datums) => {
+    if (datums.length > 0) {
+      found(datums);
+    } else {
+      finish([]);
+    }
+  });
 };
+
+function bindResultsPanel(input) {
+  const panel = input.parents().filter(function () {
+    return $(this).find('.search__result-value').length > 0;
+  }).first();
+  if (!panel.length) return;
+
+  const count = panel.find('.search__result-value');
+  const preSearch = panel.find('.pre-search-block');
+  const noResults = panel.find('.no-results-block');
+  const loading = panel.find('.search-results-loading');
+  let pending = 0;
+
+  function update() {
+    const query = input.typeahead('val');
+    const total = input.closest('.twitter-typeahead').find('.tt-suggestion').length;
+    count.text(total);
+    preSearch.toggleClass('hidden', query.length >= 2);
+    noResults.toggleClass('hidden', query.length < 2 || total > 0 || pending > 0);
+    loading.toggleClass('hidden', pending === 0);
+  }
+
+  input.on('typeahead:asyncrequest', () => { pending += 1; update(); });
+  input.on('typeahead:asynccancel typeahead:asyncreceive', () => {
+    pending = Math.max(0, pending - 1);
+    update();
+  });
+  input.on('typeahead:render input', update);
+}
 
 function makeGeoSelectWidget(element, selected) {
   element.typeahead({
@@ -102,6 +144,10 @@ function makeGeoSelectWidget(element, selected) {
     templates: {
       suggestion: resultTemplate,
     },
+  });
+
+  element.each(function () {
+    bindResultsPanel($(this));
   });
 
   element.on('typeahead:selected', selected || ((event, datum) => {
