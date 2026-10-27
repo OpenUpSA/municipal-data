@@ -38,6 +38,12 @@ class UpdateAgedCreditorFactsV2(TransactionTestCase):
         self.assertEqual(cube["last_updated"], "2020-10")
 
     def test_aged_creditor_v2(self):
+        def current_minute():
+            current_time = datetime.today()-timedelta(hours=2)
+            return current_time.strftime("%Y-%m-%dT%H:%M")
+
+        # The update can cross a minute boundary, so accept either side of it
+        before = current_minute()
         update_aged_creditor_facts_v2(
             self.insert_obj,
             batch_size=4,
@@ -45,5 +51,5 @@ class UpdateAgedCreditorFactsV2(TransactionTestCase):
         manager = get_manager()
         with manager.get_engine().connect() as connection:
             cube = get_cube_with_last_updated(connection, manager, "aged_creditor_v2")
-        current_time = datetime.today()-timedelta(hours=2)
-        self.assertEqual(cube["last_updated"], current_time.strftime("%Y-%m-%dT%H:%M"))
+        after = current_minute()
+        self.assertIn(cube["last_updated"], {before, after})
