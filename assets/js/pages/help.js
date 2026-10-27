@@ -3,9 +3,21 @@ import Dropdown from '../components/dropdown.js';
 
 export default class HelpPage {
   constructor() {
-    if (location.hash) {
-      focusBlock(location.hash.substr(1));
-    }
+    const focusHash = () => {
+      if (location.hash) {
+        focusBlock(location.hash.substr(1));
+      }
+    };
+    $(window).on('hashchange', focusHash);
+    focusHash();
+
+    $('a').on('click', (event) => {
+      const link = $(event.currentTarget).attr('href');
+      if (link && link.startsWith('#') && link !== '#') {
+        location.hash = link;
+        event.preventDefault();
+      }
+    });
   }
 }
 

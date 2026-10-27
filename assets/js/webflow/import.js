@@ -20,6 +20,7 @@ exports.transformDOM = function (window, $) {
   $('a[href="contact.html"]').remove();
   // The Webflow footer omits /profiles/ from the Johannesburg link
   $('a[href="/municipality-JHB-city-of-johannesburg/"]').attr('href', '/profiles/municipality-JHB-city-of-johannesburg/');
+  $('script').filter((i, el) => $(el).html().includes('function locationHashChanged')).remove();
   // The Webflow copy points to a search box that is hidden on mobile
   $('.location-block--not-found .location-block__label').html(
     'Location not found. <a href="/">Search for your municipality by name</a> instead.',

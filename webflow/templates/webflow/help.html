@@ -1430,32 +1430,6 @@
         pointer-events: none;
       }
     </style>
-  <script>
-      function locationHashChanged() {
-        if (!location.hash) return;
-        const element = document.getElementById(location.hash.substring(1))
-        const triggerEl = $(element).find(".expand-block__trigger");
-        triggerEl[0].click(); // must be DOM click, not jQuery.
-        // scroll out from under sticky menu after webflow's anchor click
-        // scroll handler is finished scrolling otherwise it will hide the
-        // heading again
-        setTimeout(() => {
-          document.getElementsByTagName('html')[0].scrollTop -= 60;
-        }, 500);
-      }
-      // Intentionally clobber any existing handlers
-      $(window).on("hashchange", locationHashChanged);
-      $(document).ready(locationHashChanged);
-      // trigger hashchaned for in-page anchors because webflow prevents it.
-      $("a").click((event) => {
-        const link = $(event.target).attr('href');
-        if (link && link.startsWith("#") && link != "#") {
-          // scroll to anchor and trigger hashchanged
-          location.hash = link;
-          event.preventDefault();
-        }
-      });
-    </script>
 
 <script src="https://browser.sentry-cdn.com/5.27.6/bundle.tracing.min.js" integrity="sha384-9Z8PxByVWP+gIm/rTMPn9BWwknuJR5oJcLj+Nr9mvzk8nJVkVXgQvlLGZ9SIFEJF" crossorigin="anonymous"></script>
 <script src="https://browser.sentry-cdn.com/5.27.6/captureconsole.min.js" integrity="sha384-F9eVzZTC8N8+p6mvSqBoTIuFHbKq2XFPn6ZtNKPkUBslMACSFOHy3/1XkET00hnC" crossorigin="anonymous"></script>

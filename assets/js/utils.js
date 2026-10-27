@@ -7,13 +7,19 @@ const dateTimeFormat = new Intl.DateTimeFormat('en-ZA', {
 });
 
 export function focusBlock(id) {
-  // Expand the desired block by triggering a click event
   const el = document.getElementById(id);
+  if (!el) return;
   const contentEl = el.getElementsByClassName('expand-block__content')[0];
-  const triggerEl = el.getElementsByClassName('expand-block__trigger_icon')[0];
-  triggerEl.click();
-  // Scroll the title into view (taking the header into account)
-  document.getElementsByTagName('html')[0].scrollTop -= 60;
+  const triggerEl = el.getElementsByClassName('expand-block__trigger')[0];
+  if (!contentEl || !triggerEl) return;
+
+  if (contentEl.getBoundingClientRect().height === 0) {
+    triggerEl.click();
+  }
+
+  setTimeout(() => {
+    document.getElementsByTagName('html')[0].scrollTop -= 60;
+  }, 500);
 }
 
 export function formatDate(date) {
