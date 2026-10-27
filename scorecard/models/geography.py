@@ -15,6 +15,9 @@ CATEGORIES = {
 }
 
 
+MAPIT_TIMEOUT_SECS = 5
+
+
 class LocationNotFound(Exception):
     pass
 
@@ -164,8 +167,14 @@ class Geography(models.Model):
         """
         url = settings.MAPIT['url'] + '/point/4326/%s,%s?generation=%s' % (
             longitude, latitude, settings.MAPIT['generation'])
-        resp = requests.get(url)
-        resp.raise_for_status()
+        try:
+            resp = requests.get(url, timeout=MAPIT_TIMEOUT_SECS)
+            resp.raise_for_status()
+        except requests.RequestException as e:
+            # Treat an unavailable or slow MapIt like an unknown location so
+            # the reader gets the search fallback instead of a hung page
+            log.warning("MapIt point lookup failed: %s" % url, exc_info=e)
+            return []
 
         geos = []
         for feature in resp.json().values():
