@@ -18,6 +18,12 @@ exports.transformDOM = function (window, $) {
   $('meta[property="og:image"]').attr('content', '{% static \'webflow/images/municipal-money-opengraph-wide.png\' %}');
   $('meta[property="twitter:image"]').attr('content', '{% static \'webflow/images/municipal-money-opengraph-wide.png\' %}');
   $('a[href="contact.html"]').remove();
+  // The Webflow footer omits /profiles/ from the Johannesburg link
+  $('a[href="/municipality-JHB-city-of-johannesburg/"]').attr('href', '/profiles/municipality-JHB-city-of-johannesburg/');
+  // The Webflow copy points to a search box that is hidden on mobile
+  $('.location-block--not-found .location-block__label').html(
+    'Location not found. <a href="/">Search for your municipality by name</a> instead.',
+  );
 
   const metaTags = [
     ['name', 'description', '{{ page_description }}'],
