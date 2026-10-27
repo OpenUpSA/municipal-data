@@ -50,60 +50,9 @@ class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
         return context
 
 
-class ProjectCoordinates(generics.ListCreateAPIView):
-    queryset = models.Project.objects.prefetch_related(
-        "expenditure",
-        "expenditure__budget_phase",
-        "expenditure__financial_year",
-        "geography",
-    )
-    serializer_class = serializers.GeoProjectSerializer
-    pagination_class = CoordinatesPagination
+class ProjectFilterMixin:
+    """Filter projects the same way for the search results and the map."""
 
-    fieldmap = {
-        "function": "function",
-        "project_type": "project_type",
-        "municipality": "geography__name",
-        "province": "geography__province_name",
-        "budget_phase": "expenditure__budget_phase__name",
-        "financial_year": "expenditure__financial_year__budget_year",
-    }
-
-    def list(self, request):
-        search_query = request.GET.get("q", "")
-        queryset = self.get_queryset()
-        queryset = self.filters(queryset, request.GET)
-        queryset = self.text_search(queryset, search_query)
-        queryset = self.paginate_queryset(queryset)
-        serializer_class = self.get_serializer_class()
-        serializer = serializer_class(queryset, many=True)
-
-        return self.get_paginated_response(serializer.data)
-
-    def text_search(self, qs, text):
-        if len(text) == 0:
-            return qs
-
-        return qs.filter(content_search=SearchQuery(text))
-
-    def filters(self, queryset, params):
-        query_dict = {}
-        for k, v in self.fieldmap.items():
-            if k in params:
-                query_dict[v] = params[k]
-
-        return queryset.filter(**query_dict)
-
-
-class ProjectSearch(generics.ListCreateAPIView):
-    queryset = models.Project.objects.prefetch_related(
-        "expenditure",
-        "expenditure__budget_phase",
-        "expenditure__financial_year",
-        "geography",
-    ).all()
-    serializer_class = serializers.ProjectSerializer
-    pagination_class = PageNumberPagination
     annual_fieldmap = {
         "geography__name": "municipality",
         "function": "function",
@@ -123,6 +72,71 @@ class ProjectSearch(generics.ListCreateAPIView):
         "expenditure__budget_phase__name": "quarterly_phase",
     }
 
+    def filter_projects(self, params):
+        search_query = params.get("q", "")
+
+        queryset = self.get_queryset()
+
+        queryset = self.add_filters(queryset, params, self.annual_fieldmap)
+        queryset = self.text_search(queryset, search_query)
+
+        queryset = queryset | self.add_filters(
+            self.get_queryset(), params, self.quarterly_fieldmap
+        )
+        return self.text_search(queryset, search_query)
+
+    def text_search(self, qs, text):
+        if len(text) == 0:
+            return qs
+
+        result = qs.filter(
+            Q(project_description__icontains=text) | Q(content_search=SearchQuery(text))
+        )
+        return result
+
+    def add_filters(self, qs, params, filter_map):
+        query_dict = {}
+        for k, v in filter_map.items():
+            if v in params:
+                query_dict[k] = params[v]
+
+        return qs.filter(**query_dict).distinct()
+
+
+class ProjectCoordinates(ProjectFilterMixin, generics.ListCreateAPIView):
+    queryset = models.Project.objects.prefetch_related(
+        "expenditure",
+        "expenditure__budget_phase",
+        "expenditure__financial_year",
+        "geography",
+    )
+    serializer_class = serializers.GeoProjectSerializer
+    pagination_class = CoordinatesPagination
+
+    def list(self, request):
+        # Most projects have no coordinates, or 0,0; don't send those to the map
+        queryset = (
+            self.filter_projects(request.GET)
+            .exclude(Q(latitude__isnull=True) | Q(longitude__isnull=True))
+            .exclude(Q(latitude=0) | Q(longitude=0))
+            .order_by("id")
+        )
+        queryset = self.paginate_queryset(queryset)
+        serializer_class = self.get_serializer_class()
+        serializer = serializer_class(queryset, many=True)
+
+        return self.get_paginated_response(serializer.data)
+
+
+class ProjectSearch(ProjectFilterMixin, generics.ListCreateAPIView):
+    queryset = models.Project.objects.prefetch_related(
+        "expenditure",
+        "expenditure__budget_phase",
+        "expenditure__financial_year",
+        "geography",
+    ).all()
+    serializer_class = serializers.ProjectSerializer
+    pagination_class = PageNumberPagination
     order_fields = {
         "project_description": "project_description",
         "total_forecast_budget": "expenditure__amount",
@@ -131,18 +145,9 @@ class ProjectSearch(generics.ListCreateAPIView):
     }
 
     def list(self, request):
-        search_query = request.GET.get("q", "")
         order_field = request.GET.get("ordering", "")
 
-        queryset = self.get_queryset()
-
-        queryset = self.add_filters(queryset, request.GET, self.annual_fieldmap)
-        queryset = self.text_search(queryset, search_query)
-
-        queryset = queryset | self.add_filters(
-            self.get_queryset(), request.GET, self.quarterly_fieldmap
-        )
-        queryset = self.text_search(queryset, search_query)
+        queryset = self.filter_projects(request.GET)
 
         facets = self.get_facets(queryset)
         queryset = self.order_by(queryset, order_field)
@@ -159,28 +164,11 @@ class ProjectSearch(generics.ListCreateAPIView):
 
         return self.get_paginated_response(data)
 
-    def text_search(self, qs, text):
-        if len(text) == 0:
-            return qs
-
-        result = qs.filter(
-            Q(project_description__icontains=text) | Q(content_search=SearchQuery(text))
-        )
-        return result
-
     def aggregations(self, qs, params):
         financial_year = params.get("financial_year")
         budget_phase = params.get("budget_phase")
 
         return {"total": qs.total_value(financial_year, budget_phase)}
-
-    def add_filters(self, qs, params, filter_map):
-        query_dict = {}
-        for k, v in filter_map.items():
-            if v in params:
-                query_dict[k] = params[v]
-
-        return qs.filter(**query_dict).distinct()
 
     def order_by(self, qs, field):
         prefix = ""

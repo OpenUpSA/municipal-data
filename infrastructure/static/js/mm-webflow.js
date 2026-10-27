@@ -634,7 +634,7 @@ function mmWebflow(js) {
         }
         var budget_phase = 'Budget year';
         var financial_year = summary_year;
-        var expenditures;
+        var expenditures = [];
         if (project.expenditure.length > 0) {
           expenditures = project.expenditure.filter((exp) => exp.financial_year.budget_year == financial_year);
 
