@@ -1,4 +1,5 @@
 import json
+import os
 
 from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
@@ -281,7 +282,8 @@ class GeographyPDFView(GeographyDetailView):
             self.geo.slug,
         )
         # Use localhost to avoid external redirect and SSL overhead
-        url = "http://localhost:5000" + path
+        # Match the port gunicorn binds to in bin/start-web.sh
+        url = "http://localhost:%s%s" % (os.environ.get("PORT", "5000"), path)
         # !!! This relies on GeographyDetailView validating the user-provided
         # input to the path to avoid arbitraty command execution
         command = ["node", "assets/js/makepdf.js", url]
@@ -290,13 +292,13 @@ class GeographyPDFView(GeographyDetailView):
                 command,
                 check=True,
                 stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
+                stderr=subprocess.PIPE,
                 timeout=120,
             )
         except subprocess.TimeoutExpired as e:
             raise Exception("PDF generation timed out") from e
         except subprocess.CalledProcessError as e:
-            print(e.output)
+            print(e.stderr)
             raise e
         filename = "%s-%s-%s.pdf" % (self.geo_level, self.geo_code, self.geo.slug)
         response = HttpResponse(completed_process.stdout, content_type='application/pdf')
