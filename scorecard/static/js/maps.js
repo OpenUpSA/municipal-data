@@ -68,11 +68,9 @@ const Maps = function () {
     weight: 2,
     opacity: 0.3,
     fillOpacity: 0.5,
-    clickable: false,
   };
 
   this.layerStyle = {
-    clickable: true,
     color: '#00d',
     fillColor: '#ccc',
     weight: 1.0,
@@ -167,6 +165,7 @@ const Maps = function () {
   this.drawFocusFeature = function (feature) {
     const layer = L.geoJson([feature], {
       style: self.featureGeoStyle,
+      interactive: false,
     });
     this.map.addLayer(layer);
     this.map.fitBounds(layer.getBounds());
@@ -180,7 +179,7 @@ const Maps = function () {
     return L.geoJson(features, {
       style: this.layerStyle,
       onEachFeature(feature, layer) {
-        layer.bindLabel(feature.properties.name, { direction: 'auto' });
+        layer.bindTooltip(feature.properties.name, { direction: 'auto', sticky: true });
 
         layer.on('mouseover', () => {
           layer.setStyle(self.hoverStyle);

@@ -321,8 +321,7 @@ PIPELINE = {
         },
         "scorecard": {
             "source_filenames": (
-                "stylesheets/vendor/leaflet-0.6.4.css",
-                "stylesheets/vendor/leaflet.label.css",
+                "stylesheets/vendor/leaflet-1.9.4.css",
             ),
             "output_filename": "scorecard.css",
         },
@@ -382,8 +381,7 @@ PIPELINE = {
                 "bower_components/d3/d3.min.js",
                 "js/vendor/d3-format.min.js",
                 "js/vendor/typeahead-0.11.1.js",
-                "js/vendor/leaflet-0.6.4.js",
-                "js/vendor/leaflet.label.js",
+                "js/vendor/leaflet-1.9.4.js",
                 "js/charts.js",
                 "js/place-finder.js",
                 "js/maps.js",
