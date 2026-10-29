@@ -55,6 +55,16 @@
     }
 }
 
+// Keep Leaflet's panes (z-index 400+) from rendering over overlaid page content
+.home-map, .profile-map {
+    z-index: 0;
+}
+
+// Webflow gives all images vertical margins, which shifts map tiles away from the vector layers
+.leaflet-container img {
+    margin: 0;
+}
+
 p .button {
     padding: 5px;
 }
