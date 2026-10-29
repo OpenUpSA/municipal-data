@@ -7,7 +7,11 @@ async function printPDF(url) {
   });
   try {
     const page = await browser.newPage();
-    await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
+    const response = await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
+    // Don't print error pages - fail so the caller doesn't serve them as a PDF
+    if (!response || !response.ok()) {
+      throw new Error(`Failed to load ${url}: HTTP ${response ? response.status() : 'no response'}`);
+    }
     const pdf = await page.pdf({ format: 'A4' });
     return pdf;
   } finally {
